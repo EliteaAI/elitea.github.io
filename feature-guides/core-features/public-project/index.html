@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    <link rel="canonical" href="https://projectalita.ai/feature-guides/core-features/public-project/">
+    <link rel="shortcut icon" href="../../../img/favicon.ico">
+
+    
+    <title>Public Project Guide - ELITEA Documentation</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../../css/base.min.css" rel="stylesheet">
+    <link href="../../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="../../../extra_css/cinder.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../../..">ELITEA Documentation</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Home <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../../home/introduction/">Introduction</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Release Notes <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../../release-notes/rn_current/">RN 1.4.0</a>
+</li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">Archive</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../../../release-notes/archived/rn5/">RN 1.3.0</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../release-notes/archived/rn4/">RN 1.2.0</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../release-notes/archived/rn3/">RN 1.1.0</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../release-notes/archived/rn2/">RN 1.0.1</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../release-notes/archived/rn1/">RN 1.0.0</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Platform Documentation <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">ELITEA Menus & Settings</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../../../platform-documentation/menus/overview/">Overview</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../platform-documentation/menus/settings/">Settings</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../platform-documentation/menus/chat/">Chat</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../platform-documentation/menus/prompts/">Prompts</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../platform-documentation/menus/datasources/">Datasources</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../platform-documentation/menus/agents/">Agents</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../platform-documentation/menus/collections/">Collections</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../platform-documentation/menus/artifacts/">Artifacts</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">ELITEA Extensions</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../../../platform-documentation/extensions/alita-code/">Alita Code</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../platform-documentation/extensions/alita-chat/">Alita Code Chat</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Features Guides <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">ELITEA Core Features</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../export-import/">Export and Import Guide</a>
+</li>
+
+        
+            
+<li >
+    <a href="../forking/">Forking Guide</a>
+</li>
+
+        
+            
+<li >
+    <a href="../integrations/">Integrations Guide</a>
+</li>
+
+        
+            
+<li >
+    <a href="../prompt-magic-assistant/">Prompt Magic Assistant Guide</a>
+</li>
+
+        
+            
+<li class="active">
+    <a href="./">Public Project Guide</a>
+</li>
+
+        
+            
+<li >
+    <a href="../monitoring/">Monitoring Guide</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">ELITEA Advanced Features</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../../advanced-features/roles/">Roles Management</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">How TOs <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">Agents & Toolkits</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/pipeline-agent-framework/">Pipeline Agent Framework</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/ado_repos_toolkit/">ADO Repos Integration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/ado_wiki_plan_board_toolkit/">ADO Wiki, Boards, and Test Plans Integration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/artifact_toolkit/">Artifact Toolkit</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/bitbucket_toolkit/">BitBucket Integration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/confluence_toolkit/">Confluence Integration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/custom_toolkit/">Custom Toolkit</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/github_toolkit/">GitHub Integration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/gitlab_toolkit/">GitLab Integration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/gitlab_org_toolkit/">GitLab Org Integration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/jira_toolkit/">Jira Integration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/openapi_toolkit/">OpenAPI Integration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/qtest_toolkit/">qTest Integration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/rally_toolkit/">Rally Integration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/sharepoint_toolkit/">SharePoint Integration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/xray_toolkit/">XRAY Cloud Integration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/sql_toolkit/">SQL Integration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/testIO_toolkit/">TestIO Integration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/testrail_toolkit/">TestRail Integration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/agents-toolkits/zephyr_scale_toolkit/">Zephyr Scale Integration</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">General How-Tos</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../../../how-tos/creating-prompts/">How to Create and Publish Useful Prompts for Testing and QA Activities</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../../how-tos/collections-and-organizing-entities/">Collections and Organizing Entities in ELITEA</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+<li >
+    <a href="../../../how-tos/faqs/">FAQs</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Support & Resources <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../../support-resources/contact-support/">Contact Us</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../../support-resources/additional-resources/">Resources & Materials</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../prompt-magic-assistant/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../monitoring/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#public-project-guide-explore-utilize-and-collaborate-within-the-elitea-community">Public Project Guide: Explore, Utilize, and Collaborate within the ELITEA Community</a></li>
+            <li class="second-level"><a href="#introduction">Introduction</a></li>
+                
+            <li class="second-level"><a href="#the-purpose-of-the-public-project">The Purpose of the Public Project</a></li>
+                
+                <li class="third-level"><a href="#roles-management-and-permissions-in-public-project">Roles Management and Permissions in Public Project</a></li>
+            <li class="second-level"><a href="#overview-of-public-project">Overview of Public Project</a></li>
+                
+                <li class="third-level"><a href="#accessing-the-public-project">Accessing the Public Project</a></li>
+                <li class="third-level"><a href="#menus-within-the-public-project">Menus within the Public Project</a></li>
+            <li class="second-level"><a href="#the-publication-process-sharing-your-expertise">The Publication Process: Sharing Your Expertise</a></li>
+                
+                <li class="third-level"><a href="#publishing-prompts-to-the-public-project">Publishing Prompts to the Public Project</a></li>
+                <li class="third-level"><a href="#publishing-collections-to-the-public-project">Publishing Collections to the Public Project</a></li>
+            <li class="second-level"><a href="#usage-of-published-entities-leveraging-community-resources">Usage of Published Entities: Leveraging Community Resources</a></li>
+                
+            <li class="second-level"><a href="#useful-links-and-materials">Useful Links and Materials</a></li>
+                
+        <li class="first-level "><a href="#public-project-guide-explore-and-collaborate">Public Project Guide: Explore and Collaborate</a></li>
+            <li class="second-level"><a href="#navigating-the-public-project">Navigating the Public Project</a></li>
+                
+            <li class="second-level"><a href="#exploring-shared-resources">Exploring Shared Resources</a></li>
+                
+            <li class="second-level"><a href="#interacting-with-published-resources">Interacting with Published Resources</a></li>
+                
+                <li class="third-level"><a href="#showing-appreciation-liking-resources">Showing Appreciation: Liking Resources</a></li>
+                <li class="third-level"><a href="#utilizing-published-resources">Utilizing Published Resources</a></li>
+                <li class="third-level"><a href="#incorporating-public-resources-into-your-workflow">Incorporating Public Resources into Your Workflow</a></li>
+            <li class="second-level"><a href="#sharing-your-expertise-publishing-resources">Sharing Your Expertise: Publishing Resources</a></li>
+                
+            <li class="second-level"><a href="#benefits-of-the-public-project">Benefits of the Public Project</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="public-project-guide-explore-utilize-and-collaborate-within-the-elitea-community">Public Project Guide: Explore, Utilize, and Collaborate within the ELITEA Community</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Welcome to the <strong>Public Project Guide</strong> for ELITEA! This guide will introduce you to the <strong>Public Project</strong>, a unique and valuable space within ELITEA designed for <strong>community collaboration, knowledge sharing, and discovering best practices</strong>.  Whether you are a new user looking for inspiration, an experienced user seeking to leverage community resources, or a contributor wanting to share your expertise, the Public Project offers a wealth of AI-powered assets and a collaborative environment to enhance your ELITEA experience.</p>
+<p><strong>The Public Project: A Collaborative Hub</strong></p>
+<p>The <strong>Public Project</strong> in ELITEA serves as a collaborative hub where users can:</p>
+<ul>
+<li><strong>Discover Shared Resources:</strong> Access a curated collection of <strong>Prompts</strong>, <strong>Agents</strong>, and <strong>Datasources</strong> contributed and published by other ELITEA users within your organization or community.</li>
+<li><strong>Utilize Community Expertise:</strong> Benefit from the collective knowledge, creativity, and best practices embodied in shared AI artifacts.</li>
+<li><strong>Find Inspiration and Accelerate Innovation:</strong> Explore a diverse range of resources to spark new ideas, learn different approaches, and accelerate your own AI-powered projects and workflows.</li>
+<li><strong>Contribute and Share Your Best Work:</strong> Publish your own high-quality Prompts and Collections to the Public Project, contributing back to the community and showcasing your expertise.</li>
+</ul>
+<h2 id="the-purpose-of-the-public-project">The Purpose of the Public Project</h2>
+<p>The Public Project is designed to foster a thriving and collaborative ELITEA community by:</p>
+<ul>
+<li><strong>Promoting Knowledge Sharing:</strong>  Providing a central repository for sharing valuable AI resources, reducing redundancy, and promoting the reuse of effective solutions.</li>
+<li><strong>Encouraging Collaboration:</strong>  Creating a space for users to learn from each other, build upon existing work, and collectively improve the quality and breadth of ELITEA resources.</li>
+<li><strong>Accelerating Innovation:</strong>  Facilitating the discovery of new techniques, approaches, and best practices, ultimately accelerating the development and adoption of AI-powered workflows within your organization.</li>
+<li><strong>Democratizing Access to AI Expertise:</strong>  Making high-quality AI artifacts accessible to a wider audience, regardless of their individual expertise level, empowering more users to leverage the power of AI.</li>
+</ul>
+<h3 id="roles-management-and-permissions-in-public-project">Roles Management and Permissions in Public Project</h3>
+<p>It's important to understand the role and permission structure within the Public Project:</p>
+<ul>
+<li><strong>Default Access for All Users:</strong> All ELITEA users have <strong>execution access</strong> to the Public Project by default. This means everyone can access, explore and execute the published resources.</li>
+<li><strong>No Modification or Creation in Public Project:</strong> Users cannot directly create new Entities or modify existing Entities <em>within</em> the Public Project. The Public Project is intended to be a curated and read-only space for consuming shared resources. Creation and modification of Entities are primarily done within Private workspaces or Team projects and then <em>published</em> to the Public Project.</li>
+<li><strong>Moderator Role for Publishing:</strong>  Only designated <strong>Moderators</strong> have the permission to <strong>publish</strong> resources (Prompts, Agents and Collections) to the Public Project after a review process to ensure quality and relevance.</li>
+<li><strong>"Monitor" Role is Applicable:</strong> The "Monitor" role, relevant for tracking usage metrics in Private and Team projects, is <strong>also applicable</strong> within the Public Project itself. Monitoring metrics are tracked at the project level, and the Public Project serves as a shared, read-only resource repository.</li>
+</ul>
+<h2 id="overview-of-public-project">Overview of Public Project</h2>
+<p>The <strong>Public Project</strong> in ELITEA is readily accessible to all users by default and is structured into distinct menus, each dedicated to a specific type of shared resource.</p>
+<h3 id="accessing-the-public-project">Accessing the Public Project</h3>
+<p>The <strong>Public Project</strong> is readily accessible to all ELITEA users. You can switch to the Public project from your current project by clicking the <strong>Project switcher</strong> dropdown menu located at the top left of the ELITEA interface and selecting <strong>"Public project"</strong> from the list.</p>
+<h3 id="menus-within-the-public-project">Menus within the Public Project</h3>
+<p>Once you are in the Public Project, you will find the following menus in the main sidebar, each dedicated to a specific type of shared resource:</p>
+<ul>
+<li>
+<p><strong>Chat Menu:</strong></p>
+<ul>
+<li><strong>Purpose:</strong> While the Public Project primarily focuses on shared resources, the <strong>Chat</strong> menu remains accessible. In the Public project's Chat, you can initiate conversations and add participants from the Public project, including published <strong>Agents</strong>, <strong>Prompts</strong>, <strong>Datasources</strong>, <strong>Models</strong>, and other <strong>Users</strong>. This allows you to test and utilize published resources in a conversational setting and explore how different community-shared resources can be combined and interacted with.</li>
+</ul>
+</li>
+<li>
+<p><strong>Prompts Menu:</strong></p>
+<ul>
+<li><strong>Purpose:</strong> The <strong>Prompts</strong> menu within the Public project is a curated showcase of <strong>published and shared Prompts</strong> contributed by the ELITEA community. It is your primary destination for discovering and leveraging a wide range of prompts designed for various tasks and purposes, all shared by other ELITEA users.</li>
+<li><strong>Tabs within Prompts Menu:</strong> The Prompts menu is organized into three distinct tabs to facilitate prompt discovery:<ul>
+<li><strong>Latest Tab:</strong> Displays the <strong>most recently published Prompts</strong>, showcasing the newest contributions from the community. This tab is ideal for staying up-to-date with the latest additions and fresh ideas being shared.</li>
+<li><strong>My Likes Tab:</strong> Features a <strong>personalized list of Prompts that you have "liked."</strong> This tab acts as your personal library of favorite Prompts, allowing you to easily revisit and reuse prompts that you have found particularly valuable or effective.</li>
+<li><strong>Trending Tab:</strong> Showcases the <strong>most popular and highly-regarded Prompts</strong> within the community, ranked by the number of "likes" they have received. This tab is an excellent resource for discovering top-rated Prompts that are widely recognized and appreciated by other ELITEA users, indicating their potential value and effectiveness.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Datasources Menu:</strong></p>
+<ul>
+<li><strong>Purpose:</strong> The <strong>Datasources</strong> menu within the Public project is a repository of <strong>published and shared Datasources</strong> contributed by the community. Explore and leverage these pre-configured datasources to access readily available data connections for your AI workflows and Prompts.</li>
+<li><strong>Tabs within Datasources Menu:</strong> Similar to the Prompts menu, the Datasources menu is also organized into three tabs for easy browsing:<ul>
+<li><strong>Latest Tab:</strong> Displays the <strong>newest Datasources</strong> published to the Public project, showcasing recent data source contributions from the community.</li>
+<li><strong>My Likes Tab:</strong> Features a <strong>personalized list of Datasources that you have "liked."</strong> This allows you to quickly access your preferred and most useful datasources from the shared repository.</li>
+<li><strong>Trending Tab:</strong> Showcases the <strong>most popular Datasources</strong>, ranked by "likes," highlighting datasources that are highly valued and frequently used by the ELITEA community.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Agents Menu:</strong></p>
+<ul>
+<li><strong>Purpose:</strong> The <strong>Agents</strong> menu within the Public project features a collection of <strong>published and shared Agents</strong> contributed by other users. Discover and utilize these pre-built agents to automate complex tasks and workflows, leveraging the collective intelligence of the ELITEA community.</li>
+<li><strong>Tabs within Agents Menu:</strong> The Agents menu follows the same organizational structure with three tabs:<ul>
+<li><strong>Latest Tab:</strong> Displays the <strong>most recently published Agents</strong>, showcasing the latest agent contributions from the community.</li>
+<li><strong>My Likes Tab:</strong> Features a <strong>personalized list of Agents that you have "liked."</strong> This provides quick access to your preferred and most valuable agents from the shared pool.</li>
+<li><strong>Trending Tab:</strong> Showcases the <strong>most popular Agents</strong>, ranked by "likes," highlighting agents that are highly regarded and widely used by the ELITEA community, indicating their potential effectiveness and utility.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Collections Menu:</strong></p>
+<ul>
+<li><strong>Purpose:</strong> The <strong>Collections</strong> menu in the Public project is a curated space of <strong>grouped Prompts and Entities shared and published within the community</strong>. Explore and discover thematically organized collections of resources that address specific use cases or topics, providing pre-packaged sets of tools for various AI-powered tasks.</li>
+<li><strong>Tabs within Collections Menu:</strong> The Collections menu is organized into three tabs to facilitate discovery of curated resource sets:<ul>
+<li><strong>Latest Tab:</strong> Showcases the <strong>most recently published Collections</strong>, offering insight into the newest thematic groupings and curated resource sets being shared by the community.</li>
+<li><strong>My Likes Tab:</strong> Features a <strong>personalized list of Collections that you have "liked."</strong> This creates a personalized library of favored collections, allowing you to easily revisit and reuse valuable sets of resources.</li>
+<li><strong>Trending Tab:</strong> Displays <strong>Collections that have gathered the most "likes,"</strong> serving as an excellent resource for finding highly-regarded and popular collections esteemed by the community. These trending collections often represent best-practice examples of how to organize and utilize ELITEA resources for common use cases.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="the-publication-process-sharing-your-expertise">The Publication Process: Sharing Your Expertise</h2>
+<p>The Public Project thrives on community contributions. If you have created valuable Prompts or Collections in your <strong>Private</strong> or <strong>Team</strong> projects, you are encouraged to share them with the wider ELITEA community by publishing them to the Public Project.</p>
+<h3 id="publishing-prompts-to-the-public-project">Publishing Prompts to the Public Project</h3>
+<p>To share your best Prompts with the community:</p>
+<ol>
+<li><strong>Create and Refine Prompt in Private/Team Project:</strong> Develop and thoroughly test your Prompt in your <strong>Private Workspace</strong> or a <strong>Team Project</strong>. Ensure it is well-documented, high-quality, and provides valuable functionality.</li>
+<li><strong>Initiate Publication:</strong> Open the <strong>Prompts</strong> menu in your <strong>Private</strong> project, locate the Prompt you want to share, and click the <strong>"Publish"</strong> icon associated with that Prompt.</li>
+<li><strong>Version Naming:</strong> In the "Publish version" pop-up window, provide a descriptive <strong>Version Name</strong> for your Prompt (e.g., "Version 1.0 - Initial Release," "Version 1.1 - Improved Accuracy"). Click <strong>"Publish"</strong> to submit the Prompt for moderation.</li>
+<li><strong>Moderation Review:</strong> Your submitted Prompt will undergo a review process by ELITEA moderators. Moderators will assess the Prompt for quality, relevance, clarity, and adherence to community guidelines.</li>
+<li><strong>Approval and Publication:</strong> If your Prompt meets the moderation criteria, it will be <strong>Approved</strong> and published to the <strong>Prompts menu within the Public Project</strong>, making it accessible to all ELITEA users. You will receive a notification regarding the outcome of the moderation process.</li>
+</ol>
+<p><strong>Important Notes on Prompt Publication:</strong></p>
+<ul>
+<li><strong>Quality and Relevance:</strong> Only high-quality, well-documented, and relevant Prompts are typically approved for publication to maintain the value and integrity of the Public Project resource pool.</li>
+<li><strong>Moderator Feedback:</strong> If your Prompt is <strong>Rejected</strong> during moderation, you will receive constructive feedback from the moderators, explaining the reasons for rejection and providing guidance on how to improve your Prompt for potential future submission.</li>
+<li><strong>Version Control:</strong> When publishing, you are publishing a specific <strong>version</strong> of your Prompt. This allows you to continue developing and improving your Prompts in your <strong>Private</strong> or <strong>Team</strong> projects without affecting the published version in the Public Project.</li>
+</ul>
+<h3 id="publishing-collections-to-the-public-project">Publishing Collections to the Public Project</h3>
+<p>To share curated sets of related Prompts (and potentially other Entities in the future) with the community:</p>
+<ol>
+<li><strong>Create and Curate Collection in Private/Team Project:</strong> Create a well-organized and valuable Collection in your <strong>Private Workspace</strong> or a <strong>Team Project</strong>. Ensure it contains a set of thematically related and high-quality Entities (at least one published Prompt is required currently).</li>
+<li><strong>Initiate Collection Publication:</strong> Open the <strong>Collections</strong> menu in your <strong>Private</strong> project, locate the Collection you want to share, and click the <strong>"Publish collection" icon</strong> within the Collection Detail View.</li>
+<li><strong>Moderation Review:</strong> Your submitted Collection will undergo a review process by ELITEA moderators, similar to the Prompt publication process. Moderators will assess the Collection for relevance, organization, and overall value to the community.</li>
+<li><strong>Approval and Publication:</strong> If your Collection meets the moderation criteria and contains at least one published Prompt, it will be <strong>Approved</strong> and published to the <strong>Collections menu within the Public Project</strong>, making it discoverable and accessible to all ELITEA users. You will be notified of the moderation outcome.</li>
+</ol>
+<p><strong>Important Notes on Collection Publication:</strong></p>
+<ul>
+<li><strong>Minimum Requirement - Published Entity:</strong> A Collection must contain at least one <em>already published</em> Entity (currently, at least one published Prompt) to be eligible for publication.</li>
+<li><strong>Separate Entity Publication:</strong> Publishing a Collection does <em>not</em> automatically publish the individual Entities contained within it. Ensure that all Prompts (and other Entities you intend to share publicly within the Collection) are published <em>separately</em> before publishing the Collection.</li>
+<li><strong>Collection Duplication:</strong> Publishing a Collection creates a <em>duplicate</em> of your Collection in the Public Project. Changes made to your original Collection after publishing will not automatically update the published version.</li>
+<li><strong>Focus on Prompts (Currently):</strong> Currently, Collection publishing primarily focuses on sharing groups of Prompts. While Collections can contain Datasources and Agents, the publishing mechanism is primarily designed for sharing Prompts within Collections.</li>
+</ul>
+<h2 id="usage-of-published-entities-leveraging-community-resources">Usage of Published Entities: Leveraging Community Resources</h2>
+<p>The primary purpose of the Public Project is to provide a readily accessible library of shared resources that you can leverage in your own ELITEA workflows. Here's how you can utilize published Prompts, Datasources, Agents, and Collections:</p>
+<ul>
+<li><strong>Explore and Discover:</strong> Browse the <strong>Latest</strong>, <strong>My Likes</strong>, and <strong>Trending</strong> sections within the Prompts, Datasources, Agents, and Collections menus in the Public Project to discover valuable resources shared by the community.</li>
+<li><strong>Execute Published Prompts and Agents:</strong> You can directly <strong>execute</strong> published Prompts and Agents from the Public Project to utilize their functionalities. Simply click on a Prompt or Agent card or name to open its detail view and access the "Run" tab to execute it.</li>
+<li><strong>Inspiration and Learning:</strong> Examine the configurations and designs of published Prompts, Datasources, and Agents to learn new techniques, discover different approaches to problem-solving, and gain inspiration for your own creations.</li>
+<li><strong>Add Published Prompts to Collections (Private Project):</strong>  You can add valuable Prompts you discover in the Public Project to your own <strong>Collections</strong> within your <strong>Private Workspace</strong> or <strong>Team Projects</strong>. This allows you to curate personalized collections of useful resources for your specific needs and workflows.</li>
+<li><strong>Export Published Prompts (for Backup or External Use):</strong> You can <strong>export</strong> published Prompts from the Public Project to create backups or utilize them in other compatible platforms (if supported by the export format).</li>
+</ul>
+<p><strong>Important Limitations in Public Project:</strong></p>
+<ul>
+<li><strong>Read-Only Access:</strong> Remember that the Public Project is primarily a <strong>read-only resource library.</strong> You <strong>cannot directly modify or save changes to the original published versions</strong> of Prompts, Datasources, Agents, or Collections within the Public Project.</li>
+<li><strong>No Direct Creation or Modification:</strong> You cannot create new Entities or Collections directly within the Public Project. Creation and modification are done in your Private Workspace or Team Projects, and then resources are <em>published</em> to the Public Project.</li>
+</ul>
+<h2 id="useful-links-and-materials">Useful Links and Materials</h2>
+<ul>
+<li><strong>ELITEA Public Project Guide:</strong> [Link to Public Project Guide] <em>(Replace with actual link)</em></li>
+<li><strong>Collections Menu Guide:</strong> [Link to Collections Menu Guide] <em>(Replace with actual link)</em></li>
+<li><strong>Publishing Prompts and Collections Guide:</strong> [Link to Publishing Guide] <em>(Replace with actual link)</em></li>
+<li><strong>Export and Import Guide:</strong> <a href="../feature-guides/core-features/export-import.md">Export and Import Guide</a></li>
+</ul>
+<p>This is the comprehensive User Guide for the Public Project in ELITEA. Please review it thoroughly and let me know if you have any further feedback!</p>
+<h1 id="public-project-guide-explore-and-collaborate">Public Project Guide: Explore and Collaborate</h1>
+<p>The <strong>Public project</strong> in ELITEA serves as a collaborative hub where users can discover, utilize, and appreciate resources shared by the community. It's a space designed to foster knowledge sharing and accelerate innovation by making valuable prompts, agents, and datasources accessible to everyone within your organization.</p>
+<p><strong>Key Features of the Public Project:</strong></p>
+<ul>
+<li><strong>Shared Resources:</strong> Access a curated collection of prompts, agents, and datasources contributed by other ELITEA users.</li>
+<li><strong>Community Collaboration:</strong> Benefit from the collective expertise and creativity of your colleagues.</li>
+<li><strong>Discover Best Practices:</strong> Explore highly-rated and trending resources to learn from successful implementations.</li>
+<li><strong>Ready-to-Use Tools:</strong> Execute published resources directly to leverage their functionality.</li>
+<li><strong>Inspiration and Learning:</strong> Discover new approaches and techniques by examining how others have built their resources.</li>
+</ul>
+<p><strong>Accessing the Public Project:</strong></p>
+<p>The <strong>Public</strong> project is readily accessible to all ELITEA users by default. You can switch to the Public project from your current project by clicking the Project switcher.</p>
+<h2 id="navigating-the-public-project">Navigating the Public Project</h2>
+<p>The <strong>Public</strong> project is organized into distinct menus, each dedicated to a specific type of shared resource:</p>
+<ul>
+<li><strong>Chat</strong>: Access to conversations, allowing to add participants (Agents, Prompts, Datasources, Models and Users) from Public project.</li>
+<li><strong>Prompts:</strong> Discover and interact with prompts shared by the community.</li>
+<li><strong>Datasources:</strong> Explore and utilize published datasources.</li>
+<li><strong>Agents:</strong> Find and execute agents created and shared by other users.</li>
+<li><strong>Collections:</strong> Browse and explore curated collections of resources.</li>
+</ul>
+<p>Each of these menus (except Chat) shares a similar structure, making it easy to navigate and find what you're looking for.</p>
+<h2 id="exploring-shared-resources">Exploring Shared Resources</h2>
+<p>Within each resource menu (Prompts, Datasources, Agents, Collections), you'll find three sub-sections designed to help you discover and engage with the shared content:</p>
+<ul>
+<li><strong>Latest:</strong> This section displays the most recently published resources, giving you a glimpse into the newest additions to the community's shared pool.</li>
+<li><strong>My Likes:</strong>  Here, you'll find a personalized list of the resources you've liked. This allows you to easily revisit your favorite and most valuable finds.</li>
+<li><strong>Trending:</strong> This section showcases the most popular resources, ranked by the number of likes they've received. It's a great place to discover highly regarded and widely used resources within the community.</li>
+</ul>
+<h2 id="interacting-with-published-resources">Interacting with Published Resources</h2>
+<p>The <strong>Public</strong> project encourages active participation and appreciation of shared resources. Here's how you can interact with the prompts, datasources, and agents you find:</p>
+<h3 id="showing-appreciation-liking-resources">Showing Appreciation: Liking Resources</h3>
+<p>If you find a published prompt, datasource, or agent particularly useful or well-crafted, you can show your appreciation by "liking" it.</p>
+<ul>
+<li><strong>To Like:</strong> Click the <strong>Heart</strong> icon associated with the resource. The icon will typically change color or appearance to indicate that you've liked it.</li>
+<li><strong>To Unlike:</strong> If you change your mind or no longer wish to like a resource, simply click the <strong>Heart</strong> icon again.</li>
+</ul>
+<h3 id="utilizing-published-resources">Utilizing Published Resources</h3>
+<p>The primary purpose of the Public project is to allow users to leverage the shared resources.
+You can directly execute published prompts and agents to utilize their functionality. Simply click on the resource's card or name to view its details and find the execution options.</p>
+<p><strong>Important Note:</strong> While you can view and execute resources in the Public project, <strong>you cannot directly modify and save changes to the original published version.</strong> These resources are intended for execution and inspiration.</p>
+<h3 id="incorporating-public-resources-into-your-workflow">Incorporating Public Resources into Your Workflow</h3>
+<p>You can leverage valuable resources found in the Public project in several ways:</p>
+<ul>
+<li><strong>Adding to Collections:</strong> Organize useful public prompts, datasources, or agents into your personal collections within your Private project for easy access and management.</li>
+<li><strong>Exporting Resources:</strong> For backup or use in other platforms (if supported), you can export published prompts.</li>
+</ul>
+<p><strong>Refer to the documentation for your Private project for detailed instructions on adding to collections and exporting resources.</strong></p>
+<h2 id="sharing-your-expertise-publishing-resources">Sharing Your Expertise: Publishing Resources</h2>
+<p>While you primarily interact with existing resources in the Public project, you can also contribute your own creations. If you've developed a valuable prompt, agent, or datasource in your <strong>Private</strong> project, you can submit it for publication to the <strong>Public</strong> project.</p>
+<p><strong>The Publication Process:</strong></p>
+<ol>
+<li><strong>Create and Refine:</strong> Develop and thoroughly test your prompt, agent, or datasource in your <strong>Private</strong> project.</li>
+<li><strong>Submit for Publication:</strong>  Initiate the publication process for your resource. This typically involves clicking a "Publish" button within the resource's settings.</li>
+<li><strong>Moderation Review:</strong>  Resources submitted for publication are reviewed by designated moderators to ensure quality, relevance, and adherence to community guidelines.</li>
+<li><strong>Approval and Publication:</strong> If approved, your resource will be published and become available to the wider ELITEA community in the Public project.</li>
+</ol>
+<p><strong>Note:</strong> Only approved moderators have the ability to add resources to the Public project.</p>
+<h2 id="benefits-of-the-public-project">Benefits of the Public Project</h2>
+<ul>
+<li><strong>Reduced Redundancy:</strong> Avoid recreating commonly used prompts, agents, or datasources by leveraging existing community contributions.</li>
+<li><strong>Accelerated Development:</strong> Quickly find and utilize pre-built resources to speed up your workflows.</li>
+<li><strong>Enhanced Learning:</strong> Discover new techniques and approaches by examining how others have designed their resources.</li>
+<li><strong>Community Building:</strong> Contribute to a shared knowledge base and benefit from the collective expertise of your colleagues.</li>
+</ul>
+<p>The ELITEA <strong>Public</strong> project is a valuable place for fostering collaboration and maximizing the potential of AI within your organization. Explore, engage, and contribute to make the most of this shared resource pool.</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/yaml.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../../.."</script>
+    
+    <script src="../../../js/base.js"></script>
+    <script src="../../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>
