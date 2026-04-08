@@ -1,0 +1,176 @@
+name: Move Issues to Done
+on:
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  move-to-done:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PAT_TOKEN }}
+          script: |
+            // Function to fetch all project items with pagination
+            async function fetchAllProjectItems(org, projectNumber) {
+              let allItems = [];
+              let hasNextPage = true;
+              let cursor = null;
+
+              while (hasNextPage) {
+                const projectQuery = `
+                  query($org: String!, $projectNumber: Int!, $cursor: String) {
+                    organization(login: $org) {
+                      projectV2(number: $projectNumber) {
+                        id
+                        items(first: 100, after: $cursor) {
+                          nodes {
+                            id
+                            content {
+                              ... on Issue {
+                                id
+                                number
+                                repository {
+                                  name
+                                  owner {
+                                    login
+                                  }
+                                }
+                              }
+                            }
+                            fieldValueByName(name: "Status") {
+                              ... on ProjectV2ItemFieldSingleSelectValue {
+                                name
+                              }
+                            }
+                          }
+                          pageInfo {
+                            hasNextPage
+                            endCursor
+                          }
+                        }
+                        field(name: "Status") {
+                          ... on ProjectV2SingleSelectField {
+                            id
+                            options {
+                              id
+                              name
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                `;
+
+                const projectData = await github.graphql(projectQuery, {
+                  org: org,
+                  projectNumber: projectNumber,
+                  cursor: cursor
+                });
+
+                const project = projectData.organization.projectV2;
+                allItems.push(...project.items.nodes);
+
+                hasNextPage = project.items.pageInfo.hasNextPage;
+                cursor = project.items.pageInfo.endCursor;
+
+                console.log(`Fetched ${project.items.nodes.length} items (total so far: ${allItems.length})`);
+
+                // Return project data on first iteration
+                if (!cursor || !hasNextPage) {
+                  return {
+                    project: {
+                      id: project.id,
+                      field: project.field
+                    },
+                    items: allItems
+                  };
+                }
+              }
+            }
+
+            // Fetch all items
+            console.log('Fetching all project items...');
+            const { project, items } = await fetchAllProjectItems("EliteaAI", 3);
+
+            const statusField = project.field;
+            const doneOption = statusField.options.find(opt => opt.name === "Done");
+
+            if (!doneOption) {
+              console.error('❌ "Done" status not found in project');
+              console.log('Available statuses:', statusField.options.map(o => o.name));
+              return;
+            }
+
+            const doneOptionId = doneOption.id;
+
+            // Filter items in "Ready for Public Release" status
+            const itemsToMove = items.filter(item =>
+              item.fieldValueByName?.name === "Ready for Public Release" && item.content
+            );
+
+            console.log(`\nTotal items in project: ${items.length}`);
+            console.log(`Items in "Ready for Public Release": ${itemsToMove.length}`);
+            console.log('\nStarting to move issues...\n');
+
+            let successCount = 0;
+            let errorCount = 0;
+
+            for (const item of itemsToMove) {
+              const issue = item.content;
+
+              try {
+                // Close the issue
+                await github.rest.issues.update({
+                  owner: issue.repository.owner.login,
+                  repo: issue.repository.name,
+                  issue_number: issue.number,
+                  state: 'closed'
+                });
+
+                console.log(`  ✓ Closed issue #${issue.number} in ${issue.repository.name}`);
+
+                // Update project status to "Done"
+                const updateMutation = `
+                  mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+                    updateProjectV2ItemFieldValue(
+                      input: {
+                        projectId: $projectId
+                        itemId: $itemId
+                        fieldId: $fieldId
+                        value: { singleSelectOptionId: $optionId }
+                      }
+                    ) {
+                      projectV2Item {
+                        id
+                      }
+                    }
+                  }
+                `;
+
+                await github.graphql(updateMutation, {
+                  projectId: project.id,
+                  itemId: item.id,
+                  fieldId: statusField.id,
+                  optionId: doneOptionId
+                });
+
+                console.log(`✅ Moved issue #${issue.number} to Done (${successCount + 1}/${itemsToMove.length})`);
+                successCount++;
+
+                // Small delay to avoid rate limiting
+                await new Promise(resolve => setTimeout(resolve, 100));
+
+              } catch (error) {
+                console.error(`❌ Error processing issue #${issue.number}:`, error.message);
+                errorCount++;
+              }
+            }
+
+            console.log('\n' + '='.repeat(50));
+            console.log(`🎉 Completed!`);
+            console.log(`   ✅ Successfully moved: ${successCount} issues`);
+            if (errorCount > 0) {
+              console.log(`   ❌ Errors: ${errorCount} issues`);
+            }
+            console.log('='.repeat(50));
