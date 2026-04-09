@@ -26,8 +26,10 @@
 }
 
 /* ── Navbar: frosted glass in dark mode ──────────────────────── */
-.dark header,
-[data-theme="dark"] header {
+.dark body > header,
+.dark body > div > header,
+[data-theme="dark"] body > header,
+[data-theme="dark"] body > div > header {
   background-color: rgb(10 15 22 / 0.85) !important;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
