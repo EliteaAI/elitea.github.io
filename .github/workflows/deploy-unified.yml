@@ -1,14 +1,19 @@
-name: Deploy Landing + Docs to GitHub Pages
+name: Deploy Landing Page to GitHub Pages
 
 on:
-  workflow_dispatch: 
+  push:
+    branches:
+      - main
+    paths:
+      - "web/**"
+  workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
-concurrency: 
+concurrency:
   group: "pages"
   cancel-in-progress: false
 
@@ -16,18 +21,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name:  Checkout
+      - name: Checkout
         uses: actions/checkout@v4
 
-      # Build Next.js Landing Page
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: './web/package-lock.json'
+          node-version: "18"
+          cache: "npm"
+          cache-dependency-path: "./web/package-lock.json"
 
-      - name: Install Next.js dependencies
+      - name: Install dependencies
         run: |
           cd web
           npm ci
@@ -37,53 +41,12 @@ jobs:
           cd web
           npm run build
 
-      # Build MkDocs Documentation
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with: 
-          python-version: "3.x"
-
-      - name: Cache Python dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys:  |
-            ${{ runner.os }}-pip-
-
-      - name: Install MkDocs and dependencies
+      - name: Prepare deployment
         run: |
-          pip install mkdocs mkdocs-material mkdocs-glightbox
-
-      - name: Build MkDocs documentation
-        run: mkdocs build --clean --config-file mkdocs.yml
-
-      # Combine both builds into unified deployment
-      - name: Prepare unified deployment
-        run: |
-          # Create deployment directory
           mkdir -p _deploy
-          
-          # Copy Next.js build (landing page at root)
-          echo "Copying Next.js landing page to root..."
           cp -r web/out/* _deploy/
-          
-          # Copy MkDocs build (docs at /docs subdirectory)
-          echo "Copying MkDocs documentation to /docs..."
-          mkdir -p _deploy/docs
-          cp -r site/* _deploy/docs/
-          
-          # Add .nojekyll to prevent Jekyll processing
           touch _deploy/.nojekyll
-          
-          # Add CNAME for custom domain
-          echo "elitea.ai" > _deploy/CNAME
-          
-          # Display structure for verification
-          echo "Deployment structure:"
-          ls -la _deploy/
-          echo "Docs subdirectory:"
-          ls -la _deploy/docs/ | head -20
+          cp CNAME _deploy/CNAME
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -92,10 +55,10 @@ jobs:
 
   deploy:
     environment:
-      name:  github-pages
+      name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs:  build
+    needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

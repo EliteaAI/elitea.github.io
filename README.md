@@ -1,232 +1,166 @@
-# ProjectAlita - Unified Landing & Documentation Site
+# ELITEA Repository
 
-This repository contains both the landing page (Next.js) and documentation (MkDocs) for ProjectAlita, deployed together to GitHub Pages.
+This repository contains two separately run and deployed surfaces:
 
-## 🌐 Live Sites
+- The ELITEA documentation site in `docs/`, built with Mintlify
+- The ELITEA marketing / landing site in `web/`, built with Next.js and deployed as a static site
 
-- **Landing Page**: https://elitea.ai
-- **Documentation**: https://elitea.ai/docs/
+If you are editing docs, start in `docs/`. If you are editing the website, start in `web/`.
 
-## 📁 Repository Structure
+## What Is In This Repo
 
+```text
+elitea.github.io/
+├── docs/                      # Mintlify documentation source
+│   ├── docs.json              # Mintlify site configuration
+│   ├── custom.css             # Mintlify styling overrides
+│   ├── index.mdx              # Docs homepage
+│   ├── home/                  # Product overview and core concepts
+│   ├── getting-started/       # Quick starts and initial setup
+│   ├── how-tos/               # Task-based guides
+│   ├── integrations/          # MCPs, toolkits, extensions, apps
+│   ├── menus/                 # Platform UI reference pages
+│   ├── migration/             # Upgrade and migration content
+│   ├── release-notes/         # Current and archived releases
+│   ├── support/               # Troubleshooting and support content
+│   └── img/                   # Documentation assets
+├── web/                       # Next.js landing site
+│   ├── src/                   # App source
+│   ├── public/                # Public assets
+│   ├── package.json           # Frontend scripts and dependencies
+│   └── next.config.js         # Static export config
+├── .github/workflows/
+│   └── deploy-unified.yml     # GitHub Pages deployment for the landing site
+├── CNAME                      # GitHub Pages custom domain
+├── README.md
+└── SETUP.md                   # Local development and deployment runbook
 ```
-projectalita.github.io/
-├── web/                    # Next.js landing page
-│   ├── pages/             # Next.js pages
-│   ├── src/               # Source code
-│   ├── public/            # Static assets
-│   ├── out/               # Build output (generated)
-│   └── package.json
-│
-├── docs/                  # MkDocs documentation source
-│   ├── home/
-│   ├── getting-started/
-│   ├── how-tos/
-│   └── ... (other docs)
-│
-├── site/                  # MkDocs build output (generated)
-├── scripts/               # Development & build scripts
-├── mkdocs.yml            # MkDocs configuration
-└── .github/workflows/     # GitHub Actions workflows
-    └── deploy-unified.yml # Unified deployment workflow
-```
 
-## 🚀 Quick Start
+## What Documentation Is Available Here
+
+The Mintlify docs in `docs/` are organized around the structure defined in `docs/docs.json`. At a high level, the site currently includes:
+
+- Home: overview, onboarding, glossary, key concepts, platform overview
+- Getting Started: quick starts, credentials, secrets, artifacts, system checks
+- How-To Guides: chat, conversations, indexing, pipelines, agents, toolkits, entity management
+- Integrations: MCP, toolkits, extensions, third-party integrations, applications
+- Release Notes: current and archived releases
+- Support: FAQs, troubleshooting, support, migration and legacy content
+
+For content changes, expect to update both page files and navigation when necessary.
+
+## Quick Start
 
 ### Prerequisites
 
-- **Node.js** 18+ (for Next.js landing page)
-- **Python** 3.x (for MkDocs documentation)
-- **pip** (Python package manager)
+- Node.js 18+
+- npm
+- Mintlify CLI installed and available as the `mint` command if you want to preview docs locally
 
-### Initial Setup
-
-```bash
-# Install all dependencies (Next.js + MkDocs)
-./scripts/install-deps.sh
-```
-
-## 💻 Local Development
-
-### Option 1: Run Both Servers Together (Recommended)
+### Run The Docs Locally
 
 ```bash
-./scripts/dev-all.sh
+cd docs
+mint dev
 ```
 
-This starts:
-- Landing page at http://localhost:3000
-- Documentation at http://localhost:8000
+This starts the Mintlify preview server, typically on `http://localhost:3000`.
 
-Press `Ctrl+C` to stop both servers.
+Use this workflow when you are changing:
 
-### Option 2: Run Servers Individually
+- `.mdx` pages in `docs/`
+- navigation in `docs/docs.json`
+- styles in `docs/custom.css`
+- images or other assets in `docs/img/`
 
-**Landing page only:**
-```bash
-./scripts/dev-landing.sh
-```
-Opens at http://localhost:3000
-
-**Documentation only:**
-```bash
-./scripts/dev-docs.sh
-```
-Opens at http://localhost:8000
-
-## 🏗️ Building & Testing
-
-### Build Everything
-
-```bash
-./scripts/build-all.sh
-```
-
-This builds:
-- Next.js → `web/out/`
-- MkDocs → `site/`
-
-### Preview Built Site Locally
-
-```bash
-./scripts/serve-built.sh
-```
-
-This creates a unified preview matching the production structure:
-- Landing: http://localhost:8080
-- Docs: http://localhost:8080/docs/
-
-Perfect for testing before deployment! Press `Ctrl+C` to stop.
-
-## 📦 Deployment
-
-### Automatic Deployment
-
-The site deploys automatically to GitHub Pages when you push to `main` branch:
-
-```bash
-git add .
-git commit -m "Update content"
-git push origin main
-```
-
-GitHub Actions will:
-1. Build the Next.js landing page
-2. Build the MkDocs documentation
-3. Combine them into a unified deployment
-4. Deploy to GitHub Pages
-
-### Manual Deployment
-
-Trigger deployment manually from GitHub:
-1. Go to **Actions** tab
-2. Select **Deploy Landing + Docs to GitHub Pages**
-3. Click **Run workflow**
-
-### Deployment Structure
-
-```
-GitHub Pages (elitea.ai)
-├── / (root)              → Next.js landing page
-└── /docs/                → MkDocs documentation
-```
-
-## 🔧 Configuration
-
-### Landing Page (Next.js)
-
-Configuration: `web/next.config.js`
-
-```javascript
-{
-  output: 'export',           // Static export
-  trailingSlash: true,        // Add trailing slashes
-  images: { unoptimized: true } // No image optimization for static export
-}
-```
-
-### Documentation (MkDocs)
-
-Configuration: `mkdocs.yml`
-
-Key settings:
-- `site_url: https://elitea.ai/docs/` - Documentation base URL
-- Theme: Material for MkDocs
-- Plugins: search, glightbox (image lightbox)
-
-## 📝 Making Changes
-
-### Update Landing Page
-
-1. Edit files in `web/` directory
-2. Test locally: `./scripts/dev-landing.sh`
-3. Commit and push (auto-deploys)
-
-### Update Documentation
-
-1. Edit Markdown files in `docs/` directory
-2. Test locally: `./scripts/dev-docs.sh`
-3. Commit and push (auto-deploys)
-
-### Add New Documentation Page
-
-1. Create new `.md` file in appropriate `docs/` subdirectory
-2. Add entry to `nav:` section in `mkdocs.yml`
-3. Test locally to verify navigation
-
-## 🛠️ Available Scripts
-
-| Script | Description |
-|--------|-------------|
-| `./scripts/install-deps.sh` | Install all dependencies |
-| `./scripts/dev-landing.sh` | Start landing page dev server |
-| `./scripts/dev-docs.sh` | Start documentation dev server |
-| `./scripts/dev-all.sh` | Start both servers concurrently |
-| `./scripts/build-all.sh` | Build both applications |
-| `./scripts/serve-built.sh` | Preview unified build locally |
-
-## 🐛 Troubleshooting
-
-### MkDocs not found
-
-```bash
-pip install mkdocs mkdocs-material mkdocs-glightbox
-```
-
-### Next.js dependencies issues
+### Run The Landing Page Locally
 
 ```bash
 cd web
-rm -rf node_modules package-lock.json
 npm install
+npm run dev
 ```
 
-### Port already in use
+This starts the Next.js dev server, also typically on `http://localhost:3000`.
 
-- Landing (3000): Kill the process or use a different port
-- Docs (8000): Kill the process or specify different port with `mkdocs serve -a localhost:8001`
+Because both apps usually use the same default port, run them one at a time unless you intentionally change one of the ports.
 
-### Build fails in GitHub Actions
+## Common Change Types
 
-1. Check Actions tab for error logs
-2. Test build locally: `./scripts/build-all.sh`
-3. Ensure all paths in workflow match new structure
+### Update Existing Documentation
 
-## 📚 Documentation
+1. Edit the relevant `.mdx` file under `docs/`
+2. Run `mint dev` from `docs/`
+3. Check the page, navigation, links, images, and callouts in the browser
+4. If you changed page location or navigation, update `docs/docs.json`
 
-- [MkDocs Documentation](https://www.mkdocs.org/)
-- [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)
-- [Next.js Documentation](https://nextjs.org/docs)
+### Add A New Documentation Page
 
-## 🔒 GitHub Pages Settings
+1. Create a new `.mdx` file in the appropriate docs section
+2. Add frontmatter with at least `title` and `description`
+3. Add the page path to the appropriate section in `docs/docs.json`
+4. Preview locally with `mint dev`
 
-Ensure these settings in your repository:
+### Update Landing Page Content Or UI
 
-1. **Settings** → **Pages**
-2. **Source**: GitHub Actions (not branch-based)
-3. **Custom domain**: elitea.ai
-4. Ensure DNS A records point to GitHub Pages IPs
+1. Edit files under `web/src/`
+2. Run `npm run dev` in `web/`
+3. Validate responsive behavior and static export compatibility
 
-## 📄 License
+## Validation
 
-See [LICENSE](LICENSE) file for details.
+Useful local checks:
+
+### Validate `docs.json`
+
+```bash
+cd docs
+python3 -m json.tool docs.json >/dev/null
+```
+
+### Check Docs In Mintlify Preview
+
+```bash
+cd docs
+mint dev
+```
+
+Use the preview to verify:
+
+- page renders correctly
+- sidebar/nav placement is correct
+- local images resolve
+- links work
+- custom CSS changes behave in light and dark themes
+
+## Deployment Model
+
+### Documentation
+
+The documentation site is deployed by Mintlify from the `docs/` directory. The exact target domain is controlled by Mintlify project configuration rather than by a GitHub Actions workflow in this repo.
+
+### Landing Page
+
+The landing page is deployed through [deploy-unified.yml](.github/workflows/deploy-unified.yml) to GitHub Pages when changes under `web/` are pushed to `main`.
+
+The workflow:
+
+1. Installs dependencies in `web/`
+2. Builds the Next.js app
+3. Publishes the static output to GitHub Pages
+
+## Where To Look First
+
+- Editing docs navigation: [docs/docs.json](docs/docs.json)
+- Editing docs styles: [docs/custom.css](docs/custom.css)
+- Editing docs content: [docs/](docs/)
+- Editing landing page UI: [web/src/](web/src/)
+- Landing page deployment: [.github/workflows/deploy-unified.yml](.github/workflows/deploy-unified.yml)
+
+## More Detailed Setup
+
+For a fuller local development and deployment runbook, including Mintlify editing workflow and common troubleshooting, see [SETUP.md](SETUP.md).
+
+## License
+
+See [LICENSE](LICENSE).

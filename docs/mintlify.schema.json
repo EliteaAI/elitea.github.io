@@ -1,0 +1,128 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Local Mintlify docs schema",
+  "description": "Local fallback schema for Mintlify docs configuration. This avoids VS Code untrusted remote schema warnings while preserving basic validation.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "theme": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "logo": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "favicon": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "colors": {
+      "type": "object"
+    },
+    "background": {
+      "type": "object"
+    },
+    "appearance": {
+      "type": "object"
+    },
+    "fonts": {
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "array"
+        }
+      ]
+    },
+    "css": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "navbar": {
+      "type": "object"
+    },
+    "navigation": {
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "array"
+        }
+      ]
+    },
+    "footer": {
+      "type": "object"
+    },
+    "tabs": {
+      "type": "array"
+    },
+    "anchors": {
+      "type": "array"
+    },
+    "dropdowns": {
+      "type": "array"
+    },
+    "versions": {
+      "type": "array"
+    },
+    "redirects": {
+      "type": "array"
+    },
+    "search": {
+      "type": "object"
+    },
+    "seo": {
+      "type": "object"
+    },
+    "integrations": {
+      "type": "object"
+    },
+    "api": {
+      "type": "object"
+    },
+    "metadata": {
+      "type": "object"
+    },
+    "styling": {
+      "type": "object"
+    },
+    "icons": {
+      "type": "object"
+    },
+    "banner": {
+      "type": "object"
+    },
+    "contextual": {
+      "type": "object"
+    },
+    "variables": {
+      "type": "object"
+    }
+  },
+  "required": ["theme", "name"],
+  "additionalProperties": true
+}

@@ -1,0 +1,63 @@
+/* =============================================================
+   ELITEA Brand Theme — Mintlify CSS overrides
+   Source: Figma "Alita Library" design tokens
+
+   Strategy: Do NOT override --gray-* (breaks icons/text/borders
+   globally). Let Mintlify's own gray palette do its job.
+   Only override targeted surfaces + inline code color.
+
+   Dark  bg  #0E131D  →  set via docs.json background.color.dark
+   Light bg  #FDFDFD  →  set via docs.json background.color.light
+   Accent    #C428DD (light) / #6AE8FA (dark)  →  docs.json colors
+   ============================================================= */
+
+/* ── ELITEA brand accent: overrides Mintlify's primary-* vars ── */
+/* These drive eyebrow text, active sidebar, TOC highlights,     */
+/* active tab underline etc. Values must be R G B space-sep.     */
+:root {
+  --primary-dark:  196  40 221;   /* #C428DD  purple — light mode */
+  --primary-light: 106 232 250;   /* #6AE8FA  cyan   — dark mode  */
+}
+
+/* ── Sidebar: very slightly deeper than page bg in dark mode ─── */
+.dark aside,
+[data-theme="dark"] aside {
+  background-color: rgb(10 15 22 / 0.7) !important;
+}
+
+/* ── Navbar: frosted glass in dark mode ──────────────────────── */
+.dark header,
+[data-theme="dark"] header {
+  background-color: rgb(10 15 22 / 0.85) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ── Code blocks ─────────────────────────────────────────────── */
+pre {
+  border-radius: 8px !important;
+}
+
+.dark pre,
+[data-theme="dark"] pre {
+  background-color: rgb(8 11 18) !important;
+  border: 1px solid rgb(29 37 55 / 0.7) !important;
+}
+
+/* ── Inline code ─────────────────────────────────────────────── */
+:not(pre) > code {
+  color: #A020D0 !important;
+  border-radius: 4px;
+}
+
+.dark :not(pre) > code,
+[data-theme="dark"] :not(pre) > code {
+  color: #6AE8FA !important;
+  background-color: rgb(19 24 32 / 0.8) !important;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────── */
+::-webkit-scrollbar           { width: 5px; height: 5px; }
+::-webkit-scrollbar-track     { background: transparent; }
+::-webkit-scrollbar-thumb     { background: rgba(128, 128, 160, 0.25); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(128, 128, 160, 0.45); }
