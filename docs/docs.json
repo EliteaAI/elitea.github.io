@@ -272,7 +272,6 @@
                 "group": "Start Building Pipelines",
                 "expanded": false,
                 "pages": [
-                  "features/pipelines/pipeline-agent-framework",
                   "how-tos/pipelines/overview",
                   "how-tos/pipelines/flow-editor",
                   "how-tos/pipelines/yaml",
@@ -294,7 +293,6 @@
                       "how-tos/pipelines/nodes/interaction-nodes",
                       "how-tos/pipelines/nodes/execution-nodes",
                       "how-tos/pipelines/nodes/control-flow-nodes",
-                      "how-tos/pipelines/nodes/iteration-nodes",
                       "how-tos/pipelines/nodes/utility-nodes"
                     ]
                   }
@@ -362,7 +360,6 @@
                 "expanded": true,
                 "pages": [
                   "integrations/mcp/create-and-use-server-stdio",
-                  "integrations/mcp/mcp-server-stdio",
                   "integrations/mcp/mcp-server-sse",
                   "integrations/mcp/make-tools-available-by-mcp"
                 ]
@@ -372,8 +369,7 @@
                 "expanded": true,
                 "pages": [
                   "integrations/mcp/create-and-use-remote-mcp",
-                  "integrations/mcp/create-and-use-client-stdio",
-                  "integrations/mcp/mcp-client"
+                  "integrations/mcp/create-and-use-client-stdio"
                 ]
               }
             ]
@@ -605,7 +601,12 @@
                   "archive/monitoring",
                   "archive/manage-users-and-roles",
                   "archive/prompt-magic-assistant",
-                  "archive/alita-dial"
+                  "archive/alita-dial",
+                  "features/pipelines/pipeline-agent-framework",
+                  "how-tos/pipelines/nodes/iteration-nodes",
+                  "integrations/mcp/mcp-server-stdio",
+                  "integrations/mcp/mcp-client"
+
                 ]
               },
               {
