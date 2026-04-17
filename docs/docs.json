@@ -265,7 +265,8 @@
                   "how-tos/agents-pipelines/agents-pipelines-history",
                   "how-tos/agents-pipelines/entity-versioning",
                   "how-tos/agents-pipelines/import-export",
-                  "how-tos/agents-pipelines/forking"
+                  "how-tos/agents-pipelines/forking",
+                  "how-tos/agents-pipelines/agent-publishing"
                 ]
               },
               {
