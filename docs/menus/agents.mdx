@@ -408,25 +408,27 @@ Upon creating a new version of the agent, several options become available to yo
 
 ### Publishing an Agent Version
 
-The **Publish** functionality allows you to make a specific version of your agent available for public use after moderator approval. This ensures that only reviewed and approved versions are accessible to users.
+The **Publish** functionality allows you to make a specific `Draft` version of your agent available in [Agents Studio](./agents-studio) — a shared library accessible to all users in your ELITEA installation. Publishing uses a guided three-step wizard with **AI-powered automated validation** that checks your agent before it can be submitted.
 
 **How to Publish an Agent Version:**
 
-1. Navigate to the top menu and click the **Publish** button. A dialog box will appear prompting you to confirm the publishing process.
-2. **Provide a Version Name**. Enter a meaningful name for the version you want to publish. This helps in identifying the version during the review process.
-3. **Submit for Approval**:
-   - Once you click **Publish**, the version will be sent to a moderator for review.
-   - The moderator will evaluate the agent version and either approve or reject the request.
-     ![Agents-Publish](../img/menus/agents/agents-publish.gif)
+1. Open the agent and select the **Draft** version you want to publish using the version selector.
+2. Click the **three-dot menu (⋮)** in the agent tab bar and select **Publish**.
+3. In the **Preparation** step, enter a version name and accept the Publishing Terms, then click **Continue**.
+4. The **AI Validation** step runs automatically — review the result (PASS, WARN, or FAIL). Address any critical issues if needed.
+5. Click **Publish** to submit. On success, the version is immediately live in Agents Studio.
+
+![Agents-Publish](../img/menus/agents/agents-publishing.gif)
 
 **What Happens After Publishing:**
 
-- **If Approved**:
-  - The agent version will be made publicly available for use.
-  - Users will be able to access and execute the published version in Agent studio
-- **If Rejected**:
-  - The moderator may provide feedback on why the version was not approved.
-  - You can make the necessary changes and resubmit the version for approval.
+- The version status updates to `Published` and appears in your **Published** tab.
+- Community users can find and use the agent in Agents Studio without needing project access.
+- You can unpublish at any time using the **Unpublish** option in the three-dot menu.
+
+<Info>
+  For the complete publishing flow — including validation details, token expiry, sub-agent handling, and troubleshooting — see the [**Agent Publishing Guide**](../how-tos/agents-pipelines/agent-publishing).
+</Info>
 
 ### Exporting and Importing Agents
 
