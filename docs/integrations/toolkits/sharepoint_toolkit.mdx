@@ -222,13 +222,16 @@ The SharePoint credential supports two authentication modes — **App-Only** (th
     | **OAuth Discovery Endpoint** | Azure AD tenant base URL in the format `https://login.microsoftonline.com/{tenant_id}`. The `{tenant_id}` is the **Directory (tenant) ID** from your Azure AD App Registration Overview page | `https://login.microsoftonline.com/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
     | **Scopes** | Space-separated OAuth permission scopes the delegated token should request | `Sites.ReadWrite.All Files.ReadWrite.All Notes.ReadWrite.All` |
 
-2. **Log in:** Once all fields are filled, a **Log in** button appears next to the **Test Connection** button. Click **Log in** to complete the OAuth authorization flow — ELITEA redirects to Azure AD for user sign-in, and after authorization the token is stored and the connection is verified via Microsoft Graph.
+2. **Log in:** Once the **OAuth Discovery Endpoint** field is filled in, a **Login** button appears next to the **Test Connection** button. Click **Login** to initiate the OAuth authorization flow — ELITEA calls the SharePoint check-connection endpoint, which redirects to Azure AD for user sign-in. After you authorize the application, the token is stored and the connection is verified via Microsoft Graph.
+
+    > After a successful login, the **Login** button changes to **Logout**. Click **Logout** at any time to clear the stored token and disconnect the credential.
+
 3. **Save Credential:** Click **Save**.
 
      ![Delegated](../../img/integrations/toolkits/sharepoint/sharepoint-credential-delegated.gif)
 
 <Warning title="Re-login required after scope changes">
-If you add, remove, or modify the **Scopes** field after the initial login (e.g., to add `Notes.ReadWrite.All` for OneNote access), the existing token will not automatically include the new scopes. You must click **Log in** again to complete a new OAuth authorization flow and obtain a fresh token that reflects the updated scope list.
+If you add, remove, or modify the **Scopes** field after the initial login (e.g., to add `Notes.ReadWrite.All` for OneNote access), the existing token will not automatically include the new scopes. You must click **Login** again to complete a new OAuth authorization flow and obtain a fresh token that reflects the updated scope list.
 </Warning>
 
 ---
@@ -302,6 +305,22 @@ Once your credentials are configured, create the SharePoint toolkit:
 
      ![Toolkit](../../img/integrations/toolkits/sharepoint/sharepoint-toolkit-create.gif)
 
+#### OAuth Status Bar (Delegated mode only)
+
+When the selected SharePoint credential uses **Delegated (User OAuth)** authentication, a connection status bar appears at the top of the toolkit configuration form. This bar is hidden for App-Only credentials.
+
+The status bar displays:
+- A colored status indicator with **"Connected!"** (green) when a valid OAuth token is present, or **"Not Connected"** (orange/warning) when no token exists or the token has expired.
+- A **Login** button when not connected, or a **Logout** button when connected.
+
+You can use this status bar to authorize (or re-authorize) the Delegated connection directly from the toolkit form — without navigating back to the Credentials page. Click **Login** to open the OAuth authorization flow, or **Logout** to clear the stored token.
+
+     ![Toolkit](../../img/integrations/toolkits/sharepoint/sharepoint-toolkit-status-bar.gif)
+
+<Info title="Token scope and re-login">
+The Login button in the toolkit form uses the scopes configured in the linked SharePoint credential. If the scopes were changed on the credential after the last login, click **Logout** then **Login** again to obtain a fresh token with the updated scopes.
+</Info>
+
 #### Available Tools
 
 * The SharePoint toolkit provides the following tools for interacting with SharePoint sites, document libraries, and lists, organized by functional categories:
@@ -309,15 +328,14 @@ Once your credentials are configured, create the SharePoint toolkit:
     | **Tool Category** | **Tool Name** | **Description** | **Primary Use Case** |
     |:-----------------:|---------------|-----------------|----------------------|
     | **File Operations** | | | |
-    | | **Get files list** | Lists files in a SharePoint document library, optionally filtered by folder or library name | Browse and discover files across document libraries |
-    | | **Read document** | Reads the content of a document at a given server-relative path; supports `.docx`, `.xlsx`, `.pptx`, `.pdf`, `.txt`, `.csv`, and more | Extract text content from SharePoint documents for analysis or summarization |
+    | | **Get files list** | Lists files in a SharePoint document library, optionally filtered by folder or library name; supports `include_extensions` and `skip_extensions` filters to narrow results by file type | Browse and discover files across document libraries |
+    | | **Read document** | Reads the content of a document at a given server-relative path; supports `.docx`, `.xlsx`, `.pptx`, `.pdf`, `.txt`, `.csv`, and more; optional `page_number` (for multi-page documents), `sheet_name` (Excel), and `is_capture_image` (AI image description) parameters | Extract text content from SharePoint documents for analysis or summarization |
     | | **Upload file** | Uploads a file to a specified SharePoint document library folder, from artifact storage or direct string content | Automate file delivery and publishing to SharePoint |
     | **List & Data Operations** | | | |
     | | **Get lists** | Returns all visible SharePoint lists on the configured site with their titles, IDs, descriptions, and item counts | Discover lists on a site before reading or writing data |
     | | **Read list** | Reads items from a specified SharePoint list (up to a configurable limit) | Access and process data stored in SharePoint lists |
     | | **Get list columns** | Returns all column metadata for a specified list, including field names, display names, types, required flags, and valid choice values | Discover available columns before creating list items |
     | | **Create list item** | Creates a new item in a specified SharePoint list using a dictionary of field-value pairs | Automate data entry and record creation in SharePoint lists |
-    | | **Add attachment to list item** | Attaches a file to an existing SharePoint list item, from artifact storage or direct string content | Link supporting documents or data files to list records |
     | **OneNote Operations** | | | |
     | | **Onenote get notebooks** | Lists all OneNote notebooks in the configured SharePoint site, returning ids, display names, creation dates, and web URLs | Discover notebooks on a site before reading or writing OneNote content |
     | | **Onenote get sections** | Lists all sections in a specific OneNote notebook, returning section ids, display names, and page URLs | Browse notebook structure to locate a section before reading pages |
@@ -325,9 +343,8 @@ Once your credentials are configured, create the SharePoint toolkit:
     | | **Onenote get page content** | Retrieves the raw HTML content of a OneNote page as stored by the service | Access the raw XHTML of a page for programmatic processing or export |
     | | **Onenote list attachments** | Lists all file attachments on a OneNote page, returning filenames, resource IDs, and download URLs | Discover files attached to a page before downloading or reading them |
     | | **Onenote read attachment** | Downloads and parses a file attachment from a OneNote page; supports PDF, DOCX, XLSX, PPTX, images, and more | Extract text content from files attached to OneNote pages for analysis |
-    | | **Onenote read page** | Reads and converts a OneNote page into beautified plain text with `-----` separators between content items, image descriptions, and attachment entries | Retrieve human-readable page content for summarization or analysis |
-    | | **Onenote read page items** | Reads a OneNote page into a structured list of typed items (text, image, attachment) in document order | Process page content programmatically with fine-grained control over each element |
-    | | **Onenote search pages** | Searches all OneNote pages in the site matching a full-text query and returns matching page metadata | Quickly locate OneNote pages by topic, keyword, or content across all notebooks |
+    | | **Onenote read page** | Reads and converts a OneNote page into beautified plain text; supports `capture_images` (AI image descriptions, default on), `include_attachments` (list attachments inline, default on), and `read_attachment_content` (parse attachment content inline, default off) | Retrieve human-readable page content for summarization or analysis |
+    | | **Onenote read page items** | Reads a OneNote page into a structured list of typed items (text, image, attachment) in document order; supports `capture_images`, `include_attachments`, and `read_attachment_content` parameters | Process page content programmatically with fine-grained control over each element |
     | | **Onenote create notebook** | Creates a new OneNote notebook in the SharePoint site, returning the notebook id, display name, and web URL | Set up new notebooks for organizing notes and content |
     | | **Onenote create section** | Creates a new section within an existing OneNote notebook, returning the section id and display name | Add organizational sections to an existing notebook |
     | | **Onenote create page** | Creates a new page in a OneNote section from an HTML document, returning the page id, title, and web URL | Publish AI-generated or automated content as OneNote pages |
@@ -335,7 +352,7 @@ Once your credentials are configured, create the SharePoint toolkit:
     | | **Onenote replace page content** | Replaces the entire body of a OneNote page with new HTML content | Fully overwrite a page's content with a new version |
     | | **Onenote delete page** | Permanently deletes a OneNote page (this action is irreversible) | Remove outdated or incorrect OneNote pages |
     | **Indexing & Search** | | | |
-    | | **Index data** | Creates searchable indexes of SharePoint document library content | Enable advanced semantic search across SharePoint files |
+    | | **Index data** | Creates searchable indexes of SharePoint document library content; supports `include_onenote` flag (with optional `onenote_filter`) to also index OneNote pages and attachments alongside document library files | Enable advanced semantic search across SharePoint files and OneNote pages |
     | | **List collections** | Lists available indexed content collections | View and manage indexed SharePoint data collections |
     | | **Remove index** | Removes a previously created search index | Clean up indexed SharePoint data |
     | | **Search index** | Performs semantic searches across indexed SharePoint content | Find specific documents or file content across the site |
@@ -381,9 +398,9 @@ Now you can add the configured SharePoint toolkit to your agents, pipelines, or 
      * In the **"TOOLKITS"** section of the agent configuration, click the **"+Toolkit"** icon.
      * Select your configured SharePoint toolkit from the dropdown list.
      * The toolkit will be added to your agent with the previously configured tools enabled.
+     * If the toolkit uses a **Delegated (User OAuth)** credential, a **connection status icon** (globe indicator) and a **Log in** button appear at the right side of the toolkit row. Click **Log in** to authorize the SharePoint connection directly from the agent configuration — no need to leave the page. Once authorized, the icon switches from offline (orange) to online (green).
 
      ![Agents](../../img/integrations/toolkits/sharepoint/sharepoint-agent-add.gif)
-
 
 Your agent can now interact with SharePoint using the configured toolkit and enabled tools.
 
@@ -400,6 +417,10 @@ Your agent can now interact with SharePoint using the configured toolkit and ena
 
      ![Pipelines](../../img/integrations/toolkits/sharepoint/sharepoint-pipeline-add.gif)
 
+<Info title="Delegated credential: Login button in the toolkit card">
+The same connection indicator described for Agents also appears in Pipeline toolkit cards for SharePoint toolkits with Delegated credentials — an offline icon with a **Log in** button when not authorized, and an online icon when connected.
+</Info>
+
 ---
 
 #### In Chat:
@@ -411,10 +432,18 @@ Your agent can now interact with SharePoint using the configured toolkit and ena
      * Click the **"Add Tools"** icon to open the tools selection dropdown.
      * Select your configured SharePoint toolkit from the dropdown list.
      * The toolkit will be added to your conversation with all previously configured tools enabled.
+     * If the toolkit uses a **Delegated (User OAuth)** credential, a **connection status icon** (globe indicator) appears next to the toolkit name in the Participants list — **green** when authorized, **orange** when not. If not authorized, a **Log in** link appears below the toolkit entry; click it to complete the OAuth flow without leaving the Chat.
 4. **Use Toolkit in Chat:** You can now directly interact with your SharePoint site by asking questions or requesting actions that will trigger the SharePoint toolkit tools.
 
      ![Chat](../../img/integrations/toolkits/sharepoint/sharepoint-chat-add.gif)
 
+<Info title="Delegated credential: authorization prompt in Chat">
+If the SharePoint toolkit uses a **Delegated (User OAuth)** credential and no valid token is present, a warning appears below the toolkit entry in the Participants panel:
+
+> *SharePoint requires authorization. **Log in.***
+
+Click the **Log in** link to complete the OAuth authorization flow without leaving the Chat. Once authorized, the connection icon next to the toolkit name in the Participants list changes from offline (orange) to online (green) and the warning disappears.
+</Info>
 
     !!! example "Example Chat Usage:"
         - "List all files in the 'Shared Documents' library"
@@ -860,11 +889,11 @@ The six indexing and semantic search tools require both a PgVector configuration
 * **Stepback search index** — Contextual search with broader scope.
 * **Stepback summary index** — Generates summaries from indexed content.
 
-The other tools (`get_files_list`, `read_document`, `read_list`, `get_lists`, `get_list_columns`, `create_list_item`, `upload_file`, `add_attachment_to_list_item`) work without a vector database configuration.
+The other tools (`get_files_list`, `read_document`, `read_list`, `get_lists`, `get_list_columns`, `create_list_item`, `upload_file`) work without a vector database configuration.
 </Accordion>
 
 <Accordion title="Do OneNote tools work with App-Only (Client Credentials) mode?">
-**No.** All OneNote tools (`onenote_get_notebooks`, `onenote_get_sections`, `onenote_get_pages`, `onenote_get_page_content`, `onenote_read_page`, `onenote_read_page_items`, `onenote_list_attachments`, `onenote_read_attachment`, `onenote_create_notebook`, `onenote_create_section`, `onenote_create_page`, `onenote_update_page`, `onenote_replace_page_content`, `onenote_delete_page`, `onenote_search_pages`) require **Delegated (User OAuth)** authentication. They communicate exclusively with the Microsoft Graph API using a user-context access token and will return an error when called with App-Only credentials.
+**No.** All OneNote tools (`onenote_get_notebooks`, `onenote_get_sections`, `onenote_get_pages`, `onenote_get_page_content`, `onenote_read_page`, `onenote_read_page_items`, `onenote_list_attachments`, `onenote_read_attachment`, `onenote_create_notebook`, `onenote_create_section`, `onenote_create_page`, `onenote_update_page`, `onenote_replace_page_content`, `onenote_delete_page`) require **Delegated (User OAuth)** authentication. They communicate exclusively with the Microsoft Graph API using a user-context access token and will return an error when called with App-Only credentials.
 
 To use OneNote tools:
 1. Configure your SharePoint credential using the **Delegated** tab.
