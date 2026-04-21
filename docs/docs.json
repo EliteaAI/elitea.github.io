@@ -84,6 +84,11 @@
             "pages": [
               "menus/overview",
               {
+                "group": "Notification Center",
+                "icon": "bell",
+                "pages": ["menus/notification-center"]
+              },
+              {
                 "group": "Menus",
                 "icon": "compass",
                 "expanded": false,
@@ -603,7 +608,7 @@
                   "archive/manage-users-and-roles",
                   "archive/prompt-magic-assistant",
                   "archive/alita-dial",
-                  "features/pipelines/pipeline-agent-framework",
+                  "archive/pipeline-agent-framework",
                   "how-tos/pipelines/nodes/iteration-nodes",
                   "integrations/mcp/mcp-server-stdio",
                   "integrations/mcp/mcp-client"
@@ -615,10 +620,10 @@
                 "tag": "Legacy",
                 "expanded": false,
                 "pages": [
-                  "features/export-import",
-                  "features/forking",
-                  "features/monitoring",
-                  "features/public-project"
+                  "archive/export-import",
+                  "archive/forking",
+                  "archive/monitoring",
+                  "archive/public-project"
                 ]
               }
             ]
