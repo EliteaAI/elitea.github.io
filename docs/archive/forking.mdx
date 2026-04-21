@@ -44,9 +44,9 @@ The process for forking Agents, Prompts, and Datasources is similar.
 6. Click the **Fork** button.
 7. A copy of the entity will now be created in the selected target project. You will be forwarded to that entity created in the target project.
 
-![Datasource-Fork](<../img/features//forking/Datasource-Fork.png>)
+![Datasource-Fork](<../img/archive/features/forking/Datasource-Fork.png>)
 
-![Fork-Table_view](<../img/features//forking/Fork-Table_view.png>)
+![Fork-Table_view](<../img/archive/features/forking/Fork-Table_view.png>)
 
 ### Forking a Prompt
 
@@ -60,7 +60,7 @@ The process for forking Agents, Prompts, and Datasources is similar.
 5. Click the **Fork** button in the **Forking Wizard**.
 6. A copy of the prompt will now be created in the selected target project. You will be forwarded to that prompt created in the target project.
 
-![Prompt-Forking_Wizard](<../img/features//forking/Prompt-Forking_Wizard.png>)
+![Prompt-Forking_Wizard](<../img/archive/features/forking/Prompt-Forking_Wizard.png>)
 
 ### Forking a Datasource
 
@@ -79,7 +79,7 @@ The process for forking Agents, Prompts, and Datasources is similar.
 6. A copy of the datasource will now be created in the selected target project. You will be forwarded to that datasource created in the target project.
 7. **Reindexing Datasets:** After successfully forking the datasource, you **must** initiate the reindexing of the forked datasets. This step is crucial as the actual vector databases are not forked.
 
-![Datasource-Forking_Wizard](<../img/features//forking/Datasource-Forking_Wizard.png>)
+![Datasource-Forking_Wizard](<../img/archive/features/forking/Datasource-Forking_Wizard.png>)
 
 <Info title="Important">
 When forking a datasource, the actual datasets and authentication details are not copied to the new project:
@@ -88,7 +88,7 @@ When forking a datasource, the actual datasets and authentication details are no
 * **Reconfigure Dataset Connections:** You will need to re-enter the storage details and connection parameters, including authentication credentials (API Keys, usernames, tokens, passwords) while forking.
 * **Reindex Datasets:** You will need to initiate the reindexing of the datasets in the forked datasource within the target project.
 
-![Datasource-Reindex](<../img/features//forking/Datasource-Reindex.png>)
+![Datasource-Reindex](<../img/archive/features/forking/Datasource-Reindex.png>)
 
 ### Forking an Agent
 
@@ -108,7 +108,7 @@ When forking a datasource, the actual datasets and authentication details are no
 
 **Important Note:** When forking an agent, the authentication details for any configured toolkits are not copied to the new project. You will need to re-enter the authentication credentials (API Keys, usernames, tokens, passwords) for any toolkits while forking the agent.
 
-![Agent-Forking_Wizard](<../img/features//forking/Agent-Forking_Wizard.png>)
+![Agent-Forking_Wizard](<../img/archive/features/forking/Agent-Forking_Wizard.png>)
 
 ### Forking Master Agents with Connected Entities
 
@@ -126,7 +126,7 @@ This capability significantly simplifies the process of transferring complex AI 
 
 When you initiate the forking process for a 'master' agent, ELITEA identifies all the prompts, datasources, and child agents that are configured as toolkits for that 'master' agent. During the forking operation, copies of these connected entities are also created in the target project, ensuring that the forked 'master' agent has access to the necessary resources to function correctly.
 
-![MasterAgent-Forking_Wizard](<../img/features//forking/MasterAgent-Forking_Wizard.png>)
+![MasterAgent-Forking_Wizard](<../img/archive/features/forking/MasterAgent-Forking_Wizard.png>)
 
 **Important Considerations:**
 
