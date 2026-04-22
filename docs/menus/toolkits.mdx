@@ -281,6 +281,63 @@ For comprehensive testing instructions and best practices, see [How to Test Tool
     
 ---
 
+### Shared Toolkit Credentials
+
+When a toolkit is configured in a **team project** and its credential is shared across team members, two warning mechanisms protect users from unexpected disruptions.
+
+---
+
+#### Credential Setup Required Banner
+
+If you add a shared toolkit to an agent and the toolkit uses **shared credentials** that require each user to supply their own private copy, a warning banner is displayed on the tool card:
+
+<Card icon="circle-exclamation" color="#ef4444" horizontal>
+<span style={{color: '#f43f5e'}}> <strong> <span style={{color: '#eb4f69'}}> Credential setup required:</span> </strong> This toolkit requires your own private *[credential type]* credentials. Create a credential with the matching ID *"[credential ID]"* in your Private workspace to use this toolkit.</span>
+</Card>
+
+
+
+**When it appears:** The banner is shown when the platform detects a `private_credential_not_found` error — meaning the shared toolkit references a credential ID that does not exist in your personal (private) workspace.
+
+**What to do:**
+
+1. Click the **Create a credential** link in the banner. It opens your Private workspace in a new tab with the credential name and ID pre-filled.
+2. Complete the credential form (supply your own API key, token, or login details).
+3. Save the credential. The banner will no longer appear once the matching private credential exists.
+
+     ![Shared Credentials Banner](../img/menus/toolkits/shared-credentials-banner.gif)
+
+<Note title="Why private credentials?">
+Some toolkits (e.g., GitHub, Jira) are configured with shared connection settings but require each team member to authenticate with their own account. The private credential in your Personal workspace holds your individual credentials while reusing the shared toolkit's configuration.
+</Note>
+
+---
+
+#### Credential Configuration Change Warning
+
+When you **edit the credentials** of a toolkit that lives in a **team project**, a confirmation modal appears before the change is saved:
+
+<Card title="Credential Configuration Change" icon="circle-exclamation" color="#ef4444">
+  Changing the credential may make this toolkit non-operational for other team members who do not have a matching Private credential. Make this decision considering the potential impact on your team.
+</Card>
+
+**When it appears:** Only in **Edit mode** for toolkits in a team project, and only when you actually change the credential selection or toggle the private/shared flag. The modal is triggered when you click **Save**.
+
+**Actions in the modal:**
+
+| Button | Behavior |
+|--------|----------|
+| **Confirm changes** | Saves the new credential configuration. Team members without a matching private credential will see the Credential Setup Required banner. |
+| **Discard changes** | Reverts the credential fields to their original state and closes the modal without saving. |
+
+     ![Shared Credentials Banner](../img/menus/toolkits/credentials-change-warning.gif)
+
+<Warning title="Team Impact">
+Changing a shared toolkit's credentials to a private credential means that team members will need to create their own matching private credential in their Personal workspace before the toolkit works for them again. Communicate the change to your team before confirming.
+</Warning>
+
+---
+
 ### Indexes Tab: Managing Toolkit Indexes
 
 Toolkits that support document processing and content indexing provide an **Indexes** tab for managing indexed data.
