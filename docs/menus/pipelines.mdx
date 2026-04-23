@@ -80,7 +80,9 @@ Pin frequently used pipelines to keep them at the top of your list for quick acc
 
 ## Creating a Pipeline
 
-To set up a new Pipeline:
+The pipeline creation flow follows a **two-phase approach**: first you provide the pipeline metadata and save, then the full editor environment — including the Flow/YAML designer, Toolkits, and the embedded test chat — becomes available.
+
+**Phase 1: Fill in Pipeline Metadata**
 
 1. Click the **+ Create** button located in the sidebar navigation.
 2. In the **General** section, fill out the required fields:
@@ -93,13 +95,32 @@ To set up a new Pipeline:
          - **Conversation Starters**: Add predefined commands or prompts to initiate interactions with the pipeline. (e.g., "Generate test cases for the login feature" or "Create test scenarios for payment processing")
 4. In the **Advanced** section (optional):
          - **Step Limit**: Set the maximum number of tool execution steps the pipeline can perform in a single turn (range: 0-999, default: 25). This parameter controls how many iterations the pipeline can execute before stopping, preventing infinite loops and managing resource usage. A higher step limit allows more complex multi-step workflows, while a lower limit ensures faster execution for simpler tasks.
-5. Click **Save** to save your work on a Pipeline for the first time. This action creates what's known as the "**base**" version of your pipeline.
+5. Click **Save** to create the pipeline. This action creates what's known as the "**base**" version of your pipeline.
 
      <img src="../img/menus/pipeline/pipeline-create.gif" alt="Pipeline_Create" />
 
-<Info title="Integration of Toolkits">
-Integration of Toolkits becomes available after the first save. Navigate to the **Toolkits** section to enhance the pipeline's functionality by connecting it to external services or internal tools.
-</Info>
+**Phase 2: Full Pipeline Editor (After First Save)**
+
+After saving, the **pipeline editor page** opens automatically. This page uses a **three-column layout**:
+
+- **Left panel** — the configuration form with all settings sections (General, Toolkits, Variables, Welcome Message, Conversation Starters, Advanced, Information)
+- **Center panel** — the **Flow/YAML editor** for visually designing or coding your pipeline workflow
+- **Right panel** — an embedded live chat panel for testing the pipeline without leaving the editor
+
+From this page you can:
+
+- **Add Toolkits**: Integrate external services and APIs to extend your pipeline's capabilities
+- **Add Agents, MCPs, and nested Pipelines**: Include other agents, Model Context Protocol servers, or other pipelines to extend functionality
+- **Design the Workflow**: Build the pipeline flow using the visual Flow Designer or the YAML editor
+- **Select AI Model**: Choose the appropriate language model and configure model settings
+- **Test Interactively**: Use the embedded chat panel on the right to send messages and verify pipeline behaviour in real time
+- **View Run History**: Click the clock icon (🕐) in the top bar of the chat panel to open the Run History view
+
+      <img src="../img/menus/pipeline/pipeline-editor-page.png" alt="Pipeline Editor Page" />
+
+
+Your newly created pipeline will subsequently appear on the **Pipelines** page for your project.
+
 
 <Tip title="Adding a Custom Image">
 When configuring Pipelines, you can further personalize their profiles by adding a custom image along with the **Name** and **Description**. This feature allows you to create a unique, visually distinct identity for each Pipeline, making them easier to recognize and manage.
@@ -115,7 +136,7 @@ To add an image:
 
 ### How to Select and Configure Toolkits
 
-Toolkits are integrations with external or ELITEA's internal services that enhance your pipeline's capabilities by allowing it to interact with various resources and perform specific tasks. In addition to toolkits, you can also add other Agents, MCPs (Model Context Protocol servers), and Pipelines to extend your pipeline's functionality. You can add these resources to your pipeline during the creation process or edit them later.
+Toolkits are integrations with external or ELITEA's internal services that enhance your pipeline's capabilities by allowing it to interact with various resources and perform specific tasks. In addition to toolkits, you can also add other Agents, MCPs (Model Context Protocol servers), and Pipelines to extend your pipeline's functionality. The **Toolkits** section becomes available in the left panel only after the pipeline has been saved for the first time.
 
 **Adding Resources to Your Pipeline**:
 
@@ -131,6 +152,10 @@ Toolkits are integrations with external or ELITEA's internal services that enhan
 
 <img src="../img/menus/pipeline/pipeline-add-toolkit.gif" alt="Add Toolkit" />
 
+<Frame caption="If a toolkit added to your pipeline uses shared credentials that require each user to supply their own private copy, a **Credential setup required** warning banner will appear on the tool card. Click the **Create a credential** link in the banner to create a matching private credential in your Personal workspace. See [Shared Toolkit Credentials](./toolkits#shared-toolkit-credentials) for details.">
+  <img src="../img/menus/pipeline/credentials-warning-pipeline.png" alt="Credential setup required banner" />
+</Frame>
+
 <Tip title="Integration Best Practices">
 - **Toolkit Integration**: Ensure you have proper credentials configured before adding toolkits
 - **Agent Integration**: Test agent responses and adjust parameters for optimal performance
@@ -141,7 +166,7 @@ Toolkits are integrations with external or ELITEA's internal services that enhan
 
 ## Designing Your Pipeline
 
-The center panel of the pipeline page contains the **Editor**. Use the **Flow/YAML toggle** at the top of the editor to switch between the two modes.
+After the pipeline has been saved for the first time, the **center panel** of the pipeline editor contains the **Flow/YAML Editor**. Use the **Flow/YAML toggle** at the top of the editor to switch between the two modes.
 
 ### State Management
 
