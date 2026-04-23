@@ -28,61 +28,15 @@ Click **View all** at the bottom to open the full Notification Center page. To c
 
 ## Notification Center Page
 
-The Notification Center page provides a full table view of all your notifications — read and unread — together with search, sorting, and bulk-action controls.
+The Notification Center page provides a full table view of all your notifications — read and unread — together with search, sorting, and bulk-action controls. Open it by clicking **View all** at the bottom of the quick notification panel.
 
-**Step 1: Open the Notification Center**
+![Notifications Accessing](../img/menus/notifications/notifications-accessing.gif)
 
-1. Click the **Notifications** button in the left sidebar
-2. At the bottom of the quick panel, click **View all**
+The page includes:
 
-   The page loads with the heading **"Notifications Center"** displayed in the toolbar.
-
-   ![Notifications Accessing](../img/menus/notifications/notifications-accessing.gif)
-
-**Step 2: Search Notifications**
-
-Use the **Search** bar in the top-right area of the toolbar to filter the list:
-
-- Filtering activates after at least **2 characters** are entered; the list updates automatically after a short delay
-- The search matches against the notification event type and its associated metadata content
-- Clear the field to return to the full, unfiltered list
-- Entering a new search term resets the table to the first page
-
-**Step 3: Sort Notifications**
-
-The table contains two columns:
-
-| Column | Description | Sortable |
-|---|---|---|
-| **Notification** | Icon, message text, and embedded links for the event | No |
-| **Date & Time** | Timestamp formatted as `dd-MMM-yyyy, HH:mm` | Yes |
-
-Click the **Date & Time** column header to toggle between ascending and descending sort order. Sorting resets the table to the first page.
-
-**Step 4: Select Notifications**
-
-- Use the **checkbox** on the left of each row to select individual entries
-- Use the **checkbox in the column header** to select or deselect all entries on the current page
-  - The header checkbox shows an indeterminate state when only some rows on the current page are selected
-- Unread notifications are visually distinguished from read ones
-
-**Step 5: Bulk Actions**
-
-With one or more notifications selected, two action buttons in the toolbar become active:
-
-- **Mark selected as read / Mark selected as unread** — Toggles the read state for all selected notifications. The tooltip reads *"Mark selected as read"* when the selection contains at least one unread entry, and *"Mark selected as unread"* otherwise. A success toast confirms the operation.
-- **Delete selected notifications** — Permanently removes all selected notifications. A success toast confirms: *"Notifications deleted successfully"*. This action cannot be undone.
-
-Both buttons are **disabled** when no notifications are selected.
-
-**Step 6: Pagination**
-
-Use the controls at the bottom of the table to navigate between pages:
-
-- Available page sizes: **5**, **10**, **50**, **100** — default is **50**
-- The current range is shown (e.g., *1–50 of 134*)
-- Use the **Previous** and **Next** buttons to move between pages
-- Changing the page size resets to the first page
+- **Search** — Filter notifications by keyword (event type or associated entity). The list updates automatically as you type.
+- **Sort** — Click the **Date & Time** column header to toggle ascending/descending order.
+- **Bulk actions** — Select one or more rows using the checkboxes, then use the toolbar buttons to **mark selected as read/unread** or **delete selected notifications**. The header checkbox selects all entries on the current page.
 
 ---
 
@@ -121,7 +75,7 @@ The quick notification panel shows only **unread** notifications and does not au
 
 ---
 
-## Best Practices
+## <Icon icon="book-open" size={32} />Best Practices
 
 <Accordion title="Keeping the Notification List Manageable">
 - Periodically review notifications and delete entries that are no longer relevant.

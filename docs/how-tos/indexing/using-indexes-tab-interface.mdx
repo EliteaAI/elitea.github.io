@@ -1,5 +1,5 @@
 ---
-title: "Using the Indexes Tab Interface"
+title: "How to create and use indexes"
 description: "The Indexes Tab is a dedicated interface within Toolkit Configuration that provides a centralized location for managing all indexing operations for supported to"
 ---
 
@@ -11,12 +11,13 @@ description: "The Indexes Tab is a dedicated interface within Toolkit Configurat
 
 **Key Features:**
 
-- **Visual Status Indicators**: Real-time identification of index states (in-progress, completed, failed, stopped)
+- **Visual Status Indicators**: Real-time identification of index states (in-progress, completed, partly indexed, failed, stopped)
 - **Three Management Tabs**: 
      - **Run**: Execute search tools and index updates
      - **Configuration**: View read-only index settings
      - **History**: Review all past indexing operations
 - **Real-time Progress Monitoring**: Live updates during index creation and updates with conversation recovery
+- **Detailed Indexing Results**: Structured per-category breakdown of indexed and skipped files after each operation
 - **Automated Scheduling**: Configure periodic reindexing using cron expressions for hands-free maintenance
 - **Multiple Search Tools**: Access to Search Index, Stepback Search Index, and Stepback Summary Index
 
@@ -110,6 +111,7 @@ Configure parameters specific to your toolkit type. Common parameters include:
 | **Progress Step** | Progress reporting interval (0-100) | `10` |
 | **Clean Index** | Remove existing data before indexing | ✓ or ✗ |
 | **Chunking Config** | Document chunking configuration | `{}` (default) |
+| **Skip Unsupported Extensions** | Skip files with unsupported extensions (default: **enabled**). When disabled, unsupported files fall back to plain-text chunking instead of being skipped. | ✓ (default) |
 
 <Tip title="Toolkit-Specific Settings">
 Different toolkits require different parameters. For example:
@@ -148,8 +150,14 @@ The Indexes Tab provides visual status indicators to help you track the state of
 | Status | Visual Indicator | Description | Availability |
 |--------|-----------------|-------------|--------------|
 | **In Progress** |![In Progress](../../img/how-tos/indexing/index-tab/progress-in.png) | Indexing is currently running | Progress visible in real-time; History tab disabled |
+| **Completed** | — | All fetched items were successfully indexed | All tabs available; search tools and scheduling enabled |
+| **Partially Indexed** | — | Indexing finished but some files were skipped (unsupported extension, read error, empty content, whitelist/blacklist filter). At least one document was indexed successfully. | All tabs available; search tools and scheduling enabled; skipped-file breakdown shown in the chat panel |
 | **Failed** | ![Error](../../img/how-tos/indexing/index-tab/progress-error.png)| Indexing encountered an error | Configuration tab available; Run and History tabs disabled |
 | **Stopped** | ![Stopped](../../img/how-tos/indexing/index-tab/progress-stopped.png)| Indexing was manually cancelled | Configuration tab available; Run and History tabs disabled |
+
+<Note title="Partially Indexed vs Failed">
+An index with **Partially Indexed** status is fully usable — search tools and scheduling work normally. It simply means that some files were skipped during the operation (for example, binary or archive files with unsupported extensions). Review the **Indexing Results** section in the chat panel to see exactly which files were skipped and why.
+</Note>
 
 **Status Display in Sidebar**
 
@@ -175,6 +183,7 @@ If you navigate away during indexing and return, the system automatically recove
 You will receive notifications for all indexing operations (initial indexing and reindexing):
 
 - **Success**: Green checkmark icon with message showing indexed/reindexed counts
+- **Partially Indexed**: Warning notification with a summary of skipped-file categories and counts
 - **Failure**: Red error icon with failure message
 - **Scheduled Operations**: Marked with "by schedule" text
 - **Action**: Click any notification to navigate directly to the index
@@ -183,6 +192,52 @@ Notifications appear in the notifications panel
 
 <img src="../../img/how-tos/indexing/schedule-indexing/indexing-notifications.gif" alt="Notifications" width="400" />
 </Check>
+
+### Indexing Results and Skipped Files
+
+When indexing completes (or partially completes), the **chat panel** on the right displays a structured **Indexing Results** summary. This breakdown gives you full visibility into what was indexed and what was skipped.
+
+**Result Summary Format:**
+
+Each result entry uses an icon to indicate its category:
+
+| Icon | Meaning |
+|------|---------|
+| ✅ | Successfully indexed documents |
+| ⚠️ | Files skipped (non-critical, e.g., unsupported extension, empty content, filter match) |
+| ❌ | Files that failed due to an error (read error, runtime error) |
+
+**Example result displayed in the chat panel:**
+
+```
+✅  40 documents — Successfully indexed
+⚠️   2 documents — Files with unsupported extension
+       → archive.zip
+       → README.exe
+⚠️   1 document — Files with empty content
+       → src/placeholder.md
+❌   1 document — Files with read error
+       → src/corrupted.txt
+```
+
+**Skip Categories Explained:**
+
+| Category | Description |
+|----------|-------------|
+| **Unsupported extension** | File type not in the supported list (e.g., `.zip`, `.exe`, `.pdf`). Supported types include `.py`, `.js`, `.ts`, `.java`, `.go`, `.rs`, `.md`, `.json`, `.yml`, `.html`, `.csv`, and more. |
+| **Whitelist filtered** | File path did not match the configured whitelist pattern |
+| **Blacklist filtered** | File path matched the configured blacklist pattern and was excluded |
+| **Empty content** | File exists but contains no indexable text |
+| **Read error** | File could not be read due to permissions or corruption |
+| **Runtime error** | Unexpected error during processing |
+
+<Tip title="Handling Unsupported Files">
+If you need to index files with unsupported extensions (e.g., plain-text configuration files with a custom extension), disable the **Skip Unsupported Extensions** parameter when creating the index. Files with unsupported extensions will then be processed using plain-text chunking instead of being skipped.
+</Tip>
+
+<Info title="Long Skip Lists">
+When more than 5 files are skipped in a single category, the results summary shows the first 5 file names followed by a "... X more" indicator. The full list is stored in the index metadata and accessible via the API.
+</Info>
 
 ---
 
@@ -221,12 +276,12 @@ Parameters cannot be modified when reindexing. The reindex operation uses the or
 ### Schedule Index
 
 <Info title="Schedule Availability">
-Scheduling is only available for indexes with **completed** status. In-progress, failed, or stopped indexes cannot be scheduled.
+Scheduling is available for indexes with **Completed** or **Partially Indexed** status. In-progress, failed, or stopped indexes cannot be scheduled.
 </Info>
 
 **Automated Reindexing:**
 
-1. **Select Completed Index**: Choose an index with completed status from the sidebar
+1. **Select Index**: Choose an index with **Completed** or **Partially Indexed** status from the sidebar
 2. **Configure Schedule**: Click the settings icon to open the schedule configuration modal
 3. **Set Cron Expression**: Define the reindexing frequency using cron syntax (e.g., `0 2 * * *` for daily at 2 AM)
 4. **Configure Credentials**: Select an existing credential configuration or create a new one(only credentials matching your project type will be shown)
@@ -241,8 +296,8 @@ Scheduling is only available for indexes with **completed** status. In-progress,
 
 <img src="../../img/how-tos/indexing/schedule-indexing/configure-cron-expression.gif" alt="Configure Cron" />
 
-<Tip title="Detailed Scheduling Guide">
-For comprehensive information about scheduling features, cron expressions, troubleshooting, and best practices, see the [Schedule Indexing](./schedule-indexing) guide.
+<Tip title="Detailed Scheduling documentation">
+For comprehensive information about scheduling features, cron expressions, troubleshooting, and best practices, see the [Schedule Indexing](./schedule-indexing).
 </Tip>
 
 ### Deleting Indexes
@@ -268,7 +323,7 @@ For comprehensive information about scheduling features, cron expressions, troub
  **Accessing Search Functionality**
 
 <Info title="Prerequisites for Search">
-- **Successful Index**: Only completed indexes support search operations
+- **Successful Index**: Indexes with **Completed** or **Partially Indexed** status both support search operations. Failed and stopped indexes do not.
 - **Enabled Search Tools**: At least one search tool (Search Index, Stepback Search Index, or Stepback Summary Index) must be enabled in toolkit configuration. The **Run tab** is disabled if no search tools are enabled.
 </Info>
 
@@ -467,6 +522,13 @@ Created        | 20-11-2025, 10:30 AM
 - **Purpose**: Tracks automatic index updates from schedules
 - **Detail Message**: "Successfully reindexed by schedule" appears in the detailed view
 
+**Partial Indexing:**
+
+- **Event Label**: "Partially Indexed"
+- **Timestamp**: When the partial indexing operation completed
+- **Purpose**: Documents operations where some files were indexed and some were skipped
+- **Detail Message**: Skipped-file breakdown is shown in the chat panel when the history item is selected
+
 **Stopped Indexing:**
 
 - **Event Label**: "Stopped"
@@ -480,7 +542,7 @@ Created        | 20-11-2025, 10:30 AM
 - **Purpose**: Documents failed indexing operations for troubleshooting
 
 <Tip title="Scheduled Operations">
-Scheduled reindexing operations appear in the History tab with the same "Reindexed" label as manual operations. The timestamp indicates when the scheduled job executed. For detailed information about scheduling, see the [Schedule Indexing](./schedule-indexing) guide.
+Scheduled reindexing operations appear in the History tab with the same "Reindexed" label as manual operations. The timestamp indicates when the scheduled job executed. For detailed information about scheduling, see the [Schedule Indexing](./schedule-indexing) documentation.
 </Tip>
 
 
@@ -509,7 +571,7 @@ Scheduled reindexing operations appear in the History tab with the same "Reindex
 
 ---
 
-## Troubleshooting
+## <Icon icon="triangle-exclamation" size={32} /> Troubleshooting
 
 ### Common Issues and Solutions
 
@@ -536,7 +598,7 @@ The **Delete button** (in Indexes tab) is disabled if the **Remove Index** tool 
 
 **Run Tab Disabled:**
 
-The **Run tab** (in Indexes tab) is disabled if at least one search index tool (**Search Index**, **Stepback Search Index**, or **Stepback Summary Index**) is not selected in toolkit configuration. Enable at least one search tool to access the Run tab.
+The **Run tab** (in Indexes tab) is disabled if at least one search index tool (**Search Index**, **Stepback Search Index**, or **Stepback Summary Index**) is not selected in toolkit configuration. It is also disabled for indexes with **Failed** or **Stopped** status — only **Completed** and **Partially Indexed** indexes support search. Enable at least one search tool and ensure your index is in a searchable state to access the Run tab.
 
 **Reindex Button Disabled:**
 
@@ -639,7 +701,7 @@ The **Cut Off** parameter has the most significant impact on search quality. Sta
 
 ---
 
-## Best Practices
+## <Icon icon="circle-check" size={32} /> Best Practices 
 
 <Accordion title="Index Naming and Organization">
 **Naming Conventions:**
@@ -707,15 +769,17 @@ The **Cut Off** parameter has the most significant impact on search quality. Sta
 
 ---
 
+## <Icon icon="book-open" size={32} /> Additional Resources
+
 <Info title="Related Documentation">
-**Core Indexing Guides:**
+**Core Indexing Docs:**
 
 - [Indexing Overview](./indexing-overview) - General concepts and getting started
 - [Indexing Tools](./indexing-tools) - Detailed tool documentation and parameters
 - [Schedule Indexing](./schedule-indexing) - Automated reindexing with cron expressions
 - [Migrate Datasources to Indexing](../../migration/v1.7.0/migrate-datasources-to-indexing) - Migration from legacy systems
 
-**Toolkit-Specific Guides:**
+**Toolkit-Specific Docs:**
 
 - [Index GitHub Data](./index-github-data) - GitHub repository indexing
 - [Index Confluence Data](./index-confluence-data) - Confluence space indexing
@@ -724,7 +788,7 @@ The **Cut Off** parameter has the most significant impact on search quality. Sta
 - [Index Figma Data](./index-figma-data) - Figma design file indexing
 - [Index Artifacts Data](./index-artifacts-data) - File-based content indexing
 
-**Configuration Guides:**
+**Configuration Docs:**
 
 - [AI Configuration](../../menus/settings/ai-configuration) - PgVector and embedding model setup
 - [Toolkits Menu](../../menus/toolkits) - General toolkit configuration

@@ -502,27 +502,20 @@
             ]
           },
           {
-            "group": "Extensions",
-            "icon": "puzzle-piece",
-            "pages": [
-              "integrations/extensions/elitea-code",
-              "integrations/extensions/elitea-code-chat"
-            ]
-          },
-          {
-            "group": "Applications",
-            "icon": "grid-2",
-            "pages": [
-              "integrations/applications/deepwiki"
-            ]
-          },
-          {
             "group": "Third-Party Integrations",
             "icon": "arrows-left-right",
             "pages": [
               "integrations/third-party-integrations/api-usage",
               "integrations/third-party-integrations/power-automate-integration",
               "integrations/third-party-integrations/langfuse"
+            ]
+          },
+          {
+            "group": "Extensions",
+            "icon": "puzzle-piece",
+            "pages": [
+              "integrations/extensions/elitea-code",
+              "integrations/extensions/elitea-code-chat"
             ]
           }
         ]
