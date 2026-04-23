@@ -7,8 +7,6 @@ description: "Indexing tools are available in the Next environment (Release 1.7.
 Indexing tools are available in the [Next environment](https://next.elitea.ai) (Release 1.7.0) and replace legacy Datasources/Datasets. For context, see [Release Notes 1.7.0](../../release-notes/archived/rn13#indexing-dedicated-toolkit-indexes-tab) and the [Indexing Overview](./indexing-overview).
 </Warning>
 
-This guide provides a complete step-by-step walkthrough for indexing Jira data and then searching or chatting with the indexed content using ELITEA's AI-powered tools.
-
 ## Overview
 
 Jira indexing allows you to create searchable indexes from your Jira project management content:
@@ -155,7 +153,8 @@ Fill in the required and optional parameters for your Jira indexing:
 3. **Click Index Button**: Start the indexing process
 4. **Monitor Progress**: Watch real-time updates with visual indicators:
       - 🔄 **In Progress**: Indexing is currently running
-      - ✅ **Completed**: Indexing finished successfully
+      - ✅ **Completed**: All items indexed successfully
+      - ⚠️ **Partially Indexed**: Indexing finished but some files were skipped (unsupported extension, empty content, or errors). The index is fully usable for search and scheduling — review the skipped-file breakdown in the chat panel.
       - ❌ **Failed**: Indexing encountered an error
 
       ![Index tab](../../img/how-tos/indexing/jira/jira-index-tab.png)

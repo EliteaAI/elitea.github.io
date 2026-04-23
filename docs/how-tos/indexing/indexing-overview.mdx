@@ -158,7 +158,8 @@ For quick testing and validation, you can also use the TEST SETTINGS section. Th
 5. Click **Index** button to start indexing (button activates when all required fields are filled)
 6. Monitor progress with visual indicators:
      - ![In Progress](../../img/how-tos/indexing/index-tab/progress-in.png): Indexing is currently running
-     - ✅ **Completed**: Indexing finished successfully
+     - ✅ **Completed**: All items indexed successfully
+     - ⚠️ **Partially Indexed**: Indexing finished but some files were skipped (unsupported extension, empty content, filter match, or read error). The index is fully usable for search and scheduling.
      - ![Error](../../img/how-tos/indexing/index-tab/progress-error.png): Indexing encountered an error
      - ![Stopped](../../img/how-tos/indexing/index-tab/progress-stopped.png): Indexing was manually cancelled
 7. Progress messages appear in the Chat Panel (right) in real-time
@@ -195,7 +196,7 @@ All created indexes are automatically displayed in the **Indexes** tab sidebar. 
 - **Index Name**: Collection suffix (e.g., `docs`, `prod`)
 - **Creation Date**: Format: `dd.MM.yyyy`
 - **Document Count**: Total indexed documents (or `reindexed / total indexed` for reindexed items)
-- **Status Icon**: Real-time visual indicator ( In Progress, Completed,  Failed, Stopped)
+- **Status Icon**: Real-time visual indicator (In Progress, Completed, Partially Indexed, Failed, Stopped)
 - **Last Updated**: Timestamp of most recent update
 
 When you select an index from the sidebar, you can:
@@ -208,7 +209,7 @@ When you select an index from the sidebar, you can:
 
 <Tip title="Index Management Features">
 - **Manual Reindexing**: Click **Reindex** button in Configuration tab to update index with original settings
-- **Automated Scheduling**: Toggle **Schedule** switch to enable cron-based reindexing (only for completed indexes)
+- **Automated Scheduling**: Toggle **Schedule** switch to enable cron-based reindexing (available for **Completed** and **Partially Indexed** indexes)
 - **Delete Index**: Use **Delete** button with confirmation modal (requires Remove Index tool enabled)
 - **View History**: Access History tab to see all past operations with sortable Event and Date columns
 </Tip>
@@ -245,7 +246,7 @@ Parameters cannot be modified when reindexing. The operation uses the original c
 
 To configure periodic reindexing:
 
-1. Select a **completed** index from the sidebar (scheduling only available for completed indexes)
+1. Select a **Completed** or **Partially Indexed** index from the sidebar (scheduling is available for both statuses)
 2. Toggle the **Schedule** switch to activate automated reindexing
 3. Click the settings icon to open the schedule configuration modal
 4. Set **Cron Expression** to define reindexing frequency (e.g., `0 2 * * *` for daily at 2 AM)
@@ -285,7 +286,7 @@ For comprehensive information about scheduling features, cron expressions, troub
 **Primary Method: Use the Indexes Tab Interface**
 
 1. Navigate to **Toolkits** → Select your toolkit → Click **Indexes** tab
-2. Select your completed index from the sidebar
+2. Select a **Completed** or **Partially Indexed** index from the sidebar
 3. Click the **Run** tab in the center panel
 4. Choose search tool from dropdown:
      - **Search Index**: Basic semantic search across indexed content
@@ -304,7 +305,7 @@ For comprehensive information about scheduling features, cron expressions, troub
 <img src="../../img/how-tos/indexing/index-tab/stepback-summary-index.gif" alt="Stepback Summary Index Search" />
 
 <Info title="Search Prerequisites">
-- Only **completed** indexes support search operations
+- Indexes with **Completed** or **Partially Indexed** status support search operations. Failed and stopped indexes do not.
 - At least one search tool must be enabled in toolkit configuration
 - The **Run tab** is disabled if no search tools are enabled
 </Info>
@@ -315,7 +316,7 @@ For comprehensive information about scheduling features, cron expressions, troub
 The **History** tab provides a chronological record of all indexing operations performed on a selected index.
 
 1. Select an index from the left sidebar
-2. Click the **History** tab in the center panel (only available for completed indexes)
+2. Click the **History** tab in the center panel (only available for **Completed** and **Partially Indexed** indexes)
 3. Review all past indexing events in chronological order
 
 
@@ -341,7 +342,7 @@ Once indexes exist, you can use Search Index or Stepback search tools through Ch
 ## FAQs
 
 1. Where do I see my created indexes?
-	* **Primary Method**: Navigate to Toolkits → Select your toolkit → Click the **Indexes** tab to view and manage all created indexes with visual status indicators, document counts, and last updated timestamps. The **History** tab provides a chronological record with sortable Event and Date columns, showing Created, Reindexed, Stopped, and Failed operations.
+	* **Primary Method**: Navigate to Toolkits → Select your toolkit → Click the **Indexes** tab to view and manage all created indexes with visual status indicators, document counts, and last updated timestamps. The **History** tab provides a chronological record with sortable Event and Date columns, showing Created, Reindexed, Partially Indexed, Stopped, and Failed operations.
 	* **Alternative**: Use List Collections and Search Index via the toolkit Test section or through Chat.
 2. Can I keep using Datasources?
 	* Datasources remain in Nexus for reference, but indexing in Next replaces datasets. New datasets are not supported.
