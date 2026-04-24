@@ -59,11 +59,7 @@
         "groups": [
           {
             "group": "Welcome to ELITEA",
-            "pages": [
-              "index",
-              "home/introduction",
-              "home/onboarding-tips"
-            ]
+            "pages": ["index", "home/introduction", "home/onboarding-tips"]
           },
           {
             "group": "Key Concepts",
@@ -80,9 +76,7 @@
           {
             "group": "Reference",
             "icon": "book",
-            "pages": [
-              "home/glossary"
-            ]
+            "pages": ["home/glossary"]
           },
           {
             "group": "Platform Overview",
@@ -121,17 +115,13 @@
               {
                 "group": "Notification Center",
                 "icon": "bell",
-                "pages": [
-                  "menus/notification-center"
-                ]
+                "pages": ["menus/notification-center"]
               },
               {
                 "group": "Profile",
                 "icon": "user",
                 "expanded": false,
-                "pages": [
-                  "menus/profile/personalization"
-                ]
+                "pages": ["menus/profile/personalization"]
               }
             ]
           }
@@ -144,10 +134,7 @@
           {
             "group": "Quick Start",
             "icon": "bolt",
-            "pages": [
-              "getting-started/chat-quick-start",
-              "getting-started/connect-toolkits-quick-start"
-            ]
+            "pages": ["getting-started/chat-quick-start", "getting-started/connect-toolkits-quick-start"]
           },
           {
             "group": "Setup & Configuration",
@@ -163,9 +150,7 @@
           {
             "group": "System Health",
             "icon": "stethoscope",
-            "pages": [
-              "getting-started/system-health-checklist"
-            ]
+            "pages": ["getting-started/system-health-checklist"]
           }
         ]
       },
@@ -237,10 +222,7 @@
               {
                 "group": "Manage & Query Indexes",
                 "expanded": false,
-                "pages": [
-                  "how-tos/indexing/schedule-indexing",
-                  "how-tos/indexing/vector_search"
-                ]
+                "pages": ["how-tos/indexing/schedule-indexing", "how-tos/indexing/vector_search"]
               },
               {
                 "group": "Index Specific Sources",
@@ -260,10 +242,7 @@
                   {
                     "group": "Development & Project Data",
                     "expanded": false,
-                    "pages": [
-                      "how-tos/indexing/index-github-data",
-                      "how-tos/indexing/index-jira-data"
-                    ]
+                    "pages": ["how-tos/indexing/index-github-data", "how-tos/indexing/index-jira-data"]
                   },
                   {
                     "group": "Test Management",
@@ -326,10 +305,7 @@
               {
                 "group": "Runs & Reference",
                 "expanded": false,
-                "pages": [
-                  "how-tos/pipelines/pipeline-runs",
-                  "how-tos/pipelines/appendix-comparison-tables"
-                ]
+                "pages": ["how-tos/pipelines/pipeline-runs", "how-tos/pipelines/appendix-comparison-tables"]
               }
             ]
           },
@@ -394,10 +370,7 @@
               {
                 "group": "Connect External Tools to ELITEA",
                 "expanded": true,
-                "pages": [
-                  "integrations/mcp/create-and-use-remote-mcp",
-                  "integrations/mcp/create-and-use-client-stdio"
-                ]
+                "pages": ["integrations/mcp/create-and-use-remote-mcp", "integrations/mcp/create-and-use-client-stdio"]
               }
             ]
           },
@@ -421,18 +394,13 @@
                 "group": "Communication",
                 "icon": "message",
                 "expanded": false,
-                "pages": [
-                  "integrations/toolkits/slack_toolkit"
-                ]
+                "pages": ["integrations/toolkits/slack_toolkit"]
               },
               {
                 "group": "Development",
                 "icon": "code",
                 "expanded": false,
-                "pages": [
-                  "integrations/toolkits/sonar_toolkit",
-                  "integrations/toolkits/sql_toolkit"
-                ]
+                "pages": ["integrations/toolkits/sonar_toolkit", "integrations/toolkits/sql_toolkit"]
               },
               {
                 "group": "Documentation",
@@ -447,19 +415,13 @@
                 "group": "Office",
                 "icon": "briefcase",
                 "expanded": false,
-                "pages": [
-                  "integrations/toolkits/powerpoint_toolkit",
-                  "integrations/toolkits/sharepoint_toolkit"
-                ]
+                "pages": ["integrations/toolkits/powerpoint_toolkit", "integrations/toolkits/sharepoint_toolkit"]
               },
               {
                 "group": "Project Management",
                 "icon": "list-check",
                 "expanded": false,
-                "pages": [
-                  "integrations/toolkits/jira_toolkit",
-                  "integrations/toolkits/rally_toolkit"
-                ]
+                "pages": ["integrations/toolkits/jira_toolkit", "integrations/toolkits/rally_toolkit"]
               },
               {
                 "group": "Test Management",
@@ -477,10 +439,7 @@
                 "group": "Testing",
                 "icon": "bug",
                 "expanded": false,
-                "pages": [
-                  "integrations/toolkits/reportportal_toolkit",
-                  "integrations/toolkits/testIO_toolkit"
-                ]
+                "pages": ["integrations/toolkits/reportportal_toolkit", "integrations/toolkits/testIO_toolkit"]
               },
               {
                 "group": "Other",
@@ -513,10 +472,7 @@
           {
             "group": "Extensions",
             "icon": "puzzle-piece",
-            "pages": [
-              "integrations/extensions/elitea-code",
-              "integrations/extensions/elitea-code-chat"
-            ]
+            "pages": ["integrations/extensions/elitea-code", "integrations/extensions/elitea-code-chat"]
           }
         ]
       },
@@ -527,24 +483,19 @@
           {
             "group": "Latest Release",
             "icon": "tag",
-            "pages": [
-              "release-notes/rn_current"
-            ]
+            "pages": ["release-notes/rn_current"]
           },
           {
             "group": "Recent Releases",
             "icon": "clock-rotate-left",
-            "pages": [
-              "release-notes/archived/rn15",
-              "release-notes/archived/rn14",
-              "release-notes/archived/rn13"
-            ]
+            "pages": ["release-notes/archived/rn16", "release-notes/archived/rn15", "release-notes/archived/rn14"]
           },
           {
             "group": "Older Releases",
             "icon": "archive",
             "expanded": false,
             "pages": [
+              "release-notes/archived/rn13",
               "release-notes/archived/rn12",
               "release-notes/archived/rn11",
               "release-notes/archived/rn10",
@@ -655,12 +606,7 @@
                 "group": "Features",
                 "tag": "Legacy",
                 "expanded": false,
-                "pages": [
-                  "archive/export-import",
-                  "archive/forking",
-                  "archive/monitoring",
-                  "archive/public-project"
-                ]
+                "pages": ["archive/export-import", "archive/forking", "archive/monitoring", "archive/public-project"]
               }
             ]
           }
