@@ -7,7 +7,7 @@ description: "Connect ELITEA to Jira — create, update, and query issues, sprin
 
 ## Introduction
 
-This guide is your definitive resource for integrating and effectively utilizing the **Jira toolkit** within ELITEA. It provides a detailed, step-by-step walkthrough, from setting up your Jira API token to configuring the toolkit in ELITEA and seamlessly incorporating it into your Agents. By following this guide, you will unlock the power of automated issue tracking, streamlined project management workflows, and enhanced team collaboration, all directly within the ELITEA platform. This integration empowers you to leverage AI-driven automation to optimize your Jira-driven workflows, enhance team productivity, and improve project visibility within your organization.
+This document is your definitive resource for integrating and effectively utilizing the **Jira toolkit** within ELITEA. It provides a detailed, step-by-step walkthrough, from setting up your Jira API token to configuring the toolkit in ELITEA and seamlessly incorporating it into your Agents. By following these steps, you will unlock the power of automated issue tracking, streamlined project management workflows, and enhanced team collaboration, all directly within the ELITEA platform. This integration empowers you to leverage AI-driven automation to optimize your Jira-driven workflows, enhance team productivity, and improve project visibility within your organization.
 
 **Brief Overview of Jira**
 
@@ -67,16 +67,25 @@ Before creating a toolkit, you must first create Jira credentials in ELITEA:
 1. **Navigate to Credentials Menu:** Open the sidebar and select **[Credentials](../../menus/credentials)**.
 2. **Create New Credential:** Click the **`+ Create`** button.
 3. **Select Jira:** Choose **Jira** as the credential type.
-4. **Configure Credential Details:**
-     * **Display Name:** Enter a descriptive name (e.g., "Jira - Project Management")
-     * **Base URL:** Enter the base URL of your Jira instance (e.g., `https://yourcompany.atlassian.net` for Jira Cloud or `https://jira.epam.com` for Epam Jira)
-     * **Authentication Method:** Choose your preferred authentication method:
-         * **Basic:** Enter your username and API key
-         * **Bearer:** Enter your token
-5. **Test Connection:** Click **Test Connection** to verify that your credentials are valid and ELITEA can successfully connect to Jira
-6. **Save Credential:** Click **Save** to create the credential. After saving, your Jira credential will be added to the credentials dashboard and will be ready to use in toolkit configurations. You can view, edit, or delete it from the **Credentials** menu at any time.
 
-![Jira create Credentials](../../img/integrations/toolkits/jira/jira-credential-create.gif)
+     ![Jira Credential Access](../../img/integrations/toolkits/jira/jira-credential-access.gif)
+
+4. **Configure Credential Details:**
+
+   | Field | Required | Description |
+   |-------|----------|-------------|
+   | **Display Name** | Required | Descriptive name for this credential (e.g., *"Jira - Project Management"*) |
+   | **ID** | Required | Unique identifier for the credential. Auto-populated from the Display Name|
+   | **Hosting** | Optional | Hosting type of your Jira instance. **Auto** (default) — detects from the Base URL automatically; **Cloud** — for Atlassian-hosted instances (`*.atlassian.net`); **Server** — for self-hosted or Data Center deployments |
+   | **Base URL** | Required | Base URL of your Jira instance without the `/jira` suffix. Cloud example: `https://yourcompany.atlassian.net` · Server example: `https://jira.yourcompany.com` |
+   | **Username** | Basic auth | Your Jira account email (Cloud) or login username (Server). Not required when using Bearer authentication |
+   | **API Key** | Basic auth | API Token for Basic authentication. Generate at [Atlassian security settings](https://id.atlassian.com/manage-profile/security/api-tokens) (Cloud) or from Jira profile → Personal Access Tokens (Server/DC) |
+   | **Token** | Bearer auth | Personal Access Token (PAT) for Bearer authentication. Generate in Jira: Profile → Personal Access Tokens |
+
+5. **Test Connection:** Click **Test Connection** to verify that your credentials are valid and ELITEA can successfully connect to Jira.
+6. **Save Credential:** Click **Save** to create the credential. It will be added to the credentials dashboard and available to use in toolkit configurations.
+
+     ![Jira create Credentials](../../img/integrations/toolkits/jira/jira-credential-create.gif)
 
 <Tip title="Security Recommendation">
 It's highly recommended to use **[Secrets](../../menus/settings/secrets)** for API keys and tokens instead of entering them directly. Create a secret first, then reference it in your credential configuration.
@@ -91,30 +100,31 @@ Once your credentials are configured, create the Jira toolkit:
 1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits](../../menus/toolkits)**.
 2. **Create New Toolkit:** Click the **`+ Create`** button.
 3. **Select Jira:** Choose **Jira** from the list of available toolkit types.
-4. **Configure Toolkit Details:**
-     * **Toolkit Name:** Enter a descriptive name for your toolkit (e.g., "Jira Project Management", "Development Team Jira")
-     * **Description:** Provide a brief description of the toolkit's purpose (e.g., "Jira integration for automated issue tracking and project management")
-5. **Configure Credentials:** 
-     * In the **Configuration** section, select your previously created Jira credential from the **Credentials** dropdown
-6. **Configure Advanced Options:**
-     * **PgVector Configuration:** Select a PgVector connection for vector database integration 
-     * **Embedding Model:** Select an embedding model for text processing and semantic search capabilities
-7. **Configure Jira Settings:**
-     * **Hosting Option:** Select the appropriate hosting option:
-         * **Cloud:** For Jira Cloud (e.g., `atlassian.net`)
-         * **Server:** For self-hosted Jira Server or Data Center instances (e.g., `https://jira.epam.com`)
-     * **Advanced Settings:**
-         * **Limit:** Set the maximum number of issues to retrieve per request (default: 5)
-         * **API version:** REST API version ( Currentl for jira cloud , you need to use 3 as api version, for Epam Jira version 2 )
-         * **Labels:** Specify labels to apply to created or updated entities (comma-separated list e.g., `alita,elitea`)
-         * **Additional fields:** Custom field IDs accessible within the toolkit (e.g., `customfield_100450`)
-         * **Custom Headers:** Additional HTTP headers to include with API requests (JSON format e.g., `{"X-Custom-Header": "value"}`)
-         * **Verify SSL:** Enable SSL verification for secure connections (recommended: enabled)
-8. **Enable Desired Tools:** In the **"Tools"** section, select the checkboxes next to the specific Jira tools you want to enable. **Enable only the tools your agents will actually use** to follow the principle of least privilege
-       * **[Make Tools Available by MCP](../mcp/make-tools-available-by-mcp)** - (optional checkbox) Enable this option to make the selected tools accessible through the external MCP clients to use the toolkit's capabilities
-9. **Save Toolkit:** Click **Save** to create the toolkit
 
-![Jira create Toolkit](../../img/integrations/toolkits/jira/jira-toolkit-create.gif)
+     ![Jira create Toolkit](../../img/integrations/toolkits/jira/jira-toolkit-access.gif)
+
+4. **Configure Toolkit Details:**
+
+   | Field | Required | Default | Description |
+   |-------|----------|---------|-------------|
+   | **Toolkit Name** | Required | — | Descriptive name for the toolkit (e.g., *"Jira Project Management"*) |
+   | **Description** | Optional | — | Brief description of the toolkit's purpose |
+   | **Credential** | Required | — | Select the Jira credential created in Step 1 |
+   | **PgVector Configuration** | Optional | — | PgVector connection for vector database integration and semantic search |
+   | **Embedding Model** | Optional | — | Embedding model for semantic search capabilities (required when PgVector is configured) |
+   | **API Version** | Optional | Auto | REST API version. **Auto** selects automatically based on the Hosting setting in the linked credential (Cloud → V3, Server → V2). Set **V3** for Jira Cloud or **V2** for Jira Server / Data Center if Auto does not resolve correctly |
+   | **Limit** | Optional | 5 | Maximum number of issues returned per request. Increase for large JQL result sets (e.g., 50, 100) |
+   | **Labels** | Optional | — | Comma-separated labels applied to created or updated Jira entities (e.g., `alita,elitea`) |
+   | ***Advanced Settings*** | | | |
+   | **Verify SSL** | Optional | Enabled | Validates the server's SSL certificate. Disable only for self-signed certificate environments |
+   | **Additional Fields** | Optional | — | Custom Jira field IDs accessible within the toolkit, comma-separated (e.g., `customfield_10045,customfield_10100`) |
+   | **Custom Headers** | Optional | — | Additional HTTP headers included with every API request, in JSON format (e.g., `{"X-Custom-Header": "value"}`) |
+
+5. **Enable Desired Tools:** In the **"Tools"** section, select the checkboxes next to the specific Jira tools you want to enable. **Enable only the tools your agents will actually use** to follow the principle of least privilege.
+       * **[Make Tools Available by MCP](../mcp/make-tools-available-by-mcp)** - (optional) Enable to expose selected tools to external MCP clients.
+6. **Save Toolkit:** Click **Save** to create the toolkit.
+
+     ![Jira create Toolkit](../../img/integrations/toolkits/jira/jira-toolkit-create.gif)
 
 #### Available Tools:
 
@@ -139,6 +149,7 @@ The Jira toolkit provides the following tools for interacting with Jira projects
 | | **Get comments with image descriptions** | Retrieve comments with enhanced image description support | Access comments with visual content analysis |
 | **Content & Attachments** | | | |
 | | **Get attachments content** | Retrieve content of attachments from a Jira issue | Access and process attached files |
+| | **Add file to issue description** | Attach a file and embed it in the issue description | Enrich issue descriptions with supporting files or screenshots |
 | | **Get remote links** | Retrieve remote links associated with a Jira issue | Access external resources linked to issues |
 | **Relationship Management** | | | |
 | | **Link issues** | Create links between Jira issues | Establish relationships and dependencies |
@@ -383,7 +394,7 @@ Both issues are now connected, showing their relationship in the issue view. Thi
 
 ---
 
-## Troubleshooting
+## <Icon icon="triangle-exclamation" size={24} /> Troubleshooting
 
 <Accordion title="Credential Not Appearing in Toolkit Configuration">
 **Problem:** When creating a toolkit, your Jira credential doesn't appear in the credentials dropdown.
@@ -487,13 +498,12 @@ The API version is set incorrectly or is null in the toolkit configuration. As o
 ![Jira api v](../../img/integrations/toolkits/jira/jira-api_v.png)
 </Accordion>
 
-### Support Contact
+### <Icon icon="envelope" size={24} /> Support Contact
 
-If you encounter issues not covered in this guide or need additional assistance with Jira integration, please refer to **[Contact Support](../../support/contact-support)** for detailed information on how to reach the ELITEA Support Team.
+If you encounter issues not covered here or need additional assistance with Jira integration, please refer to **[Contact Support](../../support/contact-support)** for detailed information on how to reach the ELITEA Support Team.
 
 ---
-
-## FAQ
+##  <Icon icon="circle-question" size={24} /> FAQ
 
 <Accordion title="Can I use my regular Jira password for the ELITEA integration?">
 **While ELITEA supports password authentication, using a Jira API token is strongly recommended for security.** API tokens provide a significantly more secure and controlled method for granting access to external applications like ELITEA, without exposing your primary account credentials. You can configure this in the credential's authentication method selection.
@@ -579,7 +589,7 @@ Service account request form:
 
 **Provide Clear Instructions:**
 
-- Craft clear and unambiguous instructions within your ELITEA Agents to guide them in using the Jira toolkit effectively. Use the prompt examples provided in this guide as a starting point.
+- Craft clear and unambiguous instructions within your ELITEA Agents to guide them in using the Jira toolkit effectively. Use the prompt examples provided in this documentation as a starting point.
 
 **Start Simple:**
 
@@ -614,7 +624,7 @@ Service account request form:
 
 ---
 
-<Info title="Documentation and Guides">
+<Note title="Documentation and Guides">
 - **[How to Use Chat Functionality](../../how-tos/chat-conversations/how-to-use-chat-functionality)** - *Complete guide to using ELITEA Chat with toolkits for interactive GitHub operations.*
 - **[Create and Edit Agents from Canvas](../../how-tos/chat-conversations/how-to-create-and-edit-agents-from-canvas)** - *Learn how to quickly create and edit agents directly from chat canvas for rapid prototyping and workflow automation.*
 - **[Create and Edit Toolkits from Canvas](../../how-tos/chat-conversations/how-to-create-and-edit-toolkits-from-canvas)** - *Discover how to create and configure GitHub toolkits directly from chat interface for streamlined workflow setup.*
@@ -623,12 +633,12 @@ Service account request form:
 - **[How to Index Jira Data](../../how-tos/indexing/index-jira-data)** - *Complete guide for indexing your Jira projects and issues to enable advanced search and AI-powered analysis capabilities.*
 - **[Secrets Management](../../menus/settings/secrets)** - *Best practices for securely storing API tokens and sensitive credentials.*
 - **[AI Configuration](../../menus/settings/ai-configuration)** - *Essential settings and configurations for optimizing AI performance with integrations.*
-</Info>
+</Note>
 
-<Info title="External Jira Resources">
+<Note title="External Jira Resources">
 - **[Atlassian Account Settings](https://id.atlassian.com/manage-profile/security)** - *Manage API tokens and security configurations.*
 - **[Jira API Tokens](https://id.atlassian.com/manage-profile/security/api-tokens)** - *Create and manage API tokens for secure integrations.*
 - **[Jira REST API Documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v2/)** - *Official API documentation for developers.*
 - **[JQL Documentation](https://confluence.atlassian.com/jirasoftwareserver/advanced-searching-jql-reference-765593971.html)** - *Learn advanced search queries with Jira Query Language.*
 - **[Atlassian Community](https://community.atlassian.com/t5/Jira/ct-p/jira)** - *Community support, articles, FAQs, and troubleshooting guides.*
-</Info>
+</Note>
