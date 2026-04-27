@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { DOCS_URLS } from '@/lib/constants'
 
 interface HeroSectionProps {
   theme: 'crystal' | 'obsidian'
@@ -84,7 +85,7 @@ export default function HeroSection({ theme }: HeroSectionProps) {
             </motion.a>
             
             <motion.a
-              href="/docs"
+              href={DOCS_URLS.home}
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
               className="relative overflow-hidden bg-white/60 dark:bg-obsidian-200/60 backdrop-blur-xl text-primary-700 dark:text-blue-200 px-8 py-4 rounded-[20px] font-semibold text-lg shadow-[0_4px_16px_rgba(0,0,0,0.08),inset_0_1px_2px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.3),inset_0_1px_2px_rgba(255,255,255,0.1),inset_0_-1px_2px_rgba(0,0,0,0.2)] hover:bg-white/80 dark:hover:bg-obsidian-200/80 hover:shadow-[0_8px_24px_rgba(0,0,0,0.12),inset_0_1px_2px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(0,0,0,0.05)] dark:hover:shadow-[0_8px_24px_rgba(0,0,0,0.4),inset_0_1px_2px_rgba(255,255,255,0.1),inset_0_-1px_2px_rgba(0,0,0,0.2)] transition-all duration-300 flex items-center justify-center gap-2 border border-white/60 dark:border-obsidian-300/60"
