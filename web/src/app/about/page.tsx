@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import ThemeToggle from '@/components/ThemeToggle'
+import { DOCS_URLS } from '@/lib/constants'
 
 export default function AboutPage() {
   const [theme, setTheme] = useState<'crystal' | 'obsidian'>('crystal')
@@ -245,9 +246,7 @@ export default function AboutPage() {
                 transition={{ duration: 0.3, delay: 1.1 + integrations.length * 0.05 }}
               >
                 <a
-                  href={typeof window !== 'undefined' && window.location.hostname === 'localhost' 
-                    ? 'http://localhost:8000/integrations/mcp/mcp-server-stdio/' 
-                    : '/docs/integrations/mcp/mcp-server-stdio/'}
+                  href={DOCS_URLS.mcpServerStdio}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 dark:bg-obsidian-100/80 backdrop-blur-xl text-primary-700 dark:text-blue-300 rounded-full font-semibold text-sm shadow-[0_4px_16px_rgba(0,0,0,0.08),inset_0_1px_2px_rgba(255,255,255,0.9)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.3),inset_0_1px_2px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.12),inset_0_1px_2px_rgba(255,255,255,0.9)] dark:hover:shadow-[0_6px_20px_rgba(0,0,0,0.4),inset_0_1px_2px_rgba(255,255,255,0.1)] border border-primary-200/50 dark:border-primary-500/30 transition-all duration-300 hover:scale-105"
@@ -295,7 +294,7 @@ export default function AboutPage() {
             className="mt-12 text-center"
           >
             <Link
-              href="/docs"
+              href={DOCS_URLS.home}
               className="inline-flex items-center gap-2 px-8 py-4 bg-primary-600/95 dark:bg-blue-500/95 backdrop-blur-xl text-white rounded-[20px] font-semibold text-lg shadow-[0_8px_24px_rgba(37,99,235,0.25),inset_0_1px_1px_rgba(255,255,255,0.2)] dark:shadow-[0_8px_24px_rgba(59,130,246,0.4),inset_0_1px_1px_rgba(255,255,255,0.2)] hover:shadow-[0_12px_32px_rgba(37,99,235,0.35),inset_0_1px_1px_rgba(255,255,255,0.2)] dark:hover:shadow-[0_12px_32px_rgba(59,130,246,0.5),inset_0_1px_1px_rgba(255,255,255,0.2)] border border-primary-500/20 dark:border-blue-400/30 transition-all duration-300 hover:scale-105"
               style={{
                 backdropFilter: 'blur(20px) saturate(180%)',

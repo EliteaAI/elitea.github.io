@@ -4,7 +4,7 @@ Include these fields:
 
 Goal: (Outcome user achieves)
 Doc Category: (Home Intro | Platform Menu | Extension | Feature Guide | Quick Start | How TO | Release Notes | Glossary)
-Nav Group: (Exactly as in mkdocs_el.yml)
+Nav Group: (Exactly as in docs/docs.json on the mintlify branch)
 Proposed File Path:
 Prerequisites:
 Key Concepts (if Feature Guide):

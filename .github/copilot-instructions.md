@@ -1,52 +1,43 @@
-# Copilot Global Instructions – ELITEA Documentation (MkDocs + Material Theme)
+# Copilot Global Instructions – ELITEA Documentation (Mintlify)
 
-These instructions guide GitHub Copilot (Chat + inline) when generating, editing, or restructuring documentation in this repository. They now explicitly reflect use of MkDocs with the Material for MkDocs theme and the locale‑specific config file mkdocs_el.yml.
+These instructions guide GitHub Copilot (Chat + inline) when generating, editing, or restructuring documentation in this repository. Documentation is served via Mintlify from the `mintlify` branch.
 
 # ==================================================================== 0. STACK & BUILD CONTEXT
 
-- Static site generator: MkDocs
-- Theme: Material for MkDocs (assumed standard features: admonitions, content tabs, icons, search, light/dark scheme)
-- Primary config (Greek / “el” variant): mkdocs_el.yml (explicit nav; NOT filesystem auto‑nav)
-- Serve locally:
-  pip install mkdocs-material
-  mkdocs serve -f mkdocs_el.yml
-- Build:
-  mkdocs build -f mkdocs_el.yml
-- Navigation is fully declared in mkdocs_el.yml. New pages require BOTH file creation AND nav entry insertion to appear in the built site.
+- Documentation platform: Mintlify (https://mintlify.com)
+- Source branch: `mintlify` (Mintlify reads directly from this branch)
+- Config file: `docs/docs.json` on the `mintlify` branch
+- Live docs site: https://docs.elitea.ai
+- File format: MDX (`.mdx`) — Markdown with JSX components
+- Landing page: Next.js in `web/`, deployed to https://elitea.ai via GitHub Pages from `main`
+- Navigation is declared in `docs/docs.json`. New pages require BOTH file creation AND a nav entry in `docs/docs.json`.
 
 ====================================================================
 
-1. # AUDIENCE & VOICE
-   Audience: Non‑technical or light‑technical business/analyst users.
-   Tone: Clear, direct, reassuring, factual (no hype).
-   Voice: Active (“Click”, “Select”), second person (“You”).
-   Avoid: Over‑promising claims about AI determinism; unverified performance statements.
+# ==================================================================== 1. AUDIENCE & VOICE
 
-# ==================================================================== 2. NAVIGATION STRUCTURE (EXTRACTED FROM mkdocs_el.yml)
+Audience: Non‑technical or light‑technical business/analyst users.
+Tone: Clear, direct, reassuring, factual (no hype).
+Voice: Active (“Click”, “Select”), second person (“You”).
+Avoid: Over‑promising claims about AI determinism; unverified performance statements.
+
+# ==================================================================== 2. NAVIGATION STRUCTURE (docs/docs.json on mintlify branch)
 
 Top-level groups (current):
 
-1. Home
-   - home/glossary.md
-   - home/introduction.md
-2. Release Notes
-   - release-notes/rn_current.md (Current: RN 1.6.0)
-   - release-notes/archived/rn9.md … rn1.md (RN 1.5.2 → 1.0.0)
-3. Platform Documentation
-   - ELITEA Menus & Settings (platform-documentation/menus/\*.md)
-   - ELITEA Extensions (platform-documentation/extensions/\*.md)
-4. Features Guides
-   - ELITEA Core Features (feature-guides/core-features/\*.md)
-   - ELITEA Advanced Features (feature-guides/advanced-features/roles.md)
-5. Quick Start Guides (quick-start/\*.md)
-6. How TOs
-   - MCP (how-tos/mcp/\*.md)
+1. Home / Introduction
+2. Getting Started
+3. How-Tos
+4. Integrations & Toolkits
+5. Release Notes
+6. Support
 
 Copilot must:
 
 - Map requests to an existing group when possible.
-- Provide nav insertion snippet suggestions for mkdocs_el.yml when proposing new pages.
+- Provide nav insertion snippet suggestions for `docs/docs.json` when proposing new pages.
 - Not silently reorder or rename nav groups.
+- Use `.mdx` file extension for all new documentation pages.
 
 # ==================================================================== 3. FILE NAMING & PATHS
 
@@ -63,39 +54,44 @@ Release Notes Pattern:
 - Archive: archived/rn{n}.md where nav label supplies semantic version (“RN 1.5.2”).
   Do NOT infer version from file name; rely on nav label or user prompt.
 
-# ==================================================================== 4. MATERIAL THEME CONVENTIONS
+# ==================================================================== 4. MINTLIFY CONVENTIONS
 
-Admonitions (preferred syntax):
-!!! note "Optional Title"
-Body text (indented 4 spaces).
+Callouts (preferred syntax):
+<Note>Body text.</Note>
+<Warning>Body text.</Warning>
+<Tip>Body text.</Tip>
+<Info>Body text.</Info>
 
-Supported types: note, tip, info, warning, danger, example, success, question, abstract, quote.
-If title not needed: omit quoted string. Avoid the GitHub style > [!NOTE] inside docs unless specifically requested; convert legacy blocks to Material style when revising.
+Supported types: Note, Warning, Tip, Info, Check.
+Do NOT use MkDocs admonition syntax (!!!) — it will not render in Mintlify.
 
-Collapsible details:
-??? note "Advanced configuration"
-Content hidden by default.
-
-Tabs (for variants, environments, UI vs API):
-=== "UI"
+Tabs:
+<Tabs>
+<Tab title="UI">
 UI instructions here
-=== "API"
+</Tab>
+<Tab title="API">
 API instructions here
-
-Icons (when beneficial, sparing use):
-:material-robot: Agents
-(Only if it enhances clarity; do not overdecorate.)
+</Tab>
+</Tabs>
 
 Code highlighting:
-Use triple backticks with language hints (`json, `bash). Avoid overly long inline code; break into fenced blocks.
+Use triple backticks with language hints (`json, `bash). Mintlify renders these natively.
 
-Tables:
-Use simple Markdown tables; avoid deep nesting (Material will render with accessible styling).
+Accordion (collapsible):
+<Accordion title="Advanced configuration">
+Content hidden by default.
+</Accordion>
+
+Cards:
+<Card title="Title" icon="icon-name" href="/path">
+Description text.
+</Card>
 
 Content notes:
 
-- Prefer admonitions for warnings, tips, and conceptual disclaimers instead of inline bold paragraphs.
-- Do not build custom HTML for features Material already provides (tabs, admonitions) unless custom styling is mandated.
+- Prefer Mintlify callout components for warnings, tips, and conceptual disclaimers.
+- MDX allows JSX components — use Mintlify's built-in component library before building custom HTML.
 
 # ==================================================================== 5. STANDARD PAGE SKELETONS
 
@@ -171,13 +167,23 @@ Bold term + single-sentence definition; optional brief extension.
 
 # ==================================================================== 6. FRONT MATTER & METADATA
 
-MkDocs + Material does NOT require front matter by default; avoid injecting YAML unless the site build process uses page-level meta. If front matter is used (user indicates), keep keys minimal (title, description) and do not fabricate version numbers. When uncertain: ask.
+Mintlify requires front matter on every page:
+
+```yaml
+---
+title: "Page Title"
+description: "One-sentence description for SEO and sidebar tooltip."
+---
+```
+
+Keep keys minimal. Do not fabricate version numbers. `title` and `description` are the most important fields.
 
 # ==================================================================== 7. LINKING PRACTICES
 
-- Use relative paths; eliminate accidental double slashes (../how-tos/foo.md not ..//how-tos/foo.md).
-- Link first glossary term occurrence per page (if anchors exist).
-- Avoid absolute site URLs unless linking cross-locale or external domain.
+- Use absolute paths from the docs root (e.g., `/getting-started/chat-quick-start`) for internal links.
+- For links to the landing page use https://elitea.ai.
+- Avoid relative paths between pages — Mintlify resolves from docs root, not file system.
+- Do not use `/docs/...` prefix — that was the old MkDocs path. All Mintlify paths start from root of docs.elitea.ai.
 
 # ==================================================================== 8. SCREENSHOTS & MEDIA
 

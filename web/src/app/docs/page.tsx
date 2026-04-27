@@ -2,20 +2,12 @@
 
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { DOCS_URLS } from '@/lib/constants'
 
 export default function DocsRedirectPage() {
   useEffect(() => {
-    // In production, MkDocs is served at /docs/
-    // In development, redirect to the MkDocs dev server
-    const isDevelopment = process.env.NODE_ENV === 'development'
-    
-    if (isDevelopment) {
-      // Redirect to local MkDocs server
-      window.location.href = 'http://localhost:8000'
-    } else {
-      // In production, redirect to the MkDocs site
-      window.location.href = '/docs/home/introduction/'
-    }
+    // Documentation is now hosted on Mintlify at docs.elitea.ai
+    window.location.href = DOCS_URLS.home
   }, [])
 
   return (
@@ -38,27 +30,17 @@ export default function DocsRedirectPage() {
           <p className="text-gray-600 dark:text-gray-300 mb-6">
             Taking you to the ELITEA documentation...
           </p>
-          <div className="space-y-2 text-sm text-gray-500 dark:text-gray-400">
-            <p>
-              <strong>Development:</strong> Make sure MkDocs is running at{' '}
-              <code className="px-2 py-1 bg-gray-100 dark:bg-obsidian-200 rounded">http://localhost:8000</code>
-            </p>
-            <p className="text-xs">
-              Run <code className="px-2 py-1 bg-gray-100 dark:bg-obsidian-200 rounded">./scripts/dev-docs.sh</code> or{' '}
-              <code className="px-2 py-1 bg-gray-100 dark:bg-obsidian-200 rounded">./scripts/dev-all.sh</code>
-            </p>
-          </div>
         </div>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
-            href="http://localhost:8000"
+            href={DOCS_URLS.home}
             className="inline-flex items-center px-6 py-3 bg-primary-600 dark:bg-blue-500 text-white rounded-lg font-semibold hover:bg-primary-700 dark:hover:bg-blue-600 transition-colors"
           >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
-            Open Docs (Dev)
+            Open Documentation
           </a>
           <a
             href="/"

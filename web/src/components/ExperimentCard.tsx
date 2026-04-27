@@ -171,7 +171,7 @@ export default function ExperimentCard({
 
           {githubRepo && (
             <a
-              href={`https://github.com/ProjectAlita/${githubRepo}`}
+              href={`https://github.com/EliteaAI/${githubRepo}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center px-3 py-1.5 text-sm text-primary-700 dark:text-blue-400 hover:text-primary-800 dark:hover:text-blue-300 font-semibold bg-white/60 dark:bg-obsidian-200/60 hover:bg-white/80 dark:hover:bg-obsidian-200/80 backdrop-blur-sm rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.06),inset_0_1px_1px_rgba(255,255,255,0.9)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.1)] border border-white/60 dark:border-obsidian-300/60 transition-all duration-200"
