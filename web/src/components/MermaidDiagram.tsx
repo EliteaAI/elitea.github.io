@@ -8,20 +8,64 @@ interface MermaidDiagramProps {
 }
 
 export default function MermaidDiagram({ chart, theme = 'default' }: MermaidDiagramProps) {
-  const [Mermaid, setMermaid] = useState<any>(null)
+  const [rendered, setRendered] = useState(false)
   const [scale, setScale] = useState(1)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const [isAutoFitted, setIsAutoFitted] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const svgContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    // Dynamically import Mermaid only on client side
-    import('react-mermaid2').then((mod) => {
-      setMermaid(() => mod.default)
-    })
-  }, [])
+    let isMounted = true
+
+    async function renderChart() {
+      const mermaid = (await import('mermaid')).default
+
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: theme === 'dark' ? 'dark' : 'default',
+        themeVariables: {
+          fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          primaryColor: theme === 'dark' ? '#4a5568' : '#e2e8f0',
+          primaryTextColor: theme === 'dark' ? '#ffffff' : '#1a202c',
+          primaryBorderColor: theme === 'dark' ? '#718096' : '#cbd5e0',
+          lineColor: theme === 'dark' ? '#a0aec0' : '#4a5568',
+          secondaryColor: theme === 'dark' ? '#2d3748' : '#edf2f7',
+          tertiaryColor: theme === 'dark' ? '#1a202c' : '#f7fafc',
+          background: theme === 'dark' ? '#1e1e2e' : '#ffffff',
+          mainBkg: theme === 'dark' ? '#2d3748' : '#e2e8f0',
+          secondBkg: theme === 'dark' ? '#4a5568' : '#cbd5e0',
+          labelBackground: theme === 'dark' ? '#1e1e2e' : '#ffffff',
+          edgeLabelBackground: theme === 'dark' ? '#1e1e2e' : '#ffffff',
+          clusterBkg: theme === 'dark' ? '#2d3748' : '#f7fafc',
+          clusterBorder: theme === 'dark' ? '#718096' : '#cbd5e0',
+          fontSize: '14px',
+        },
+        flowchart: {
+          useMaxWidth: false,
+          htmlLabels: true,
+          curve: 'basis',
+          padding: 20,
+        },
+      })
+
+      try {
+        const id = `mermaid-${Math.random().toString(36).substring(2, 9)}`
+        const { svg } = await mermaid.render(id, chart)
+        if (isMounted && svgContainerRef.current) {
+          svgContainerRef.current.innerHTML = svg
+          setRendered(true)
+        }
+      } catch (err) {
+        console.warn('Mermaid render error:', err)
+      }
+    }
+
+    renderChart()
+    return () => { isMounted = false }
+  }, [chart, theme])
 
   useEffect(() => {
     // Add wheel event listener with passive: false to allow preventDefault
@@ -45,7 +89,7 @@ export default function MermaidDiagram({ chart, theme = 'default' }: MermaidDiag
 
   useEffect(() => {
     // Auto-fit SVG to container on initial load
-    if (Mermaid && containerRef.current && !isAutoFitted) {
+    if (rendered && containerRef.current && !isAutoFitted) {
       const timer = setTimeout(() => {
         const container = containerRef.current
         const svg = container?.querySelector('svg')
@@ -76,7 +120,7 @@ export default function MermaidDiagram({ chart, theme = 'default' }: MermaidDiag
       
       return () => clearTimeout(timer)
     }
-  }, [Mermaid, isAutoFitted])
+  }, [rendered, isAutoFitted])
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (e.button === 0) { // Left mouse button
@@ -136,7 +180,7 @@ export default function MermaidDiagram({ chart, theme = 'default' }: MermaidDiag
     setScale(prev => Math.max(prev - 0.2, 0.1))
   }
 
-  if (!Mermaid) {
+  if (!rendered) {
     return null
   }
 
@@ -237,35 +281,7 @@ export default function MermaidDiagram({ chart, theme = 'default' }: MermaidDiag
               alignItems: 'center'
             }}
           >
-            <Mermaid 
-              chart={chart}
-              config={{
-                theme: theme,
-                themeVariables: {
-                  fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                  primaryColor: theme === 'dark' ? '#4a5568' : '#e2e8f0',
-                  primaryTextColor: theme === 'dark' ? '#ffffff' : '#1a202c',
-                  primaryBorderColor: theme === 'dark' ? '#718096' : '#cbd5e0',
-                  lineColor: theme === 'dark' ? '#a0aec0' : '#4a5568',
-                  secondaryColor: theme === 'dark' ? '#2d3748' : '#edf2f7',
-                  tertiaryColor: theme === 'dark' ? '#1a202c' : '#f7fafc',
-                  background: theme === 'dark' ? '#1e1e2e' : '#ffffff',
-                  mainBkg: theme === 'dark' ? '#2d3748' : '#e2e8f0',
-                  secondBkg: theme === 'dark' ? '#4a5568' : '#cbd5e0',
-                  labelBackground: theme === 'dark' ? '#1e1e2e' : '#ffffff',
-                  edgeLabelBackground: theme === 'dark' ? '#1e1e2e' : '#ffffff',
-                  clusterBkg: theme === 'dark' ? '#2d3748' : '#f7fafc',
-                  clusterBorder: theme === 'dark' ? '#718096' : '#cbd5e0',
-                  fontSize: '14px'
-                },
-                flowchart: {
-                  useMaxWidth: false,
-                  htmlLabels: true,
-                  curve: 'basis',
-                  padding: 20
-                }
-              }}
-            />
+            <div ref={svgContainerRef} />
           </div>
         </div>
         <div className="flex items-center justify-center gap-2 text-xs text-gray-500 dark:text-gray-400 mt-2">
