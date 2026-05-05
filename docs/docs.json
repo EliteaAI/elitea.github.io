@@ -370,7 +370,7 @@
               {
                 "group": "Connect External Tools to ELITEA",
                 "expanded": true,
-                "pages": ["integrations/mcp/create-and-use-remote-mcp", "integrations/mcp/create-and-use-client-stdio"]
+                "pages": ["integrations/mcp/create-and-use-remote-mcp", "integrations/mcp/create-and-use-client-stdio", "integrations/mcp/epam-mcps"]
               }
             ]
           },
