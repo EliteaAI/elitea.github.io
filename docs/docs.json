@@ -483,21 +483,21 @@
           {
             "group": "Latest Release",
             "icon": "tag",
-            "pages": ["release-notes/rn_current"]
+            "pages": ["release-notes/rn-2-0-2"]
           },
           {
             "group": "Recent Releases",
             "icon": "clock-rotate-left",
-            "pages": ["release-notes/archived/rn16", "release-notes/archived/rn15", "release-notes/archived/rn14"]
+            "pages": ["release-notes/archived/rn-2-0-1", "release-notes/archived/rn-2-0-0", "release-notes/archived/rn-2-0-0-b2"]
           },
           {
             "group": "Older Releases",
             "icon": "archive",
             "expanded": false,
             "pages": [
-              "release-notes/archived/rn13",
-              "release-notes/archived/rn12",
-              "release-notes/archived/rn11",
+              "release-notes/archived/rn-2-0-0-beta",
+              "release-notes/archived/rn-1-7-1",
+              "release-notes/archived/rn-1-7-0",
               "release-notes/archived/rn10",
               "release-notes/archived/rn9",
               "release-notes/archived/rn8",
@@ -613,5 +613,32 @@
         ]
       }
     ]
+  },
+"redirects": [
+  {
+    "source": "/release-notes/rn_current",
+    "destination": "/release-notes/rn-2-0-2"
+  },
+  {
+    "source": "/release-notes/archived/rn16",
+    "destination": "/release-notes/archived/rn-2-0-1"
+  },
+  {
+    "source": "/release-notes/archived/rn15",
+    "destination": "/release-notes/archived/rn-2-0-0"
+  },
+  {
+    "source": "/release-notes/archived/rn14",
+    "destination": "/release-notes/archived/rn-2-0-0-b2"
+  },
+  {    "source": "/release-notes/archived/rn13",
+    "destination": "/release-notes/archived/rn-2-0-0-beta"
+  },
+  {    "source": "/release-notes/archived/rn12",
+    "destination": "/release-notes/archived/rn-1-7-1"
+  },
+  {    "source": "/release-notes/archived/rn11",
+    "destination": "/release-notes/archived/rn-1-7-0"
   }
+]
 }
