@@ -6,20 +6,38 @@ description: "ELITEA Chat is an ultimate feature, allowing you to combine all EL
 
 ## Introduction
 
-In the ELITEA framework, a conversation is a dialogue among various participants such as selected language models, agents, pipelines and human users. The chat uses natural language to interact with a human and receive/give feedback. Within one conversation, you can refer to previous questions and answers. However, different conversations don’t share context.
+**ELITEA Chat** is the central hub where all platform capabilities come together. It provides a conversational interface where you can interact with AI models, agents, pipelines, toolkits, and MCP servers — all in one place, using natural language.
 
-All your conversations are stored on the ELITEA server, and you can access them from any device you use. All your conversations are accessible from the **Chat** menu.
+Each conversation is an independent dialogue session. You can reference earlier messages within the same conversation, but context is not shared between separate conversations. All conversations are securely stored on the ELITEA server and accessible from any device via the **Chat** menu.
 
 Conversations support the following functionality:
 
-* **Project and Private Conversations**: Share your conversation with other users from your project, involve them in the same conversation, or keep it private and visible only to you.
-* **Participants**: Add various participants to the conversation, including other users in public conversations, agents, pipelines, toolkits, MCPs, and language models, making them part of the conversation.
-* **Create and Edit Entities**: Create and edit entities directly from the conversation (Agents, Pipelines, Toolkits, MCPs) without leaving the chat interface.
-* **Canvas Mode**: Visualize and interact with conversation flows using a graphical canvas interface. 
-* **Interactions**: Interact with added participants, copy generated responses, and more.
-* **Managing Conversations**: Save conversations, pin the most important ones at the top of the screen, make private conversations public, delete conversations, clean the content of the conversation, and export the context of the conversation.
-* **Folders**: Organize your conversations into folders for better management. You can create folders, move conversations to folders, edit folder names, or delete folders.
-* **Playback**: During playback, you can move backward and forward through the playback process or stop the conversation by simulating the current conversation without any engagement with models.
+<CardGroup cols={3}>
+  <Card title="Project and Private Conversations" icon="users">
+    Share your conversation with other users from your project, involve them in the same conversation, or keep it private and visible only to you.
+  </Card>
+  <Card title="Participants" icon="user-group">
+    Add various participants to the conversation, including other users in public conversations, agents, pipelines, toolkits, MCPs, and language models.
+  </Card>
+  <Card title="Create and Edit Entities" icon="pen-to-square">
+    Create and edit entities directly from the conversation (Agents, Pipelines, Toolkits, MCPs) without leaving the chat interface.
+  </Card>
+  <Card title="Canvas Mode" icon="diagram-project">
+    Visualize and interact with conversation flows using a graphical canvas interface.
+  </Card>
+  <Card title="Interactions" icon="comments">
+    Interact with added participants, copy generated responses, and more.
+  </Card>
+  <Card title="Managing Conversations" icon="sliders">
+    Save conversations, pin the most important ones, make private conversations public, delete, clean content, and export the context.
+  </Card>
+  <Card title="Folders" icon="folder">
+    Organize your conversations into folders for better management. Create folders, move conversations, edit folder names, or delete folders.
+  </Card>
+  <Card title="Playback" icon="circle-play">
+    Move backward and forward through the playback process or stop the conversation by simulating the current conversation without any engagement with models.
+  </Card>
+</CardGroup>
 
 
 For more details see [Chat Usage](../how-tos/chat-conversations/how-to-use-chat-functionality).
@@ -44,15 +62,23 @@ You can optionally add participants (agents, pipelines, or models) before sendin
 
 Conversations in the **CONVERSATIONS** sidebar are automatically organized by time periods for better navigation:
 
-* **Today**: Conversations created or active today appear at the top.
-* **Yesterday**: Conversations from the previous day are grouped together.
-* **This Week**: Conversations from the current week are grouped together.
-* **Older**: All conversations older than yesterday are grouped under this section.
+| Period | Description |
+|--------|-------------|
+| **Today** | Conversations created or active today appear at the top. |
+| **Yesterday** | Conversations from the previous day are grouped together. |
+| **This Week** | Conversations from the current week are grouped together. |
+| **Older** | All conversations older than this week are grouped under this section. |
 
 This automatic time-based sorting helps you quickly locate recent conversations and maintain an organized conversation history. Pinned conversations will always appear at the very top, regardless of their creation date.
 
 
 ## Creating a Folder
+
+<Note title="Private, Team, and Public Conversations/Folders">
+**Private:** In a private project, you can add all participant types except users. Folders and their contents are only accessible to you.
+
+**Team Project:** You can view all folders within the project, but can only see conversations inside folders if you are a member. Members can move conversations into or out of folders; you cannot delete folders created by others. Public folders within a team project are visible to all members and cannot be converted back to private.
+</Note>
 
 1. Click the **+ Folder** button located at the top of the **CONVERSATIONS** sidebar.
 2. Provide a **Name** for the folder.
@@ -60,69 +86,57 @@ This automatic time-based sorting helps you quickly locate recent conversations 
 
 <img src="../img/menus/chat/create-folder.gif" alt="Chat_Create_Folder" />
 
-**How to Move Conversations to a Folder**
+<Tabs>
+  <Tab title="Move Conversations to a Folder">
+    1. Right-click on the conversation you want to move.
+    2. Select **Move to** from the contextual menu.
+    3. Choose the target folder from the list. If no folder exists, you can create one by clicking **+ New Folder**.
 
-1. Right-click on the conversation you want to move.
-2. Select **Move to** from the contextual menu.
-3. Choose the target folder from the list. If no folder exists, you can create one by clicking **+ New Folder**.
+    <Tip title="Quick Organization">
+    Alternatively, you can drag and drop conversations directly into folders in the sidebar for quick organization.
+    </Tip>
 
-<Tip title="Quick Organization">
-Alternatively, you can drag and drop conversations directly into folders in the sidebar for quick organization.
-</Tip>
+    <img src="../img/menus/chat/moveto-folder.gif" alt="Chat_MoveTo_Folder" />
+  </Tab>
+  <Tab title="Move Conversations Back to the Main List">
+    To move conversations from folders back to the main **CONVERSATIONS** list:
 
-<img src="../img/menus/chat/moveto-folder.gif" alt="Chat_MoveTo_Folder" />
+    1. Navigate to the folder containing the conversation you want to move.
+    2. Right-click on the conversation inside the folder.
+    3. Select **Back to the list** from the contextual menu.
+    4. The conversation will be moved from the folder back to the main **CONVERSATIONS** list.
 
-**How to Move Conversations Back to the Main List**
+    <img src="../img/menus/chat/moveto-list.gif" alt="Chat_MoveTo_list" />
 
-To move conversations from folders back to the main **CONVERSATIONS** list:
-
-1. Navigate to the folder containing the conversation you want to move.
-2. Right-click on the conversation inside the folder.
-3. Select **Back to the list** from the contextual menu.
-4. The conversation will be moved from the folder back to the main **CONVERSATIONS** list.
-
-  <img src="../img/menus/chat/moveto-list.gif" alt="Chat_MoveTo_list" />
-
-<Tip title="Quick Organization">
-Alternatively, you can drag and drop conversations directly into folders in the sidebar for quick organization.
-</Tip>
-<Info title="Note">
-This action is only available if you are a member of the conversation or have the necessary permissions.
-</Info>
+    <Tip title="Quick Organization">
+    Alternatively, you can drag and drop conversations directly into folders in the sidebar for quick organization.
+    </Tip>
+  </Tab>
+</Tabs>
 
 
-## Private and Public Conversations/Folders
-
-**Private Conversations and Folders**
-
-* When creating a conversations in a private project, you can add all types of participants, except users.
-* These folders and their contents are only accessible to you.
-
-**Team Project Conversations and Folders**
-
-If you are part of a team project:
-
-* You can view all folders within the project.
-* You can only see conversations inside folders if you are a member of those conversations.
-* If you are a member of a conversation, you can move the conversation into a folder or remove it from the folder using the **Back to the list** option.
-* You cannot delete a folder created by others, but you can move conversations inside the folder if you are a member of those conversations.
-
-**Public Conversations and Folders**
-
-* Public folders are accessible to all members of the project.
-* Conversations within public folders can be viewed and interacted with by all project members.
-* Any member of the project can move conversations into public folders or remove them, depending on their permissions.
-* Public folders cannot be converted to private folders.
 
 ## Participants
 
-Participants are additional "tools" that can be added to the conversation to enhance it. The following types of participants are available:
+Participants are additional resources that can be added to a conversation to extend its capabilities. The following types of participants are available:
 
-* **Models**: LLM models which can be added to the conversation to interact with Gen AI and get responses from the selected model.
-* **Agents/Pipelines**: Agents or pipelines—either already created within the project or available as public resources—that can be added to the conversation to execute them and receive responses.
+<CardGroup cols={2}>
+  <Card title="Models" icon="microchip-ai">
+    LLM models added to the conversation to interact with Gen AI and get responses from the selected model.
+  </Card>
+  <Card title="Agents / Pipelines" icon="robot">
+    Agents or pipelines—created within the project or available as public resources—that can be executed to receive AI-driven responses.
+  </Card>
+  <Card title="Toolkits & MCPs" icon="toolbox">
+    Toolkits provide integrations with external services (e.g., Jira, GitHub, databases), while MCPs expose tools via Model Context Protocol servers — including EPAM pre-built and custom remote connections.
+  </Card>
+  <Card title="Users" icon="user">
+    In team projects, other project members can be added to public conversations to collaborate, mention teammates with **@username**, or follow the conversation thread.
+  </Card>
+</CardGroup>
 
 <Info title="Note">
-Another category of participant is the user, which can't be added, but in the case of public conversations, users within the project can follow the conversation, interact with it, and thus become participants.
+Users cannot be added to private project conversations.
 </Info>
 
 
@@ -148,11 +162,7 @@ You can add various AI participants to enhance your conversations:
 
 **Method 1: Using the Participants Panel**
 
-1. In the **PARTICIPANTS** section on the right side of the screen, you'll see collapsible sections for:
-   - **agents**
-   - **pipelines**
-   - **toolkits**
-   - **MCPs**
+1. In the **PARTICIPANTS** section on the right side of the screen, you'll see collapsible sections for: <br /><Badge icon="robot">agents</Badge> <Badge icon="diagram-project">pipelines</Badge> <Badge icon="wrench">toolkits</Badge> <Badge icon="server">MCPs</Badge>
 2. Click the **+** icon next to any section title to add participants of that type.
 3. Select the desired participant from the list (e.g., an Agent, Pipeline, Toolkit, or MCP).
 4. The selected participant will appear in the **PARTICIPANTS** panel.
@@ -162,12 +172,43 @@ You can add various AI participants to enhance your conversations:
 
 **Method 2: Using the # Symbol (Quick Access)**
 
-1. In the chat input box, type `#` to see a dropdown list of frequently used participants.
-2. Continue typing to filter participants by name (e.g., `#Jira` will show all Jira-related participants).
-3. Select a participant from the filtered list (e.g., `#Data Analysis Agent`, `#Jira Toolkit`).
+1. In the chat input box, type `#` to open a **Search results** dropdown of available participants.
+2. Continue typing to filter by name (e.g., `#Jira` will show all Jira-related participants).
+3. Select a participant from the filtered list — the dropdown searches across **Agents**, **Pipelines**, **Toolkits**, and **MCPs**.
 4. The selected participant will appear as a chip above the input box and in the **PARTICIPANTS** panel.
 
 <img src="../img/menus/chat/add-participants-search.gif" alt="Add participants" />
+
+### Mention Toolkit and Tool
+
+You can direct the AI to use a specific tool from an already-added toolkit by typing `/` in the chat input. This is a two-phase selection:
+
+**Select a Toolkit:**
+
+1. In the chat input box, type `/` to open the **Mention toolkit** dropdown.
+2. The dropdown lists all toolkits that are already added as participants in the current conversation.
+3. Continue typing to filter by toolkit name (e.g., `/Jira` filters to Jira-related toolkits).
+4. Click a toolkit name from the dropdown, or type the full name and press `/` again to confirm it.
+5. The input updates to `/{ToolkitName}/` and the dropdown switches to show the toolkit's available tools.
+
+**Select a Tool:**
+
+6. The dropdown now shows **"{ToolkitName} available tools"** with all tools exposed by that toolkit.
+7. Continue typing after the second `/` to filter tools by name (e.g., `/Jira/create` shows create-related tools).
+8. Each tool shows its name and a short description.
+9. Click the desired tool to confirm the selection.
+10. The mention is committed to the input as `/{ToolkitName}/{ToolName}` with a cyan highlight and a trailing space so you can continue typing your message.
+
+<img src="../img/menus/chat/mention-toolkit-tool.gif" alt="Mention Toolkit Tool" />
+
+
+<Note>
+The `/` mention works with both **Toolkits** and **MCP** participants that are already added to the conversation. If a toolkit or MCP does not appear in the dropdown, add it first via the **PARTICIPANTS** panel or by typing `#` to add it. Toolkits and MCPs with misconfiguration errors are excluded from the dropdown until the configuration issue is resolved.
+</Note>
+
+You can include multiple toolkit tool mentions in a single message, and they can be placed anywhere within the message. For example: `Please use /Jira/createIssue to create a new issue and then /GitHub/createPR to create a pull request.`
+
+Each mention is highlighted independently and sent to the AI as separate tool directives.
 
 **Creating New Participants:**
 
@@ -201,15 +242,29 @@ Internal tools provide built-in capabilities that enhance your conversations wit
 
 **Available Internal Tools:**
 
-| Tool | Description |
-|------|-------------|
-| **[Python Sandbox](../how-tos/chat-conversations/python-sandbox-internal-tool)** | Execute Python code securely in conversations using Pyodide (Python compiled to WebAssembly). Useful for calculations, data processing, testing algorithms, and generating visualizations. |
-| **[Data Analysis](../how-tos/chat-conversations/data-analysis-internal-tool)** | Perform Pandas-based data analysis on uploaded files (CSV, Excel, etc.) using natural language queries. Automatically processes data and generates charts with downloadable results. |
-| **[Planner](../how-tos/chat-conversations/planner-internal-tool)** | Create, manage, and track tasks and action items directly within conversations. Set priorities, due dates, and monitor task progress without switching to external task management tools. |
-| **[Image creation](../how-tos/chat-conversations/image-generation)** | Generate AI-powered images from text prompts directly within conversations. Requires an image generation model configured in your project. |
-| **[Attachments](../how-tos/chat-conversations/attach-files)** | Attach files and images to conversations for AI-powered analysis. Files are automatically stored in the default `attachments` artifact bucket. |
-| **[Smart Tools Selection](../how-tos/chat-conversations/smart-tools-selection-internal-tool)** | Optimizes token usage when working with many toolkits by dynamically loading tool schemas on demand instead of binding all tools upfront. Recommended when your conversation uses 5 or more toolkits. |
-| **[Swarm Mode](../how-tos/chat-conversations/swarm-mode-internal-tool)** | Enables multi-agent collaboration by allowing all child agents to share the full conversation history and hand off control to each other. Ideal for complex workflows requiring multiple specialized agents working as a team. |
+<CardGroup cols={2}>
+  <Card title="Python Sandbox" type="note" icon="python" href="../how-tos/chat-conversations/python-sandbox-internal-tool">
+    Execute Python code securely in conversations using Pyodide (Python compiled to WebAssembly). Useful for calculations, data processing, testing algorithms, and generating visualizations.
+  </Card>
+  <Card title="Data Analysis" type="note" icon="chart-bar" href="../how-tos/chat-conversations/data-analysis-internal-tool">
+    Perform Pandas-based data analysis on uploaded files (CSV, Excel, etc.) using natural language queries. Automatically processes data and generates charts with downloadable results.
+  </Card>
+  <Card title="Planner" type="note" icon="list-check" href="../how-tos/chat-conversations/planner-internal-tool">
+    Create, manage, and track tasks and action items directly within conversations. Set priorities, due dates, and monitor task progress without switching to external task management tools.
+  </Card>
+  <Card title="Image Creation" type="note" icon="image" href="../how-tos/chat-conversations/image-generation">
+    Generate AI-powered images from text prompts directly within conversations. Requires an image generation model configured in your project.
+  </Card>
+  <Card title="Attachments" type="note" icon="paperclip" href="../how-tos/chat-conversations/attach-files">
+    Attach files and images to conversations for AI-powered analysis. Files are automatically stored in the default `attachments` artifact bucket.
+  </Card>
+  <Card title="Smart Tools Selection" type="note" icon="bolt" href="../how-tos/chat-conversations/smart-tools-selection-internal-tool">
+    Optimizes token usage when working with many toolkits by dynamically loading tool schemas on demand instead of binding all tools upfront. Recommended when your conversation uses 5 or more toolkits.
+  </Card>
+  <Card title="Swarm Mode" type="note" icon="network-wired" href="../how-tos/chat-conversations/swarm-mode-internal-tool">
+    Enables multi-agent collaboration by allowing all child agents to share the full conversation history and hand off control to each other. Ideal for complex workflows requiring multiple specialized agents working as a team.
+  </Card>
+</CardGroup>
 
 **Enabling Internal Tools:**
 
@@ -260,57 +315,81 @@ Once attachments are available, upload files by clicking the paperclip icon, dra
 
 For detailed information about attachments, including agent configuration and file management, see [Attach Files](../how-tos/chat-conversations/attach-files).
 
-## Adding LLM Models
+## Selecting LLM Models
 
-**Selecting a Model:**
+**Model Selection**
 
 1. Click the **model selector dropdown** at the bottom of the chat.
 2. Select a desired LLM model from the available options (e.g., gpt-4o, gpt-5.1, Claude).
+3. The selected model name is displayed on the button. Models that support **image analysis** or **reasoning** show small capability icons next to their name in the dropdown.
 
      ![Selecting a Model](../img/menus/chat/chat-llm-model.gif)
 
-**Configuring Model Settings:**
+**Model Settings**
 
-1. Click the **Settings** (⚙️) icon next to the model selector to fine-tune the response generation. The settings vary depending on the selected model:
+Click the **Settings** (⚙️) icon next to the model selector to fine-tune response generation. Settings vary by model type:
 
-     <img src="../img/menus/chat/chat-model-settings.gif" alt="Settings" />
+<Tabs>
+  <Tab title="Reasoning Models (e.g. GPT-5.1)">
+    | Parameter | Description |
+    |-----------|-------------|
+    | **Reasoning** | Controls the depth of logical thinking and problem-solving. |
 
+    | Level | Behavior |
+    |-------|----------|
+    | **Low** | Fast, surface-level reasoning with concise answers and minimal steps |
+    | **Medium** | Balanced reasoning with clear explanations and moderate multi-step thinking *(default)* |
+    | **High** | Deep, thorough reasoning with detailed step-by-step analysis (may be slower) |
 
-**For Reasoning Models** (e.g., GPT-5.1):
+    <img src="../img/menus/chat/model-settings-reasoning.gif" alt="Reasoning Model Settings" />
+  </Tab>
+  <Tab title="Standard Models (e.g. GPT-4o)">
+    | Parameter | Description |
+    |-----------|-------------|
+    | **Creativity** | Controls response randomness. Lower values produce focused, deterministic outputs; higher values produce more varied and creative responses. |
 
-* **Reasoning** - Controls the depth of logical thinking and problem-solving with three levels:
-    * **Low**: Fast, surface-level reasoning with concise answers and minimal steps
-    * **Medium**: Balanced reasoning with clear explanations and moderate multi-step thinking (default)
-    * **High**: Deep, thorough reasoning with detailed step-by-step analysis (may be slower)
+    | Level | Behavior |
+    |-------|----------|
+    | **1** | Highly focused and deterministic outputs |
+    | **2** | Mostly focused with slight variation |
+    | **3** | Balanced between focus and creativity *(default)* |
+    | **4** | More varied and creative responses |
+    | **5** | Maximum creativity and diversity |
 
-**For Standard Models** (e.g., GPT-4o):
+    <img src="../img/menus/chat/model-settings-standard.gif" alt="Standard Model Settings" />
+  </Tab>
+</Tabs>
 
-* **Creativity** - Controls response randomness and creativity. Lower values produce more focused and deterministic outputs, while higher values generate more diverse and creative responses with five levels (1-5):
-    * **1**: Highly focused and deterministic outputs
-    * **2**: Mostly focused with slight variation
-    * **3**: Balanced between focus and creativity (default)
-    * **4**: More varied and creative responses
-    * **5**: Maximum creativity and diversity
+**Capabilities** *(shown when supported by the selected model)*
 
-**Max Completion Tokens** (All Models):
+| Badge | Meaning |
+|-------|---------|
+| <img src="../img/how-tos/chat-conversations/canvas-pipeline/image-analysis-badge.png" alt="Image Analysis badge" /> | The model accepts image inputs alongside text |
+| <img src="../img/how-tos/chat-conversations/canvas-pipeline/reasoning-badge.png" alt="Reasoning badge" /> | The model uses extended chain-of-thought reasoning |
 
-Limits the maximum length of AI responses measured in tokens (roughly 4 characters per token):
+<Note>
+Capability badges appear automatically at the bottom of the settings panel based on the selected model. If neither capability is supported, the Capabilities row is hidden.
+</Note>
 
-* **Auto** (default): System automatically sets the token limit to 4096 tokens
-* **Custom**: Manually set a specific token limit for responses
-    * When Custom is selected, you can enter a specific number of maximum tokens
-    * The interface shows remaining tokens available after your specified limit
-    * Setting too high a value will show an error if it exceeds the model's maximum output tokens
+**Max Completion Tokens** *(All Models)*
 
-**Steps Limit** (Conversations only):
+| Option | Description |
+|--------|-------------|
+| **Auto** | System sets the token limit to 4096 tokens *(default)* |
+| **Custom** | Manually enter a specific token limit. An error is shown if the value exceeds the model's maximum output tokens. |
+
+**Steps Limit** *(Conversations only)*
 
 Controls the maximum number of execution steps (tool calls) the AI can take before the loop is forcefully stopped. This prevents runaway agent executions that could consume excessive resources.
 
-* **Default**: 25 steps
-* **Range**: 0 – 999
-* **How it works**: Each time the AI invokes a tool or performs an internal reasoning step, the counter increments by one. When the limit is reached, the execution loop ends and the AI returns whatever results it has collected so far.
-* **When it appears**: The Steps Limit field is shown in the model settings panel only in **Conversations** (chat). It is not available on the Agents or Pipelines pages, where step limits are configured at the agent/pipeline level.
-* **Sent as**: The value is passed as a top-level `step_limit` field in the conversation payload — it is separate from the `llm_settings` block.
+| Parameter | Value |
+|-----------|-------|
+| **Default** | 25 steps |
+| **Range** | 0 – 999 |
+
+- Each time the AI invokes a tool or performs an internal reasoning step, the counter increments by one. When the limit is reached, the execution loop ends and the AI returns whatever results it has collected so far.
+- The Steps Limit field is shown in the model settings panel only in **Conversations** (chat). It is not available on the Agents or Pipelines pages, where step limits are configured at the agent/pipeline level.
+- The value is passed as a top-level `step_limit` field in the conversation payload — it is separate from the `llm_settings` block.
 
 <Tip title="Choosing a Steps Limit">
 - Set a **lower value** (e.g. 5–10) for simple question-answering tasks where you want fast, predictable responses.
@@ -326,16 +405,6 @@ When the steps limit is exceeded, the AI stops executing further tool calls and 
 ## Context Budget
 
 The **Context Budget** widget provides intelligent control over conversation token usage through automated message management. When enabled, it displays real-time token usage metrics and allows you to configure how the system manages conversation context as it approaches model token limits.
-
-**Enabling Context Budget**
-
-To use Context Budget, you need to enable it at the project level:
-
-1. Navigate to **Settings** → **Secrets**
-2. Create a new secret with:
-   - **Name**: `context_manager`
-   - **Value**: `true`
-3. The Context Budget widget will appear immediately after enabling
 
 **Widget Location**
 
@@ -477,18 +546,51 @@ The **Regenerate Last Output** option becomes available only after initiating a 
 
 <img src="../img/menus/chat/regenerate.gif" alt="Chat_Regenerate" />
 
+## Sensitive Action Authorization
+
+When an agent or pipeline attempts to call a **sensitive tool** (such as deleting a repository, running a shell command, or dropping a database table), the conversation automatically pauses and displays an authorization card before anything is executed.
+
+<Warning title="Administrator-configured feature">
+The Sensitive Action Authorization Guardrail is configured at the **server/infrastructure level** by your ELITEA administrator. It applies automatically to all conversations once active — individual users cannot enable or disable it.
+</Warning>
+
+**Authorization Dialog Elements:**
+
+| Element | Description |
+|---------|-------------|
+| **Header** | ⚠️ Sensitive Action Authorization Required — amber-highlighted panel |
+| **Action label** | The specific action the agent plans to run (e.g., `github.delete_repo`) |
+| **Parameters** | The exact arguments the tool will be called with. Security-sensitive fields (`password`, `token`, `api_key`, `secret`, etc.) are automatically masked as `***` |
+| **Policy message** | Your organization's custom message explaining why the action requires approval |
+
+**Actions:**
+
+* **Authorize** — Approves the tool call. Execution resumes and the tool runs as planned.
+* **Block** — Rejects the tool call. The tool is skipped entirely; the agent receives a cancellation message and continues or stops based on its logic.
+
+<Tip title="Auto-approve within a batch">
+If an agent calls the same sensitive tool multiple times in one execution cycle (e.g., deleting multiple branches in a loop), only the **first call** raises the interrupt. Subsequent calls to the same tool in the same execution batch are auto-approved — avoiding repeated dialogs for the same action.
+</Tip>
+
+<img src="../img/how-tos/chat-conversations/sensitive-action/authorization-chat-approve.gif" alt="Sensitive Action Authorization" />
+
+For full details on how the guardrail works, configuration options, and pipeline behavior, see [Sensitive Action Authorization Guardrail](../how-tos/chat-conversations/sensitive-action-authorization-guardrail).
+
+## Real-time Collaboration in Canvas
+
 **Editing Generated Content with Canvas**
- 
+
 The Canvas feature allows you to directly edit code, tables, and Mermaid diagrams generated during a conversation. This powerful tool enhances your ability to refine and customize outputs without leaving the chat interface.
- 
+
 Canvas becomes automatically available when a generated response is:
 
 * Code
 * A Table
 * A Mermaid Diagram
- 
+* DOCX document 
+
 When available, a **Pencil** icon ✏️ will appear alongside the generated output. Clicking this icon opens the Canvas editor for that specific content type.
- 
+
 The Canvas feature is supported when interacting with the following participants:
 * Agents
 * Pipelines
@@ -496,67 +598,93 @@ The Canvas feature is supported when interacting with the following participants
 
    <img src="../img/menus/chat/canvas-open.gif" alt="Canvas" />
 
-### Real-time Collaboration in Canvas
-
 Canvas supports real-time collaborative editing where multiple users can work on the same content simultaneously:
 
 * **Multi-user Editing**: Multiple team members can edit the same canvas content at the same time
 * **User Indicators**: See who else is currently editing the content with user avatars and names
 * **Live Updates**: Changes made by other users appear in real-time
 * **Edit Conflicts**: The system manages edit conflicts automatically to ensure data integrity
- 
-#### Editing Code with Canvas
- 
-1.  Click the **Pencil** icon ✏️ next to a code block to open the Canvas Code Editor.
-2.  The editor will display the code, and the currently selected code language will be shown.
-3.  You can directly edit the code within this view.
-4.  Use the following actions:
-    * **Copy to clipboard**: Click the copy icon to copy the entire code block.
-    * **Undo/Redo**: Click the respective icons to revert or reapply changes.
-    * **Save**: Click the **X** icon to save your changes and close the Canvas editor. *(Placeholder for actual save icon/mechanism if 'X' is incorrect)*
- 
-<img src="../img/menus/chat/canvas_code.png" alt="Canvas_Code_Editor" />
 
- 
-#### Editing Tables with Canvas
- 
-1.  Click the **Pencil** icon ✏️ next to a table to open the Canvas Table Editor. Tables are presented in Markdown format within the editor but rendered as interactive tables.
-2.  You can directly edit the table content and structure.
-3.  Use the following actions:
-    * **Manual Editing**: Modify text directly in table cells and column headings.
-    * **Delete Rows**: Select the checkbox(es) next to the rows you wish to remove, then click the delete row icon.
-    * **Add Columns/Rows**: Click the **Add column** or **Add row** icons to expand the table.
-    * **Copy to clipboard**: Click the copy icon to copy the table data.
-    * **Import CSV**: Click the **Import table** icon to upload data from a CSV file.
-    * **Download as XLSX**: Click the **Download as xlsx** button to save the table data as an Excel file.
-    * **Undo/Redo**: Click the respective icons to revert or reapply changes.
-    * **Save**: Click the **X** icon to save your changes and close the Canvas editor. *(Placeholder for actual save icon/mechanism if 'X' is incorrect)*
+<Tabs>
+  <Tab title="Editing Code">
+    1. Click the **Pencil** icon ✏️ next to a code block to open the Canvas Code Editor.
+    2. The editor will display the code, and the currently selected code language will be shown.
+    3. You can directly edit the code within this view.
+    4. Use the following actions:
+        * **Copy to clipboard**: Click the copy icon to copy the entire code block.
+        * **Undo/Redo**: Click the respective icons to revert or reapply changes.
+        * **Save**: Click the **X** icon to save your changes and close the Canvas editor.
+
+    <img src="../img/menus/chat/canvas_code.png" alt="Canvas_Code_Editor" />
+  </Tab>
+  <Tab title="Editing Tables">
+    1. Click the **Pencil** icon ✏️ next to a table to open the Canvas Table Editor. Tables are presented in Markdown format within the editor but rendered as interactive tables.
+    2. You can directly edit the table content and structure.
+    3. Use the following actions:
+        * **Manual Editing**: Modify text directly in table cells and column headings.
+        * **Delete Rows**: Select the checkbox(es) next to the rows you wish to remove, then click the delete row icon.
+        * **Add Columns/Rows**: Click the **Add column** or **Add row** icons to expand the table.
+        * **Copy to clipboard**: Click the copy icon to copy the table data.
+        * **Import CSV**: Click the **Import table** icon to upload data from a CSV file.
+        * **Download as XLSX**: Click the **Download as xlsx** button to save the table data as an Excel file.
+        * **Undo/Redo**: Click the respective icons to revert or reapply changes.
+        * **Save**: Click the **X** icon to save your changes and close the Canvas editor.
 
     <img src="../img/menus/chat/canvas_table.png" alt="Canvas_Table_Editor" />
 
- 
-**Table Manipulations:**
- 
-* **Sorting**: Click the sorting icons (e.g., ▲▼) next to each column heading to sort the data in ascending or descending order for that column.
-* **Filtering**: Click the **...** (ellipsis) icon next to a column heading and select the **Filter** option to apply filters to the data in that column.
-* **Hiding Columns**: Click the **...** (ellipsis) icon next to a column heading and select the **Hide column** option to remove the column from view.
-* **Column Resizing**: Drag the column borders to resize columns to your preferred width.
-* **Cell Editing**: Double-click any cell to edit its content directly within the table interface.
- 
-<img src="../img/menus/chat/canvas-table-filtering.gif" alt="Canvas_Table_Editor_Filtering" />
- 
-#### Editing Mermaid Diagrams with Canvas
+    **Table Manipulations:**
 
-1. Click the **Pencil** icon ✏️ next to a Mermaid diagram to open the Canvas Mermaid Diagram Editor.
-2. You can directly edit the Mermaid diagram code in the editor view.
-3. A live **Preview** of the diagram will be displayed below the editor, updating as you make changes to the code.
-4. Use the following actions:
-    * **Copy to clipboard**: Click the copy icon to copy the Mermaid diagram code.
-    * **Download**: Download the rendered diagram in JPG, PNG, or SVG formats using the respective download button.
-    * **Undo/Redo**: Click the respective icons to revert or reapply changes.
-    * **Save**: Click the **X** icon to save your changes and close the Canvas editor. *(Placeholder for actual save icon/mechanism if 'X' is incorrect)*
+    * **Sorting**: Click the sorting icons (e.g., ▲▼) next to each column heading to sort the data in ascending or descending order for that column.
+    * **Filtering**: Click the **...** (ellipsis) icon next to a column heading and select the **Filter** option to apply filters to the data in that column.
+    * **Hiding Columns**: Click the **...** (ellipsis) icon next to a column heading and select the **Hide column** option to remove the column from view.
+    * **Column Resizing**: Drag the column borders to resize columns to your preferred width.
+    * **Cell Editing**: Double-click any cell to edit its content directly within the table interface.
 
-      <img src="../img/menus/chat/canvas_mermaid.png" alt="Canvas_Mermaid_Editor" />
+    <img src="../img/menus/chat/canvas-table-filtering.gif" alt="Canvas_Table_Editor_Filtering" />
+  </Tab>
+  <Tab title="Editing Mermaid Diagrams">
+    1. Click the **Pencil** icon ✏️ next to a Mermaid diagram to open the Canvas Mermaid Diagram Editor.
+    2. You can directly edit the Mermaid diagram code in the editor view.
+    3. A live **Preview** of the diagram will be displayed below the editor, updating as you make changes to the code.
+    4. Use the following actions:
+        * **Copy to clipboard**: Click the copy icon to copy the Mermaid diagram code.
+        * **Download**: Download the rendered diagram in JPG, PNG, or SVG formats using the respective download button.
+        * **Undo/Redo**: Click the respective icons to revert or reapply changes.
+        * **Save**: Click the **X** icon to save your changes and close the Canvas editor.
+
+    <img src="../img/menus/chat/canvas_mermaid.png" alt="Canvas_Mermaid_Editor" />
+  </Tab>
+  <Tab title="Editing DOCX">
+    The DOCX Editor provides a full WYSIWYG editing experience for `.docx` files stored in Artifacts or attached to chat conversations.
+
+    <Info title="How to Open the DOCX Editor">
+    The Canvas pencil icon (✏️) does **not** appear for DOCX files in chat. Open DOCX files via the **View/Edit file icon** in Artifacts or chat attachments instead.
+    </Info>
+
+    **Key Features:**
+
+    * **WYSIWYG Editing**: See your document as it will appear — formatted text, headings, lists, and tables rendered in real time.
+    * **Formatting Toolbar**: Apply bold, italic, underline, heading styles, lists, and other rich-text formatting.
+    * **Ruler**: Adjust indentation and paragraph layout using the document ruler.
+    * **Zoom Control**: Zoom in or out to inspect document details or get a full-page view.
+    * **Save as DOCX**: Saving overwrites the original `.docx` file, preserving the Word format.
+    * **Discard Changes**: Reset the editor to the last saved state at any time.
+
+    **How to edit a DOCX file:**
+
+    1. Navigate to the **Artifacts** bucket (or open an attachment) containing your `.docx` file.
+    2. Click the **View/Edit file icon** to open the file in the Canvas DOCX Editor.
+    3. Edit the document content directly using the WYSIWYG editor and formatting toolbar.
+    4. Use the **Zoom Control** to review the full-page layout before saving.
+    5. Click **Save** — the updated file overwrites the original `.docx` in the bucket.
+
+    <Info title="DOCX Editor Limitations">
+    - DOCX files are always edited in **WYSIWYG mode**. There is no Raw mode or language dropdown.
+    - The DOCX Editor is only available for `.docx` files. Legacy `.doc` files are not editable.
+    </Info>
+
+  </Tab>
+</Tabs>
 
 
 
