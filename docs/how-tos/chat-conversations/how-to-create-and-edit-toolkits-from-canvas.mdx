@@ -1,191 +1,204 @@
 ---
 title: "Create and Edit Toolkits from Canvas"
 sidebarTitle: "Toolkits from Canvas"
-description: "Create, configure, and manage toolkits directly from Canvas without leaving the conversation."
+description: "Create, configure, and manage toolkits directly from the chat interface without leaving your conversation."
 ---
-
-## Introduction
 
 ## Toolkit Canvas Feature: Visual Toolkit Management
 
-The **Toolkit Canvas** interface in ELITEA serves as an integrated toolkit management system accessible directly from the chat interface. This feature enables you to create, configure, and manage toolkits without leaving your conversation context, streamlining your development workflow.
+The **Toolkit Canvas** interface in ELITEA serves as an integrated toolkit management system accessible directly from the chat interface. This feature enables you to create, configure, and manage toolkits without leaving your conversation context.
 
-**Key Aspects of the Toolkit Canvas Feature:**
+<CardGroup cols={3}>
+  <Card title="Integrated Chat Experience" icon="comments">
+    Access toolkit management directly from the PARTICIPANTS section in chat, maintaining conversation context while configuring integrations.
+  </Card>
+  <Card title="Real-time Validation" icon="circle-check">
+    Configuration fields are validated in real-time, ensuring correct setup before the toolkit is created.
+  </Card>
+  <Card title="Instant Integration" icon="bolt">
+    Created toolkits are immediately available for use in the current conversation and appear in the PARTICIPANTS panel.
+  </Card>
+  <Card title="Tool Testing Panel" icon="flask">
+    Test individual toolkit tools directly in the editor — select a tool, provide input parameters, and run it before saving.
+  </Card>
+  <Card title="Secure Configuration" icon="shield-halved">
+    Integrates with ELITEA's credential management system to ensure secure authentication for external services.
+  </Card>
+</CardGroup>
 
-* **Integrated Chat Experience:** Access toolkit management directly from the PARTICIPANTS section in chat, maintaining conversation context while managing tools.
-* **Visual Configuration Interface:** Use an intuitive canvas-based interface that simplifies toolkit configuration with clear visual elements and organized sections.
-* **Real-time Validation:** Configuration fields are validated in real-time, ensuring proper setup before toolkit creation.
-* **Instant Integration:** Created toolkits are immediately available for use in conversations and can be added to the PARTICIPANTS section.
-* **Secure Configuration:** Integration with ELITEA's credential management system ensures secure authentication setup.
+---
 
 
 ## Creating Toolkits via Canvas Interface
 
-### Step 1: Access the Toolkit Creation Canvas
+<Steps>
+  <Step title="Access the Toolkit Creation Canvas">
+    1. Navigate to the **Chat** page (main sidebar menu).
+    2. In the **PARTICIPANTS** section, locate **Toolkits**.
+    3. Click the **+Add toolkit** icon in the Toolkits accordion header.
+    4. Click **+ Create new Toolkit** from the dropdown.
 
-1. Navigate to the **Chat** page (main sidebar menu).
-2. In the **PARTICIPANTS** section, locate **Toolkits**.
-3. Click on the **+Add toolkit** icon.
-4. Click on **+ Create new Toolkit**.
+    The **Toolkit Editor** slides open, displaying the **"Choose the toolkit type"** selector.
 
-![Canvas Toolkit Access](../../img/how-tos/chat-conversations/canvas-toolkit/canvas-toolkit-access.png)
+    ![Canvas Toolkit Access](../../img/how-tos/chat-conversations/canvas-toolkit/canvas-toolkit-access.gif)
+  </Step>
 
-The "Choose the toolkit type" canvas interface will be displayed with all available toolkit categories.
+  <Step title="Select a Toolkit Type">
+    The type selector displays all available toolkit integrations, grouped by category. Categories are assigned by each toolkit's metadata and include groupings such as Code Repositories, Project Management, Documentation, Testing, Communication, and others.
 
-### Step 2: Select Toolkit Type
+    **To find a toolkit type:**
 
-The toolkit selection interface provides several ways to find and select the toolkit type you need:
+    - **Browse by category** — Scroll through the grouped list and click a toolkit type (e.g., **GitHub**, **Jira**, **Confluence**).
+    - **Search** — Type in the **"Search toolkits"** field to filter by name. Results update in real-time.
 
-**Browse by Category:**
+    Available toolkit types include (among others):
 
-1. Click on a category (e.g., **Code Repositories**, **Project Management**).
-2. Review the available toolkit options within that category.
-3. Click on the desired toolkit (e.g., **GitHub**, **Jira**).
+    <Badge>GitHub</Badge> <Badge>GitLab</Badge> <Badge>Bitbucket</Badge> <Badge>Jira</Badge> <Badge>Confluence</Badge> <Badge>SharePoint</Badge> <Badge>SQL</Badge> <Badge>OpenAPI</Badge> <Badge>ServiceNow</Badge> <Badge>TestRail</Badge> <Badge>Zephyr Scale</Badge> <Badge>Sonar</Badge> <Badge>Rally</Badge> <Badge>Report Portal</Badge> <Badge>ADO Boards</Badge> <Badge>ADO Repos</Badge> <Badge>and more...</Badge>
 
-**Search for Specific Toolkit:**
+    Clicking a toolkit type immediately loads its configuration form.
 
-1. Use the search field at the top of the interface.
-2. Type the toolkit name (e.g., "github", "confluence").
-3. The interface will filter available options in real-time.
-4. Select the desired toolkit from the filtered results.
+    ![Canvas Toolkit Type Selection](../../img/how-tos/chat-conversations/canvas-toolkit/canvas-toolkit-chose-type.gif)
 
-**Available Toolkit Categories:**
+  </Step>
+    
+  <Step title="Configure the Toolkit">
 
-- **Analysis:** Tools for data analysis and reporting
-- **Code Repositories:** Version control systems like GitHub, GitLab, Bitbucket
-- **Communication:** Team collaboration platforms like Slack
-- **Development:** Custom development tools and APIs
-- **Documentation:** Knowledge management systems like Confluence
-- **Office:** Productivity tools for document processing
-- **Other:** Custom and miscellaneous integrations
-- **Project Management:** Project tracking tools like Jira, Rally
-- **Test Management:** Testing platforms like TestRail, Zephyr
-- **Testing:** Automation and testing frameworks
+    After selecting the toolkit type, the **Create Toolkit** canvas interface slides in with all available configuration fields. Fill in the sections relevant to your toolkit type:
 
-![Canvas Toolkit type](../../img/how-tos/chat-conversations/canvas-toolkit/canvas-toolkit-chose-type.png)
+    - **Toolkit Name** — Enter a clear, descriptive name for this toolkit instance.
+    - **Description** — Provide a brief description to clarify the toolkit's purpose and usage.
+    - **Credentials Configuration** *(varies by toolkit type)* — Configure authentication for the integration:
+      - For toolkits that **require credentials** (e.g., GitHub, Jira): open the **Credentials** dropdown and either select an existing credential or create a new one.
+      - For toolkits **without credential requirements** (e.g., Artifact): connection and configuration fields are shown directly on the canvas.
+    - **PgVector Configuration** — Select or configure a PgVector connection to enable vector storage capabilities for document indexing and similarity search.
+    - **Embedding Model** — Select an appropriate embedding model configuration to enable text processing and semantic search features.
+    - **Parameters** *(varies by toolkit type)* — Additional integration-specific parameters such as URLs and endpoints, project identifiers, and custom configuration options.
+    - **TOOLS** — Select which specific tools and actions to enable for this toolkit. Review the available tools carefully and enable only those needed for your use case — enabling only necessary tools improves security (principle of least privilege) and optimizes performance.
+    - **Make Tools Available by MCP** *(optional checkbox)* — Enable this option to make the selected tools accessible through external MCP clients.
 
-### Step 3: Configure Toolkit Settings
+    <Note>
+    Not all fields appear for every toolkit type. The canvas displays only the sections relevant to the selected toolkit's schema. Required fields are marked with an asterisk `*`.
+    </Note>
 
-Once you select a toolkit type (e.g., Github), the configuration canvas will open with toolkit-specific settings. The interface is organized into several sections:
+    ![Canvas Toolkit Configuration](../../img/how-tos/chat-conversations/canvas-toolkit/canvas-toolkit-configs.gif)
+  </Step>
 
-#### Configuration Section
+  <Step title="Create the Toolkit">
+    Once you have completed configuring your toolkit:
 
-The **CONFIGURATION** section contains all the necessary fields to set up your toolkit:
+    1. Click the **Save** button to save all configuration changes.
+    2. Click the **×** button to close the canvas interface.
 
-**Common Configuration Fields:**
+    Your newly created toolkit will appear in the **PARTICIPANTS** section under **TOOLKITS** and becomes immediately available for use in conversations.
 
-For **GitHub Toolkit** example:
+    ![Canvas Toolkit Added](../../img/how-tos/chat-conversations/canvas-toolkit/canvas-toolkit-added.gif)
+  </Step>
+</Steps>
 
-  - **Github configuration*** (required): Select from saved GitHub credentials
-  - **PgVector configuration**: Optional vector database configuration for advanced features
-  - **Embedding Model**: Select embedding model for AI-powered features
-  - **Repository*** (required): Enter repository in "owner/repository" format
-  - **Active Branch**: Specify the working branch (default: main)
-  - **Base Branch**: Specify the base branch for comparisons (default: main)
-
-<Info title="Note">
-Required fields are marked with an asterisk * and must be completed before the toolkit can be created.
-</Info>
-
-#### Tools Section
-
-- The **TOOLS** section displays available tools within the selected toolkit:
-
-![Canvas Toolkit Configuration](../../img/how-tos/chat-conversations/canvas-toolkit/canvas-toolkit-configs.png)
-
-### Step 4: Validate and Create Toolkit
-
-Once all required fields are completed and configuration is validated, click the **Create** button (top right) to create your toolkit. After successful creation, a confirmation message will appear. You can then click the **X** (close) button to return to the PARTICIPANTS section, where the new toolkit will appear in the **Toolkits** list and be immediately available for use in conversations.
-
-![Canvas Toolkit Configuration](../../img/how-tos/chat-conversations/canvas-toolkit/canvas-toolkit-added.png)
+---
 
 ## Editing Toolkits via Canvas Interface
 
 ### Accessing Toolkit Edit Mode
 
-1. Navigate to the **Chat** page where the toolkit is available.
-2. In the **PARTICIPANTS** section, locate **Toolkits**.
-3. Find the toolkit you want to edit.
-4. Hover over the toolkit to reveal action buttons.
-5. Click the pencil **Edit Toolkit** icon that appears.
+1. Navigate to the **Chat** page where the toolkit is listed as a participant.
+2. In the **PARTICIPANTS** section, locate the **Toolkits** group.
+3. Hover over the toolkit you want to edit to reveal the action icons.
+4. Click the pencil **Edit Toolkit** icon.
 
-![Canvas Toolkit edit](../../img/how-tos/chat-conversations/canvas-toolkit/canvas-toolkit-edit-icon.png)
+![Canvas Toolkit Edit](../../img/how-tos/chat-conversations/canvas-toolkit/canvas-toolkit-edit-icon.gif)
 
-The toolkit configuration canvas will open with current settings pre-populated.
+The Toolkit Editor opens with all current settings pre-populated.
 
 ### Modifying Toolkit Configuration
 
-Once in edit mode, you can modify any configuration parameters to update your toolkit settings. The edit interface displays all current settings pre-populated, allowing you to make changes to authentication credentials, repository or project settings, optional configuration parameters, naming and description information, and even add or remove specific tools for toolkits that support tool selection.
+Once in edit mode you can modify any of the following:
 
-For example, if you have a **GitHub Toolkit** configured for repository "owner/old-repo", you can easily change the **Repository** field to "owner/new-repo" to point to a different repository. Similarly, you might update the **Github configuration** to use different credentials, modify the **Active Branch** from "main" to "develop", or configure additional optional fields like **PgVector configuration** for enhanced AI capabilities.
+<CardGroup cols={2}>
+  <Card title="Description" icon="pen-to-square">
+    Update the toolkit's description. Note that the toolkit name cannot be changed via the canvas interface.
+  </Card>
+  <Card title="Credentials & Connection" icon="key">
+    Change the credential configuration or update any connection fields (API keys, URLs, repository paths, etc.) in the CONFIGURATION section.
+  </Card>
+  <Card title="Configuration Fields" icon="sliders">
+    Update integration-specific parameters (URLs, endpoints, project identifiers, etc.). The available fields depend on the selected toolkit type.
+  </Card>
+  <Card title="Selected Tools" icon="toolbox">
+    Toggle individual tools on or off in the TOOLS section to control which capabilities are exposed to the AI.
+  </Card>
+</CardGroup>
+After making changes, click **Save** to apply them. On success: *"The toolkit has been updated successfully."* The **Save** button is disabled if no changes have been made.
 
-The interface provides real-time validation to ensure your modifications are valid, and all required fields maintain their validation rules. Changes are reflected immediately in the interface. After making your desired configuration changes and ensuring all required fields remain completed, use the **Save** button located in the top right corner to apply your modifications. The updated configuration becomes immediately applied. 
+---
 
+## <Icon icon="triangle-exclamation" size={32} /> Troubleshooting
 
+<AccordionGroup>
+  <Accordion title="Create button remains disabled">
+    **Problem:** The **Create** button is greyed out and cannot be clicked.
 
-## Troubleshooting Common Issues
+    The Create button is enabled only when **both** conditions are met:
+    - A toolkit type has been selected from the type selector.
+    - At least one field in the form has been filled in (the form has changes).
 
-### Toolkit Creation Issues
+    Ensure you have selected a toolkit type first, then begin filling in the configuration fields.
+  </Accordion>
+  <Accordion title="Validation error on create or save">
+    **Problem:** A toast message appears — *"Please fill in all required fields before creating the toolkit."*
 
-**Missing Required Fields:**
+    - Review all fields marked with an asterisk `*` and ensure they are completed.
+    - Inline red borders and error text below individual fields indicate exactly which fields need attention.
+    - Check that the **Toolkit Name** field is filled in — it is required for most toolkit types.
+  </Accordion>
+  <Accordion title="Save button is disabled in edit mode">
+    **Problem:** The **Save** button is greyed out when editing an existing toolkit.
 
-- **Problem:** Create button remains disabled
-- **Solution:** Review all fields marked with asterisk (*) and ensure they are completed
-- **Verification:** Check that credentials are properly selected and external identifiers are correctly formatted
+    - The Save button is only enabled when the form has unsaved changes. If you have not yet modified any field, the button remains disabled.
+    - Make at least one change to any field (e.g., update the description or toggle a tool) before attempting to save.
+  </Accordion>
+  <Accordion title="Credential warning dialog appears when saving">
+    **Problem:** A dialog titled *"Credential Configuration Change"* appears when attempting to save in a Team project.
 
-**Credential Authentication Errors:**
+    This warning is shown when you change the credential on a toolkit that is shared in a Team project. Switching to a **Private** credential means other team members without that credential will lose access to the toolkit's functionality.
 
-- **Problem:** Toolkit creation fails due to authentication issues
-- **Solution:** Verify credentials in the Credentials menu and ensure they have appropriate permissions
-- **Prevention:** Test credentials separately before using in toolkit configuration
+    - Click **Confirm changes** to proceed with the new credential.
+    - Click **Discard changes** to revert the credential field to its previous value.
 
-**External Service Connectivity:**
+    Consider using a **Team** credential rather than a Private one when the toolkit is shared across your team.
+  </Accordion>
+</AccordionGroup>
 
-- **Problem:** Cannot connect to external service (GitHub, Jira, etc.)
-- **Solution:** Verify external service availability and credential permissions
-- **Check:** Ensure repository/project names are correct and accessible
+<AccordionGroup>
+  <Accordion title="Cannot access edit mode for existing toolkit">
+    **Problem:** The pencil edit icon is not visible or clicking it does nothing.
 
-### Toolkit Management Issues
+    - Hover directly over the toolkit row in the PARTICIPANTS panel — the action icons appear only on hover.
+    - Verify you have the required permissions to edit toolkits in this project.
+    - If the toolkit belongs to a public project that you do not have edit access to, the form fields will be read-only.
+  </Accordion>
+  <Accordion title="Toolkit not appearing in PARTICIPANTS after creation">
+    **Problem:** The toolkit was created successfully but is not visible in the PARTICIPANTS panel.
 
-**Edit Mode Access:**
+    - After creation the toolkit is added to the available toolkits list but is **not automatically set as an active participant**. Locate it in the **+Add toolkit** dropdown and select it to add it to the current conversation.
+    - Verify the toolkit was created in the correct project — check that you are viewing the right project in the sidebar.
+    - If you still cannot find it, refresh the page and check again.
+  </Accordion>
+  <Accordion title="SharePoint toolkit shows an authentication error in chat">
+    **Problem:** A SharePoint toolkit participant shows a warning or authentication error during a conversation.
 
-- **Problem:** Cannot access edit mode for existing toolkit
-- **Solution:** Verify you have appropriate permissions and the toolkit is not currently in use
-- **Workaround:** Ensure no active operations are using the toolkit
+    - SharePoint toolkits use OAuth authentication. If you have not completed the OAuth login flow, or if the session has expired, the toolkit will appear as logged out.
+    - Open the toolkit settings from the PARTICIPANTS panel and complete the OAuth authorization step to re-authenticate.
+  </Accordion>
+  <Accordion title="MCP toolkit shows a logged-out warning in chat">
+    **Problem:** An MCP-type toolkit participant displays a logged-out or disconnected warning in the PARTICIPANTS panel.
 
-**Configuration Validation:**
+    - Remote MCP toolkits require an active authentication token. If the token has expired or was never set, the toolkit will show as logged out.
+    - Re-authenticate by opening the toolkit's settings and completing the login step for the MCP connection.
+  </Accordion>
+</AccordionGroup>
 
-- **Problem:** Changes cannot be saved due to validation errors
-- **Solution:** Review error messages and ensure all required fields maintain valid values
-- **Resolution:** Check that external resources (repos, projects) still exist and are accessible
-
-### PARTICIPANTS Section Issues
-
-**Toolkit Not Appearing:**
-
-- **Problem:** Created toolkit doesn't appear in PARTICIPANTS
-- **Solution:** Refresh the interface or verify the toolkit was created in the correct workspace/project
-- **Check:** Ensure you're viewing the correct project context
-
-**Removal Confirmation:**
-
-- **Problem:** Accidentally removed toolkit
-- **Solution:** Recreate the toolkit using the same configuration
-- **Prevention:** Always use the confirmation dialog carefully before confirming removal
-
-
-## Conclusion
-
-The Toolkit Canvas feature in ELITEA provides a powerful and intuitive way to manage toolkit integration directly from your chat interface. By following the practices outlined in this guide, you can effectively create, configure, and manage toolkits that enhance your development workflows and team collaboration.
-
-**Key Benefits Recap:**
-
-- **Streamlined Creation:** Create toolkits without leaving your conversation context
-- **Visual Configuration:** Use intuitive canvas interface for easy setup
-- **Real-time Integration:** Immediately use toolkits in your conversations
-- **Secure Management:** Leverage ELITEA's credential system for secure authentication
-- **Team Collaboration:** Share and manage toolkits within team projects
-
+---
 
 <Info title="Related Documentation">
 For additional information and related functionality, refer to these helpful resources:
@@ -194,6 +207,8 @@ For additional information and related functionality, refer to these helpful res
 - **[Chat Menu](../../menus/chat)** - Comprehensive guide to chat interface features and navigation
 - **[Credential Menu](../../menus/credentials)** - Detailed instructions for managing authentication credentials
 - **[AI Configuration](../../menus/settings/ai-configuration)** - Setup and configuration guide for AI models and settings
+- **[How to Create and Edit Agents from Canvas](./how-to-create-and-edit-agents-from-canvas)** - Similar guide for agent management
+- **[How to Create and Edit Pipelines from Canvas](./how-to-create-and-edit-pipelines-from-canvas)** - Similar guide for pipeline management
 </Info>
 
 
