@@ -235,6 +235,103 @@ Each image generation model configuration displays:
 - **Other Providers**: Stability AI, Midjourney (if configured with appropriate integrations)
 </Info>
 
+### Speech Recognition (ASR)
+
+<img src="../../img/menus/settings/ai-configurations/asr-models.png" alt="Speech Recognition ASR Models" />
+
+Speech Recognition (ASR) models convert spoken audio into text. A configured ASR model powers the server-side **Voice Input** feature in Chat, Agents, and Pipelines — providing real-time transcription as users speak. When no ASR model is configured, Voice Input falls back to the browser's built-in Web Speech API. If neither is available, the microphone icon is hidden.
+
+**Default ASR model ⓘ** The default model used for server-side voice transcription across Chat, Agents, and Pipelines.
+
+**ASR Model Types**
+
+ELITEA determines the transcription mode automatically based on the model name:
+
+| Model Type | Name Pattern | Behavior |
+|---|---|---|
+| **Streaming (Realtime)** | Names that do **not** include `whisper` or `transcribe` | Low-latency streaming via OpenAI Realtime API; interim transcript results appear in real time |
+| **Batch (Whisper)** | Names that include `whisper` or `transcribe` (e.g., `whisper-1`, `gpt-4o-transcribe`) | Batch HTTP transcription; audio is buffered and sent in chunks, transcript delivered after processing |
+
+
+<Info title="Configuration Cards">
+Each ASR configuration card displays:
+
+* **Integration Icon** — Visual indicator of the provider
+* **Model Name** — Display name of the configured ASR model
+* **Status Indicator** — Shows "OK • Shared" or "OK • Local" depending on sharing status
+* **Click to Edit** — Click on any card to view or edit configuration details (if permissions allow)
+</Info>
+
+#### Creating a New ASR Model:
+
+1. **Ensure Credentials Exist** — Before adding an ASR model, create AI credentials for your provider (see [AI Credentials](#ai-credentials) section)
+2. **Click the + Button** — In the Integrations section header, click the **+** button
+3. **Select Integration Type** — Choose **Speech Recognition (ASR)** from the list of available integration types
+4. **Fill Required Fields:**
+
+    | Field | Description |
+    |-------|-------------|
+    | **Display Name** | Enter a descriptive name (e.g., "OpenAI Whisper", "Realtime Transcription") |
+    | **ID\*** | Auto-populated from the Display Name |
+    | **Name\*** | Enter the exact model identifier from the provider (e.g., `whisper-1`, `gpt-4o-transcribe`). Names containing `whisper` or `transcribe` are treated as batch models; all others are treated as streaming/Realtime models |
+    | **Credentials** | Select the AI credential configuration from the dropdown |
+
+5. **Click Save** — The ASR model will be created and appear in the Speech Recognition (ASR) section
+6. **Set as Default** (Optional) — Use the **Default ASR model** dropdown to make this the default for voice input
+
+    ![New ASR Model](../../img/menus/settings/ai-configurations/new-asr-model.gif)
+
+<Note>
+The model name determines transcription mode. Use `whisper-1` or `gpt-4o-transcribe` for batch transcription. For real-time streaming, configure a model from the OpenAI Realtime API (e.g., via an AI Dial or Azure OpenAI credential supporting Realtime).
+</Note>
+
+---
+
+### Text to Speech (TTS)
+
+<img src="../../img/menus/settings/ai-configurations/tts-models.png" alt="Text to Speech TTS Models" />
+
+Text to Speech (TTS) models synthesize spoken audio from text. A configured TTS model powers the server-side **Text-to-Speech** and **Speaking Mode** features in Chat, Agents, and Pipelines — reading AI responses aloud using Web Audio API playback. When no TTS model is configured, playback falls back to the browser's built-in SpeechSynthesis API.
+
+**Default TTS model ⓘ** The default model used for reading AI responses aloud across Chat, Agents, and Pipelines.
+
+* If no TTS model is configured, the browser SpeechSynthesis API is used as a fallback.
+
+<Info title="Configuration Cards">
+Each TTS configuration card displays:
+
+* **Integration Icon** — Visual indicator of the provider
+* **Model Name** — Display name of the configured TTS model
+* **Status Indicator** — Shows "OK • Shared" or "OK • Local" depending on sharing status
+* **Click to Edit** — Click on any card to view or edit configuration details (if permissions allow)
+</Info>
+
+#### Creating a New TTS Model:
+
+1. **Ensure Credentials Exist** — Before adding a TTS model, create AI credentials for your provider (see [AI Credentials](#ai-credentials) section)
+2. **Click the + Button** — In the Integrations section header, click the **+** button
+3. **Select Integration Type** — Choose **Text to Speech (TTS)** from the list of available integration types
+4. **Fill Required Fields:**
+
+    | Field | Description |
+    |-------|-------------|
+    | **Display Name** | Enter a descriptive name (e.g., "OpenAI TTS", "Azure Neural Voice") |
+    | **ID\*** | Auto-populated from the Display Name |
+    | **Name\*** | Enter the exact model identifier from the provider (e.g., `tts-1`, `tts-1-hd`) |
+    | **Credentials** | Select the AI credential configuration from the dropdown |
+
+5. **Click Save** — The TTS model will be created and appear in the Text to Speech (TTS) section
+6. **Set as Default** (Optional) — Use the **Default TTS model** dropdown to make this the default for voice output
+
+    ![New TTS Model](../../img/menus/settings/ai-configurations/new-tts-model.gif)
+
+
+<Note>
+Server-side TTS delivers audio as PCM-16-LE chunks via Socket.IO, played back through the Web Audio API at 24 kHz. Text is highlighted in sync with playback. Pause and resume are fully supported for both server-side and browser-fallback TTS.
+</Note>
+
+---
+
 ### AI Credentials
 
 <Warning title="Conditional Visibility">
@@ -355,6 +452,8 @@ The default model settings in the Integrations section control which models are 
 * **Default Embedding Model** - Used for text embedding operations
 * **Default Vector Storage** - Used for vector database operations
 * **Default Image Generation Model** - Used for image generation tasks
+* **Default ASR Model** - Used for server-side voice input (speech-to-text) in Chat, Agents, and Pipelines
+* **Default TTS Model** - Used for reading AI responses aloud (text-to-speech) in Chat, Agents, and Pipelines
 
 **Usage Impact:**
 

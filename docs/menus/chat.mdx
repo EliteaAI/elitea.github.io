@@ -401,6 +401,84 @@ Controls the maximum number of execution steps (tool calls) the AI can take befo
 When the steps limit is exceeded, the AI stops executing further tool calls and returns partial results. No error is displayed to the user by default — the response simply stops at the last completed step.
 </Warning>
 
+---
+
+## Voice Capabilities
+
+ELITEA Chat includes voice input and voice output capabilities that let you speak your messages and have AI responses read back to you.
+
+<CardGroup cols={3}>
+  <Card title="Voice Input" icon="microphone">
+    Dictate messages into the chat input field. Transcribed text is inserted at the cursor position in real time.
+  </Card>
+  <Card title="Text-to-Speech" icon="volume-high">
+    Have AI responses read aloud. Pause and resume playback from a mini-player pill in the input area.
+  </Card>
+  <Card title="Speaking Mode" icon="waveform-lines">
+    Hands-free voice conversation loop. ELITEA records, sends, speaks the response, and listens again — automatically.
+  </Card>
+</CardGroup>
+
+---
+
+### Voice Input
+
+**Voice Input** lets you dictate messages directly into the chat input field using a microphone. The transcribed text is inserted at the cursor position, so you can combine typed and spoken content in the same message.
+
+**How to use Voice Input:**
+
+1. Click the **microphone** icon in the message input toolbar to start recording.
+2. Speak your message. A live transcript appears in the input field as you talk — interim results update in real time.
+3. Click the **Stop** (■) button to finish recording. The final transcript is committed and focus returns to the input field.
+
+   ![Voice Input](../img/menus/chat/voice-input.gif)
+
+<Note>
+When a server-side ASR (automatic speech recognition) model is configured in [**Settings → AI Configuration → Speech Recognition (ASR)**](./settings/ai-configuration#speech-recognition-asr), Voice Input uses that model via streaming. If no server ASR model is available, Voice Input falls back to the browser's built-in Web Speech API. If neither is available, the microphone icon is hidden.
+</Note>
+
+---
+
+### Text-to-Speech
+
+**Text-to-Speech** reads AI responses aloud. A **Read out** button (megaphone icon) appears in the action bar below each AI message when the message contains speakable text.
+
+**How to use Text-to-Speech:**
+
+1. Click the **Read out** (megaphone) button below an AI message to start playback.
+2. The text is highlighted as it is read aloud.
+3. A playback pill appears in the input area with **Pause** and **Resume** controls.
+4. Click **Pause** to stop playback mid-sentence; click **Resume** to continue from where it left off.
+
+   ![Text-to-Speech](../img/menus/chat/text-to-speech.gif)
+
+<Note>
+When a TTS model is configured in [**Settings → AI Configuration → Text to Speech (TTS)**](./settings/ai-configuration#text-to-speech-tts), ELITEA uses that model for audio generation via Web Audio API. If no TTS model is configured, playback uses the browser's built-in SpeechSynthesis API as a fallback.
+</Note>
+
+---
+
+### Speaking Mode
+
+**Speaking Mode** is a continuous, hands-free voice conversation loop. Once activated, ELITEA automatically records your speech, sends your message after a pause, plays back the AI's response, and then starts listening again — without any manual interaction between turns.
+
+**How to activate Speaking Mode:**
+
+1. Leave the message input field empty.
+2. Click the **voicewave** icon (shown in place of the Send button when the input is empty) to enter Speaking Mode.
+3. A voicewave pill with an **Exit** (✕) button replaces the send button, indicating Speaking Mode is active.
+4. Speak your message. After **3 seconds of silence**, your message is automatically sent.
+5. The AI response streams in and is read aloud via Text-to-Speech.
+6. Once the response finishes playing, recording starts again automatically for the next turn.
+7. Click the **✕** button in the voicewave pill to exit Speaking Mode at any time.
+
+   ![Speaking Mode](../img/menus/chat/speaking-mode.gif)
+
+<Note>
+Speaking Mode requires a voice recognition source (server ASR model or browser Web Speech API) for input and uses Text-to-Speech for output. If you start manual voice input while Speaking Mode is active, Speaking Mode is automatically deactivated.
+</Note>
+
+---
 
 ## Context Budget
 
@@ -740,6 +818,13 @@ Verify that the generated content is in a supported format (code, table, or Merm
 
 <Accordion title="Shared Conversation Link Not Working">
 Ensure the recipient has access to the team project and appropriate permissions. Verify the conversation hasn't been deleted or made private.
+</Accordion>
+
+<Accordion title="Voice Input Not Working">
+- **Microphone icon is hidden**: No server-side ASR model is configured and your browser does not support the Web Speech API. Check your browser compatibility or ask your administrator to configure an ASR model in **Settings → AI Configuration**.
+- *"Microphone access denied."*: Allow microphone access in your browser settings and reload the page.
+- *"No microphone found."*: Connect a microphone and try again.
+- *"Voice input requires an internet connection."*: A network error occurred during server-side transcription. Check your connection and try again.
 </Accordion>
 
 For further assistance, contact your platform administrator.
