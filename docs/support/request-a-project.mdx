@@ -1,0 +1,90 @@
+---
+title: "How to Request a Project Space"
+description: "Learn what an ELITEA shared project space is, how to request one, and how roles and permissions work for your team."
+---
+
+## What Is a Shared Project Space?
+
+ELITEA organizes all work inside **Projects** — isolated workspaces that contain Agents, Pipelines, Toolkits, Credentials, Conversations, Artifacts, and MCPs.
+
+There are two types of project spaces:
+
+| Type | Visibility | Purpose |
+|---|---|---|
+| **Private Project** | Only you | Personal sandbox for building and testing |
+| **Team Project** | All invited members | Shared collaborative workspace for a team |
+
+A **Team Project Space** allows multiple users to create, edit, and use agents together. Key benefits include:
+
+- Multiple people can build and improve agents collaboratively
+- Shared toolkits and credentials are centralized for the whole team
+- All team members can use and reuse each other's agents
+- Consistent workflows and standardized pipelines across the team
+- New members immediately access all team-built assets upon joining
+- Admins can monitor usage, manage access, and control governance
+
+## How to Request a Project Space
+
+Project spaces are created by the ELITEA support team. For EPAM users, send a request to:
+
+**Email:** [SupportAlita@epam.com](mailto:SupportAlita@epam.com)
+
+Include the following information in your request:
+
+- **Project Code or Initiative Name** — the EPAM project code or initiative the space is for
+- **Admin name(s)** — at least one Admin; multiple admins are allowed and recommended
+- **Short description** — what the project is for and who will use it
+- **Instance** — which ELITEA environment (e.g., `next.elitea.ai`, `dev.elitea.ai`)
+
+<Tip>
+Projects for EPAM initiatives are created for free and processed quickly — no additional confirmation is usually required.
+</Tip>
+
+## Roles and Permissions
+
+Roles are assigned and managed by project **Admins** at **Settings → Users**. Users can hold multiple roles simultaneously — permissions are combined.
+
+| Role | Level | Key Capabilities |
+|---|---|---|
+| **System** | Highest | Full platform-level access; all Admin capabilities plus platform-wide administration |
+| **Admin** | High | Full project access — invite users, change roles, create/edit/delete all content |
+| **Editor** | Medium | Create and modify agents, pipelines, toolkits, credentials; run chats — cannot delete or manage users |
+| **Viewer** | Low | Browse and run existing agents and pipelines — cannot create, modify, or delete anything |
+| **Monitor** | Tracking | Specialized role for tracking usage analytics and monitoring activity statistics |
+
+<Note>
+Users can be assigned multiple roles simultaneously. For example, assigning **Editor + Monitor** grants both content creation and analytics access.
+</Note>
+
+### Admin Responsibilities
+
+A project can have more than one Admin, and an Admin can promote other users to Admin at any time. Admins are responsible for managing their team's access because they understand the team structure and what permissions each person needs.
+
+If you need to add, remove, or change user roles, contact your project Admin directly — do not contact support for routine user management.
+
+<Warning>
+Support will not normally make user management changes on behalf of teams. This is intentional: Admins are best placed to know their team structure and the appropriate permissions for each member.
+
+If your project Admin is unreachable and access cannot be managed, contact [SupportAlita@epam.com](mailto:SupportAlita@epam.com) as an exception. Support will evaluate the situation on a case-by-case basis.
+</Warning>
+
+## Moving Agents Between Projects
+
+If you need to move agents into a newly created project space, ELITEA provides three mechanisms:
+
+| Method | Use When | File Required? |
+|---|---|---|
+| **Fork** | Moving within the same ELITEA environment to a different project | No — done entirely in the UI |
+| **Export** | Backup, sharing outside the environment, version control | Yes — `.md` or `.zip` |
+| **Import** | Loading from a file (cross-environment or from backup) | Yes — from file |
+| **Publish** | Making an agent available to the whole community via Agents Studio | No — in-platform |
+
+For step-by-step instructions, see:
+- [Fork Agents and Pipelines](../how-tos/agents-pipelines/forking)
+- [Import and Export Agents and Pipelines](../how-tos/agents-pipelines/import-export)
+- [Agent Publishing to Agents Studio](../how-tos/agents-pipelines/agent-publishing)
+
+## Related
+
+- [Users & Roles Settings](../menus/settings/users)
+- [Contact Support](./contact-support)
