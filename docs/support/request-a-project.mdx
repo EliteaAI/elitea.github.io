@@ -5,9 +5,9 @@ description: "Learn what an ELITEA shared project space is, how to request one, 
 
 ## What Is a Shared Project Space?
 
-ELITEA organizes all work inside **Projects** — isolated workspaces that contain Agents, Pipelines, Toolkits, Credentials, Conversations, Artifacts, and MCPs.
+ELITEA users all work inside **Projects** — isolated workspaces that contain Agents, Pipelines, Toolkits, Credentials, Conversations, Artifacts, and MCPs.
 
-There are two types of project spaces:
+There are three types of project spaces:
 
 | Type | Visibility | Purpose |
 |---|---|---|
@@ -25,19 +25,21 @@ A **Team Project Space** allows multiple users to create, edit, and use agents t
 
 ## How to Request a Project Space
 
-Project spaces are created by the ELITEA support team. For EPAM users, send a request to:
+Project spaces are created by the ELITEA support team for the **next.elitea.ai** environment. For other environments, please contact your platform administrator.
+
+For EPAM users on **next.elitea.ai**, send a request to:
 
 **Email:** [SupportAlita@epam.com](mailto:SupportAlita@epam.com)
 
 Include the following information in your request:
 
-- **Project Code or Initiative Name** — the EPAM project code or initiative the space is for
+- **Project Code or Initiative Name** — the EPAM project code or initiative the space is for ( If you are from Epam)
 - **Admin name(s)** — at least one Admin; multiple admins are allowed and recommended
 - **Short description** — what the project is for and who will use it
-- **Instance** — which ELITEA environment (e.g., `next.elitea.ai`, `dev.elitea.ai`)
+- **Instance** — which ELITEA environment (e.g., `next.elitea.ai`)
 
 <Tip>
-Projects for EPAM initiatives are created for free and processed quickly — no additional confirmation is usually required.
+Projects for EPAM initiatives are created for free and processed quickly — no additional confirmation is usually required from PM/DM side.
 </Tip>
 
 ## Roles and Permissions
@@ -46,21 +48,37 @@ Roles are assigned and managed by project **Admins** at **Settings → Users**. 
 
 | Role | Level | Key Capabilities |
 |---|---|---|
-| **System** | Highest | Full platform-level access; all Admin capabilities plus platform-wide administration |
 | **Admin** | High | Full project access — invite users, change roles, create/edit/delete all content |
 | **Editor** | Medium | Create and modify agents, pipelines, toolkits, credentials; run chats — cannot delete or manage users |
 | **Viewer** | Low | Browse and run existing agents and pipelines — cannot create, modify, or delete anything |
-| **Monitor** | Tracking | Specialized role for tracking usage analytics and monitoring activity statistics |
 
 <Note>
-Users can be assigned multiple roles simultaneously. For example, assigning **Editor + Monitor** grants both content creation and analytics access.
+In case user will be assigned multiple roles simultaneously, user will be granted both access.
 </Note>
+
+<Tip>
+If your team uses toolkits that require individual user credentials (e.g., Jira, Confluence), see [Creating Toolkits with User-Specific Credentials](../how-tos/credentials-toolkits/creating-toolkits-with-user-specific-credentials) to set these up correctly.
+</Tip>
 
 ### Admin Responsibilities
 
 A project can have more than one Admin, and an Admin can promote other users to Admin at any time. Admins are responsible for managing their team's access because they understand the team structure and what permissions each person needs.
 
-If you need to add, remove, or change user roles, contact your project Admin directly — do not contact support for routine user management.
+If you are not admin and need to add, remove, or change user roles, contact your project Admin directly — do not contact support for routine user management.
+
+### Managing Users
+
+Admins manage team members at **Settings → Users**. The available actions are:
+
+| Action | How |
+|---|---|
+| **Invite users** | Click **+ Invite Users** → enter email addresses → select role(s) → **Invite** |
+| **Edit a user's roles** | Click the ✏️ edit icon on the user's row → update roles → **Save** |
+| **Batch-edit roles** | Select multiple users → click **Edit** → update roles → **Save** |
+| **Remove a user** | Click the 🗑️ delete icon on the user's row → confirm |
+| **Batch-remove users** | Select multiple users → click **Delete** → confirm |
+
+For full details, see [Users & Roles Settings](../menus/settings/users).
 
 <Warning>
 Support will not normally make user management changes on behalf of teams. This is intentional: Admins are best placed to know their team structure and the appropriate permissions for each member.
@@ -72,12 +90,11 @@ If your project Admin is unreachable and access cannot be managed, contact [Supp
 
 If you need to move agents into a newly created project space, ELITEA provides three mechanisms:
 
-| Method | Use When | File Required? |
-|---|---|---|
-| **Fork** | Moving within the same ELITEA environment to a different project | No — done entirely in the UI |
-| **Export** | Backup, sharing outside the environment, version control | Yes — `.md` or `.zip` |
-| **Import** | Loading from a file (cross-environment or from backup) | Yes — from file |
-| **Publish** | Making an agent available to the whole community via Agents Studio | No — in-platform |
+| Method | Use When |
+|---|---|
+| **Fork** | Moving within the same ELITEA environment to a different project |
+| **Export** | Backup, sharing outside the environment, version control |
+| **Import** | Loading from a file (cross-environment or from backup) |
 
 For step-by-step instructions, see:
 - [Fork Agents and Pipelines](../how-tos/agents-pipelines/forking)
