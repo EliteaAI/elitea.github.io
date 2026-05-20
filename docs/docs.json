@@ -522,6 +522,7 @@
             "pages": [
               "support/faqs",
               "support/troubleshooting",
+              "support/request-a-project",
               "support/contact-support",
               "support/additional-resources"
             ]
@@ -618,6 +619,30 @@
   {
     "source": "/release-notes/rn_current",
     "destination": "/release-notes/rn-2-0-2"
+  },
+  {
+    "source": "/release-notes/rn-2-0-1",
+    "destination": "/release-notes/archived/rn-2-0-1"
+  },
+  {
+    "source": "/release-notes/rn-2-0-0",
+    "destination": "/release-notes/archived/rn-2-0-0"
+  },
+  {
+    "source": "/release-notes/rn-2-0-0-b2",
+    "destination": "/release-notes/archived/rn-2-0-0-b2"
+  },
+  {
+    "source": "/release-notes/rn-2-0-0-beta",
+    "destination": "/release-notes/archived/rn-2-0-0-beta"
+  },
+  {
+    "source": "/release-notes/rn-1-7-1",
+    "destination": "/release-notes/archived/rn-1-7-1"
+  },
+  {
+    "source": "/release-notes/rn-1-7-0",
+    "destination": "/release-notes/archived/rn-1-7-0"
   },
   {
     "source": "/release-notes/archived/rn16",
