@@ -112,11 +112,8 @@
                   "menus/settings/analytics"
                 ]
               },
-              {
-                "group": "Notification Center",
-                "icon": "bell",
-                "pages": ["menus/notification-center"]
-              },
+                "menus/notification-center",
+                "menus/support-assistant",
               {
                 "group": "Profile",
                 "icon": "user",
@@ -376,7 +373,7 @@
           },
           {
             "group": "Toolkits",
-            "icon": "screwdriver-wrench",
+            "icon": "wrench",
             "pages": [
               {
                 "group": "Code Repositories",
