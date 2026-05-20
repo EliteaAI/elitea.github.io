@@ -112,6 +112,7 @@
                   "menus/settings/analytics"
                 ]
               },
+                "menus/resources",
                 "menus/notification-center",
                 "menus/support-assistant",
               {
