@@ -192,8 +192,41 @@ The **Instructions** section is the core component where you define how your age
 
 - **Identify Key Information**: Before entering data into the Instructions field, identify the essential details or instructions that the model needs to know to fulfill your request effectively. This could include the topic, specific terms, relevant background information, or the scope of the task.
 - **Enter the Details**: In the Instructions field, clearly and concisely input the identified information. Ensure that the information is directly relevant to the task to maintain the agent's focus and efficiency.
-- **Using toolkits**: For enhancing agent's capabilities, you can integrate toolkits and provide instructions how to use them and in which order. The name of toolkit can be denoted by "", (e.g. "Access\_JIRA" toolkit).
+  
   ![Agents-Instructions](../img/menus/agents/agents-instructions.gif)
+
+#### Mentions in Instructions
+
+The Instructions field supports `/` mentions to reference tools added to the agent directly in the instruction text. Inserted mentions are highlighted in the field so you can see at a glance which tools are referenced.
+
+<Note>
+Mentions are supported in both the standard Instructions field and the **full-screen editor**. Inserted mentions are highlighted in both views.
+</Note>
+
+**How to use mentions:**
+
+1. Type `/` anywhere in the Instructions field to open the suggestion dropdown.
+2. The dropdown lists all **toolkits, MCPs, agents, and pipelines** that are added to the agent and have no configuration errors.
+3. Start typing after `/` to filter the list by name.
+4. Use the **arrow keys** to navigate the list and **Enter** to select, or click an item directly.
+5. For toolkits and MCPs, selecting an item opens a second phase to optionally pick a **specific tool** within that toolkit. Type to filter tools and select one, or press **Enter** or click the toolkit name without a tool to mention the whole toolkit.
+6. Press **Escape** at any point to dismiss the dropdown without inserting a mention.
+
+   ![Agents-Instruction-Mentions](../img/menus/agents/agents-instruction-mentions.gif)
+
+
+**Mention format inserted into the instructions text:**
+
+| What you mention | Mention inserted |
+|---|---|
+| Agent or pipeline | `/Name ` |
+| Whole toolkit or MCP | `/Name ` |
+| Specific tool within a toolkit | `/Name/ToolName ` |
+
+<Warning>
+Only tools that are already added to the agent's **Toolkits** section and have no validation errors appear in the suggestion list. Add a toolkit to the agent first before mentioning it in instructions.
+</Warning>
+
 
 #### VARIABLES
 
