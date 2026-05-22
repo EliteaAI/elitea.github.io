@@ -37,7 +37,7 @@ Create an Azure DevOps account and organization to access Wiki, Boards, and Test
     *   Select **"Basic"** access level
     *   Choose relevant project(s)
     *   Click **"Add"**
-         <img src="../../img/integrations/toolkits/ado/ado-repo-add-user.gif" alt="Add user" />
+         <img src="../img/integrations/toolkits/ado/ado-add-user.gif" alt="Add user" />
 7.  **Configure Project Permissions (Optional):** To ensure users have project access:
     *   Open **"Project settings"** (bottom left)
     *   Select **"Groups"** under Security
@@ -81,9 +81,9 @@ For secure integration with ELITEA, it is essential to use an Azure DevOps **Per
             * **Release** (For Azure Pipelines releases interaction)
 
 5.  **Create Token:** Click the **"Create"** button to generate your PAT.
-6.  **Copy and Store Token:** **Copy the generated token immediately** - this is your only chance to see it. Store it securely in a password manager or ELITEA's **[Secrets](../../menus/settings/secrets)** feature.
+6.  **Copy and Store Token:** **Copy the generated token immediately** - this is your only chance to see it. Store it securely in a password manager or ELITEA's **[Secrets](../menus/settings/secrets)** feature.
 
-    <img src="../../img/integrations/toolkits/ado/ado-repo-new-token.gif" alt="AdoRepos-Generate_PAT" />
+    <img src="../img/integrations/toolkits/ado/ado-new-token.gif" alt="AdoRepos-Generate_PAT" />
 
 <Warning title="Important Security Practices">
 **Principle of Least Privilege:** Grant only the scopes absolutely essential for your ELITEA integration tasks.
@@ -101,7 +101,7 @@ To integrate Azure DevOps with ELITEA, you need to follow a three-step process: 
 
 Before creating any toolkit, you must first create Azure DevOps credentials in ELITEA:
 
-1. **Navigate to Credentials Menu:** Open the sidebar and select **[Credentials](../../menus/credentials)**.
+1. **Navigate to Credentials Menu:** Open the sidebar and select **[Credentials](../menus/credentials)**.
 2. **Create New Credential:** Click the **`+ Create`** button.
 3. **Select Azure DevOps:** Choose **Ado** as the credential type.
 4. **Configure Credential Details:**
@@ -117,10 +117,10 @@ Before creating any toolkit, you must first create Azure DevOps credentials in E
 5. **Test Connection:** Click **Test Connection** to verify your credentials are valid and ELITEA can connect to Azure DevOps
 6. **Save Credential:** Click **Save** to create the credential. It will be available in the Credentials dashboard for use in toolkit configurations.
 
-     <img src="../../img/integrations/toolkits/ado/ado-credentials-create.gif" alt="Credentials" />
+     <img src="../img/integrations/toolkits/ado/ado-credentials-create.gif" alt="Credentials" />
 
 <Tip title="Security Recommendation">
-Use **[Secrets](../../menus/settings/secrets)** for your PAT instead of entering values directly. Create a secret first, then reference it in your credential configuration.
+Use **[Secrets](../menus/settings/secrets)** for your PAT instead of entering values directly. Create a secret first, then reference it in your credential configuration.
 </Tip>
 
 ### Step 2: Create Azure DevOps Toolkits
@@ -129,7 +129,7 @@ Once your credentials are configured, you can create one or more Azure DevOps to
 
 #### Azure DevOps Wiki Toolkit
 
-1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits](../../menus/toolkits)**.
+1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits](../menus/toolkits)**.
 2. **Create New Toolkit:** Click the **`+ Create`** button.
 3. **Select Azure Wiki:** Choose **Azure Wiki (ADO Wiki)** from the list of available toolkit types.
 4. **Configure Toolkit Settings:**
@@ -144,10 +144,10 @@ Once your credentials are configured, you can create one or more Azure DevOps to
     | **Default Wiki Identifier** | Default Wiki Identifier (Wiki ID or wiki name). If provided, this identifier will be used when tools are invoked without explicitly specifying a wiki identifier. | `ProjectWiki` |
 
 5. **Enable Desired Tools:** In the **"Tools"** section, select the checkboxes next to the specific Wiki tools you want to enable. **Enable only the tools your agents will actually use** to follow the principle of least privilege
-       * **[Make Tools Available by MCP](../mcp/make-tools-available-by-mcp)** - (optional checkbox) Enable this option to make the selected tools accessible through external MCP clients
+       * **[Make Tools Available by MCP](../integrations/mcp/make-tools-available-by-mcp)** - (optional checkbox) Enable this option to make the selected tools accessible through external MCP clients
 6. **Save Toolkit:** Click **Save** to create the toolkit.
 
-<img src="../../img/integrations/toolkits/ado/ado-wiki-toolkit-create.gif" alt="Ado wiki" />
+<img src="../img/integrations/toolkits/ado/ado-wiki-toolkit-create.gif" alt="Ado wiki" />
 
 ##### Available Wiki Tools:
 
@@ -176,7 +176,7 @@ The ADO Wiki toolkit provides the following tools for interacting with Azure Dev
 
 #### Azure DevOps Boards Toolkit
 
-1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits](../../menus/toolkits)**.
+1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits](../menus/toolkits)**.
 2. **Create New Toolkit:** Click the **`+ Create`** button.
 3. **Select Azure Boards:** Choose **Azure Boards (ADO Board)** from the list of available toolkit types.
 4. **Configure Toolkit Settings:**
@@ -191,10 +191,10 @@ The ADO Wiki toolkit provides the following tools for interacting with Azure Dev
     | **Limit** | Default ADO boards result limit (can be overridden by agent instructions) | `5` |
 
 5. **Enable Desired Tools:** In the **"Tools"** section, select the checkboxes next to the specific Boards tools you want to enable. **Enable only the tools your agents will actually use**
-       * **[Make Tools Available by MCP](../mcp/make-tools-available-by-mcp)** - (optional checkbox) Enable this option to make the selected tools accessible through external MCP clients
+       * **[Make Tools Available by MCP](../integrations/mcp/make-tools-available-by-mcp)** - (optional checkbox) Enable this option to make the selected tools accessible through external MCP clients
 6. **Save Toolkit:** Click **Save** to create the toolkit.
 
-<img src="../../img/integrations/toolkits/ado/ado-board-toolkit-create.gif" alt="ADO boards" />
+<img src="../img/integrations/toolkits/ado/ado-board-toolkit-create.gif" alt="ADO boards" />
 
 ##### Available Boards Tools:
 
@@ -226,7 +226,7 @@ The ADO Boards toolkit provides the following tools for interacting with Azure D
 
 #### Azure DevOps Test Plans Toolkit
 
-1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits](../../menus/toolkits)**.
+1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits](../menus/toolkits)**.
 2. **Create New Toolkit:** Click the **`+ Create`** button.
 3. **Select Azure Test Plans:** Choose **Azure Test Plans (ADO Test Plan)** from the list of available toolkit types.
 4. **Configure Toolkit Settings:**
@@ -241,10 +241,10 @@ The ADO Boards toolkit provides the following tools for interacting with Azure D
     | **Limit** | ADO plans limit used for limitation of the list with results | `5` |
 
 5. **Enable Desired Tools:** In the **"Tools"** section, select the checkboxes next to the specific Test Plans tools you want to enable. **Enable only the tools your agents will actually use**
-       * **[Make Tools Available by MCP](../mcp/make-tools-available-by-mcp)** - (optional checkbox) Enable this option to make the selected tools accessible through external MCP clients
+       * **[Make Tools Available by MCP](../integrations/mcp/make-tools-available-by-mcp)** - (optional checkbox) Enable this option to make the selected tools accessible through external MCP clients
 6. **Save Toolkit:** Click **Save** to create the toolkit.
 
-<img src="../../img/integrations/toolkits/ado/ado-plans-toolkit-create.gif" alt="ADO plans" />
+<img src="../img/integrations/toolkits/ado/ado-plans-toolkit-create.gif" alt="ADO plans" />
 
 ##### Available Test Plans Tools:
 
@@ -298,7 +298,7 @@ After configuring your Azure DevOps toolkits, you can test individual tools dire
 * Test different parameter combinations and edge cases before production use
 * Familiarize yourself with tool capabilities and expected outputs
 
-> For detailed instructions on how to use the Test Settings panel, see **[How to Test Toolkit Tools](../../how-tos/credentials-toolkits/how-to-test-toolkit-tools)**.
+> For detailed instructions on how to use the Test Settings panel, see **[How to Test Toolkit Tools](../how-tos/credentials-toolkits/how-to-test-toolkit-tools)**.
 </Tip>
 
 ---
@@ -309,33 +309,33 @@ Now you can add the configured Azure DevOps toolkits to your agents, pipelines, 
 ---
 #### In Agents:
 
-1. **Navigate to Agents:** Open the sidebar and select **[Agents](../../menus/agents)**.
+1. **Navigate to Agents:** Open the sidebar and select **[Agents](../menus/agents)**.
 2. **Create or Edit Agent:** Either create a new agent or select an existing agent to edit.
 3. **Add Azure DevOps Toolkit:**
      * In the **"TOOLKITS"** section of the agent configuration, click the **"+Toolkit"** icon
      * Select your desired Azure DevOps toolkit (Wiki, Boards, or Test Plans) from the dropdown menu
      * The toolkit will be added to your agent with the previously configured tools enabled
 
-<img src="../../img/integrations/toolkits/ado/ado-agent-add.gif" alt="Agent add" />
+<img src="../img/integrations/toolkits/ado/ado-board-agent-add.gif" alt="Agent add" />
 
 Your agent can now interact with Azure DevOps using the configured toolkit and enabled tools.
 
 ---
 #### In Pipelines:
 
-1. **Navigate to Pipelines:** Open the sidebar and select **[Pipelines](../../menus/pipelines)**.
+1. **Navigate to Pipelines:** Open the sidebar and select **[Pipelines](../menus/pipelines)**.
 2. **Create or Edit Pipeline:** Either create a new pipeline or select an existing pipeline to edit.
 3. **Add Azure DevOps Toolkit:**
      * In the **"TOOLKITS"** section of the pipeline configuration, click the **"+Toolkit"** icon
      * Select your desired Azure DevOps toolkit from the dropdown menu
      * The toolkit will be added to your pipeline with the previously configured tools enabled
 
-<img src="../../img/integrations/toolkits/ado/ado-pipeline-add.gif" alt="Pipeline add" />
+<img src="../img/integrations/toolkits/ado/ado-board-pipeline-add.gif" alt="Pipeline add" />
 
 ---
 #### In Chat:
 
-1. **Navigate to Chat:** Open the sidebar and select **[Chat](../../menus/chat)**.
+1. **Navigate to Chat:** Open the sidebar and select **[Chat](../menus/chat)**.
 2. **Start New Conversation:** Click **+Create** or open an existing conversation.
 3. **Add Toolkit to Conversation:**
      * In the chat Participants section, look for the **Toolkits** element
@@ -343,7 +343,7 @@ Your agent can now interact with Azure DevOps using the configured toolkit and e
      * The toolkit will be added to your conversation with all previously configured tools enabled
 4. **Use Toolkit in Chat:** You can now directly interact with Azure DevOps by asking questions or requesting actions that will trigger the toolkit tools.
 
-<img src="../../img/integrations/toolkits/ado/ado-chat-add.gif" alt="Chat add" />
+<img src="../img/integrations/toolkits/ado/ado-board-chat-add.gif" alt="Chat add" />
 
 <Info title="Example Chat Usage:">
 - "Show me the latest release notes from the project wiki."
@@ -809,7 +809,7 @@ Begin by implementing Azure DevOps integration for simpler automation tasks, suc
 
 ### Support Contact
 
-If you encounter issues not covered in this guide or need additional assistance with Azure DevOps integration, please refer to **[Contact Support](../../support/contact-support)** for detailed information on how to reach the ELITEA Support Team.
+If you encounter issues not covered in this guide or need additional assistance with Azure DevOps integration, please refer to **[Contact Support](../support/contact-support)** for detailed information on how to reach the ELITEA Support Team.
 
 **Email:** SupportAlita@epam.com
 
@@ -896,13 +896,13 @@ Use the path-based method for most cases unless you specifically have the page I
 <Info title="Useful ELITEA Resources">
 To further enhance your understanding and skills in using the Azure DevOps Wiki, Boards, and Test Plans toolkits with ELITEA, here are helpful internal resources:
 
-* **[How to Use Chat Functionality](../../how-tos/chat-conversations/how-to-use-chat-functionality)** - *Complete guide to using ELITEA Chat with toolkits for interactive Azure DevOps operations.*
-* **[Create and Edit Agents from Canvas](../../how-tos/chat-conversations/how-to-create-and-edit-agents-from-canvas)** - *Learn how to quickly create and edit agents directly from chat canvas for rapid prototyping and workflow automation.*
-* **[Create and Edit Toolkits from Canvas](../../how-tos/chat-conversations/how-to-create-and-edit-toolkits-from-canvas)** - *Discover how to create and configure Azure DevOps toolkits directly from chat interface for streamlined workflow setup.*
-* **[Create and Edit Pipelines from Canvas](../../how-tos/chat-conversations/how-to-create-and-edit-pipelines-from-canvas)** - *Guide to building and modifying pipelines from chat canvas for automated Azure DevOps workflows.*
-* **[Indexing Overview](../../how-tos/indexing/indexing-overview)** - *Comprehensive guide to understanding ELITEA's indexing capabilities and how to leverage them for enhanced search and discovery.*
-* **[Index ADO Wiki Data](../../how-tos/indexing/index-ado-wiki-data)** - *Detailed instructions for indexing Azure DevOps Wiki data to enable advanced search, analysis, and AI-powered insights across your documentation.*
-* **[Azure Repos (ADO Repos) Toolkit Integration Guide](./ado_repos_toolkit)** - *Learn how to integrate Azure Repos for comprehensive Azure DevOps version control capabilities.*
+* **[How to Use Chat Functionality](../how-tos/chat-conversations/how-to-use-chat-functionality)** - *Complete guide to using ELITEA Chat with toolkits for interactive Azure DevOps operations.*
+* **[Create and Edit Agents from Canvas](../how-tos/chat-conversations/how-to-create-and-edit-agents-from-canvas)** - *Learn how to quickly create and edit agents directly from chat canvas for rapid prototyping and workflow automation.*
+* **[Create and Edit Toolkits from Canvas](../how-tos/chat-conversations/how-to-create-and-edit-toolkits-from-canvas)** - *Discover how to create and configure Azure DevOps toolkits directly from chat interface for streamlined workflow setup.*
+* **[Create and Edit Pipelines from Canvas](../how-tos/chat-conversations/how-to-create-and-edit-pipelines-from-canvas)** - *Guide to building and modifying pipelines from chat canvas for automated Azure DevOps workflows.*
+* **[Indexing Overview](../how-tos/indexing/indexing-overview)** - *Comprehensive guide to understanding ELITEA's indexing capabilities and how to leverage them for enhanced search and discovery.*
+* **[Index ADO Wiki Data](../how-tos/indexing/index-ado-wiki-data)** - *Detailed instructions for indexing Azure DevOps Wiki data to enable advanced search, analysis, and AI-powered insights across your documentation.*
+* **[Azure Repos (ADO Repos) Toolkit Integration Guide](../integrations/toolkits/ado_repos_toolkit)** - *Learn how to integrate Azure Repos for comprehensive Azure DevOps version control capabilities.*
 </Info>
 
 ---
