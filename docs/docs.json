@@ -405,7 +405,7 @@
                 "icon": "file-lines",
                 "expanded": false,
                 "pages": [
-                  "integrations/toolkits/ado_wiki_plan_board_toolkit",
+                  "integrations/toolkits/ado_wiki_toolkit",
                   "integrations/toolkits/confluence_toolkit"
                 ]
               },
@@ -419,13 +419,14 @@
                 "group": "Project Management",
                 "icon": "list-check",
                 "expanded": false,
-                "pages": ["integrations/toolkits/jira_toolkit", "integrations/toolkits/rally_toolkit"]
+                "pages": ["integrations/toolkits/ado_boards_toolkit", "integrations/toolkits/jira_toolkit", "integrations/toolkits/rally_toolkit"]
               },
               {
                 "group": "Test Management",
                 "icon": "flask",
                 "expanded": false,
                 "pages": [
+                  "integrations/toolkits/ado_plans_toolkit",
                   "integrations/toolkits/qtest_toolkit",
                   "integrations/toolkits/testrail_toolkit",
                   "integrations/toolkits/xray_toolkit",
@@ -590,6 +591,7 @@
                   "archive/what-is-a-collection",
                   "archive/browser_toolkit",
                   "archive/pandas_toolkit",
+                  "archive/ado_wiki_plan_board_toolkit",
                   "archive/monitoring",
                   "archive/manage-users-and-roles",
                   "archive/prompt-magic-assistant",
