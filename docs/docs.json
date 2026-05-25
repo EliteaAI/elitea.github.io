@@ -460,6 +460,11 @@
             ]
           },
           {
+            "group": "Applications",
+            "icon": "puzzle-piece",
+            "pages": ["integrations/apps/wikis"]
+          },          
+          {
             "group": "Third-Party Integrations",
             "icon": "arrows-left-right",
             "pages": [
@@ -470,7 +475,7 @@
           },
           {
             "group": "Extensions",
-            "icon": "puzzle-piece",
+            "icon": "cubes",
             "pages": ["integrations/extensions/elitea-code", "integrations/extensions/elitea-code-chat"]
           }
         ]
