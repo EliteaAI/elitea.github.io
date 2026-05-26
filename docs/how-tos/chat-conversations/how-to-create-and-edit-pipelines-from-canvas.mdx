@@ -204,6 +204,16 @@ The **+ Toolkit**, **+ MCP**, **+ Agent**, and **+ Pipeline** buttons are disabl
   </Tab>
 </Tabs>
 
+#### Internal Tools Configuration
+
+In the **INTERNAL TOOLS** section, you can enable built-in capabilities that extend the pipeline without requiring external credentials:
+
+- **Attachments**: Toggle to enable file attachment support in pipeline conversations. When enabled, users can attach documents, images, code files, and more directly in the chat input. Enabling this automatically adds an `input_attachments` state variable to the pipeline YAML, which nodes can reference via `{{state.input_attachments}}`.
+
+<Note>
+File attachments require a default vector storage (pgvector) and a default embedding model to be configured in your project settings. Contact your platform administrator if attachments fail to upload.
+</Note>
+
 ### Flow Editor Tab
 
 The **Flow Editor** tab provides a visual interface for designing your pipeline workflow. 
@@ -288,6 +298,9 @@ Once in edit mode, the interface displays current settings pre-populated. You ca
       </Card>
       <Card title="Advanced Settings" icon="gear">
         Adjust the step limit and other execution parameters.
+      </Card>
+      <Card title="Internal Tools" icon="wrench">
+        Toggle **Attachments** on or off to enable or disable file upload support for the pipeline.
       </Card>
       <Card title="LLM Model and Settings" icon="sliders">
         Switch to a different model or fine-tune model parameters such as creativity/reasoning level and max tokens.

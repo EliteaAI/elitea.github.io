@@ -467,6 +467,108 @@ Speaking Mode requires a voice recognition source (server ASR model or browser W
 
 ---
 
+## File Attachments
+
+Enable users to upload and share files — documents, images, code files, and more — directly in pipeline conversations. When Attachments are enabled, ELITEA automatically injects a file-storage and retrieval toolkit into the pipeline at execution time, and adds an `input_attachments` state variable that any pipeline node can reference.
+
+<CardGroup cols={3}>
+  <Card title="Enable Once" icon="toggle-on">
+    Turn on the **Attachments** toggle in the pipeline configuration. The `input_attachments` state variable is added to the YAML automatically.
+  </Card>
+  <Card title="Three Ways to Attach" icon="paperclip">
+    Upload files using the paperclip icon, drag-and-drop onto the chat input, or paste from the clipboard (Ctrl+V).
+  </Card>
+  <Card title="Access in Nodes" icon="code">
+    Reference uploaded files in any pipeline node using `{{state.input_attachments}}` after the files have been uploaded.
+  </Card>
+</CardGroup>
+
+---
+
+**Enabling File Attachments**
+
+File attachment support is **disabled by default** for pipelines. To enable it:
+
+1. Open the pipeline and locate the **left configuration panel**.
+2. Scroll to the **INTERNAL TOOLS** section.
+3. Toggle the **Attachments** switch to the on position.
+4. Click **Save** to apply the change.
+
+![Enable Attachments](../img/menus/pipeline/pipeline-attachments-enable.gif)
+
+<Note>
+When you enable Attachments, ELITEA automatically adds an `input_attachments` state variable (type: `list`, default: `[]`) to the pipeline's YAML `state` section. When you disable Attachments, the variable is automatically removed. No manual YAML editing is needed.
+</Note>
+
+<Warning>
+Attachments require a **default vector storage (pgvector)** and a **default embedding model** to be configured in your project settings. If these are not configured, an error will occur when users attempt to attach files. Contact your platform administrator to verify the project configuration before enabling attachments.
+</Warning>
+
+---
+
+**Attaching Files in Chat**
+
+Once Attachments are enabled for the pipeline, three methods are available in the chat input:
+
+- **Paperclip icon (📎)** — Click the paperclip button in the message input toolbar to open the system file picker and select one or more files. The tooltip shows how many attachment slots remain (*"Attach files (N left)"*) and is disabled once the maximum is reached.
+- **Drag and drop** — Drag files from your operating system and drop them directly onto the chat input area.
+- **Clipboard paste** — Copy files to your clipboard and press **Ctrl+V** while the chat input is focused to attach them instantly.
+
+Attached files appear above the message input before you send:
+- **Images** are displayed as thumbnail previews in a grid layout.
+- **Other files** (documents, code, data, archives) are displayed as filename chips showing the file name and type icon.
+
+![Attach Files](../img/menus/pipeline/pipeline-attach-file.gif)
+
+
+---
+
+**File Limits**
+
+| Limit | Value |
+|-------|-------|
+| Maximum files per message | 10 |
+| Maximum total size per message | 150 MB |
+| Maximum size per individual file | 150 MB |
+| Maximum images per message | 10 |
+| Maximum size per image file | 5 MB *(SVG excluded from size limit)* |
+
+---
+
+**Supported File Types**
+
+Supported file types are configured by platform administrators through document loaders. The following categories are typically available:
+
+| Category | Examples |
+|----------|---------|
+| **Images** | JPEG, PNG, GIF, BMP, WebP, SVG, TIFF, ICO, AVIF, APNG |
+| **Documents** | PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX |
+| **Code** | JS, TS, JSX, TSX, Python, Java, C#, PHP, Ruby, Go, Rust, Kotlin, Swift, C, C++ |
+| **Data** | CSV, TSV, JSON, YAML, XML, SQL |
+| **Text** | TXT, MD, RST |
+| **Archives** | ZIP, TAR, GZ, RAR, 7-ZIP |
+
+---
+
+**YAML Integration**
+
+When Attachments are enabled, the pipeline YAML is automatically updated to include:
+
+```yaml
+state:
+  input_attachments:
+    type: list
+    default: []
+```
+
+Pipeline nodes can reference uploaded files using `{{state.input_attachments}}`. Each item in the list represents one processed file — images are passed as image content, and all other files are indexed and passed as extracted text — ready for use in LLM, Code, or Toolkit nodes.
+
+<Info>
+The `input_attachments` state variable is fully managed by the platform. It is added when Attachments are enabled and removed when they are disabled. The backend automatically injects the file-storage toolkit (using the project's default attachment bucket, vector storage, and embedding model) at predict time — no manual toolkit configuration is required.
+</Info>
+
+---
+
 ## Managing Pipeline Versions: Save, Create Versions, and Manage
 
 To optimally manage your pipeline, understanding how to save and create versions is crucial. Follow these guidelines to efficiently save your pipeline, create versions, and manage them.
