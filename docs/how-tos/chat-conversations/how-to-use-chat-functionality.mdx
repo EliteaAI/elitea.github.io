@@ -830,6 +830,80 @@ If an agent calls the same sensitive tool multiple times in one execution cycle,
 For full details including configuration, pipeline behavior, and troubleshooting, see [Sensitive Action Authorization Guardrail](./sensitive-action-authorization-guardrail).
 
 
+## Voice Capabilities
+
+ELITEA Chat includes voice input and voice output capabilities that let you speak your messages and have AI responses read back to you.
+
+<CardGroup cols={3}>
+  <Card title="Voice Input" icon="microphone">
+    Dictate messages into the chat input field. Transcribed text is inserted at the cursor position in real time.
+  </Card>
+  <Card title="Text-to-Speech" icon="volume-high">
+    Have AI responses read aloud. Pause and resume playback from a mini-player pill in the input area.
+  </Card>
+  <Card title="Speaking Mode" icon="waveform-lines">
+    Hands-free voice conversation loop. ELITEA records, sends, speaks the response, and listens again — automatically.
+  </Card>
+</CardGroup>
+
+### Voice Input
+
+**Voice Input** lets you dictate messages directly into the chat input field using a microphone. The transcribed text is inserted at the cursor position, so you can combine typed and spoken content in the same message.
+
+**How to use Voice Input:**
+
+1. Click the **microphone** icon in the message input toolbar to start recording.
+2. Speak your message. A live transcript appears in the input field as you talk — interim results update in real time.
+3. Click the **Stop** (■) button to finish recording. The final transcript is committed and focus returns to the input field.
+
+<img src="../../img/menus/chat/voice-input.gif" alt="Voice Input" />
+
+<Note>
+When a server-side ASR (automatic speech recognition) model is configured in **Settings → AI Configuration → Speech Recognition (ASR)**, Voice Input uses that model via streaming. If no server ASR model is available, Voice Input falls back to the browser's built-in Web Speech API. If neither is available, the microphone icon is hidden.
+</Note>
+
+### Text-to-Speech
+
+**Text-to-Speech** reads AI responses aloud. A **Read out** button (megaphone icon) appears in the action bar below each AI message when the message contains speakable text.
+
+**How to use Text-to-Speech:**
+
+1. Click the **Read out** (megaphone) button below an AI message to start playback.
+2. The text is highlighted as it is read aloud.
+3. A playback pill appears in the input area with **Pause** and **Resume** controls.
+4. Click **Pause** to stop playback mid-sentence; click **Resume** to continue from where it left off.
+
+<img src="../../img/menus/chat/text-to-speech.gif" alt="Text-to-Speech" />
+
+<Note>
+When a TTS model is configured in **Settings → AI Configuration → Text to Speech (TTS)**, ELITEA uses that model for audio generation via Web Audio API. If no TTS model is configured, playback uses the browser's built-in SpeechSynthesis API as a fallback.
+</Note>
+
+### Speaking Mode
+
+<Warning>
+Speaking Mode is only available **after the conversation has been created** — meaning at least one message must have been sent first. The voicewave icon does not appear in a brand-new, unsent conversation. Send your first message to initialize the conversation, then use Speaking Mode for subsequent turns.
+</Warning>
+
+**Speaking Mode** is a continuous, hands-free voice conversation loop. Once activated, ELITEA automatically records your speech, sends your message after a pause, plays back the AI's response, and then starts listening again — without any manual interaction between turns.
+
+**How to activate Speaking Mode:**
+
+1. Leave the message input field empty.
+2. Click the **voicewave** icon (shown in place of the Send button when the input is empty) to enter Speaking Mode.
+3. A voicewave pill with an **Exit** (✕) button replaces the send button, indicating Speaking Mode is active.
+4. Speak your message. After **3 seconds of silence**, your message is automatically sent.
+5. The AI response streams in and is read aloud via Text-to-Speech.
+6. Once the response finishes playing, recording starts again automatically for the next turn.
+7. Click the **✕** button in the voicewave pill to exit Speaking Mode at any time.
+
+<img src="../../img/menus/chat/speaking-mode.gif" alt="Speaking Mode" />
+
+<Note>
+Speaking Mode requires a voice recognition source (server ASR model or browser Web Speech API) for input and uses Text-to-Speech for output. If you start manual voice input while Speaking Mode is active, Speaking Mode is automatically deactivated.
+</Note>
+
+
 ## Playback Mode
 
 Playback mode allows you to step through an existing conversation turn by turn, exactly as it happened, without actually sending requests to the Models, Toolkits, etc.
