@@ -462,7 +462,7 @@
           {
             "group": "Applications",
             "icon": "puzzle-piece",
-            "pages": ["integrations/apps/wikis"]
+            "pages": ["integrations/apps/wikis", "integrations/apps/inventory"]
           },          
           {
             "group": "Third-Party Integrations",
