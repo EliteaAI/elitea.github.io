@@ -112,11 +112,9 @@
                   "menus/settings/analytics"
                 ]
               },
-              {
-                "group": "Notification Center",
-                "icon": "bell",
-                "pages": ["menus/notification-center"]
-              },
+              "menus/resources",
+              "menus/notification-center",
+              "menus/support-assistant",
               {
                 "group": "Profile",
                 "icon": "user",
@@ -370,13 +368,17 @@
               {
                 "group": "Connect External Tools to ELITEA",
                 "expanded": true,
-                "pages": ["integrations/mcp/create-and-use-remote-mcp", "integrations/mcp/create-and-use-client-stdio", "integrations/mcp/epam-mcps"]
+                "pages": [
+                  "integrations/mcp/create-and-use-remote-mcp",
+                  "integrations/mcp/create-and-use-client-stdio",
+                  "integrations/mcp/epam-mcps"
+                ]
               }
             ]
           },
           {
             "group": "Toolkits",
-            "icon": "screwdriver-wrench",
+            "icon": "wrench",
             "pages": [
               {
                 "group": "Code Repositories",
@@ -406,10 +408,7 @@
                 "group": "Documentation",
                 "icon": "file-lines",
                 "expanded": false,
-                "pages": [
-                  "integrations/toolkits/ado_wiki_plan_board_toolkit",
-                  "integrations/toolkits/confluence_toolkit"
-                ]
+                "pages": ["integrations/toolkits/ado_wiki_toolkit", "integrations/toolkits/confluence_toolkit"]
               },
               {
                 "group": "Office",
@@ -421,13 +420,18 @@
                 "group": "Project Management",
                 "icon": "list-check",
                 "expanded": false,
-                "pages": ["integrations/toolkits/jira_toolkit", "integrations/toolkits/rally_toolkit"]
+                "pages": [
+                  "integrations/toolkits/ado_boards_toolkit",
+                  "integrations/toolkits/jira_toolkit",
+                  "integrations/toolkits/rally_toolkit"
+                ]
               },
               {
                 "group": "Test Management",
                 "icon": "flask",
                 "expanded": false,
                 "pages": [
+                  "integrations/toolkits/ado_plans_toolkit",
                   "integrations/toolkits/qtest_toolkit",
                   "integrations/toolkits/testrail_toolkit",
                   "integrations/toolkits/xray_toolkit",
@@ -461,6 +465,11 @@
             ]
           },
           {
+            "group": "Applications",
+            "icon": "puzzle-piece",
+            "pages": ["integrations/apps/wikis", "integrations/apps/inventory"]
+          },          
+          {
             "group": "Third-Party Integrations",
             "icon": "arrows-left-right",
             "pages": [
@@ -471,7 +480,7 @@
           },
           {
             "group": "Extensions",
-            "icon": "puzzle-piece",
+            "icon": "cubes",
             "pages": ["integrations/extensions/elitea-code", "integrations/extensions/elitea-code-chat"]
           }
         ]
@@ -483,18 +492,23 @@
           {
             "group": "Latest Release",
             "icon": "tag",
-            "pages": ["release-notes/rn-2-0-2"]
+            "pages": ["release-notes/rn-2-0-3"]
           },
           {
             "group": "Recent Releases",
             "icon": "clock-rotate-left",
-            "pages": ["release-notes/archived/rn-2-0-1", "release-notes/archived/rn-2-0-0", "release-notes/archived/rn-2-0-0-b2"]
+            "pages": [
+              "release-notes/archived/rn-2-0-2",
+              "release-notes/archived/rn-2-0-1",
+              "release-notes/archived/rn-2-0-0"
+            ]
           },
           {
             "group": "Older Releases",
             "icon": "archive",
             "expanded": false,
             "pages": [
+              "release-notes/archived/rn-2-0-0-b2",
               "release-notes/archived/rn-2-0-0-beta",
               "release-notes/archived/rn-1-7-1",
               "release-notes/archived/rn-1-7-0",
@@ -593,6 +607,7 @@
                   "archive/what-is-a-collection",
                   "archive/browser_toolkit",
                   "archive/pandas_toolkit",
+                  "archive/ado_wiki_plan_board_toolkit",
                   "archive/monitoring",
                   "archive/manage-users-and-roles",
                   "archive/prompt-magic-assistant",

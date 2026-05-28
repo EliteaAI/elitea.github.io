@@ -10,18 +10,36 @@ A Conversation in ELITEA represents a dynamic dialogue involving multiple partic
 
 All your conversations are securely stored on the ELITEA server, making them accessible from any device where you log in. You can find all your conversations listed under the Chat menu in the sidebar.
 
-## Key Features
+**Key Features**
 
-* **Public and Private Conversations**: Control visibility and collaboration by sharing conversations or keeping them private.  
-* **Diverse Participants**: Integrate Models, Agents, Pipelines, Toolkits, MCPs, and other Users (in public conversations) into your chat.  
-* **Canvas Editor**: Edit and refine AI-generated code, tables, and diagrams with built-in editing tools.
-* **File Attachments**: Upload and attach images and files for AI analysis and processing.
-* **Internal Tools**: Execute Python code securely with the Python Sandbox internal tool.
-* **Rich Interactions**: Engage with participants, copy responses, provide feedback, and more.  
-* **Comprehensive Management**: Save, pin, share, delete, and clear conversations.  
-* **Folder Organization**: Structure your conversations logically using folders.  
-* **Playback Mode**: Simulate and review conversation flows without engaging live models, ideal for demos.  
- ## Getting Started
+<CardGroup cols={3}>
+  <Card title="Public & Private Conversations" icon="lock">
+    Control visibility and collaboration by sharing conversations or keeping them private.
+  </Card>
+  <Card title="Diverse Participants" icon="users">
+    Integrate Models, Agents, Pipelines, Toolkits, MCPs, and other Users (in public conversations).
+  </Card>
+  <Card title="Canvas Editor" icon="pen-to-square">
+    Edit and refine AI-generated code, tables, diagrams, and DOCX files with built-in tools.
+  </Card>
+  <Card title="File Attachments" icon="paperclip">
+    Upload and attach images and files for AI analysis and processing.
+  </Card>
+  <Card title="Internal Tools" icon="wrench">
+    Execute Python code, plan tasks, analyze data, create images, and more — no external integrations needed.
+  </Card>
+  <Card title="Rich Interactions" icon="comments">
+    Engage with participants, copy responses, provide feedback, and regenerate outputs.
+  </Card>
+  <Card title="Conversation Management" icon="folder">
+    Save, pin, share, delete, clear, and organize conversations into folders.
+  </Card>
+  <Card title="Playback Mode" icon="play">
+    Simulate and review conversation flows without engaging live models — ideal for demos.
+  </Card>
+</CardGroup>
+
+## Getting Started
 
 ### Creating a New Conversation
 
@@ -158,92 +176,78 @@ Folders can be managed directly from the **CONVERSATIONS** sidebar. Right-click 
 
 ## Understanding Conversation/Folder Visibility
 
-Access and permissions depend on the project type (Private vs. Team) and the conversation/folder setting (Private vs. Public).
+ELITEA has two project types — **Private** and **Team**. Visibility and access rules for conversations and folders depend on which type you're working in.
 
-### Private Conversations and Folders
+<Tabs>
+  <Tab title="Private Project">
+    Conversations and folders in a private project are personal to you only.
 
-* Created within your private workspace or designated as private within a team project.
-* Only visible and accessible to you, the creator.
-* You can add **Agents**, **Pipelines**, MCPs and **Toolkits** as AI Assistants.
-* You cannot add other **Users** as participants to private conversations.
+    | Aspect | Details |
+    |--------|---------|
+    | **Visibility** | Only you (the creator) can see and access all conversations and folders |
+    | **AI Participants** | Add Agents, Pipelines, Toolkits, and MCPs as AI assistants |
+    | **Users** | Cannot add other users as participants |
+  </Tab>
 
-### Team Project Conversations and Folders
+  <Tab title="Team Project">
+    Team projects support shared collaboration with configurable visibility per conversation and folder.
 
-When working within a shared team project:
+    | Aspect | Details |
+    |--------|---------|
+    | **Folders** | All folders in the project are visible to all team members |
+    | **Conversations** | Only visible to you if you are a member (participant) of that conversation |
+    | **Moving Conversations** | Members can use **Move To** or **Back to the list** to organize conversations across folders |
+    | **Folder Permissions** | You cannot delete folders created by other users |
+    | **Public Conversations** | Conversations can be marked as public — visible and interactable by all project members |
+    | **Public Folders** | Public folders and their contents are visible to all project members |
 
-* **Folders**: You can see all folders created within the project.
-* **Conversations**: You can only see conversations within folders if you are a member (participant) of that specific conversation.
-* **Membership Actions**: If you are a member of a conversation, you can move it into any folder (public or private if you created it) or move it out of a folder using the **Back to the list** option (often found within the **Move To** menu).
-* **Folder Restrictions**: You generally cannot delete folders created by other users, even if you can manage conversations within them.
+    <Warning>
+    Making a conversation or folder **public is irreversible** — it cannot be converted back to private.
+    </Warning>
+  </Tab>
+</Tabs>
 
-### Example: Collaboration in a Team Project Chat
+**Example: Collaboration in a Team Project**
 
-**Scenario**:  
-The QA, PM, and BA are working together on a new feature for a product. They are using a shared conversation to discuss requirements, testing strategies, and project timelines.
+<Accordion title="View collaboration scenario">
+**Scenario**: The QA, PM, and BA team collaborate on a new file upload feature using a shared team project conversation.
 
-**Steps to Collaborate**:
+**Steps:**
 
-   - **BA Adds Requirements**:  
-     The BA starts the conversation by adding the feature requirements.  
-     Example:  
-     ```
-     @BA: "The new feature should allow users to upload files up to 10MB in size. The system must validate file types and provide error messages for unsupported formats."
-     ```
+- **BA adds requirements:**
+  ```
+  @BA: "The new feature should allow users to upload files up to 10MB. The system must validate file types and provide error messages for unsupported formats."
+  ```
 
-   - **PM Sets the Timeline**:  
-     The PM responds by setting the timeline for the feature's development and testing.  
-     Example:  
-     ```
-     @PM: "The development team will complete the implementation by May 15th. QA can start testing on May 16th, and we aim to release the feature by May 20th."
-     ```
+- **PM sets the timeline:**
+  ```
+  @PM: "Development completes by May 15th. QA starts testing May 16th. Release target: May 20th."
+  ```
 
-   - **QA Plans Testing**:  
-     The QA outlines the testing strategy and asks for clarification on edge cases.  
-     Example:  
-     ```
-     @QA: "I will create test cases for file uploads, including valid and invalid file types, file size limits, and error handling. @BA, can you confirm if the system should support drag-and-drop uploads?"
-     ```
+- **QA plans testing:**
+  ```
+  @QA: "I'll create test cases for uploads, file types, size limits, and error handling. @BA, does the system support drag-and-drop uploads?"
+  ```
 
-   - **BA Provides Clarifications**:  
-     The BA clarifies the requirements and provides additional details.  
-     Example:  
-     ```
-     @BA: "Yes, drag-and-drop uploads should be supported. Additionally, the system should display a progress bar during uploads."
-     ```
+- **BA clarifies:**
+  ```
+  @BA: "Yes, drag-and-drop should be supported. Also add a progress bar during uploads."
+  ```
 
-   - **PM Tracks Progress**:  
-     The PM uses the chat to track progress and ensure alignment.  
-     Example:  
-     ```
-     @PM: "QA, please share the test results by May 18th so we can review them before the release."
-     ```
+- **PM tracks progress:**
+  ```
+  @PM: "QA, please share test results by May 18th for pre-release review."
+  ```
 
-**Using Folders for Organization**
+The PM creates a **"Feature: File Upload"** folder and moves the conversation there so all team members can find it easily.
+</Accordion>
 
-   * The PM creates a folder named **"Feature: File Upload"** to organize all conversations related to this feature.
-   * The conversation is moved into this folder for easy access by all team members.
+**Tips for Effective Collaboration in Team Projects**
 
-**Collaboration Benefits**
-
-   * **Centralized Communication**: All discussions, clarifications, and updates are stored in one place.
-   * **Transparency**: Team members can see the progress and contribute as needed.
-   * **Accountability**: Each participant's responsibilities and deadlines are clearly outlined.
-
-
-### Tips for Effective Collaboration in Team Projects
-
-* **Use Mentions**: Use `@` to mention specific teammates.
-* **Organize Conversations**: Use folders to group related conversations for better accessibility.
-* **Set Clear Expectations**: Define roles, responsibilities, and deadlines within the chat.
-* **Provide Updates**: Regularly update the chat with progress, blockers, and next steps.
-
-
-## Public Conversations and Folders
-
-* **Folders**: Public folders are visible to all members of the project.
-* **Conversations**: Conversations within public folders (or marked as public) can be viewed and interacted with by all project members. Any member interacting becomes a participant.
-* **Permissions**: Project members can typically move conversations into or out of public folders, subject to their overall project permissions.
-* **Irreversibility**: Public folders/conversations cannot be converted back to private.
+* Use `@` mentions to notify specific teammates in a conversation.
+* Group related conversations into folders for better navigation.
+* Define roles, responsibilities, and deadlines directly in the chat.
+* Regularly post progress updates and flag blockers in the conversation.
 
 
 ## Working with Participants
@@ -252,43 +256,87 @@ Participants are the core components you interact with within a conversation.
 
 ### What are Participants?
 
-Participants are the "tools" or "entities" you add to your chat. These include:
+Participants are the "tools" or "entities" you add to your chat:
 
-* **Models**: Large Language Models (e.g., GPT-4, Claude) for generating text, answering questions, etc.
-* **Agents**: Pre-configured automated workflows or specialized bots designed for specific tasks.
-* **Pipelines**: Multi-step automated processes that orchestrate multiple agents and tools.
-* **Toolkits**: Collections of tools and integrations that extend chat capabilities (e.g., GitHub, Jira, Confluence).
-* **MCPs**: Model Context Protocol servers that provide external tool capabilities (e.g., Playwright for browser automation, Figma for design files).
-* **Users**: In public conversations, other project members who join or interact become participants. They cannot be manually "added" like other types but join implicitly.
+<CardGroup cols={3}>
+  <Card title="Models" icon="brain">
+    Large Language Models (e.g., GPT-4, Claude) for generating text and answering questions.
+  </Card>
+  <Card title="Agents" icon="robot">
+    Pre-configured automated workflows or specialized bots designed for specific tasks.
+  </Card>
+  <Card title="Pipelines" icon="diagram-project">
+    Multi-step automated processes that orchestrate multiple agents and tools.
+  </Card>
+  <Card title="Toolkits" icon="toolbox">
+    Collections of tools and integrations (e.g., GitHub, Jira, Confluence) that extend chat capabilities.
+  </Card>
+  <Card title="MCPs" icon="server">
+    Model Context Protocol servers for external tool capabilities (e.g., Playwright, Figma).
+  </Card>
+  <Card title="Users" icon="user">
+    In public conversations, other project members who join or interact become participants.
+  </Card>
+</CardGroup>
 
 
 ### Adding Participants to a Conversation
 
-To add participants:
+<Tabs>
+  <Tab title="Participants Panel">
+    1. In the **Participants** section on the right side of the screen, you'll see collapsible sections for:
+       - **Users** (if in a team project)
+       - **agents**
+       - **pipelines**
+       - **toolkits**
+       - **MCPs**
+    2. Click the **+** icon next to any section title to add participants of that type.
+    3. Once participants are added, type your message and click **Send**.
 
-**Method 1: Using the Participants Panel**
+    <img src="../../img/menus/chat/add-participants-section.gif" alt="Add participants" />
+  </Tab>
 
-1. In the **Participants** section on the right side of the screen, you'll see collapsible sections for:
-   - **Users** (if in a team project)
-   - **agents**
-   - **pipelines**
-   - **toolkits**
-   - **MCPs**
-2. Click the **+** icon next to any section title to add participants of that type.
-3. Once participants are added, type your message and click **Send**.
+  <Tab title="# Symbol">
+    1. In the chat input box, type `#` to open a dropdown of frequently used participants.
+    2. Continue typing to filter by name (e.g., `#Jira` shows all Jira-related participants).
+    3. Select a participant from the list (e.g., `#Data Analysis Agent`, `#Jira Toolkit`).
+    4. The selected participant appears as a chip above the input box.
+    5. Type your message and click **Send**.
 
-<img src="../../img/menus/chat/add-participants-section.gif" alt="Add participants" />
+    <img src="../../img/menus/chat/add-participants-search.gif" alt="Search participant" />
+  </Tab>
 
+  <Tab title="/ Toolkit Tool Mention">
+    Direct the AI to use a specific tool from an already-added toolkit or MCP by typing `/` in the chat input. This is a two-phase selection:
 
-**Method 2: Using the # Symbol (Frequently Used)**
+    **Phase 1 — Select a Toolkit:**
 
-1. In the chat input box, type `#` to see a dropdown list of frequently used participants.
-2. Continue typing to filter participants by name (e.g., `#Jira` will show all Jira-related participants).
-3. Select a participant from the filtered list (e.g., `#Data Analysis Agent`, `#Jira Toolkit`).
-4. The selected participant will appear as a chip above the input box and in the
-5. Type your message and click **Send**.
+    1. Type `/` to open the **Mention toolkit** dropdown.
+    2. The dropdown lists all toolkits and MCPs already added as participants.
+    3. Continue typing to filter by name (e.g., `/Jira`).
+    4. Click a toolkit name, or type the full name and press `/` again to confirm.
+    5. The input updates to `/{ToolkitName}/` and the dropdown switches to available tools.
 
-<img src="../../img/menus/chat/add-participants-search.gif" alt="Search participant" />
+    **Phase 2 — Select a Tool:**
+
+    6. The dropdown shows **"{ToolkitName} available tools"** with all exposed tools.
+    7. Continue typing after the second `/` to filter tools (e.g., `/Jira/create`).
+    8. Each tool shows its name and a short description.
+    9. Click the desired tool to confirm.
+    10. The mention is committed as `/{ToolkitName}/{ToolName}` with a cyan highlight.
+
+    <img src="../../img/menus/chat/mention-toolkit-tool.gif" alt="Mention Toolkit Tool" />
+
+    <Note>
+    The `/` mention works with both **Toolkits** and **MCP** participants already added to the conversation. If a toolkit or MCP does not appear, add it first via the **PARTICIPANTS** panel or by typing `#`. Misconfigured toolkits and MCPs are excluded until the issue is resolved.
+    </Note>
+
+    You can include multiple mentions in a single message:
+    ```
+    Please use /Jira/createIssue to create a new issue and then /GitHub/createPR to create a pull request.
+    ```
+  </Tab>
+</Tabs>
 
 
 **Creating New Participants from Chat:**
@@ -360,46 +408,89 @@ Once added, participants are ready to process your messages:
 
 ### Selecting and Configuring Models
 
-Models are the large language models (LLMs) that power your conversations. You can select a model and adjust its behavior to suit your needs.
-
 **Selecting a Model:**
 
-1. In the conversation interface, locate the **model selector dropdown** at the top of the chat area.
-2. Click the dropdown to see the list of available models (e.g., GPT-4o, Claude, GPT-3.5).
-3. Select the desired model from the list.
-4. The selected model will be used for your next message and subsequent messages until you change it.
+1. Click the **model selector dropdown** at the bottom of the chat.
+2. Select a desired LLM model from the available options (e.g., GPT-4o, GPT-5.1, Claude).
+3. The selected model name is displayed on the button. Models that support **image analysis** or **reasoning** show small capability icons next to their name in the dropdown.
 
-**Configuring Model Settings:**
+<img src="../../img/menus/chat/chat-llm-model.gif" alt="Selecting a Model" />
 
-Click the **Settings** (⚙️) icon next to the model selector to fine-tune the response generation. The settings vary depending on the selected model:
+**Model Settings:**
 
-**For Reasoning Models** (e.g., GPT-5.1):
+Click the **Settings** (⚙️) icon next to the model selector to fine-tune response generation. Settings vary by model type:
 
-* **Reasoning** - Controls the depth of logical thinking and problem-solving with three levels:
-    * **Low**: Fast, surface-level reasoning with concise answers and minimal steps
-    * **Medium**: Balanced reasoning with clear explanations and moderate multi-step thinking (default)
-    * **High**: Deep, thorough reasoning with detailed step-by-step analysis (may be slower)
+<Tabs>
+  <Tab title="Reasoning Models (e.g. GPT-5.1)">
+    | Parameter | Description |
+    |-----------|-------------|
+    | **Reasoning** | Controls the depth of logical thinking and problem-solving. |
 
-**For Standard Models** (e.g., GPT-4o):
+    | Level | Behavior |
+    |-------|----------|
+    | **Low** | Fast, surface-level reasoning with concise answers and minimal steps |
+    | **Medium** | Balanced reasoning with clear explanations and moderate multi-step thinking *(default)* |
+    | **High** | Deep, thorough reasoning with detailed step-by-step analysis (may be slower) |
 
-* **Creativity** - Controls response randomness and creativity. Lower values produce more focused and deterministic outputs, while higher values generate more diverse and creative responses with five levels (1-5):
-    * **1**: Highly focused and deterministic outputs
-    * **2**: Mostly focused with slight variation
-    * **3**: Balanced between focus and creativity (default)
-    * **4**: More varied and creative responses
-    * **5**: Maximum creativity and diversity
+    <img src="../../img/menus/chat/model-settings-reasoning.gif" alt="Reasoning Model Settings" />
+  </Tab>
 
-**Max Completion Tokens** (All Models):
+  <Tab title="Standard Models (e.g. GPT-4o)">
+    | Parameter | Description |
+    |-----------|-------------|
+    | **Creativity** | Controls response randomness. Lower values produce focused, deterministic outputs; higher values produce more varied and creative responses. |
 
-Limits the maximum length of AI responses measured in tokens (roughly 4 characters per token):
+    | Level | Behavior |
+    |-------|----------|
+    | **1** | Highly focused and deterministic outputs |
+    | **2** | Mostly focused with slight variation |
+    | **3** | Balanced between focus and creativity *(default)* |
+    | **4** | More varied and creative responses |
+    | **5** | Maximum creativity and diversity |
 
-* **Auto** (default): System automatically sets the token limit to 4096 tokens
-* **Custom**: Manually set a specific token limit for responses
-    * When Custom is selected, you can enter a specific number of maximum tokens
-    * The interface shows remaining tokens available after your specified limit
-    * Setting too high a value will show an error if it exceeds the model's maximum output tokens
+    <img src="../../img/menus/chat/model-settings-standard.gif" alt="Standard Model Settings" />
+  </Tab>
+</Tabs>
 
-<img src="../../img/menus/chat/chat-model-settings.gif" alt="Model" />
+**Capabilities** *(shown when supported by the selected model)*
+
+| Badge | Meaning |
+|-------|---------|
+| <img src="../../img/how-tos/chat-conversations/canvas-pipeline/image-analysis-badge.png" alt="Image Analysis badge" /> | The model accepts image inputs alongside text |
+| <img src="../../img/how-tos/chat-conversations/canvas-pipeline/reasoning-badge.png" alt="Reasoning badge" /> | The model uses extended chain-of-thought reasoning |
+
+<Note>
+Capability badges appear automatically at the bottom of the settings panel based on the selected model. If neither capability is supported, the Capabilities row is hidden.
+</Note>
+
+**Max Completion Tokens** *(All Models)*
+
+| Option | Description |
+|--------|-------------|
+| **Auto** | System sets the token limit to 4096 tokens *(default)* |
+| **Custom** | Manually enter a specific token limit. An error is shown if the value exceeds the model's maximum output tokens. |
+
+**Steps Limit** *(Conversations only)*
+
+Controls the maximum number of execution steps (tool calls) the AI can take before the loop is forcefully stopped. This prevents runaway agent executions that could consume excessive resources.
+
+| Parameter | Value |
+|-----------|-------|
+| **Default** | 25 steps |
+| **Range** | 0 – 999 |
+
+- Each time the AI invokes a tool or performs an internal reasoning step, the counter increments by one. When the limit is reached, the execution loop ends and the AI returns whatever results it has collected so far.
+- The Steps Limit field is shown in the model settings panel only in **Conversations** (chat). It is not available on the Agents or Pipelines pages, where step limits are configured at the agent/pipeline level.
+
+<Tip title="Choosing a Steps Limit">
+- Set a **lower value** (e.g. 5–10) for simple question-answering tasks where you want fast, predictable responses.
+- Set a **higher value** (e.g. 50–100) for complex, multi-step research or automation tasks that require chaining many tool calls.
+- If a conversation ends abruptly with incomplete results, check whether the steps limit was reached and increase it accordingly.
+</Tip>
+
+<Warning title="Step Limit Reached">
+When the steps limit is exceeded, the AI stops executing further tool calls and returns partial results. No error is displayed to the user by default — the response simply stops at the last completed step.
+</Warning>
 
 
 ### Configuring Participants
@@ -414,35 +505,49 @@ You can configure and edit participants (Agents, Pipelines, Toolkits, and MCPs) 
 
 **What You Can Configure:**
 
-* **[Agents](./how-to-create-and-edit-agents-from-canvas)**:
-      - Edit the agent's **prompt** and instructions
-      - Modify **variables** used by the agent
-      - Configure **model settings** (Temperature, Top P, Top K, Maximum Length)
-      - Select the agent **version** (default is "latest")
-      - Adjust **toolkits** and integrations
+<Tabs>
+  <Tab title="Agents">
+    - Edit the agent's **prompt** and instructions
+    - Modify **variables** used by the agent
+    - Configure **model settings** (Temperature, Top P, Top K, Maximum Length)
+    - Select the agent **version** (default is "latest")
+    - Adjust **toolkits** and integrations
 
-* **[Pipelines](./how-to-create-and-edit-pipelines-from-canvas)**:
-      - Edit the pipeline **workflow** and step sequences
-      - Modify **variables** and parameters
-      - Configure **agents** used in the pipeline
-      - Adjust **toolkits** and integrations
-      - Select the pipeline **version** (default is "latest")
+    [→ Agent Canvas Guide](./how-to-create-and-edit-agents-from-canvas)
+  </Tab>
 
-* **[Toolkits](./how-to-create-and-edit-toolkits-from-canvas)**:
-     - Configure **integration settings** and credentials
-     - Adjust **tool parameters** and options
-     - Enable or disable specific tools within the toolkit
-     - Modify **connection settings** for external services
+  <Tab title="Pipelines">
+    - Edit the pipeline **workflow** and step sequences
+    - Modify **variables** and parameters
+    - Configure **agents** used in the pipeline
+    - Adjust **toolkits** and integrations
+    - Select the pipeline **version** (default is "latest")
 
-* **[MCPs](./how-to-create-and-edit-mcps-from-canvas)** (Model Context Protocol servers):
-     - Configure **server connection** settings
-     - Adjust **tool availability** and permissions
-     - Modify **environment variables** and parameters
-     - Set **timeout** and performance options
+    [→ Pipeline Canvas Guide](./how-to-create-and-edit-pipelines-from-canvas)
+  </Tab>
 
-<Info>
-MCP servers must be running before they can be used in conversations. Ensure your MCP server is started and accessible before adding it as a participant.
-</Info>
+  <Tab title="Toolkits">
+    - Configure **integration settings** and credentials
+    - Adjust **tool parameters** and options
+    - Enable or disable specific tools within the toolkit
+    - Modify **connection settings** for external services
+
+    [→ Toolkit Canvas Guide](./how-to-create-and-edit-toolkits-from-canvas)
+  </Tab>
+
+  <Tab title="MCPs">
+    - Configure **server connection** settings
+    - Adjust **tool availability** and permissions
+    - Modify **environment variables** and parameters
+    - Set **timeout** and performance options
+
+    <Info>
+    MCP servers must be running before they can be used in conversations. Ensure your MCP server is started and accessible before adding it as a participant.
+    </Info>
+
+    [→ MCP Canvas Guide](./how-to-create-and-edit-mcps-from-canvas)
+  </Tab>
+</Tabs>
 
 **Applying Changes:**
 
@@ -488,9 +593,24 @@ Canvas is a built-in editor that appears automatically when ELITEA generates cod
 
 **Canvas Features:**
 
-* **Code Editor**: Edit code with syntax highlighting, find/replace, and code folding. Export as various file formats (e.g., `.py`, `.js`, `.java`).
-* **Table Editor**: Modify tables with spreadsheet-like functionality. Add/remove rows and columns, sort, filter, and export to XLSX or Markdown.
-* **Diagram Editor**: Edit Mermaid diagrams with live preview and syntax highlighting. Export as PNG, JPG, or SVG.
+<CardGroup cols={2}>
+  <Card title="Code Editor" icon="code">
+    Edit code with syntax highlighting, find/replace, and code folding. Export as `.py`, `.js`, `.java`, and more.
+  </Card>
+  <Card title="Table Editor" icon="table">
+    Modify tables with spreadsheet-like functionality. Add/remove rows and columns, sort, filter, and export to XLSX or Markdown.
+  </Card>
+  <Card title="Diagram Editor" icon="diagram-project">
+    Edit Mermaid diagrams with live preview and syntax highlighting. Export as PNG, JPG, or SVG.
+  </Card>
+  <Card title="DOCX Editor" icon="file-word">
+    Edit `.docx` files from Artifacts in a full WYSIWYG interface — formatting toolbar, ruler, zoom control, save directly to the Artifact bucket.
+  </Card>
+</CardGroup>
+
+<Info title="Opening the DOCX Editor">
+The pencil icon (✏️) does **not** appear for DOCX files in chat. Open DOCX files via the **View/Edit file icon** in Artifacts or chat attachments instead.
+</Info>
 
 **How to Use Canvas:**
 
@@ -517,13 +637,13 @@ ELITEA Chat supports attaching files and images to your conversations, enabling 
 
 The attachment functionality is integrated with the **Artifact Toolkit**. When you enable attachments for an Agent, Pipeline, or a specific chat, files are automatically uploaded and stored in the Artifact bucket associated with that toolkit. Files are subject to the retention policy of the bucket (default: 30 days).
 
-**Key Features:**
-
-* **Multiple Upload Methods**: Click the paperclip icon, drag and drop files, or paste from clipboard (Ctrl+V or Cmd+V).
-* **Supported Formats**: JPEG, JPG, PNG, GIF (first frame only), WebP images.
-* **File Limits**: Maximum 10 images per message. Size limits depend on the AI model (e.g., Anthropic: 5MB, OpenAI: 20MB per image).
-* **Artifact Integration**: Files are stored in Artifact buckets with configurable retention policies.
-* **Management Options**: Download or delete attachments directly from chat.
+| Feature | Details |
+|---------|----------|
+| **Upload Methods** | Click the paperclip icon, drag and drop files, or paste from clipboard (Ctrl+V / Cmd+V) |
+| **Supported Formats** | JPEG, JPG, PNG, GIF (first frame only), WebP images |
+| **File Limits** | Maximum 10 images per message. Size limits vary by model (Anthropic: 5 MB, OpenAI: 20 MB per image) |
+| **Artifact Integration** | Files are stored in Artifact buckets with configurable retention policies |
+| **Management** | Download or delete attachments directly from chat |
 
 **To Enable Attachments:**
 
@@ -553,35 +673,89 @@ Internal tools provide built-in capabilities that enhance your conversations wit
 
 ### Available Internal Tools
 
-**Python Sandbox**
+<Tabs>
+  <Tab title="Python Sandbox">
+    Execute Python code securely in conversations using Pyodide (Python compiled to WebAssembly). Useful for calculations, data processing, testing algorithms, and generating visualizations.
 
-Execute Python code securely in conversations using Pyodide (Python compiled to WebAssembly). Useful for calculations, data processing, testing algorithms, and generating visualizations.
+    | Capability | Description |
+    |-----------|-------------|
+    | **Secure Execution** | Run Python code in a secure sandbox environment |
+    | **Package Support** | Install and use packages like numpy, pandas, and matplotlib |
+    | **Persistent State** | Code execution maintains state within the same conversation |
+    | **Visualizations** | Generate data visualizations and reports inline |
 
-* **Secure Code Execution**: Run Python code in a secure sandbox environment
-* **Package Support**: Install and use Python packages like numpy, pandas, and matplotlib
-* **Persistent State**: Code execution maintains state within the same conversation
-* **Visualizations**: Generate data visualizations and reports
-* **Use Cases**: Execute code snippets, perform calculations and data analysis, test algorithms, and process data
+    **Use Cases**: Execute code snippets, perform calculations, test algorithms, process data.
 
-**Planner**
+    [→ Python Sandbox Guide](./python-sandbox-internal-tool)
+  </Tab>
 
-Create, manage, and track tasks and action items directly within conversations. Set priorities, due dates, and monitor task progress without switching to external task management tools.
+  <Tab title="Planner">
+    Create, manage, and track tasks and action items directly within conversations. Set priorities, due dates, and monitor task progress without switching to external tools.
 
-* **Task Decomposition**: Break down complex requests into smaller, actionable tasks
-* **Workflow Organization**: Create structured plans with clear steps and dependencies
-* **Progress Tracking**: Monitor task completion and workflow progress with priority levels (High/Medium/Low)
-* **Task Status**: Track tasks through Pending, In Progress, and Completed states
-* **Use Cases**: Project planning, feature development breakdown, complex problem-solving, and workflow design
+    | Capability | Description |
+    |-----------|-------------|
+    | **Task Decomposition** | Break down complex requests into smaller, actionable tasks |
+    | **Workflow Organization** | Create structured plans with clear steps and dependencies |
+    | **Progress Tracking** | Monitor completion with priority levels (High / Medium / Low) |
+    | **Task Status** | Track tasks through Pending, In Progress, and Completed states |
 
-**Data Analysis**
+    **Use Cases**: Project planning, feature development breakdown, complex problem-solving.
 
-Perform Pandas-based data analysis on uploaded files (CSV, Excel, etc.) using natural language queries. Automatically processes data and generates charts with downloadable results.
+    [→ Planner Guide](./planner-internal-tool)
+  </Tab>
 
-* **Natural Language Processing**: Use plain English to request data analysis operations
-* **File-Based Analysis**: Works with files uploaded directly to conversations
-* **Automated Processing**: Intelligent file format detection and data analysis
-* **Chart Generation**: Automatic creation of visualizations with downloadable results
-* **Use Cases**: Data exploration, statistical analysis, trend identification, and report generation
+  <Tab title="Data Analysis">
+    Perform Pandas-based data analysis on uploaded files (CSV, Excel, etc.) using natural language queries. Automatically processes data and generates charts with downloadable results.
+
+    | Capability | Description |
+    |-----------|-------------|
+    | **Natural Language** | Use plain English to request data analysis operations |
+    | **File-Based Analysis** | Works with files uploaded directly to conversations |
+    | **Auto Processing** | Intelligent file format detection and data analysis |
+    | **Chart Generation** | Automatic creation of visualizations with downloadable results |
+
+    **Use Cases**: Data exploration, statistical analysis, trend identification, report generation.
+
+    [→ Data Analysis Guide](./data-analysis-internal-tool)
+  </Tab>
+
+  <Tab title="Image Creation">
+    Generate AI-powered images from text prompts directly within conversations. Requires an image generation model configured in your project.
+
+    | Capability | Description |
+    |-----------|-------------|
+    | **Text-to-Image** | Describe what you want and the AI generates the image |
+    | **Inline Results** | Generated images appear directly in the chat conversation |
+
+    **Use Cases**: Mockups, illustrations, visual assets for presentations and documentation.
+  </Tab>
+
+  <Tab title="Smart Tools Selection">
+    Optimizes token usage when working with many toolkits by dynamically loading tool schemas on demand instead of binding all tools upfront.
+
+    | Capability | Description |
+    |-----------|-------------|
+    | **On-Demand Loading** | Tool schemas are loaded only when needed, reducing context overhead |
+    | **Recommended For** | Conversations using 5 or more toolkits |
+
+    **Use Cases**: Large-scale automation tasks involving many different integrations.
+
+    [→ Smart Tools Selection Guide](./smart-tools-selection-internal-tool)
+  </Tab>
+
+  <Tab title="Swarm Mode">
+    Enables multi-agent collaboration by allowing all child agents to share the full conversation history and hand off control to each other.
+
+    | Capability | Description |
+    |-----------|-------------|
+    | **Shared Context** | All child agents see the full conversation history |
+    | **Agent Handoff** | Agents transfer control to the most appropriate specialist |
+
+    **Use Cases**: Complex workflows requiring multiple specialized agents working as a team.
+
+    [→ Swarm Mode Guide](./swarm-mode-internal-tool)
+  </Tab>
+</Tabs>
 
 ### Enabling Internal Tools in Conversations
 
@@ -621,6 +795,113 @@ For detailed usage examples, troubleshooting, and best practices, see:
 * [Python Sandbox Guide](./python-sandbox-internal-tool)
 * [Planner Internal Tool Guide](./planner-internal-tool)
 * [Data Analysis Internal Tool Guide](./data-analysis-internal-tool)
+* [Smart Tools Selection Guide](./smart-tools-selection-internal-tool)
+* [Swarm Mode Guide](./swarm-mode-internal-tool)
+
+
+## Sensitive Action Authorization
+
+When an agent or pipeline attempts to call a **sensitive tool** (such as deleting a repository, running a shell command, or dropping a database table), the conversation automatically pauses and displays an authorization card before anything is executed.
+
+<Warning title="Administrator-configured feature">
+The Sensitive Action Authorization Guardrail is configured at the **server/infrastructure level** by your ELITEA administrator. It applies automatically to all conversations once active — individual users cannot enable or disable it.
+</Warning>
+
+**Authorization Dialog Elements:**
+
+| Element | Description |
+|---------|-------------|
+| **Header** | ⚠️ Sensitive Action Authorization Required — amber-highlighted panel |
+| **Action label** | The specific action the agent plans to run (e.g., `github.delete_repo`) |
+| **Parameters** | The exact arguments the tool will be called with. Security-sensitive fields (`password`, `token`, `api_key`, `secret`, etc.) are automatically masked as `***` |
+| **Policy message** | Your organization's custom message explaining why the action requires approval |
+
+**Actions:**
+
+* **Authorize** — Approves the tool call. Execution resumes and the tool runs as planned.
+* **Block** — Rejects the tool call. The tool is skipped entirely; the agent receives a cancellation message and continues or stops based on its logic.
+
+<Tip title="Auto-approve within a batch">
+If an agent calls the same sensitive tool multiple times in one execution cycle, only the **first call** raises the interrupt. Subsequent calls to the same tool in the same batch are auto-approved — avoiding repeated dialogs for the same action.
+</Tip>
+
+<img src="../../img/how-tos/chat-conversations/sensitive-action/authorization-chat-approve.gif" alt="Sensitive Action Authorization" />
+
+For full details including configuration, pipeline behavior, and troubleshooting, see [Sensitive Action Authorization Guardrail](./sensitive-action-authorization-guardrail).
+
+
+## Voice Capabilities
+
+ELITEA Chat includes voice input and voice output capabilities that let you speak your messages and have AI responses read back to you.
+
+<CardGroup cols={3}>
+  <Card title="Voice Input" icon="microphone">
+    Dictate messages into the chat input field. Transcribed text is inserted at the cursor position in real time.
+  </Card>
+  <Card title="Text-to-Speech" icon="volume-high">
+    Have AI responses read aloud. Pause and resume playback from a mini-player pill in the input area.
+  </Card>
+  <Card title="Speaking Mode" icon="waveform-lines">
+    Hands-free voice conversation loop. ELITEA records, sends, speaks the response, and listens again — automatically.
+  </Card>
+</CardGroup>
+
+### Voice Input
+
+**Voice Input** lets you dictate messages directly into the chat input field using a microphone. The transcribed text is inserted at the cursor position, so you can combine typed and spoken content in the same message.
+
+**How to use Voice Input:**
+
+1. Click the **microphone** icon in the message input toolbar to start recording.
+2. Speak your message. A live transcript appears in the input field as you talk — interim results update in real time.
+3. Click the **Stop** (■) button to finish recording. The final transcript is committed and focus returns to the input field.
+
+<img src="../../img/menus/chat/voice-input.gif" alt="Voice Input" />
+
+<Note>
+When a server-side ASR (automatic speech recognition) model is configured in **Settings → AI Configuration → Speech Recognition (ASR)**, Voice Input uses that model via streaming. If no server ASR model is available, Voice Input falls back to the browser's built-in Web Speech API. If neither is available, the microphone icon is hidden.
+</Note>
+
+### Text-to-Speech
+
+**Text-to-Speech** reads AI responses aloud. A **Read out** button (megaphone icon) appears in the action bar below each AI message when the message contains speakable text.
+
+**How to use Text-to-Speech:**
+
+1. Click the **Read out** (megaphone) button below an AI message to start playback.
+2. The text is highlighted as it is read aloud.
+3. A playback pill appears in the input area with **Pause** and **Resume** controls.
+4. Click **Pause** to stop playback mid-sentence; click **Resume** to continue from where it left off.
+
+<img src="../../img/menus/chat/text-to-speech.gif" alt="Text-to-Speech" />
+
+<Note>
+When a TTS model is configured in **Settings → AI Configuration → Text to Speech (TTS)**, ELITEA uses that model for audio generation via Web Audio API. If no TTS model is configured, playback uses the browser's built-in SpeechSynthesis API as a fallback.
+</Note>
+
+### Speaking Mode
+
+<Warning>
+Speaking Mode is only available **after the conversation has been created** — meaning at least one message must have been sent first. The voicewave icon does not appear in a brand-new, unsent conversation. Send your first message to initialize the conversation, then use Speaking Mode for subsequent turns.
+</Warning>
+
+**Speaking Mode** is a continuous, hands-free voice conversation loop. Once activated, ELITEA automatically records your speech, sends your message after a pause, plays back the AI's response, and then starts listening again — without any manual interaction between turns.
+
+**How to activate Speaking Mode:**
+
+1. Leave the message input field empty.
+2. Click the **voicewave** icon (shown in place of the Send button when the input is empty) to enter Speaking Mode.
+3. A voicewave pill with an **Exit** (✕) button replaces the send button, indicating Speaking Mode is active.
+4. Speak your message. After **3 seconds of silence**, your message is automatically sent.
+5. The AI response streams in and is read aloud via Text-to-Speech.
+6. Once the response finishes playing, recording starts again automatically for the next turn.
+7. Click the **✕** button in the voicewave pill to exit Speaking Mode at any time.
+
+<img src="../../img/menus/chat/speaking-mode.gif" alt="Speaking Mode" />
+
+<Note>
+Speaking Mode requires a voice recognition source (server ASR model or browser Web Speech API) for input and uses Text-to-Speech for output. If you start manual voice input while Speaking Mode is active, Speaking Mode is automatically deactivated.
+</Note>
 
 
 ## Playback Mode
@@ -676,7 +957,7 @@ A Product Manager is preparing a demo for stakeholders to showcase how the team 
      @PM: "QA, please share the test results by May 18th so we can review them before the release."
      ```
 
-### Benefits of Playback Mode for Demos
+**Benefits of Playback Mode for Demos**
 
 * **Polished Presentations**: Playback Mode ensures a smooth and professional demo without interruptions or delays.
 * **Clarity**: Stakeholders can see the exact flow of discussions and decisions.

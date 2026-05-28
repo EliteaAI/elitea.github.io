@@ -1,0 +1,316 @@
+---
+title: "Release Notes - 2.0.3"
+description: "ELITEA 2.0.3 adds in-product support, voice interaction, new knowledge applications, and smoother agent, pipeline, and toolkit workflows."
+---
+
+## Release Overview
+
+ELITEA 2.0.3 focuses on making the platform easier to use, easier to navigate, and easier to extend in day-to-day work. This release introduces in-product support, voice interaction across core experiences, and new ways to explore code and engineering knowledge through Applications.
+
+## Information
+
+* **Release Version**: 2.0.3
+* **Released on**: 28-May-2026
+* **Access**: [ELITEA Platform](https://elitea.ai)
+
+
+## New Features
+
+### ELITEA Support Assistant
+
+ELITEA now includes a built-in Support Assistant that gives users an AI-powered help channel directly inside the platform, so they can ask questions, attach files, and get guidance without leaving the page they are working on.
+
+**What you can do now:**
+
+* **Get help in context**: Open the Support Assistant from the sidebar and ask questions while staying on the current project, page, or entity you are already using.
+* **Receive more relevant guidance**: The assistant uses current-page context such as project, page, and open entity details to tailor its responses more effectively.
+* **Attach supporting files and screenshots**: Add documents, code files, and images by using the attachment button, drag and drop, or pasting images from the clipboard.
+* **Continue previous conversations**: Reopen earlier support chats from the assistant history and continue where you left off.
+* **Use a more flexible assistant workspace**: View Markdown-rich responses in the widget or switch to fullscreen mode for a more focused support interaction.
+
+**Benefits:** Faster in-product help, less context switching, and more accurate support guidance grounded in the page and entity you are working with.
+
+For more information, see [Support Assistant](../menus/support-assistant).
+
+### Applications: Wikis and Inventory for Code Understanding
+
+ELITEA now expands the Applications experience with Wikis and Inventory, giving teams new ways to understand repositories, capture engineering knowledge, and explore the structure and ownership of their software landscape.
+
+**What you can do now:**
+
+* **Request and use the Wikis app**: Generate searchable wiki pages directly from repository code so teams can turn implementation details into structured documentation.
+* **Create architecture summaries and ask code-aware questions**: Use Wikis to explore repository structure, understand how parts of the codebase fit together, and get more useful answers grounded in the code.
+* **Request and use the Inventory app**: Explore services, repositories, ownership, and dependencies from one application surface designed for engineering landscape visibility.
+* **Review component inventory and dependency relationships**: Use Inventory to identify connected systems, understand ownership context, and trace dependencies across repositories.
+* **Support engineering planning and governance**: Use these applications for onboarding, implementation context, modernization work, impact analysis, and broader engineering governance.
+
+**Benefits:** Faster onboarding, clearer implementation context, stronger internal knowledge sharing, and better visibility into system structure and ownership across the engineering landscape.
+
+For more information, see [Wikis](../integrations/apps/wikis) and [Inventory](../integrations/apps/inventory).
+
+### Voice Interaction Across Chat, Agents, and Pipelines
+
+ELITEA now supports end-to-end voice interaction across Chat, Agents, and Pipelines, so you can dictate prompts/instructions, have responses read aloud, and switch into a continuous hands-free conversation loop when you want a more natural voice-first workflow.
+
+**What you can do now:**
+
+* **Dictate prompts with Voice Input**: Use the microphone to transcribe speech into the input field in real time, then edit or combine it with typed text before sending.
+* **Listen to responses with Text-to-Speech**: Read AI, agent, and pipeline responses aloud without manually reading the screen, with playback controls available while audio is playing.
+* **Use Speaking Mode for hands-free conversations**: Start a continuous voice loop that listens, sends your message after a pause, reads the response aloud, and then resumes listening for the next turn.
+* **Rely on configured voice services with browser fallback**: Use project ASR and TTS models when configured, or fall back to browser speech capabilities when server-side voice models are not available.
+* **Get cleaner spoken output**: Voice playback focuses on readable response content instead of internal reasoning, and avoids reading technical content such as code blocks verbatim.
+
+**Benefits:** Faster hands-free interaction, stronger accessibility support, and a more natural way to work with ELITEA when typing is inconvenient or unnecessary.
+
+For more information, see [Chat](../menus/chat), [Agents](../menus/agents), [Pipelines](../menus/pipelines), and [Chat Functionality](../how-tos/chat-conversations/how-to-use-chat-functionality).
+
+### Pipeline Entrypoint Triggers
+
+Pipelines can now start from different trigger types on the node marked as the entry point, which makes it possible to use the same pipeline design for chat-driven, scheduled, and event-driven automation.
+
+**What you can do now:**
+
+* **Keep chat-based pipelines working as before**: Use **Chat Message** as the default trigger type so existing pipelines continue to start from user input without changing current behavior.
+* **Run pipelines on a schedule**: Configure time-based execution from the entry point so pipelines can start automatically for recurring automation scenarios.
+* **Trigger pipelines through webhooks**: Expose an entry-point webhook so external systems can start a pipeline run from an HTTP event.
+* **Manage trigger configuration where the pipeline starts**: Set the trigger type and related options directly on the entry-point node instead of introducing a separate trigger-only node.
+
+**Benefits:** More flexible automation, easier reuse of the same pipeline for different execution patterns, and a cleaner path from interactive workflows to scheduled or event-driven operations.
+
+For more information, see [Entry Point Configuration](../how-tos/pipelines/entry-point) and [Pipelines](../menus/pipelines).
+
+### Autosuggest Mentions in Chat and Agent Instructions
+
+ELITEA now supports slash-mention autosuggest in both chat and agent instructions, making it faster to reference the exact toolkit, MCP, agent, pipeline, or tool you want to use without manually typing names and formats.
+
+**What you can do now:**
+
+* **Mention conversation participants directly in chat**: Type `/` in chat to find toolkits and MCPs that are already added to the current conversation and target them more explicitly in your request.
+* **Pick a specific toolkit or MCP tool when needed**: After choosing a toolkit or MCP, continue into a second selection step to choose one exposed tool, or keep the broader participant mention without selecting a tool.
+* **Reference configured resources inside agent instructions**: Type `/` in the Instructions field to mention agents, pipelines, toolkits, MCPs, and optional tools that are already added to the current agent.
+* **Work with cleaner, more reliable suggestions**: Autosuggest only shows configured resources that are already attached in the current chat or agent context, helping avoid invalid references.
+* **See inserted mentions clearly in the editor**: Selected mentions are visually highlighted so referenced participants and tools stand out in chat input and instruction text.
+
+**Benefits:** Faster authoring, more consistent references to configured resources, and less friction when directing ELITEA toward the exact capability you want to invoke.
+
+For more information, see [Chat Functionality](../how-tos/chat-conversations/how-to-use-chat-functionality) and [Agents](../menus/agents).
+
+### File Attachments for Pipelines
+
+ELITEA now lets you attach files when working with pipelines, so pipeline runs can receive uploaded files as part of the workflow instead of relying on file handling outside the platform.
+
+**What you can do now:**
+
+* **Attach files while running pipelines from chat**: Use the same attachment flow in chat to add files when the active participant is a pipeline.
+* **Store pipeline attachments in the artifact bucket automatically**: Uploaded files are saved through the configured Artifact Toolkit, so attachment handling stays inside the ELITEA workflow.
+* **Pass attachment paths into the pipeline run**: Pipelines can receive the uploaded file path as pipeline input, which makes it possible to reference the file in later steps.
+* **Use attached files in downstream pipeline logic**: Pass the attachment path to LLM, code, or other nodes when the pipeline needs to read or process a specific uploaded artifact.
+* **Avoid unwanted automatic file parsing**: The initial behavior focuses on making uploaded files addressable inside pipelines rather than extracting file contents implicitly.
+
+**Benefits:** More self-contained pipeline runs, less manual file coordination outside ELITEA, and a simpler way to build workflows that depend on user-supplied files.
+
+For more information, see [Chat Functionality](../how-tos/chat-conversations/how-to-use-chat-functionality) and [Artifacts](../menus/artifacts).
+
+### Email Attachment Parsing for Azure DevOps Work Items
+
+ELITEA can now parse `.msg` and `.eml` email files when they appear as Azure DevOps work item attachments, so email-based requirements, bug reports, and approval threads are easier to inspect without dealing with raw binary content.
+
+**What you can do now:**
+
+* **Read Outlook and MIME email attachments directly**: Work with both `.msg` and `.eml` files attached to Azure DevOps work items.
+* **Extract useful email metadata**: See sender, recipients, subject, date, and CC/BCC details as structured content instead of opaque file blobs.
+* **Review email body content more effectively**: Access readable plain-text and HTML email content through the attachment parsing flow.
+* **Identify nested attachments inside email files**: Understand when an attached email itself includes additional files that may matter to the task.
+* **Avoid hangs on binary email formats**: Process supported email attachments without the previous failure mode where parsing could stall on raw email binaries.
+
+**Benefits:** Better visibility into ticket context, easier handling of email-driven work items, and more reliable attachment processing across integrations that share the same parser.
+
+For more information, see [ADO Boards Toolkit](../integrations/toolkits/ado_boards_toolkit).
+
+### Participant @Mention Autocomplete in Chat
+
+Chat now supports `@` mention autocomplete for conversation participants, making it faster to reference teammates directly from the participant list instead of typing names manually.
+
+**What you can do now:**
+
+* **Open mention suggestions from the chat input**: Type `@` to bring up available participant suggestions while composing a message.
+* **Choose from current conversation participants**: Suggestions are populated from the people already present in the conversation.
+* **Filter as you type**: Narrow the list after `@` to find the right participant faster in larger conversations.
+* **Insert mentions with mouse or keyboard**: Select participants through the popup without leaving the input flow.
+* **Keep collaboration more fluid**: Call attention to specific teammates when asking questions, assigning follow-up, or coordinating with AI participants.
+
+**Benefits:** Faster collaboration in shared chats, fewer typing mistakes in names, and a smoother way to direct updates or questions to the right teammate.
+
+For more information, see [Chat](../menus/chat) and [Add Teammates to Conversation](../how-tos/chat-conversations/add-teammates-to-conversation).
+
+### More Detailed Azure DevOps Toolkit Errors
+
+Azure DevOps toolkit responses now preserve more of the original API error details, so users and agents can understand validation failures more clearly and adjust requests with less guesswork.
+
+**What you can do now:**
+
+* **See richer failure context**: Receive Azure DevOps status codes, error messages, and validation details when supported by the upstream response.
+* **Diagnose request problems faster**: Understand which part of a request failed without relying on a vague generic error.
+* **Let agents react more intelligently**: Give AI enough structured error context to retry or refine requests with better odds of success.
+* **Reduce back-and-forth during toolkit use**: Surface actionable API feedback directly in the tool response instead of hiding it behind an extra summarization layer.
+
+**Benefits:** Faster troubleshooting, more useful agent retries, and clearer Azure DevOps automation workflows when requests fail.
+
+For more information, see [ADO Plans Toolkit](../integrations/toolkits/ado_plans_toolkit) and [Toolkits](../menus/toolkits).
+
+### Pinned Buckets in Artifacts
+
+Artifacts now lets you pin buckets to the top of the sidebar, making frequently used storage locations easier to reach without repeated searching or scrolling.
+
+**What you can do now:**
+
+* **Pin important buckets for quick access**: Keep frequently used buckets at the top of the Artifacts sidebar.
+* **Unpin when priorities change**: Return a bucket to the regular list when it no longer needs special placement.
+* **Use either the pin icon or context menu**: Manage pinned state from the sidebar hover action or the bucket action menu.
+* **Keep pinned buckets separate from activity sorting**: Distinguish quick-access buckets from the rest of the recently used list.
+* **Preserve faster navigation across artifact-heavy workflows**: Reach core working buckets more quickly during reviews, uploads, and file editing.
+
+**Benefits:** Faster bucket navigation, better organization for active work, and less friction when switching between frequently used artifact stores.
+
+For more information, see [Artifacts](../menus/artifacts).
+
+### AI Image Transcription for DOCX Files
+
+ELITEA can now describe images embedded inside DOCX files during file-reading workflows, which makes Word documents with screenshots, diagrams, and charts more useful for AI analysis.
+
+**What you can do now:**
+
+* **Read visual content inside DOCX files**: Extract descriptions for embedded images instead of relying on document text alone.
+* **Combine text and image understanding**: Use both written content and visual elements from the same document when analyzing specifications, reports, or screenshots embedded in Word files.
+* **Request image-aware document reads when needed**: Use artifact-reading workflows that support image capture rather than forcing visual extraction in every DOCX interaction.
+* **Keep chat attachment behavior predictable**: Avoid automatically expanding every DOCX attachment into image transcriptions during normal conversation upload flows.
+
+**Benefits:** Better understanding of document-based requirements, stronger analysis of mixed text-and-visual files, and more control over when image extraction is worth the cost.
+
+For more information, see [Artifact Toolkit](../integrations/toolkits/artifact_toolkit) and [Artifacts](../menus/artifacts).
+
+
+## Changed Features
+
+### Tips is Replaced by the Resources Menu
+
+The old Tips entry has been replaced with a new Resources menu, giving users one central place to find environment-level ELITEA materials such as documentation, release notes, videos, tutorials, interactive tours, and version information.
+
+**What you can do now:**
+
+* **Open a dedicated Resources page from the sidebar**: Use the new menu entry instead of the previous Tips page.
+* **Browse curated learning cards in one place**: Access documentation, release notes, video materials, tutorials, and other administrator-managed resources from a single screen.
+* **Start and restart interactive tours from Resources**: Use administrator-configured tour entries to launch guided walkthroughs for key ELITEA menus and features.
+* **Respond to first-time tour prompts in supported sections**: Start, skip, or complete short guided tours when ELITEA offers onboarding help inside major menus.
+* **See environment-wide version information more clearly**: Review the installed ELITEA version and related plugin details when this information is enabled for your environment.
+* **Use the same resources across all projects**: Get consistent, read-only platform materials no matter which project you are working in.
+
+**Benefits:** Faster access to learning materials, clearer product orientation for users, and a more consistent environment-wide help and onboarding surface.
+
+For more information, see [Resources](../menus/resources) and [Overview](../menus/overview).
+
+### Published Agents Allow Conversation-Level Model Overrides
+
+Published agents are now more flexible in chat by allowing users to override the active LLM model and related settings for their own conversation without changing the published agent itself.
+
+**What you can do now:**
+
+* **Switch to a different model while using a published agent**: Choose a model that better fits your speed, cost, or quality needs for the current conversation.
+* **Adjust conversation-scoped model settings**: Tune the available model settings for the session instead of being locked to the author’s original configuration.
+* **Keep published behavior intact for everyone else**: Apply overrides only to your conversation without modifying the shared published agent.
+* **Use published agents more adaptively**: Explore faster or more capable models depending on the task you are working on.
+
+**Benefits:** More flexible consumption of published agents, better cost and performance control for end users, and fewer cases where one published configuration has to fit every scenario.
+
+For more information, see [Agents Studio](../menus/agents-studio) and [Chat](../menus/chat).
+
+### Sub-Agent Delegation Uses an Explicit Task Contract
+
+Sub-agent execution is now more deterministic by relying on the `task` field as the primary input contract instead of implicitly carrying chat history into child runs.
+
+**What you can do now:**
+
+* **Pass sub-agent context more predictably**: Delegate work through an explicit task payload instead of depending on inherited conversation history.
+* **Get more consistent behavior across entry points**: Run the same parent-agent delegation flow from chat or agent pages with a cleaner, more stable child input shape.
+* **Debug nested execution more easily**: Reason about what the child agent received without guessing how much history was forwarded.
+* **Design clearer parent-to-child instructions**: Treat the task text as the single source of truth for what the sub-agent should do.
+
+**Benefits:** More reliable nested execution, fewer hidden context mismatches, and a clearer contract for multi-agent workflows.
+
+### Sub-Agents Work More Like Standard Tools
+
+Sub-agent invocation has been polished into a clearer task-based tool pattern, making attached agents and pipelines easier to use as callable building blocks without relying on swarm-specific wiring.
+
+**What you can do now:**
+
+* **Attach sub-agents as regular callable tools**: Use a more standard delegation pattern when one agent needs another agent or pipeline to perform focused work.
+* **Keep child execution isolated from parent state**: Run sub-agents with a clearer boundary around the context they receive.
+* **Work with cleaner result routing**: Get child outputs back through the normal tool-call flow instead of a special-case orchestration path.
+* **Combine delegation with existing tool-based workflows more naturally**: Use sub-agents alongside other tool calls with less architectural friction.
+
+**Benefits:** Cleaner multi-agent design, easier reuse of specialized agents, and a more standard orchestration model for advanced agent workflows.
+
+### Index Creation Can Be Scoped More Precisely
+
+Index creation is moving toward more targeted content selection by allowing indexing workflows to focus on a narrower folder scope instead of always covering an entire bucket.
+
+**What you can do now:**
+
+* **Limit indexing to more relevant content areas**: Scope index creation more precisely when only a specific part of a bucket should be searchable.
+* **Reduce noisy indexes**: Avoid mixing unrelated files into the same knowledge base when content is organized by folders.
+* **Prepare more focused retrieval behavior**: Build indexes around the subset of documents that actually matches the intended use case.
+
+**Benefits:** Cleaner indexes, more relevant retrieval results, and less overhead from indexing unnecessary files.
+
+For more information, see [Indexing Overview](../how-tos/indexing/indexing-overview) and [Artifacts](../menus/artifacts).
+
+### Azure DevOps Project Selection Is Moved to the Toolkit Level
+
+Azure DevOps configuration is now more reusable because project selection is handled at the toolkit level instead of being locked into the credential itself.
+
+**What you can do now:**
+
+* **Reuse Azure DevOps credentials across multiple projects**: Keep organization-level access in the credential and choose the target project where the toolkit is configured.
+* **Create toolkits with clearer project intent**: Set the Azure DevOps project directly in the toolkit instead of duplicating credentials for each project.
+* **Migrate existing setups with less disruption**: Preserve existing behavior while moving toward a more universal ADO credential structure.
+* **Reduce credential duplication**: Avoid maintaining separate credentials just because the target project changes.
+
+**Benefits:** Simpler Azure DevOps administration, better credential reuse across projects, and a clearer separation between authentication and project targeting.
+
+For more information, see [ADO Boards Toolkit](../integrations/toolkits/ado_boards_toolkit), [ADO Plans Toolkit](../integrations/toolkits/ado_plans_toolkit), [ADO Repos Toolkit](../integrations/toolkits/ado_repos_toolkit), and [ADO Wiki Toolkit](../integrations/toolkits/ado_wiki_toolkit).
+
+
+## Fixed Issues
+
+* [#5003](https://github.com/EliteaAI/elitea_issues/issues/5003) **Pyodide sandbox package installation is now more reliable**: Incompatible wheel handling no longer blocks sandbox startup in the same way during dependency installation.
+* [#4984](https://github.com/EliteaAI/elitea_issues/issues/4984) **The Local MCP documentation link now opens the correct guide**: The New MCP page points users to the right ELITEA documentation URL for local server setup.
+* [#4965](https://github.com/EliteaAI/elitea_issues/issues/4965) **LLM nodes with attached tools now handle structured output correctly**: Pipeline runs can map JSON and list outputs without failing in the same execution path.
+* [#4950](https://github.com/EliteaAI/elitea_issues/issues/4950) **Swarm handoffs now preserve prior agent output more reliably**: Peer agents receive the needed execution context instead of only the original task text.
+* [#4949](https://github.com/EliteaAI/elitea_issues/issues/4949) **Swarm-enabled Anthropic agents now execute more reliably in nested and chat-driven flows**: These runs no longer fail in the same missing-message context path.
+* [#4933](https://github.com/EliteaAI/elitea_issues/issues/4933) **Agent creation now validates conversation starters more safely**: Invalid non-string values are no longer accepted in the same way and passed downstream into the UI.
+* [#4932](https://github.com/EliteaAI/elitea_issues/issues/4932) **Agent detail views now handle malformed conversation starters without crashing**: Opening an agent modal no longer triggers the same full-page frontend failure.
+* [#4925](https://github.com/EliteaAI/elitea_issues/issues/4925) **Discovery pages now keep Tag and Search visible on smaller screens**: The filtering panel behaves more reliably in narrower layouts.
+* [#4890](https://github.com/EliteaAI/elitea_issues/issues/4890) **Anthropic models now populate list-type structured outputs more reliably in pipelines**: List state variables no longer stay empty in the same structured-output flow.
+* [#4838](https://github.com/EliteaAI/elitea_issues/issues/4838) **New index creation now switches the main workspace to the new index context**: The center and right panels update correctly when a second index is started.
+* [#4836](https://github.com/EliteaAI/elitea_issues/issues/4836) **Subagents added as toolkits in the Public project now show usable versions**: The version selector no longer gets stuck in the same embedded and unavailable state.
+* [#4798](https://github.com/EliteaAI/elitea_issues/issues/4798) **Artifact toolkits now respond more safely when an embedding model has been deleted**: Stale deleted-model references no longer persist in the same way without warning.
+* [#4739](https://github.com/EliteaAI/elitea_issues/issues/4739) **Postman collection authentication can now be cleared correctly**: Updating collection auth no longer fails when authentication is intentionally set to null.
+* [#4720](https://github.com/EliteaAI/elitea_issues/issues/4720) **Indexing summary reports now avoid repeated empty-file entries**: Duplicate listings and inflated counts for the same file are handled more clearly.
+* [#4471](https://github.com/EliteaAI/elitea_issues/issues/4471) **Nested sub-agents and sub-pipelines can show incorrect message counts**: Message totals in the UI may be inaccurate even when token usage is calculated correctly.
+* [#4469](https://github.com/EliteaAI/elitea_issues/issues/4469) **In-context budget values can reset after running a pipeline from chat**: Budget settings may return to an earlier state after certain pipeline execution flows.
+* [#4333](https://github.com/EliteaAI/elitea_issues/issues/4333) **Sensitive-tool approval now resumes agent work more cleanly**: Approved runs no longer restart the same earlier tool sequence in the same way.
+* [#4269](https://github.com/EliteaAI/elitea_issues/issues/4269) **Large Excel indexing can still fail during embedding requests**: Very large files may still hit timeout or connection issues while embeddings are being generated.
+* [#4167](https://github.com/EliteaAI/elitea_issues/issues/4167) **Chat mentions now trigger Notification Center updates more reliably**: Tagged users receive the expected notification behavior more consistently.
+* [#3366](https://github.com/EliteaAI/elitea_issues/issues/3366) **SharePoint index_data fails to retrieve data from document libraries with hyphens in folder names**: The SharePoint `index_data` tool can fail with an “incorrect folder path” error when the target document library or folder name includes hyphens.
+* [#3330](https://github.com/EliteaAI/elitea_issues/issues/3330) **GitLab organization toolkits now respect a single-repository restriction correctly**: Toolkit access stays limited to the repositories explicitly configured.
+* [#3252](https://github.com/EliteaAI/elitea_issues/issues/3252) **Input mapping fields persist when switching to tools without required/optional fields**: When switching tools in MCP/Toolkit nodes, input mapping fields from the previous tool can persist and be sent unexpectedly.
+* [#2601](https://github.com/EliteaAI/elitea_issues/issues/2601) **SQL connection strings now handle `@` characters in passwords correctly**: Database connections no longer break in the same parsing path when credentials include this symbol.
+
+## Known Issues
+
+* [#4384](https://github.com/EliteaAI/elitea_issues/issues/4384) **Swarm Mode can keep stale context when a nested agent is attached**: Some nested-agent setups may not refresh context as expected.
+* [#3347](https://github.com/EliteaAI/elitea_issues/issues/3347) **Deprecated Pipeline Node Fails When Calling a Nested Pipeline**: Executions can error when using the deprecated **Pipeline** node to invoke a nested pipeline.
+* [#3341](https://github.com/EliteaAI/elitea_issues/issues/3341) **Index tool instances can remain stuck in `In progress` after stopping execution**: When an indexing run is stopped from chat, an agent, or a pipeline, the related Toolkit Index entry can remain stuck in `In progress` instead of moving to a final stopped state.
+* [#3151](https://github.com/EliteaAI/elitea_issues/issues/3151) **PPT Files Fail to Read or Index from Artifacts or SharePoint**: Reading or indexing PowerPoint files can raise errors instead of completing successfully or returning a clear “format not supported” message.
+* [#2719](https://github.com/EliteaAI/elitea_issues/issues/2719) **MCP Client Disconnects on macOS**: MCP client disconnects from platform despite tray showing "connected" on macOS; logs show "packet queue is empty" errors and repeated disconnect/reconnect cycles.
+* [#1567](https://github.com/EliteaAI/elitea_issues/issues/1567) **MCP Only Executes Latest Version**: MCP-tagged resources execute the latest version regardless of which version has the MCP tag; only the latest version is accessible via MCP.

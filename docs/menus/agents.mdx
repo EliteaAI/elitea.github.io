@@ -192,8 +192,41 @@ The **Instructions** section is the core component where you define how your age
 
 - **Identify Key Information**: Before entering data into the Instructions field, identify the essential details or instructions that the model needs to know to fulfill your request effectively. This could include the topic, specific terms, relevant background information, or the scope of the task.
 - **Enter the Details**: In the Instructions field, clearly and concisely input the identified information. Ensure that the information is directly relevant to the task to maintain the agent's focus and efficiency.
-- **Using toolkits**: For enhancing agent's capabilities, you can integrate toolkits and provide instructions how to use them and in which order. The name of toolkit can be denoted by "", (e.g. "Access\_JIRA" toolkit).
+  
   ![Agents-Instructions](../img/menus/agents/agents-instructions.gif)
+
+#### Mentions in Instructions
+
+The Instructions field supports `/` mentions to reference tools added to the agent directly in the instruction text. Inserted mentions are highlighted in the field so you can see at a glance which tools are referenced.
+
+<Note>
+Mentions are supported in both the standard Instructions field and the **full-screen editor**. Inserted mentions are highlighted in both views.
+</Note>
+
+**How to use mentions:**
+
+1. Type `/` anywhere in the Instructions field to open the suggestion dropdown.
+2. The dropdown lists all **toolkits, MCPs, agents, and pipelines** that are added to the agent and have no configuration errors.
+3. Start typing after `/` to filter the list by name.
+4. Use the **arrow keys** to navigate the list and **Enter** to select, or click an item directly.
+5. For toolkits and MCPs, selecting an item opens a second phase to optionally pick a **specific tool** within that toolkit. Type to filter tools and select one, or press **Enter** or click the toolkit name without a tool to mention the whole toolkit.
+6. Press **Escape** at any point to dismiss the dropdown without inserting a mention.
+
+   ![Agents-Instruction-Mentions](../img/menus/agents/agents-instruction-mentions.gif)
+
+
+**Mention format inserted into the instructions text:**
+
+| What you mention | Mention inserted |
+|---|---|
+| Agent or pipeline | `/Name ` |
+| Whole toolkit or MCP | `/Name ` |
+| Specific tool within a toolkit | `/Name/ToolName ` |
+
+<Warning>
+Only tools that are already added to the agent's **Toolkits** section and have no validation errors appear in the suggestion list. Add a toolkit to the agent first before mentioning it in instructions.
+</Warning>
+
 
 #### VARIABLES
 
@@ -379,6 +412,84 @@ Context Management provides intelligent control over conversation token usage th
   - Click the **Dislike** icon if the output is unsatisfactory. Upon disliking, you will have the option to leave a comment explaining why the output did not meet your expectations. This feedback helps improve the system's performance and relevance.
 
 ![Agents-Execution](../img/menus/agents/agents-execution.png)
+
+## Voice Capabilities
+
+The agent chat interface supports voice input and voice output, letting you dictate prompts and have agent responses read back to you.
+
+<CardGroup cols={3}>
+  <Card title="Voice Input" icon="microphone">
+    Dictate prompts into the chat input field. Transcribed text is inserted at the cursor position in real time.
+  </Card>
+  <Card title="Text-to-Speech" icon="volume-high">
+    Have agent responses read aloud. Pause and resume playback from a mini-player pill in the input area.
+  </Card>
+  <Card title="Speaking Mode" icon="waveform-lines">
+    Hands-free voice loop. ELITEA records, sends, speaks the agent's response, and listens again — automatically.
+  </Card>
+</CardGroup>
+
+---
+
+### Voice Input
+
+**Voice Input** lets you dictate prompts directly into the agent chat input field. The transcribed text is inserted at the cursor position, so you can combine typed and spoken content in the same message.
+
+**How to use Voice Input:**
+
+1. Click the **microphone** icon in the message input toolbar to start recording.
+2. Speak your prompt. A live transcript appears in the input field as you talk — interim results update in real time.
+3. Click the **Stop** (■) button to finish recording. The final transcript is committed and focus returns to the input field.
+
+   ![Voice Input](../img/menus/agents/voice-input.gif)
+
+<Note>
+Voice Input uses a server-side ASR (automatic speech recognition) model if configured in **Settings → AI Configuration**, or falls back to the browser's built-in Web Speech API. If neither is available, the microphone icon is hidden.
+</Note>
+
+---
+
+### Text-to-Speech
+
+**Text-to-Speech** reads agent responses aloud. A **Read out** button (megaphone icon) appears in the action bar below each agent response when the message contains speakable text.
+
+**How to use Text-to-Speech:**
+
+1. Click the **Read out** (megaphone) button below an agent response to start playback.
+2. The text is highlighted as it is read aloud.
+3. A playback pill appears in the input area with **Pause** and **Resume** controls.
+4. Click **Pause** to stop playback mid-sentence; click **Resume** to continue from where it left off.
+
+   ![Text-to-Speech](../img/menus/agents/text-to-speech.gif)
+
+
+<Note>
+When a TTS model is configured in **Settings → AI Configuration**, ELITEA uses that model for audio generation. If no TTS model is configured, playback falls back to the browser's built-in SpeechSynthesis API.
+</Note>
+
+---
+
+### Speaking Mode
+
+**Speaking Mode** is a continuous, hands-free voice loop. Once activated, ELITEA automatically records your speech, sends your prompt after a pause, plays back the agent's response, and then starts listening again — without any manual interaction between turns.
+
+**How to activate Speaking Mode:**
+
+1. Leave the message input field empty.
+2. Click the **voicewave** icon (shown in place of the Send button when the input is empty) to enter Speaking Mode.
+3. A voicewave pill with an **Exit** (✕) button replaces the send button, indicating Speaking Mode is active.
+4. Speak your prompt. After **3 seconds of silence**, your message is automatically sent.
+5. The agent response streams in and is read aloud via Text-to-Speech.
+6. Once the response finishes playing, recording starts again for the next turn.
+7. Click the **✕** button in the voicewave pill to exit Speaking Mode at any time.
+
+   ![Speaking Mode](../img/menus/agents/speaking-mode.gif)
+
+<Note>
+Speaking Mode requires a voice recognition source (server ASR model or browser Web Speech API) for input and uses Text-to-Speech for output. If you start manual voice input while Speaking Mode is active, Speaking Mode is automatically deactivated.
+</Note>
+
+---
 
 ## Managing Agent Versions: Save, Create Versions, Publish and Manage
 

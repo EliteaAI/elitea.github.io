@@ -61,9 +61,11 @@ The **Agent Canvas** interface in ELITEA serves as an integrated agent managemen
 
     - **Example:** "You are a helpful AI assistant that reviews code for best practices. Always check for security issues, performance concerns, and code readability."
 
-    <Note>
-    The Instructions field supports `{{variable_name}}` syntax. Any variables referenced this way are automatically detected and added to the **VARIABLES** section, where you can set their default values.
-    </Note>
+    <Tip>
+    The Instructions field supports two shorthand syntaxes:
+    - **Variables**: Use `{{variable_name}}` to define template placeholders. They are automatically detected and added to the **VARIABLES** section, where you can set their default values.
+    - **Mentions**: Type `/` to open a suggestion dropdown listing all configured toolkits, MCPs, agents, and pipelines. For toolkits and MCPs, you can optionally select a specific tool to produce a `/Name/ToolName` mention. Inserted mentions are highlighted in the field.
+    </Tip>
 
     **WELCOME MESSAGE** (optional)
 

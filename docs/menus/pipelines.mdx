@@ -388,6 +388,187 @@ Pipeline runs are automatically saved and can be accessed through the **Run Hist
 For comprehensive information about managing and analyzing pipeline runs, including advanced debugging and optimization techniques, see the **[Pipeline Runs Guide](../how-tos/pipelines/pipeline-runs)**.
 </Info>
 
+## Voice Capabilities
+
+The pipeline execution interface supports voice input and voice output, letting you dictate prompts and have pipeline responses read back to you.
+
+<CardGroup cols={3}>
+  <Card title="Voice Input" icon="microphone">
+    Dictate prompts into the chat input field. Transcribed text is inserted at the cursor position in real time.
+  </Card>
+  <Card title="Text-to-Speech" icon="volume-high">
+    Have pipeline responses read aloud. Pause and resume playback from a mini-player pill in the input area.
+  </Card>
+  <Card title="Speaking Mode" icon="waveform-lines">
+    Hands-free voice loop. ELITEA records, sends, speaks the pipeline's response, and listens again — automatically.
+  </Card>
+</CardGroup>
+
+---
+
+### Voice Input
+
+**Voice Input** lets you dictate prompts directly into the pipeline input field. The transcribed text is inserted at the cursor position, so you can combine typed and spoken content in the same message.
+
+**How to use Voice Input:**
+
+1. Click the **microphone** icon in the message input toolbar to start recording.
+2. Speak your prompt. A live transcript appears in the input field as you talk — interim results update in real time.
+3. Click the **Stop** (■) button to finish recording. The final transcript is committed and focus returns to the input field.
+
+   ![Voice Input](../img/menus/pipeline/voice-input.gif)
+
+<Note>
+Voice Input uses a server-side ASR (automatic speech recognition) model if configured in **Settings → AI Configuration**, or falls back to the browser's built-in Web Speech API. If neither is available, the microphone icon is hidden.
+</Note>
+
+---
+
+### Text-to-Speech
+
+**Text-to-Speech** reads pipeline responses aloud. A **Read out** button (megaphone icon) appears in the action bar below each pipeline response when the message contains speakable text.
+
+**How to use Text-to-Speech:**
+
+1. Click the **Read out** (megaphone) button below a pipeline response to start playback.
+2. The text is highlighted as it is read aloud.
+3. A playback pill appears in the input area with **Pause** and **Resume** controls.
+4. Click **Pause** to stop playback mid-sentence; click **Resume** to continue from where it left off.
+
+   ![Text-to-Speech](../img/menus/pipeline/text-to-speech.gif)
+
+
+<Note>
+When a TTS model is configured in **Settings → AI Configuration**, ELITEA uses that model for audio generation. If no TTS model is configured, playback falls back to the browser's built-in SpeechSynthesis API.
+</Note>
+
+---
+
+### Speaking Mode
+
+**Speaking Mode** is a continuous, hands-free voice loop. Once activated, ELITEA automatically records your speech, sends your prompt after a pause, plays back the pipeline's response, and then starts listening again — without any manual interaction between turns.
+
+**How to activate Speaking Mode:**
+
+1. Leave the message input field empty.
+2. Click the **voicewave** icon (shown in place of the Send button when the input is empty) to enter Speaking Mode.
+3. A voicewave pill with an **Exit** (✕) button replaces the send button, indicating Speaking Mode is active.
+4. Speak your prompt. After **3 seconds of silence**, your message is automatically sent.
+5. The pipeline response streams in and is read aloud via Text-to-Speech.
+6. Once the response finishes playing, recording starts again for the next turn.
+7. Click the **✕** button in the voicewave pill to exit Speaking Mode at any time.
+
+   ![Speaking Mode](../img/menus/pipeline/speaking-mode.gif)
+
+
+<Note>
+Speaking Mode requires a voice recognition source (server ASR model or browser Web Speech API) for input and uses Text-to-Speech for output. If you start manual voice input while Speaking Mode is active, Speaking Mode is automatically deactivated.
+</Note>
+
+---
+
+## File Attachments
+
+Enable users to upload and share files — documents, images, code files, and more — directly in pipeline conversations. When Attachments are enabled, ELITEA automatically injects a file-storage and retrieval toolkit into the pipeline at execution time, and adds an `input_attachments` state variable that any pipeline node can reference.
+
+<CardGroup cols={3}>
+  <Card title="Enable Once" icon="toggle-on">
+    Turn on the **Attachments** toggle in the pipeline configuration. The `input_attachments` state variable is added to the YAML automatically.
+  </Card>
+  <Card title="Three Ways to Attach" icon="paperclip">
+    Upload files using the paperclip icon, drag-and-drop onto the chat input, or paste from the clipboard (Ctrl+V).
+  </Card>
+  <Card title="Access in Nodes" icon="code">
+    Reference uploaded files in any pipeline node using `{{state.input_attachments}}` after the files have been uploaded.
+  </Card>
+</CardGroup>
+
+---
+
+**Enabling File Attachments**
+
+File attachment support is **disabled by default** for pipelines. To enable it:
+
+1. Open the pipeline and locate the **left configuration panel**.
+2. Scroll to the **INTERNAL TOOLS** section.
+3. Toggle the **Attachments** switch to the on position.
+4. Click **Save** to apply the change.
+
+![Enable Attachments](../img/menus/pipeline/pipeline-attachments-enable.gif)
+
+<Note>
+When you enable Attachments, ELITEA automatically adds an `input_attachments` state variable (type: `list`, default: `[]`) to the pipeline's YAML `state` section. When you disable Attachments, the variable is automatically removed. No manual YAML editing is needed.
+</Note>
+
+<Warning>
+Attachments require a **default vector storage (pgvector)** and a **default embedding model** to be configured in your project settings. If these are not configured, an error will occur when users attempt to attach files. Contact your platform administrator to verify the project configuration before enabling attachments.
+</Warning>
+
+---
+
+**Attaching Files in Chat**
+
+Once Attachments are enabled for the pipeline, three methods are available in the chat input:
+
+- **Paperclip icon (📎)** — Click the paperclip button in the message input toolbar to open the system file picker and select one or more files. The tooltip shows how many attachment slots remain (*"Attach files (N left)"*) and is disabled once the maximum is reached.
+- **Drag and drop** — Drag files from your operating system and drop them directly onto the chat input area.
+- **Clipboard paste** — Copy files to your clipboard and press **Ctrl+V** while the chat input is focused to attach them instantly.
+
+Attached files appear above the message input before you send:
+- **Images** are displayed as thumbnail previews in a grid layout.
+- **Other files** (documents, code, data, archives) are displayed as filename chips showing the file name and type icon.
+
+![Attach Files](../img/menus/pipeline/pipeline-attach-file.gif)
+
+
+---
+
+**File Limits**
+
+| Limit | Value |
+|-------|-------|
+| Maximum files per message | 10 |
+| Maximum total size per message | 150 MB |
+| Maximum size per individual file | 150 MB |
+| Maximum images per message | 10 |
+| Maximum size per image file | 5 MB *(SVG excluded from size limit)* |
+
+---
+
+**Supported File Types**
+
+Supported file types are configured by platform administrators through document loaders. The following categories are typically available:
+
+| Category | Examples |
+|----------|---------|
+| **Images** | JPEG, PNG, GIF, BMP, WebP, SVG, TIFF, ICO, AVIF, APNG |
+| **Documents** | PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX |
+| **Code** | JS, TS, JSX, TSX, Python, Java, C#, PHP, Ruby, Go, Rust, Kotlin, Swift, C, C++ |
+| **Data** | CSV, TSV, JSON, YAML, XML, SQL |
+| **Text** | TXT, MD, RST |
+| **Archives** | ZIP, TAR, GZ, RAR, 7-ZIP |
+
+---
+
+**YAML Integration**
+
+When Attachments are enabled, the pipeline YAML is automatically updated to include:
+
+```yaml
+state:
+  input_attachments:
+    type: list
+    default: []
+```
+
+Pipeline nodes can reference uploaded files using `{{state.input_attachments}}`. Each item in the list represents one processed file — images are passed as image content, and all other files are indexed and passed as extracted text — ready for use in LLM, Code, or Toolkit nodes.
+
+<Info>
+The `input_attachments` state variable is fully managed by the platform. It is added when Attachments are enabled and removed when they are disabled. The backend automatically injects the file-storage toolkit (using the project's default attachment bucket, vector storage, and embedding model) at predict time — no manual toolkit configuration is required.
+</Info>
+
+---
+
 ## Managing Pipeline Versions: Save, Create Versions, and Manage
 
 To optimally manage your pipeline, understanding how to save and create versions is crucial. Follow these guidelines to efficiently save your pipeline, create versions, and manage them.

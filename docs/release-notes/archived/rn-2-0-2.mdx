@@ -1,0 +1,285 @@
+---
+title: "Release Notes - 2.0.2"
+description: "ELITEA 2.0.2 adds self-service publishing, clearer indexing outcomes, better notifications, and smoother admin and authoring workflows."
+---
+
+## Release Overview
+
+ELITEA 2.0.2 focuses on making day-to-day work easier to understand and easier to control. This release adds self-service publishing, clearer indexing feedback, more useful notifications, and a set of workflow improvements across model setup, pipelines, credentials, and toolkit administration.
+
+## Information
+
+* **Release Version**: 2.0.2
+* **Released on**: 30-Apr-2026
+* **Access**: [ELITEA Platform](https://elitea.ai)
+
+
+## New Features
+
+### Self-Service Agent Publishing in Agents Studio
+
+You can now publish agents directly to Agents Studio without depending on a separate admin handoff, which makes it faster to move production-ready agents from development into shared use.
+
+**What you can do now:**
+
+* **Publish agents directly**: Move approved agents into Agents Studio from the product workflow.
+* **Run quality checks before publishing**: Review agent readiness with built-in validation before release.
+* **Manage multiple published versions**: Keep more than one published version available when needed.
+* **Unpublish safely**: Remove an agent from new use without breaking existing conversations that already rely on it.
+
+**Benefits:** Faster release cycles for agent teams, less operational overhead, and a clearer path from creation to production use.
+
+For more information, see [Agents Publishing](../../how-tos/agents-pipelines/agent-publishing).
+
+### Indexing Completion Summary Report
+
+Indexing now ends with a clearer completion summary so you can immediately see what was fully indexed, what was only partially processed, and what failed.
+
+**What you can do now:**
+
+* **Review totals at a glance**: See how many files were processed successfully, partially, or not at all.
+* **Inspect file-level outcomes**: Identify which specific files were skipped or failed.
+* **Understand processing gaps**: See the reason when content is skipped or cannot be processed.
+* **Confirm indexing completion more confidently**: Use the summary as a quick post-run check instead of reviewing logs manually.
+
+**Benefits:** Better visibility after indexing runs, faster troubleshooting, and less ambiguity about what content is available for AI use.
+
+For more information, see [Indexing Overview](../../how-tos/indexing/indexing-overview).
+
+
+### Personal Access Token Expiration Alerts
+
+ELITEA now warns token owners before a personal access token expires so they have time to replace access before automations or integrations are interrupted.
+
+**What you can do now:**
+
+* **Receive a 24-hour warning**: Get notified before a personal access token reaches its expiration time.
+* **See which token needs attention**: The alert identifies the token that is about to expire.
+* **Act from the notification flow**: Open token management and replace the token before it stops working.
+* **Avoid surprise interruptions**: Catch expiring access earlier in routine work.
+
+**Benefits:** Fewer unexpected authentication failures and less downtime for user-managed integrations.
+
+For more information, see [Create Personal Access Token](../../getting-started/create-personal-access-token).
+
+### Bucket Retention Expiration Alerts
+
+ELITEA now warns bucket owners before retention rules remove files, so they can review the bucket and keep anything important before cleanup happens.
+
+**What you can do now:**
+
+* **Receive advance retention alerts**: Get a warning before files are deleted by bucket retention rules.
+* **See which bucket is affected**: The notification points to the bucket that needs review.
+* **Open the bucket directly**: Navigate from the alert to the storage location and take action.
+* **Prepare before cleanup runs**: Move or preserve files that should not be deleted.
+
+**Benefits:** Better storage governance, fewer accidental data losses, and more predictable bucket lifecycle management.
+
+For more information, see [Artifacts](../../menus/artifacts) and [Notification Center](../../menus/notification-center).
+
+## Changed Features
+
+### Clearer Vision Capability in Model Settings
+
+Model settings now show whether a selected model supports vision, making it easier to tell when a model can analyze image content and reducing confusion with image generation.
+
+**What you can do now:**
+
+* **See vision status immediately**: Check whether vision is enabled or disabled for the current model.
+* **Understand what vision means**: Use the inline help to confirm that vision covers reading, analyzing, and describing images.
+* **Choose models more confidently**: Distinguish image understanding from image generation before you run a task.
+
+**Benefits:** Clearer model selection, fewer incorrect assumptions about image capabilities, and a more transparent AI configuration experience.
+
+### More Reliable Chat Message Metrics in Analytics
+
+Analytics now reports chat message activity more accurately so the Overview, Agents, and Users views reflect recent conversation usage.
+
+**What you can do now:**
+
+* **Track chat volume more accurately**: Review updated chat-message totals in Analytics.
+* **See daily activity in charts**: Use the Chat Messages visualization across supported date ranges.
+* **Inspect user-level usage**: Confirm that user detail views reflect actual chat activity.
+
+**Benefits:** More trustworthy adoption reporting and better visibility into real chat usage.
+
+For more information, see [Analytics](../../menus/settings/analytics).
+
+### Shared Toolkit Credential Setup Is Clearer for Team Members
+
+When a shared toolkit depends on user-specific credentials, ELITEA now gives clearer guidance about which credential ID is required and how each user should resolve missing or mismatched credentials.
+
+**What you can do now:**
+
+* **See the required credential ID**: Identify the exact credential each team member must create or match.
+* **Follow clearer missing-credential guidance**: Use structured warnings instead of ambiguous errors.
+* **Jump directly into credential creation**: Open a create-credential flow with the right context.
+* **Avoid accidental toolkit changes**: Confirm updates before altering shared toolkit credential assignments.
+
+**Benefits:** Faster onboarding for shared toolkits, fewer credential mismatches, and safer collaboration in team environments.
+
+For more information, see [How to Use Credentials](../../how-tos/credentials-toolkits/how-to-use-credentials) and [Creating Toolkits with User-Specific Credentials](../../how-tos/credentials-toolkits/creating-toolkits-with-user-specific-credentials).
+
+
+### More Resilient Indexing and Clearer Error Reporting
+
+Indexing now handles mixed-quality document sets more gracefully by continuing past unsupported files and by pointing out which file caused a failure when intervention is needed.
+
+**What you can do now:**
+
+* **Keep indexing running after file-level failures**: Unsupported or corrupted files no longer stop the entire job.
+* **Skip problematic content automatically**: Let ELITEA continue with files it can process.
+* **See which file needs attention**: Review clearer error messaging that identifies the file involved.
+* **Finish large runs with less manual recovery**: Index broad file sets without restarting because of a single bad item.
+
+**Benefits:** Higher indexing success rates, faster remediation, and less time lost to avoidable reruns.
+
+For more information, see [Indexing Overview](../../how-tos/indexing/indexing-overview) and [How to Index SharePoint Data](../../how-tos/indexing/index-sharepoint-data).
+
+### Better Visibility for Cross-Page Artifact Uploads
+
+When an uploaded file is routed to a different artifact page, ELITEA now keeps the upload status visible so you can follow progress without guessing where the file went.
+
+**What you can do now:**
+
+* **Track upload progress from the current page**: Stay informed even when the destination is another artifact location.
+* **Understand where the file is being stored**: Follow clearer cues to the correct artifact page.
+* **Monitor long uploads more reliably**: Keep visibility during uploads that take longer to complete.
+
+**Benefits:** Less confusion during file handling and a more consistent upload experience across artifacts.
+
+For more information, see [Artifacts](../../menus/artifacts).
+
+### Jira and Confluence Setup Is Simpler and Safer
+
+Jira and Confluence configuration has been reorganized so hosting and API version choices are easier to understand, easier to reuse, and less likely to be misconfigured.
+
+**What you can do now:**
+
+* **Set hosting at the credential level**: Choose Auto, Cloud, or Server once in the credential instead of repeating the setting in every toolkit.
+* **Use guided API version selection**: Select Auto, V3, or V2 from a dropdown instead of relying on free-text input.
+* **Let defaults follow your hosting setup**: Use automatic version resolution based on the linked credential.
+* **Work in cleaner forms**: Use reorganized Jira and Confluence toolkit layouts with advanced options grouped more clearly.
+
+**Benefits:** Fewer setup mistakes, more predictable behavior across shared toolkits, and a cleaner administration flow for Jira and Confluence integrations.
+
+For more information, see [Jira Toolkit Guide](../../integrations/toolkits/jira_toolkit), [Confluence Toolkit Guide](../../integrations/toolkits/confluence_toolkit), and [Credentials](../../menus/credentials).
+
+### Scrollable Toolkit Chat History
+
+Toolkit chat sessions now handle longer outputs more cleanly by keeping the chat panel scrollable instead of forcing awkward review of large result sets.
+
+**What you can do now:**
+
+* **Scroll through long toolkit conversations**: Review large outputs without losing your place.
+* **Navigate extended responses more easily**: Move through long histories with a visible scrollbar.
+* **Inspect tool output with less friction**: Revisit earlier responses without collapsing the workflow.
+
+**Benefits:** Better readability for long toolkit runs and a more usable chat panel for troubleshooting or analysis.
+
+### Azure DevOps Pull Request Responses Include Descriptions
+
+The Azure DevOps `get_pull_request` tool now returns pull request descriptions so you can review more of the PR context in a single response.
+
+**What you can do now:**
+
+* **Read PR descriptions directly**: Get the description content together with the rest of the pull request details.
+* **Work with fuller review context**: Use descriptions in downstream prompts and summaries.
+* **Handle empty descriptions safely**: Continue working even when a pull request has no description.
+
+**Benefits:** Better PR context for reviews, summaries, and automation built on Azure DevOps data.
+
+
+### Notification Center Works More Like an Inbox
+
+Notification Center now includes stronger management tools so you can search, review, and clean up notifications more efficiently.
+
+**What you can do now:**
+
+* **Browse notifications in a table view**: Work with a more structured list layout.
+* **Search server-side**: Find matching notifications faster, even in larger histories.
+* **Select multiple items at once**: Use checkboxes for bulk actions.
+* **Manage messages in batches**: Mark items as read or delete them in one step.
+
+**Benefits:** Faster notification triage and a more scalable way to manage high notification volume.
+
+For more information, see [Notification Center](../../menus/notification-center).
+
+
+### Search Suggestions Are More Relevant to the Page You Are On
+
+Entity search now narrows tag suggestions to the current page context so you see filters that make sense for the type of item you are searching.
+
+**What you can do now:**
+
+* **See agent-specific tags on agent pages**: Use suggestions that match the current entity type.
+* **See pipeline-specific tags on pipeline pages**: Avoid unrelated filter options.
+* **Find results with less cleanup**: Build searches with more relevant suggestions from the start.
+
+**Benefits:** Faster discovery and more precise search filtering across entity management screens.
+
+For more information, see [Search Entities](../../how-tos/entity-management/search-entities).
+
+### Pipeline Creation and Editing Are More Guided
+
+Pipeline authoring now follows a clearer save-first workflow and adds stronger inline assistance while you configure nodes and related entities.
+
+**What you can do now:**
+
+* **Create pipelines in a staged flow**: Enter core metadata first, then continue configuration after the initial save.
+* **Use variable suggestions in more node fields**: Get autocomplete help in LLM, HITL, Printer, Code, MCP, and Toolkit inputs.
+* **Refresh broken cards inline**: Re-fetch toolkit, MCP, agent, or pipeline cards without reloading the page.
+* **Preserve work while correcting configuration issues**: Resolve warnings and stale cards without losing unsaved changes.
+
+**Benefits:** Faster pipeline setup, fewer avoidable mistakes, and smoother recovery when related entities change.
+
+For more information, see [Pipelines](../../menus/pipelines).
+
+
+## Fixed Issues
+
+* [#4718](https://github.com/EliteaAI/elitea_issues/issues/4718) **qTest now includes all images instead of only the last one**: Multi-image test cases return descriptions for every extracted image.
+* [#4717](https://github.com/EliteaAI/elitea_issues/issues/4717) **qTest now separates text and generated image descriptions more clearly**: Image descriptions are no longer appended without a usable boundary.
+* [#4716](https://github.com/EliteaAI/elitea_issues/issues/4716) **qTest now generates image descriptions even without a custom prompt**: Image extraction uses the default prompt when no override is provided.
+* [#4667](https://github.com/EliteaAI/elitea_issues/issues/4667) **SharePoint OAuth authorization now works from the chat-panel Authorize button**: Re-authentication in chat completes successfully instead of failing in the token-exchange step.
+* [#4666](https://github.com/EliteaAI/elitea_issues/issues/4666) **Agent-node output now saves into the configured output state variable**: Child execution results are stored correctly for downstream pipeline use.
+* [#4651](https://github.com/EliteaAI/elitea_issues/issues/4651) **Agent nodes now return the child agent’s final response instead of raw history JSON**: Nested agent output is displayed in a cleaner, user-facing format.
+* [#4531](https://github.com/EliteaAI/elitea_issues/issues/4531) **qTest now filters base64 images from precondition fields correctly**: Embedded image data in preconditions is processed through the expected cleanup flow.
+* [#4530](https://github.com/EliteaAI/elitea_issues/issues/4530) **qTest now filters base64 images from test-step descriptions correctly**: Inline image data is no longer leaked when attribute order varies inside the image tag.
+* [#4509](https://github.com/EliteaAI/elitea_issues/issues/4509) **AI Configuration now shows complete and correctly sorted model lists**: Provider groups no longer stop at 10 models, and model names are ordered more consistently.
+* [#4503](https://github.com/EliteaAI/elitea_issues/issues/4503) **Agent-node runs now show nested execution chips correctly**: Calls to sub-agents and sub-pipelines triggered through Agent nodes are now visible in the execution flow.
+* [#4489](https://github.com/EliteaAI/elitea_issues/issues/4489) **Nested sub-agent pipelines now run correctly in Team projects**: Team-project execution no longer fails in the same pipeline-state path.
+* [#4470](https://github.com/EliteaAI/elitea_issues/issues/4470) **Analytics chat-message metrics now update correctly**: Recent conversation activity is reflected more reliably across Analytics views.
+* [#4430](https://github.com/EliteaAI/elitea_issues/issues/4430) **Bucket retention updates now trigger expiration notifications correctly**: Notification timing stays aligned when retention settings are changed.
+* [#4388](https://github.com/EliteaAI/elitea_issues/issues/4388) **Child pipeline calls now display their call chips in execution flow**: Pipeline calls initiated from agents are represented more clearly in the UI.
+* [#4380](https://github.com/EliteaAI/elitea_issues/issues/4380) **Agent-node task fields now show variable suggestions correctly**: Dropdown suggestions now appear in the Agent node task field where input mapping behavior is expected.
+* [#4360](https://github.com/EliteaAI/elitea_issues/issues/4360) **Anthropic models can now read images from artifacts correctly**: Artifact-based image analysis works more reliably with supported Anthropic models.
+* [#4356](https://github.com/EliteaAI/elitea_issues/issues/4356) **Project membership conflicts now show the correct error**: Adding a user who is already assigned no longer shows a false success message.
+* [#4353](https://github.com/EliteaAI/elitea_issues/issues/4353) **GitHub write actions now stay on the active branch**: GitHub toolkit changes no longer default unexpectedly to a protected main branch.
+* [#4352](https://github.com/EliteaAI/elitea_issues/issues/4352) **Remote MCP toolkit creation is safer when secrets are not used**: Secret values are no longer exposed in the same way during setup.
+* [#4348](https://github.com/EliteaAI/elitea_issues/issues/4348) **Later pipeline LLM nodes now still require first-use approval for sensitive tools**: Earlier approvals no longer bypass authorization in subsequent pipeline stages.
+* [#4346](https://github.com/EliteaAI/elitea_issues/issues/4346) **Sensitive tools called through nested agents now require authorization**: Guardrails are applied more consistently in nested execution paths.
+* [#4323](https://github.com/EliteaAI/elitea_issues/issues/4323) **SharePoint list retrieval now returns only actual lists**: Folder-like results are no longer mixed into the SharePoint lists response.
+* [#4192](https://github.com/EliteaAI/elitea_issues/issues/4192) **Empty CSV files now return a consistent loader response**: CSV handling behaves more predictably when there is no data to process.
+* [#4140](https://github.com/EliteaAI/elitea_issues/issues/4140) **Postman collection update tools now return the updated fields**: Description, variables, and authentication changes can now be confirmed directly from the response.
+* [#4131](https://github.com/EliteaAI/elitea_issues/issues/4131) **Agent-node failures are now surfaced instead of being skipped silently**: Pipeline runs show child-agent errors more clearly, which makes troubleshooting easier.
+* [#3937](https://github.com/EliteaAI/elitea_issues/issues/3937) **Cursor now handles ELITEA MCP tool responses correctly**: MCP tool results no longer fail in Cursor because of the earlier response-validation problem.
+* [#3871](https://github.com/EliteaAI/elitea_issues/issues/3871) **Published agents now use published child versions at runtime**: Nested published agents no longer resolve unexpectedly to a latest draft version.
+* [#3804](https://github.com/EliteaAI/elitea_issues/issues/3804) **Postman folder lookup works correctly during request creation flows**: Folder-based request creation no longer fails in the same way during chained Postman actions.
+* [#3761](https://github.com/EliteaAI/elitea_issues/issues/3761) **Pipeline history no longer shows zero-second duration for non-LLM runs**: Pipelines that use only toolkit, printer, MCP, or similar non-LLM nodes now show the correct execution time.
+
+## Known Issues
+
+* [#4471](https://github.com/EliteaAI/elitea_issues/issues/4471) **Nested sub-agents and sub-pipelines can show incorrect message counts**: Message totals in the UI may be inaccurate even when token usage is calculated correctly.
+* [#4469](https://github.com/EliteaAI/elitea_issues/issues/4469) **In-context budget values can reset after running a pipeline from chat**: Budget settings may return to an earlier state after certain pipeline execution flows.
+* [#4384](https://github.com/EliteaAI/elitea_issues/issues/4384) **Swarm Mode can keep stale context when a nested agent is attached**: Some nested-agent setups may not refresh context as expected.
+* [#4333](https://github.com/EliteaAI/elitea_issues/issues/4333) **Sensitive-tool approval can still restart earlier tool execution in some agent runs**: In specific multi-step flows, previous tool results may be lost after approval and the agent may repeat earlier steps.
+* [#4269](https://github.com/EliteaAI/elitea_issues/issues/4269) **Large Excel indexing can still fail during embedding requests**: Very large files may still hit timeout or connection issues while embeddings are being generated.
+* [#3366](https://github.com/EliteaAI/elitea_issues/issues/3366) **SharePoint index_data fails to retrieve data from document libraries with hyphens in folder names**: The SharePoint `index_data` tool can fail with an “incorrect folder path” error when the target document library or folder name includes hyphens.
+* [#3347](https://github.com/EliteaAI/elitea_issues/issues/3347) **Deprecated Pipeline Node Fails When Calling a Nested Pipeline**: Executions can error when using the deprecated **Pipeline** node to invoke a nested pipeline.
+* [#3341](https://github.com/EliteaAI/elitea_issues/issues/3341) **Index tool instances can remain stuck in `In progress` after stopping execution**: When an indexing run is stopped from chat, an agent, or a pipeline, the related Toolkit Index entry can remain stuck in `In progress` instead of moving to a final stopped state.
+* [#3252](https://github.com/EliteaAI/elitea_issues/issues/3252) **Input mapping fields persist when switching to tools without required/optional fields**: When switching tools in MCP/Toolkit nodes, input mapping fields from the previous tool can persist and be sent unexpectedly.
+* [#3151](https://github.com/EliteaAI/elitea_issues/issues/3151) **PPT Files Fail to Read or Index from Artifacts or SharePoint**: Reading or indexing PowerPoint files can raise errors instead of completing successfully or returning a clear “format not supported” message.
+* [#2922](https://github.com/EliteaAI/elitea_issues/issues/3330) **GitLab org Toolkit does not restrict access to specified repositories when only one repository is added**: GitLab org toolkits may ignore a single-repository restriction and operate across all project repositories.
+* [#2304](https://github.com/EliteaAI/elitea_issues/issues/2719) **MCP Client Disconnects on macOS**: MCP client disconnects from platform despite tray showing "connected" on macOS; logs show "packet queue is empty" errors and repeated disconnect/reconnect cycles.
+* [#1163](https://github.com/EliteaAI/elitea_issues/issues/1567) **MCP Only Executes Latest Version**: MCP-tagged resources execute the latest version regardless of which version has the MCP tag; only the latest version is accessible via MCP.

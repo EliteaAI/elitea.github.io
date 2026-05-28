@@ -45,12 +45,16 @@ When adding child agents to a parent, agents that already have Swarm Mode enable
 
 **Agent Roles**
 
-Swarm Mode creates a two-tier architecture:
+Swarm Mode creates a **flat peer-to-peer architecture**. There is no strict parent/child hierarchy — the entry agent is simply the default starting point that the user talks to; all other agents are peers with equal standing:
 
 | Role | Description | Responsibilities |
 |------|-------------|------------------|
-| **Parent Agent** | Main coordinator | - Receives user requests<br />- Determines which specialist to involve<br />- Hands off tasks to child agents<br />- Coordinates overall workflow |
-| **Child Agents** | Specialized agents | - Execute specific tasks using their tools<br />- Access full conversation history<br />- Return control to parent when done<br />- Can be other agents configured in the parent's toolkits |
+| **Entry Agent** | The agent the user addresses (default active agent) | - Receives user requests<br />- Determines which specialist to involve<br />- Delegates tasks to peer agents via handoff tools<br />- Can receive control back from any peer |
+| **Peer Agents** | Specialized agents | - Execute specific tasks using their tools<br />- Access full shared conversation history<br />- Hand control back to the entry agent when done<br />- Can also hand off to other peers |
+
+<Note>
+Pipelines added as toolkits to the swarm agent participate as **direct-invocation peers** — they run their full graph and return the result without an LLM wrapper, then hand control back automatically. Regular agents run as LLM-equipped peers.
+</Note>
 
 **Workflow**
 
@@ -58,13 +62,17 @@ When Swarm Mode is enabled and child agents are configured:
 
 1. **User Request:** User sends a message to the conversation
 2. **Parent Analysis:** Parent agent analyzes the request and determines if a specialist is needed
-3. **Handoff:** Parent uses a handoff tool (e.g., `transfer_to_test_agent`) to delegate to a child agent
-4. **Specialist Work:** Child agent executes the task using its specialized tools and knowledge
-5. **Return Control:** Child agent uses `transfer_to_parent` to return control after completing the task
-6. **Continue Coordination:** Parent receives results and continues coordinating the overall workflow
+3. **Handoff:** Entry agent uses a handoff tool (e.g., `transfer_to_test_agent`) to delegate to a peer agent. The handoff tool's `task` argument must be **completely self-contained** — the peer receives only this string and has no access to prior conversation history, other tool results, or other peers' outputs. Always inline all required data verbatim.
+4. **Specialist Work:** Peer agent executes the task using its specialized tools and knowledge
+5. **Return Control:** Peer agent uses `transfer_to_main_agent` to return control after completing the task
+6. **Continue Coordination:** Entry agent receives results and continues coordinating the overall workflow
+
+<Note>
+Only **one handoff can be processed per turn**. If the entry agent emits multiple handoff tool calls in a single response, they are executed in order (not concurrently).
+</Note>
 
 <Info title="What Happens Behind the Scenes">
-When Swarm Mode is enabled, the system automatically creates handoff tools for each child agent. The parent agent receives instructions about available specialists and when to delegate tasks. All agents share the same conversation state, ensuring seamless collaboration.
+When Swarm Mode is enabled, the system automatically creates handoff tools for each peer agent. Every agent in the swarm receives a `transfer_to_[agent_name]` tool for every other peer — this is bidirectional and flat: any agent can hand off to any other. The entry agent and all peers share the same conversation state (SwarmState) via LangGraph's `langgraph-swarm` library, ensuring seamless collaboration.
 </Info>
 
 
@@ -139,7 +147,7 @@ Once enabled and child agents are configured, Swarm Mode works transparently dur
 8. Parent summarizes the results to the user
 
 <Info title="Handoff Tools Are Automatic">
-You don't need to manually create handoff tools. When Swarm Mode is enabled, the system automatically generates `transfer_to_[agent_name]` tools for the parent to call child agents, and `transfer_to_parent` for child agents to return control.
+You don't need to manually create handoff tools. When Swarm Mode is enabled, the system automatically generates `transfer_to_[agent_name]` tools for every peer combination. Each agent also receives a `transfer_to_main_agent` tool to hand control back to the entry agent.
 </Info>
 </Info>
 
@@ -226,6 +234,14 @@ You don't need to manually create handoff tools. When Swarm Mode is enabled, the
 ---
 
 ## Best Practices
+
+<Accordion title="Always provide self-contained task context on handoff">
+When delegating to a peer agent, the `task` argument in the handoff tool call is the **only input the peer receives**. The peer has no access to the prior conversation, other tool results, or other agents' outputs. Always inline all required data verbatim in the `task` string — never use references like "the items", "those results", or "the data from earlier". If you would write a pronoun, substitute the actual data instead.
+
+**Bad:** `transfer_to_test_agent(task="Run tests on those endpoints.")`
+
+**Good:** `transfer_to_test_agent(task="Run integration tests on the following API endpoints and return a pass/fail summary: POST /api/orders, GET /api/orders/{id}, DELETE /api/orders/{id}")`
+</Accordion>
 
 <Accordion title="Design specialized child agents with clear purposes">
 Each child agent should have a well-defined specialization and appropriate toolkits. Avoid creating generic agents—instead, create focused specialists (e.g., "GitHub Issues Agent" vs. "Development Agent"). This makes handoff decisions clearer and more effective.

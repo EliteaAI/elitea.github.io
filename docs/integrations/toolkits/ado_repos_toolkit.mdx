@@ -54,7 +54,7 @@ If you do not yet have an Azure DevOps account and organization, please follow t
     *   Enter the email address or name of the user you want to add to the project member group and click **"Add"**.
 10. **Verify Repo Access:** After completing user setup, refresh the Azure DevOps page and ensure that the **"Repos"** feature is enabled and visible for your account within your Azure DevOps project. This confirms that you have successfully set up your Azure DevOps account and have access to Azure Repos.
 
-     <img src="../../img/integrations/toolkits/ado/ado-repo-add-user.gif" alt="Add user" />
+     <img src="../../img/integrations/toolkits/ado/ado-add-user.gif" alt="Add user" />
 
 <Info title="Note:">
 If the "Repos" feature is not available, you may need to create a new project within your Azure DevOps organization or verify that Azure Repos is enabled for your organization and project.
@@ -93,7 +93,7 @@ For secure integration with ELITEA, it is essential to use an Azure DevOps **Per
 5.  **Create Token:** Click the **"Create"** button to generate your PAT.
 6.  **Copy and Store Token:** **Copy the generated token immediately** - this is your only chance to see it. Store it securely in a password manager or ELITEA's **[Secrets](../../menus/settings/secrets)** feature.
 
-    <img src="../../img/integrations/toolkits/ado/ado-repo-new-token.gif" alt="AdoRepos-Generate_PAT" />
+    <img src="../../img/integrations/toolkits/ado/ado-new-token.gif" alt="AdoRepos-Generate_PAT" />
 
 <Warning title="Important Security Practices">
 **Principle of Least Privilege:** Grant only the scopes absolutely essential for your ELITEA integration tasks.
@@ -115,6 +115,9 @@ Before creating a toolkit, you must first create Azure DevOps credentials in ELI
 1. **Navigate to Credentials Menu:** Open the sidebar and select **[Credentials](../../menus/credentials)**.
 2. **Create New Credential:** Click the **`+ Create`** button.
 3. **Select Azure DevOps:** Choose **Ado** as the credential type.
+
+    <img src="../../img/integrations/toolkits/ado/ado-credentials-access.gif" alt="Azure DevOps Credential Access" />
+
 4. **Configure Credential Details:**
 
     | Field | Description | Example |
@@ -122,7 +125,6 @@ Before creating a toolkit, you must first create Azure DevOps credentials in ELI
     | **Display Name** | Enter a descriptive name (e.g., "Azure DevOps - Team Project Access") | `Azure DevOps - Team Project Access` |
     | **ID** | Unique identifier for the credential | 	Auto-populated from the Display Name |
     | **Organization Url** | Enter your Azure DevOps organization URL (e.g., `https://dev.azure.com/YourOrganization`) | `https://dev.azure.com/MyCompany` |
-    | **Project** | Enter your Azure DevOps project name (e.g., `MyProject`) | `ProjectAlpha` |
     | **Token** | Enter your PAT or select a secret containing your PAT | `ghp_1234...` |
 
 5. **Test Connection:** Click **Test Connection** to verify your credentials are valid and ELITEA can connect to Azure DevOps
@@ -141,13 +143,17 @@ Once your credentials are configured, create the Azure Repos toolkit:
 1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits](../../menus/toolkits)**.
 2. **Create New Toolkit:** Click the **`+ Create`** button.
 3. **Select Azure Repos:** Choose **Azure Repos (ADO Repos)** from the list of available toolkit types.
+
+    <img src="../../img/integrations/toolkits/adorepos/ado-repo-access.gif" alt="Azure Repos Toolkit Access" />
+
 4. **Configure Toolkit Settings:**
 
     | Field | Description | Example |
     |-------|-------------|---------|
     | **Toolkit Name** | Enter a descriptive name (required) | `Azure Repos - ProjectX` |
     | **Description** | Provide an optional description | `Toolkit for managing ProjectX repository - handles code reviews and deployments` |
-    | **ADO configuration** | Select your previously created Azure DevOps credential from the dropdown | `Azure DevOps - Team Project Access` |
+    | **ADO configuration** | Select your previously created Azure DevOps credential from the dropdown. A credential may be pre-selected — verify it is correct or change it as needed. | `Azure DevOps - Team Project Access` |
+    | **Project** | Your Azure DevOps project name | `ProjectAlpha` |
     | **PgVector Configuration** | Select the PgVector configuration for embedding storage | `elitea-pgvector` |
     | **Embedding Model** | Select the embedding model to use | `amazon.titan-embed-text-v2:0` |
     | **Repository Id** | Enter your repository ID (required - see note below on how to obtain it) | `a1b2c3d4-e5f6-7890-abcd-ef1234567890` |
@@ -559,6 +565,18 @@ The following work items are linked to PR #247:
 5. **PgVector Configuration:** If using vector search tools, ensure PgVector configuration and embedding model are properly configured.
 </Accordion>
 
+<Accordion title="Branch Not Found Error at Toolkit Creation">
+**Problem:** Toolkit creation fails with an error such as *"The base branch 'main' does not exist"* or *"The active branch 'feature-xyz' does not exist."*
+
+**Cause:** The branch names entered in the **Base branch** or **Active branch** fields of the toolkit configuration do not match any existing branch in the repository. Branch names in Git are case-sensitive.
+
+**Resolution:**
+1. Open your repository in Azure DevOps and verify the exact default branch name — it may be `main`, `master`, `develop`, or a custom name
+2. Correct the branch name(s) in the toolkit settings — ensure capitalization matches exactly
+3. If the branch was recently deleted or renamed, update the toolkit configuration accordingly
+4. After saving the toolkit, use the **List branches in repo** tool to confirm available branches
+</Accordion>
+
 ### Support Contact
 
 If you encounter issues not covered in this guide or need additional assistance with Azure Repos integration, please refer to **[Contact Support](../../support/contact-support)** for detailed information on how to reach the ELITEA Support Team.    
@@ -764,6 +782,58 @@ Regular PAT rotation is a security best practice. Here's how to manage it:
 - All credentials referencing the secret automatically updated
 - Better audit trail
 - Reduced risk of exposing tokens
+</Accordion>
+
+<Accordion title="Can I read only specific lines of a file instead of the entire file?">
+Yes. The `read_file` tool supports partial file reading using two optional parameters:
+
+- **`offset`** — the 1-indexed starting line number (e.g., `offset=50` starts reading from line 50)
+- **`limit`** — the maximum number of lines to return from the offset (e.g., `limit=30` returns 30 lines)
+
+**Example agent instruction:**
+```
+Read lines 50 to 80 of the file 'src/utils/helpers.py' on the main branch.
+```
+
+If `offset` is omitted, reading starts from the beginning. If `limit` is omitted, all lines from the offset to the end of the file are returned.
+</Accordion>
+
+<Accordion title="Can I filter commit history by date, author, or file path?">
+Yes. The `get_commits` tool supports the following optional filters:
+
+| Parameter | Description | Example |
+|-----------|-------------|--------|
+| `sha` | Start from a specific commit SHA | `abc123def456` |
+| `path` | Only commits that modified this file or folder | `src/api/routes.py` |
+| `since` | Only commits after this date (ISO 8601) | `2025-01-01T00:00:00Z` |
+| `until` | Only commits before this date (ISO 8601) | `2025-12-31T23:59:59Z` |
+| `author` | Filter by author username | `john.smith` |
+
+**Example agent instruction:**
+```
+Get all commits made to 'src/auth/login.py' by 'jane.doe' since 2025-06-01.
+```
+</Accordion>
+
+<Accordion title="Can the agent add inline code comments to specific lines in a pull request?">
+Yes. The `comment_on_pull_request` tool supports inline comments targeting specific file lines or line ranges using the `inline_comments` parameter:
+
+```json
+[
+  {
+    "file_path": "src/main.py",
+    "comment_text": "This logic needs improvement.",
+    "right_line": 20
+  },
+  {
+    "file_path": "src/utils.py",
+    "comment_text": "Consider extracting this into a helper function.",
+    "right_range": [35, 37]
+  }
+]
+```
+
+Use `right_line` to target a single line, or `right_range` to target a range of lines. Use `left_line`/`left_range` for comments on the old (base) version of the file.
 </Accordion>
 
 ---

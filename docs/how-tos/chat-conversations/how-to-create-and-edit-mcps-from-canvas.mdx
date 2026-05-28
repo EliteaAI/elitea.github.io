@@ -1,327 +1,269 @@
 ---
 title: "Create and Edit MCPs from Canvas"
 sidebarTitle: "MCPs from Canvas"
-description: "Create MCP entries, configure available tools, and manage external MCP connections directly from Canvas."
+description: "Create, configure, and manage MCP connections directly from Canvas without leaving the conversation."
 ---
 
-## Introduction
+## MCP Canvas Feature: Visual MCP Management
 
-## MCP Canvas Feature: External Server Integration
+The **MCP Canvas** interface in ELITEA serves as an integrated MCP management system accessible directly from the chat interface. This feature enables you to create, configure, and manage Model Context Protocol connections without leaving your conversation context.
 
-The **MCP Canvas** interface in ELITEA serves as an integrated MCP management system accessible directly from the chat interface. This feature enables you to create MCP entries, configure available tools, and manage connections to external MCP servers without leaving your conversation context.
+<CardGroup cols={3}>
+  <Card title="Integrated Chat Experience" icon="comments">
+    Access MCP management directly from the PARTICIPANTS section in chat, maintaining conversation context while configuring integrations.
+  </Card>
+  <Card title="Real-time Validation" icon="circle-check">
+    Configuration fields are validated in real-time, ensuring correct setup before the MCP is created.
+  </Card>
+  <Card title="Instant Integration" icon="bolt">
+    Created MCPs are immediately available for use in the current conversation and appear in the PARTICIPANTS panel.
+  </Card>
+  <Card title="Dynamic Tool Discovery" icon="wrench">
+    MCP tools are automatically discovered from connected MCP servers via the Elitea MCP Client..
+  </Card>
+  <Card title="Two Connection Types" icon="network-wired">
+    Connect to **Local** MCP servers discovered from your running Elitea MCP Client, or configure a **Remote MCP** connection to any HTTP-based MCP server.
+  </Card>
+</CardGroup>
 
-**Key Aspects of the MCP Canvas Feature:**
 
-* **Integrated Chat Experience:** Access MCP management directly from the PARTICIPANTS section in chat, maintaining conversation context while configuring external tools.
-* **Dynamic Tool Discovery:** MCP tools are automatically discovered from connected MCP servers via the Elitea MCP Client.
-* **Real-time Validation:** Configuration fields are validated in real-time, ensuring proper setup before MCP creation.
-* **Instant Integration:** Created MCPs are immediately available for use in conversations and can be added to agents and pipelines.
-* **Server Connection Management:** Connect to external MCP servers running locally or remotely through the Elitea MCP Client.
+<Warning title="Prerequisites">
+Before creating MCPs from canvas, ensure the **Elitea MCP Client** is installed and running with at least one MCP server configured. See the [MCP Client integration guide](../../integrations/mcp/create-and-use-client-stdio) for setup instructions.
+</Warning>
 
-<Info title="Prerequisites">
-Before creating MCPs from canvas, ensure the **Elitea MCP Client** is installed and running with at least one MCP server configured. See the [MCP Client integration guide](../../integrations/mcp/mcp-client) for setup instructions.
-</Info>
+---
 
 ## Creating MCPs via Canvas Interface
 
-### Step 1: Access the MCP Creation Canvas
+<Steps>
+  <Step title="Access the MCP Creation Canvas">
+    1. Navigate to the **Chat** page (main sidebar menu).
+    2. In the **PARTICIPANTS** section, locate the **MCPs** accordion.
+    3. Click the **+Add MCP** icon in the MCPs accordion header.
+    4. Click **+ Create new MCP** from the dropdown.
 
-1. Navigate to the **Chat** page (main sidebar menu).
-2. In the **PARTICIPANTS** section, locate **MCP**.
-3. Click on the **Create new MCP** button.
+    The **MCP Editor** slides open, displaying the **"Choose the MCP type"** selector.
 
-![Canvas MCP access](../../img/how-tos/chat-conversations/canvas-mcp/canvas-mcp-access.png)
+    ![Canvas MCP Access](../../img/how-tos/chat-conversations/canvas-mcp/canvas-mcp-access.gif)
+  </Step>
 
-The "Create New MCP" canvas interface will be displayed showing available MCP server types discovered from your running Elitea MCP Client.
+  <Step title="Select an MCP Type">
+    The type selector displays all available MCP types grouped into two categories:
 
-<Warning title="No MCP Types Available">
-If no MCP types appear, ensure the Elitea MCP Client is running and has connected MCP servers. The UI automatically discovers available MCP servers via real-time updates.
-</Warning>
+    **To find an MCP type:**
 
-### Step 2: Select MCP Server Type
+    - **Browse by category** — Scroll through the **Local** and **Remote** groups and click an MCP type.
+    - **Search** — Type in the **"Search MCPs"** field to filter by name. Results update in real-time.
 
-The MCP selection interface displays all available MCP servers discovered from your Elitea MCP Client connection:
+    <Tabs>
+      <Tab title="Local">
+        Local MCP types are MCP servers that you have configured and connected via the **Elitea MCP Client** running on your machine. Any MCP server connected through the client (e.g., Playwright, GitHub, Figma, or other stdio/http-based MCP servers) automatically appears here.
 
-1. **Browse Available MCPs:** View all connected MCP servers grouped by category
-2. **Search MCPs:** Use the search box to filter by MCP server name
-3. **Select MCP Type:** Click on the desired MCP server to begin configuration
+         ![Canvas MCP Type Selection](../../img/how-tos/chat-conversations/canvas-mcp/canvas-mcp-local-type.gif)
 
-Available MCP servers are dynamically loaded based on:
+        <Warning>
+        If no Local MCP types appear, ensure the Elitea MCP Client is running and has connected MCP servers. The UI automatically discovers available MCP servers via real-time updates.
+        </Warning>
+      </Tab>
+      <Tab title="Remote">
+        The **Remote MCP** type lets you connect to any MCP-compliant HTTP server by providing its URL and optional authentication headers. This option always appears regardless of platform configuration.
 
-- Running MCP servers in your Elitea MCP Client configuration
-- Active connection status to the ELITEA platform
-- Project-specific MCP server availability
+        ![Canvas MCP Type Selection](../../img/how-tos/chat-conversations/canvas-mcp/canvas-mcp-remote-type.gif)
+      </Tab>
+    </Tabs>
 
-**Common MCP Server Types:**
+    Clicking an MCP type immediately loads its configuration form.
+  </Step>
 
-- **Playwright:** Browser automation and testing
-- **GitHub:** Repository and code management
-- **Figma:** Design file access and manipulation
-- **Custom MCP Servers:** Any MCP-compliant server configured in your client
+  <Step title="Configure the MCP">
+    After selecting the MCP type, the **Create MCP** canvas interface slides in with the available configuration fields.
 
-![MCP Type Selection](../../img/how-tos/chat-conversations/canvas-mcp/canvas-mcp-select-type.png)
+    <Tabs>
+      <Tab title="Local MCP">
+        Local MCP configuration is minimal — the server's tools and schema are automatically discovered from your connected Elitea MCP Client. Fill in the following fields:
 
-### Step 3: Configure General Information
+        | Field | Required | Description |
+        |-------|----------|-------------|
+        | **MCP Name** | Yes | A clear, descriptive name for this MCP instance |
+        | **Description** | No | Brief description of the MCP's purpose and usage |
+        | **TOOLS** | No | Select which tools to enable — all discovered tools are selected by default |
+        | **Make Tools Available by MCP** | No | Enable this option to make the selected tools accessible through external MCP clients |
 
-After selecting an MCP server type, configure the basic MCP settings:
+        <Note>
+        The available tools in the TOOLS section are automatically populated from the connected MCP server. No additional connection configuration is required for Local MCPs.
+        </Note>
 
-**Required Fields:**
+        ![Canvas Local MCP Configuration](../../img/how-tos/chat-conversations/canvas-mcp/canvas-mcp-local-config.gif)
+      </Tab>
+      <Tab title="Remote MCP">
+        For Remote MCP, fill in the connection details for the target HTTP-based MCP server:
 
-- **Name*** (required): Enter a descriptive name for your MCP connection (e.g., "Playwright Browser Automation", "GitHub Integration")
-- **Description** (optional): Provide a clear description of what this MCP does and its purpose
-
-**Example Configuration:**
-```
-Name: Playwright Browser Automation
-Description: Automated browser testing and web scraping capabilities via Playwright MCP server
-```
-
-### Step 4: Configure MCP Tools
-
-In the **TOOLS** section, select which tools from the MCP server you want to enable:
-
-1. **Review Available Tools:** All tools exposed by the selected MCP server are listed
-2. **Select Tools:** By default, all tools are selected. Uncheck any tools you don't want to expose
-3. **Tool Descriptions:** Each tool shows its name and description from the MCP server
-
-**Tool Selection Best Practices:**
-
-- Enable only the tools you need (principle of least privilege)
-- Review tool descriptions to understand their capabilities
-- Some MCP servers may expose dozens of tools - select only relevant ones
-
-**Examples of MCP Tools:**
-
-- **Playwright MCP:** `navigate`, `click`, `type`, `screenshot`, `evaluate`, `wait_for`
-- **GitHub MCP:** `create_issue`, `list_repositories`, `get_file_contents`, `create_pull_request`
-- **Figma MCP:** `get_file`, `get_components`, `export_image`
-
-![MCP Basic Configuration](../../img/how-tos/chat-conversations/canvas-mcp/canvas-mcp-basic-config.png)
+        | Field | Required | Default | Description |
+        |-------|----------|---------|-------------|
+        | **MCP Name** | Yes | — | A descriptive name for this MCP connection |
+        | **Description** | No | — | Purpose and usage notes |
+        | **URL** | Yes | — | The HTTP/HTTPS endpoint of the MCP server |
+        | **Headers** | No | — | HTTP headers as key-value pairs (e.g., for API key authentication) |
+        | **Client ID** | No | — | OAuth Client ID (if the server uses OAuth) |
+        | **Client Secret** | No | — | OAuth Client Secret (if the server uses OAuth) |
+        | **Scopes** | No | — | OAuth scopes required by the server |
+        | **Timeout** | No | 300 s | Request timeout in seconds (range: 1–3600) |
+        | **Selected Tools** | No | All | Specific tools to enable — click **Load Tools** to fetch from the server, then select |
+        | **Enable Caching** | No | Enabled | Cache tool schemas to improve performance |
+        | **Cache TTL** | No | 300 s | How long to cache tool schemas in seconds (range: 60–3600) |
+        | **SSL Verify** | No | Enabled | Verify SSL certificates — disable only for self-signed certificates in development |
 
 
-### Step 5: Save MCP Configuration
+        ![Canvas Remote MCP Configuration](../../img/how-tos/chat-conversations/canvas-mcp/canvas-mcp-remote-config.gif)
 
-Click the **Save** button to create your MCP connection.
+        Click **Load Tools** after entering the Server URL to discover and select the tools exposed by the remote MCP server.
 
-**What Happens on Save:**
+        <Note>
+        For a full step-by-step guide on configuring a Remote MCP connection, see [Create and Use Remote MCP](../../integrations/mcp/create-and-use-remote-mcp).
+        </Note>
+      </Tab>
+    </Tabs>
+  </Step>
 
-- MCP entry is created in your ELITEA project
-- Selected tools are registered and become available
-- Connection to the external MCP server is validated
-- The canvas closes and you return to the chat interface
-- Your newly created MCP appears in the **PARTICIPANTS** section under **MCP**
+  <Step title="Create the MCP">
+    Once you have completed configuring your MCP:
 
-![MCP Created](../../img/how-tos/chat-conversations/canvas-mcp/canvas-mcp-created.png)
+    1. Click the **Create** button to save the configuration.
+    2. Click the **×** button to close the canvas interface.
 
-The MCP is immediately available for:
+    Your newly created MCP will appear in the **PARTICIPANTS** section under **MCPs** and becomes immediately available for use in conversations.
 
-- Adding to agents (via **+ MCP** button in agent configuration)
-- Adding to pipelines (via **+ MCP** button in pipeline configuration)
-- Using directly in conversations
+    ![Canvas MCP Created](../../img/how-tos/chat-conversations/canvas-mcp/canvas-mcp-created.gif)
+  </Step>
+</Steps>
+
+---
 
 ## Editing MCPs via Canvas Interface
 
 ### Accessing MCP Edit Mode
 
-There are two ways to access the MCP edit mode:
+1. Navigate to the **Chat** page where the MCP is listed as a participant.
+2. In the **PARTICIPANTS** section, locate the **MCPs** group.
+3. Hover over the MCP you want to edit to reveal the action icons.
+4. Click the pencil **Edit MCP** icon.
 
-1. **From PARTICIPANTS Section**
+![Canvas MCP Edit](../../img/how-tos/chat-conversations/canvas-mcp/canvas-mcp-edit-icon.gif)
 
-    - Navigate to the **Chat** page where the MCP is available.
-    - In the **PARTICIPANTS** section, locate **MCP**.
-    - Find the MCP you want to edit.
-    - Hover over the MCP to reveal action buttons.
-    - Click the pencil **Edit** icon that appears.
-
-![MCP Edit Access](../../img/how-tos/chat-conversations/canvas-mcp/canvas-mcp-edit-icon.png)
-
-The MCP configuration canvas will open with current settings pre-populated.
+The MCP Editor opens with all current settings pre-populated.
 
 ### Modifying MCP Configuration
 
-Once in edit mode, you can modify the following configuration parameters:
+Once in edit mode you can modify any of the following:
 
-#### Basic Configuration Modifications:
+<CardGroup cols={2}>
+  <Card title="Description" icon="pen-to-square">
+    Update the MCP's description. Note that the MCP name cannot be changed via the canvas interface.
+  </Card>
+  <Card title="Configuration Fields" icon="sliders">
+    Update type-specific parameters such as server URL, authentication headers, timeout, and caching settings.
+  </Card>
+  <Card title="Selected Tools" icon="toolbox">
+    Toggle individual tools on or off in the TOOLS section to control which capabilities are exposed to the AI.
+  </Card>
+  <Card title="Connection Status (Remote MCP)" icon="plug">
+    For Remote MCPs that use OAuth, a **Log In** / **Log Out** button appears in the PARTICIPANTS panel. Click **Log In** to complete the OAuth authorization flow, or **Log Out** to revoke the active session.
+  </Card>
+</CardGroup>
 
-- **Name**: Update the MCP connection name
-- **Description**: Modify the purpose or scope description
-- **Tools Selection**: Enable or disable specific tools from the MCP server
-      - Add tools that were previously disabled
-      - Remove tools that are no longer needed
-      - Review updated tool lists if the MCP server has been upgraded
+After making changes, click **Save** to apply them. On success: *"The toolkit has been updated successfully."* The **Save** button is disabled if no changes have been made. Click **Discard** to revert the form to the last saved state.
 
-**Example Use Case:**
-If you initially created a Playwright MCP with all tools enabled but later decide you only need navigation and screenshot capabilities:
+<Warning title="Disconnected MCP">
+If an MCP loses its connection, the participant item in the PARTICIPANTS panel displays a disconnection warning:
 
-1. Open the MCP in edit mode
-2. Uncheck unnecessary tools (e.g., `type`, `click`, `evaluate`)
-3. Keep only `navigate`, `screenshot`, and `wait_for`
-4. Click **Save** to apply changes
+- **Local MCP** — Displays: *"The \<server-name\> mcp server is disconnected. Reconnect it to use."* No **Log in** button is shown. To resolve, ensure the Elitea MCP Client is running and the MCP server is active.
+- **Remote MCP** — Displays: *"Server is disconnected! Reconnect it to use."* with a **Log in** link. Click **Log in** to re-authenticate and restore the connection.
 
-Changes are reflected immediately in the interface. After making your desired configuration changes, use the **Save** button to apply your modifications.
-
-<Warning title="Server Connection Required">
-Editing an MCP requires an active connection to the Elitea MCP Client and the corresponding MCP server. If the server is disconnected, tool discovery may be limited.
+The MCP cannot be used in the conversation until the connection is restored.
+![Disconnected MCP Warning](../../img/how-tos/chat-conversations/canvas-mcp/warning.png)
 </Warning>
 
-### Connection Status Management
+---
 
-When editing MCPs, you can monitor the connection status:
+## <Icon icon="triangle-exclamation" size={32} /> Troubleshooting
 
-**Connection States:**
-- **Connected** (Green): MCP server is reachable and tools are available
-- **Disconnected** (Orange): MCP server is not accessible
-     - Tools may not be discoverable
-     - MCP cannot be used in conversations
-     - Restart Elitea MCP Client to reconnect
+<AccordionGroup>
+  <Accordion title="Create button remains disabled">
+    **Problem:** The **Create** button is greyed out and cannot be clicked.
 
-**Reconnection Steps:**
+    The Create button is enabled only when **all** of the following conditions are met:
+    - An MCP type has been selected from the type selector.
+    - At least one field in the form has been filled in (the form has changes).
+    - The MCP is not currently being saved.
 
-1. Ensure Elitea MCP Client is running
-2. Verify MCP server configuration in client
-3. Refresh the MCP edit interface
-4. Tools should populate automatically once connection is established
+    Ensure you have selected an MCP type first, then begin filling in the configuration fields.
+  </Accordion>
+  <Accordion title="Validation error on create or save">
+    **Problem:** A toast message appears — *"Please fill in all required fields before creating the toolkit."*
 
+    - Review all fields marked with an asterisk `*` and ensure they are completed.
+    - Inline red borders and error text below individual fields indicate exactly which fields need attention.
+    - Check that the **MCP Name** field is filled in — it is required for all MCP types.
+    - For Remote MCP, verify that the **URL** field is filled in and uses `http://` or `https://`.
+  </Accordion>
+  <Accordion title="Save button is disabled in edit mode">
+    **Problem:** The **Save** button is greyed out when editing an existing MCP.
 
-## Troubleshooting Common Issues
+    - The Save button is only enabled when the form has unsaved changes. If you have not yet modified any field, the button remains disabled.
+    - Make at least one change to any field (e.g., update the description or toggle a tool) before attempting to save.
+  </Accordion>
+</AccordionGroup>
 
-### MCP Creation Issues
+<AccordionGroup>
+  <Accordion title="No Local MCP types available">
+    **Problem:** The **Local** category in the type selector is empty.
 
-**No MCP Types Available:**
+    - Local MCP types are discovered from your **Elitea MCP Client**. If none appear, ensure the MCP Client is installed, running, and has at least one MCP server connected.
+    - Verify the MCP Client is active and connected to the ELITEA platform — the UI discovers available servers via real-time updates.
+    - See the [MCP Client integration guide](../../integrations/mcp/create-and-use-client-stdio) for setup instructions.
+    - You can still use **Remote MCP** to connect directly to any HTTP-based MCP server without the client.
+  </Accordion>
+  <Accordion title="Cannot access edit mode for existing MCP">
+    **Problem:** The pencil edit icon is not visible or clicking it does nothing.
 
-- **Problem:** MCP type selector is empty
-- **Solution:** Ensure Elitea MCP Client is installed and running
-- **Verification Steps:**
-      1. Check if `alita-mcp` tray application is running
-      2. Verify MCP server configurations in client
-      3. Confirm connection to ELITEA platform
-      4. Refresh the MCP canvas interface
+    - Hover directly over the MCP row in the PARTICIPANTS panel — the action icons appear only on hover.
+    - If the MCP belongs to a public project, the form fields will be read-only and editing is not permitted.
+    - Verify you have the **Edit** permission for this project. Users without edit permissions cannot modify MCPs.
+  </Accordion>
+  <Accordion title="MCP not appearing in PARTICIPANTS after creation">
+    **Problem:** The MCP was created successfully but is not visible in the PARTICIPANTS panel.
 
-**Tools Not Discoverable:**
+    - After creation, the MCP is added to the available MCPs list but is **not automatically set as an active participant**. Locate it in the **+Add MCP** dropdown and select it to add it to the current conversation.
+    - Verify the MCP was created in the correct project — check that you are viewing the right project in the sidebar.
+    - If you still cannot find it, refresh the page and check again.
+  </Accordion>
+  <Accordion title="Remote MCP shows a disconnected or logged-out warning">
+    **Problem:** A Remote MCP participant displays *"Server is disconnected! Reconnect it to use."* with a **Log in** link in the PARTICIPANTS panel.
 
-- **Problem:** MCP server selected but no tools appear
-- **Solution:** Verify MCP server connection and restart if needed
-- **Prevention:** Test MCP server connection before creating MCP entry
+    - The Remote MCP's OAuth token has expired or was never set. The MCP cannot be used until re-authenticated.
+    - Click the **Log in** link on the participant item. An OAuth authorization modal will open automatically.
+    - Complete the authorization flow in the modal. After a successful login, the MCP reconnects and retries automatically.
+    - If the modal shows a 403 error after login, the OAuth token may have insufficient scopes — re-authorize and ensure all required scopes are granted.
+  </Accordion>
+  <Accordion title="Load Tools fails for Remote MCP">
+    **Problem:** Clicking **Load Tools** returns an error or discovers no tools.
 
-**Save Button Disabled:**
+    - Ensure the **URL** field is filled in before clicking Load Tools — if it is empty, the error *"MCP server URL is required"* will appear.
+    - If a **401 Unauthorized** error appears (*"Authorization failed. Please try logging in again."*), the OAuth token is invalid or expired. The OAuth modal will open automatically — complete the login flow and Load Tools will retry automatically.
+    - If a **403 Forbidden** error appears (*"Access denied. The OAuth token may have insufficient permissions..."*), re-authorize using the OAuth modal and ensure all required scopes are included.
+    - If the server URL is correct and authentication succeeds but no tools are returned, verify that the remote MCP server exposes tools and is reachable from the ELITEA platform.
+  </Accordion>
+</AccordionGroup>
 
-- **Problem:** Cannot save MCP configuration
-- **Solution:** Review all fields marked with asterisk (*) and ensure they are completed
-- **Verification:** Check that Name field contains valid text
-
-### MCP Management Issues
-
-**Edit Mode Access:**
-
-- **Problem:** Cannot access edit mode for existing MCP
-- **Solution:** 
-      - Verify you have appropriate permissions
-      - Ensure the MCP belongs to your current project
-      - Check that you're not in a read-only view
-
-**Connection Dropped:**
-
-- **Problem:** MCP shows as disconnected in edit mode
-- **Solution:** 
-     1. Restart Elitea MCP Client tray application
-     2. Verify MCP server is still configured
-     3. Check network connectivity
-     4. Refresh the MCP configuration
-
-**Tools Missing After Edit:**
-
-- **Problem:** Previously available tools no longer appear
-- **Solution:**
-     - Verify MCP server is still running
-     - Check if MCP server configuration has changed
-     - Ensure client connection is active
-     - Tool list updates automatically when server reconnects
-
-### PARTICIPANTS Section Issues
-
-**MCP Not Appearing:**
-
-- **Problem:** Created MCP doesn't appear in PARTICIPANTS
-- **Solution:** Refresh the interface or verify the MCP was created in the correct project
-- **Check:** Ensure you're viewing the correct project context
-
-**Disconnected State in PARTICIPANTS:**
-
-- **Problem:** MCP shows disconnected status
-- **Solution:** 
-     1. Start or restart Elitea MCP Client
-     2. Verify MCP server configuration
-     3. Check server is running and accessible
-     4. Wait for automatic reconnection (may take a few seconds)
-
-**Cannot Use MCP in Conversation:**
-
-- **Problem:** MCP appears but cannot be added to conversation
-- **Solution:**
-     - Verify MCP is connected (green status)
-     - Ensure at least one tool is enabled
-     - Check that MCP server is responding to requests
-     - Review MCP Client logs for errors
-
-## Best Practices
-
-### MCP Naming and Organization
-
-- **Descriptive Names:** Use clear, specific names that indicate the MCP's purpose
-     - ✅ Good: "Playwright Browser Testing"
-     - ❌ Poor: "MCP1" or "Test"
-- **Consistent Naming:** Follow a naming convention across all MCPs in your project
-- **Include Server Type:** Consider including the MCP server type in the name for clarity
-
-### Tool Selection
-
-- **Principle of Least Privilege:** Enable only the tools you need
-- **Review Periodically:** Audit enabled tools regularly and disable unused ones
-- **Document Tool Usage:** Add descriptions explaining which tools are used and why
-- **Test Before Production:** Verify selected tools work as expected before using in critical workflows
-
-### Connection Management
-
-- **Keep Client Running:** Ensure Elitea MCP Client runs continuously for best experience
-- **Monitor Connection Status:** Regularly check MCP connection states
-- **Update Servers:** Keep MCP servers updated to latest versions for new features
-- **Backup Configurations:** Document MCP server configurations outside ELITEA
-
-### Security Considerations
-
-- **Limit Tool Access:** Only enable tools that are necessary for your use case
-- **Review Permissions:** Understand what each tool can access and modify
-- **Monitor Usage:** Track which agents and pipelines use each MCP
-- **Secure Credentials:** Ensure MCP server credentials are properly secured in Elitea MCP Client
-
-## Conclusion
-
-The MCP Canvas feature in ELITEA provides a powerful and intuitive way to manage Model Context Protocol server connections directly from your chat interface. By following the practices outlined in this guide, you can effectively create, configure, and manage MCPs that extend your AI workflows with external tool capabilities.
-
-**Key Benefits Recap:**
-
-- **Streamlined Creation:** Create MCP connections without leaving your conversation context
-- **Dynamic Discovery:** Automatically discover tools from connected MCP servers
-- **Real-time Integration:** Immediately use MCPs in agents, pipelines, and conversations
-- **Flexible Management:** Edit and update MCP configurations as needs change
-- **Server Independence:** Connect to any MCP-compliant server through the Elitea MCP Client
-
-**Next Steps:**
-
-After creating MCPs from canvas, you can:
-
-1. **Use in Chat Conversation:** Add the MCP directly to your current conversation from the PARTICIPANTS section
-2. **Add to Agents:** Use the **+ MCP** button in agent configuration to attach MCP tools
-3. **Add to Pipelines:** Include MCP tools in pipeline workflows
-4. **Test Functionality:** Use the MCP test panel to validate tool functionality
-5. **Monitor Usage:** Track how MCPs are being used across your project
+---
 
 <Info title="Related Documentation">
 For additional information and related functionality, refer to these helpful resources:
 
-- **[MCP Menu](../../menus/mcps)** - Complete reference for MCP management and testing options
-- **[MCP Client Integration](../../integrations/mcp/mcp-client)** - Setup and configuration guide for Elitea MCP Client
-- **[Connect External Tools to Elitea with MCP](../../integrations/mcp/create-and-use-client-stdio)** - Quick start guide for MCP client setup
-- **[Setting Up MCP Server in VS Code](../../integrations/mcp/create-and-use-server-stdio)** - Quick start guide for MCP server setup
+- **[MCP Menu](../../menus/mcps)** - Complete reference for MCP management and configuration options
 - **[Chat Menu](../../menus/chat)** - Comprehensive guide to chat interface features and navigation
+- **[Credential Menu](../../menus/credentials)** - Detailed instructions for managing authentication credentials
+- **[How to Create and Edit Toolkits from Canvas](./how-to-create-and-edit-toolkits-from-canvas)** - Similar guide for toolkit management
+- **[How to Create and Edit Agents from Canvas](./how-to-create-and-edit-agents-from-canvas)** - Similar guide for agent management
+- **[How to Create and Edit Pipelines from Canvas](./how-to-create-and-edit-pipelines-from-canvas)** - Similar guide for pipeline management
 </Info>

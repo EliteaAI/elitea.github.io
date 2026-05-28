@@ -1,6 +1,6 @@
 ---
-title: "Pipeline Entry Point"
-description: "The Entry Point is the first node that executes when your pipeline runs. Every pipeline must have exactly one entry point."
+title: "Pipeline Trigger Types"
+description: "The Entry Point is the first node that executes when your pipeline runs. It also controls how the pipeline is triggered—by a chat message, on a schedule, or via a webhook."
 ---
 
 <Warning title="Required Configuration">
@@ -11,23 +11,24 @@ Every pipeline must have an entry point. Without one, the pipeline cannot execut
 
 ## What is an Entry Point?
 
-The Entry Point defines which node executes first when your pipeline runs—the "starting line" of your workflow.
+The entry point defines which node executes first when your pipeline runs and controls **how the pipeline is triggered**. When a node is designated as the entry point, a Trigger selector appears inside the node body, letting you choose between three trigger modes: `Chat Message`, `Schedule`, and `Webhook`.
 
 ### Key Rules
 
-**Single Entry Point:**
-
-* Exactly one node must be designated as the entry point
-* Pipeline execution always begins at this node
-
-**Node Eligibility:**
-
-* ✔️ **Can be entry points**: LLM, Agent, Toolkit, MCP, Code, Custom, State Modifier, Printer, Decision
-* ✘ **Cannot be entry points**: Router node
-
-<Info title="Why Router Can't Be Entry Point">
-Router nodes require input data to evaluate their conditions. At pipeline start, no state variables have been populated yet, so the router has nothing to evaluate.
-</Info>
+<CardGroup cols={2}>
+  <Card title="Single Entry Point" icon="flag">
+    Exactly one node must be designated as the entry point. Pipeline execution always begins at this node. Setting a new entry point automatically removes the previous designation.
+  </Card>
+  <Card title="Auto-Assignment" icon="wand-magic-sparkles">
+    When the first node is added to an empty pipeline, it is automatically designated as the entry point. Only Condition and End nodes are excluded from auto-assignment.
+  </Card>
+  <Card title="Can Be Entry Points" icon="circle-check">
+    LLM, Agent, Toolkit, MCP, Code, Printer, Router, State Modifier, HITL, Subgraph, Custom
+  </Card>
+  <Card title="Cannot Be Entry Points" icon="circle-xmark">
+    Condition (deprecated), Decision
+  </Card>
+</CardGroup>
 
 ---
 
@@ -35,35 +36,23 @@ Router nodes require input data to evaluate their conditions. At pipeline start,
 
 ### Visual Method (Flow Editor)
 
-
-**Steps:**
-
 1. Open your pipeline in the Flow Editor
-2. Click the three dots (⋮) on the node card
-3. Select **Make entrypoint** from the dropdown
+2. Expand the node card by clicking on it
+3. Click the three dots (⋮) in the node header
+4. Select **Make entrypoint** from the dropdown
 
-After making a node the entry point, an **Input** icon appears at the top of the node card, indicating it's the pipeline's starting point.
+Once a node is designated as the entry point, an entry point icon appears in its header and the **Trigger** selector becomes visible inside the node body.
 
-<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/make-entrypoint.gif" alt="Setting Entry Point in Flow Editor" />
+![Make Entry Point](../../img/how-tos/agents-pipelines/pipeline-building-blocks/entry-point/make-entrypoint.gif)
+
 
 <Tip title="Changing Entry Points">
-Setting a new entry point automatically removes the previous designation.
+Setting a new entry point automatically removes the previous designation. The "Make entrypoint" option only appears when a node is expanded and is not already the entry point.
 </Tip>
 
 ### YAML Method
 
-In YAML configuration, define the entry point at the top level:
-
-```yaml
-entry_point: node_id
-
-nodes:
-  - id: node_id
-    type: llm
-    # ... node configuration
-```
-
-**Valid Example:**
+In YAML configuration, declare the entry point at the top level using the node's `id`:
 
 ```yaml
 entry_point: greeting
@@ -73,41 +62,130 @@ nodes:
     type: llm
 ```
 
-**Invalid Examples:**
+The YAML key order is: `state` → `entry_point` → `interrupt_after` → `interrupt_before` → `nodes`.
 
-```yaml
-# ✘ Non-existent node
-entry_point: missing_node
+<Note>
+Trigger configuration (schedule, webhook) is stored server-side and is not part of the pipeline YAML. The YAML only contains the `entry_point` node ID.
+</Note>
 
-# ✘ Router as entry point
-entry_point: route_decision
-nodes:
-  - id: route_decision
-    type: router
+---
+
+## Trigger Type
+
+When a node is the entry point, a **Trigger** dropdown appears inside the node body. This controls how the pipeline is started.
+
+
+<CardGroup cols={3}>
+  <Card title="Chat Message" icon="message">
+    Default trigger. The pipeline runs each time a user sends a message in a chat session. Required for interactive pipelines with HITL or Printer nodes.
+  </Card>
+  <Card title="Schedule" icon="clock">
+    Runs automatically at a defined time using a cron expression. Supports a visual cron builder or raw cron input.
+  </Card>
+  <Card title="Webhook" icon="webhook">
+    Allows external systems to trigger the pipeline via HTTP POST. Supports GitHub, GitLab, and Custom webhook types.
+  </Card>
+</CardGroup>
+
+<Note>
+Schedule and Webhook triggers are unavailable when the pipeline contains HITL nodes, Printer nodes, or interrupt configurations. Only Chat Message is available for interactive pipelines.
+</Note>
+
+### Chat Message
+
+The default trigger. The pipeline runs each time a user sends a message in a chat session.
+
+- Required when the pipeline contains HITL nodes, Printer nodes, or any `interrupt_before` / `interrupt_after` configurations
+- If an interactive element (HITL, Printer) is added while Schedule or Webhook is active, the trigger automatically resets to Chat Message
+
+![Chat Message Trigger](../../img/how-tos/agents-pipelines/pipeline-building-blocks/entry-point/chat-message-type.gif)
+
+### Schedule
+
+The pipeline runs automatically at a defined time using a cron expression.
+
+Selecting **Schedule** opens a configuration modal with two modes:
+
+| Mode | Description |
+|------|-------------|
+| **Default** | Visual cron builder — select minute, hour, day, month, and weekday fields interactively |
+| **Advanced** | Enter a raw cron expression manually |
+
+- Default cron expression: `0 0 * * 6` (every Saturday at midnight)
+- Timezone is automatically detected from your browser settings
+- Cron format: `minute – hour – day (month) – month – day (week)`
+
+![Schedule Trigger](../../img/how-tos/agents-pipelines/pipeline-building-blocks/entry-point/schedule-type.gif)
+
+
+### Webhook
+
+The pipeline runs when an external system sends an HTTP POST request to the generated webhook URL.
+
+![Webhook Trigger](../../img/how-tos/agents-pipelines/pipeline-building-blocks/entry-point/webhook-type.gif)
+
+
+Selecting **Webhook** opens a configuration modal. Three webhook subtypes are available:
+
+| Type | Auth Header | Signature Method |
+|------|-------------|-----------------|
+| **GitHub** | `X-Hub-Signature-256` | HMAC-SHA256 (`sha256=<computed_hmac>`) |
+| **GitLab** | `X-Gitlab-Token` | Secret token sent directly in the header |
+| **Custom** | `X-Webhook-Token` | Secret token sent directly in the header |
+
+The modal shows:
+
+| Field | Description |
+|-------|-------------|
+| **Webhook URL** | Read-only, automatically constructed based on the selected type. Use the copy button to copy it. |
+| **Secret token** | A 32-byte base64url token generated automatically. Can be shown or hidden, copied, or regenerated. Click **Apply** to save a regenerated token. |
+| **Example `curl` request** | A ready-to-use example showing the exact headers and payload format for the selected webhook type. |
+
+**GitHub example:**
+```bash
+curl -X POST "https://your-elitea-instance/webhook/github" \
+  -H "Content-Type: text/plain" \
+  -H "X-Hub-Signature-256: sha256=<computed_hmac>" \
+  -d 'Your message or data here'
+```
+
+**GitLab example:**
+```bash
+curl -X POST "https://your-elitea-instance/webhook/gitlab" \
+  -H "Content-Type: text/plain" \
+  -H "X-Gitlab-Token: <your_secret>" \
+  -d 'Your message or data here'
+```
+
+**Custom example:**
+```bash
+curl -X POST "https://your-elitea-instance/webhook/custom" \
+  -H "Content-Type: text/plain" \
+  -H "X-Webhook-Token: <your_secret>" \
+  -d 'Your message or data here'
 ```
 
 ---
 
-## Best Practices
+## <Icon icon="circle-check" size={26} /> Best Practices
 
-### Match Entry Point to Workflow Type
-
-* **Conversational**: Start with LLM node
-* **Automated**: Start with Toolkit or MCP node
-* **AI-powered routing**: Start with Decision node
-* **Data processing**: Start with Code node
-* **User interaction**: Start with Printer node (for displaying initial message)
-* **State setup**: Start with State Modifier node
-
-
-<Tip title="Essential Checks">
-- Ensure `entry_point` value exactly matches a node `id`
-- Avoid Router nodes as entry points
-- Test that entry point node executes first
-- Confirm transition to next node works
-</Tip>
+<AccordionGroup>
+  <Accordion title="Match trigger to workflow type">
+    Use `Chat Message` for interactive conversational pipelines; use `Schedule` for automated batch processing; use `Webhook` for event-driven integration with external systems.
+  </Accordion>
+  <Accordion title="Interactive pipelines require Chat Message">
+    Any pipeline with HITL or Printer nodes must use the `Chat Message` trigger. Schedule and Webhook triggers are automatically disabled for such pipelines.
+  </Accordion>
+  <Accordion title="Match entry_point value to a node id">
+    In YAML configuration, ensure the `entry_point` value exactly matches a node `id` defined in the `nodes` list.
+  </Accordion>
+  <Accordion title="Protect webhook secrets">
+    Regenerate the secret if it is ever exposed. Always copy it immediately after generation — it cannot be retrieved once the modal is closed without regenerating.
+  </Accordion>
+</AccordionGroup>
 
 ---
+
 <Info title="Related Documentation">
 - **[Node Connectors](./nodes-connectors)** - Connect nodes to create workflows
 - **[State Management](./states)** - Understand state in pipelines
