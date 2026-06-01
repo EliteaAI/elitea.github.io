@@ -406,6 +406,157 @@ Wikis provides two tools for different types of questions:
 
 
 ---
+
+## Using Wikis in Your Workflows
+
+To give an ELITEA Agent, Chat, or Pipeline access to a generated wiki knowledge base, you need a **query toolkit** — a separate, lightweight read-only toolkit that connects to an existing Wikis application. The Wikis plugin provides two query toolkit types depending on your use case:
+
+**Create Wikis Application (Apps menu) → Generate Wiki → Create Query Toolkit (Toolkits menu) → Add Toolkit to Agent / Chat / Pipeline**
+
+<Info title="Three Distinct Objects">
+The **Wikis application** (created in Apps) manages repository analysis, wiki generation, and the knowledge base — it is the data store. The **query toolkits** (created in Toolkits) are read-only connectors that agents use to query that knowledge base. They are separate objects; you need both.
+
+- **Wikis Query toolkit** — connects to one specific Wikis application. Best when your agent always queries the same repository.
+- **Wiki Query toolkit** — connects to the wiki registry and can query any available wiki. Best when your agent needs to work across multiple repositories or discover which wiki to use automatically.
+</Info>
+
+---
+
+### Step 1: Create a Query Toolkit
+
+<Note title="Prerequisite">
+A Wikis application must already exist and have at least one wiki fully generated before creating a query toolkit. Complete [Create Wikis Application](#create-wikis-application) and [Wiki Generation Workflow](#wiki-generation-workflow) first.
+</Note>
+
+<Tabs>
+  <Tab title="Wikis Query (Single Wiki)">
+    Use this toolkit when your agent always queries **one specific repository**. It connects directly to a named Wikis application and exposes `ask` and `deep_research` for that wiki only.
+
+    ![Create Wikis Query Toolkit](../../img/integrations/apps/wikis/wikis-query-toolkit-create.gif)
+
+    <Steps>
+      <Step title="Navigate to Toolkits">
+        Open the sidebar and select **Toolkits**.
+      </Step>
+
+      <Step title="Create a New Toolkit">
+        Click **`+ Create Toolkit`**. The toolkit type selector opens.
+      </Step>
+
+      <Step title="Select Wikis Query">
+        Search for or scroll to **Wikis Query** in the type list and click it. The configuration form opens.
+      </Step>
+
+      <Step title="Configure the Toolkit">
+        Fill in the toolkit settings:
+
+        | Parameter | Required | Description |
+        |-----------|----------|-------------|
+        | **Name** | Yes | A descriptive name for this toolkit (e.g., *"Backend Repo Q&A"*) |
+        | **Description** | No | Optional description of what repository this connects to |
+        | **Wikis Toolkit** | Yes | Select the existing Wikis application to connect to — the dropdown shows all configured Wikis applications in the project |
+        | **LLM Model** | Yes | LLM model used to answer questions |
+        | **Embedding Model** | Yes | Embedding model used for vector search (must match the model used during wiki generation) |
+        | **Tools** | Yes | Enable the tools the agent should use: `ask`, `deep_research` |
+      </Step>
+
+      <Step title="Save the Toolkit">
+        Click **Save**. The Wikis Query toolkit is now available to add to agents, chats, and pipelines.
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Wiki Query (Multi-Wiki)">
+    Use this toolkit when your agent needs to query **multiple repositories** or should automatically determine which wiki to use based on the question. It connects to the wiki registry and resolves queries across all available wikis.
+
+    ![Create Wiki Query Toolkit](../../img/integrations/apps/wikis/wiki-query-toolkit-create.gif)
+
+    <Steps>
+      <Step title="Navigate to Toolkits">
+        Open the sidebar and select **Toolkits**.
+      </Step>
+
+      <Step title="Create a New Toolkit">
+        Click **`+ Create Toolkit`**. The toolkit type selector opens.
+      </Step>
+
+      <Step title="Select Wiki Query">
+        Search for or scroll to **Wiki Query** in the type list and click it. The configuration form opens.
+      </Step>
+
+      <Step title="Configure the Toolkit">
+        Fill in the toolkit settings:
+
+        | Parameter | Required | Description |
+        |-----------|----------|-------------|
+        | **Name** | Yes | A descriptive name for this toolkit (e.g., *"Multi-Repo Wiki Search"*) |
+        | **Description** | No | Optional description |
+        | **LLM Model** | Yes | LLM model used for repository resolution and answering questions |
+        | **Embedding Model** | Yes | Embedding model for vector search |
+        | **Tools** | Yes | Enable the tools the agent should use: `list_wikis`, `resolve_and_ask`, `resolve_and_deep_research`, `delete_wiki` |
+      </Step>
+
+      <Step title="Save the Toolkit">
+        Click **Save**. The Wiki Query toolkit is now available to add to agents, chats, and pipelines.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+---
+
+**Available Tools**
+
+<Tabs>
+  <Tab title="Wikis Query (Single Wiki)">
+    | Tool | Description |
+    |------|-------------|
+    | **`ask`** | Ask a targeted question about the repository using the generated wiki knowledge base. Returns a concise answer with code references. The Wikis application must have a wiki already generated. |
+    | **`deep_research`** | Perform multi-step deep analysis on a repository topic — uses planning, delegation, and comprehensive investigation. Slower than `ask` but returns thorough answers with evidence. The Wikis application must have a wiki already generated. |
+  </Tab>
+
+  <Tab title="Wiki Query (Multi-Wiki)">
+    | Tool | Description |
+    |------|-------------|
+    | **`list_wikis`** | Lists all available wikis in the registry with their IDs, repository names, and descriptions. Use this to discover which repositories have been indexed before asking questions. |
+    | **`resolve_and_ask`** | Intelligently determines which repository to query based on the question and answers it. Uses LLM to match questions to available wikis. Pass `wiki_id_hint` (format: `owner--repo--branch`) to skip resolution if you already know the target. |
+    | **`resolve_and_deep_research`** | Resolves which repository to query and performs deep multi-step research. Use for complex questions about architecture, security, or cross-cutting concerns. Supports `research_type`: `general`, `architecture`, `security`, `performance`. |
+    | **`delete_wiki`** | Deletes a wiki and all its associated artifacts from the registry and storage. Requires `wiki_id` (format: `owner--repo--branch`). This action cannot be undone. |
+  </Tab>
+</Tabs>
+---
+
+### Step 2: Add the Toolkit to an Agent, Chat, or Pipeline
+
+<Steps>
+  <Step title="Navigate to the Target Menu">
+    Open the sidebar and select **[Agents](../../menus/agents)**, **Chats**, or **Pipelines** — depending on where you want to use the query toolkit.
+  </Step>
+
+  <Step title="Create or Open an Item">
+    Click **`+ Create`** to create a new agent, chat, or pipeline, or click an existing item's name to open its configuration.
+  </Step>
+
+  <Step title="Add the Query Toolkit">
+    1. Scroll to the **Toolkits** section of the configuration.
+    2. Click the **`+ Toolkit`** button.
+    3. In the dropdown, select the Wikis Query or Wiki Query toolkit you just created.
+    4. The toolkit is added with all its tools enabled.
+
+    ![Add Wiki Query Toolkit to Agent](../../img/integrations/apps/wikis/agent-add-toolkit.gif)
+  </Step>
+
+  <Step title="Write Instructions (Agents only)">
+    In the **Instructions** field, tell the agent when and how to use the wiki query tools.
+  </Step>
+
+  <Step title="Save">
+    Click **Save**. The agent, chat, or pipeline can now query the wiki knowledge base.
+  </Step>
+</Steps>
+
+---
+
 ## <Icon icon="circle-check" size={26} /> Best Practices
 
 <Accordion title="Wiki Generation">
