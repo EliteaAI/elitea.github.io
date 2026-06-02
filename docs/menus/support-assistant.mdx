@@ -36,6 +36,12 @@ The assistant is aware of your current context: it knows which project you are i
 The Support Assistant is an optional feature. It is only visible when your platform administrator has enabled it. If you do not see the **Support Assistant** entry in the sidebar, the feature is not active in your environment.
 </Note>
 
+<Warning title="Personal Token Required">
+The Support Assistant authenticates all communication — both API requests and the real-time message stream — using your **Personal Access Token**. If your token has expired or has not been created yet, the assistant will fail to load or send messages.
+
+To resolve this, go to **Settings → Personal Tokens** and create or renew your token. See [Personal Tokens](/menus/settings/personal-tokens) for instructions.
+</Warning>
+
 ## Opening the Support Assistant
 
 When the Support Assistant is enabled, a **Support Assistant** entry appears at the bottom of the main navigation sidebar.
