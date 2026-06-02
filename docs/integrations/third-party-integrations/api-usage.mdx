@@ -1,4 +1,4 @@
----
+﻿---
 title: "ELITEA API Integration"
 description: "This document provides comprehensive instructions for integrating with ELITEA AI agents using the REST API. Whether you're building custom applications, automating"
 ---
@@ -41,7 +41,7 @@ Content-Type: application/json
 **curl Example:**
 
 ```bash
-curl -X GET "https://next.elitea.ai/api/v1/..." \
+curl -X GET "https://next.elitea.ai/api/v2/..." \
   -H "Authorization: Bearer YOUR_PAT_HERE" \
   -H "Content-Type: application/json"
 ```
@@ -50,8 +50,8 @@ curl -X GET "https://next.elitea.ai/api/v1/..." \
 
 | Environment | Base URL |
 |-------------|----------|
-| Production | `https://next.elitea.ai/api/v1/` |
-| Development | `https://dev.elitea.ai/api/v1/` |
+| Production | `https://next.elitea.ai/api/v2/` |
+| Development | `https://dev.elitea.ai/api/v2/` |
 
 ## Required Identifiers
 
@@ -77,7 +77,7 @@ Creates a new conversation container for messages.
 **Endpoint:**
 
 ```
-POST {{BASE_URL}}chat/conversations/prompt_lib/{{PROJECT_ID}}
+POST {{BASE_URL}}elitea_core/conversations/prompt_lib/{{PROJECT_ID}}
 ```
 
 **Request Body:**
@@ -86,7 +86,7 @@ POST {{BASE_URL}}chat/conversations/prompt_lib/{{PROJECT_ID}}
 {
   "name": "My Conversation Name",
   "is_private": false,
-  "source": "alita",
+  "source": "elitea",
   "participants": []
 }
 ```
@@ -95,19 +95,19 @@ POST {{BASE_URL}}chat/conversations/prompt_lib/{{PROJECT_ID}}
 |-------|------|-------------|
 | `name` | string | Display name for the conversation |
 | `is_private` | boolean | Whether the conversation is private |
-| `source` | string | Source identifier (use `"alita"`) |
+| `source` | string | Source identifier (use `"elitea"`) |
 | `participants` | array | Initial participants (typically empty) |
 
 **curl Example:**
 
 ```bash
-curl -X POST "https://next.elitea.ai/api/v1/chat/conversations/prompt_lib/{{PROJECT_ID}}" \
+curl -X POST "https://next.elitea.ai/api/v2/elitea_core/conversations/prompt_lib/{{PROJECT_ID}}" \
   -H "Authorization: Bearer {{YOUR_PAT}}" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Support-TICKET-123",
     "is_private": false,
-    "source": "alita",
+    "source": "elitea",
     "participants": []
   }'
 ```
@@ -137,7 +137,7 @@ Adds an AI agent to the conversation.
 **Endpoint:**
 
 ```
-POST {{BASE_URL}}chat/participants/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}
+POST {{BASE_URL}}elitea_core/participants/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}
 ```
 
 **Request Body:**
@@ -165,7 +165,7 @@ POST {{BASE_URL}}chat/participants/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}
 **curl Example:**
 
 ```bash
-curl -X POST "https://next.elitea.ai/api/v1/chat/participants/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}" \
+curl -X POST "https://next.elitea.ai/api/v2/elitea_core/participants/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}" \
   -H "Authorization: Bearer {{YOUR_PAT}}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -204,7 +204,7 @@ Sends a message to the conversation and receives the agent's response.
 **Endpoint:**
 
 ```
-POST {{BASE_URL}}chat/messages/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_UUID}}
+POST {{BASE_URL}}elitea_core/messages/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_UUID}}
 ```
 
 **Request Body:**
@@ -222,14 +222,14 @@ POST {{BASE_URL}}chat/messages/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_UUID}}
 |-------|------|-------------|
 | `participant_id` | integer | The agent's participant ID |
 | `user_input` | string | The message to send to the agent |
-| `await_task_timeout` | integer | `-1` for synchronous, `0` for async |
-| `return_task_id` | boolean | Whether to return task tracking ID |
+| `await_task_timeout` | integer | Positive value = wait up to N seconds for reply (synchronous); `0` or `-1` = return immediately with `task_id` (async) |
+| `return_task_id` | boolean | When `true` with `await_task_timeout <= 0`, returns task ID immediately instead of waiting |
 | `attachments_info` | array | (Optional) List of attachment references |
 
 **curl Example:**
 
 ```bash
-curl -X POST "https://next.elitea.ai/api/v1/chat/messages/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_UUID}}" \
+curl -X POST "https://next.elitea.ai/api/v2/elitea_core/messages/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_UUID}}" \
   -H "Authorization: Bearer {{YOUR_PAT}}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -260,7 +260,7 @@ Use this pattern for one-off agent interactions without managing conversation st
 **Endpoint:**
 
 ```
-POST {{BASE_URL}}applications/predict/prompt_lib/{{PROJECT_ID}}/{{AGENT_VERSION_ID}}
+POST {{BASE_URL}}elitea_core/predict/prompt_lib/{{PROJECT_ID}}/{{AGENT_VERSION_ID}}
 ```
 
 **Request Body:**
@@ -286,7 +286,7 @@ The request waits for the agent to complete processing and returns the response.
 **curl Example:**
 
 ```bash
-curl -X POST "https://next.elitea.ai/api/v1/applications/predict/prompt_lib/{{PROJECT_ID}}/{{AGENT_VERSION_ID}}" \
+curl -X POST "https://next.elitea.ai/api/v2/elitea_core/predict/prompt_lib/{{PROJECT_ID}}/{{AGENT_VERSION_ID}}" \
   -H "Authorization: Bearer {{YOUR_PAT}}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -302,7 +302,7 @@ For long-running tasks, use async mode to avoid timeouts. The request returns im
 **curl Example:**
 
 ```bash
-curl -X POST "https://next.elitea.ai/api/v1/applications/predict/prompt_lib/{{PROJECT_ID}}/{{AGENT_VERSION_ID}}" \
+curl -X POST "https://next.elitea.ai/api/v2/elitea_core/predict/prompt_lib/{{PROJECT_ID}}/{{AGENT_VERSION_ID}}" \
   -H "Authorization: Bearer {{YOUR_PAT}}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -355,13 +355,13 @@ Search for an existing conversation by name.
 **Endpoint:**
 
 ```
-GET {{BASE_URL}}chat/conversations/prompt_lib/{{PROJECT_ID}}/?query={{NAME}}&limit=1&source=alita
+GET {{BASE_URL}}elitea_core/conversations/prompt_lib/{{PROJECT_ID}}/?query={{NAME}}&limit=1&source=elitea
 ```
 
 **curl Example:**
 
 ```bash
-curl -X GET "https://next.elitea.ai/api/v1/chat/conversations/prompt_lib/{{PROJECT_ID}}/?query=Support-TICKET-123&limit=1&source=alita" \
+curl -X GET "https://next.elitea.ai/api/v2/elitea_core/conversations/prompt_lib/{{PROJECT_ID}}/?query=Support-TICKET-123&limit=1&source=elitea" \
   -H "Authorization: Bearer {{YOUR_PAT}}"
 ```
 
@@ -390,13 +390,13 @@ Retrieve full details of a conversation including participants.
 **Endpoint:**
 
 ```
-GET {{BASE_URL}}chat/conversation/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}
+GET {{BASE_URL}}elitea_core/conversation/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}
 ```
 
 **curl Example:**
 
 ```bash
-curl -X GET "https://next.elitea.ai/api/v1/chat/conversation/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}" \
+curl -X GET "https://next.elitea.ai/api/v2/elitea_core/conversation/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}" \
   -H "Authorization: Bearer {{YOUR_PAT}}"
 ```
 
@@ -436,7 +436,7 @@ participants.filter(
 **JavaScript Example:**
 
 ```javascript
-const response = await fetch(`${API_URL}chat/conversation/prompt_lib/${PROJECT_ID}/${CONVERSATION_ID}`, {
+const response = await fetch(`${API_URL}elitea_core/conversation/prompt_lib/${PROJECT_ID}/${CONVERSATION_ID}`, {
   headers: { 'Authorization': `Bearer ${PAT}` }
 });
 const data = await response.json();
@@ -455,7 +455,7 @@ const participantId = agentParticipant?.id;
 import requests
 
 response = requests.get(
-    f"{API_URL}chat/conversation/prompt_lib/{PROJECT_ID}/{CONVERSATION_ID}",
+    f"{API_URL}elitea_core/conversation/prompt_lib/{PROJECT_ID}/{CONVERSATION_ID}",
     headers={"Authorization": f"Bearer {PAT}"}
 )
 data = response.json()
@@ -475,8 +475,8 @@ When building integrations that map external identifiers (like JIRA ticket IDs o
 
 1. Store the mapping: `external_id → (conversation_id, conversation_uuid)`
 2. On new message, check if mapping exists
-3. If exists: Get conversation details → Find agent participant ID → Send message
-4. If not: Create conversation → Add agent → Store mapping → Send message
+3. If exists: Get conversation details →†’ Find agent participant I→ → Send message
+4. If not: Create conversation →†’ Add agen→ → Store mapp→ng → Send message
 </Tip>
 
 ---
@@ -485,29 +485,54 @@ When building integrations that map external identifiers (like JIRA ticket IDs o
 
 ### Step 1: Configure Attachment Storage
 
-Before uploading attachments, configure the storage toolkit for the conversation.
+Before uploading files, you must register an **artifact toolkit** as a participant and then designate it as the conversation's attachment storage. This is a two-part setup.
+
+**1a. Add the artifact toolkit as a participant:**
 
 **Endpoint:**
 
 ```
-PUT {{BASE_URL}}chat/attachment_storage/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}
+POST {{BASE_URL}}elitea_core/participants/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}
 ```
 
 **Request Body:**
 
 ```json
 {
-  "toolkit_id": {{TOOLKIT_ID}}
+  "entity_name": "toolkit",
+  "entity_meta": {
+    "id": {{TOOLKIT_ID}},
+    "project_id": {{PROJECT_ID}}
+  },
+  "entity_settings": {}
+}
+```
+
+Save the returned `id` as `{{ATTACHMENT_PARTICIPANT_ID}}`.
+
+**1b. Set that participant as the attachment storage:**
+
+**Endpoint:**
+
+```
+PUT {{BASE_URL}}elitea_core/conversation/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}
+```
+
+**Request Body:**
+
+```json
+{
+  "attachment_participant_id": {{ATTACHMENT_PARTICIPANT_ID}}
 }
 ```
 
 **curl Example:**
 
 ```bash
-curl -X PUT "https://next.elitea.ai/api/v1/chat/attachment_storage/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}" \
+curl -X PUT "https://next.elitea.ai/api/v2/elitea_core/conversation/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}" \
   -H "Authorization: Bearer {{YOUR_PAT}}" \
   -H "Content-Type: application/json" \
-  -d '{"toolkit_id": 45}'
+  -d '{"attachment_participant_id": 78901}'
 ```
 
 ---
@@ -519,13 +544,13 @@ Upload a file to the conversation.
 **Endpoint:**
 
 ```
-POST {{BASE_URL}}chat/attachments/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}
+POST {{BASE_URL}}elitea_core/attachments/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}
 ```
 
 **curl Example (file upload):**
 
 ```bash
-curl -X POST "https://next.elitea.ai/api/v1/chat/attachments/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}" \
+curl -X POST "https://next.elitea.ai/api/v2/elitea_core/attachments/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}" \
   -H "Authorization: Bearer {{YOUR_PAT}}" \
   -F "file=@/path/to/document.pdf" \
   -F "overwrite_attachments=1"
@@ -534,7 +559,7 @@ curl -X POST "https://next.elitea.ai/api/v1/chat/attachments/prompt_lib/{{PROJEC
 **Postman Configuration:**
 
 1. **Method:** POST
-2. **URL:** `{{BASE_URL}}chat/attachments/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}`
+2. **URL:** `{{BASE_URL}}elitea_core/attachments/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}`
 3. **Headers:** `Authorization: Bearer {{YOUR_PAT}}`
 4. **Body:** Select `form-data`
 
@@ -581,7 +606,7 @@ with open('screenshot.png', 'rb') as f:
     file_content = f.read()
 
 response = requests.post(
-    f"{API_URL}chat/attachments/prompt_lib/{PROJECT_ID}/{CONVERSATION_ID}",
+    f"{API_URL}elitea_core/attachments/prompt_lib/{PROJECT_ID}/{CONVERSATION_ID}",
     headers={"Authorization": f"Bearer {PAT}"},
     files={
         'file': ('screenshot.png', file_content, 'image/png'),
@@ -757,7 +782,7 @@ Use consistent conversation naming for easy identification and search:
 **Search by Name:**
 
 ```bash
-curl -X GET "https://next.elitea.ai/api/v1/chat/conversations/prompt_lib/{{PROJECT_ID}}/?query=JIRA-PROJ-123&limit=1&source=alita" \
+curl -X GET "https://next.elitea.ai/api/v2/elitea_core/conversations/prompt_lib/{{PROJECT_ID}}/?query=JIRA-PROJ-123&limit=1&source=elitea" \
   -H "Authorization: Bearer {{YOUR_PAT}}"
 ```
 
@@ -787,7 +812,7 @@ Persistent conversations accumulate history. For long-running integrations:
 
 ```bash
 # Direct prediction for JIRA automation
-curl -X POST "https://next.elitea.ai/api/v1/applications/predict/prompt_lib/630/93" \
+curl -X POST "https://next.elitea.ai/api/v2/elitea_core/predict/prompt_lib/630/93" \
   -H "Authorization: Bearer {{YOUR_PAT}}" \
   -H "Content-Type: application/json" \
   -d '{"user_input": "PROJ-123"}'
@@ -797,16 +822,16 @@ curl -X POST "https://next.elitea.ai/api/v1/applications/predict/prompt_lib/630/
 
 ```bash
 # 1. Create conversation
-CONV_RESPONSE=$(curl -s -X POST "https://next.elitea.ai/api/v1/chat/conversations/prompt_lib/630" \
+CONV_RESPONSE=$(curl -s -X POST "https://next.elitea.ai/api/v2/elitea_core/conversations/prompt_lib/630" \
   -H "Authorization: Bearer {{YOUR_PAT}}" \
   -H "Content-Type: application/json" \
-  -d '{"name": "Support-Case-001", "is_private": false, "source": "alita", "participants": []}')
+  -d '{"name": "Support-Case-001", "is_private": false, "source": "elitea", "participants": []}')
 
 CONV_ID=$(echo $CONV_RESPONSE | jq -r '.id')
 CONV_UUID=$(echo $CONV_RESPONSE | jq -r '.uuid')
 
 # 2. Add agent participant
-PART_RESPONSE=$(curl -s -X POST "https://next.elitea.ai/api/v1/chat/participants/prompt_lib/630/$CONV_ID" \
+PART_RESPONSE=$(curl -s -X POST "https://next.elitea.ai/api/v2/elitea_core/participants/prompt_lib/630/$CONV_ID" \
   -H "Authorization: Bearer {{YOUR_PAT}}" \
   -H "Content-Type: application/json" \
   -d '{"entity_name": "application", "entity_meta": {"id": 62, "project_id": 630}, "entity_settings": {"version_id": 93}}')
@@ -814,7 +839,7 @@ PART_RESPONSE=$(curl -s -X POST "https://next.elitea.ai/api/v1/chat/participants
 PART_ID=$(echo $PART_RESPONSE | jq -r '.id')
 
 # 3. Send message
-curl -X POST "https://next.elitea.ai/api/v1/chat/messages/prompt_lib/630/$CONV_UUID" \
+curl -X POST "https://next.elitea.ai/api/v2/elitea_core/messages/prompt_lib/630/$CONV_UUID" \
   -H "Authorization: Bearer {{YOUR_PAT}}" \
   -H "Content-Type: application/json" \
   -d "{\"participant_id\": $PART_ID, \"user_input\": \"Hello, I need help with my account\", \"await_task_timeout\": -1, \"return_task_id\": true}"
@@ -826,14 +851,15 @@ curl -X POST "https://next.elitea.ai/api/v1/chat/messages/prompt_lib/630/$CONV_U
 
 | Operation | Method | Endpoint |
 |-----------|--------|----------|
-| Create Conversation | POST | `chat/conversations/prompt_lib/{{ProjectID}}` |
-| Add Participant | POST | `chat/participants/prompt_lib/{{ProjectID}}/{{ConversationID}}` |
-| Send Message | POST | `chat/messages/prompt_lib/{{ProjectID}}/{{ConversationUUID}}` |
-| Direct Prediction | POST | `applications/predict/prompt_lib/{{ProjectID}}/{{AgentVersionID}}` |
-| Check Conversation | GET | `chat/conversations/prompt_lib/{{ProjectID}}/?query={{name}}&limit=1&source=alita` |
-| Get Conversation | GET | `chat/conversation/prompt_lib/{{ProjectID}}/{{ConversationID}}` |
-| Configure Storage | PUT | `chat/attachment_storage/prompt_lib/{{ProjectID}}/{{ConversationID}}` |
-| Upload Attachment | POST | `chat/attachments/prompt_lib/{{ProjectID}}/{{ConversationID}}` |
+| Create Conversation | POST | `elitea_core/conversations/prompt_lib/{{ProjectID}}` |
+| Add Participant | POST | `elitea_core/participants/prompt_lib/{{ProjectID}}/{{ConversationID}}` |
+| Send Message | POST | `elitea_core/messages/prompt_lib/{{ProjectID}}/{{ConversationUUID}}` |
+| Direct Prediction | POST | `elitea_core/predict/prompt_lib/{{ProjectID}}/{{AgentVersionID}}` |
+| Check Conversation | GET | `elitea_core/conversations/prompt_lib/{{ProjectID}}/?query={{name}}&limit=1&source=elitea` |
+| Get Conversation | GET | `elitea_core/conversation/prompt_lib/{{ProjectID}}/{{ConversationID}}` |
+| Add Toolkit Participant | POST | `elitea_core/participants/prompt_lib/{{ProjectID}}/{{ConversationID}}` |
+| Set Attachment Storage | PUT | `elitea_core/conversation/prompt_lib/{{ProjectID}}/{{ConversationID}}` |
+| Upload Attachment | POST | `elitea_core/attachments/prompt_lib/{{ProjectID}}/{{ConversationID}}` |
 
 ---
 
