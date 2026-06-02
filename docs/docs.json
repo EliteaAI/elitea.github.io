@@ -4,8 +4,8 @@
 
   "name": "ELITEA Documentation",
   "logo": {
-    "light": "/img/favicon.ico",
-    "dark": "/img/favicon.ico",
+    "light": "/img/elitea-logo-light.svg",
+    "dark": "/img/elitea-logo-dark.svg",
     "href": "https://elitea.ai"
   },
   "favicon": "/img/favicon.ico",
@@ -36,14 +36,14 @@
   "navbar": {
     "links": [
       {
-        "label": "ELITEA Platform",
-        "href": "https://next.elitea.ai"
+        "label": "API Documentation",
+        "href": "https://next.elitea.ai/shared/swagger/"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Get Started",
-      "href": "https://elitea.ai"
+      "label": "ELITEA Platform",
+      "href": "https://next.elitea.ai"
     }
   },
 

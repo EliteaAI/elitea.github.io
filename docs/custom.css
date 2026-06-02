@@ -58,6 +58,14 @@ pre {
   background-color: rgb(19 24 32 / 0.8) !important;
 }
 
+/* ── Navbar logo size ────────────────────────────────────────── */
+header a img,
+nav a img {
+  height: 36px !important;
+  width: auto !important;
+  max-height: none !important;
+}
+
 /* ── Scrollbar ───────────────────────────────────────────────── */
 ::-webkit-scrollbar           { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track     { background: transparent; }
