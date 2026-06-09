@@ -11,11 +11,23 @@ This guide is your comprehensive resource for integrating and effectively utiliz
 
 The Artifact Toolkit provides a versatile file storage mechanism designed specifically for AI agent workflows within ELITEA. It allows agents to create, read, update, and delete files within project-specific buckets (storage containers). This toolkit serves as a temporary workspace for agents, enabling them to:
 
-*   **Store Temporary Data:** Save intermediate results, generated content, logs, and data retrieved during agent operations
-*   **Manage Context:** Preserve and retrieve context across multiple agent interactions or workflow steps
-*   **Share Data Between Agents:** Enable collaboration by allowing different agents to access and modify files in shared buckets
-*   **Process Multiple File Formats:** Read from various document types (PDF, Excel, Word, images) and create text-based files
-*   **Handle Large Outputs:** Store data that exceeds LLM context windows or requires persistent access
+<CardGroup cols={2}>
+  <Card title="Store Temporary Data" icon="database">
+    Save intermediate results, generated content, logs, and data retrieved during agent operations.
+  </Card>
+  <Card title="Manage Context" icon="brain">
+    Preserve and retrieve context across multiple agent interactions or workflow steps.
+  </Card>
+  <Card title="Share Data Between Agents" icon="share-nodes">
+    Enable collaboration by allowing different agents to access and modify files in shared buckets.
+  </Card>
+  <Card title="Process Multiple File Formats" icon="file-lines">
+    Read from various document types (PDF, Excel, Word, images) and create text-based files.
+  </Card>
+  <Card title="Handle Large Outputs" icon="expand">
+    Store data that exceeds LLM context windows or requires persistent access.
+  </Card>
+</CardGroup>
 
 <Info title="Important: Temporary Storage">
 Artifact storage is designed for *temporary* data and operational workflows. It is *not* intended for long-term data archival or as a primary database. Files are subject to configurable retention policies (default: 30 days) and can be manually deleted at any time.
@@ -58,25 +70,29 @@ The Artifact Toolkit provides the following tools for file and data management:
 
 | **Tool Name** | **Functionality** | **Parameters** | **Use Case** |
 |---------------|-------------------|----------------|--------------|
-| **ListFiles** | Retrieves a list of all files in the bucket with download links | `bucket_name` (optional) | Check available files before processing |
-| **CreateFile** | Creates a new file in the bucket | `filename`<br />`filedata`<br />`bucket_name` (optional) | Store generated content, reports, or initial data |
-| **ReadFile** | Reads and retrieves file content from the bucket | `filename` (required)<br />`bucket_name` (optional)<br />`is_capture_image` (optional)<br />`page_number` (optional)<br />`sheet_name` (optional) | Access previously stored data for processing, with image capture and pagination support |
-| **DeleteFile** | Permanently deletes a file from the bucket | `filename`<br />`bucket_name` (optional) | Remove temporary or obsolete files |
-| **AppendData** | Adds content to the end of an existing file | `filename`<br />`filedata`<br />`bucket_name` (optional) | Build log files, accumulate test cases, expand datasets |
-| **CreateNewBucket** | Creates a new storage bucket with custom retention | `bucket_name`<br />`expiration_measure` (optional)<br />`expiration_value` (optional) | Organize different file groups, set custom retention periods |
-| **Edit file** | Modifies specific content within an existing file | `file_path` (required)<br />`file_query` (required)<br />`branch` (optional)<br />`commit_message` (optional) | Make targeted changes to file content |
-| **Get file type** | Detects and returns the type of a specified file | `filename` (required)<br />`bucket_name` (optional) | Determine file type before processing or applying routing logic |
-| **Grep file** | Searches for a pattern within the content of a file | `filename` (required)<br />`pattern` (required)<br />`bucket_name` (optional)<br />`is_regex` (optional) | Find specific text or patterns inside a file |
+| **ListFiles** | Retrieves a list of files and folders in the bucket with download links | `bucket_name` (optional)<br />`folder` (optional)<br />`recursive` (optional)<br />`include` (optional, glob patterns)<br />`skip` (optional, glob patterns) | Check available files before processing; filter by extension or folder |
+| **CreateFile** | Creates a new file or overwrites an existing file in the bucket | `filename` (required)<br />`filedata` (text content — provide either this or `filepath`)<br />`filepath` (optional, `/{bucket}/{filename}` — copies an existing file preserving binary format)<br />`bucket_name` (optional) | Store generated content, reports, or copy existing binary files |
+| **ReadFile** | Reads and retrieves file content from the bucket | `filename` (required, or use `filepath`)<br />`filepath` (optional, `/{bucket}/{filename}` format)<br />`bucket_name` (optional)<br />`start_line` (optional)<br />`end_line` (optional)<br />`is_capture_image` (optional)<br />`page_number` (optional)<br />`sheet_name` (optional)<br />`extra_params` (optional, JSON string of per-file-type options) | Access previously stored data; partial reads via line range; per-type options via `extra_params` |
+| **DeleteFile** | Permanently deletes a file from the bucket | `filename` (required)<br />`bucket_name` (optional) | Remove temporary or obsolete files |
+| **AppendData** | Adds content to the end of an existing file | `filename` (required)<br />`filedata` (required)<br />`bucket_name` (optional)<br />`create_if_missing` (optional, default: `true`) | Build log files, accumulate test cases, expand datasets |
+| **CreateNewBucket** | Creates a new storage bucket with custom retention | `bucket_name` (required)<br />`expiration_measure` (optional)<br />`expiration_value` (optional) | Organize different file groups, set custom retention periods |
+| **Edit file** | Modifies specific content within an existing file using OLD/NEW markers | `file_path` (required)<br />`file_query` (required)<br />`branch` (optional)<br />`commit_message` (optional) | Make targeted text changes to supported file types |
+| **Get file metadata** | Inspects a file and returns type, size, structure details, and available `read_file` options for that file type | `filepath` (optional, `/{bucket}/{filename}` format)<br />`filename` (optional)<br />`bucket_name` (optional) | Discover file structure (e.g. Excel sheet names, row counts) before reading; find supported `extra_params` |
+| **Grep file** | Searches for a pattern within the content of a file | `file_path` (required)<br />`pattern` (required)<br />`bucket_name` (optional)<br />`is_regex` (optional)<br />`context_lines` (optional) | Find specific text or patterns inside a file |
 | **Read multiple files** | Reads content from multiple files simultaneously | `file_paths` (required, list)<br />`branch` (optional)<br />`offset` (optional)<br />`limit` (optional) | Batch processing multiple files with pagination support |
 | **Index data** | Indexes file content for vector search | `index_name` (required)<br />`clean_index` (optional)<br />`progress_step` (optional)<br />`chunking_config` (optional)<br />`include_extensions` (optional)<br />`skip_extensions` (optional) | Enable semantic search capabilities with customizable indexing options |
 | **List collections** | Lists all indexed collections in the vector database |   | View available indexed data collections |
-| **Remove index** | Removes indexed data from the vector database | `Index_name` | Clean up obsolete indexes |
+| **Remove index** | Removes indexed data from the vector database | `index_name` (required) | Clean up obsolete indexes |
 | **Search index** | Performs semantic search across indexed content | `query` (required)<br />`index_name` (optional)<br />`filter` (optional)<br />`cut_off` (optional, 0-1)<br />`search_top` (optional)<br />`full_text_search` (optional)<br />`extended_search` (optional)<br />`reranker` (optional)<br />`reranking_config` (optional) | Find relevant information semantically with advanced filtering and reranking |
 | **Stepback search index** | Advanced search with step-back prompting technique | `query` (required)<br />`index_name` (optional)<br />`messages` (optional)<br />`filter` (optional)<br />`cut_off` (optional, 0-1)<br />`search_top` (optional)<br />`full_text_search` (optional)<br />`extended_search` (optional)<br />`reranker` (optional)<br />`reranking_config` (optional) | Complex semantic queries with reasoning and message context |
 | **Stepback summary index** | Generates summaries using step-back search | `query` (required)<br />`index_name` (optional)<br />`messages` (optional)<br />`filter` (optional)<br />`cut_off` (optional, 0-1)<br />`search_top` (optional)<br />`full_text_search` (optional)<br />`extended_search` (optional)<br />`reranker` (optional)<br />`reranking_config` (optional) | Create summaries from indexed content |
 
 <Tip title="Vector Search Tools">
 The tools **Index data**, **List collections**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These enable advanced semantic search capabilities across your artifact files.
+</Tip>
+
+<Tip title="Get file metadata">
+Use **Get file metadata** before reading complex files (Excel, PDF, images). It returns sheet names, row counts, embedded image counts, and the exact `extra_params` keys that **ReadFile** accepts for that specific file type.
 </Tip>
 
 #### Method 2: Create from Canvas (During Conversation)
@@ -194,11 +210,13 @@ The Artifact Toolkit can read and process a wide variety of file formats:
 
 | **Category** | **File Extensions** | **Description** |
 |--------------|---------------------|-----------------|
-| **Text and Document Files** | `.txt`, `.md`, `.rtf`, `.docx`, `.pdf` | Plain text, Markdown, Rich Text Format, Microsoft Word Documents, Portable Document Format |
-| **Data and Spreadsheet Files** | `.csv`, `.xlsx`, `.json`, `.xml`, `.yaml`, `.yml` | Comma Separated Values, Microsoft Excel Spreadsheets, JSON Data, XML Data, YAML Data |
-| **Presentation Files** | `.pptx` | Microsoft PowerPoint Presentations |
-| **Programming and Code Files** | `.py`, `.js`, `.html`, `.css`, `.java`, `.cpp`, `.php`, `.sql`, `.sh`, `.bat` | Python, JavaScript, HTML, CSS, Java, C++, PHP, SQL, Shell Scripts, Batch Files, and other common programming language file extensions |
-| **Image Files** | `.jpg`, `.jpeg`, `.png`, `.gif`, `.bmp`, `.webp` | JPEG Images, PNG Images, GIF Images, Bitmap Images, WebP Images |
+| **Text and Document Files** | `.txt`, `.md`, `.docx`, `.doc`, `.pdf` | Plain text, Markdown, Microsoft Word Documents (modern `.docx` and legacy `.doc`), Portable Document Format |
+| **Data and Spreadsheet Files** | `.csv`, `.xlsx`, `.xls`, `.json`, `.jsonl`, `.xml`, `.yaml`, `.yml` | Comma Separated Values, Microsoft Excel (modern `.xlsx` and legacy `.xls`), JSON, JSON Lines, XML, YAML |
+| **Presentation Files** | `.pptx`, `.ppt` | Microsoft PowerPoint Presentations (modern `.pptx` and legacy `.ppt`) |
+| **Web and Markup Files** | `.html`, `.htm` | HTML web pages and markup documents |
+| **Email Files** | `.eml`, `.msg` | Email files — RFC 822 (`.eml`) and Microsoft Outlook (`.msg`) formats, including attachments |
+| **Programming and Code Files** | `.py`, `.js`, `.ts`, `.jsx`, `.tsx`, `.mjs`, `.cjs`, `.java`, `.cpp`, `.c`, `.h`, `.hpp`, `.cs`, `.go`, `.rb`, `.php`, `.swift`, `.kt`, `.rs`, `.scala`, `.sql`, `.sh`, `.bash`, `.zsh`, `.bat`, `.groovy`, `.lua`, `.r`, `.pl`, `.dart`, `.hs`, `.toml`, `.ini`, `.cfg`, `.conf`, `.env` | Python, JavaScript, TypeScript, React (JSX/TSX), Java, C/C++, C#, Go, Ruby, PHP, Swift, Kotlin, Rust, Scala, SQL, Shell/Batch scripts, Groovy, and many more |
+| **Image Files** | `.jpg`, `.jpeg`, `.png`, `.gif`, `.bmp`, `.webp`, `.svg` | JPEG, PNG, GIF, Bitmap, WebP, and SVG Images — requires a multimodal LLM |
 
 <Info title="Image Processing Requirements">
 When reading image files, the image is sent to the LLM for analysis. The LLM describes the image content and provides the description in the context. 
@@ -214,20 +232,23 @@ For best results, provide clear instructions about what information to extract f
 
 ### File Types Supported for Creation
 
-The Artifact Toolkit can create the following file types:
+Pass text content via `filedata` — the file is stored with that content. **Any file extension is accepted.** Special format conversion applies only to two types:
 
-| **Category** | **File Extensions** | **Description** |
-|--------------|---------------------|-----------------|
-| **Text-Based Files** | `.txt`, `.md`, `.csv`, `.json`, `.yaml`, `.yml`, `.html`, `.css`, `.js`, `.py`, `.sql` | Plain Text, Markdown, Comma Separated Values, JSON Data, YAML Data, HTML, CSS, JavaScript, Python, SQL, and other unformatted plain text or code files |
-| **Spreadsheet Files** | `.xlsx` | Microsoft Excel Spreadsheets |
+| **Type** | **Extensions** | **How to provide `filedata`** |
+|----------|----------------|-------------------------------|
+| **Any text-based file** | Any extension — `.txt`, `.md`, `.json`, `.csv`, `.yaml`, `.yml`, `.xml`, `.html`, `.py`, `.js`, `.ts`, `.java`, `.sql`, `.sh`, `.log`, `.conf`, `.ini`, and any other text-representable format | Provide the file content as a plain string. Stored as-is. |
+| **Excel Spreadsheet** | `.xlsx` | Provide `filedata` as a JSON string with sheet names as keys and 2D arrays as values. Automatically converted to Excel binary. |
+| **Word Document** | `.docx` | Provide `filedata` as HTML or Markdown. Automatically converted to a Word document with tables, headings, and formatting preserved. |
 
-#### **Unsupported File Types for Creation**
+<Info>
+Binary formats not listed above (`.pdf`, `.pptx`, `.jpg`, `.png`, etc.) **cannot be generated from text content** via `filedata`. Passing text to these extensions will store the raw string, not a valid binary file.
+</Info>
 
-The toolkit **cannot create** the following binary files or formatted document types:
+### File Types Supported for Editing (`Edit file` tool)
 
-| **Category** | **File Extensions** | **Description** |
-|--------------|---------------------|------------------|
-| **Unsupported Files** | `.docx`, `.pdf`, `.pptx`, `.jpg`, `.png`, `.gif` | Word Documents, PDF Files, PowerPoint Presentations, Images, and other binary or complex formatted documents |
+The `Edit file` tool uses targeted OLD/NEW marker edits and is restricted to text-editable extensions:
+
+`.md`, `.txt`, `.csv`, `.json`, `.xml`, `.html`, `.yaml`, `.yml`, `.ini`, `.conf`, `.log`, `.sh`, `.py`, `.js`, `.ts`, `.jsx`, `.tsx`, `.java`, `.go`, `.rb`, `.php`, `.c`, `.cpp`, `.h`, `.hpp`, `.cs`, `.sql`, `.r`, `.m`, `.swift`, `.kt`, `.rs`, `.scala`
 
 <Tip title="Recommended Workflow">
 1. **Read** complex file formats (Excel, Word, PDF, images) to extract content
@@ -711,7 +732,7 @@ All tests passed! ✓"
 **Solutions:**
 
 - **Check Execution Logs:** Examine the agent's execution logs or chat output for error messages related to tool calls
-- **File Type Limitations:** Confirm you're working with supported text file types. The toolkit cannot create binary files (Excel, PDF, images)
+- **File Type Limitations:** For binary formats (PDF, images, etc.) use the `filepath` copy mode instead of `filedata`. For `.xlsx` provide JSON; for `.docx` provide HTML or Markdown.
 - **Review Instructions:** Verify that instructions given to the LLM are clear and align with tool capabilities
 - **Test with Simple Operations:** Try creating a simple text file first to confirm basic functionality
 - **Check Bucket Configuration:** Ensure the bucket is properly configured in the toolkit settings
@@ -757,8 +778,9 @@ The Artifact Toolkit supports creating text-based files and Excel spreadsheets. 
 - JSON (`.json`)
 - YAML (`.yaml`, `.yml`)
 - Markdown (`.md`)
-- Code files (`.py`, `.js`, `.html`, `.css`, `.sql`, etc.)
-- **Excel files (`.xlsx`)**
+- Code files (`.py`, `.js`, `.ts`, `.html`, `.sql`, etc.)
+- **Excel files (`.xlsx`)** — provide filedata as JSON
+- **Word documents (`.docx`)** — provide filedata as HTML or Markdown
 
 **You can read** many binary file formats including Excel, Word, PDF, and images (with multimodal LLM support).
 </Accordion>
@@ -848,6 +870,53 @@ When you enable attachments and configure an Artifact Toolkit:
 4. You can manage uploaded files through the Artifacts page
 
 This creates a seamless integration between user uploads and agent file processing capabilities.
+</Accordion>
+
+<Accordion title="What does filedata look like for creating a .docx file?">
+The `CreateFile` tool accepts either **Markdown** or **HTML** as `filedata` when creating a `.docx` file. The SDK auto-detects the format based on the presence of HTML tags.
+
+**Option A — Markdown:**
+
+```
+# Project Report
+
+## Summary
+This report covers Q2 results.
+
+## Results Table
+
+| Metric | Value |
+|--------|-------|
+| Revenue | $1.2M |
+| Users | 4,500 |
+| Growth | 18% |
+
+## Notes
+- All figures are preliminary.
+- Final review scheduled for July.
+```
+
+**Option B — HTML:**
+
+```html
+<h1>Project Report</h1>
+<h2>Summary</h2>
+<p>This report covers Q2 results.</p>
+<h2>Results Table</h2>
+<table>
+  <tr><th>Metric</th><th>Value</th></tr>
+  <tr><td>Revenue</td><td>$1.2M</td></tr>
+  <tr><td>Users</td><td>4,500</td></tr>
+  <tr><td>Growth</td><td>18%</td></tr>
+</table>
+<h2>Notes</h2>
+<ul>
+  <li>All figures are preliminary.</li>
+  <li>Final review scheduled for July.</li>
+</ul>
+```
+
+Tables, headings, bold/italic, and lists are all preserved in the resulting Word document.
 </Accordion>
 
 <Accordion title="Can agents read image files?">
