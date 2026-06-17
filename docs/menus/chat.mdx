@@ -45,17 +45,18 @@ For more details see [Chat Usage](../how-tos/chat-conversations/how-to-use-chat-
 ## Creating a Conversation
 
 1. Go to the **Chat** section in the left sidebar.
-2. Click the **+ Create** button at the top.
-3. The chat input field appears and is highlighted to focus your attention.
-4. Type your first message in the input field.
-5. Press **Send** (or press Enter).
-6. The new conversation is created and appears in the **CONVERSATIONS** sidebar.
-7. The conversation name is automatically generated based on your message content. During name generation (1-2 seconds), you'll see a loader icon with "Naming" text next to the conversation item.
+2. Click the **+ Conversation** button at the top of the sidebar, or select an existing conversation and a welcome screen appears.
+3. The **New Conversation View** is shown: a welcome screen with a greeting (*Hello, \{firstName\}! What can I do for you today?*) and the chat input centered on screen.
+4. Optionally add participants before sending — use the **`+`** button in the input toolbar or type **`#`** to search (see [Participants](#participants) below).
+5. Type your first message in the input field.
+6. Press **Send** (or press Enter).
+7. The conversation is created and appears in the **CONVERSATIONS** sidebar.
+8. The conversation name is automatically generated based on your message content. During name generation (1-2 seconds), you'll see a loader icon with "Naming" text next to the conversation item.
 
 <img src="../img/menus/chat/create-conversation.gif" alt="Create_Conversation" />
 
 <Tip title="Quick Start">
-You can optionally add participants (agents, pipelines, or models) before sending your first message by typing **#** followed by the participant name, or by using the participant panel on the right.
+You can add participants before sending your first message. Click the **`+`** icon in the input toolbar to access agents, pipelines, toolkits, MCPs, internal tools, and file attachments — or type **`#`** followed by a name to search directly.
 </Tip>
 
 **Conversation Sorting and Organization**
@@ -80,7 +81,7 @@ This automatic time-based sorting helps you quickly locate recent conversations 
 **Team Project:** You can view all folders within the project, but can only see conversations inside folders if you are a member. Members can move conversations into or out of folders; you cannot delete folders created by others. Public folders within a team project are visible to all members and cannot be converted back to private.
 </Note>
 
-1. Click the **+ Folder** button located at the top of the **CONVERSATIONS** sidebar.
+1. Click the **folder icon** button in the header of the **CONVERSATIONS** sidebar (tooltip: *Create folder*).
 2. Provide a **Name** for the folder.
 3. Click **Save** to create the folder. The new folder will appear in the **CONVERSATIONS** sidebar.
 
@@ -127,8 +128,11 @@ Participants are additional resources that can be added to a conversation to ext
   <Card title="Agents / Pipelines" icon="robot">
     Agents or pipelines—created within the project or available as public resources—that can be executed to receive AI-driven responses.
   </Card>
-  <Card title="Toolkits & MCPs" icon="toolbox">
-    Toolkits provide integrations with external services (e.g., Jira, GitHub, databases), while MCPs expose tools via Model Context Protocol servers — including EPAM pre-built and custom remote connections.
+  <Card title="Toolkits" icon="toolbox">
+    Toolkits provide integrations with external services (e.g., Jira, GitHub, databases). Added toolkits appear in the **Participants** panel and can be targeted directly with the `/` mention.
+  </Card>
+  <Card title="MCPs" icon="server">
+    Model Context Protocol servers — EPAM pre-built or custom remote connections — that expose additional tools to the conversation.
   </Card>
   <Card title="Users" icon="user">
     In team projects, other project members can be added to public conversations to collaborate, mention teammates with **@username**, or follow the conversation thread.
@@ -141,18 +145,19 @@ Users cannot be added to private project conversations.
 
 
 ### How to Add Users to a Conversation
-1. In the **PARTICIPANTS** panel, click the users icon next to your avatar.
-2. Select **Add users** from the dropdown menu.
+1. In the chat input toolbar, click the **`+`** icon.
+2. Select **Invite Users** from the popup menu.
 3. The **Add users** modal will appear with a search bar.
 4. Use the search bar to find teammates by name.
 5. Select one or more users from the list by clicking on them.
 6. Click **Add** to confirm. The selected users will be added as participants to your chat.
-7. Added users will appear in the **PARTICIPANTS** section.  Hover over user avatars in the participant list or type **@username** in the chat input to mention and notify teammates in the conversation. To mention everyone in the conversation, select the **All Users** option.
+7. Added users will appear in the **Users** section of the **PARTICIPANTS** panel. Hover over user avatars in the participant list or type **@username** in the chat input to mention and notify teammates in the conversation. To mention everyone in the conversation, select the **All Users** option.
    <img src="../img/menus/chat/add-user.gif" alt="Add User" />        
 
 <Info title="Note">
-* Users can be removed by hovering over their name in the participants list and clicking the remove icon.
-  * Users will receive notifications when they are added as participants in a conversation.
+* **Invite Users** is only available in team projects. It is not shown in personal (private) projects.
+* Users can be removed by hovering over their avatar in the **Users** section of the Participants panel and clicking the remove icon.
+* Users will receive notifications when they are added as participants in a conversation.
 </Info>
 
 
@@ -160,24 +165,56 @@ Users cannot be added to private project conversations.
 
 You can add various AI participants to enhance your conversations:
 
-**Method 1: Using the Participants Panel**
+<Tabs>
+  <Tab title="Method 1: Using the + Button">
+    1. In the chat input toolbar, click the **`+`** icon (tooltip: *Add files, agents, toolkits and more…*).
+    2. A popup menu opens. Hover over the category you want:
+       - **Agents** — shows a searchable list of available agents
+       - **Pipelines** — shows a searchable list of available pipelines
+       - **Toolkits** — shows a searchable list of available toolkits (with a Public/Private toggle)
+       - **MCPs** — shows a searchable list of available MCP servers (with a Public/Private toggle)
+    3. Search by name in the submenu search box, then click a participant to add it.
+    4. The added participant appears in the **PARTICIPANTS** panel on the right side of the screen.
+    5. For **Agents** and **Pipelines**: clicking the participant in the panel activates it. An **AgentEditorPanel** strip appears above the input area showing the participant name, version selector, variables, and a settings button.
 
-1. In the **PARTICIPANTS** section on the right side of the screen, you'll see collapsible sections for: <br /><Badge icon="robot">agents</Badge> <Badge icon="diagram-project">pipelines</Badge> <Badge icon="wrench">toolkits</Badge> <Badge icon="server">MCPs</Badge>
-2. Click the **+** icon next to any section title to add participants of that type.
-3. Select the desired participant from the list (e.g., an Agent, Pipeline, Toolkit, or MCP).
-4. The selected participant will appear in the **PARTICIPANTS** panel.
-5. Click on a participant in the list to activate and interact with it.
+    <img src="../img/menus/chat/add-participants-section.gif" alt="Add participants" />
+  </Tab>
+  <Tab title="Method 2: Using the # Symbol">
+    1. In the chat input box, type `#` to open a **Search results** dropdown of available participants.
+    2. Continue typing to filter by name (e.g., `#Jira` will show all Jira-related participants).
+    3. Select a participant from the filtered list — the dropdown searches across **Agents**, **Pipelines**, **Toolkits**, and **MCPs**.
+    4. The selected participant appears in the **PARTICIPANTS** panel.
 
-<img src="../img/menus/chat/add-participants-section.gif" alt="Add participants" />
+    <img src="../img/menus/chat/add-participants-search.gif" alt="Add participants" />
+  </Tab>
+</Tabs>
 
-**Method 2: Using the # Symbol (Quick Access)**
+### Creating New Participants
 
-1. In the chat input box, type `#` to open a **Search results** dropdown of available participants.
-2. Continue typing to filter by name (e.g., `#Jira` will show all Jira-related participants).
-3. Select a participant from the filtered list — the dropdown searches across **Agents**, **Pipelines**, **Toolkits**, and **MCPs**.
-4. The selected participant will appear as a chip above the input box and in the **PARTICIPANTS** panel.
+You can create new participants directly from the chat interface via the `+` menu:
 
-<img src="../img/menus/chat/add-participants-search.gif" alt="Add participants" />
+1. Click the **`+`** icon in the input toolbar.
+2. Hover over the relevant category (Agents, Pipelines, Toolkits, or MCPs).
+3. Click the **Create New \{Type\}** option at the bottom of the submenu.
+4. The corresponding Canvas editor opens inline.
+
+![Create New Participants](../img/menus/chat/canvas-create.gif)
+
+
+**Managing Participants:**
+
+* Added participants are visible in the **PARTICIPANTS** panel on the right. The panel shows sections: **Users**, **Agents**, **Pipelines**, **Toolkits**, **MCPs** — each as a collapsible accordion.
+* To remove a participant, hover over their card in the panel and click the remove icon.
+* To switch the active agent or pipeline, click its card in the panel.
+* The panel can be collapsed to an icon-only view using the arrow button in the panel header.
+
+![Create New Participants](../img/menus/chat/manage-participants.gif)
+
+<Note title="Shared Toolkit Credentials">
+If a toolkit in your Chat uses shared credentials that are not yet configured in your Personal workspace, a **Misconfiguration errors found. Check the toolkit.** message appears on the toolkit card. Clicking **Check the toolkit** opens the toolkit in the Canvas editor, where the **Credential setup required** warning banner is displayed. Click the **Create a credential** link to create the matching credential. See [Shared Toolkit Credentials](./toolkits#shared-toolkit-credentials) for details.
+
+<img src="../img/menus/chat/credentials-warning-chat.gif" alt="Credential setup required banner in Chat toolkit canvas editor" />
+</Note>
 
 ### Mention Toolkit and Tool
 
@@ -203,32 +240,12 @@ You can direct the AI to use a specific tool from an already-added toolkit by ty
 
 
 <Note>
-The `/` mention works with both **Toolkits** and **MCP** participants that are already added to the conversation. If a toolkit or MCP does not appear in the dropdown, add it first via the **PARTICIPANTS** panel or by typing `#` to add it. Toolkits and MCPs with misconfiguration errors are excluded from the dropdown until the configuration issue is resolved.
+The `/` mention works with both **Toolkits** and **MCP** participants that are already added to the conversation. If a toolkit or MCP does not appear in the dropdown, add it first via the **`+`** button in the input toolbar or by typing `#`. Toolkits and MCPs with misconfiguration errors are excluded from the dropdown until the configuration issue is resolved.
 </Note>
 
 You can include multiple toolkit tool mentions in a single message, and they can be placed anywhere within the message. For example: `Please use /Jira/createIssue to create a new issue and then /GitHub/createPR to create a pull request.`
 
 Each mention is highlighted independently and sent to the AI as separate tool directives.
-
-**Creating New Participants:**
-
-You can also create new participants directly from the chat interface:
-
-* **Agents**: Click **Create new agent** in the agents section to open the Agent Canvas
-* **Pipelines**: Click **Create new pipeline** in the pipelines section to open the Pipeline Canvas
-* **Toolkits**: Click **+ Create new Toolkit** in the toolkits section to configure integrations
-* **MCPs**: Click **Create new MCP** in the MCPs section to connect Model Context Protocol servers
-![Create New Participants](../img/menus/chat/canvas-create.gif)
-
-
-**Managing Participants:**
-
-* To remove a participant, hover over their card in the **PARTICIPANTS** list and click the remove icon.
-* All participants appear in the right sidebar for easy switching between them.
-
-<Frame caption="If a toolkit in your Chat uses shared credentials that are not yet configured in your Personal workspace, a **Misconfiguration errors found. Check the toolkit.** message appears on the toolkit card. Clicking **Check the toolkit** opens the toolkit in the Canvas editor, where the **Credential setup required** warning banner is displayed. Click the **Create a credential** link to create the matching credential. See [Shared Toolkit Credentials](./toolkits#shared-toolkit-credentials) for details.">
-  <img src="../img/menus/chat/credentials-warning-chat.gif" alt="Credential setup required banner in Chat toolkit canvas editor" />
-</Frame>
 
 ## Display Configured Conversation Starter
 
@@ -264,17 +281,20 @@ Internal tools provide built-in capabilities that enhance your conversations wit
   <Card title="Swarm Mode" type="note" icon="network-wired" href="../how-tos/chat-conversations/swarm-mode-internal-tool">
     Enables multi-agent collaboration by allowing all child agents to share the full conversation history and hand off control to each other. Ideal for complex workflows requiring multiple specialized agents working as a team.
   </Card>
+  <Card title="Elitea MCP Tools" type="note" icon="server" href="../how-tos/chat-conversations/elitea-mcp-tools-internal-tool">
+    Enable built-in ELITEA platform MCP tools for managing agents, pipelines, chat, and toolkits directly from within conversations — without switching to a separate configuration screen.
+  </Card>
 </CardGroup>
 
 **Enabling Internal Tools:**
 
-1. Navigate to your conversation
-2. Locate the **Internal Tools** icon (value icon) in the chat input toolbar at the bottom of the screen, next to the attachment button
-3. Click the Internal Tools icon to open the configuration popup
-4. Find the tool you want to enable in the list
-5. Click the toggle switch next to the tool name to enable it
-6. A success notification will appear: "Internal tools configuration updated"
-7. Click anywhere outside the popup to close it
+1. Navigate to your conversation.
+2. In the chat input toolbar, click the **`+`** icon.
+3. Hover over **Internal Tools** in the popup menu.
+4. A flyout panel opens on the right showing all available tools with toggle switches.
+5. Click the toggle next to the tool name to enable or disable it.
+6. A success notification will appear: "Internal tools configuration updated".
+7. Click anywhere outside the popup to close it.
 
      <img src="../img//menus/chat/enable-internal-tools.gif" alt="Enabling Internal Tools" />
 
@@ -288,30 +308,67 @@ You can also enable internal tools as part of an agent's default configuration i
 
 Attach files and images directly to chat conversations for AI-powered analysis. This feature enables multimodal interactions where AI can process visual content, documents, and data files alongside text-based queries.
 
-**Key Capabilities:**
-
-* **Image Analysis**: Upload images for visual analysis, OCR, content extraction, and AI-powered interpretation
-* **Document Processing**: Attach documents for content indexing, semantic search, and information retrieval
-* **Data Files**: Upload CSV, JSON, and other data formats for analysis and processing
-* **Multiple Upload Methods**: Click to browse, drag-and-drop, or paste from clipboard
-* **Centralized Storage**: All attachments automatically stored in the default `attachments` Artifact bucket — no manual configuration required
+<CardGroup cols={3}>
+  <Card title="Image Analysis" icon="image">
+    Upload images for visual analysis, OCR, content extraction, and AI-powered interpretation.
+  </Card>
+  <Card title="Document Processing" icon="file-lines">
+    Attach documents for content indexing, semantic search, and information retrieval.
+  </Card>
+  <Card title="Data Files" icon="table">
+    Upload CSV, JSON, and other data formats for analysis and processing.
+  </Card>
+  <Card title="Multiple Upload Methods" icon="upload">
+    Click to browse, drag-and-drop onto the input area, or paste from clipboard.
+  </Card>
+  <Card title="Centralized Storage" icon="box-archive">
+    All attachments are automatically stored in the default `attachments` Artifact bucket — no manual configuration required.
+  </Card>
+</CardGroup>
 
 **How Attachments Work:**
 
-Every file you attach is automatically uploaded to the default `attachments` bucket — no manual Artifact Toolkit configuration is required. Files are accessible from the **Artifacts** section and subject to the bucket's retention policy (30-day default).
+Every file you attach is automatically uploaded to the default `attachments` bucket — no manual Artifact Toolkit configuration is required. Files are accessible from the **Artifacts** section.
 
-* **Images** are sent directly to the LLM for real-time vision analysis
-* **Non-image files** (documents, code, data) are indexed into a vector database and retrieved via semantic search
+* **Images** are sent directly to the LLM for real-time vision analysis.
+* **Non-image files** (documents, code, data) are indexed into a vector database and retrieved via semantic search.
 
-**Enabling Attachments:**
+**Attachment Limits:**
 
-* **Direct LLM chat**: The paperclip icon is always available — click it to attach files immediately
-* **Agent-based conversations**: An agent must have the **Allow attachments** toggle enabled (in the INTERNAL TOOLS section of the Agent Configuration tab). Once enabled, the paperclip becomes active in all conversations using that agent
-* **Conversation-level**: Click the paperclip icon in the message input area to attach files directly without modifying agent settings
+| Limit | Value |
+|-------|-------|
+| Max files per message | 10 |
+| Max total size | 150 MB |
+| Max size per file | 150 MB |
+| Max image attachments | 10 |
+
+The **Attach Files** item in the `+` menu shows a counter (*N left*) reflecting how many more files can still be attached in the current message.
+
+**How to Attach Files:**
+
+1. In the chat input toolbar, click the **`+`** icon.
+2. Click **Attach Files**.
+3. The native file browser opens — select one or more files.
+4. Selected files appear as chips above the input field. To remove a file, click the **×** on its chip.
+5. Type your message and press **Send**.
+
+You can also attach files by:
+- **Drag and drop** — drag files directly onto the chat input area.
+- **Paste** — paste files or images from your clipboard with **Ctrl+V** / **Cmd+V**.
 
      ![Attachments](../img/how-tos/chat-conversations/attachments/enable-attachment-chat.gif)
 
-Once attachments are available, upload files by clicking the paperclip icon, dragging and dropping into the chat, or pasting from clipboard.
+**Availability by Conversation Type:**
+
+| Context | Attachment availability |
+|---------|------------------------|
+| **Direct LLM / model chat** | Always enabled — the **Attach Files** item is active whenever no agent or pipeline is selected. |
+| **Agent-based chat** | Only enabled if the agent has **Allow Attachments** toggled on in its **Internal Tools** configuration. If not enabled, **Attach Files** is grayed out with the tooltip: *"Attachments aren't available for the selected agent or pipeline."* |
+| **Pipeline-based chat** | Same rule as agents — requires `attachments` in the pipeline's internal tools. |
+
+<Tip title="Enable attachments for an agent">
+To enable attachments for an agent, open the agent in Canvas → go to the **Configuration** tab → expand **Internal Tools** → turn on the **Allow Attachments** toggle and save.
+</Tip>
 
 For detailed information about attachments, including agent configuration and file management, see [Attach Files](../how-tos/chat-conversations/attach-files).
 
@@ -421,20 +478,33 @@ ELITEA Chat includes voice input and voice output capabilities that let you spea
 
 ---
 
-### Voice Input
 
-**Voice Input** lets you dictate messages directly into the chat input field using a microphone. The transcribed text is inserted at the cursor position, so you can combine typed and spoken content in the same message.
+**Voice Input** lets you dictate messages directly into the chat input field using a microphone. The transcribed text is inserted at the **current cursor position**, so you can combine typed and spoken content in the same message — position your cursor anywhere in the text before starting to record.
 
 **How to use Voice Input:**
 
-1. Click the **microphone** icon in the message input toolbar to start recording.
-2. Speak your message. A live transcript appears in the input field as you talk — interim results update in real time.
-3. Click the **Stop** (■) button to finish recording. The final transcript is committed and focus returns to the input field.
+1. (Optional) Click inside the input field and place the cursor where you want the dictation inserted.
+2. Click the **microphone** icon in the message input toolbar (tooltip: *Start voice input*) to start recording.
+3. The mic icon turns **teal** and a **Stop (■)** button appears beside it in a pill-shaped container — this indicates active recording.
+4. Speak your message. A live transcript appears in the input field in real time. Interim (in-progress) words are shown immediately and replaced by the final transcript as recognition completes.
+5. Click the **Stop (■)** button (tooltip: *Stop dictation*) to finish recording. The final transcript is committed at the cursor position and focus returns to the input field.
+6. Review the transcribed text, then press **Send** to send your message.
+
+<Info title="Note">
+The **Send** button is disabled while recording is active. Stop recording before sending.
+</Info>
 
    ![Voice Input](../img/menus/chat/voice-input.gif)
 
 <Note>
-When a server-side ASR (automatic speech recognition) model is configured in [**Settings → AI Configuration → Speech Recognition (ASR)**](./settings/ai-configuration#speech-recognition-asr), Voice Input uses that model via streaming. If no server ASR model is available, Voice Input falls back to the browser's built-in Web Speech API. If neither is available, the microphone icon is hidden.
+**ASR model selection.** ELITEA selects the best available speech recognition source in the following priority order:
+
+1. **Server-side Realtime/Streaming ASR model** (default model first, if configured in [Settings → AI Configuration → Speech Recognition](./settings/ai-configuration#speech-recognition-asr))
+2. **Server-side Whisper ASR model** (default model first — batch transcription with slightly higher latency)
+3. **Browser Web Speech API** (built-in browser fallback, no server configuration required)
+4. **Microphone icon hidden** — if none of the above is available, the button is not shown
+
+If an administrator has temporarily disabled voice features, the microphone icon is visible but grayed out with the tooltip *"Temporarily disabled by admin"*.
 </Note>
 
 ---
@@ -446,15 +516,37 @@ When a server-side ASR (automatic speech recognition) model is configured in [**
 **How to use Text-to-Speech:**
 
 1. Click the **Read out** (megaphone) button below an AI message to start playback.
-2. The text is highlighted as it is read aloud.
-3. A playback pill appears in the input area with **Pause** and **Resume** controls.
-4. Click **Pause** to stop playback mid-sentence; click **Resume** to continue from where it left off.
+2. The text is read aloud and a **playback pill** appears in the input area containing:
+   - A **megaphone** icon
+   - A **Stop (■)** button (tooltip: *Stop speaking*) — click to stop playback
+   - A **Voice settings (⚙)** gear icon (tooltip: *Voice settings*) — opens the Voice Settings dialog. Disabled while playback is active.
+3. To restart playback after stopping, click the **Play (▶)** button that replaces the Stop button in the pill.
 
    ![Text-to-Speech](../img/menus/chat/text-to-speech.gif)
 
 <Note>
-When a TTS model is configured in [**Settings → AI Configuration → Text to Speech (TTS)**](./settings/ai-configuration#text-to-speech-tts), ELITEA uses that model for audio generation via Web Audio API. If no TTS model is configured, playback uses the browser's built-in SpeechSynthesis API as a fallback.
+When a TTS model is configured in [**Settings → AI Configuration → Text to Speech (TTS)**](./settings/ai-configuration#text-to-speech-tts), ELITEA uses that model for audio generation. If no TTS model is configured, playback uses the browser's built-in SpeechSynthesis API as a fallback.
 </Note>
+
+**Voice Settings:**
+
+Click the **⚙** gear icon in the playback pill (only available when playback is stopped) to open the **Voice settings** dialog. Settings are saved to your browser and persist across sessions.
+
+| Setting | Description |
+|---------|-------------|
+| **Voice** | Select the voice to use for playback. When a server-side TTS model is configured, the list shows that model's available voices. Without a server TTS model, the list shows your browser's built-in speech synthesis voices (non-local voices are marked *"online"*). |
+| **Speed** | Controls playback rate. Range: **0.5×** (slower) to **2×** (faster). Default: **1×**. |
+| **Volume** | Controls playback volume. Range: **Mute (0%)** to **100%**. Default: **100%**. |
+| **Preview Voice** | Plays a short sample sentence with the currently selected voice and settings. Only available when playback is not active. |
+
+Click **Apply** to save, or **Cancel** to discard changes.
+
+   ![Text-to-Speech](../img/menus/chat/voice-settings.gif)
+
+
+<Tip title="Global voice preferences">
+You can also configure voice preferences globally under **User Settings → Profile → Voice Personalization**. These settings apply as the default for all new TTS playbacks across all conversations.
+</Tip>
 
 ---
 
@@ -527,9 +619,9 @@ For detailed information about Context Budget configuration and usage, see [Cont
 The following actions are available for created conversations from **CONVERSATIONS** sidebar:
 
 * **Delete**: To delete a single conversation, on the left panel, in the conversation contextual menu, select **Delete** and confirm your action.
-* **Edit**: To rename a conversation, on the left panel, in the conversation contextual menu, select **Edit** and confirm your action.
+* **Edit**: To rename a conversation, on the left panel, in the conversation contextual menu, select **Edit** and confirm your action. Only the conversation author can rename their own conversation.
 * **Move To**: To move a conversation to a folder, on the left panel, in the conversation contextual menu, select **Move To** and choose the desired folder. If no folder exists, you can create one by clicking **+ New Folder**.
-* **Export**: To export a single conversation, on the left panel, in the conversation contextual menu, point to Export. `(Not applicable now.)`
+* **Export**: To export a single conversation, on the left panel, in the conversation contextual menu, point to Export. `(Not available — coming in future updates.)`
 * **Make Public**: To make a private conversation public, on the left panel, in the conversation contextual menu, click the **Make Public** icon. Note: You will not be able to convert it back to Private.
 * **Share**: To share a conversation with team members, select **Share** from the conversation contextual menu. This action copies a direct link to the conversation to your clipboard. Team members can use this link to access and view the conversation. (`available for team project`) 
 * **Playback**: The **Playback** mode can be used to simulate the current conversation without any engagement with models. This mode accurately reproduces the conversation like a recording and includes forward/backward navigation controls. It's well designed for demo purposes and allows you to step through conversations turn by turn. During playback, you can use keyboard arrows (left/right) or the on-screen controls to navigate through the conversation history.
@@ -641,18 +733,18 @@ The Sensitive Action Authorization Guardrail is configured at the **server/infra
 | Element | Description |
 |---------|-------------|
 | **Header** | ⚠️ Sensitive Action Authorization Required — amber-highlighted panel |
-| **Action label** | The specific action the agent plans to run (e.g., `github.delete_repo`) |
-| **Parameters** | The exact arguments the tool will be called with. Security-sensitive fields (`password`, `token`, `api_key`, `secret`, etc.) are automatically masked as `***` |
+| **Action label** | "Agent is about to perform:" followed by the specific action name (e.g., `github.delete_repo`) |
+| **Parameters** | The exact arguments the tool will be called with, shown in a collapsible panel. Security-sensitive fields (`password`, `token`, `api_key`, `secret`, `credential`, `private_key`, `access_key`, `refresh_token`, `session_token`, `cookie`, etc.) are automatically masked as `***` |
 | **Policy message** | Your organization's custom message explaining why the action requires approval |
 
 **Actions:**
 
 * **Authorize** — Approves the tool call. Execution resumes and the tool runs as planned.
-* **Block** — Rejects the tool call. The tool is skipped entirely; the agent receives a cancellation message and continues or stops based on its logic.
+* **Block** — Rejects the tool call. The tool is skipped entirely; the agent receives a cancellation message (*"User blocked the sensitive action. This tool call was skipped and not executed."*) and continues or stops based on its logic.
 
-<Tip title="Auto-approve within a batch">
-If an agent calls the same sensitive tool multiple times in one execution cycle (e.g., deleting multiple branches in a loop), only the **first call** raises the interrupt. Subsequent calls to the same tool in the same execution batch are auto-approved — avoiding repeated dialogs for the same action.
-</Tip>
+<Note>
+Each sensitive tool invocation is reviewed independently. Authorizing one call does **not** auto-approve subsequent calls to the same tool — every invocation requires a separate user decision.
+</Note>
 
 <img src="../img/how-tos/chat-conversations/sensitive-action/authorization-chat-approve.gif" alt="Sensitive Action Authorization" />
 
@@ -768,25 +860,6 @@ Canvas supports real-time collaborative editing where multiple users can work on
   </Tab>
 </Tabs>
 
-
-
----
-
-## Clear Chat History
-
-The **Clear Chat History** feature allows you to remove all messages and content from the current conversation while keeping the conversation itself and its participants intact. This is useful when you want to start fresh with the same setup or clean up a conversation that has become too long.
-
-1. In the **PARTICIPANTS** panel on the right side of the chat interface, locate the **Clear chat history** button at the bottom.
-2. Click the **Clear chat history** button.
-3. A confirmation dialog will appear asking you to confirm the action.
-4. Click **Confirm** to proceed with clearing the chat history.
-
-      <img src="../img/menus/chat/clear-history.gif" alt="Canvas_Mermaid_Editor" />
-
-<Info title="Note">
-* This action will permanently remove all messages, responses, and generated content from the conversation. The conversation itself, its name, participants, and settings will remain unchanged.
-   * This action cannot be undone. Make sure to export or save any important content before clearing the chat history.
-</Info>
 
 ---
 

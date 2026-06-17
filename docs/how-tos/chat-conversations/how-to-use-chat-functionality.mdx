@@ -32,7 +32,7 @@ All your conversations are securely stored on the ELITEA server, making them acc
     Engage with participants, copy responses, provide feedback, and regenerate outputs.
   </Card>
   <Card title="Conversation Management" icon="folder">
-    Save, pin, share, delete, clear, and organize conversations into folders.
+    Save, pin, share, delete, and organize conversations into folders.
   </Card>
   <Card title="Playback Mode" icon="play">
     Simulate and review conversation flows without engaging live models — ideal for demos.
@@ -44,7 +44,7 @@ All your conversations are securely stored on the ELITEA server, making them acc
 ### Creating a New Conversation
 
 1. In the main sidebar on the left, locate the **Chat** section.
-2. Click **+ Create** to start a new conversation.
+2. Click the **+ Conversation** button at the top of the sidebar.
 3. The chat input field appears and is highlighted to focus your attention.
 4. You'll see a welcome screen with the message "Hello, [Your Name]! What can I do for you today?"
 5. The message input box at the bottom shows the placeholder: "Type your message. Use # to search and add AI assistants to conversation."
@@ -283,15 +283,12 @@ Participants are the "tools" or "entities" you add to your chat:
 ### Adding Participants to a Conversation
 
 <Tabs>
-  <Tab title="Participants Panel">
-    1. In the **Participants** section on the right side of the screen, you'll see collapsible sections for:
-       - **Users** (if in a team project)
-       - **agents**
-       - **pipelines**
-       - **toolkits**
-       - **MCPs**
-    2. Click the **+** icon next to any section title to add participants of that type.
-    3. Once participants are added, type your message and click **Send**.
+  <Tab title="Using the + Button">
+    1. In the chat input toolbar, click the **`+`** icon.
+    2. Hover over the relevant category (**Agents**, **Pipelines**, **Toolkits**, or **MCPs**).
+    3. A flyout submenu appears listing available participants of that type.
+    4. Select an existing item from the list, or click **Create New {Type}** at the bottom to create one inline.
+    5. The participant is added and appears in the **PARTICIPANTS** panel on the right.
 
     <img src="../../img/menus/chat/add-participants-section.gif" alt="Add participants" />
   </Tab>
@@ -339,14 +336,19 @@ Participants are the "tools" or "entities" you add to your chat:
 </Tabs>
 
 
-**Creating New Participants from Chat:**
+### Creating New Participants from Chat
 
-You can also create new participants directly from the chat interface using the Canvas feature:
+You can create new participants directly from the chat interface:
 
-* **Agents**: Click **Create new agent** to open the Agent Canvas and configure a new AI agent. See [How to Create and Edit Agents from Canvas](./how-to-create-and-edit-agents-from-canvas).
-* **Pipelines**: Click **Create new pipeline** to open the Pipeline Canvas and design a multi-step workflow. See [How to Create and Edit Pipelines from Canvas](./how-to-create-and-edit-pipelines-from-canvas).
-* **Toolkits**: Click **+Add toolkit** then **+ Create new Toolkit** to configure integrations like GitHub, Jira, etc. See [How to Create and Edit Toolkits from Canvas](./how-to-create-and-edit-toolkits-from-canvas).
-* **MCPs**: Click **Create new MCP** to connect Model Context Protocol servers. See [How to Create and Edit MCPs from Canvas](./how-to-create-and-edit-mcps-from-canvas).
+1. Click the **`+`** icon in the input toolbar.
+2. Hover over the relevant category (Agents, Pipelines, Toolkits, or MCPs).
+3. Click the **Create New {Type}** option at the bottom of the submenu.
+4. The corresponding Canvas editor opens inline.
+
+* **Agents**: See [How to Create and Edit Agents from Canvas](./how-to-create-and-edit-agents-from-canvas).
+* **Pipelines**: See [How to Create and Edit Pipelines from Canvas](./how-to-create-and-edit-pipelines-from-canvas).
+* **Toolkits**: See [How to Create and Edit Toolkits from Canvas](./how-to-create-and-edit-toolkits-from-canvas).
+* **MCPs**: See [How to Create and Edit MCPs from Canvas](./how-to-create-and-edit-mcps-from-canvas).
 
 <img src="../../img/menus/chat/canvas-create.gif" alt="Create New Participants" />
 
@@ -357,12 +359,12 @@ Users (team members) can only be added to in team projects. They cannot be added
 
 **To Add Users:**
 
-1. Ensure your conversation is in team Project.
-2. In the **Participants** section on the right side, locate the **Users** section.
-3. Click the **+** icon next to **Users**.
-4. A list of available team members will appear.
-5. Select the user(s) you want to add to the conversation.
-6. The selected users will appear in the **Users** section of the **Participants** panel.
+1. In the chat input toolbar, click the **`+`** icon.
+2. Select **Invite Users** from the popup menu.
+3. The **Add users** modal will appear with a search bar.
+4. Use the search bar to find teammates by name.
+5. Select one or more users from the list by clicking on them.
+6. Click **Add** to confirm. The selected users will appear in the **Users** section of the **PARTICIPANTS** panel.
 
 **Important Notes:**
 
@@ -385,25 +387,24 @@ Once added, participants are ready to process your messages:
 3. **Mention Users** (Team Projects only): You can mention other team members using `@` followed by their name (e.g., `@John Doe`). This notifies them and brings their attention to specific parts of the conversation.
 4. **Send Message/Command**: Type your message or a simple command (like "Go", "Execute", "Run it") and press **Send**. The active participant(s) will process your input.
 
-### Example Usage
-
+<Accordion title="Example Usage">
 * **To ask a general question using a specific model**:
     1. Select a model from the model selector dropdown (e.g., `GPT-4o`).
     2. Type: `"Explain the concept of recursion in programming."` -> **Send**.
 
 * **To use a specific agent**:
-    1. In the **Participants** panel, click the **+** icon next to "agents".
-    2. Select `Data Analysis Agent` from the dropdown.
-    3. Click on the agent in the **Participants** list to activate it, or type `#Data Analysis Agent` in the input box.
-    4. Type your request: `"Analyze the latest sales data."` -> **Send**.
+    1. Click the **`+`** icon in the input toolbar and hover over **Agents**.
+    2. Select `Data Analysis Agent` from the submenu, or type `#Data Analysis Agent` in the input box.
+    3. Type your request: `"Analyze the latest sales data."` -> **Send**.
 
 * **To use a toolkit**:
-    1. Add the desired toolkit (e.g., `Artifact Toolkit`) from the **toolkits** section.
-    3. Type: `"Store this data in artifacts."` -> **Send**.
+    1. Click the **`+`** icon and hover over **Toolkits**. Select the desired toolkit (e.g., `Artifact Toolkit`).
+    2. Type: `"Store this data in artifacts."` -> **Send**.
 
 * **To mention a team member** (Team Projects only):
     1. In your message, type `@` followed by the team member's name (e.g., `@John Doe`).
     2. Type: `"@John Doe, can you review this analysis?"` -> **Send**.
+</Accordion>
 
 
 ### Selecting and Configuring Models
@@ -509,8 +510,8 @@ You can configure and edit participants (Agents, Pipelines, Toolkits, and MCPs) 
   <Tab title="Agents">
     - Edit the agent's **prompt** and instructions
     - Modify **variables** used by the agent
-    - Configure **model settings** (Temperature, Top P, Top K, Maximum Length)
-    - Select the agent **version** (default is "latest")
+    - Configure **model settings** 
+    - Select the agent **version** (default is "base")
     - Adjust **toolkits** and integrations
 
     [→ Agent Canvas Guide](./how-to-create-and-edit-agents-from-canvas)
@@ -521,7 +522,7 @@ You can configure and edit participants (Agents, Pipelines, Toolkits, and MCPs) 
     - Modify **variables** and parameters
     - Configure **agents** used in the pipeline
     - Adjust **toolkits** and integrations
-    - Select the pipeline **version** (default is "latest")
+    - Select the pipeline **version** (default is "base")
 
     [→ Pipeline Canvas Guide](./how-to-create-and-edit-pipelines-from-canvas)
   </Tab>
@@ -631,47 +632,56 @@ For detailed information, real-world examples, and best practices, see [Canvas i
 
 ## Attaching Files and Images
 
-ELITEA Chat supports attaching files and images to your conversations, enabling AI-powered analysis of visual content and documents.
+Attach files and images directly to chat conversations for AI-powered analysis. This feature enables multimodal interactions where AI can process visual content, documents, and data files alongside text-based queries.
 
-**How It Works:**
+Every file you attach is automatically uploaded to the default `attachments` bucket — no manual Artifact Toolkit configuration is required. Files are accessible from the **Artifacts** section.
 
-The attachment functionality is integrated with the **Artifact Toolkit**. When you enable attachments for an Agent, Pipeline, or a specific chat, files are automatically uploaded and stored in the Artifact bucket associated with that toolkit. Files are subject to the retention policy of the bucket (default: 30 days).
+* **Images** are sent directly to the LLM for real-time vision analysis.
+* **Non-image files** (documents, code, data) are indexed into a vector database and retrieved via semantic search.
 
-| Feature | Details |
-|---------|----------|
-| **Upload Methods** | Click the paperclip icon, drag and drop files, or paste from clipboard (Ctrl+V / Cmd+V) |
-| **Supported Formats** | JPEG, JPG, PNG, GIF (first frame only), WebP images |
-| **File Limits** | Maximum 10 images per message. Size limits vary by model (Anthropic: 5 MB, OpenAI: 20 MB per image) |
-| **Artifact Integration** | Files are stored in Artifact buckets with configurable retention policies |
-| **Management** | Download or delete attachments directly from chat |
+**Attachment Limits:**
 
-**To Enable Attachments:**
+| Limit | Value |
+|-------|-------|
+| Max files per message | 10 |
+| Max total size | 150 MB |
+| Max size per file | 150 MB |
+| Max image attachments | 10 |
 
-**From Chat:**
+**How to Attach Files:**
 
-1. Click the paperclip icon in the message input area.
-2. If not configured, the **Attachment settings** popup will appear.
-3. Select an existing Artifact Toolkit or create a new one.
-4. Once configured, you can attach files by clicking the paperclip, dragging files, or pasting.
+1. In the chat input toolbar, click the **`+`** icon.
+2. Click **Attach Files**.
+3. The native file browser opens — select one or more files.
+4. Selected files appear as chips above the input field. To remove a file, click the **×** on its chip.
+5. Type your message and press **Send**.
 
-**Using Attachments:**
+You can also attach files by:
+- **Drag and drop** — drag files directly onto the chat input area.
+- **Paste** — paste files or images from your clipboard with **Ctrl+V** / **Cmd+V**.
 
-1. After enabling, click the paperclip icon to see "Attach files" and "Attachment settings" options.
-2. Attach images using click, drag-and-drop, or paste methods.
-3. Type a text prompt to accompany your images (required).
-4. Click **Send** to submit the message with attachments.
+**Availability by Conversation Type:**
 
-For complete setup instructions, advanced configuration, and troubleshooting, see [Attachments in Conversation](./attach-files).
+| Context | Attachment availability |
+|---------|------------------------|
+| **Direct LLM / model chat** | Always enabled — **Attach Files** is active whenever no agent or pipeline is selected. |
+| **Agent-based chat** | Only enabled if the agent has **Allow Attachments** toggled on in its **Internal Tools** configuration. If not enabled, **Attach Files** is grayed out with the tooltip: *"Attachments aren't available for the selected agent or pipeline."* |
+| **Pipeline-based chat** | Same rule as agents — requires `attachments` in the pipeline's internal tools. |
 
-<img src="../../img/how-tos/chat-conversations/attachments/attachment-settings-chat.png" alt="Attachment Settings chat" width="400" />
-<img src="../../img/how-tos/chat-conversations/attachments/attachment-settings-chat1.png" alt="Attachment Settings chat1" width="300" />
+<Tip title="Enable attachments for an agent">
+To enable attachments for an agent, open the agent in Canvas → go to the **Configuration** tab → expand **Internal Tools** → turn on the **Allow Attachments** toggle and save.
+</Tip>
+
+     ![Attachments](../../img/how-tos/chat-conversations/attachments/enable-attachment-chat.gif)
+
+For detailed information about attachments, including agent configuration and file management, see [Attach Files](./attach-files).
 
 
 ## Using Internal Tools
 
 Internal tools provide built-in capabilities that enhance your conversations without requiring external integrations. These tools can be enabled directly from the chat interface or configured as part of an agent's default setup.
 
-### Available Internal Tools
+**Available Internal Tools**
 
 <Tabs>
   <Tab title="Python Sandbox">
@@ -755,34 +765,48 @@ Internal tools provide built-in capabilities that enhance your conversations wit
 
     [→ Swarm Mode Guide](./swarm-mode-internal-tool)
   </Tab>
+
+  <Tab title="Elitea MCP Tools">
+    Exposes built-in ELITEA platform MCP tools directly inside conversations. Once enabled, the AI can manage agents, pipelines, chat conversations, and toolkits through natural language — without leaving the chat interface.
+
+    | Capability | Description |
+    |-----------|-------------|
+    | **Agent & Pipeline Management** | Create and manage agents and pipelines from within a conversation |
+    | **Chat Management** | Manage conversations and participants programmatically |
+    | **Toolkit Management** | Configure toolkits through natural language requests |
+
+    **Use Cases**: Administrative tasks, resource management, and platform configuration without context-switching.
+
+    [→ Elitea MCP Tools Guide](./elitea-mcp-tools-internal-tool)
+  </Tab>
 </Tabs>
 
-### Enabling Internal Tools in Conversations
+**Enabling Internal Tools in Conversations**
 
-1. Navigate to your conversation
-2. Locate the **Internal Tools** icon (value icon) in the chat input toolbar at the bottom of the screen, next to the attachment button
-3. Click the Internal Tools icon to open the configuration popup
-4. Find the tool you want to enable in the list
-5. Click the toggle switch next to the tool name to enable it
-6. A success notification will appear: "Internal tools configuration updated"
-7. Click anywhere outside the popup to close it
+1. Navigate to your conversation.
+2. In the chat input toolbar, click the **`+`** icon.
+3. Hover over **Internal Tools** in the popup menu.
+4. A flyout panel opens on the right showing all available tools with toggle switches.
+5. Click the toggle next to the tool name to enable or disable it.
+6. A success notification will appear: "Internal tools configuration updated".
+7. Click anywhere outside the popup to close it.
 
 <img src="../../img//menus/chat/enable-internal-tools.gif" alt="Enabling Internal Tools" />
 
 Once enabled, the AI assistant can automatically use these tools during conversations when appropriate.
 
-### Enabling Internal Tools in Agents
+**Enabling Internal Tools in Agents**
 
-You can also enable internal tools as part of an agent's default configuration in the **TOOLKITS** section. This makes the tools available in all new conversations using that agent.
+You can also enable internal tools as part of an agent's default configuration. This makes the tools available in all new conversations using that agent.
 
-1. Navigate to **Agents** in the main menu and select the agent
-2. Click the **Configuration** tab
-3. Scroll to the **TOOLKITS** section
-4. Find the internal tool switches (**Python sandbox**, **Planner**, **Data Analysis**) and toggle them ON as needed
-5. Click **Save** at the top of the configuration page
-6. The enabled internal tools will be available in all new conversations using this agent
+1. Navigate to **Agents** in the main menu and select the agent.
+2. Click the **Configuration** tab.
+3. Expand the **Internal Tools** section.
+4. Toggle the desired tools ON.
+5. Click **Save** at the top of the configuration page.
+6. The enabled internal tools will be available in all new conversations using this agent.
 
-### Using Internal Tools
+**Using Internal Tools**
 
 Once enabled, the AI assistant can use the internal tools during conversations:
 
@@ -797,6 +821,7 @@ For detailed usage examples, troubleshooting, and best practices, see:
 * [Data Analysis Internal Tool Guide](./data-analysis-internal-tool)
 * [Smart Tools Selection Guide](./smart-tools-selection-internal-tool)
 * [Swarm Mode Guide](./swarm-mode-internal-tool)
+* [Elitea MCP Tools Guide](./elitea-mcp-tools-internal-tool)
 
 
 ## Sensitive Action Authorization
@@ -869,15 +894,37 @@ When a server-side ASR (automatic speech recognition) model is configured in **S
 **How to use Text-to-Speech:**
 
 1. Click the **Read out** (megaphone) button below an AI message to start playback.
-2. The text is highlighted as it is read aloud.
-3. A playback pill appears in the input area with **Pause** and **Resume** controls.
-4. Click **Pause** to stop playback mid-sentence; click **Resume** to continue from where it left off.
+2. The text is read aloud and a **playback pill** appears in the input area with:
+   - A **Stop (■)** button to halt audio playback at any time.
+   - A **Voice settings (⚙)** gear icon — opens the Voice Settings dialog (disabled while playback is active).
+3. After stopping, a **Play (▶)** button replaces the Stop button to restart playback from the beginning.
+4. Click the **⚙** gear icon (only available when playback is stopped) to open the **Voice settings** dialog.
 
 <img src="../../img/menus/chat/text-to-speech.gif" alt="Text-to-Speech" />
 
 <Note>
-When a TTS model is configured in **Settings → AI Configuration → Text to Speech (TTS)**, ELITEA uses that model for audio generation via Web Audio API. If no TTS model is configured, playback uses the browser's built-in SpeechSynthesis API as a fallback.
+When a TTS model is configured in **Settings → AI Configuration → Text to Speech (TTS)**, ELITEA uses that model for audio generation. If no TTS model is configured, playback uses the browser's built-in SpeechSynthesis API as a fallback.
 </Note>
+
+**Voice Settings:**
+
+Click the **⚙** gear icon in the playback pill to open the **Voice settings** dialog. Settings are saved to your browser and persist across sessions.
+
+| Setting | Description |
+|---------|-------------|
+| **Voice** | Select the voice for playback. When a server-side TTS model is configured, the list shows that model's voices. Without a server TTS model, browser built-in voices are listed (non-local voices marked *"online"*). |
+| **Speed** | Controls playback rate. Range: **0.5×** to **2×**. Default: **1×**. |
+| **Volume** | Controls playback volume. Range: **Mute (0%)** to **100%**. Default: **100%**. |
+| **Preview Voice** | Plays a short sample sentence with the current settings. Only available when playback is not active. |
+
+Click **Apply** to save, or **Cancel** to discard changes.
+
+   ![Text-to-Speech](../../img/menus/chat/voice-settings.gif)
+
+
+<Tip title="Global voice preferences">
+You can also configure voice preferences globally under **User Settings → Profile → Voice Personalization**. These settings apply as the default for all new TTS playbacks across all conversations.
+</Tip>
 
 ### Speaking Mode
 
@@ -908,11 +955,21 @@ Speaking Mode requires a voice recognition source (server ASR model or browser W
 
 Playback mode allows you to step through an existing conversation turn by turn, exactly as it happened, without actually sending requests to the Models, Toolkits, etc.
 
-* **Purpose**: Excellent for demonstrating a workflow, reviewing a complex interaction, or debugging without incurring processing costs or waiting for live responses.
-* **Activation**: Access this via the conversation's context menu in the sidebar (**Right-click conversation -> Playback**).
-* **Controls**: During playback, you typically have controls to move forward to the next message, go back to the previous message, or stop the playback simulation.
+   ![Playback Mode](../../img/menus/chat/playback.gif)
 
-### Example: Using Playback Mode for a Demo
+<CardGroup cols={3}>
+  <Card title="Purpose" icon="circle-info">
+    Demonstrate workflows, review complex interactions, or debug without incurring processing costs or waiting for live responses.
+  </Card>
+  <Card title="Activation" icon="play">
+    Access via the conversation's context menu in the sidebar — right-click a conversation and select **Playback**.
+  </Card>
+  <Card title="Controls" icon="sliders">
+    Move forward to the next message, go back to the previous message, or stop the playback simulation using the on-screen controls or keyboard arrow keys.
+  </Card>
+</CardGroup>
+
+**Example: Using Playback Mode for a Demo**
 
 **Scenario**:  
 A Product Manager is preparing a demo for stakeholders to showcase how the team collaborated on a new feature. They use Playback Mode to simulate the conversation and highlight key decisions and actions.
