@@ -54,78 +54,60 @@ Configure attachment capabilities at the Agent level to enable file uploads in a
 3. On the **Configuration** tab, locate the **Allow attachments** toggle in the INTERNAL TOOLS section (disabled by default)
 4. Click the toggle to enable attachments
 5. Save the agent
-6. Click the paperclip icon — the file browser opens
 
+**Result:** The `Attachments` internal tool is added to the agent. The backend automatically provisions storage using the default `attachments` bucket — no additional toolkit configuration is required. When using this agent in a conversation, **Attach Files** becomes available in the **`+`** menu of the message input area.
 
-**Result:** The `Attachments` internal tool is added to the agent. The backend automatically provisions storage using the default `attachments` bucket — no additional toolkit configuration is required. The paperclip icon becomes enabled in the message input area when using this agent in a conversation.
+![Enable Attachments on Agent](../../img/how-tos/chat-conversations/attachments/enable-attachment-agent.gif)
 
-<img src="../../img/how-tos/chat-conversations/attachments/enable-attachment-agent.gif" alt="Attachment Settings" />
+### Attach Files in a Conversation
 
-
-### Enable Attachments in a Conversation
-
-Enable attachments directly within an active chat session without modifying the agent configuration.
+Upload files directly within an active chat session without configuring the agent.
 
 1. Open a new or existing conversation
-2. Locate the **paperclip icon** in the message input area
-3. Click the paperclip icon — the file browser opens directly
+2. Click the **`+`** button in the message input toolbar
+3. Click **Attach Files** at the top of the menu
+4. The file browser opens — select and confirm your files
 
 **Result:** Attachments are immediately available. No additional setup is required.
 
-<img src="../../img/how-tos/chat-conversations/attachments/enable-attachment-chat.gif" alt="Attachment Settings chat" />
+![Enable Attachments in Chat](../../img/how-tos/chat-conversations/attachments/enable-attachment-chat.gif)
 
+**Upload options**
+
+<Tabs>
+  <Tab title="Drag and Drop">
+    1. Select files from your file explorer
+    2. Drag files directly into the message input area
+    3. Release to attach files
+  </Tab>
+  <Tab title="Paste from Clipboard">
+    1. Copy an image to your clipboard (Ctrl+C or Cmd+C)
+    2. Click inside the message input area
+    3. Paste the image (Ctrl+V or Cmd+V) to attach
+  </Tab>
+</Tabs>
+
+<Info title="Duplicate File Handling">
+If you upload a file with the same name as an existing attachment, it is automatically renamed by appending a timestamp and file size (e.g., `image_20251106_143022_1.50KB.png`). No error is shown and both files are preserved.
+</Info>
 
 ### Using Agents with Attachments in Conversations
 
-When you use an agent that has attachments enabled in a conversation, the paperclip icon is automatically enabled in the message input area — no additional steps are required. The attachment state is determined by the active agent's configuration.
+The availability of **Attach Files** in the **`+`** menu is determined by the currently active participant.
 
-- If the active agent has **Allow attachments** enabled, the paperclip is active and you can attach files immediately
-- If you switch to an agent without attachments enabled, the paperclip becomes inactive
-- The same applies when the agent is used as a nested agent inside another agent
+- If the active agent or pipeline has **Allow attachments** enabled, **Attach Files** is active in the `+` menu
+- If you switch to an agent or pipeline without attachments enabled, **Attach Files** is disabled and shows the tooltip: *"Attachments aren't available for the selected agent or pipeline."*
+- In direct LLM or dummy conversations (no agent selected), **Attach Files** is always active
 
-     <img src="../../img/how-tos/chat-conversations/attachments/add-agent-with-attachments.gif" alt="Attachment Settings chat" />
-
-<Info title="LLM Chat Conversations">
-In direct LLM chat conversations (without an agent), attachments are always available — no configuration is required. Click the paperclip icon to start attaching files immediately.
-</Info>
+     ![Add Agent with Attachments](../../img/how-tos/chat-conversations/attachments/add-agent-with-attachments.gif)
 
 ---
 
 ## Using Attachments in Conversations
 
-When attachments are available — either because you are in a direct LLM chat, using an agent with **Allow attachments** enabled, or in a conversation where attachments are active — the paperclip icon in the message input area is enabled and ready to use.
+When attachments are available — either because you are in a direct LLM chat or using an agent/pipeline with **Allow attachments** enabled — the **`+`** button in the message input toolbar gives access to **Attach Files**.
 
-**Upload Files**
 
-Three methods are available for attaching files:
-
-**Method 1: Click to Browse**
-
-1. Click the **paperclip icon** in the message input area
-2. Browse and select files from your file system
-3. Click **Open** to attach selected files
-
-     <img src="../../img/how-tos/chat-conversations/attachments/attachment-browse.gif" alt="Browse" width="500" />
-
-**Method 2: Drag and Drop**
-
-1. Select files from your file explorer
-2. Drag files directly into the message input area
-3. Release to attach files
-
-     <img src="../../img/how-tos/chat-conversations/attachments/attachment-drag&drop.gif" alt="Drag and Drop" width="500" />
-
-**Method 3: Paste from Clipboard**
-
-1. Copy an image to your clipboard (Ctrl+C or Cmd+C)
-2. Click inside the message input area
-3. Paste the image (Ctrl+V or Cmd+V)
-
-     <img src="../../img/how-tos/chat-conversations/attachments/attachment-paste.gif" alt="Paste" width="500" />
-
-<Info title="Duplicate File Handling">
-If you upload a file with the same name as an existing attachment, it is automatically renamed by appending a timestamp and file size (e.g., `image_20251106_143022_1.50KB.png`). No error is shown and both files are preserved.
-</Info>
 
 **Send Message with Attachments**
 
@@ -133,7 +115,7 @@ If you upload a file with the same name as an existing attachment, it is automat
 2. **Type a text prompt** describing what you want the AI to do (required)
 3. Click the **Send** button
 
-     <img src="../../img/how-tos/chat-conversations/attachments/chat-with-attachments.gif" alt="Chat UI with Attached Image Thumbnails" />
+     ![Chat UI with Attached Image Thumbnails](../../img/how-tos/chat-conversations/attachments/chat-with-attachments.gif)
 
 <Info title="Text Required">
 The Send button remains disabled until you enter text. A text prompt provides context for the AI to understand how to process your attachments. When sent, each file is automatically uploaded to the default `attachments` Artifact bucket and can be viewed and managed from the **Artifacts** section in the main navigation.
@@ -153,7 +135,7 @@ The Send button remains disabled until you enter text. A text prompt provides co
       - **Download icon**: Save the file to your local system
       - **Delete icon** (trash can): Remove the attachment
 
-     <img src="../../img/how-tos/chat-conversations/attachments/attachment-hover-options.gif" alt="Hovering over an Attachment Thumbnail" />
+     ![Hovering over an Attachment Thumbnail](../../img/how-tos/chat-conversations/attachments/attachment-hover-options.gif)
 
 ### Delete Attachments
 
@@ -165,29 +147,19 @@ When clicking the delete (trash can) icon, a confirmation dialog provides two de
 - Original file remains in the Artifact bucket
 - File remains accessible via the Artifacts menu
 
-**Option 2: Delete from Chat and Artifacts**
+**Option 2: Delete from Chat and Storage**
 
-- Check the box: **"Also delete from artifact toolkit"**
+- Check the box: **"Also delete from attachment storage"**
 - Removes the thumbnail from the conversation
 - **Permanently deletes** the file from the Artifact bucket
 - File cannot be recovered
 
-<img src="../../img/how-tos/chat-conversations/attachments/delete-attachment.gif" alt="Delete Attachment Confirmation Pop-up" />
+![Delete Attachment Confirmation Pop-up](../../img/how-tos/chat-conversations/attachments/delete-attachment.gif)
 
 <Warning title="Permanent Deletion">
-When "Also delete from artifact toolkit" is checked, the file is permanently deleted from storage and cannot be recovered. Use this option carefully.
+When "Also delete from attachment storage" is checked, the file is permanently deleted from storage and cannot be recovered. Use this option carefully.
 </Warning>
 
-
-### Disable Attachments For Agents
-
-1. Navigate to the Agent **Configuration** tab
-2. Click the **Allow attachments** toggle to turn it off
-3. Save the agent
-
-**Result:** The paperclip icon becomes inactive in new conversations. Previously attached files remain visible in existing chat history.
-
-<img src="../../img/how-tos/chat-conversations/attachments/disable-attachment-agent.gif" alt="change settings" />
 
 ---
 
@@ -201,7 +173,7 @@ Non-image file attachments follow a different processing workflow than images. W
 2. **Indexing**: File content is automatically extracted and indexed into a vector database
 3. **Retrieval**: When you query, relevant content is retrieved through semantic search
 
-<img src="../../img/how-tos/chat-conversations/attachments/non-image-files.gif" alt="change settings" />
+![Non-Image Files Processing Workflow](../../img/how-tos/chat-conversations/attachments/non-image-files.gif)
 
 
 **Key Differences from Images:**
@@ -257,7 +229,7 @@ If you know specific terms appear in your files, include them in queries to impr
 
 **Image Formats**
 
-Images are sent directly to the LLM for visual analysis. Supported formats include:
+Raster images are sent directly to the LLM for visual analysis. Supported formats include:
 
 | Extension | Notes |
 |-----------|-------|
@@ -266,14 +238,16 @@ Images are sent directly to the LLM for visual analysis. Supported formats inclu
 | `.gif` | First frame only for animated GIFs |
 | `.bmp` | Uncompressed raster format |
 | `.webp` | Modern compressed format |
-| `.svg` | Vector-based graphics |
 | `.tiff` / `.tif` | High-quality raster format |
 | `.ico` | Windows icon format |
 | `.apng` | Animated PNG format |
 | `.avif` | Next-gen compressed format |
+| `.svg` | Processed as a document (see note below) |
 
 <Info title="Image Processing">
-Images are sent directly to the LLM's vision capabilities for analysis. Animated GIFs are processed using only the first frame.
+Raster images are sent directly to the LLM's vision capabilities for analysis. Animated GIFs are processed using only the first frame.
+
+**SVG files** are processed as documents, not as images — they are indexed and retrieved via the document pipeline rather than sent inline to the LLM's vision input. SVG files are also exempt from the per-image 5 MB size limit and do not count toward the image attachment count.
 </Info>
 
 **Documents & Data Files**
@@ -328,13 +302,14 @@ Supported types are configured dynamically per ELITEA deployment — unsupported
 
 | Limit | Default Value | Notes |
 |-------|---------------|-------|
-| Maximum attachments per message | 10 files | SVG files are not counted toward this limit |
+| Maximum attachments per message | 10 files | Applies to all file types including SVG |
 | Maximum total size per message | 150 MB | Combined size of all attachments |
 | Maximum individual file size | 150 MB | Applies to any single file |
+| Maximum image attachments per message | 10 images | SVG files are exempt and do not count toward this limit |
 | Maximum individual image size | 5 MB | SVG files are not subject to this limit |
 
 <Info title="Limits and Validation">
-All limits are configurable per ELITEA deployment — the values above are defaults. Images exceeding 5 MB are rejected client-side before sending; SVG files are exempt from this restriction.
+All limits are configurable per ELITEA deployment — the values above are defaults. Raster images exceeding 5 MB are rejected client-side before sending. SVG files are exempt from the image size limit and the image count limit.
 </Info>
 
 ---
@@ -354,7 +329,7 @@ Yes. In conversations, all attachments are saved to the default `attachments` bu
 </Accordion>
 
 <Accordion title="Can I recover a deleted attachment?">
-No. Deletion is permanent. If you delete a file from the Artifacts bucket or use the "delete from artifact" option in chat, it cannot be recovered.
+No. Deletion is permanent. If you delete a file from the Artifacts bucket or use the "Also delete from attachment storage" option in chat, it cannot be recovered.
 </Accordion>
 
 <Accordion title="Why can't I send a message with only an attachment and no text?">
@@ -375,10 +350,7 @@ Duplicate filenames are handled automatically. The system renames the new file b
 </Accordion>
 
 <Accordion title="Can I use attachments in Pipeline conversations?">
-No. The **Allow attachments** toggle is not available in pipeline configuration — the INTERNAL TOOLS section is hidden for pipelines entirely. To use attachments in a pipeline-based conversation, either:
-
-- Enable attachments on an **agent** and add it as a participant in the conversation, or
-- Use the **conversation-level** paperclip icon to attach files directly in that session
+Yes. Pipelines support the **Allow attachments** toggle in their INTERNAL TOOLS section. When enabled, the toggle adds `attachments` to the pipeline's internal tools and also adds an `input_attachments` state variable to the pipeline YAML. Once enabled, the paperclip icon becomes active when using that pipeline in a conversation.
 </Accordion>
 
 ---
@@ -397,15 +369,15 @@ No. The **Allow attachments** toggle is not available in pipeline configuration 
 3. Re-attach the file
 </Accordion>
 
-<Accordion title="Paperclip icon is disabled">
-**Symptom:** Cannot click the paperclip icon in the chat
+<Accordion title="Attach Files is disabled or shows a tooltip in the + menu">
+**Symptom:** Clicking `+` shows **Attach Files** with the tooltip *"Attachments aren't available for the selected agent or pipeline."*
 
-**Cause:** Attachments have not been enabled for this Agent or conversation
+**Cause:** The active agent or pipeline does not have **Allow attachments** enabled.
 
 **Solution:**
 
-1. Follow the "Enabling Attachments" instructions above
-2. Verify you have Editor/Admin permissions (for Agent configuration)
+1. Enable **Allow attachments** on the agent via its **Configuration** tab (see Enabling Attachments above)
+2. Verify you have the required permissions to edit the agent configuration
 3. Contact a project administrator if permissions are insufficient
 </Accordion>
 
@@ -428,8 +400,8 @@ No. The **Allow attachments** toggle is not available in pipeline configuration 
 **Solution:** Files deleted from Artifacts cannot be recovered. Re-upload if needed.
 </Accordion>
 
-<Accordion title="Cannot delete attachment with Also delete from artifact toolkit option">
-**Error:** Deletion fails when "Also delete from artifact toolkit" is checked
+<Accordion title="Cannot delete attachment with Also delete from attachment storage option">
+**Error:** Deletion fails when "Also delete from attachment storage" is checked
 
 **Possible Causes:**
 
@@ -437,7 +409,7 @@ No. The **Allow attachments** toggle is not available in pipeline configuration 
 
 **Solution:**
 
-1. Uncheck "Also delete from artifact toolkit"
+1. Uncheck "Also delete from attachment storage"
 2. Delete from chat only
 </Accordion>
 
@@ -456,13 +428,12 @@ No. The **Allow attachments** toggle is not available in pipeline configuration 
 <Accordion title="Maximum image attachment limit reached">
 **Error:** Toast warning — `Maximum N image attachments allowed`
 
-**Cause:** The number of non-SVG images attached would exceed the image attachment limit (default: 10). SVG files do not count toward this limit.
+**Cause:** The number of non-SVG images attached would exceed the image attachment limit (default: 10). SVG files do not count toward this limit because they are processed as documents.
 
 **Solution:**
 
 1. Remove some image attachments
-2. Convert images to SVG format if applicable (SVGs are exempt from this count)
-3. Send images across multiple messages
+2. Send images across multiple messages
 </Accordion>
 
 <Accordion title="Total message size exceeds limit">
