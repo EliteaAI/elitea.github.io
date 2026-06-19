@@ -265,6 +265,7 @@
                 "group": "Manage Agents & Pipelines",
                 "expanded": true,
                 "pages": [
+                  "how-tos/agents-pipelines/build-agent-with-ai",
                   "how-tos/agents-pipelines/agents-pipelines-history",
                   "how-tos/agents-pipelines/entity-versioning",
                   "how-tos/agents-pipelines/import-export",
