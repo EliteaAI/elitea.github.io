@@ -1,44 +1,42 @@
 ---
 title: "Personalization"
-description: "The Personalization page provides comprehensive settings to customize how the AI assistant interacts with you across all new conversations. This page contains m"
+description: "In *Personalization*, you can configure how the AI assistant interacts with you across all new conversations. This page contains settings for customizing AI personality, default summarization, voice personalization, and sound notifications."
 ---
 
 ## Overview
 
-When you access Personalization from your user profile menu, you'll find your user information at the top, followed by three main configuration sections organized as expandable accordions:
+The *Personalization* in your your user profile includes three main configuration sections:
 
-1. **General**: Set default AI personality and custom instructions
-2. **Default Context Management**: Control conversation memory and token usage
-3. **Default Summarization**: Configure automatic conversation summarization
+1. **General**: Allows setting the default AI personality and providing default user instructions
+2. **Default Context Management**: Allows managing conversation memory and token usage
+3. **Default Summarization**: Allows configuring automatic conversation summarization
 
 These settings automatically apply to every new conversation you create in Chat, Agents, and Pipelines, ensuring consistent behavior and optimal performance without manual configuration each time.
 
 <Info title="Key Benefits">
-* **Comprehensive Control**: Manage AI behavior, memory, and summarization in one place
-* **Automatic Application**: Settings apply to all new conversations automatically
-* **Consistency**: Maintain uniform AI behavior across all projects and conversations  
-* **Efficiency**: Configure once, use everywhere—no repeated setup
-* **Optimization**: Balance conversation quality with token usage and costs
+* **Comprehensive control**: You manage AI behavior, memory, and summarization in one place
+* **Automatic application**: Settings apply to all new conversations automatically
+* **Consistency**: You maintain uniform AI behavior across all projects and conversations  
+* **Efficiency**: You do not need repeating the setup. Configure once, use everywhere
+* **Optimization**: You can balance conversation quality with token usage and costs
 </Info>
 
 ---
 
 ## Accessing Personalization
 
-The Personalization page is accessed through your user profile menu.
+You can get to the *Personalization* page from your your user profile:
 
-**Navigation Path**
+1. Click your **avatar** at the bottom of the sidebar
+2. Select *Personalization* in the menu
 
-1. Click on your **User Avatar** at the bottom of the main sidebar
-2. Select **Personalization** from the dropdown menu
-
-     <img src="../../img/menus/profile/personalization/access-personalization.gif" alt="User Button Menu" width="600" />
+<img src="../../img/menus/profile/personalization/access-personalization.gif" alt="User Button Menu" width="600" />
 
 ---
 
 ## Settings Overview
 
-The Personalization page is organized into four accordion sections, each controlling a different aspect of AI behavior.
+The *Personalization* page includes four sections:
 
 | Section | Purpose | Key Settings | When Applied | Can Change Mid-Conversation | Available |
 |---------|---------|--------------|--------------|----------------------------|-----------|
@@ -55,7 +53,7 @@ Long-term memory capabilities are currently in development and not yet available
 
 ### GENERAL
 
-The General accordion section provides two configuration options that control the AI assistant's default behavior and communication style.
+In the *General* section, you can select the default personality and provide your default user instructions.
 
 <img src="../../img/menus/profile/personalization/personalization-general.gif" alt="Default Instructions" width="600" />
 
@@ -63,9 +61,9 @@ The General accordion section provides two configuration options that control th
 
 #### Default Personality
 
-Select the communication style and approach that the AI assistant will use by default in all new conversations.
+Sets the communication style and approach that the AI assistant will use by default in all new conversations.
 
-**Available Personality Options**
+**Available Default Personalities**
 
 | Personality | Communication Style | Best For |
 |-------------|---------------------|----------|
@@ -80,20 +78,20 @@ Select the communication style and approach that the AI assistant will use by de
 <Tip title="Choosing the Right Personality">
 Consider your primary use cases when selecting a personality:
 
-* **Development Teams**: QA or Nerdy personalities for technical precision
-* **Creative Projects**: Quirky personality for innovative thinking
-* **Business Analysis**: Cynical personality for critical evaluation
-* **General Use**: Generic personality for balanced, versatile assistance
-* **No Preference**: None to use the AI's default behavior without any style overlay
+* **Development teams**: *QA* or *Nerdy* for technical precision
+* **Creative projects**: *Quirky* for innovative thinking
+* **Business analysis**: *Cynical* for critical evaluation
+* **General use**: *Generic* for balanced, versatile assistance
+* **No preference**: *None* to use the default ELITEA behavior
 </Tip>
 
 ---
 
 #### Default User Instructions
 
-Provide custom guidelines that automatically apply to all new conversations. These instructions define specific requirements, preferences, or constraints that the AI assistant should follow in every interaction.
+Provides custom guidelines that automatically apply to all new conversations. Here you can define specific requirements, preferences, or constraints that your AI assistants should follow in every interaction.
 
-<Tip title="What You Can Specify">
+<Tip title="What you can specify">
 * **Communication preferences**: Response format, level of detail, tone
 * **Technical requirements**: Programming languages, frameworks, coding standards
 * **Workflow guidelines**: Step-by-step approaches, validation requirements
@@ -175,7 +173,7 @@ Formatting:
 
 ### DEFAULT CONTEXT MANAGEMENT
 
-The Default Context Management accordion section controls how conversation history is managed in all new conversations. These settings optimize token usage while preserving conversation continuity.
+In the *Default Context Management* section, you can set how conversation history is managed in all new conversations.
 
 <Info title="What Is Context Management?">
 Context management determines how much conversation history is retained and passed to the AI model in each request. Managing context effectively balances:
@@ -202,14 +200,14 @@ Context management determines how much conversation history is retained and pass
 
 Toggle to enable or disable automatic context management for new conversations.
 
-**When Enabled:**
+**When enabled:**
 
 * Context is automatically managed based on Max Context Tokens setting
 * System preserves recent messages as specified
 * Older messages are automatically summarized or removed when token limit is approached
 * Conversation continuity is maintained efficiently
 
-**When Disabled:**
+**When disabled:**
 
 * All conversation history is sent with each request (until model limit reached)
 * No automatic context optimization occurs
@@ -226,53 +224,53 @@ Keep context management **enabled** (default) for optimal performance and cost e
 
 Specifies the maximum number of tokens to use for conversation context in each AI request.
 
-<Info title="What Are Tokens?">
-* Basic units of text that AI models process
+<Info title="What is a token?">
+* Basic unit of text that AI models process
 * Approximately: 1 token ≈ 4 characters or ≈ 0.75 words in English
 * Example: "Hello, how are you?" ≈ 5-6 tokens
 * Both input (context) and output (response) count toward model limits
 </Info>
 
-**Choosing the Right Value**
+**To choose the correct value**
 
-<Accordion title="Consider Your Model">
+<Accordion title="Consider your model">
 Different AI models have different context windows:
 
 * **gpt-4.1**: 128,000 tokens
 * **GPT-4**: 8,192 tokens (standard) or 32,768 tokens (32k version)
 * **GPT-3.5 Turbo**: 16,385 tokens
 
-Set Max Context Tokens to **50-75% of your model's limit** to leave room for:
+Set *Max Context Tokens* to **50-75% of your model's limit** to leave room for:
 
 * System instructions and prompts (your default instructions count here)
 * AI's response generation
 * Safety margins to prevent hitting hard limits
 </Accordion>
 
-<Accordion title="Balance Quality vs Cost">
-* **Higher Values (100,000+)**: 
+<Accordion title="Balance quality vs cost">
+* **Higher values (100,000+)**: 
     * ✔️ Better context retention for very long conversations
-    * ✔️ AI can reference information from much earlier in conversation
+    * ✔️ AI can refer to the information from much earlier in conversation
     * ✘ Higher token costs per request
     * ✘ Slower response times
 
-* **Medium Values (10,000-64,000)**:
+* **Medium values (10,000-64,000)**:
     * ✔️ Good balance of quality and cost (recommended)
     * ✔️ Suitable for most use cases
     * ✔️ Efficient performance
 
-* **Lower Values (1,000-10,000)**:
+* **Lower values (1,000-10,000)**:
     * ✔️ Minimal token costs
     * ✔️ Faster responses
     * ✘ May lose context in longer conversations
     * ✘ AI may "forget" earlier discussion points
 </Accordion>
 
-<Accordion title="Adjust by Use Case">
-* **Short Q&A Sessions**: 10,000-20,000 tokens (quick questions, brief interactions)
-* **Standard Development**: 30,000-64,000 tokens (typical coding, documentation tasks)
-* **Long Technical Discussions**: 64,000-128,000 tokens (complex debugging, architecture reviews)
-* **Extensive Analysis**: 100,000+ tokens (large codebase reviews, comprehensive research)
+<Accordion title="Adjust to your use cases">
+* **Short Q&A sessions**: 10,000-20,000 tokens (quick questions, brief interactions)
+* **Standard development**: 30,000-64,000 tokens (typical coding, documentation tasks)
+* **Long technical discussions**: 64,000-128,000 tokens (complex debugging, architecture reviews)
+* **Extensive analysis**: 100,000+ tokens (large codebase reviews, comprehensive research)
 </Accordion>
 
 ---
@@ -281,33 +279,33 @@ Set Max Context Tokens to **50-75% of your model's limit** to leave room for:
 
 Specifies the minimum number of recent conversation messages to always keep in context, regardless of token limits.
 
-<Info title="How It Works">
-1. **Priority Protection**: These messages are never removed or summarized, even if total tokens exceed Max Context Tokens
-2. **Recent Context**: Ensures AI always has immediate conversation context
+<Info title="How it works">
+1. **Priority protection**: These messages are never removed or summarized, even if total tokens exceed Max Context Tokens
+2. **Recent context**: Ensures AI always has immediate conversation context
 3. **Continuity**: Maintains coherent responses even when older context is summarized
-4. **Count Method**: Each user message and corresponding AI response counts as 2 messages
+4. **Count method**: Each user message and corresponding AI response counts as 2 messages
 </Info>
 
-**Choosing the Right Value**
+**To choose the correct value**
 
-<Accordion title="Consider Conversation Style">
+<Accordion title="Consider your conversation style">
 * **Quick Q&A (1-3 messages)**: 
     * Each question is independent
     * Minimal context dependency
     * Lower value sufficient
 
-* **Iterative Development (5-10 messages)**:
+* **Iterative development (5-10 messages)**:
     * Building on previous responses
     * Code refinements and iterations
     * Medium value recommended (default 5 works well)
 
-* **Complex Problem-Solving (10-20 messages)**:
+* **Complex problem-solving (10-20 messages)**:
     * Multi-step troubleshooting
     * Extended debugging sessions
     * Higher value ensures continuity
 </Accordion>
 
-<Accordion title="Balance with Token Limits">
+<Accordion title="Balance with your token limits">
 * Recent messages are **always** kept, even if they exceed Max Context Tokens
 * If 5 recent messages contain 70,000 tokens but Max Context Tokens = 64,000:
     * All 5 recent messages are still preserved
@@ -315,10 +313,10 @@ Specifies the minimum number of recent conversation messages to always keep in c
 * Set this value carefully to avoid unintentionally high token usage
 </Accordion>
 
-<Accordion title="Testing Recommendations">
+<Accordion title="Test and monitor">
 * **Start with default (5)** and monitor conversation quality
-* **Increase if**: AI loses track of recent discussion points
-* **Decrease if**: Token costs are too high and conversations are short
+* **Increase if** AI loses track of recent discussion points
+* **Decrease if** token costs are too high and conversations are short
 * **Monitor**: Check how often you need to re-explain recent context
 </Accordion>
 
@@ -326,16 +324,16 @@ Specifies the minimum number of recent conversation messages to always keep in c
 
 ### DEFAULT SUMMARIZATION
 
-The Default Summarization accordion section configures automatic conversation summarization for new conversations. When enabled, long conversations are automatically condensed to maintain context while reducing token usage.
+In the *Default Summarization* section, you can configure automatic conversation summarization for new conversations. When enabled, ELITEA will automatically condense long conversations to maintain context while reducing token usage.
 
 <Warning title="Dependency on Context Management">
 Summarization is only active when **Context Management is enabled**. If the **Enable context management for new conversations** toggle is off, summarization settings are inactive even if the summarization toggle is on. To use summarization, make sure context management is enabled first.
 </Warning>
 
-<Info title="What Is Automatic Summarization?">
+<Info title="What is automatic summarization?">
 As conversations grow longer, they consume more tokens and approach model limits. Automatic summarization:
 
-* **Detects** when conversation length reaches a threshold
+* **Detects** when the conversation length reaches a threshold
 * **Generates** a concise summary of older messages
 * **Replaces** older messages with the summary
 * **Preserves** recent messages (as specified in Context Management)
@@ -356,7 +354,7 @@ As conversations grow longer, they consume more tokens and approach model limits
 
 **Enable Automatic Summarization**
 
-**When Enabled:**
+**When enabled:**
 
 * System monitors conversation length continuously
 * Automatically triggers summarization when threshold is reached
@@ -364,7 +362,7 @@ As conversations grow longer, they consume more tokens and approach model limits
 * Recent messages remain untouched
 * Token usage is optimized for long conversations
 
-**When Disabled:**
+**When disabled:**
 
 * No automatic summarization occurs
 * Full conversation history is maintained (subject to Context Management limits)
@@ -386,7 +384,7 @@ Keep summarization **enabled** (default) for conversations that may become lengt
 
 Custom instructions that guide how conversation summaries are generated.
 
-**Default Instructions:**
+The default instructions are:
 
 ```
 Generate a concise summary of the following conversation messages.
@@ -402,7 +400,7 @@ Generate a concise summary of the following conversation messages.
 
 **Example Custom Instructions**
 
-<Accordion title="Technical Discussions">
+<Accordion title="Technical discussions">
 ```
 Create a structured summary of the conversation:
 
@@ -419,7 +417,7 @@ Content:
 ```
 </Accordion>
 
-<Accordion title="Problem-Solving Sessions">
+<Accordion title="Problem-solving sessions">
 ```
 Summarize the troubleshooting conversation:
 
@@ -438,18 +436,18 @@ Keep all error messages and diagnostic output verbatim.
 
 Specifies the target length (in tokens) for generated conversation summaries.
 
-**Token Reference:**
+Here are some token references:
 
 * **256 tokens**: ~192 words - short paragraph summary
 * **1024 tokens**: ~768 words - moderate detail summary
 * **4096 tokens (default)**: ~3072 words - comprehensive summary
 
-<Info title="How It Works">
-**Original Conversation:**
+<Info title="How it works">
+**Original conversation:**
 
   - Messages 1-20: 45,000 tokens
   
-**After Summarization:**
+**After summarization:**
 
   - Summary of messages 1-15: ~4,096 tokens (Target Summary Tokens)
   - Original messages 16-20: 15,000 tokens (preserved recent messages)
@@ -459,9 +457,9 @@ Specifies the target length (in tokens) for generated conversation summaries.
   - Total Context: ~19,096 tokens (reduced from 45,000)
 </Info>
 
-**Choosing the Right Value**
+**To choose the correct value**
 
-<Accordion title="Brief Summaries (100-512 tokens)">
+<Accordion title="Brief summaries (100-512 tokens)">
 **When to Use:**
 
 * Conversations are highly repetitive
@@ -477,7 +475,7 @@ Specifies the target length (in tokens) for generated conversation summaries.
 * ✘ AI may need clarification more often
 </Accordion>
 
-<Accordion title="Moderate Summaries (512-2048 tokens)">
+<Accordion title="Moderate summaries (512-2048 tokens)">
 **When to Use:**
 
 * Balance detail retention with token savings
@@ -492,7 +490,7 @@ Specifies the target length (in tokens) for generated conversation summaries.
 * ✔️ Suitable for most use cases
 </Accordion>
 
-<Accordion title="Comprehensive Summaries (2048-4096 tokens - default)">
+<Accordion title="Comprehensive summaries (2048-4096 tokens - default)">
 **When to Use:**
 
 * Complex technical discussions
@@ -502,7 +500,7 @@ Specifies the target length (in tokens) for generated conversation summaries.
 
 **Effects:**
 
-* ✔️ Maximum detail preservation (default)
+* ✔️ Maximum details are preserved (default)
 * ✔️ Rich context for AI to reference
 * ✔️ Better continuity across long conversations
 * ✘ Higher summarization costs
@@ -511,11 +509,11 @@ Specifies the target length (in tokens) for generated conversation summaries.
 
 ---
 
-### How the Sections Work Together
-
-**Example Scenario: Long Development Session**
+### How the Settings Work Together
 
 <Info title="Example">
+Example scenario: Long development session
+
 1. **GENERAL** (Foundation):
      - Personality: "Nerdy" - Technical deep-dives
      - Instructions: "Use TypeScript, include unit tests, explain trade-offs"
@@ -531,7 +529,7 @@ Specifies the target length (in tokens) for generated conversation summaries.
      - Target Tokens: 4,096
      - Result: When the context approaches the token limit, older messages are automatically condensed into a 4K token summary
 
-**Combined Effect**:
+**Combined effect**:
 
 * AI maintains technical, detailed communication style throughout (General settings)
 * Conversation can continue indefinitely without hitting token limits (Context Management + Summarization)
@@ -544,8 +542,6 @@ Specifies the target length (in tokens) for generated conversation summaries.
 ## How Settings Apply
 
 <Warning title="Important Information">
-**Automatic Application:**
-
 All settings automatically apply to every **new** conversation you create in Chat, Agents, and Pipelines. Settings are stored in your user profile and persist across sessions and devices.
 
 **Limitations:**
@@ -562,7 +558,7 @@ All settings automatically apply to every **new** conversation you create in Cha
 
 **Configuring All Three Sections Together**
 
-<Accordion title="Start with Defaults, Then Customize">
+<Accordion title="Start with defaults, then customize">
 1. **Test Default Settings First**:
    - General: Generic personality, no custom instructions
    - Context Management: Enabled, 64,000 tokens, 5 preserved messages
@@ -583,7 +579,7 @@ All settings automatically apply to every **new** conversation you create in Cha
    - Track which settings work for which types of tasks
 </Accordion>
 
-<Accordion title="Understand Section Dependencies">
+<Accordion title="Understand section dependencies">
 The three active sections interact with each other:
 
 * **Disabling Context Management** also disables the Max Context Tokens and Preserve Recent Messages inputs — they become grayed out and uneditable
@@ -593,27 +589,27 @@ The three active sections interact with each other:
 Therefore, if you want summarization, you must keep context management enabled.
 </Accordion>
 
-<Accordion title="Consider Your Conversation Patterns">
-**For Short Conversations (< 20 messages):**
+<Accordion title="Consider your conversation patterns">
+**For short conversations (< 20 messages):**
 
 * Focus on General settings (personality + instructions most important)
 * Context Management: Lower token limits (20,000-30,000) to save costs
 * Summarization: Can disable or leave at defaults for short conversations
 
-**For Medium Conversations (20-50 messages):**
+**For medium conversations (20-50 messages):**
 
 * All three sections important
 * Context Management: Standard limits (40,000-64,000)
 * Summarization: Default settings work well
 
-**For Long Conversations (50+ messages):**
+**For long conversations (50+ messages):**
 
 * Context Management: Higher limits (64,000-128,000)
 * Summarization: Critical for cost control
 </Accordion>
 
-<Accordion title="Balance Quality, Cost, and Performance">
-**Quality-Focused Configuration:**
+<Accordion title="Balance quality, cost, and performance">
+**Quality-Focused Configuration**
 
 ```
 General:
@@ -630,7 +626,7 @@ Summarization:
 Result: Maximum context retention, best AI responses, higher costs
 ```
 
-**Cost-Focused Configuration:**
+**Cost-Focused Configuration**
 
 ```
 General:
@@ -647,7 +643,7 @@ Summarization:
 Result: Minimal token usage, lower costs, may need more clarifications
 ```
 
-**Balanced Configuration (Recommended):**
+**Balanced Configuration (Recommended)**
 
 ```
 General:
@@ -667,7 +663,7 @@ Result: Good quality, reasonable costs, works for most scenarios
 
 **Choosing Default Personality**
 
-<Accordion title="Align with Primary Use Case">
+<Accordion title="Align with your primary use cases">
 * **Single Role**: Choose the personality that best matches your main work function
 * **Multiple Roles**: Select the personality you use most frequently
 * **Team Accounts**: If shared, choose Generic for balanced, versatile interactions
@@ -675,14 +671,14 @@ Result: Good quality, reasonable costs, works for most scenarios
 * **Experimentation**: Try different personalities over a few days to find what works best
 </Accordion>
 
-<Accordion title="Consider Team Communication Style">
+<Accordion title="Consider your team's communication style">
 * **Formal Environments**: Generic or QA for professional, technical communication
 * **Creative Teams**: Quirky for innovative, out-of-the-box thinking
 * **Technical Teams**: Nerdy for deep, detailed technical discussions
 * **Critical Review**: Cynical for thorough, skeptical analysis
 </Accordion>
 
-<Accordion title="Personality Can Be Overridden">
+<Accordion title="Override personality, where needed">
 * Personalization sets the default for all new conversations
 * Individual conversations can have different settings if needed
 * No need to frequently change your default unless your work focus shifts
@@ -692,34 +688,34 @@ Result: Good quality, reasonable costs, works for most scenarios
 
 **Writing Effective Default Instructions**
 
-<Accordion title="Be Specific and Actionable">
-**Good Examples:**
+<Accordion title="Be specific and actionable">
+**Good examples:**
 
 * ✔️ "Always include code examples in Python with type hints"
 * ✔️ "Structure responses with a summary paragraph first, then details"
 * ✔️ "Check for security vulnerabilities in all code suggestions"
 
-**Avoid Vague Instructions:**
+**Avoid vague instructions:**
 
 * ✘ "Be helpful" (too generic, no clear action)
 * ✘ "Give good answers" (subjective, no specific guidance)
 * ✘ "Make things clear" (ambiguous, means different things to different people)
 </Accordion>
 
-<Accordion title="Keep Instructions Focused">
+<Accordion title="Keep instructions focused">
 * **Prioritize**: Include only the most important requirements
 * **Length**: Aim for 3-7 key points (typically 100-300 words)
 * **Clarity**: Use clear, direct language without ambiguity
 * **Relevance**: Focus on instructions that apply broadly to your work
 
-**Too Many Instructions Can:**
+**Too many instructions can:**
 
 * Confuse the AI with conflicting requirements
 * Reduce response quality due to complexity
 * Make it harder to maintain and update over time
 </Accordion>
 
-<Accordion title="Use Consistent Terminology">
+<Accordion title="Use consistent terminology">
 * **Standards**: Reference specific frameworks, style guides, or methodologies
   * Example: "Follow PEP 8 for Python code" instead of "use good Python style"
 * **Technical Terms**: Use precise technical vocabulary
@@ -729,7 +725,7 @@ Result: Good quality, reasonable costs, works for most scenarios
 * **Examples**: Include brief examples for complex requirements
 </Accordion>
 
-<Accordion title="Structure Instructions Logically">
+<Accordion title="Structure your instructions logically">
 Organize instructions by category for better clarity:
 
 ```
@@ -747,7 +743,7 @@ Output Format:
 ```
 </Accordion>
 
-<Accordion title="Review and Update Regularly">
+<Accordion title="Review and update regularly">
 * **Monthly Review**: Check if instructions still match your current needs
 * **Project Changes**: Update when starting new types of projects or roles
 * **Team Feedback**: Adjust based on conversation quality and outcomes
@@ -759,7 +755,7 @@ Output Format:
 
 **Testing Your Personalization Settings**
 
-<Accordion title="Test Incrementally">
+<Accordion title="Test incrementally">
 * **Start Simple**: Begin with just personality selection, no custom instructions
 * **Add Instructions Gradually**: Add one instruction at a time
 * **Evaluate Each**: Use the new settings in several conversations before adding more
@@ -767,7 +763,7 @@ Output Format:
 * **Iterate**: Refine based on actual conversation outcomes
 </Accordion>
 
-<Accordion title="Create Test Conversations">
+<Accordion title="Create test conversations">
 * **Test Personality**: Create a new conversation and ask open-ended questions to see personality in action
 * **Test Instructions**: Ask the AI to perform tasks that should trigger your custom instructions
 * **Compare Responses**: Try same question with different personality settings to see differences
@@ -778,7 +774,7 @@ Output Format:
 
 ## Troubleshooting
 
-<Accordion title="Settings Not Applying to New Conversations">
+<Accordion title="Settings do not apply to new conversations">
 **Symptoms:**
 
 * New conversations don't reflect configured personality
@@ -812,7 +808,7 @@ Watch for the **"Settings saved successfully"** toast notification to confirm ea
 4. Clear browser cache if the page is loading stale data: Ctrl+Shift+Delete (Windows) or Cmd+Shift+Delete (Mac)
 </Accordion>
 
-<Accordion title="Numeric Fields Not Saving (Silent Failure)">
+<Accordion title="Numeric fields are not saved (silent failure)">
 **Symptoms:**
 
 * You type a new value for Max Context Tokens, Preserve Recent Messages, or Target Summary Tokens
@@ -839,7 +835,7 @@ Auto-save is blocked when a field value fails validation. The form will not save
 4. Wait for the **"Settings saved successfully"** confirmation toast
 </Accordion>
 
-<Accordion title="Context Management Fields Are Grayed Out">
+<Accordion title="Context management fields are grayed out">
 **Symptoms:**
 
 * Max Context Tokens and Preserve Recent Messages fields appear grayed out and cannot be edited
@@ -859,7 +855,7 @@ Additionally, summarization is only active when context management is enabled �
 4. The toggle saves automatically — no further action needed
 </Accordion>
 
-<Accordion title="AI Not Following Default Instructions">
+<Accordion title="AI does not follow the default instructions">
 **Symptoms:**
 
 * AI responses don't follow specified guidelines
@@ -898,7 +894,7 @@ Additionally, summarization is only active when context management is enabled �
    - Refine problematic instruction before adding more
 </Accordion>
 
-<Accordion title="Personality Selection Not Visible in Responses">
+<Accordion title="The change of personality has no effect on the new responses">
 **Symptoms:**
 
 * All personalities seem to behave the same way
@@ -925,7 +921,7 @@ Additionally, summarization is only active when context management is enabled �
 4. **Use Creative Tasks**: Brainstorming, problem-solving, or design discussions show personality most clearly
 </Accordion>
 
-<Accordion title="Failed to Save Settings Error Appears">
+<Accordion title="I get an error *Failed to save settings*">
 **Symptoms:**
 
 * A red **"Failed to save settings"** toast notification appears after making a change
