@@ -19,7 +19,7 @@ To find the AI Configurations, follow these steps:
      - **AI Configuration** - Configurations management
      - **OpenAI Template** - Code examples and templates
 
-<img src="../../img/menus/settings/ai-configurations/access-configurations.gif" alt="AI Configuration" />
+<img src="../../img/menus/settings/ai-configurations/euch_ai-configurations.gif" alt="AI Configuration" />
 ---
 
 ## AI Configuration Tab
@@ -90,13 +90,15 @@ To add a new LLM model:
     | **Supports vision** | Enable if the model can process and understand images |
     | **Low tier** | Mark this model as suitable for routine, cost-effective tasks |
     | **High tier** | Mark this model as suitable for complex workflows requiring advanced capabilities |
+    | **Openai Compatible** | Mark this model as compatible with OpenAI's API |
     | **Credentials** | Select the AI credential configuration from the dropdown |
 
 5. Click **Save** to add the model. After this, the new model will appear in the *LLM Models* section.
 
-<img src="../../img/menus/settings/ai-configurations/new-llm-model.gif" alt="New LLM" />
+<img src="../../img/menus/settings/ai-configurations/euch_add_llm.gif" alt="New LLM" />
 
 You can select the newly added model as the default one using the dropdowns in the section header.
+If you mark the LLM model as *Low-tier* or *High-tier*, it will be preselected in the corresponding dropdown.
 
 <Tip title="Model Name Accuracy">
 The model name must exactly match the provider's identifier. Refer to your provider's documentation:
@@ -141,7 +143,7 @@ To add a new embedding model:
 
 5. Click **Save** to add the model. After this, the new model will beavailable for selecting
 
-<img src="../../img/menus/settings/ai-configurations/new-embedding-model.gif" alt="Embedding Model" />
+<img src="../../img/menus/settings/ai-configurations/euch_add_embedding.gif" alt="Embedding Model" />
 
 You can select the newly added model as the default one for RAG operations using the dropdowns in the section header.
 
@@ -172,9 +174,8 @@ Each vector storage configuration displays:
 To create a new vector storage configuration:
 
 1. Click **+** button in the section header or the main sidebar
-2. Choose **Vector Storage** from the available configuration types
-3. Select **PGVector** (PostgreSQL extension for vector storage) as a vector storage provider
-4. Fill all the required fields:
+2. Choose **PGVector** from the available configuration types
+3. Fill all the required fields:
 
     | Field | Description |
     |-------|-------------|
@@ -184,7 +185,7 @@ To create a new vector storage configuration:
 
 5. Click **Save** to add the storage configuration
 
-<img src="../../img/menus/settings/ai-configurations/new-vector-storage.gif" alt="Vector Storage" />
+<img src="../../img/menus/settings/ai-configurations/euch_add_pgvector.gif" alt="Vector Storage" />
 
 You can select the newly added storage configuration as the default one using the dropdowns in the section header.
 
@@ -228,7 +229,7 @@ To add a new image generation model:
 
 5. Click **Save** to add the model. After this, the new model will be available for the image generation.
 
-<img src="../../img/menus/settings/ai-configurations/new-image-generation-model.gif" alt="New Image Generation Model" />
+<img src="../../img/menus/settings/ai-configurations/euch_add_img.gif" alt="New Image Generation Model" />
 
 You can select the newly added model as the default one using the dropdowns in the section header.
 
@@ -282,7 +283,7 @@ To add a new ASR model:
 
 5. Click **Save** to add the model. After this, the new model will appear in the *Speech Recognition (ASR)* section.
 
-    ![New ASR Model](../../img/menus/settings/ai-configurations/new-asr-model.gif)
+<img src="../../img/menus/settings/ai-configurations/euch_add_voice.gif" alt="New ASR Model" />
 
 You can select the newly added model as the default one for voice input using the dropdowns in the section header.
 
@@ -327,7 +328,7 @@ To add a new TTS model:
 
 5. Click **Save** to add the model. After this, the new model will appear in the *Text to Speech (TTS)* section.
 
-    ![New TTS Model](../../img/menus/settings/ai-configurations/new-tts-model.gif)
+<img src="../../img/menus/settings/ai-configurations/euch_add_tts.gif" alt="New TTS Model" />
 
 You can select the newly added model as the default one using the dropdowns in the section header.
 
@@ -431,7 +432,7 @@ To add a new AI credentials:
 
 5. Click **Save** to add the credentials.
 
-<img src="../../img/menus/settings/ai-configurations/new-ai-credentials.gif" alt="AI Credentials" />
+<img src="../../img/menus/settings/ai-configurations/euch_add_ai-creds.gif" alt="AI Credentials" />
 
 <Warning title="Security Best Practices">
 - Never share API keys in public channels or commit them to version control
