@@ -1,22 +1,22 @@
 ---
 title: "AI Configuration"
-description: "The AI Configuration section provides comprehensive management of AI models, embeddings, vector storage, and related integrations within your project environmen"
+description: "The AI Configuration section provides comprehensive management of all models — AI models, embedding models, image generation models, voice recognition and text-to-speech models — used in your project environment as well as your default vector storage."
 ---
 
 <Info title="Project-Specific Configurations">
-The available settings and configurations may vary depending on the project selected. Select the appropriate project from the project dropdown menu to access specific configurations relevant to that project.
+The available settings and configurations may vary depending on the selected project. Select the project in the project switcher to access its specific configurations.
 </Info>
 
 ---
 
 ## Accessing AI Configuration
 
-To access the AI Configuration section:
+To find the AI Configurations, follow these steps:
 
 1. Click on the **Settings** icon in the main navigation sidebar.
 2. Select **AI Configuration** from the settings menu.
 3. The AI Configuration interface will display with two tabs available:
-     - **AI Configuration** - Main configuration and integrations management
+     - **AI Configuration** - Configurations management
      - **OpenAI Template** - Code examples and templates
 
 <img src="../../img/menus/settings/ai-configurations/access-configurations.gif" alt="AI Configuration" />
@@ -44,9 +44,9 @@ The top section displays essential server and project information with click-to-
 
 ---
 
-## Integrations
+## Configurations
 
-The Integrations section displays all configured AI service integrations organized by type. Click the **+** button in the header to create new integrations.
+Here you can find all the available models and storages organized by their type. Click the **+** button in the header to add a new model or configuration.
 
 ### LLM Models
 
@@ -65,37 +65,38 @@ Displays configured Large Language Model providers and their models.
 <Info title="Configuration Cards:">
 Each LLM configuration displays:
 
-* **Integration Icon** - Visual indicator of the provider (OpenAI, Azure, Vertex AI, Claude, Amazon Bedrock, Ollama, HuggingFace, AI Dial, etc.)
+* **Icon** - Visual indicator of the provider (OpenAI, Azure, Vertex AI, Claude, Amazon Bedrock, Ollama, HuggingFace, AI Dial, etc.)
 * **Model Name** - Display name of the configured model
 * **Status Indicator** - Shows "OK • Shared" or "OK • Local" depending on sharing status
 * **Tier Badges** - If applicable, displays "High-Tier", "Low-Tier", or "Default" badge
 * **Click to Edit** - Click on any card to view or edit configuration details (if permissions allow)
 </Info>
 
-#### Creating a New LLM Model:
+To add a new LLM model:
 
-1. **Ensure Credentials Exist** - Before adding a model, create AI credentials for your provider (see [AI Credentials](#ai-credentials) section)
-2. **Click the + Button** - In the Integrations section header (or main navigation sidebar), click the **+** button
-3. **Select Integration Type** - Choose **LLM Model** from the list of available integration types
-4. **Fill Required Fields:**
+1. Ensure that its credentials exist. If necessary, create AI credentials for your provider (see [AI Credentials](#ai-credentials))
+2. Click the **+** button in the section header or the main sidebar
+3. Choose **LLM Model** from the available configuration types
+4. Fill all the required fields:
 
     | Field | Description |
     |-------|-------------|
-    | **Display Name** | Enter a friendly name for the model (e.g., "GPT-4o Production") |
-    | **ID*** | Auto-populated from the Display Name |
-    | **Name*** | Enter the exact model identifier from the provider (e.g., "gpt-4o", "claude-3-sonnet-20240229") |
-    | **Context Window** | Specify the maximum context window size in tokens (e.g., 128000) |
-    | **Max Output Tokens** | Set the maximum output token limit (e.g., 16000) |
-    | **Supports Reasoning** | Enable if the model supports reasoning capabilities (e.g., for GPT-5.1 o3-mini) |
-    | **Supports Vision** | Enable if the model can process and understand images |
-    | **Low Tier** | Mark this model as suitable for routine, cost-effective tasks |
-    | **High Tier** | Mark this model as suitable for complex workflows requiring advanced capabilities |
+    | **Display name** | Enter a friendly name for the model (e.g., "GPT-4o Production") |
+    | **ID*** | Auto-populated from the *Display Name* |
+    | **Name** | Enter the exact model identifier from the provider (e.g., "gpt-4o", "claude-3-sonnet-20240229") |
+    | **Context window** | Specify the maximum context window size in tokens (e.g., 128000) |
+    | **Max output tokens** | Set the maximum output token limit (e.g., 16000) |
+    | **Supports reasoning** | Enable if the model supports reasoning capabilities (e.g., for GPT-5.1 o3-mini) |
+    | **Supports vision** | Enable if the model can process and understand images |
+    | **Low tier** | Mark this model as suitable for routine, cost-effective tasks |
+    | **High tier** | Mark this model as suitable for complex workflows requiring advanced capabilities |
     | **Credentials** | Select the AI credential configuration from the dropdown |
 
-5. **Click Save** - The model will be created and appear in the LLM Models section
-6. **Set as Default** (Optional) - Use the dropdown in Default Model Settings to assign this model as the Default model
+5. Click **Save** to add the model. After this, the new model will appear in the *LLM Models* section.
 
 <img src="../../img/menus/settings/ai-configurations/new-llm-model.gif" alt="New LLM" />
+
+You can select the newly added model as the default one using the dropdowns in the section header.
 
 <Tip title="Model Name Accuracy">
 The model name must exactly match the provider's identifier. Refer to your provider's documentation:
@@ -113,23 +114,23 @@ The model name must exactly match the provider's identifier. Refer to your provi
 
 Embedding models convert text into numerical vector representations (embeddings) that capture semantic meaning. These vectors enable similarity comparisons, semantic search, and retrieval-augmented generation (RAG) workflows. Embedding models are essential for features like document indexing, knowledge base search, and context retrieval.
 
- **Default embedding model ⓘ**  Generates embeddings (vectors) used for indexing and semantic search (RAG). Affects retrieval quality and performance 
+ **Default embedding model**  generates embeddings (vectors) used for indexing and semantic search (RAG). Affects retrieval quality and performance.
 
 <Info title="Configuration Cards:">
 Each embedding model configuration displays:
 
-* **Integration Icon** - Visual indicator of the provider (OpenAI, Azure, HuggingFace, etc.)
+* **Icon** - Visual indicator of the provider (OpenAI, Azure, HuggingFace, etc.)
 * **Model Name** - Display name of the configured embedding model
 * **Status Indicator** - Shows "OK • Shared" or "OK • Local" depending on sharing status
 * **Click to Edit** - Click on any card to view or edit configuration details (if permissions allow)
 </Info>
 
-#### Creating a New Embedding Model:
+To add a new embedding model:
 
-1. **Ensure Credentials Exist** - Before adding a model, create AI credentials for your provider (see [AI Credentials](#ai-credentials) section)
-2. **Click the + Button** - In the Integrations section header (or main navigation sidebar), click the **+** button
-3. **Select Integration Type** - Choose **Embedding Model** from the list of available integration types
-4. **Fill Required Fields:**
+1. Ensure that its credentials exist. If necessary, create AI credentials for your provider (see [AI Credentials](#ai-credentials))
+2. Click the **+** button in the section header or the main sidebar
+3. Choose **Embedding Model** from the available configuration types
+4. Fill all the required fields:
 
     | Field | Description |
     |-------|-------------|
@@ -138,10 +139,11 @@ Each embedding model configuration displays:
     | **Name*** | Enter the exact model identifier (e.g., "text-embedding-3-large", "text-embedding-ada-002") |
     | **Credentials** | Select credentials from the dropdown |
 
-5. **Click Save** - The embedding model will be created and available for selection
-6. **Set as Default** (Optional) - Use the "Default embedding model" dropdown to make this the default for RAG operations
+5. Click **Save** to add the model. After this, the new model will beavailable for selecting
 
 <img src="../../img/menus/settings/ai-configurations/new-embedding-model.gif" alt="Embedding Model" />
+
+You can select the newly added model as the default one for RAG operations using the dropdowns in the section header.
 
 <Info title="Common Embedding Models">
 - **OpenAI**: text-embedding-3-large (3072 dims), text-embedding-3-small (1536 dims), text-embedding-ada-002 (1536 dims)
@@ -156,23 +158,23 @@ Each embedding model configuration displays:
 
 Vector storage systems (vector databases) store and manage embedding vectors generated by embedding models. These specialized databases enable efficient similarity searches across large collections of embeddings, supporting features like semantic search, document retrieval, and knowledge base queries. Vector databases optimize storage and retrieval of high-dimensional vector data.
 
-**Default vector storage ⓘ** Where embeddings are stored for retrieval/search. Choose based on persistence and scale requirements 
+**Default vector storage** specifies where embeddings are stored for search or retrieval. Choose based on persistence and scale requirements 
 
 <Info title="Configuration Cards:">
 Each vector storage configuration displays:
 
-* **Integration Icon** - Visual indicator of the provider (PGVector, Chroma, etc.)
+* **Icon** - Visual indicator of the provider (PGVector, Chroma, etc.)
 * **Storage Name** - Display name of the configured vector storage
 * **Status Indicator** - Shows "OK • Shared" or "OK • Local" depending on sharing status
 * **Click to Edit** - Click on any card to view or edit configuration details (if permissions allow)
 </Info>
 
-#### Creating a New Vector Storage Configuration:
+To create a new vector storage configuration:
 
-1. **Click the + Button** - In the Integrations section header (or main navigation sidebar), click the **+** button
-2. **Select Integration Type** - Choose **Vector Storage** from the list of available integration types
-3. **Select Vector Storage Provider** - Choose **PGVector** (PostgreSQL extension for vector storage)
-4. **Fill Required Fields:**
+1. Click **+** button in the section header or the main sidebar
+2. Choose **Vector Storage** from the available configuration types
+3. Select **PGVector** (PostgreSQL extension for vector storage) as a vector storage provider
+4. Fill all the required fields:
 
     | Field | Description |
     |-------|-------------|
@@ -180,10 +182,11 @@ Each vector storage configuration displays:
     | **ID*** | Auto-populated from the Display Name |
     | **Connection String** | PostgreSQL connection string |
 
-5. **Click Save** - The vector storage configuration will be created
-6. **Set as Default** (Optional) - Use the "Default vector storage" dropdown to make this the default
+5. Click **Save** to add the storage configuration
 
 <img src="../../img/menus/settings/ai-configurations/new-vector-storage.gif" alt="Vector Storage" />
+
+You can select the newly added storage configuration as the default one using the dropdowns in the section header.
 
 <Warning title="PGVector Extension Required">
 For PGVector configurations, ensure the PostgreSQL database has the `pgvector` extension installed:
@@ -203,18 +206,18 @@ Image generation models create images from text descriptions (text-to-image) or 
 <Info title="Configuration Cards:">
 Each image generation model configuration displays:
 
-* **Integration Icon** - Visual indicator of the provider (OpenAI DALL-E, Azure, etc.)
+* **Icon** - Visual indicator of the provider (OpenAI DALL-E, Azure, etc.)
 * **Model Name** - Display name of the configured image generation model
 * **Status Indicator** - Shows "OK • Shared" or "OK • Local" depending on sharing status
 * **Click to Edit** - Click on any card to view or edit configuration details (if permissions allow)
 </Info>
 
-#### Creating a New Image Generation Model:
+To add a new image generation model:
 
-1. **Ensure Credentials Exist** - Before adding a model, create AI credentials for your provider (see [AI Credentials](#ai-credentials) section)
-2. **Click the + Button** - In the Integrations section header (or main navigation sidebar), click the **+** button
-3. **Select Integration Type** - Choose **Image Generation Model** from the list of available integration types
-4. **Fill Required Fields:**
+1. Ensure that its credentials exist. If necessary, create AI credentials for your provider (see [AI Credentials](#ai-credentials))
+2. Click the **+** button in the section header or the main sidebar
+3. Choose **Image Generation Model** from the available configuration types
+4. Fill all the required fields:
 
     | Field | Description |
     |-------|-------------|
@@ -223,16 +226,17 @@ Each image generation model configuration displays:
     | **Name*** | Enter the exact model identifier (e.g., "dall-e-3", "dall-e-2") |
     | **Credentials** | Select the appropriate AI credential from the dropdown |
 
-5. **Click Save** - The image generation model will be created and available
-6. **Set as Default** (Optional) - Use the "Default image generation model" dropdown to set as default
+5. Click **Save** to add the model. After this, the new model will be available for the image generation.
 
 <img src="../../img/menus/settings/ai-configurations/new-image-generation-model.gif" alt="New Image Generation Model" />
+
+You can select the newly added model as the default one using the dropdowns in the section header.
 
 <Info title="Supported Providers">
 - **OpenAI DALL-E 3**: High-quality image generation with text rendering capabilities
 - **OpenAI DALL-E 2**: Fast image generation with good quality
 - **Azure OpenAI**: DALL-E models through Azure endpoints
-- **Other Providers**: Stability AI, Midjourney (if configured with appropriate integrations)
+- **Other Providers**: Stability AI, Midjourney (if configured)
 </Info>
 
 ### Speech Recognition (ASR)
@@ -241,7 +245,7 @@ Each image generation model configuration displays:
 
 Speech Recognition (ASR) models convert spoken audio into text. A configured ASR model powers the server-side **Voice Input** feature in Chat, Agents, and Pipelines — providing real-time transcription as users speak. When no ASR model is configured, Voice Input falls back to the browser's built-in Web Speech API. If neither is available, the microphone icon is hidden.
 
-**Default ASR model ⓘ** The default model used for server-side voice transcription across Chat, Agents, and Pipelines.
+**Default ASR model** specifies the default model used for server-side voice transcription across Chat, Agents, and Pipelines.
 
 **ASR Model Types**
 
@@ -256,18 +260,18 @@ ELITEA determines the transcription mode automatically based on the model name:
 <Info title="Configuration Cards">
 Each ASR configuration card displays:
 
-* **Integration Icon** — Visual indicator of the provider
+* **Icon** — Visual indicator of the provider
 * **Model Name** — Display name of the configured ASR model
 * **Status Indicator** — Shows "OK • Shared" or "OK • Local" depending on sharing status
 * **Click to Edit** — Click on any card to view or edit configuration details (if permissions allow)
 </Info>
 
-#### Creating a New ASR Model:
+To add a new ASR model:
 
-1. **Ensure Credentials Exist** — Before adding an ASR model, create AI credentials for your provider (see [AI Credentials](#ai-credentials) section)
-2. **Click the + Button** — In the Integrations section header, click the **+** button
-3. **Select Integration Type** — Choose **Speech Recognition (ASR)** from the list of available integration types
-4. **Fill Required Fields:**
+1. Ensure that its credentials exist. If necessary, create AI credentials for your provider (see [AI Credentials](#ai-credentials))
+2. Click the **+** button in the section header or the main sidebar
+3. Choose **Speech Recognition (ASR)** from the available configuration types
+4. Fill all the required fields:
 
     | Field | Description |
     |-------|-------------|
@@ -276,10 +280,11 @@ Each ASR configuration card displays:
     | **Name\*** | Enter the exact model identifier from the provider (e.g., `whisper-1`, `gpt-4o-transcribe`). Names containing `whisper` or `transcribe` are treated as batch models; all others are treated as streaming/Realtime models |
     | **Credentials** | Select the AI credential configuration from the dropdown |
 
-5. **Click Save** — The ASR model will be created and appear in the Speech Recognition (ASR) section
-6. **Set as Default** (Optional) — Use the **Default ASR model** dropdown to make this the default for voice input
+5. Click **Save** to add the model. After this, the new model will appear in the *Speech Recognition (ASR)* section.
 
     ![New ASR Model](../../img/menus/settings/ai-configurations/new-asr-model.gif)
+
+You can select the newly added model as the default one for voice input using the dropdowns in the section header.
 
 <Note>
 The model name determines transcription mode. Use `whisper-1` or `gpt-4o-transcribe` for batch transcription. For real-time streaming, configure a model from the OpenAI Realtime API (e.g., via an AI Dial or Azure OpenAI credential supporting Realtime).
@@ -293,25 +298,25 @@ The model name determines transcription mode. Use `whisper-1` or `gpt-4o-transcr
 
 Text to Speech (TTS) models synthesize spoken audio from text. A configured TTS model powers the server-side **Text-to-Speech** and **Speaking Mode** features in Chat, Agents, and Pipelines — reading AI responses aloud using Web Audio API playback. When no TTS model is configured, playback falls back to the browser's built-in SpeechSynthesis API.
 
-**Default TTS model ⓘ** The default model used for reading AI responses aloud across Chat, Agents, and Pipelines.
+**Default TTS model** specifies the default model used for reading AI responses aloud across Chat, Agents, and Pipelines.
 
-* If no TTS model is configured, the browser SpeechSynthesis API is used as a fallback.
+**If no TTS model is configured, the browser SpeechSynthesis API is used as a fallback.**
 
 <Info title="Configuration Cards">
 Each TTS configuration card displays:
 
-* **Integration Icon** — Visual indicator of the provider
+* **Icon** — Visual indicator of the provider
 * **Model Name** — Display name of the configured TTS model
 * **Status Indicator** — Shows "OK • Shared" or "OK • Local" depending on sharing status
 * **Click to Edit** — Click on any card to view or edit configuration details (if permissions allow)
 </Info>
 
-#### Creating a New TTS Model:
+To add a new TTS model:
 
-1. **Ensure Credentials Exist** — Before adding a TTS model, create AI credentials for your provider (see [AI Credentials](#ai-credentials) section)
-2. **Click the + Button** — In the Integrations section header, click the **+** button
-3. **Select Integration Type** — Choose **Text to Speech (TTS)** from the list of available integration types
-4. **Fill Required Fields:**
+1. Ensure that its credentials exist. If necessary, create AI credentials for your provider (see [AI Credentials](#ai-credentials))
+2. Click the **+** button in the section header or the main sidebar
+3. Choose **Text to Speech (TTS)** from the available configuration types
+4. Fill all the required fields:
 
     | Field | Description |
     |-------|-------------|
@@ -320,11 +325,11 @@ Each TTS configuration card displays:
     | **Name\*** | Enter the exact model identifier from the provider (e.g., `tts-1`, `tts-1-hd`) |
     | **Credentials** | Select the AI credential configuration from the dropdown |
 
-5. **Click Save** — The TTS model will be created and appear in the Text to Speech (TTS) section
-6. **Set as Default** (Optional) — Use the **Default TTS model** dropdown to make this the default for voice output
+5. Click **Save** to add the model. After this, the new model will appear in the *Text to Speech (TTS)* section.
 
     ![New TTS Model](../../img/menus/settings/ai-configurations/new-tts-model.gif)
 
+You can select the newly added model as the default one using the dropdowns in the section header.
 
 <Note>
 Server-side TTS delivers audio as PCM-16-LE chunks via Socket.IO, played back through the Web Audio API at 24 kHz. Text is highlighted in sync with playback. Pause and resume are fully supported for both server-side and browser-fallback TTS.
@@ -338,23 +343,22 @@ Server-side TTS delivers audio as PCM-16-LE chunks via Socket.IO, played back th
 The **AI Credentials** section only appears when credentials are configured in your project. If no credentials exist, this section will be hidden.
 </Warning>
 
-AI Credentials are authentication configurations that store API keys, tokens, endpoints, and connection strings for accessing AI service providers. These credentials serve as the foundation for other integrations, enabling secure communication with external AI platforms without exposing sensitive authentication details in individual model configurations. Multiple models and integrations can reference the same credentials, providing centralized credential management.
+AI Credentials are authentication configurations that store API keys, tokens, endpoints, and connection strings for accessing AI service providers. These credentials serve as the foundation for other configurations, enabling secure communication with external AI platforms without exposing sensitive authentication details in individual model configurations. Multiple models can use the same credentials, providing for the centralized credential management.
 
 <Info title="Configuration Cards:">
 Each AI Credentials configuration displays:
 
-* **Integration Icon** - Visual indicator of the provider (OpenAI, Azure, Anthropic, Vertex AI, etc.)
+* **Icon** - Visual indicator of the provider (OpenAI, Azure, Anthropic, Vertex AI, etc.)
 * **Credential Name** - Display name of the configured credentials
 * **Status Indicator** - Shows "OK • Shared" or "OK • Local" depending on sharing status
 * **Click to Edit** - Click on any card to view or edit configuration details (if permissions allow)
 </Info>
 
+To add a new AI credentials:
 
-#### Creating New AI Credentials:
-
-1. **Click the + Button** - In the Integrations section header (or main navigation sidebar), click the **+** button
-2. **Select Integration Type** - Choose **AI Credentials** from the list of available integration types
-3. **Select Provider Type** - Choose the AI service provider you want to configure:
+1. Click the **+** button in the section header or the main sidebar
+2. Choose **AI Credentials** from the available configuration types
+3. Choose the AI service provider you want to configure:
 
     | Provider | Description |
     |----------|-------------|
@@ -365,7 +369,7 @@ Each AI Credentials configuration displays:
     | **OpenAI** | For OpenAI API access |
     | **Vertex AI** | For Google Cloud AI services |
 
-4. **Fill Provider-Specific Fields:**
+4. Fill in all the provider-specific fields:
 
     **For OpenAI:**
 
@@ -425,7 +429,7 @@ Each AI Credentials configuration displays:
     | **ID*** | Auto-populated from the Display Name |  |
     | **Api Base*** | Ollama server URL | `http://localhost:11434` |
 
-5. **Click Save** - The credential configuration will be created and available for use
+5. Click **Save** to add the credentials.
 
 <img src="../../img/menus/settings/ai-configurations/new-ai-credentials.gif" alt="AI Credentials" />
 
@@ -442,39 +446,39 @@ One credential configuration can be used by multiple models. For example, a sing
 </Tip>
 
 ---
-### Default Model Selection
+### Default Models
 
-The default model settings in the Integrations section control which models are automatically selected for new chats and agents:
+Default models control which models are automatically selected for new chats and agents:
 
-* **Default Model** - Used for most activities (new chats, agents, general operations)
-* **High-tier Model** - Selected when high-capability processing is needed
-* **Low-tier Model** - Used for routine, cost-effective tasks
-* **Default Embedding Model** - Used for text embedding operations
-* **Default Vector Storage** - Used for vector database operations
-* **Default Image Generation Model** - Used for image generation tasks
-* **Default ASR Model** - Used for server-side voice input (speech-to-text) in Chat, Agents, and Pipelines
-* **Default TTS Model** - Used for reading AI responses aloud (text-to-speech) in Chat, Agents, and Pipelines
+* **Default model** is used for most activities (new chats, agents, general operations)
+* **High-tier model** is selected when high-capability processing is needed
+* **Low-tier model** is used for routine, cost-effective tasks
+* **Default embedding model** is used for text embedding operations
+* **Default vector storage** is used for vector database operations
+* **Default image generation model** is used for image generation tasks
+* **Default ASR model** is used for server-side voice input (speech-to-text) in Chat, Agents, and Pipelines
+* **Default TTS model** is used for reading AI responses aloud (text-to-speech) in Chat, Agents, and Pipelines
 
 **Usage Impact:**
 
-* New chat conversations use the default model unless manually changed
-* New agents use the default model unless manually configured
-* Existing conversations and agents retain their previously configured models
-* Changes apply immediately without requiring save
+* New conversations use the default model unless manually changed.
+* New agents use the default model unless manually configured.
+* Existing conversations and agents retain their previously configured models.
+* Changes apply immediately without requiring save.
 
 
 <Warning title="Do Not Modify Default Models">
-Do not modify the default PG Vector or LLM models in the project, as this may cause improper project functionality and system instability. These default models are essential for core platform operations.
+Do not modify the default PG Vector or LLM models in the project, as this may break project functionality and system instability. These default models are essential for core platform operations.
 </Warning>
 
 ---
-## OpenAI Template Tab
+## OpenAI Template
 
-The **OpenAI Template** tab generates ready-to-use code examples for integrating applications with ELITEA's AI models using OpenAI-compatible API format. Templates are pre-configured with server settings and support cURL, Node.js, and Python, enabling quick implementation without manual setup.
+The *OpenAI Template* tab generates ready-to-use code examples for integrating applications with ELITEA's AI models using OpenAI-compatible API format. Templates are pre-configured with server settings and support cURL, Node.js, and Python, enabling quick implementation without manual setup.
 
 **How to Access:**
 
-Click "**OpenAI Template**" in the tab bar at the top of the AI Configuration page.
+Click "**OpenAI Template**" in the tab bar at the top of the *AI Configuration* section.
 
 <img src="../../img/menus/settings/ai-configurations/openai-template.png" alt="OpenAI" />
 
@@ -502,7 +506,7 @@ Click "**OpenAI Template**" in the tab bar at the top of the AI Configuration pa
 
 ## Troubleshooting
 
-<Accordion title="No Access to LLM Message">
+<Accordion title="No access to LLM">
 **Problem:** "No access to LLM" message is displayed when using custom LLM configurations. The exact message may vary depending on the provider.
 
 **Solution Steps:**
@@ -513,7 +517,7 @@ Click "**OpenAI Template**" in the tab bar at the top of the AI Configuration pa
 4. **Validate Authentication:** Confirm your API keys, tokens, or authentication credentials are valid and not expired
 </Accordion>
 
-<Accordion title="Authentication Failed Errors">
+<Accordion title="Authentication failed">
 **Problem:** Receiving 401 (Unauthorized) or 403 (Forbidden) errors when testing credentials.
 
 **Solution Steps:**
@@ -524,7 +528,7 @@ Click "**OpenAI Template**" in the tab bar at the top of the AI Configuration pa
     - Confirm credentials haven't expired
 
 2. **Verify Permissions:**
-    - Ensure your account has necessary permissions for the integration
+    - Ensure your account has necessary permissions
     - Check if you need specific scopes or roles enabled
     - Verify service URLs are accurate and accessible
 
@@ -535,7 +539,7 @@ Click "**OpenAI Template**" in the tab bar at the top of the AI Configuration pa
     - **Amazon Bedrock:** Verify IAM user has `bedrock:InvokeModel` permissions
 </Accordion>
 
-<Accordion title="Connection Errors">
+<Accordion title="Connection errors">
 **Problem:** Unable to connect to AI provider endpoints (Connection refused, timeout, SSL errors).
 
 **Solution Steps:**
@@ -556,7 +560,7 @@ Click "**OpenAI Template**" in the tab bar at the top of the AI Configuration pa
     - Verify the hostname is correct (no typos)
 </Accordion>
 
-<Accordion title="Model Not Found Errors">
+<Accordion title="Model not found">
 **Problem:** Errors indicating the specified model doesn't exist or isn't available.
 
 **Solution Steps:**
@@ -578,8 +582,8 @@ Click "**OpenAI Template**" in the tab bar at the top of the AI Configuration pa
     - **Vertex AI:** Check Google Cloud console for available models
 </Accordion>
 
-<Accordion title="EPAM AI Dial Specific Issues">
-**Problem:** EPAM AI Dial integration failures with personal tokens.
+<Accordion title="EPAM AI Dial specific issues">
+**Problem:** EPAM AI Dial fails with personal tokens.
 
 **Common Issues:**
 
@@ -604,8 +608,8 @@ Click "**OpenAI Template**" in the tab bar at the top of the AI Configuration pa
     - Request specific model permissions if needed
 </Accordion>
 
-<Accordion title="Credential Configuration Not Appearing">
-**Problem:** Newly created credentials don't show up in dropdown menus or integration lists.
+<Accordion title="Credentials are not added">
+**Problem:** Newly created credentials don't show up in dropdown menus or configurations lists.
 
 **Solution Steps:**
 
@@ -620,11 +624,11 @@ Click "**OpenAI Template**" in the tab bar at the top of the AI Configuration pa
     - Check if credential is marked as "Local" vs "Shared"
 
 3. **Credential Type:**
-    - Confirm the credential type matches the integration requirement
+    - Confirm the credential type matches the configuration you want to use
     - Verify the credential hasn't been deleted by another user
 </Accordion>
 
-<Accordion title="Rate Limiting or Quota Errors">
+<Accordion title="Rate limiting or quota errors">
 **Problem:** Receiving rate limit or quota exceeded errors from AI providers.
 
 **Solution Steps:**
