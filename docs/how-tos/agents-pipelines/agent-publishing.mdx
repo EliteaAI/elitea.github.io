@@ -52,10 +52,15 @@ The **Publish version** dialog opens on the first step, **Preparation**.
 | Element | Description |
 |---------|-------------|
 | **Version name** | A unique name for this published version. Allowed characters: letters, numbers, dots (`.`), hyphens (`-`), underscores (`_`). Maximum 50 characters. Must not duplicate an existing version name for this agent. |
+| **Category** | Required dropdown. Selects the Agent HUB category under which the published agent will appear. The list is loaded from the platform's configured agent categories for the current project. |
 | **Publishing Terms** | A scrollable section listing what is excluded during publishing and the best-practice requirements. Expand with the expand icon or open in full-screen with the full-screen icon. |
 | **I agree with the publishing terms** checkbox | Must be checked before you can continue. |
-| **Continue** button | Enabled only when the version name is valid, not duplicate, and the checkbox is checked. Clicking it starts the automated validation. |
+| **Continue** button | Enabled only when the version name is valid, not duplicate, a category is selected, and the checkbox is checked. Clicking it starts the automated validation. |
 | **Cancel** button | Closes the wizard without publishing. |
+
+<Info title="Why category matters">
+The selected **Category** helps users discover your agent in Agent HUB. If no category is selected, the wizard does not allow you to continue.
+</Info>
 
 **Publishing terms contents:**
 
@@ -191,7 +196,8 @@ The simplified dialog shows:
 - A heading, **Publish version**
 - A single prompt, *Enter a version name to publish.*
 - A **Version name** text field (same character rules apply: letters, numbers, `.`, `-`, `_`; max 50 characters)
-- **Publish** button (enabled as soon as a valid version name is entered)
+- A **Category** dropdown (required)
+- **Publish** button (enabled only when a valid version name is entered and a category is selected)
 - **Cancel** button
 
 No publishing terms, no agreement checkbox, and no AI validation step are shown. Clicking **Publish** submits the version directly.
@@ -331,9 +337,10 @@ A pre-publication moderation step can be enabled by platform administrators. Whe
     - The **Version name** field is empty
     - The version name contains characters other than letters, numbers, `.`, `-`, or `_`
     - A version with the same name already exists for this agent
+    - No **Category** is selected
     - The **I agree with the Publishing Terms** checkbox is unchecked
 
-    **Solution:** Enter a valid, unique version name and check the agreement checkbox.
+    **Solution:** Enter a valid, unique version name, select a category, and check the agreement checkbox.
   </Accordion>
 
   <Accordion title="Issue: Validation returns a FAIL result" >
