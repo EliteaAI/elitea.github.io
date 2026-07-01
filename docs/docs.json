@@ -66,6 +66,7 @@
             "icon": "lightbulb",
             "pages": [
               "home/key-concepts/what-is-an-agent",
+              "home/key-concepts/what-is-a-skill",
               "home/key-concepts/what-is-a-pipeline",
               "home/key-concepts/what-is-a-credential",
               "home/key-concepts/what-is-a-toolkit",
