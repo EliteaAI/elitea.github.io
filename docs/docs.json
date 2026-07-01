@@ -90,6 +90,7 @@
                 "pages": [
                   "menus/chat",
                   "menus/agents",
+                  "menus/skills",
                   "menus/pipelines",
                   "menus/credentials",
                   "menus/toolkits",
