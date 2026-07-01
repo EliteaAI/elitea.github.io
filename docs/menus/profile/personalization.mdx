@@ -5,11 +5,12 @@ description: "In *Personalization*, you can configure how the AI assistant inter
 
 ## Overview
 
-The *Personalization* in your your user profile includes three main configuration sections:
+The *Personalization* page in your user profile includes the following main configuration sections:
 
 1. **General**: Allows setting the default AI personality and providing default user instructions
-2. **Default Context Management**: Allows managing conversation memory and token usage
-3. **Default Summarization**: Allows configuring automatic conversation summarization
+2. **Default Context Management**: Allows managing conversation memory and token usage for new conversations
+3. **Voice Personalization**: Allows configuring default text-to-speech voice, speed, and volume preferences
+4. **Sound Notifications**: Allows configuring completion sounds and notification volume
 
 These settings automatically apply to every new conversation you create in Chat, Agents, and Pipelines, ensuring consistent behavior and optimal performance without manual configuration each time.
 
@@ -36,14 +37,16 @@ You can get to the *Personalization* page from your your user profile:
 
 ## Settings Overview
 
-The *Personalization* page includes four sections:
+The *Personalization* page includes the following sections:
 
 | Section | Purpose | Key Settings | When Applied | Can Change Mid-Conversation | Available |
 |---------|---------|--------------|--------------|----------------------------|-----------|
 | **General** | Define AI personality and behavior | Default Personality, Default User Instructions | At conversation creation | ✘ No | ✔️ |
 | **Default Context Management** | Manage conversation memory and token usage | Enable Toggle, Max Context Tokens, Preserve Recent Messages | Throughout conversation lifecycle | ✔️ Yes (via Context Budget widget) | ✔️ |
-| **Default Summarization** | Automatically condense long conversations | Enable Toggle, Summarization Instructions, Target Summary Tokens | During conversation when thresholds reached | ✔️ Yes (via Context Budget widget) | ✔️ |
-| **Long-term Memory** | Manage what the AI remembers across conversations | — | — | — | 🔜 Coming Soon |
+| **Default Summarization** | Automatically condense long conversations | Enable Toggle, Summarization Instructions, Target Summary Tokens, Summary LLM Settings | During conversation when thresholds reached | ✔️ Yes (via Context Budget widget) | ✔️ |
+| **Long-term Memory** | Future cross-conversation memory controls | — | — | — | 🔜 Coming Soon |
+| **Voice Personalization** | Configure default TTS playback preferences | Voice, Speed, Volume, Preview Voice | Whenever text-to-speech is used | ✔️ Yes | ✔️ |
+| **Sound Notifications** | Configure completion sound behavior | Enable Toggle, Volume, Preview Sound | When task completion sounds are triggered | ✔️ Yes | ✔️ |
 
 <Info title="Future Feature">
 Long-term memory capabilities are currently in development and not yet available.
@@ -506,6 +509,57 @@ Here are some token references:
 * ✘ Higher summarization costs
 * ✘ Summaries themselves consume significant tokens
 </Accordion>
+
+---
+
+<Note title="UI Structure">
+In the Personalization interface, **Default Summarization** and **Long-term Memory** appear as nested accordions inside **Default Context Management**, not as separate top-level page sections.
+</Note>
+
+### VOICE PERSONALIZATION
+
+The **Voice Personalization** section lets you define your default text-to-speech playback preferences. These settings are stored in your browser and are used whenever ELITEA reads responses aloud.
+
+<Info title="How Voice Selection Works">
+* If a server-side TTS model is configured, the **Voice** dropdown shows the voices provided by that model.
+* If no server-side TTS model is available, ELITEA falls back to browser voices.
+* Browser voices that are not local are marked as **online** in the dropdown.
+</Info>
+
+#### Configuration Parameters
+
+| Parameter | Type | Default | Range / Options | Description |
+|-----------|------|---------|-----------------|-------------|
+| **Voice** | Dropdown | Default voice | Model-provided voices or browser voices | Selects the default voice used for text-to-speech playback |
+| **Speed** | Slider | 1.0× | 0.5× - 2.0× | Controls playback rate |
+| **Volume** | Slider | 100% | 0% - 100% | Controls playback loudness |
+| **Preview Voice** | Button | — | — | Plays a short sample sentence using the current settings |
+
+![Voice Personalization](../../img/menus/profile/personalization/voice-personalization.gif)
+
+<Tip title="Preview Before You Commit">
+Use **Preview Voice** to test the selected voice, speed, and volume combination before relying on it in conversations.
+</Tip>
+
+---
+
+### SOUND NOTIFICATIONS
+
+The **Sound Notifications** section controls whether ELITEA plays a completion sound when tasks finish, along with the default notification volume.
+
+#### Configuration Parameters
+
+| Parameter | Type | Default | Range / Options | Description |
+|-----------|------|---------|-----------------|-------------|
+| **Play sound when tasks complete** | Toggle | ON | ON / OFF | Enables or disables completion sounds |
+| **Volume** | Slider | 50% | 0% - 100% | Controls notification sound volume |
+| **Preview Sound** | Button | — | — | Plays the current completion sound using the selected volume |
+
+![Sound Notifications](../../img/menus/profile/personalization/sound-notifications.gif)
+
+<Note>
+The **Volume** slider and **Preview Sound** button are shown only when **Play sound when tasks complete** is enabled.
+</Note>
 
 ---
 

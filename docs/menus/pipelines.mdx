@@ -95,7 +95,9 @@ The pipeline creation flow follows a **two-phase approach**: first you provide t
          - **Conversation Starters**: Add predefined commands or prompts to initiate interactions with the pipeline. (e.g., "Generate test cases for the login feature" or "Create test scenarios for payment processing")
 4. In the **Advanced** section (optional):
          - **Step Limit**: Set the maximum number of tool execution steps the pipeline can perform in a single turn (range: 0-999, default: 25). This parameter controls how many iterations the pipeline can execute before stopping, preventing infinite loops and managing resource usage. A higher step limit allows more complex multi-step workflows, while a lower limit ensures faster execution for simpler tasks.
-5. Click **Save** to create the pipeline. This action creates what's known as the "**base**" version of your pipeline.
+5. In the **Editor Notes** section (optional):
+         - **Notes**: Add internal documentation for the current pipeline version, such as rollout reminders, implementation notes, or review comments. These notes are for editors only and are not sent to the LLM or used during execution.
+6. Click **Save** to create the pipeline. This action creates what's known as the "**base**" version of your pipeline.
 
      <img src="../img/menus/pipeline/pipeline-create.gif" alt="Pipeline_Create" />
 
@@ -103,7 +105,7 @@ The pipeline creation flow follows a **two-phase approach**: first you provide t
 
 After saving, the **pipeline editor page** opens automatically. This page uses a **three-column layout**:
 
-- **Left panel** — the configuration form with all settings sections (General, Tools, Variables, Welcome Message, Conversation Starters, Advanced, Information)
+- **Left panel** — the configuration form with all settings sections (General, Tools, Variables, Welcome Message, Conversation Starters, Advanced, Editor Notes, Information)
 - **Center panel** — the **Flow/YAML editor** for visually designing or coding your pipeline workflow
 - **Right panel** — an embedded live chat panel for testing the pipeline without leaving the editor
 
@@ -162,6 +164,20 @@ Tools are integrations with external or ELITEA's internal services that enhance 
 - **MCP Integration**: Verify MCP server connectivity and context requirements before integration
 - **Pipeline Integration**: Consider data flow and dependencies when nesting pipelines
 </Tip>
+
+### EDITOR NOTES
+
+The **EDITOR NOTES** section is a separate accordion in the left configuration panel. It is intended for internal documentation about the current pipeline version.
+
+Use this field to record implementation notes, review comments, rollout reminders, or other editor-facing context that should stay with the pipeline configuration.
+
+- The content is **not sent to the LLM**, **not included in chat or execution**, and **not used in monitoring**
+
+**Example uses:**
+
+- `Use this version for staging validation only.`
+- `Pending toolkit credential rotation before production rollout.`
+- `Draft variant created for testing alternative routing logic.`
 
 
 ## Designing Your Pipeline

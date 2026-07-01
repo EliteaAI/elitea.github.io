@@ -70,6 +70,7 @@ To set up a new agent:
    | **Conversation Starters** | Conversation Starters | No | `Review this PR for security issues`, `Check code style compliance` |
    | **Advanced** | Step Limit | No | `50` |
    | **Advanced** | Ignore Project Context | No | Enable when the agent should focus solely on its own instructions, ignoring project-wide context |
+    | **Editor Notes** | Notes | No | `Internal note: Use this version for PR review experiments only.` |
 
 3. Click **Save**.
 
@@ -78,7 +79,7 @@ To set up a new agent:
 
 After clicking **Save**, the agent configuration page will open. The page uses a **two-column layout**:
 
-- **Left panel** — the configuration form with all settings sections (General, Instructions, Variables, Welcome Message, Toolkits, Skills, Conversation Starters, Advanced, Information)
+- **Left panel** — the configuration form with all settings sections (General, Instructions, Variables, Welcome Message, Toolkits, Skills, Conversation Starters, Advanced, Editor Notes, Information)
 - **Right panel** — an embedded live chat panel for interactively testing the agent without leaving the configuration view
 
 From this page you can:
@@ -283,6 +284,20 @@ Each placeholder is extracted and displayed as a separate input field, allowing 
 <Info>
   The Variables section is only visible when instructions contain at least one `{{variable}}` placeholder. It does not appear for agents without template variables.
 </Info>
+
+### EDITOR NOTES
+
+The **EDITOR NOTES** section is a separate accordion in the left configuration panel.It is intended for internal documentation about the current agent version.
+
+Use this field to record implementation notes, review comments, rollout reminders, or other editor-facing context that should stay with the agent configuration.
+
+- The content is **not sent to the LLM**, **not included in chat or execution**, and **not used in monitoring**
+
+**Example uses:**
+
+- `Use this version for staging validation only.`
+- `Pending toolkit credential rotation before production rollout.`
+- `Draft variant created for testing alternative instructions.`
 
 ### WELCOME MESSAGE
 
