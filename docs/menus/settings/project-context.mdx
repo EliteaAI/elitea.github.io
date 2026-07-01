@@ -5,7 +5,7 @@ description: "Project Context lets you define shared background information that
 
 ## Overview
 
-**Project Context** is a project-level background document that the AI silently references when generating responses, running agents, and executing pipelines. It acts as a persistent system briefing — you write it once, and every AI interaction in the project automatically benefits from it.
+**Project Context** is a project-level background document that the AI silently references when generating responses, running agents It acts as a persistent system briefing — you write it once, and every AI interaction in the project automatically benefits from it.
 
 Use Project Context to describe things the AI would otherwise not know: the domain your team operates in, how your systems are named, the workflows you follow, the terminology that is specific to your organization, and any constraints or policies that should always apply.
 
@@ -15,7 +15,7 @@ Project Context is only available in team (non-public) projects. It does not app
 
 <CardGroup cols={3}>
   <Card title="Consistent AI Behavior" icon="arrows-spin">
-    Define once, applied everywhere. Every agent, pipeline, and chat conversation in the project automatically uses the same background context.
+    Define once, applied everywhere. Every agent in the project automatically uses the same background context.
   </Card>
   <Card title="Domain-Aware Responses" icon="book-open">
     Give the AI your terminology, workflows, and constraints so it speaks your language and avoids generic or incorrect answers.
@@ -47,7 +47,7 @@ The Project Context editor opens in the main content area, with two main compone
 
 ## Project Background Editor
 
-The **Project Background** editor is where you write and manage the context document for your project. It is a full Markdown editor with real-time character counting, an import tool for loading content from a file, and a preview mode so you can verify formatting before saving. Content entered here is silently provided to the AI on every request made within the project.
+The **Project Background** editor is where you write and manage the context document for your project. It is a full Markdown editor with real-time character counting, a **Build with AI** button to generate content using AI, an import tool for loading content from a file, and a preview mode so you can verify formatting before saving.
 
 The editor is only visible when Project Context is enabled, or when content already exists (so it remains accessible for editing even while the feature is temporarily disabled).
 
@@ -81,6 +81,31 @@ Project Context is written in **Markdown** and read by the AI as background info
 The editor enforces a maximum of **2,500 characters**. A counter below the editor shows how many characters remain. When the limit is reached, the Save button is disabled and a warning message appears.
 </Note>
 
+### <Icon icon="wand-magic-sparkles" size="28" /> Build with AI
+The Build with AI button lets you generate Project Context content automatically using AI. You describe your project in plain language, and the AI produces a structured Markdown draft ready to review and edit before applying it to the editor.
+
+The Build with AI button appears in the Project Background editor toolbar (next to the Import button) when the feature is enabled and you have edit permission. It is not visible to users with view-only access.
+
+To generate Project Context using AI:
+
+ 1. Click the **Build with AI** button in the editor toolbar.
+ 2. The Build with AI dialog opens.
+ 3. In the text field, describe your project. 
+ 4. Click Generate. 
+ 5. The Review step opens, displaying the generated Project Background in an editable text field.
+ 6. You can edit the generated text directly before applying it.
+ 7. Click Apply to insert the content into the editor, or Back to prompt to return and refine your description.
+ 8. After applying, the content appears in the editor as unsaved changes. Click Save to persist it.
+     
+     ![Build with AI](../../img/menus/settings/project-context/project-context-build-ai.gif)
+
+<Note>
+Clicking Apply does not automatically save the Project Context. The content is placed into the editor as an unsaved draft. You must click Save to persist the changes.
+</Note>
+
+<Warning>
+When using Append to existing content, the combined length of the existing content and the generated draft must not exceed 2,500 characters. If it does, the character counter turns red and the Apply button is disabled until you shorten the generated text.
+</Warning>
 
 ### <Icon icon="file-arrow-down" size="28" /> Importing Content
 
@@ -141,7 +166,7 @@ The **Ignore Project Context** option is available both when **creating** a new 
 2. Expand the **ADVANCED** section.
 3. Check **Ignore Project Context**.
 
-     ![Project Context Access](../../img/menus/settings/project-context/project-context-import.gif)
+     ![Project Context Access](../../img/menus/settings/project-context/project-context-agent.gif)
 
 
 > *"When enabled, this agent will not use the project background context in its responses."*
