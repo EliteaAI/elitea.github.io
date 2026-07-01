@@ -16,6 +16,7 @@ The Sensitive Action Authorization Guardrail is configured exclusively at the **
 * **Transparent parameter display** — Surfaces the exact arguments the agent plans to pass, with security-sensitive fields (passwords, tokens, API keys, secrets) automatically masked as `***`.
 * **Customizable authorization message** — Organizations can customize the approval request with their company name and a tailored policy message.
 * **Flexible tool targeting** — Sensitive tools can be specified per toolkit type, per named toolkit instance, or globally across all toolkits using a wildcard (`*`).
+* **Block with Comment** — Users can block a sensitive action and send a short explanation back to the agent as structured feedback.
 * **Session-level auto-approve** — Once a tool is authorized within an execution batch, subsequent calls to the same tool in that batch do not re-interrupt, reducing friction for repetitive safe actions.
 * **Stale-interrupt protection** — If a user sends a new message while an authorization dialog is pending, the system re-surfaces the existing interrupt instead of proceeding autonomously.
 
@@ -28,10 +29,11 @@ When the guardrail is active, the following flow applies every time the agent at
 1. **Detection:** The `SensitiveToolGuardMiddleware` intercepts the tool call before execution.
 2. **Context building:** The middleware resolves the toolkit name, tool name, and planned arguments. Security-sensitive argument fields are masked.
 3. **Interrupt:** Execution pauses and a HITL interrupt is raised. The conversation UI displays the authorization dialog.
-4. **User decision:** The user reviews the action label, parameters, and policy message, then clicks **Authorize** or **Block**.
+4. **User decision:** The user reviews the action label, parameters, and policy message, then clicks **Authorize**, **Block**, or **Block with Comment**.
 5. **Resume or skip:**
     - **Authorize** → the tool runs as originally planned.
     - **Block** → the tool is skipped. The agent receives a blocked-action message and continues or stops based on its logic.
+    - **Block with Comment** → the tool is skipped, and the user's note is passed back to the agent as the blocked action's `denial_reason`.
 
 ```
 Agent calls sensitive tool
@@ -81,6 +83,8 @@ Contact your ELITEA administrator. They can update the list of protected tools a
 
 When a sensitive tool is triggered, the conversation pauses and displays an authorization card.
 
+![Authorization Card](../../img/how-tos/chat-conversations/sensitive-action/authorization-card.png)
+
 * **Dialog elements**
 
      | Element | Description |
@@ -90,11 +94,16 @@ When a sensitive tool is triggered, the conversation pauses and displays an auth
      | **Parameters** | Collapsible panel showing the exact arguments the tool will be called with. Security-sensitive fields (`password`, `token`, `api_key`, `secret`, `authorization`, etc.) are automatically masked as `***`. |
      | **Policy message** | The configured authorization message from `ALITA_SENSITIVE_ACTION_MESSAGE_TEMPLATE` |
      | ![Authorize](../../img/how-tos/chat-conversations/sensitive-action/authorize-button.png) |  Approves the action, resumes execution |
-     | ![Block](../../img/how-tos/chat-conversations/sensitive-action/block-button.png) | Rejects the action, skips the tool call entirely |
+    | ![Block](../../img/how-tos/chat-conversations/sensitive-action/block-button.png) | Rejects the action, skips the tool call entirely |
+    | ![Block with Comment](../../img/how-tos/chat-conversations/sensitive-action/block-with-comment-button.png)| Expands an inline comment box on the authorization card so you can explain why the action is blocked and what the agent should do instead |
 
 
 <Info title="What happens when you block an action">
 When you click **Block**, the agent receives a notification that the action was skipped. It will typically acknowledge the cancellation and either stop or continue with the remainder of its task, depending on the agent's configuration. The tool is **never** executed.
+</Info>
+
+<Info title="What happens when you use Block with Comment">
+When **Block with Comment** is available for the current interrupt, clicking it expands a multiline input directly on the authorization card. Your note is sent back to the runtime as the blocked action's `denial_reason`, allowing the agent to understand why the action was rejected and what alternative behavior you want.
 </Info>
 
 ---
@@ -108,7 +117,7 @@ The guardrail is transparent — it activates automatically whenever a configure
 Start a conversation with any agent or model that has access to toolkits. When the agent decides to invoke a sensitive tool, the conversation pauses automatically and shows the authorization card.
 
 1. Review the action label and parameters carefully.
-2. Click **Authorize** to proceed or **Block** to cancel.
+2. Click **Authorize** to proceed, **Block** to cancel immediately, or **Block with Comment** to cancel and provide guidance.
 3. The conversation resumes automatically after your decision.
 
 * **Authorize**
@@ -118,6 +127,12 @@ Start a conversation with any agent or model that has access to toolkits. When t
 * **Block**
 
      ![Modal](../../img/how-tos/chat-conversations/sensitive-action/authorization-chat-block.gif)
+
+* **Block with Comment**
+
+     ![Modal](../../img/how-tos/chat-conversations/sensitive-action/authorization-chat-block-comment.gif)
+
+  The inline comment box opens on the same authorization card. Type your note, then submit it with **Block with Comment**. You can also press **Ctrl+Enter** / **⌘+Enter** to submit, or **Escape** to cancel the comment box.
 
 <Tip title="Multi-step agents">
 If an agent calls the same sensitive tool multiple times in one execution cycle (e.g., deleting multiple branches in a loop), only the **first call** raises the interrupt. Once authorized, subsequent calls to the same tool in the same execution batch are auto-approved — avoiding repeated dialogs for the same action within a single session.
@@ -146,6 +161,7 @@ For `code` node types (Python Sandbox), the guardrail is applied when the sandbo
 <Warning title="Known limitations">
 * **Server-side only** — The guardrail cannot be configured per user, per conversation, or per agent from the ELITEA UI. All changes require access to server environment variables and a service restart.
 * **No partial approval** — Users can only approve or block the entire tool call. It is not possible to edit tool arguments through the authorization dialog.
+* **Comment length limit** — Block-with-comment notes are capped at **2000 characters** in the UI and are trimmed before submission.
 * **One pending interrupt at a time** — If an authorization dialog is pending and the user sends a new message, the new message is deferred. The user must resolve the pending authorization first, then re-send.
 * **Tool name normalization** — Tool names are lowercased and matched by their base name, stripping prefixes. Ensure the base name (after stripping `toolkit_type___` or `namespace:` prefixes) is used in the configuration.
 * **Auto-approve scope** — Session-level auto-approve applies within a single execution batch (one continuous agent run). A new user message starts a fresh execution; approvals do not carry over across messages.
@@ -272,6 +288,12 @@ No. The guardrail is enforced at the middleware level in the server-side runtime
 Each sensitive tool call raises its own independent interrupt. The first tool call pauses execution; after the user decides, the agent continues and pauses again at the second sensitive tool, presenting a new dialog.
 </Accordion>
 
+<Accordion title="What is the difference between Block and Block with Comment?">
+**Block** simply rejects the tool call.
+
+**Block with Comment** also rejects the tool call, but sends your note back to the agent as structured feedback (`denial_reason`). This is useful when you want the agent to understand *why* the action was blocked or what it should do instead.
+</Accordion>
+
 <Accordion title="Does the authorization dialog expire?">
 The authorization dialog remains active as long as the conversation's checkpoint is alive (session duration). If the user refreshes the page or returns to the conversation later, the pending interrupt is re-surfaced automatically.
 </Accordion>
@@ -293,6 +315,10 @@ The agent receives a structured message of the form:
 ```
 
 The agent's next response should acknowledge that the action was cancelled.
+</Accordion>
+
+<Accordion title="What does the agent receive when I use Block with Comment?">
+The blocked tool result uses the same structure as a normal block, but the `denial_reason` field contains your comment instead of the default rejection message. The agent can use that note to choose a safer alternative or ask a follow-up question.
 </Accordion>
 
 ---
