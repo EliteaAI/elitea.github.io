@@ -330,6 +330,7 @@ The Login button in the toolkit form uses the scopes configured in the linked Sh
     | **File Operations** | | | |
     | | **Get files list** | Lists files in a SharePoint document library, optionally filtered by folder or library name; supports `include_extensions` and `skip_extensions` filters to narrow results by file type | Browse and discover files across document libraries |
     | | **Read document** | Reads the content of a document at a given server-relative path; supports `.docx`, `.xlsx`, `.pptx`, `.pdf`, `.txt`, `.csv`, and more; optional `page_number` (for multi-page documents), `sheet_name` (Excel), and `is_capture_image` (AI image description) parameters | Extract text content from SharePoint documents for analysis or summarization |
+    | | **Read file from sharing link** | Reads the content of a file from a public or sharing link | Access files shared via a link without needing to import them into a workspace first |
     | | **Upload file** | Uploads a file to a specified SharePoint document library folder, from artifact storage or direct string content | Automate file delivery and publishing to SharePoint |
     | **List & Data Operations** | | | |
     | | **Get lists** | Returns all visible SharePoint lists on the configured site with their titles, IDs, descriptions, and item counts | Discover lists on a site before reading or writing data |
@@ -456,6 +457,10 @@ Click the **Log in** link to complete the OAuth authorization flow without leavi
 ## Instructions and Prompts for Using the SharePoint Toolkit
 
 To effectively instruct your ELITEA Agent to use the SharePoint toolkit, you need to provide clear and precise instructions within the Agent's "Instructions" field. These instructions guide the Agent on *when* and *how* to use the available SharePoint tools to achieve your desired automation goals.
+
+<Info title="Supported spaces">
+SharePoint toolkit supports different types of SharePoint sites (including classic (/sites/) and team (/team/) sites and private SharePoint spaces (my.sharepoint.com)).
+</Info>
 
 ### Instruction Creation for Agents
 
