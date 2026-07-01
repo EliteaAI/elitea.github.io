@@ -526,28 +526,32 @@ Upon creating a new version of the agent, several options become available to yo
   For detailed information on version management, naming conventions, and best practices, see the [**Entity Versioning guide**](../how-tos/agents-pipelines/entity-versioning).
 </Info>
 
-### Publishing an Agent Version
+### How to Publish an Agent
 
-The **Publish** functionality allows you to make a specific `Draft` version of your agent available in [Agent HUB](./agents-studio) — a shared library accessible to all users in your ELITEA installation. Publishing uses a guided three-step wizard with **AI-powered automated validation** that checks your agent before it can be submitted.
+You can publish your agents to [Agent HUB](./agents-studio), a shared library accessible to all users in your ELITEA installation. The publishing wizard uses AI-powered automated validation to check your agent before publishing.
 
-**How to Publish an Agent Version:**
+To publish an agent:
 
-1. Open the agent and select the **Draft** version you want to publish using the version selector.
-2. Click the **three-dot menu (⋮)** in the agent tab bar and select **Publish**.
-3. In the **Preparation** step, enter a version name and accept the Publishing Terms, then click **Continue**.
+1. Open the agent and select its version you want to publish.
+2. Click the **three-dot menu (⋮)** and select **Publish**.
+3. In the **Preparation** step, enter a version name and accept the publishing terms, then click **Continue**.
 4. The **AI Validation** step runs automatically — review the result (PASS, WARN, or FAIL). Address any critical issues if needed.
 5. Click **Publish** to submit. On success, the version is immediately live in Agent HUB.
 
 ![Agents-Publish](../img/menus/agents/agents-publishing.gif)
 
-**What Happens After Publishing:**
+What happens after publishing:
 
-- The version status updates to `Published` and appears in your **Published** tab.
-- Community users can find and use the agent in Agent HUB without needing project access.
+- The version status updates to **Published**.
+- Community users can find and use the agent in Agent HUB without needing the project access.
 - You can unpublish at any time using the **Unpublish** option in the three-dot menu.
 
+<Warning title="Publishing permissions">
+Only users with publishing permissions (`models.applications.publish.post`) can publish agents.
+</Warning>
+
 <Info>
-  For the complete publishing flow — including validation details, token expiry, sub-agent handling, and troubleshooting — see the [**Agent Publishing Guide**](../how-tos/agents-pipelines/agent-publishing).
+  For the complete publishing flow — including validation details, token expiry, sub-agent handling, and troubleshooting — see the [**Agent publishing guide**](../how-tos/agents-pipelines/agent-publishing).
 </Info>
 
 ### Exporting and Importing Agents
