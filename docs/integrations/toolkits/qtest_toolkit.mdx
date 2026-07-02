@@ -171,6 +171,23 @@ The qTest toolkit provides the following tools for interacting with qTest projec
 | | **List collections** | List all available vector database collections | Discover indexed data collections |
 | | **Remove index** | Delete indexed data from vector database | Clean up or refresh indexed data |
 
+<Note title="Search by DQL: lighter defaults and timeout protection">
+The **Search by DQL** tool now uses lighter default request behavior for more predictable performance under heavier workloads.
+
+By default:
+
+- `append_test_steps` is `false`, so full test-step payloads are not fetched unless you explicitly request them
+- `include_external_properties` is `false`, so external-property payloads are also excluded unless needed
+
+This reduces response size, lowers latency, and helps avoid unnecessary context growth for standard list and lookup scenarios.
+
+If your workflow needs the fuller payload, opt in explicitly by enabling those parameters for the specific call.
+</Note>
+
+<Info title="qTest API timeout protection">
+qTest API requests now run with timeout protection. Slow or unresponsive qTest endpoints fail in a controlled way instead of waiting indefinitely. The default request timeout is 180 seconds and can be adjusted by platform configuration when needed.
+</Info>
+
 <Tip title="Vector Search Tools">
 The tools **Index data**, **List collections**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These enable advanced semantic search capabilities across your Jira projects.
 </Tip>

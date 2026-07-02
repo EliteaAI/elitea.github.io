@@ -168,6 +168,22 @@ The Confluence toolkit provides the following tools for interacting with Conflue
 | **Advanced Operations** | | | |
 | | **Execute generic confluence** | Sends custom HTTP requests to Confluence API | Access any Confluence API endpoint not covered by specific tools |
 
+<Note title="Read page by id: content format override">
+The **Read page by id** tool now supports an optional per-call `content_format` parameter. Use it when the default rendered page body does not expose the content you need clearly, especially on macro-heavy or specially structured Confluence pages.
+
+Supported values are:
+
+- `view` — standard rendered page body
+- `storage` — storage-oriented body representation, often more reliable for structured macros
+- `export_view` — export-oriented rendered body
+- `editor` — editor representation
+- `anonymous` — anonymous export view
+- `styled_view` — export-styled HTML with inline CSS
+- `atlas_doc_format` — Confluence Cloud ADF JSON for structured downstream processing
+
+If `content_format` is not provided, the tool keeps using the toolkit's configured default behavior.
+</Note>
+
 <Tip title="Vector Search Tools">
 The tools **Index data**, **List collections**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These enable advanced semantic search capabilities across your Confluence spaces and pages.
 </Tip>
