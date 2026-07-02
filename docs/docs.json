@@ -473,7 +473,7 @@
             "group": "Applications",
             "icon": "puzzle-piece",
             "pages": ["integrations/apps/wikis", "integrations/apps/inventory"]
-          },          
+          },
           {
             "group": "Third-Party Integrations",
             "icon": "arrows-left-right",
@@ -497,15 +497,15 @@
           {
             "group": "Latest Release",
             "icon": "tag",
-            "pages": ["release-notes/rn-2-0-3"]
+            "pages": ["release-notes/rn-2-0-4"]
           },
           {
             "group": "Recent Releases",
             "icon": "clock-rotate-left",
             "pages": [
+              "release-notes/archived/rn-2-0-3",
               "release-notes/archived/rn-2-0-2",
-              "release-notes/archived/rn-2-0-1",
-              "release-notes/archived/rn-2-0-0"
+              "release-notes/archived/rn-2-0-1"
             ]
           },
           {
@@ -513,6 +513,7 @@
             "icon": "archive",
             "expanded": false,
             "pages": [
+              "release-notes/archived/rn-2-0-0",
               "release-notes/archived/rn-2-0-0-b2",
               "release-notes/archived/rn-2-0-0-beta",
               "release-notes/archived/rn-1-7-1",
@@ -635,55 +636,53 @@
       }
     ]
   },
-"redirects": [
-  {
-    "source": "/release-notes/rn_current",
-    "destination": "/release-notes/rn-2-0-2"
-  },
-  {
-    "source": "/release-notes/rn-2-0-1",
-    "destination": "/release-notes/archived/rn-2-0-1"
-  },
-  {
-    "source": "/release-notes/rn-2-0-0",
-    "destination": "/release-notes/archived/rn-2-0-0"
-  },
-  {
-    "source": "/release-notes/rn-2-0-0-b2",
-    "destination": "/release-notes/archived/rn-2-0-0-b2"
-  },
-  {
-    "source": "/release-notes/rn-2-0-0-beta",
-    "destination": "/release-notes/archived/rn-2-0-0-beta"
-  },
-  {
-    "source": "/release-notes/rn-1-7-1",
-    "destination": "/release-notes/archived/rn-1-7-1"
-  },
-  {
-    "source": "/release-notes/rn-1-7-0",
-    "destination": "/release-notes/archived/rn-1-7-0"
-  },
-  {
-    "source": "/release-notes/archived/rn16",
-    "destination": "/release-notes/archived/rn-2-0-1"
-  },
-  {
-    "source": "/release-notes/archived/rn15",
-    "destination": "/release-notes/archived/rn-2-0-0"
-  },
-  {
-    "source": "/release-notes/archived/rn14",
-    "destination": "/release-notes/archived/rn-2-0-0-b2"
-  },
-  {    "source": "/release-notes/archived/rn13",
-    "destination": "/release-notes/archived/rn-2-0-0-beta"
-  },
-  {    "source": "/release-notes/archived/rn12",
-    "destination": "/release-notes/archived/rn-1-7-1"
-  },
-  {    "source": "/release-notes/archived/rn11",
-    "destination": "/release-notes/archived/rn-1-7-0"
-  }
-]
+  "redirects": [
+    {
+      "source": "/release-notes/rn_current",
+      "destination": "/release-notes/rn-2-0-4"
+    },
+    {
+      "source": "/release-notes/rn-2-0-3",
+      "destination": "/release-notes/archived/rn-2-0-3"
+    },
+    {
+      "source": "/release-notes/rn-2-0-1",
+      "destination": "/release-notes/archived/rn-2-0-1"
+    },
+    {
+      "source": "/release-notes/rn-2-0-0",
+      "destination": "/release-notes/archived/rn-2-0-0"
+    },
+    {
+      "source": "/release-notes/rn-2-0-0-b2",
+      "destination": "/release-notes/archived/rn-2-0-0-b2"
+    },
+    {
+      "source": "/release-notes/rn-2-0-0-beta",
+      "destination": "/release-notes/archived/rn-2-0-0-beta"
+    },
+    {
+      "source": "/release-notes/rn-1-7-1",
+      "destination": "/release-notes/archived/rn-1-7-1"
+    },
+    {
+      "source": "/release-notes/rn-1-7-0",
+      "destination": "/release-notes/archived/rn-1-7-0"
+    },
+    {
+      "source": "/release-notes/archived/rn16",
+      "destination": "/release-notes/archived/rn-2-0-1"
+    },
+    {
+      "source": "/release-notes/archived/rn15",
+      "destination": "/release-notes/archived/rn-2-0-0"
+    },
+    {
+      "source": "/release-notes/archived/rn14",
+      "destination": "/release-notes/archived/rn-2-0-0-b2"
+    },
+    { "source": "/release-notes/archived/rn13", "destination": "/release-notes/archived/rn-2-0-0-beta" },
+    { "source": "/release-notes/archived/rn12", "destination": "/release-notes/archived/rn-1-7-1" },
+    { "source": "/release-notes/archived/rn11", "destination": "/release-notes/archived/rn-1-7-0" }
+  ]
 }
