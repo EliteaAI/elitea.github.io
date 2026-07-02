@@ -33,8 +33,9 @@ The **Agent Canvas** interface in ELITEA serves as an integrated agent managemen
 <Steps>
   <Step title="Access the Agent Creation Canvas">
     1. Navigate to the **Chat** page (main sidebar menu).
-    2. In the **PARTICIPANTS** section, locate **Agents**.
-    3. Click on the **Create new agent** button.
+    2. In the chat input toolbar, click the **`+`** icon.
+    3. Hover over **Agents** to expand the submenu.
+    4. Click **Create New Agent** at the bottom of the submenu.
 
      ![Canvas Agent Access](../../img/how-tos/chat-conversations/canvas-agent/canvas-agent-access.gif)
 
@@ -55,6 +56,10 @@ The **Agent Canvas** interface in ELITEA serves as an integrated agent managemen
     Required fields are marked with an asterisk * and must be completed before the agent can be saved. The **Save** button remains disabled until both **Name** and **Description** contain valid text.
     </Note>
 
+    <Tip title="Build with AI">
+    Instead of filling in the form manually, click the **✨ Build with AI** button in the **GENERAL** section header. Describe what the agent should do — its goal, tasks, and preferred tone — then click **Generate**. ELITEA drafts a **Name**, **Description**, **Instructions**, **Welcome Message**, and **Conversation Starters** for you. All generated fields are fully editable before you save.
+    </Tip>
+
     **INSTRUCTIONS**
 
     Provide detailed guidelines specifying how your agent should behave and what tasks it should perform:
@@ -64,7 +69,7 @@ The **Agent Canvas** interface in ELITEA serves as an integrated agent managemen
     <Tip>
     The Instructions field supports two shorthand syntaxes:
     - **Variables**: Use `{{variable_name}}` to define template placeholders. They are automatically detected and added to the **VARIABLES** section, where you can set their default values.
-    - **Mentions**: Type `/` to open a suggestion dropdown listing all configured toolkits, MCPs, agents, and pipelines. For toolkits and MCPs, you can optionally select a specific tool to produce a `/Name/ToolName` mention. Inserted mentions are highlighted in the field.
+    - **Mentions**: Type `/` to open a suggestion dropdown listing all configured toolkits, MCPs, agents, and pipelines. For toolkits and MCPs, you can optionally select a specific tool to produce a `/Name/ToolName` mention. Type `~` to open a suggestion dropdown listing attached Skills. Inserted mentions are highlighted in the field.
     </Tip>
 
     **WELCOME MESSAGE** (optional)
@@ -82,6 +87,7 @@ The **Agent Canvas** interface in ELITEA serves as an integrated agent managemen
     **ADVANCED** (optional)
 
     - **Step limit**: Set the maximum number of steps the agent can execute before ending the loop — valid range **0–999** (default: **25**). Click the tooltip icon for more information.
+    - **Ignore Project Context**: When enabled, the agent does not receive the project-level [Project Context](../../menus/settings/project-context) that is otherwise injected into every AI interaction. Enable this when the agent should rely solely on its own instructions.
 
     ![Agent Basic Configuration](../../img/how-tos/chat-conversations/canvas-agent/canvas-agent-config-basic.gif)
   </Step>
@@ -180,7 +186,7 @@ The **LLM Model Selector** appears at the top of the editor panel in edit mode.
 
 ### Toolkits Configuration
 
-In the **TOOLKITS** section, enhance your agent's capabilities by adding integrations and enabling internal tools.
+In the **TOOLS** section, enhance your agent's capabilities by adding integrations and enabling internal tools.
 
 <Note title="Save first">
 The **+ Toolkit**, **+ MCP**, **+ Agent**, and **+ Pipeline** buttons are disabled until the agent has been saved at least once. Save the agent first, then add integrations.
@@ -245,7 +251,32 @@ Below the added integrations, the **INTERNAL TOOLS** section displays built-in c
   <Card title="Smart Tools Selection" icon="wand-magic-sparkles" href="./smart-tools-selection-internal-tool">
     Reduces token usage by using meta-tools to discover and invoke tools on demand instead of binding all upfront.
   </Card>
+  <Card title="Elitea MCP Tools" icon="plug" href="./elitea-mcp-tools-internal-tool">
+    Expose ELITEA's own capabilities as MCP tools, allowing agents to interact with projects, prompts, datasources, and more.
+  </Card>
 </CardGroup>
+
+### Skills Configuration
+
+The **SKILLS** section (available in team and personal projects) lets you attach reusable instruction sets to the agent version.
+
+<Info>
+A maximum of **5 Skills** can be attached to a single agent version. The **SKILLS** section is hidden when the Public project is selected. The **+ Skill** button is disabled until the agent has been saved at least once.
+</Info>
+
+1. Scroll to the **SKILLS** accordion in the left panel.
+2. Click **`+ Skill`** to open the skill picker and search by name, then click to attach. The Skill is attached using its `base` version by default.
+3. To change the version, click the version name on the Skill card and select from the dropdown.
+4. To remove a Skill, hover over the card and click the **Remove skill** (trash) icon.
+
+![Agent Advanced Configuration](../../img/how-tos/chat-conversations/canvas-agent/canvas-agents-skills.gif)
+
+
+<Info>
+For full details on creating and managing Skills, see the [**Skills**](../../menus/skills) documentation.
+</Info>
+
+---
 
 ### Finalizing Agent Creation
 
@@ -405,7 +436,7 @@ Switching to a different version while the editor has unsaved changes will trigg
 ---
 
 <Info title="Related Documentation">
-For additional information and related functionality, refer to these helpful resources:
+For additional information and related functionality, explore these related guides and references:
 
 - **[Agent Menu](../../menus/agents)** - Complete reference for agent management and configuration options
 - **[Chat Menu](../../menus/chat)** - Comprehensive guide to chat interface features and navigation

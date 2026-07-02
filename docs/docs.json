@@ -66,6 +66,7 @@
             "icon": "lightbulb",
             "pages": [
               "home/key-concepts/what-is-an-agent",
+              "home/key-concepts/what-is-a-skill",
               "home/key-concepts/what-is-a-pipeline",
               "home/key-concepts/what-is-a-credential",
               "home/key-concepts/what-is-a-toolkit",
@@ -90,6 +91,7 @@
                 "pages": [
                   "menus/chat",
                   "menus/agents",
+                  "menus/skills",
                   "menus/pipelines",
                   "menus/credentials",
                   "menus/toolkits",
@@ -106,6 +108,7 @@
                 "pages": [
                   "menus/settings/settings-overview",
                   "menus/settings/ai-configuration",
+                  "menus/settings/project-context",
                   "menus/settings/personal-tokens",
                   "menus/settings/secrets",
                   "menus/settings/users",
@@ -185,11 +188,12 @@
                 "expanded": false,
                 "pages": [
                   "how-tos/chat-conversations/image-generation",
-                  "how-tos/chat-conversations/python-sandbox-internal-tool",
                   "how-tos/chat-conversations/data-analysis-internal-tool",
+                  "how-tos/chat-conversations/elitea-mcp-tools-internal-tool",
                   "how-tos/chat-conversations/planner-internal-tool",
-                  "how-tos/chat-conversations/smart-tools-selection-internal-tool",
-                  "how-tos/chat-conversations/swarm-mode-internal-tool"
+                  "how-tos/chat-conversations/python-sandbox-internal-tool",
+                  "how-tos/chat-conversations/swarm-mode-internal-tool",
+                  "how-tos/chat-conversations/smart-tools-selection-internal-tool"
                 ]
               },
               {
@@ -263,6 +267,7 @@
                 "group": "Manage Agents & Pipelines",
                 "expanded": true,
                 "pages": [
+                  "how-tos/agents-pipelines/build-agent-with-ai",
                   "how-tos/agents-pipelines/agents-pipelines-history",
                   "how-tos/agents-pipelines/entity-versioning",
                   "how-tos/agents-pipelines/import-export",
@@ -468,7 +473,7 @@
             "group": "Applications",
             "icon": "puzzle-piece",
             "pages": ["integrations/apps/wikis", "integrations/apps/inventory"]
-          },          
+          },
           {
             "group": "Third-Party Integrations",
             "icon": "arrows-left-right",
@@ -492,15 +497,15 @@
           {
             "group": "Latest Release",
             "icon": "tag",
-            "pages": ["release-notes/rn-2-0-3"]
+            "pages": ["release-notes/rn-2-0-4"]
           },
           {
             "group": "Recent Releases",
             "icon": "clock-rotate-left",
             "pages": [
+              "release-notes/archived/rn-2-0-3",
               "release-notes/archived/rn-2-0-2",
-              "release-notes/archived/rn-2-0-1",
-              "release-notes/archived/rn-2-0-0"
+              "release-notes/archived/rn-2-0-1"
             ]
           },
           {
@@ -508,6 +513,7 @@
             "icon": "archive",
             "expanded": false,
             "pages": [
+              "release-notes/archived/rn-2-0-0",
               "release-notes/archived/rn-2-0-0-b2",
               "release-notes/archived/rn-2-0-0-beta",
               "release-notes/archived/rn-1-7-1",
@@ -630,55 +636,53 @@
       }
     ]
   },
-"redirects": [
-  {
-    "source": "/release-notes/rn_current",
-    "destination": "/release-notes/rn-2-0-2"
-  },
-  {
-    "source": "/release-notes/rn-2-0-1",
-    "destination": "/release-notes/archived/rn-2-0-1"
-  },
-  {
-    "source": "/release-notes/rn-2-0-0",
-    "destination": "/release-notes/archived/rn-2-0-0"
-  },
-  {
-    "source": "/release-notes/rn-2-0-0-b2",
-    "destination": "/release-notes/archived/rn-2-0-0-b2"
-  },
-  {
-    "source": "/release-notes/rn-2-0-0-beta",
-    "destination": "/release-notes/archived/rn-2-0-0-beta"
-  },
-  {
-    "source": "/release-notes/rn-1-7-1",
-    "destination": "/release-notes/archived/rn-1-7-1"
-  },
-  {
-    "source": "/release-notes/rn-1-7-0",
-    "destination": "/release-notes/archived/rn-1-7-0"
-  },
-  {
-    "source": "/release-notes/archived/rn16",
-    "destination": "/release-notes/archived/rn-2-0-1"
-  },
-  {
-    "source": "/release-notes/archived/rn15",
-    "destination": "/release-notes/archived/rn-2-0-0"
-  },
-  {
-    "source": "/release-notes/archived/rn14",
-    "destination": "/release-notes/archived/rn-2-0-0-b2"
-  },
-  {    "source": "/release-notes/archived/rn13",
-    "destination": "/release-notes/archived/rn-2-0-0-beta"
-  },
-  {    "source": "/release-notes/archived/rn12",
-    "destination": "/release-notes/archived/rn-1-7-1"
-  },
-  {    "source": "/release-notes/archived/rn11",
-    "destination": "/release-notes/archived/rn-1-7-0"
-  }
-]
+  "redirects": [
+    {
+      "source": "/release-notes/rn_current",
+      "destination": "/release-notes/rn-2-0-4"
+    },
+    {
+      "source": "/release-notes/rn-2-0-3",
+      "destination": "/release-notes/archived/rn-2-0-3"
+    },
+    {
+      "source": "/release-notes/rn-2-0-1",
+      "destination": "/release-notes/archived/rn-2-0-1"
+    },
+    {
+      "source": "/release-notes/rn-2-0-0",
+      "destination": "/release-notes/archived/rn-2-0-0"
+    },
+    {
+      "source": "/release-notes/rn-2-0-0-b2",
+      "destination": "/release-notes/archived/rn-2-0-0-b2"
+    },
+    {
+      "source": "/release-notes/rn-2-0-0-beta",
+      "destination": "/release-notes/archived/rn-2-0-0-beta"
+    },
+    {
+      "source": "/release-notes/rn-1-7-1",
+      "destination": "/release-notes/archived/rn-1-7-1"
+    },
+    {
+      "source": "/release-notes/rn-1-7-0",
+      "destination": "/release-notes/archived/rn-1-7-0"
+    },
+    {
+      "source": "/release-notes/archived/rn16",
+      "destination": "/release-notes/archived/rn-2-0-1"
+    },
+    {
+      "source": "/release-notes/archived/rn15",
+      "destination": "/release-notes/archived/rn-2-0-0"
+    },
+    {
+      "source": "/release-notes/archived/rn14",
+      "destination": "/release-notes/archived/rn-2-0-0-b2"
+    },
+    { "source": "/release-notes/archived/rn13", "destination": "/release-notes/archived/rn-2-0-0-beta" },
+    { "source": "/release-notes/archived/rn12", "destination": "/release-notes/archived/rn-1-7-1" },
+    { "source": "/release-notes/archived/rn11", "destination": "/release-notes/archived/rn-1-7-0" }
+  ]
 }

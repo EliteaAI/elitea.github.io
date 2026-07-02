@@ -137,6 +137,8 @@ The Figma toolkit provides the following tools for interacting with Figma design
 | | **Analyze file** | LLM-powered file analyzer providing file/page/frame structure, screen explanations with visual insights, user flow analysis, and design recommendations. Supports drill-down by node_id for detailed page or frame analysis | Deep analysis of design files with AI-powered insights for UX research, documentation, and design review |
 | | **Get file** | Retrieves the complete details and structure of a Figma file | Access comprehensive file structure for analysis and data extraction |
 | | **Get file nodes** | Retrieves specific design elements (frames, layers, groups) from a Figma file | Analyze specific design components and their properties |
+| | **Extract design tokens** | Extracts design tokens from a single Figma node and returns a structured summary of its core visual values like colors, typography, and effects | Extract design tokens for documentation, implementation handoff, or token auditing |
+| | **Extract design tokens batch** | Extracts design tokens from multiple Figma nodes in one request | Efficiently manage and update design tokens across projects |
 | | **Get file versions** | Retrieves the version history of a Figma file | Track design evolution, compare versions, and analyze changes over time |
 | **Asset Management** | | | |
 | | **Get file images** | Extracts images and visual assets from a Figma file | Export design assets for documentation, presentations, or development |
@@ -860,7 +862,7 @@ If you encounter issues not covered in this guide or need additional assistance 
 ---
 
 <Info title="Useful ELITEA Resources">
-To further enhance your understanding and skills in using the Figma toolkit with ELITEA, here are helpful internal resources:
+To learn more about using the Figma toolkit with ELITEA, explore these related guides and references:
 
   * **[ELITEA Credentials Management](../../how-tos/credentials-toolkits/how-to-use-credentials)** - *Learn how to securely store your Figma API Token using ELITEA's Credentials management feature for enhanced security within ELITEA.*
   * **[Indexing Overview](../../how-tos/indexing/indexing-overview)** - *Comprehensive guide to understanding ELITEA's indexing capabilities and how to leverage them for enhanced search and discovery.*
@@ -868,7 +870,7 @@ To further enhance your understanding and skills in using the Figma toolkit with
 </Info>
 
 <Info title="External Resources">
-*   **Figma Website:** [https://www.figma.com/](https://www.figma.com/) - *Access the main Figma product website for product information, documentation, tutorials, and community resources.*
+*   **Figma Website:** [https://www.figma.com/](https://www.figma.com/) - *Access the main Figma product website for product information, documentation, and tutorials.*
 *   **Figma for Developers Documentation:** [https://www.figma.com/developers/api](https://www.figma.com/developers/api) - *Explore the official Figma API documentation for detailed information on Figma API endpoints, authentication, data structures, and developer guides.*
 *   **Figma OAuth 2.0 Documentation:** [https://www.figma.com/plugin-docs/oauth-with-plugins/](https://www.figma.com/plugin-docs/oauth-with-plugins/) - *Learn more about implementing OAuth 2.0 authentication for Figma applications and integrations.*
 *   **Figma Help Center:** [https://help.figma.com/hc/en-us](https://help.figma.com/hc/en-us) - *Access the official Figma Help Center for comprehensive articles, FAQs, and troubleshooting guides on all aspects of Figma usage.*

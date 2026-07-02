@@ -1,0 +1,78 @@
+---
+title: "What is a Skill?"
+description: "A Skill is a reusable, named instruction set written in Markdown that you attach to agents and invoke on demand during a conversation — without duplicating logic across agents."
+---
+
+Key characteristics:
+
+- **Reusable**: Write once and attach to as many agents as needed. Updates propagate automatically to every agent using the Skill.
+- **Named and invocable**: Each Skill has a unique name and can be triggered mid-conversation by typing `~skill-name` in the chat composer.
+- **Versioned**: Maintain multiple named versions alongside the always-present `base` version, so you can iterate safely without breaking existing agents.
+- **Modular**: Combine multiple Skills on a single agent to compose complex behavior from small, independently tested pieces.
+
+## Skills in ELITEA
+
+ELITEA Skills let you encapsulate a specific capability — a focused set of Markdown instructions — and share it across agents without copying text. When an agent activates a Skill, its instructions are injected into the conversation for that turn, giving the agent the targeted behavior defined in the Skill.
+
+What makes Skills powerful:
+
+- **Single source of truth**: Update the Skill once; all attached agents immediately reflect the change.
+- **Tested in isolation**: Each Skill has a built-in test chat panel so you can verify behavior before attaching it to any agent.
+- **Project-scoped sharing**: Any agent in the same project can attach and use the same Skill.
+- **Attach up to 5 per agent**: Combine up to five Skills on one agent version to build layered, modular capabilities.
+
+Perfect for shared reasoning templates, persona or tone guidance, domain-specific procedures, and any behavior that multiple agents need to perform consistently.
+
+### Example: Pull Request Review Skill
+
+**Scenario**: Maria is a tech lead whose team uses three different agents — a code review agent, a documentation agent, and an onboarding agent. All three need to evaluate pull request descriptions using the same quality checklist. Instead of copying the checklist into each agent, she creates a single Skill.
+
+**Maria's Task**: "I need all three agents to check that every PR has a clear summary, lists affected components, includes test coverage notes, and flags missing ticket references."
+
+**Skill Configuration:**
+
+- **Name**: `pr-review`
+- **Description**: `Evaluates pull request descriptions for completeness and quality.`
+- **Instructions**:
+
+```
+## PR Description Review
+
+When reviewing a pull request description, check for the following:
+
+1. **Summary** — Is there a clear one-sentence explanation of what the PR does?
+2. **Affected components** — Are the files, modules, or services impacted explicitly listed?
+3. **Test coverage** — Does the author describe what was tested and how?
+4. **Ticket reference** — Is a Jira/GitHub issue number linked?
+
+Flag any missing items and suggest what the author should add.
+Format your response as:
+- ✅ Present: [item]
+- ❌ Missing: [item] — [suggested addition]
+```
+
+**How the Skill Works:**
+
+1. Maria creates the Skill once from the **Skills** menu and saves it.
+2. She opens each of the three agents and attaches `pr-review` from the **Skills** section.
+3. During a conversation, any team member can type `~pr-review` to invoke the Skill, or the agent can activate it automatically based on its instructions.
+4. The agent applies the checklist to the PR description and returns a structured review.
+
+**Sample Output:**
+
+> **PR #412 Description Review:**
+>
+> - ✅ Present: Summary — "Adds retry logic to the payment service"
+> - ✅ Present: Affected components — `payment-service/`, `shared/http-client`
+> - ❌ Missing: Test coverage — Add a note describing which test cases were added or updated
+> - ❌ Missing: Ticket reference — Link the related Jira ticket (e.g., `PAY-301`)
+
+When Maria updates the checklist in the Skill, all three agents pick up the change automatically — no edits needed on each agent individually.
+
+---
+
+<Info title="Reference">
+Ready to get started? Explore the [Skills menu](../../menus/skills) to create your first Skill.
+
+For detailed definitions of terms and concepts, please refer to the [ELITEA Glossary](../glossary)
+</Info>

@@ -5,7 +5,7 @@ description: "What are ELITEA Pipelines?"
 
 ## Overview
 
-ELITEA Pipelines are powerful workflow automation tools that enable you to visually design and execute complex sequences of actions and decisions. Each pipeline is purpose-built to orchestrate multi-step processes by connecting various nodes—including LLM interactions, toolkit integrations, conditional logic, and custom code execution. Pipelines seamlessly interact with external services, toolkits, and data sources, allowing you to automate sophisticated workflows ranging from data processing and decision-making to integration with platforms like Jira, GitHub, and Salesforce.
+ELITEA Pipelines are powerful workflow automation tools that enable you to visually design and execute complex sequences of actions and decisions. Each pipeline is purpose-built to orchestrate multi-step processes by connecting various nodes—including LLM interactions, toolkit integrations, conditional logic, and custom code execution. Pipelines seamlessly interact with external services and data sources, allowing you to automate sophisticated workflows ranging from data processing and decision-making to integration with platforms like Jira, GitHub, and Salesforce.
 
 **Why Use Pipelines?**
 
@@ -80,7 +80,7 @@ Pin frequently used pipelines to keep them at the top of your list for quick acc
 
 ## Creating a Pipeline
 
-The pipeline creation flow follows a **two-phase approach**: first you provide the pipeline metadata and save, then the full editor environment — including the Flow/YAML designer, Toolkits, and the embedded test chat — becomes available.
+The pipeline creation flow follows a **two-phase approach**: first you provide the pipeline metadata and save, then the full editor environment — including the Flow/YAML designer, tools, and the embedded test chat — becomes available.
 
 **Phase 1: Fill in Pipeline Metadata**
 
@@ -95,7 +95,9 @@ The pipeline creation flow follows a **two-phase approach**: first you provide t
          - **Conversation Starters**: Add predefined commands or prompts to initiate interactions with the pipeline. (e.g., "Generate test cases for the login feature" or "Create test scenarios for payment processing")
 4. In the **Advanced** section (optional):
          - **Step Limit**: Set the maximum number of tool execution steps the pipeline can perform in a single turn (range: 0-999, default: 25). This parameter controls how many iterations the pipeline can execute before stopping, preventing infinite loops and managing resource usage. A higher step limit allows more complex multi-step workflows, while a lower limit ensures faster execution for simpler tasks.
-5. Click **Save** to create the pipeline. This action creates what's known as the "**base**" version of your pipeline.
+5. In the **Editor Notes** section (optional):
+         - **Notes**: Add internal documentation for the current pipeline version, such as rollout reminders, implementation notes, or review comments. These notes are for editors only and are not sent to the LLM or used during execution.
+6. Click **Save** to create the pipeline. This action creates what's known as the "**base**" version of your pipeline.
 
      <img src="../img/menus/pipeline/pipeline-create.gif" alt="Pipeline_Create" />
 
@@ -103,7 +105,7 @@ The pipeline creation flow follows a **two-phase approach**: first you provide t
 
 After saving, the **pipeline editor page** opens automatically. This page uses a **three-column layout**:
 
-- **Left panel** — the configuration form with all settings sections (General, Toolkits, Variables, Welcome Message, Conversation Starters, Advanced, Information)
+- **Left panel** — the configuration form with all settings sections (General, Tools, Variables, Welcome Message, Conversation Starters, Advanced, Editor Notes, Information)
 - **Center panel** — the **Flow/YAML editor** for visually designing or coding your pipeline workflow
 - **Right panel** — an embedded live chat panel for testing the pipeline without leaving the editor
 
@@ -134,13 +136,13 @@ To add an image:
 <img src="../img/menus/pipeline/pipeline-icon.gif" alt="Agents_icon" />
 </Tip>
 
-### How to Select and Configure Toolkits
+### How to Select and Configure Tools
 
-Toolkits are integrations with external or ELITEA's internal services that enhance your pipeline's capabilities by allowing it to interact with various resources and perform specific tasks. In addition to toolkits, you can also add other Agents, MCPs (Model Context Protocol servers), and Pipelines to extend your pipeline's functionality. The **Toolkits** section becomes available in the left panel only after the pipeline has been saved for the first time.
+Tools are integrations with external or ELITEA's internal services that enhance your pipeline's capabilities by allowing it to interact with various resources and perform specific tasks. In *Tools*, you can add agents, toolkits, MCPs (Model Context Protocol servers), and othr pipelines to extend your pipeline's functionality. The **TOOLS** section becomes available in the left panel only after the pipeline has been saved for the first time.
 
 **Adding Resources to Your Pipeline**:
 
-1. In the pipeline Configuration interface, navigate to the **TOOLKITS** section
+1. In the pipeline Configuration interface, navigate to the **TOOLS** section
 2. Use the dedicated add buttons to attach resources. Each button opens its own searchable dropdown:
       - **+Toolkit**: Browse and select from available toolkits, or click **"Create new"** to create a new toolkit. See **[Toolkits](./toolkits)**.
       - **+MCP**: Browse and select Model Context Protocol servers, or click **"Create new"** to create a new MCP. See **[MCPs](./mcps)**.
@@ -153,7 +155,7 @@ Toolkits are integrations with external or ELITEA's internal services that enhan
 <img src="../img/menus/pipeline/pipeline-add-toolkit.gif" alt="Add Toolkit" />
 
 <Frame caption="If a toolkit added to your pipeline uses shared credentials that require each user to supply their own private copy, a **Credential setup required** warning banner will appear on the tool card. Click the **Create a credential** link in the banner to create a matching private credential in your Personal workspace. See [Shared Toolkit Credentials](./toolkits#shared-toolkit-credentials) for details.">
-  <img src="../img/menus/pipeline/credentials-warning-pipeline.png" alt="Credential setup required banner" />
+  <img src="../img/menus/pipeline/euch_credentials-warning-pipeline.png" alt="Credential setup required banner" />
 </Frame>
 
 <Tip title="Integration Best Practices">
@@ -162,6 +164,20 @@ Toolkits are integrations with external or ELITEA's internal services that enhan
 - **MCP Integration**: Verify MCP server connectivity and context requirements before integration
 - **Pipeline Integration**: Consider data flow and dependencies when nesting pipelines
 </Tip>
+
+### EDITOR NOTES
+
+The **EDITOR NOTES** section is a separate accordion in the left configuration panel. It is intended for internal documentation about the current pipeline version.
+
+Use this field to record implementation notes, review comments, rollout reminders, or other editor-facing context that should stay with the pipeline configuration.
+
+- The content is **not sent to the LLM**, **not included in chat or execution**, and **not used in monitoring**
+
+**Example uses:**
+
+- `Use this version for staging validation only.`
+- `Pending toolkit credential rotation before production rollout.`
+- `Draft variant created for testing alternative routing logic.`
 
 
 ## Designing Your Pipeline
@@ -288,7 +304,7 @@ For detailed information about YAML syntax, configuration options, and advanced 
 
 To execute the pipeline and get the output:
 
-1. **Configure the Pipeline**: Ensure your pipeline is properly configured with clear instructions and any necessary toolkits.
+1. **Configure the Pipeline**: Ensure your pipeline is properly configured with clear instructions and any necessary tools.
 2. **Navigate to Pipeline**: Access the pipeline's interface by clicking on the pipeline from your pipelines list.
 3. **Select the AI Model**: In the interface, choose the appropriate AI model (e.g., gpt-4o, gpt-5.1, etc.) from the model selection dropdown.
 4. **Adjust Model Settings** (Optional): Click the **Model Settings** icon (⚙️) next to the model selector to fine-tune the response generation. The settings vary depending on the selected model:
@@ -620,7 +636,7 @@ ELITEA allows you to export the **currently selected version** of a pipeline as 
 2. Click the **three-dot menu (⋮)** in the toolbar.
 3. Select **Export**. The file downloads automatically to your device.
    - If the selected version has **no nested dependencies**, a single **`.md`** file is downloaded.
-   - If the selected version references **other agents or pipelines as toolkits**, the export is a **`.zip`** file containing all dependencies.
+   - If the selected version references **other agents or pipelines as tools**, the export is a **`.zip`** file containing all dependencies.
 
 **Importing a Pipeline:**
 
@@ -630,7 +646,7 @@ ELITEA allows you to export the **currently selected version** of a pipeline as 
 4. Click **Import** to complete. The pipeline will appear in the current project.
 
 <Info>
-After import, toolkits requiring authentication will need their credentials reconfigured manually.
+After import, tools requiring authentication will need their credentials reconfigured manually.
 </Info>
 
 <Info title="Full Import/Export Guide">
@@ -655,7 +671,7 @@ Forking copies the **currently selected version** of a pipeline from one project
 - Only the **currently selected version** is forked.
 - Nested agent or pipeline dependencies are automatically included.
 - **Model settings** are preserved if the model is available in the target project; otherwise the first available model is used.
-- **Credentials** for toolkits must be reconfigured manually after forking.
+- **Credentials** for tools must be reconfigured manually after forking.
 </Info>
 
 <Info title="Full Forking Guide">
@@ -754,11 +770,11 @@ Add descriptions to nodes and use the YAML editor comments to explain complex lo
 ## Troubleshooting
 
 <Accordion title="Pipeline Not Executing">
-Check that all required toolkits are properly configured with valid credentials. Verify node connections are complete. Review the execution history for error messages.
+Check that all required tools are properly configured with valid credentials. Verify node connections are complete. Review the execution history for error messages.
 </Accordion>
 
 <Accordion title="Node Failing or Timing Out">
-Verify toolkit credentials and network connectivity. Check if external services are accessible. Review node configuration parameters for correctness.
+Verify credentials and network connectivity. Check if external services are accessible. Review node configuration parameters for correctness.
 </Accordion>
 
 <Accordion title="Incorrect Data Flow">
