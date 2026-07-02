@@ -11,7 +11,7 @@ ELITEA 2.0.4 focuses on making setup and everyday work faster and clearer. This 
 
 * **Release Version**: 2.0.4
 * **Released on**: 02-Jul-2026
-* **Access**: [ELITEA Platform](https://elitea.ai)
+* **Access**: [ELITEA Platform](https://next.elitea.ai)
 
 
 ## New Features
@@ -28,7 +28,7 @@ ELITEA now lets users create new agents from natural-language descriptions with 
 
 **Benefits:** Faster time to first agent, lower setup effort for non-technical and technical users alike, and more consistent agent creation without sacrificing user review and control.
 
-For more information, see [Build an Agent with AI](../how-tos/agents-pipelines/build-agent-with-ai), [Agents](../menus/agents), and [Agents Studio](../menus/agents-studio).
+For more information, see [Build an Agent with AI](../how-tos/agents-pipelines/build-agent-with-ai), [Agents](../menus/agents), and [Agent HUB](../menus/agents-studio).
 
 ### Skills for Reusable Agent Guidance
 
@@ -89,7 +89,7 @@ ELITEA now adds a dedicated **Notes** field to agent and pipeline configuration 
 
 **Benefits:** Better maintainability for shared agents and pipelines.
 
-For more information, see [Agents](../menus/agents), [Pipelines](../menus/pipelines), and [Agents Studio](../menus/agents-studio).
+For more information, see [Agents](../menus/agents), [Pipelines](../menus/pipelines), and [Agent HUB](../menus/agents-studio).
 
 ### Block with Comments for Sensitive Tool Authorization
 
@@ -229,9 +229,9 @@ The Chat experience has been reworked to streamline how conversations start, how
 
 For more information, see [Chat](../menus/chat), [Chat Functionality](../how-tos/chat-conversations/how-to-use-chat-functionality), [Agents](../menus/agents), and [Pipelines](../menus/pipelines).
 
-### Agent Studio Uses Curated Categories Instead of Free-Form Publishing Tags
+### Agent HUB Uses Curated Categories Instead of Free-Form Publishing Tags
 
-Agent Studio discovery and publishing are now more structured by moving away from the old free-form published-agent tag experience and toward a curated category model that is easier to browse, filter, and manage.
+Agent HUB discovery and publishing are now more structured by moving away from the old free-form published-agent tag experience and toward a curated category model that is easier to browse, filter, and manage.
 
 **What you can do now:**
 
@@ -242,7 +242,7 @@ Agent Studio discovery and publishing are now more structured by moving away fro
 
 **Benefits:** Cleaner agent discovery, more consistent published-agent classification and a simpler browsing experience for end users.
 
-For more information, see [Agents Studio](../menus/agents-studio) and [Agents](../menus/agents).
+For more information, see [Agent HUB](../menus/agents-studio) and [Agents](../menus/agents).
 
 ### The Sidebar Create Control Uses a Split-Button Quick Action Pattern
 
@@ -281,7 +281,7 @@ Several product labels have been updated across the interface to better match wh
 **What you can do now:**
 
 * **Use Help Center instead of Resources**: Find documentation, release notes, tutorials, and related learning materials under the clearer **Help Center** name across the main app and admin-facing references.
-* **Use Agent HUB instead of Agents Studio**: Browse published community agents under a name that emphasizes discovery and reuse instead of suggesting a creation workspace.
+* **Use Agent HUB instead of Agent HUB**: Browse published community agents under a name that emphasizes discovery and reuse instead of suggesting a creation workspace.
 * **Work with a broader TOOLS section in agent and pipeline pages**: See the old **TOOLKITS** section renamed to **TOOLS**, which better reflects that the area includes toolkits, MCPs, agents, and pipelines.
 * **Use Configurations instead of Integrations in AI Configuration**: Manage model and service setup under **Configurations**, which more accurately describes LLM, embedding, speech, image, and vector-store configuration pages.
 
@@ -301,6 +301,21 @@ ELITEA now deprecates the remaining **v1 API** endpoints and standardizes platfo
 **Benefits:** Clearer API versioning, less ambiguity for integrations, and a single supported API surface for ongoing client and documentation work.
 
 For more information, see [Swagger API Documentation](https://next.elitea.ai/shared/swagger/#/).
+
+### SharePoint Toolkit Moves Away from Azure ACS Credentials
+
+ELITEA now aligns SharePoint toolkit guidance with Microsoft's retirement of **Azure ACS (Access Control Services)** for SharePoint Online. Azure ACS for SharePoint Online was retired on 27-Nov-2023 and will stop working on 02-Apr-2026, while Azure ACS outside SharePoint was already retired on 07-Nov-2018 and is now end-of-life.
+
+**What you can do now:**
+
+* **Move away from Azure ACS-based SharePoint authentication**: Do not rely on legacy Azure ACS credential patterns for SharePoint Online integrations that need to remain operational after 02-Apr-2026.
+* **Use Delegated SharePoint credentials instead**: Configure SharePoint credentials with the **Delegated** option for ongoing SharePoint toolkit access and usage.
+* **Plan migrations with the right support expectations**: Treat **retirement** as a state where the feature receives no new investment but is still supported, and **end-of-life** as a state where the feature is discontinued and no longer available for use.
+* **Review Microsoft's retirement details directly**: Use the official Azure ACS retirement announcement when validating migration scope, timing, and impact for your SharePoint Online integrations.
+
+**Benefits:** Lower risk of SharePoint toolkit authentication failures after the Azure ACS shutdown date, clearer credential guidance, and a more supportable authentication path for SharePoint Online access.
+
+For more information, see [SharePoint Toolkit](../integrations/toolkits/sharepoint_toolkit), [How to Use Credentials](../how-tos/credentials-toolkits/how-to-use-credentials), and the [Azure ACS retirement announcement](https://aka.ms/retirement/acs/support).
 
 ### qTest Search and API Calls Are More Efficient and Safer by Default
 
