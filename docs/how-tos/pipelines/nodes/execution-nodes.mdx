@@ -270,12 +270,77 @@ Use the Code Node to:
 | **Input** | State variables accessible to the code via `alita_state` dictionary | **Default:** `input`, `messages`<br />**Custom:** Any defined state variables<br /><br />Example:<br />`- raw_data`<br />`- min_score`<br /><br />Access in code: `alita_state.get('raw_data', [])` |
 | **Output** | State variables to populate with execution results | **Default:** `messages` (if omitted or includes `messages`)<br />**Custom:** Specific variables (must exist in state)<br /><br />Example:<br />`- processed_data`<br />`- count`<br /><br />**Important:** Only listed variables will be updated |
 | **Structured Output** | Parse code output as structured data for state updates | **Enabled (true):** Code must return dictionary; keys matching output variables will update state<br />**Disabled (false):** Output appended to `messages`<br /><br />Example: `true` or `false`<br /><br />See detailed behavior below |
+| **Debug** | Save the fully assembled executable code snapshot before sandbox execution | **Enabled (true):** Saves a standalone Python file to the `code-debug` artifact bucket before execution<br />**Disabled (false):** No debug artifact is created<br /><br />**Saved file includes:**<br />- Sandbox client preamble<br />- Injected `elitea_state` / `alita_state` preamble<br />- Your node code wrapped for local execution<br /><br />**Filename format:** `<node_id>__<YYYYMMDD_HHMMSS>.py` |
 | **Interrupt Before** | Pause pipeline before code execution | **Enabled** / **Disabled** |
 | **Interrupt After** | Pause pipeline after code execution for result inspection | **Enabled** / **Disabled** |
 
 <img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/code-node-interface.png" alt="Code Node Interface" />
 
-**YAML Configuration Examples**
+### Debug Mode
+
+Use Code Node debug mode when you need to inspect the exact Python source that ELITEA sent to the sandbox.
+
+<Note title="What debug mode does">
+When `debug: true` is enabled on a Code Node, ELITEA saves a timestamped standalone Python snapshot to the `code-debug` artifact bucket before execution. The saved file includes the generated client preamble, the injected state payload, and your code wrapped so it can be run locally in standard Python.
+</Note>
+
+**How it works**
+
+- Add `debug: true` to the Code Node definition
+- Run the pipeline normally
+- Open the `code-debug` artifact bucket and download the generated `.py` file
+- Replace the auth token placeholder if your code uses `elitea_client`
+- Run the file locally to reproduce the exact execution context
+
+   ![Debug Mode Example](../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/code-node-debug.gif)
+
+**Debug mode example**
+
+```yaml
+nodes:
+  - id: process_data
+    type: code
+    debug: true
+    code:
+      type: fixed
+      value: |
+        data = alita_state.get('raw_input', '')
+        result = data.strip().upper()
+        {"processed_result": result}
+    input:
+      - raw_input
+    output:
+      - processed_result
+    structured_output: true
+    transition: END
+state:
+  input:
+    type: str
+  messages:
+    type: list
+  raw_input:
+    type: str
+    value: ''
+  processed_result:
+    type: str
+    value: ''
+```
+
+When this node runs, ELITEA creates a file such as `process_data__20260702_153045.py` in the `code-debug` artifact bucket.
+
+<Info title="Debug Artifact Contents">
+When `debug: true`, the saved artifact contains these parts in order:
+
+- A simplified `SandboxClient` implementation so the file can run outside the ELITEA SDK
+- An `elitea_client = SandboxClient(...)` initialization block with an auth token placeholder
+- The generated state preamble that restores `elitea_state`, `alita_state`, and `alita_client`
+- Your Code Node logic wrapped in an async runner so top-level `await` also works in standard CPython
+
+Debug artifact creation is best-effort only. If upload to the `code-debug` bucket fails, pipeline execution continues and the failure is logged as a warning.
+</Info>
+
+
+### YAML Configuration Examples
 
 <Accordion title="Basic Example: Simple Calculation">
 ```yaml
@@ -854,6 +919,8 @@ nodes:
    * **Install Packages Carefully:** Package installation adds latency; install only necessary packages
    * **Handle JSON Serialization:** Ensure returned objects are JSON-serializable (native Python types, lists, dicts)
    * **Access Alita Client:** Use `alita_client` when available for artifact operations and API interactions
+  * **Enable Debug Selectively:** Turn on `debug: true` only for nodes you are actively investigating to avoid creating unnecessary debug artifacts
+  * **Use Debug Artifacts for Reproduction:** Download the saved `.py` file from `code-debug` when sandbox behavior differs from expectations or when you need to inspect the injected state
 
 ### Troubleshooting
 
@@ -916,6 +983,27 @@ structured_output: true
 ```python
 return {"result": 42, "status": "success"}
 ```
+</Accordion>
+
+<Accordion title="Issue: Debug mode is enabled but no debug artifact appears">
+**Cause:** Debug artifact capture is best-effort. The node saves the file only when `debug: true` is set and the runtime has access to the artifact client. Upload failures do not stop pipeline execution.
+
+**Solution:**
+
+1. Confirm the node definition includes `debug: true`
+2. Check the `code-debug` artifact bucket for a file named `<node_id>__<YYYYMMDD_HHMMSS>.py`
+3. Review runtime logs for warnings related to debug artifact upload or client preamble generation
+4. Re-run the pipeline after verifying artifact storage is available
+</Accordion>
+
+<Accordion title="Issue: The downloaded debug file does not run locally">
+**Cause:** The saved file contains an auth token placeholder and may rely on packages that are not installed in your local Python environment.
+
+**Solution:**
+
+1. Replace `<YOUR_AUTH_TOKEN>` in the generated `SandboxClient(...)` block with a valid token if the code uses `elitea_client`
+2. Install required local dependencies such as `requests` and `chardet`
+3. If your code uses top-level `await`, run the saved file directly as generated; the wrapper added by ELITEA already makes it executable in standard Python
 </Accordion>
 
 <Accordion title="Error: httpx or network requests failing">
