@@ -35,7 +35,7 @@ This means your agents become much more powerful without you writing any code!
 
 ## Step-by-Step Setup
 
-### Part 1: Install the Alita MCP Client
+### Part 1: Install the Elitea MCP Client
 
 The client is a program that connects Elitea to external MCP tools.
 
@@ -58,14 +58,14 @@ The client is a program that connects Elitea to external MCP tools.
        ```
      ![alt text](../../img/getting-started/mcp/pipx-ensurepath.png)
 
-4. **Install alita-mcp**
+4. **Install elitea-mcp**
      - This is the actual client program. Copy and run:
        ```powershell
-       pipx install alita-mcp
+       pipx install elitea-mcp
        ```
      - Wait for installation to complete
 
-     ![alt text](../../img/getting-started/mcp/install-alita-mcp.png)
+     ![alt text](../../img/integrations/mcp/mcp-setup/install-elitea-mcp.gif)
 
 5. **Close and reopen PowerShell**
      - This refreshes your environment so the new program is recognized
@@ -79,7 +79,7 @@ Now you'll set up the connection to your Elitea account and add external tools.
 1. **Run the setup wizard**
      - In PowerShell, type:
        ```bash
-       alita-mcp bootstrap
+       elitea-mcp bootstrap
        ```
      - Press Enter
 
@@ -98,7 +98,7 @@ Now you'll set up the connection to your Elitea account and add external tools.
      - **Args:** Type `@playwright/mcp@latest` and press Enter
      - **Keep Connection Alive:** Type `y` for Yes (recommended for browser automation)
 
-     <img src="../../img/getting-started/mcp/alita-mcp bootstrap.gif" alt="alt text" />
+     <img src="../../img/integrations/mcp/mcp-setup/elitea-mcp-bootstrap-client.gif" alt="alt text" />
 
 4. **Add more servers** (optional)
      - You can add GitHub, Figma, or other MCP servers by repeating the process
@@ -147,19 +147,19 @@ Now you'll start the client so it runs in the background.
 1. **Start the tray application**
      - In PowerShell, type:
        ```powershell
-       alita-mcp tray
+       elitea-mcp tray
        ```
      - Press Enter
-     - You should see the Alita icon appear in your system tray
+     - You should see the Elitea icon appear in your system tray
 
-      ![mcp](../../img/getting-started/mcp/alita-mcp-tray.png)
+      ![mcp](../../img/integrations/mcp/mcp-tray.png)
 
 2. **Start the MCP Server from the tray**
      - Look in the bottom-right corner of your screen (system tray)
-     - Click the Alita icon
+     - Click the Elitea icon
      - Select **Start MCP Server**
 
-      <img src="../../img/integrations/mcp/mcp-tray-windows.png" alt="Windows tray menu" />
+      ![Windows tray menu](../../img/integrations/mcp/mcp-tray-windows.gif)
 
 3. **Verify it's running**
      - The tray icon should show the server is active
@@ -167,7 +167,7 @@ Now you'll start the client so it runs in the background.
 <Tip title="Quick Access to Config File">
 You can easily open and edit the configuration file from the tray:
 
-1. Click the Alita icon in the system tray
+1. Click the Elitea icon in the system tray
 2. Select **Configuration** → **Open Config File**
 3. The `config.json` file will open in your default text editor
 4. Make any needed changes and save
@@ -179,7 +179,7 @@ You can easily open and edit the configuration file from the tray:
 <Tip title="Run in Background">
 To run the tray app in the background without keeping a PowerShell window open:
 ```powershell
-alita-mcp tray --daemon
+elitea-mcp tray --daemon
 ```
 </Tip>
 
@@ -363,7 +363,7 @@ This shows how you can use MCP tools to test web applications, verify functional
 <Accordion title="Problem: 'npx command not found' on Windows">
 **Fix:**
 
-1. Open your configuration file at `%APPDATA%\alita-mcp-client\config.json`
+1. Open your configuration file at `%APPDATA%\elitea-mcp-client\config.json`
 2. Change `"command": "npx"` to `"command": "npx.cmd"` in the servers section
 3. Save the file and restart the MCP client
 </Accordion>
@@ -380,16 +380,16 @@ This shows how you can use MCP tools to test web applications, verify functional
 <Accordion title="Problem: 'Server configuration empty' error">
 **Fix:**
 
-1. Open your `config.json` file at `%APPDATA%\alita-mcp-client\config.json`
+1. Open your `config.json` file at `%APPDATA%\elitea-mcp-client\config.json`
 2. Make sure the `"servers"` section is not empty
-3. If it's empty, run `alita-mcp bootstrap` again to add servers
+3. If it's empty, run `elitea-mcp bootstrap` again to add servers
 </Accordion>
 
 <Accordion title="Problem: Tray icon not visible">
 **Fix:**
 
 1. Make sure the tray app is actually running (check PowerShell window)
-2. Try running `alita-mcp tray` again
+2. Try running `elitea-mcp tray` again
 3. Check if other applications are hiding the icon in the system tray
 4. Click the small arrow (^) in the system tray to show hidden icons
 </Accordion>
@@ -399,7 +399,7 @@ This shows how you can use MCP tools to test web applications, verify functional
 
 1. Another application is using port 8000 (the default MCP port)
 2. **Option 1 - Change the port:**
-     - Open your `config.json` file at `%APPDATA%\alita-mcp-client\config.json`
+     - Open your `config.json` file at `%APPDATA%\elitea-mcp-client\config.json`
      - Change `"port": 8000` to a different port like `"port": 8001`
      - Save the file and restart the MCP client
 3. **Option 2 - Find and stop the conflicting application:**
@@ -443,28 +443,28 @@ If the MCP server is not working correctly, you may need to clear the NPX cache:
 
 4. **Verify it works:**
    ```bash
-   alita-mcp serve
+   elitea-mcp serve
    ```
 </Accordion>
 
-<Accordion title="Problem: Errors when running 'alita-mcp serve' or 'alita-mcp tray' - need to upgrade client">
+<Accordion title="Problem: Errors when running 'elitea-mcp serve' or 'elitea-mcp tray' - need to upgrade client">
 **Fix:**
 
-If you're getting errors with the Alita MCP client, try upgrading to the latest version:
+If you're getting errors with the Elitea MCP client, try upgrading to the latest version:
 
 - **If you installed via pip:**
   ```bash
-  pip install --upgrade alita-mcp
+  pip install --upgrade elitea-mcp
   ```
 
 - **If you installed via pipx:**
   ```bash
-  pipx upgrade alita-mcp
+  pipx upgrade elitea-mcp
   ```
 
 **Verify the upgrade worked:**
 ```bash
-alita-mcp serve
+elitea-mcp serve
 ```
 </Accordion>
 
@@ -483,7 +483,6 @@ Now that your MCP client is running, you can:
 ---
 
 <Info title="Helpful Resources">
-- [Full MCP Client Documentation](../mcp/mcp-client)
 - [Elitea Settings & Configuration](../../menus/settings/ai-configuration)
 - [MCP Protocol Official Docs](https://modelcontextprotocol.io/)
 - [Playwright MCP Server](https://github.com/microsoft/playwright-mcp)

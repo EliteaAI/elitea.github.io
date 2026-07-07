@@ -27,7 +27,7 @@ Before you begin, make sure you have:
 
 ## Step-by-Step Setup
 
-### Part 1: Install the Alita MCP Client
+### Part 1: Install the Elitea MCP Client
 
 The "client" is a small program that handles communication between VS Code and Elitea.
 
@@ -52,14 +52,14 @@ The "client" is a small program that handles communication between VS Code and E
 
    ![Setup pipx path](../../img/getting-started/mcp/pipx-ensurepath.png)
 
-4. **Install alita-mcp**
+4. **Install elitea-mcp**
      - This is the actual client program. Copy and run:
        ```powershell
-       pipx install alita-mcp
+       pipx install elitea-mcp
        ```
      - Wait for installation to complete
 
-   ![Install alita-mcp](../../img/getting-started/mcp/install-alita-mcp.png)
+   ![Install elitea-mcp](../../img/integrations/mcp/mcp-setup/install-elitea-mcp.gif)
 
 5. **Close and reopen PowerShell**
      - This refreshes your environment so the new program is recognized
@@ -73,7 +73,7 @@ Now you'll tell the client how to connect to your Elitea account.
 1. **Run the setup wizard**
      - In PowerShell, type:
        ```powershell
-       alita-mcp bootstrap
+       elitea-mcp bootstrap
        ```
      - Press Enter
 2. **Answer the prompts**
@@ -90,7 +90,7 @@ Now you'll tell the client how to connect to your Elitea account.
      - You should see a message confirming the configuration was saved
      - If you see errors, double-check your URL and token
 
-<img src="../../img/getting-started/mcp/alita-mcp-bootstrap-server.gif" alt=" alita-mcp-server" />
+<img src="../../img/integrations/mcp/mcp-setup/elitea-mcp-bootstrap-server.gif" alt=" elitea-mcp-server" />
 
 <Info title="Skipping Project ID During Bootstrap">
 If the Project ID prompt keeps asking for a valid integer and won't accept an empty value, press `Ctrl+C` to cancel. Don't worry—your Deployment URL and Authentication Token have already been saved. You'll add the Project ID in VS Code's configuration file in Part 4 of this guide.
@@ -130,7 +130,7 @@ Now you'll add the MCP server to VS Code so it can talk to Elitea.
 
      ![screenshot](../../img/integrations/mcp/select-command-stdio.png)
 
-     - For "Command", type: `alita-mcp` and press Enter
+     - For "Command", type: `elitea-mcp` and press Enter
 
      ![screenshot](../../img/integrations/mcp/enter-command.png)
 
@@ -305,7 +305,7 @@ Now you're ready to use your Elitea agent from VS Code!
 
 ## Common Problems & Fixes
 
-### Problem: "alita-mcp: command not found"
+### Problem: "elitea-mcp: command not found"
 **Fix:** Make sure you completed all installation steps, including `pipx ensurepath`. Close and reopen PowerShell.
 
 ### Problem: No agents showing up
@@ -334,28 +334,28 @@ Now you're ready to use your Elitea agent from VS Code!
 2. Check your internet connection
 3. Confirm your Elitea deployment URL is correct
 
-### Problem: Multiple alita-mcp versions installed (pip and pipx conflict)
+### Problem: Multiple elitea-mcp versions installed (pip and pipx conflict)
 **Fix:**
 
-If you see errors or unexpected behavior, you may have multiple versions of `alita-mcp` installed. This happens when you installed it with both `pip` and `pipx`.
+If you see errors or unexpected behavior, you may have multiple versions of `elitea-mcp` installed. This happens when you installed it with both `pip` and `pipx`.
 
 1. **Check for multiple installations:**
    ```powershell
-   pip list | Select-String alita-mcp
-   pipx list | Select-String alita-mcp
+   pip list | Select-String elitea-mcp
+   pipx list | Select-String elitea-mcp
    ```
 
 2. **Remove the pip version (keep pipx):**
    ```powershell
-   pip uninstall alita-mcp -y
+   pip uninstall elitea-mcp -y
    ```
 
 3. **Verify the correct version is active:**
    ```powershell
-   where.exe alita-mcp
+   where.exe elitea-mcp
    ```
    
-   You should see: `C:\Users\<YourUsername>\.local\bin\alita-mcp.exe`
+   You should see: `C:\Users\<YourUsername>\.local\bin\elitea-mcp.exe`
 
 4. **Restart VS Code and the MCP server**
 
@@ -401,7 +401,6 @@ You can set up multiple MCP servers for different projects:
 ---
 
 <Tip title="Helpful Resources">
-- [Full MCP STDIO Documentation](./mcp-server-stdio)
 - [Elitea Settings & Configuration](../../menus/settings/ai-configuration)
 - [MCP Protocol Official Docs](https://modelcontextprotocol.io/)
 </Tip>

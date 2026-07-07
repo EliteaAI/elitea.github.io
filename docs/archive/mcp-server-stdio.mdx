@@ -7,7 +7,7 @@ hideFooterPagination: true
 ---
 
 <Warning>
-  This page contains outdated information and is no longer maintained. Please refer to the [Set Up a Local MCP Server (STDIO)](./create-and-use-server-stdio) for up-to-date content.
+  This page contains outdated information and is no longer maintained. Please refer to the [Set Up a Local MCP Server (STDIO)](../integrations/mcp/create-and-use-server-stdio.mdx) for up-to-date content.
 </Warning>
 
 ## Overview, making it ideal for script-based workflows, automation, and environments where HTTP connections may not be practical. Whether you're using Visual Studio Code or another MCP client, this guide will walk you through connecting and leveraging Elitea's MCP Server capabilities via STDIO.
@@ -31,7 +31,7 @@ Elitea MCP Server offers two transport options: Server-Sent Events (SSE) and Sta
 - **Web-based** and operates over network connections
 - **Requires authentication** via HTTP headers
 - **Ideal for**: Web applications, remote connections, and scenarios where you need to receive continuous updates without polling
-- See the [SSE Transport guide](./mcp-server-sse) for details
+- See the [SSE Transport guide](../integrations/mcp/mcp-server-sse.mdx) for details
 
 ### STDIO Transport
 - **Direction**: Two-way communication (Elitea ↔ Your Product)
@@ -58,10 +58,10 @@ Before you begin integrating with the Elitea MCP Server via STDIO, ensure you ha
   The `alita-mcp` client is required to connect to the Elitea MCP Server. Installation instructions are provided in this guide.
 
 - **Project ID**  
-  You'll need your Elitea Project ID to connect to the MCP Server. You can find your Project ID in the [Settings Configuration section](../../menus/settings/ai-configuration) of the Elitea web interface.
+  You'll need your Elitea Project ID to connect to the MCP Server. You can find your Project ID in the [Settings Configuration section](../menus/settings/ai-configuration.mdx) of the Elitea web interface.
 
 - **Authentication Token**  
-  An authentication token is required to securely connect your MCP client to Elitea. Tokens act as secure keys that authorize your applications or scripts to perform operations on behalf of your account and project. You can generate and manage tokens in the Elitea web interface under the [Settings & Configuration – Personal Tokens](../../menus/settings/ai-configuration) section. For each project, you can create a token and set its expiration. Be sure to copy and store your token securely, as it will not be shown again after creation.
+  An authentication token is required to securely connect your MCP client to Elitea. Tokens act as secure keys that authorize your applications or scripts to perform operations on behalf of your account and project. You can generate and manage tokens in the Elitea web interface under the [Settings & Configuration – Personal Tokens](../menus/settings/ai-configuration.mdx) section. For each project, you can create a token and set its expiration. Be sure to copy and store your token securely, as it will not be shown again after creation.
 
 - **Compatible Environment**  
   Your operating system must support Python packages (Windows or macOS).
@@ -220,7 +220,7 @@ The bootstrap process will create a configuration file with these settings that 
 2. **Open GitHub Copilot Chat**  
    Access the Copilot Chat panel in VS Code.
    
-   ![Open Copilot Chat](../../img/integrations/mcp/open-copilot-chat.png)
+   ![Open Copilot Chat](../img/integrations/mcp/open-copilot-chat.png)
 
 3. **Switch to Agent Mode**  
    In Copilot Chat, select **Agent mode**.
@@ -231,20 +231,20 @@ The bootstrap process will create a configuration file with these settings that 
 5. **Add MCP Server**
       * Click **Add More Tools**.
       * Choose **+ Add MCP Server**.
-        ![Add MCP Server](../../img/integrations/mcp/add-mcp-server.png)
+        ![Add MCP Server](../img/integrations/mcp/add-mcp-server.png)
       * Select **Command stdio**.
-        ![Select Command stdio](../../img/integrations/mcp/select-command-stdio.png)
+        ![Select Command stdio](../img/integrations/mcp/select-command-stdio.png)
       * For Command, enter `alita-mcp`.
-        ![Enter Command](../../img/integrations/mcp/enter-command.png)
+        ![Enter Command](../img/integrations/mcp/enter-command.png)
       * Enter a Server ID (use the default generated one or provide a descriptive name).
-        ![Add Server ID](../../img/integrations/mcp/add-server-id-stdio.png)
+        ![Add Server ID](../img/integrations/mcp/add-server-id-stdio.png)
 
 6. **Choose Configuration Scope**  
    You can save your MCP server configuration in either:
       * **Workspace Settings** (shared with your team, local to the project)
       * **User Settings** (applies globally to all VS Code workspaces)
    
-       ![Select Configuration Scope](../../img/integrations/mcp/select-configuration-scope.png)
+       ![Select Configuration Scope](../img/integrations/mcp/select-configuration-scope.png)
 
 ---
 
@@ -265,7 +265,7 @@ Follow these steps:
 3. **Save and Start**  
    Save the file, then click the **Start** button in the Copilot Chat interface to activate the server.
    
-   ![Start Server mcp.json](../../img/integrations/mcp/stdio-start-server-mcp-json.png)
+   ![Start Server mcp.json](../img/integrations/mcp/stdio-start-server-mcp-json.png)
 
 > **Note:** This MCP server will only be available within this workspace.
 
@@ -288,7 +288,7 @@ Follow these steps:
 3. **Save and Start**  
    Save the file, then click the **Start** button in the Copilot Chat interface to activate the server.
    
-   ![Start Server settings.json](../../img/integrations/mcp/stdio-start-server-settings-json.png)
+   ![Start Server settings.json](../img/integrations/mcp/stdio-start-server-settings-json.png)
 
 > **Note:** This MCP server will be available globally for all your projects and workspaces in VS Code.
 
@@ -351,7 +351,7 @@ To use Elitea agents and pipelines as tools in VS Code via MCP, they must be tag
 ### Tagging Agents and Pipelines
 
 1. In the Elitea web interface, tag your agents or pipelines with `mcp`.
-      ![Tag agent as mcp](../../img/integrations/mcp/tag-agent-mcp.png)
+      ![Tag agent as mcp](../img/integrations/mcp/tag-agent-mcp.png)
 2. Only tagged agents and pipelines will be synced and available as tools in VS Code.
 
 > **Note:** Only the "**latest**" version of each agent or pipeline tagged with `mcp` will be pulled and used. If you have multiple versions of the same agent/pipeline, ensure the version you want to use is the "**latest**".
@@ -370,20 +370,20 @@ Once your MCP server is connected and your agents/pipelines are tagged:
 4. **Select Synced Agents and Pipelines**
     * All synced tools (tagged with `mcp`) will appear in the list.
     * By default, all are selected. You can search, select, or deselect tools as needed.
-       ![MCP tools list](../../img/integrations/mcp/mcp-tools-list.png)
+       ![MCP tools list](../img/integrations/mcp/mcp-tools-list.png)
 5. **Use Tools in Chat**
     * In the chat input, write your instructions. You can reference a tool directly by typing `#` followed by the tool name (e.g., `#my_agent`).
     * Copilot will automatically suggest and invoke tools as needed.
-       ![MCP tool call](../../img/integrations/mcp/mcp-tool-call.png)
+       ![MCP tool call](../img/integrations/mcp/mcp-tool-call.png)
 6. **Run the Tool**
     * When a tool is selected, click **Run [tool name]** to execute it.
-       ![Run tool](../../img/integrations/mcp/run-tool.png)
+       ![Run tool](../img/integrations/mcp/run-tool.png)
 7. **Confirm Tool Execution**
     * By default, you'll be asked to confirm before a tool runs, for safety.
     * Use the **Continue** button dropdown to auto-confirm for the session, workspace, or all future runs.
 8. **Edit Tool Input Parameters (Optional)**
     * Click the chevron next to the tool name to view and edit input parameters before running.
-       ![Edit tool parameters](../../img/integrations/mcp/edit-tool-params.png)
+       ![Edit tool parameters](../img/integrations/mcp/edit-tool-params.png)
 9. **Review Output and Next Steps**
     * Follow the output and use the results as needed in your workflow.
 
@@ -408,7 +408,7 @@ In Elitea, make sure your **BA Assistant** agent is tagged with `mcp` so it's av
 Agent: BA Assistant
 Tags: mcp
 ```
-![Tag agent as mcp](../../img/integrations/mcp/tag-agent-mcp.png)
+![Tag agent as mcp](../img/integrations/mcp/tag-agent-mcp.png)
 
 ---
 
@@ -422,7 +422,7 @@ Follow the earlier steps in this guide to connect your workspace to the Elitea M
 2. Switch to **Agent mode**.
 3. Click the **Tools** icon and ensure **BA Assistant** is selected as a tool.
 
-   ![Select BA Assistant tool](../../img/integrations/mcp/mcp-tools-list.png)
+   ![Select BA Assistant tool](../img/integrations/mcp/mcp-tools-list.png)
 
 ---
 
@@ -433,9 +433,9 @@ In the chat input, provide a clear instruction referencing the BA Assistant tool
 #BA Assistant
 Show me the scope of PLAN-3012 user story. Enhance ACs. 
 ```
-![Call BA Assistant in chat](../../img/integrations/mcp/call-ba-assistant.png)
+![Call BA Assistant in chat](../img/integrations/mcp/call-ba-assistant.png)
 
-![Call BA Assistant in chat 2](../../img/integrations/mcp/call-ba-assistant2.png)
+![Call BA Assistant in chat 2](../img/integrations/mcp/call-ba-assistant2.png)
 
 ---
 
@@ -445,7 +445,7 @@ Show me the scope of PLAN-3012 user story. Enhance ACs.
 - Confirm the action if prompted.
 - The enhanced User Story will be saved as a new file in your workspace.
 
-  ![Enhanced User Story saved](../../img/integrations/mcp/enhanced-user-story-saved.png)
+  ![Enhanced User Story saved](../img/integrations/mcp/enhanced-user-story-saved.png)
 
 ---
 
@@ -475,11 +475,11 @@ If you encounter issues while integrating or using the Elitea MCP Server via STD
 ### 3. VS Code MCP Server Errors
 - **Error Indicator:** If VS Code encounters an issue with an MCP server, an error indicator will appear in the Chat view.
   
-  ![MCP Server Error](../../img/integrations/mcp/mcp-server-error.png)
+  ![MCP Server Error](../img/integrations/mcp/mcp-server-error.png)
 
 - **View Server Logs:** Select the error notification in the Chat view, then choose **Show Output** to view detailed server logs.
   
-  ![MCP Server Error Output](../../img/integrations/mcp/mcp-server-error-output.png)
+  ![MCP Server Error Output](../img/integrations/mcp/mcp-server-error-output.png)
 
 - **Command Palette:** Alternatively, run `MCP: List Servers` from the Command Palette, select your server, and choose **Show Output** for troubleshooting details.
 
@@ -519,9 +519,9 @@ To learn more about Elitea MCP Server integration and related technologies, expl
 
 - [MCP Protocol – Official Documentation](https://modelcontextprotocol.io/)
 - [VS Code MCP Server Documentation](https://code.visualstudio.com/docs/copilot/chat/mcp-servers)
-- [ELITEA Documentation Home](../../home/introduction)
-- [ELITEA Settings & Configuration](../../menus/settings/ai-configuration)
-- [ELITEA SSE Transport Integration](./mcp-server-sse)
-- [ELITEA Support](../../support/contact-support)
+- [ELITEA Documentation Home](../home/introduction)
+- [ELITEA Settings & Configuration](../menus/settings/ai-configuration)
+- [ELITEA SSE Transport Integration](../integrations/mcp/mcp-server-sse)
+- [ELITEA Support](../support/contact-support)
 
 Stay up to date with the latest features and best practices by visiting these links regularly.

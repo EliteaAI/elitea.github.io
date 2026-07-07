@@ -7,7 +7,7 @@ hideFooterPagination: true
 ---
 
 <Warning>
-  This page contains outdated information and is no longer maintained. Please refer to the [Set Up a Local MCP Client (STDIO)](./create-and-use-client-stdio) for up-to-date content.
+  This page contains outdated information and is no longer maintained. Please refer to the [Set Up a Local MCP Client (STDIO)](../integrations/mcp/create-and-use-client-stdio.mdx) for up-to-date content.
 </Warning>
 
 ## Overview, making it an ideal orchestration platform for complex workflows that require integration with multiple external services. Whether you're automating web testing with Playwright or managing GitHub repositories, this guide will walk you through setting up and leveraging Elitea's MCP Client capabilities.
@@ -65,7 +65,7 @@ Before setting up Elitea as an MCP Client, ensure you have the following:
   You'll need access to an Elitea project with the ability to configure MCP client connections. Contact your Elitea administrator if you need project access.
 
 - **Authentication Token**  
-  An authentication token is required to configure the MCP client connections. You can generate and manage tokens in the Elitea web interface under the [Settings & Configuration – Personal Tokens](../../menus/settings/personal-tokens) section.
+  An authentication token is required to configure the MCP client connections. You can generate and manage tokens in the Elitea web interface under the [Settings & Configuration – Personal Tokens](../menus/settings/personal-tokens) section.
 
 - **External MCP Servers**  
   You'll need access to the external MCP servers you want to connect (e.g., Playwright MCP, GitHub MCP). Each server may have its own authentication requirements.
@@ -80,7 +80,7 @@ Before setting up Elitea as an MCP Client, ensure you have the following:
 
 - **Python 3.10+** installed
 - **pipx** (recommended) or pip
-- Elitea Project ID & Authentication Token ([how to get Project ID](../../menus/settings/ai-configuration))
+- Elitea Project ID & Authentication Token ([how to get Project ID](../menus/settings/ai-configuration))
 
 ---
 
@@ -234,19 +234,19 @@ You can edit this file manually for advanced setups.
 
 After "alita-mcp tray",  the terminal will look like following
 
-![Tray application running in terminal](../../img/integrations/mcp/mcp-tray-terminal.png)
+![Tray application running in terminal](../img/integrations/mcp/mcp-tray-terminal.png)
 
 Now you need to interact with the application through your system's tray menu to **start MCP server**:
 
 - **On Windows:**  
   Go to the system tray in the bottom-right corner of your desktop. Find the application with the Alita icon and right-click on it. Click the **Start MCP Server** option to start the server.
 
-  ![Windows tray menu](../../img/integrations/mcp/mcp-tray-windows.png)
+  ![Windows tray menu](../img/integrations/mcp/mcp-tray-windows.png)
 
 - **On macOS:**  
   Go to the menu bar in the top-right corner of your screen and find the application with the Alita icon. Click on it to open the menu.
 
-  ![macOS tray menu](../../img/integrations/mcp/mcp-tray-macos.png)
+  ![macOS tray menu](../img/integrations/mcp/mcp-tray-macos.png)
 
 **Troubleshooting on macOS:**  
 In some cases, the tray app icon may not be visible on the macOS menu bar, especially if you have many other applications running. Go to **System Settings > Control Center** and check the settings for menu bar icons to ensure the ELITEA tray app is not hidden.
@@ -280,13 +280,13 @@ Create the MCP entry in the ELITEA UI so your project can reference and use the 
 6. Review the **Tools** list and unselect anything not needed (least privilege).
 7. Click **Save**.
 
-![Create MCP Placeholder](../../img/menus/mcps/mcps_create.png)
+![Create MCP Placeholder](../img/menus/mcps/mcps_create.png)
 
 <Tip title="Disconnected Creation">
 If the MCP Client is not running at creation time, tool discovery may be empty. Start the client and refresh the MCP entry to load tools.
 </Tip>
 
-For more UI details, see the [MCPs menu guide](../../menus/mcps).
+For more UI details, see the [MCPs menu guide](../menus/mcps).
 
 ### How to Add MCP Server as a Toolkit to an Agent
 
@@ -296,10 +296,10 @@ For more UI details, see the [MCPs menu guide](../../menus/mcps).
       2. Scroll down to the **Toolkits** section.
       3. Click **+MCP**.
       4. Your configured MCP server(s) will appear in the list, using the names you set during setup.
-          ![Select MCP Server Toolkit](../../img/integrations/mcp/select-mcp-toolkit.png)
+          ![Select MCP Server Toolkit](../img/integrations/mcp/select-mcp-toolkit.png)
       5. Select the desired MCP server as a toolkit.
       6. Review and select the suggested tools for that toolkit. By default, all tools are selected.
-         ![Select Tools for Toolkit](../../img/integrations/mcp/select-mcp-tools.png)
+         ![Select Tools for Toolkit](../img/integrations/mcp/select-mcp-tools.png)
 3.  Click **Save** to apply the toolkit to the agent.
 4.  Configure the agent’s settings, instructions, etc., and save your changes.
 
@@ -393,18 +393,18 @@ Empower Elitea agents to interact with GitHub repositories—creating issues, ma
 
 **Problem:**
 After clicking the **Start MCP Server** option in tray app to start the server. you encounter an error stating that the MCP server is not found or could not be started.
-     ![Incorrect config.json](../../img/integrations/mcp/mcp-config-empty-terminal.png)
+     ![Incorrect config.json](../img/integrations/mcp/mcp-config-empty-terminal.png)
 
 **Solution:**
 This issue typically occurs when the `servers` configuration is missing or empty in your `config.json` file. This can happen if the `bootstrap` process was interrupted or conflicted with another program (like Visual Studio Code) that had the file open.
 
-   ![Incorrect config.json](../../img/integrations/mcp/mcp-config-empty.png)
+   ![Incorrect config.json](../img/integrations/mcp/mcp-config-empty.png)
 
 1.  **Locate your `config.json` file.** (See "Configuration File Locations" section for paths).
 2.  **Open the file** and inspect the `"servers"` object. If it's empty (`"servers": {}`) or missing, you need to add the server configuration manually.
 3.  **Add the server configuration.** You can re-run `alita-mcp bootstrap` or copy the server object manually. The configuration for a server should look like this:
 
-    ![Correct config.json](../../img/integrations/mcp/mcp-config-filled.png)
+    ![Correct config.json](../img/integrations/mcp/mcp-config-filled.png)
 
     Here is an example of a correctly filled-in `playwright` server configuration:
 
@@ -437,7 +437,7 @@ This issue typically occurs when the `servers` configuration is missing or empty
 **Problem:**
 You encounter an error when trying to use the Playwright toolkit, and the error message indicates that Node.js is not available on your system.
 
-  ![Correct config.json](../../img/integrations/mcp/nodejs.png)
+  ![Correct config.json](../img/integrations/mcp/nodejs.png)
 
 **Cause:**
 The Playwright MCP server requires Node.js to be installed on your computer to function properly. Without Node.js, the `npx` command cannot execute the Playwright toolkit.
@@ -454,7 +454,7 @@ The Playwright MCP server requires Node.js to be installed on your computer to f
 **Problem:**
 You're getting an error in your terminal indicating that the `npx` command cannot be found or executed, particularly on Windows systems.
 
- ![Correct config.json](../../img/integrations/mcp/npx.png)
+ ![Correct config.json](../img/integrations/mcp/npx.png)
 
 **Cause:**
 On some Windows systems, the `npx` command may not be properly recognized due to file extension handling or PATH configuration issues.
@@ -488,8 +488,8 @@ For further reading and to deepen your understanding of Elitea MCP Client and re
 - [MCP Protocol – Official Documentation](https://modelcontextprotocol.io/)
 - [Playwright MCP Server Documentation](https://github.com/microsoft/playwright-mcp)
 - [GitHub MCP Server Documentation](https://github.com/github/github-mcp-server)
-- [Elitea Platform Documentation](../../home/introduction)
-- [Elitea Settings & Configuration](../../menus/settings/ai-configuration)
+- [Elitea Platform Documentation](../home/introduction)
+- [Elitea Settings & Configuration](../menus/settings/ai-configuration)
 
 
 
