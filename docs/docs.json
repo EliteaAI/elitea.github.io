@@ -591,46 +591,20 @@
             "icon": "box-archive",
             "tag": "Legacy",
             "expanded": false,
-            "pages": [
-              {
-                "group": "How-To Guides",
-                "tag": "Legacy",
-                "expanded": false,
-                "pages": [
-                  "archive/quick-start",
-                  "archive/very-quick-start",
-                  "archive/create-agent",
-                  "archive/create-conversation",
-                  "archive/create-pipeline",
-                  "archive/create-toolkit",
-                  "archive/creating-prompts",
-                  "archive/prompts",
-                  "archive/prompts-examples",
-                  "archive/agents-examples",
-                  "archive/datasources",
-                  "archive/indexing-quick-start",
-                  "archive/collections",
-                  "archive/what-is-a-collection",
-                  "archive/browser_toolkit",
-                  "archive/pandas_toolkit",
-                  "archive/ado_wiki_plan_board_toolkit",
-                  "archive/monitoring",
-                  "archive/manage-users-and-roles",
-                  "archive/prompt-magic-assistant",
-                  "archive/alita-dial",
-                  "archive/pipeline-agent-framework",
-                  "how-tos/pipelines/nodes/iteration-nodes",
-                  "integrations/mcp/mcp-server-stdio",
-                  "integrations/mcp/mcp-client"
-                ]
-              },
-              {
-                "group": "Features",
-                "tag": "Legacy",
-                "expanded": false,
-                "pages": ["archive/export-import", "archive/forking", "archive/monitoring", "archive/public-project"]
-              }
-            ]
+            "pages":[
+                "archive/agents-examples",
+                "archive/browser_toolkit",
+                "archive/pandas_toolkit",
+                "archive/ado_wiki_plan_board_toolkit",
+                "archive/monitoring",
+                "archive/manage-users-and-roles",
+                "archive/prompt-magic-assistant",
+                "archive/alita-dial",
+                "archive/pipeline-agent-framework",
+                "how-tos/pipelines/nodes/iteration-nodes",
+                "archive/mcp-server-stdio",
+                "archive/mcp-client"
+             ]
           }
         ]
       }
