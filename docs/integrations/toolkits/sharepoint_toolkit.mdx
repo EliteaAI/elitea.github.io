@@ -182,11 +182,25 @@ Grant your registered application access at the SharePoint site collection level
 
 To integrate SharePoint with ELITEA, follow a three-step process: **Create Credentials → Create Toolkit → Use in Agents**. This workflow ensures secure authentication and proper configuration.
 
+<Warning title="Azure ACS retirement for SharePoint Online">
+Microsoft has retired **Azure ACS (Access Control Services)** for SharePoint Online and fully disabled it for existing tenants as of **02-Apr-2026**. Microsoft recommends moving SharePoint Online integrations to **Microsoft Entra ID**-based authentication.
+
+For ELITEA SharePoint toolkit usage in SharePoint Online:
+
+- Prefer **Delegated (User OAuth)** credentials for ongoing supported access.
+- Treat legacy **App-Only** patterns that depend on Azure ACS as migration scenarios, not as the recommended long-term setup.
+- If you are assessing older SharePoint Online integrations, review Microsoft's Azure ACS retirement guidance and migration recommendations before continuing with production use.
+
+This retirement does **not** apply to SharePoint Server on-premises hybrid scenarios in the same way, but it does apply to SharePoint Online and Project Online.
+
+For details, see Microsoft's **[Azure ACS retirement announcement](https://learn.microsoft.com/ru-ru/sharepoint/dev/sp-add-ins/retirement-announcement-for-azure-acs)**.
+</Warning>
+
 ### Step 1: Create SharePoint Credentials
 
 Before creating a toolkit, you must first create SharePoint credentials in ELITEA.
 
-The SharePoint credential supports two authentication modes — **App-Only** (the application acts as itself) and **Delegated** (the application acts on behalf of a signed-in user). Select the tab in the ELITEA credential form that matches your organization's access policy:
+The SharePoint credential supports two authentication modes — **App-Only** (the application acts as itself) and **Delegated** (the application acts on behalf of a signed-in user). For **SharePoint Online**, **Delegated** is the recommended option because Microsoft has retired Azure ACS and recommends moving to Microsoft Entra ID-based authentication. Select the tab in the ELITEA credential form that matches your organization's access policy:
 
 **Steps to create a SharePoint credential:**
 
@@ -205,6 +219,10 @@ The SharePoint credential supports two authentication modes — **App-Only** (th
 5. **Select the authentication tab:** In the credential form, choose either **"App-only"** or **"Delegated"** depending on your access model.    
 
 #### App-Only (Client Credentials)
+
+<Warning title="App-Only for SharePoint Online">
+Use this option with caution for **SharePoint Online**. If your existing App-Only setup depends on **Azure ACS**, it is no longer a viable long-term authentication model after Microsoft's Azure ACS retirement. For new or migrated SharePoint Online setups, prefer **Delegated (User OAuth)** unless you have confirmed a supported Microsoft Entra ID-based application pattern for your scenario.
+</Warning>
 
 1. **Test Connection:** Click **Test Connection**to verify your credentials are valid and ELITEA can connect to SharePoint.
 2. **Save Credential:** Click **Save**.
@@ -255,6 +273,8 @@ Use **[Secrets](../../menus/settings/secrets)** for sensitive values (Client Sec
 
 **Use App-Only (Client Credentials) when:**
 
+> For **SharePoint Online**, review this option carefully against Microsoft's Azure ACS retirement guidance. In most ongoing SharePoint Online scenarios, **Delegated** is the safer recommended choice.
+
 - Your workflow runs automatically, without a user actively involved (e.g., a nightly report, a scheduled file sync, or a background data processing pipeline).
 - You want a single shared connection that doesn't depend on any individual user's account.
 - You need to read from or write to public team sites where user identity doesn't matter.
@@ -268,6 +288,7 @@ Use **[Secrets](../../menus/settings/secrets)** for sensitive values (Client Sec
 - Your organization's SharePoint permissions are user-based — only specific people can see certain sites or libraries.
 - The workflow involves a user actively working in ELITEA and you want actions to be logged under their identity.
 - You're building a personal assistant that reads documents or lists on behalf of the signed-in user.
+- You are configuring **SharePoint Online** access and want the authentication model aligned with Microsoft's post-Azure-ACS guidance.
 
     !!! example
         An ELITEA Agent helping a team member search their department's restricted SharePoint site and read OneNote meeting notes — Delegated is required because the site is access-controlled per user and OneNote needs a user token.
@@ -329,7 +350,7 @@ The Login button in the toolkit form uses the scopes configured in the linked Sh
     |:-----------------:|---------------|-----------------|----------------------|
     | **File Operations** | | | |
     | | **Get files list** | Lists files in a SharePoint document library, optionally filtered by folder or library name; supports `include_extensions` and `skip_extensions` filters to narrow results by file type | Browse and discover files across document libraries |
-    | | **Read document** | Reads the content of a document at a given server-relative path; supports `.docx`, `.xlsx`, `.pptx`, `.pdf`, `.txt`, `.csv`, and more; optional `page_number` (for multi-page documents), `sheet_name` (Excel), and `is_capture_image` (AI image description) parameters | Extract text content from SharePoint documents for analysis or summarization |
+    | | **Read document** | Reads the content of a document at a given server-relative path; supports `.md`, `.docx`, `.pptx`, `.xlsx`, `.py`, `.java`, `.txt`, `.json`, `.js`, and `.pdf`; optional `page_number` (for multi-page documents), `sheet_name` (Excel), and `is_capture_image` (AI image description) parameters | Extract text content from SharePoint documents for analysis or summarization |
     | | **Read file from sharing link** | Reads the content of a file from a public or sharing link | Access files shared via a link without needing to import them into a workspace first |
     | | **Upload file** | Uploads a file to a specified SharePoint document library folder, from artifact storage or direct string content | Automate file delivery and publishing to SharePoint |
     | **List & Data Operations** | | | |
