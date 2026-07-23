@@ -428,7 +428,8 @@
                 "pages": [
                   "integrations/toolkits/ado_boards_toolkit",
                   "integrations/toolkits/jira_toolkit",
-                  "integrations/toolkits/rally_toolkit"
+                  "integrations/toolkits/rally_toolkit",
+                  "integrations/toolkits/aha_toolkit"
                 ]
               },
               {
