@@ -1,0 +1,124 @@
+# Visual standards
+
+## General
+
+- Use illustrations sparingly because they:
+  - Get outdated quickly.
+  - Are too expensive to update.
+  - Are too expensive to localize.
+- Use illustrations to supplement the text, not replace it.
+- Do not use screenshots of text, code samples, or terminal output. Use actual text instead.
+- Avoid using text in illustrations, or use it sparingly.
+
+|  | Purpose | When | How often |
+| --- | --- | --- | --- |
+| Screenshots | Demonstrate the UI and its elements | If relevant information can't be conveyed by text | None |
+| Diagrams | Visualize processes.<br/>Do not mix up with step-by-step instructions. | None | Whenever necessary |
+| GIFs | Show complex multi-step processes | If relevant information can't be conveyed by text | Rarely |
+| Videos | Show detailed use cases for functionality | If relevant information can't be conveyed by text | Very rarely |
+
+## Screenshots, diagrams, GIFs
+
+### Creating and editing
+
+#### Screenshots
+
+- Use the same operating system, browser, theme, window chrome, and zoom level.
+- Use the dark theme.
+- Capture only the relevant UI, without empty spaces or sidebars.
+- Reduce the window size as much as possible to keep elements close together and reduce empty space.
+- For light themes:
+  - If UI elements have their own border, capture as close to the border as possible, while keeping the border.
+  - If UI elements do not have their own border, capture around 3 mm of space in all directions around the elements, or as much as possible if the surrounding space is less than 3 mm.
+- To add highlights:
+  - Use:
+    - An arrow to emphasize one UI element.
+    - A box outline to emphasize a group of several connected and closely located UI elements that together perform one function.
+    - Arrows to emphasize several — no more than three — unconnected and separated UI elements. **Warning**: Avoid this scenario. Make arrows as parallel as possible.
+    - Arabic numerals to illustrate a sequence of steps.
+  - Do not use:
+    - Embedded text.
+    - Any combination of box outlines, arrows, and numerals.
+  - Apply this style:
+    - Arrow type: triangular arrowhead.
+    - Color: `#83EFFF` or primary.
+    - Line size: 3 (Snipping Tool).
+
+#### Diagrams
+
+- Use draw.io.
+- Keep diagrams simple and focused. Include only essential elements.
+- Use shapes to distinguish between elements:
+  - Rectangles for processes or steps.
+  - Diamonds for decision points.
+  - Solid lines for direct relationships between elements.
+  - Dotted lines for indirect relationships between elements.
+  - Arrows for flow or direction in a process.
+- Use colors to differentiate scenarios. Avoid using color to differentiate elements.
+- Use the same shape for the same element. Avoid using different sizes for the same element.
+- Add clear labels:
+  - Short text with minimal articles.
+  - Font: Inter (Fonts → Custom → Google Fonts).
+  - Font size: 16px or greater, if necessary.
+- Do not include links.
+
+### Accessibility (alt text)
+
+Add alternative text to all screenshots, diagrams, or GIFs:
+
+- When you write alt text, describe the context of the image, not its content (write it as you would for a person who cannot see the image).
+- Keep the alt text short (up to 155 characters).
+- Use empty alt text (`alt=""`):
+  - For purely decorative illustrations that add no information. **Warning**: Avoid these illustrations altogether.
+  - For illustrations that the preceding text already fully describes.
+- Use consistent alt text for recurring UI elements (icons, buttons, status indicators).
+- Use punctuation marks. Add a period at the end of the alt text, whether or not it forms a complete sentence.
+- Use sentence case and avoid all caps.
+- Do not use highlighting like bold or italics in alt text.
+
+### Formatting
+
+- File format:
+  - `.png` for screenshots.
+  - `.svg` for diagrams.
+- Do not use a transparent background.
+- Placement:
+  - Centered.
+  - Immediately after the information it illustrates.
+- Border:
+  - For dark themes: none.
+  - For light themes: `#3B3E46`, 1 px.
+- Introductions and captions:
+  - Do not use captions.
+  - Use a short (one to two sentences) introduction for illustrations of a general type (full interfaces, process diagrams).
+  - Do not use introductions for illustrations placed immediately after the information they illustrate.
+
+### Naming
+
+- Use short, descriptive, lowercase file names.
+- Use infinitives.
+- Avoid adjectives, articles, and prepositions.
+- Abbreviate long words.
+- Use underscores and hyphens to separate words.
+
+### Deleting
+
+- Delete all redundant files once every three months.
+- Check image paths for broken links before deleting a file.
+
+## Videos
+
+- Use videos only to demonstrate key use cases for the functionality.
+- Prefer embedded videos from ELITEA's YouTube channel.
+- Do not use flickering or flashing elements in videos.
+
+## Anonymization and confidentiality
+
+- **Illustrations must exclude personally identifying information.**
+- For screenshots, follow the rules for hiding [sensitive data](./language.mdx#sensitive-data).
+- For GIFs and videos:
+  - If technically possible, follow the rules for hiding [sensitive data](./language.mdx#sensitive-data).
+  - If technically impossible, add post-production techniques, in order of preference:
+    - Mask sensitive data with an overlay (overlay a static image or frame over the sensitive area so it blends in).
+    - Blur sensitive data.
+    - Redact sensitive data by placing a bar or box over it (`#0E131D`, `#0C1119`, `#6AE8FA`).
