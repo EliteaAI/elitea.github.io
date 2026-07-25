@@ -370,6 +370,8 @@
                   "integrations/mcp/make-tools-available-by-mcp"
                 ]
               },
+
+              "integrations/mcp/claude-code-mcp",
               {
                 "group": "Connect External Tools to ELITEA",
                 "expanded": true,
@@ -591,20 +593,20 @@
             "icon": "box-archive",
             "tag": "Legacy",
             "expanded": false,
-            "pages":[
-                "archive/agents-examples",
-                "archive/browser_toolkit",
-                "archive/pandas_toolkit",
-                "archive/ado_wiki_plan_board_toolkit",
-                "archive/monitoring",
-                "archive/manage-users-and-roles",
-                "archive/prompt-magic-assistant",
-                "archive/alita-dial",
-                "archive/pipeline-agent-framework",
-                "how-tos/pipelines/nodes/iteration-nodes",
-                "archive/mcp-server-stdio",
-                "archive/mcp-client"
-             ]
+            "pages": [
+              "archive/agents-examples",
+              "archive/browser_toolkit",
+              "archive/pandas_toolkit",
+              "archive/ado_wiki_plan_board_toolkit",
+              "archive/monitoring",
+              "archive/manage-users-and-roles",
+              "archive/prompt-magic-assistant",
+              "archive/alita-dial",
+              "archive/pipeline-agent-framework",
+              "how-tos/pipelines/nodes/iteration-nodes",
+              "archive/mcp-server-stdio",
+              "archive/mcp-client"
+            ]
           }
         ]
       }
