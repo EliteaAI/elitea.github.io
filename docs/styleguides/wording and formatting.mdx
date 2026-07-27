@@ -1,0 +1,157 @@
+# Wording and formatting guide
+
+## Titles
+
+- Do not use steps and numbers as page titles.
+
+## Sections and headings
+
+- A section must not include one subsection. If there is one subsection, there is no need to create subsections.
+- If a section includes two or more subsections, it must include an introduction that comes before the first subsection.
+- Avoid heading levels greater than H3.
+- Do not skip heading levels.
+- Heading text:
+  - Write task-based titles. Prefer infinitive phrases. For titles that are not task-based, use noun phrases. Avoid -ing verbs.
+  - For optional, legacy, and other non-basic sections, start the title with a prefix:
+    - `Optional: <Heading Text>`
+    - `Legacy: <Heading Text>`
+  - Write heading text in title case, meaning that all major words in the title are capitalized, as well as the first and last word.
+  - Replace the word "and" with an ampersand (&) unless it is part of an official name.
+
+## Highlighting
+
+Apply highlighting — italics, bold, or inline code — only to words and the punctuation between those words. Keep adjacent punctuation roman (neither bold, italic, nor inline code).
+
+### Italic
+
+- Terms and their definitions.
+- Terms and words as words: Use *word* to refer to ...
+- Filenames, filename extensions (if used), and paths.
+- Titles of books, movies, web series, and other full-length works.
+- Mathematical variables.
+- Version variables.
+
+### Bold
+
+- UI elements with a visible label (buttons, checkboxes, settings, menus, pages, tabs): Select **Save**. In the **Name** tab, ...
+- Navigation paths: In **One** > **Two**, find...
+- Run-in headings, including notices: **Note**, **Warning**, **Caution**.
+
+### Underline
+
+- Use only for link text.
+
+### UPPERCASE
+
+- Use only in official names, in abbreviations, or in code that uses all caps.
+
+### Inline code
+
+Use code font to mark things that relate to code in ordinary sentences (as opposed to code samples):
+
+- Text a user enters in the UI
+- Configuration parameters, keywords, and code
+- Short error messages
+- Attribute names and values
+- Class names
+- Command output
+- Command-line utility names
+- Database elements (such as row and column names)
+- Constant values for an element or attribute
+- DNS record types
+- Element names (HTML and XML)
+- Environment variable names
+- Folders and directories
+- HTTP content-type values
+- HTTP status codes
+- HTTP verbs
+- IAM role names
+- IP addresses
+- Language keywords
+- Method and function names
+- Namespace aliases
+- Placeholder variables
+- Package names
+- Port numbers
+- Query parameter names and values
+- Strings (such as URLs or domain names) that are used in commands and code
+- Boolean values
+- Command-line utility names
+- Email addresses as input or output
+
+### Code blocks
+
+- Use for CLI commands and code blocks.
+- Precede a code sample with an introductory sentence or paragraph.
+- Mark code blocks as preformatted text. In Markdown, indent every line of the code block by four spaces.
+- Use relevant coding-style guides.
+
+## Links
+
+- Use links sparingly.
+- Use inline links.
+- Use inline links with descriptive, meaningful text. Avoid link text like "here" or "this page."
+
+| Worse | Better |
+| --- | --- |
+| You can find more information here. | For more information, see Project settings. |
+| Project settings are described in this page. | For more information, see Project settings. |
+
+- For related topics, use standard text:
+  - For more information, see [link text].
+  - To *do this*, see [link text].
+- Add a separate section, "See also," to give links for related and further reading.
+- Do not use links in headings.
+- Avoid multiple links in a single paragraph.
+- Avoid anchor links to sections on the same page. Invest in the correct right navigation instead.
+- Avoid duplicate links. If possible, provide the link once on a page, in the most useful place.
+- Avoid links to external documentation. If they cannot be omitted, plan a regular check and update.
+- Do not add links to restricted pages or pages that might require additional permissions. If they cannot be avoided, state explicitly what access rights or user permissions are required.
+
+## Lists
+
+- Use numbered lists to describe an ordered sequence (for example, steps or rules). For one-step sequences, use bulleted lists.
+- Use bulleted lists to describe an unordered selection of items.
+- Use one step for each action. However, you can combine sequential menu selections into one step by using angle brackets (>):
+  - Select **File** > **New** > **Document**.
+- You can nest bulleted lists within numbered lists.
+- Avoid sublevels in numbered lists. Do not use sublevels in bulleted lists.
+- Always align nested items (code, illustrations, tables) with the first character of the list item.
+- In most cases, precede a list with an introductory sentence.
+- Start list items with a capital letter.
+- Use a period if the item is a complete sentence. Do not use a period if the list item is not a complete sentence.
+
+## Tables
+
+- Use tables sparingly because they are challenging for screen readers.
+- Pre-announce tables:
+  - Add a short introduction to a table.
+  - Do not use introductions for tables placed immediately after the information they illustrate.
+- Avoid captions. Pre-announce tables instead.
+- Avoid empty cells. Use "None" instead.
+- If you have a **Description** column, make it the right-most column, if possible.
+- Use sentence case for table headers.
+- Avoid footnotes. Use footnotes only when you cannot include the content in the table itself. Use no more than three footnotes for a table.
+
+## Numbers
+
+1. Spell out zero through nine and use numerals for 10 and greater.
+2. In titles, only use numerals.
+3. If a sentence begins with a number, spell out the number, even for numbers above nine. **Tip**: Avoid beginning sentences with a number.
+4. Use a period to represent a decimal point.
+5. Put a nonbreaking space (`&nbsp;`) between the number and the unit of measurement.
+
+## Date and time
+
+- Avoid dates and times, if possible.
+- Formats:
+  - `YYYY-MM-DD` (per ISO 8601)
+  - `Month DD, YYYY`
+  - `Month, YYYY`
+  - `hh:mm AM`, `hh:mm PM`
+
+## Spacing
+
+1. Add a single space between sentences in a paragraph.
+2. Add an empty line between different formatting elements (headings, paragraphs, lists, notes, etc.).
+3. Do not use nonbreaking spaces. Use standard spaces instead. The exception is the space between a number and its unit of measurement.
