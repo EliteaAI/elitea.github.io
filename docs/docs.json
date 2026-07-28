@@ -260,11 +260,11 @@
             ]
           },
           {
-            "group": "Agents & Pipelines",
+            "group": "Agents, Pipelines & Skills",
             "icon": "robot",
             "pages": [
               {
-                "group": "Manage Agents & Pipelines",
+                "group": "Manage Agents, Pipelines & Skills",
                 "expanded": true,
                 "pages": [
                   "how-tos/agents-pipelines/build-agent-with-ai",
@@ -272,7 +272,8 @@
                   "how-tos/agents-pipelines/entity-versioning",
                   "how-tos/agents-pipelines/import-export",
                   "how-tos/agents-pipelines/forking",
-                  "how-tos/agents-pipelines/agent-publishing"
+                  "how-tos/agents-pipelines/agent-publishing",
+                  "how-tos/agents-pipelines/skill-publishing"
                 ]
               },
               {
@@ -282,33 +283,33 @@
                   "how-tos/pipelines/overview",
                   "how-tos/pipelines/flow-editor",
                   "how-tos/pipelines/yaml",
-                  "how-tos/pipelines/ai-assistant-in-nodes"
-                ]
-              },
-              {
-                "group": "Pipeline Structure & Components",
-                "expanded": false,
-                "pages": [
-                  "how-tos/pipelines/states",
-                  "how-tos/pipelines/entry-point",
-                  "how-tos/pipelines/nodes-connectors",
+                  "how-tos/pipelines/ai-assistant-in-nodes",
                   {
-                    "group": "Nodes",
+                    "group": "Runs & Reference",
+                    "expanded": false,
+                    "pages": ["how-tos/pipelines/pipeline-runs", "how-tos/pipelines/appendix-comparison-tables"]
+                  },
+                  {
+                    "group": "Pipeline Structure & Components",
                     "expanded": false,
                     "pages": [
-                      "how-tos/pipelines/nodes/overview",
-                      "how-tos/pipelines/nodes/interaction-nodes",
-                      "how-tos/pipelines/nodes/execution-nodes",
-                      "how-tos/pipelines/nodes/control-flow-nodes",
-                      "how-tos/pipelines/nodes/utility-nodes"
-                    ]
-                  }
+                      "how-tos/pipelines/states",
+                      "how-tos/pipelines/entry-point",
+                      "how-tos/pipelines/nodes-connectors",
+                      {
+                        "group": "Nodes",
+                        "expanded": false,
+                        "pages": [
+                          "how-tos/pipelines/nodes/overview",
+                          "how-tos/pipelines/nodes/interaction-nodes",
+                          "how-tos/pipelines/nodes/execution-nodes",
+                          "how-tos/pipelines/nodes/control-flow-nodes",
+                          "how-tos/pipelines/nodes/utility-nodes"
+                        ]
+                      }
                 ]
-              },
-              {
-                "group": "Runs & Reference",
-                "expanded": false,
-                "pages": ["how-tos/pipelines/pipeline-runs", "how-tos/pipelines/appendix-comparison-tables"]
+              }
+                ]
               }
             ]
           },
