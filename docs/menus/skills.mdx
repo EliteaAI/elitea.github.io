@@ -30,34 +30,36 @@ A **Skill** is a focused, reusable instruction set that gives an agent a named c
 
 ---
 
-## Accessing Skills
+## Access Skills
 
-<Warning title="Project scope">
+<Warning>
+**Project Scope**
+
 Skills are only available inside **team (non-public) projects**. The **Skills** menu item is hidden when the Public project is selected. Switch to a team or personal project to see it.
 </Warning>
 
 To open the Skills area:
 
 1. Select the correct project from the **project switcher** at the top of the left sidebar.
-2. Click **Skills** in the main navigation sidebar.
+2. Select **Skills** in the main navigation sidebar.
 The **Skills** page opens, showing the **Skills** tab — a scrollable list (or card grid) of all Skills in the current project.
 
-    ![Skills Access](../img/menus/skills/skills-access.gif)
+    ![Skills Access](../img/menus/skills/skills-access.png)
 
 ---
 
-## Creating a Skill
+## Create a Skill
 
 You can create a Skill from the Skills page or directly from the agent editor.
 
-### From the Skills page
+### From the Skills Page
 
-1. Click the **`+` (Create)** button in the top section of the left sidebar, or navigate to the Skills page and click **Create** in the empty state (if no Skills exist yet) to open the skill creation form.
-   - Alternatively, use the global **`+` Create** button in the sidebar and select **Skill** from the dropdown.
-   The **New Skill** form opens with two accordion sections: **General** and **Instructions**
+1. Select the **`+` (Create)** button in the top section of the left sidebar, or go to the Skills page and select **Create** in the empty state if no Skills exist yet.
+  - Alternatively, use the global **`+` Create** button in the sidebar and select **Skill** from the dropdown.
+  The **New Skill** form opens with two accordion sections: **General** and **Instructions**.
 
-       ![Create Skill](../img/menus/skills/skills-create.gif)
-2. In the **General** section, fill in the following fields:
+       ![Create Skill](../img/menus/skills/skills-create.png)
+2. In the **General** section, complete the following fields. Then, in the **Instructions** section, enter your skill instructions in the Markdown or CodeMirror editor.
 
    | Field | Required | Example |
    |---|---|---|
@@ -65,13 +67,17 @@ You can create a Skill from the Skills page or directly from the agent editor.
    | **Description** | Yes | `Reviews code for quality issues and suggests improvements.` |
    | **Tags** | No | `qa`, `review` |
 
-   <Note>
-   Name must use lowercase letters, digits, and hyphens only; no leading/trailing hyphens; max 64 characters; cannot contain `claude` or `anthropic`.
-   </Note>
+  <Note>
+  **Name rules**
 
-3. In the **Instructions** section, type your skill instructions in the Markdown/CodeMirror editor.
-   - Use the toggle button group in the section header to switch between **Edit mode** (raw Markdown) and **Preview mode** (rendered output).
-   - A character counter at the bottom of the editor shows remaining characters. The maximum is **2,500 characters**.
+  Name must use lowercase letters, digits, and hyphens only. It must not start or end with a hyphen. The maximum length is 64 characters. It must not contain `claude` or `anthropic`.
+  </Note>
+
+  In the **Instructions** section:
+  - Use the toggle button group in the section header to switch between **Edit mode** and **Preview mode**.
+  - A character counter at the bottom of the editor shows the remaining characters. The maximum is **2,500 characters**.
+   
+     ![Skill Parameters](../img/menus/skills/skills-parameters.png)
 
    **Example instructions:**
    ```
@@ -88,16 +94,32 @@ You can create a Skill from the Skills page or directly from the agent editor.
    2. **Issues** — bulleted list with file and line references.
    3. **Suggestions** — concrete fix for each issue.
    ```
-4. Click **Save** in the tab bar at the top of the page.
+3. Select **Save** in the tab bar at the top of the page.
 
-    ![Skill Parameters](../img/menus/skills/skills-parameters.gif)
+After you select **Save**, the Skill configuration page opens. It shows the Skill name in the tab bar and the **General** and **Instructions \*** sections in the left panel. The right panel contains a test chat panel where you can interact with the Skill directly to verify its behavior.
 
+<video controls width="100%" aria-label="Full skill creation flow from form to saved Skill.">
+  <source src="../img/menus/skills/skill-create-full.mp4" type="video/mp4" />
+</video>
 
-After clicking **Save**, the Skill configuration page will open, showing the Skill's name in the tab bar and the **General** and **Instructions \*** sections in the left panel. The right panel contains a **test chat panel** where you can interact with the Skill directly to verify its behavior.
+### Upload a Skill Icon
 
-### AI-Assisted Generation
+In the **General** section, the Skill icon is editable when your role includes the upload icon permission.
 
-Instead of filling in the form manually, click the **Generate with AI** button in the **General** section header to open the **Generate skill** modal.
+1. Open the Skill editor.
+2. In **General**, select the Skill icon.
+3. Upload a new icon or select an existing icon from the icon gallery.
+4. Select **Save**.
+
+The selected icon is stored in the Skill version metadata and is shown in Skill lists, attached Skill cards, and mention lists.
+
+If needed, you can also remove an uploaded icon from the icon gallery.
+
+   ![Skill Icon](../img/menus/skills/skill-icon.png)
+
+### Generate a Skill with AI
+
+Instead of filling in the form manually, select **Generate with AI** in the **General** section header to open the **Generate skill** dialog.
 
 1. Describe what you want the Skill to do in the input field.
 
@@ -108,31 +130,50 @@ Instead of filling in the form manually, click the **Generate with AI** button i
    and flags any missing ticket references.
    ```
 
-2. Elitea drafts a **Name**, **Description**, and **Instructions** for you.
-3. Review and edit the draft in the modal.
-4. Click **Approve** to apply it to the form, then click **Save**.
+2. ELITEA drafts a **Name**, **Description**, and **Instructions** for you.
+3. Review and edit the draft in the dialog.
+4. Select **Approve** to apply it to the form, then select **Save**.
 
-      ![AI-Assisted Generation](../img/menus/skills/skills-build-ai.gif)
+ <video controls width="100%" aria-label="Full skill creation flow from form to saved Skill.">
+  <source src="../img/menus/skills/skills-build-ai.mp4" type="video/mp4" />
+</video>
+
+### Edit a Skill with AI
+
+You can also refine an existing Skill with **Edit with AI**.
+
+1. Open an existing Skill.
+2. Select **Edit with AI**.
+3. Describe the changes you want.
+4. Select **Generate Draft**.
+5. Review the generated draft step by step.
+6. Select **Save** or **Save as Version**.
+
+   <video controls width="100%" aria-label="Edit a Skill with AI.">
+     <source src="../img/menus/skills/skill-edit-withai.mp4" type="video/mp4" />
+   </video>
 
 ---
 
-## Executing a Skill
+## Test a Skill
 
-After saving a Skill, the **right panel** of the Skill editor contains a **test chat panel** — a stateless, ephemeral chat that lets you interact with the Skill directly without creating a persisted conversation. Use it to verify instructions before attaching the Skill to any agent.
+After you save a Skill, the right panel of the Skill editor contains a test chat panel. This stateless, ephemeral chat lets you interact with the Skill directly without creating a saved conversation. Use it to verify instructions before you attach the Skill to any agent.
 
 <Note>
-Test conversations are ephemeral — they are not saved and disappear when you navigate away or clear the chat.
+**Test conversations**
+
+Test conversations are ephemeral. They are not saved and disappear when you leave the page or clear the chat.
 </Note>
 
-### Selecting the LLM Model and Settings
+### Select the LLM Model & Settings
 
 Before sending a message, you can choose which AI model processes the Skill and optionally fine-tune its parameters.
 
-1. Click the **model chip** in the chat input bar to open the model selector dropdown.
-2. Choose the desired model from the list (e.g., `gpt-4o`, `gpt-5.1`).
-3. Click the **Model Settings** icon (⚙️) next to the model chip to adjust generation parameters.
+1. Select the **model chip** in the chat input bar to open the model selector dropdown.
+2. Choose the model from the list, for example `gpt-4o` or `gpt-5.1`.
+3. Select the **Model Settings** icon next to the model chip to adjust generation parameters.
 
-   ![Model Settings](../img/menus/skills/skills-model-select.gif)
+   ![Model Settings](../img/menus/skills/skills-model-select.png)
 <Tabs>
   <Tab title="Reasoning Models (e.g. GPT-5.1)">
     | Parameter | Description |
@@ -169,7 +210,7 @@ Before sending a message, you can choose which AI model processes the Skill and 
 | **Auto** | System sets the token limit automatically *(default)* |
 | **Custom** | Manually enter a specific token limit for responses |
 
-### Voice Capabilities
+### Use Voice Capabilities
 
 The Skill test chat panel supports the same voice features as the agent chat interface.
 
@@ -187,130 +228,208 @@ The Skill test chat panel supports the same voice features as the agent chat int
 
 **Voice Input**
 
-Click the **microphone** icon in the message input toolbar to start recording. Speak your prompt — a live transcript appears in the input field as you talk. Click **Stop** (■) to finish; the final transcript is committed to the input field.
+Select the **microphone** icon in the message input toolbar to start recording. Speak your prompt. A live transcript appears in the input field as you talk. Select **Stop** to finish. The final transcript is committed to the input field.
 
 <Note>
-Voice Input uses a server-side ASR model if configured in **Settings → AI Configuration**, or falls back to the browser's built-in Web Speech API. If neither is available, the microphone icon is hidden.
+**Voice input**
+
+Voice Input uses a server-side automatic speech recognition (ASR) model if it is configured in **Settings** > **AI Configuration**. Otherwise, it falls back to the browser Web Speech API. If neither is available, the microphone icon is hidden.
 </Note>
 
 **Text-to-Speech**
 
-A **Read out** button (megaphone icon) appears in the action bar below each Skill response. Click it to start playback — the text is highlighted as it is read. A playback pill in the input area provides **Pause** and **Resume** controls.
+A **Read out** button appears in the action bar below each Skill response. Select it to start playback. The text is highlighted as it is read. A playback pill in the input area provides **Pause** and **Resume** controls.
 
 <Note>
-When a TTS model is configured in **Settings → AI Configuration**, ELITEA uses it for audio generation. Otherwise, playback falls back to the browser's built-in SpeechSynthesis API.
+**Text-to-speech**
+
+When a text-to-speech (TTS) model is configured in **Settings** > **AI Configuration**, ELITEA uses it for audio generation. Otherwise, playback falls back to the browser SpeechSynthesis API.
 </Note>
 
 **Speaking Mode**
 
-**Speaking Mode** is a continuous, hands-free voice loop. Leave the input field empty, then click the **voicewave** icon (shown in place of the Send button) to activate it. ELITEA records your speech, sends your prompt after 3 seconds of silence, plays back the response, and then starts listening again. Click **✕** in the voicewave pill to exit.
+**Speaking Mode** is a continuous, hands-free voice loop. Leave the input field empty, then select the **voicewave** icon shown in place of the Send button to activate it. ELITEA records your speech, sends your prompt after three seconds of silence, plays back the response, and then starts listening again. Select **✕** in the voicewave pill to exit.
 
-![Speaking Mode](../img/menus/skills/skills-voice.gif)
+![Speaking Mode](../img/menus/skills/skills-voice.png)
 ---
 
-## Versioning a Skill
+
+## Create & Manage Versions
+
+### Version a Skill
 
 Skills support multiple named versions in addition to the always-present `base` version.
 
-**To create a new version:**
+To create a new version:
 
 1. Open the Skill editor and make your changes.
-2. Click **Save As Version** in the tab bar.
+2. Select **Save As Version** in the tab bar.
 3. The **Create version** dialog appears. Enter a unique version name in the input field.
    - The name `base` is reserved and cannot be used.
    - Duplicate names within the same Skill are rejected with an error toast.
-4. Click **Save** in the dialog to confirm.
+4. Select **Save** in the dialog to confirm.
 5. The page navigates to the new version automatically.
 
-  ![Create Version](../img/menus/skills/skills-new-version.gif)
+<video controls width="100%" aria-label="Full skill creation flow from form to saved Skill.">
+  <source src="../img/menus/skills/skills-new-version.mp4" type="video/mp4" />
+</video>
 
 Use the version selector in the tab bar of the Skill editor. It lists all saved versions with the default version shown first. Non-default versions are sorted by creation date (newest first). The `base` version appears last unless it is currently set as the default.
 
-**To set the default version:**
+To set the default version:
 
-1. Open the Skill editor and navigate to the version you want to set as default.
-2. Click the **⋮ overflow menu** (top-right corner of the tab bar) to open the controls menu.
+1. Open the Skill editor and go to the version you want to set as default.
+2. Select the **⋮ overflow menu** in the tab bar to open the controls menu.
 3. Select **Set as a default** under the **VERSION** section.
    - This option is disabled if the selected version is already the default.
 
-   ![Set Default Version](../img/menus/skills/skills-default-version.gif)
+   ![Set Default Version](../img/menus/skills/skills-default-version.png)
 
 The overflow menu also provides **Share** (copy a link to the current version) and **Share** under the **SKILL** section (copy a link to the skill).
 
-**To delete a version:**
+The same menu also includes **Export**, **Fork**, **Publish**, and **Unpublish** when those actions are available for the selected version.
 
-1. Navigate to the version you want to delete.
+To delete a version:
+
+1. Go to the version you want to delete.
 2. Open the **⋮ overflow menu** and select **Delete** under the **VERSION** section.
 3. Confirm deletion in the confirmation dialog.
    - You cannot delete the default version or the `base` version.
 
-   ![Delete Version](../img/menus/skills/skills-delete-version.gif)
-
----
+   ![Delete Version](../img/menus/skills/skills-delete-version.png)
 
 
+### Export a Skill
 
-## Exporting and Importing Skills
-
-**Exporting a Skill**
-
-1. Open the Skill and navigate to the version you want to export.
-2. Click the **⋮** overflow menu in the tab bar.
+1. Open the Skill and go to the version you want to export.
+2. Select the **⋮** overflow menu in the tab bar.
 3. Under the **VERSION** section, select **Export**.
 4. A `.json` file for the current version is downloaded to your machine.
 
-    ![Export Skill](../img/menus/skills/skills-export.gif)
+    ![Export Skill](../img/menus/skills/skills-export.png)
 
-**Importing a Skill**
+### Import a Skill
 
-1. On the **Skills** page, click the **Import** icon button in the top toolbar.
+1. On the **Skills** page, select the **Import** icon button in the top toolbar.
 2. A file picker opens. Select the `.json` export file from your machine.
 3. The **Import parameters** dialog appears, showing:
    - **PROJECT** — a project selector (defaults to the currently selected project). Change it to import the Skill into a different project.
    - **MAIN ENTITY** — a preview card showing the Skill name, type, description, and instructions from the file.
-4. Click **Import** to create the Skill, or **Cancel** to abort.
+4. Select **Import** to create the Skill, or select **Cancel** to abort.
 
-    ![Import Skill](../img/menus/skills/skills-import.gif)
+    <video controls width="100%" aria-label="Import a Skill.">
+      <source src="../img/menus/skills/skills-import.mp4" type="video/mp4" />
+    </video>
 
 <Note>
+**Imported version**
+
 Imported Skills are always created with the `base` version, regardless of the version stored in the export file.
 </Note>
 
+### Fork a Skill
+
+You can fork a Skill version from the Skill editor or from ELITEA Catalog.
+
+1. Open the Skill version you want to reuse.
+2. Open the **⋮** overflow menu.
+3. Select **Fork**.
+4. Complete the import flow.
+
+   <video controls width="100%" aria-label="Fork a Skill.">
+     <source src="../img/menus/skills/skill-fork.mp4" type="video/mp4" />
+   </video>
+
+The fork action uses the Skill fork export payload and creates a copy in your selected project.
+
 ---
 
-## Attaching a Skill to an Agent
+## Publish a Skill
+
+Skills can be published to **ELITEA Catalog** and later unpublished.
+
+1. Open the Skill version you want to publish.
+2. Open the **⋮** overflow menu.
+3. Select **Publish**.
+4. Complete the publish flow.
+
+The publish flow validates the Skill version, then publishes it to ELITEA Catalog. Published Skills can be listed in the public catalog and reused in other projects.
+
+   ![Publish Skill](../img/menus/skills/skill-publish.png)
+
+To remove a published Skill, open the same menu and select **Unpublish**.
+
+For the full flow, see [Skill Publishing](../how-tos/agents-pipelines/skill-publishing).
+
+---
+
+## Use Skills from ELITEA Catalog
+
+Published Skills are available in **ELITEA Catalog**.
+
+From the catalog, you can:
+
+- Browse published Skills by category
+- Open Skill details
+- Export a published Skill
+- Fork a published Skill into your project
+- Attach a public Skill to one or more agents in the current project
+
+The catalog also tracks public Skill counts and refreshes when a Skill is published or unpublished.
+
+   ![Skills Catalog](../img/menus/skills/skills-catalog.png)
+
+When you attach a public Skill from ELITEA Catalog, the system sends the selected public Skill version to one or more agent versions in the current project.
+
+For the full flow, see **[ELITEA Catalog](./agents-studio)**
+
+---
+
+## Attach a Skill to an Agent
 
 Skills are attached at the **agent version** level, not to the agent as a whole. You must save the agent before Skills can be attached.
 
 <Info>
+**Skill limit**
+
 A maximum of **5 Skills** can be attached to a single agent version. The counter in the Skills section shows how many are currently attached (e.g., `2/5 skills added`).
 </Info>
 
-1. Open the agent you want to configure (**Agents** → click the agent name).
+1. In **Agents**, open the agent you want to configure.
 2. In the agent configuration form, scroll to the **Skills** accordion section (below the Instructions and Toolkits sections).
-3. Click the **`+ Skill`** button to open the skill picker dropdown.
+3. Select the **`+ Skill`** button to open the skill picker dropdown.
    - The button is disabled and shows a tooltip if the agent has not been saved yet (`Save the agent first, then add skills`) or if the 5-Skill limit has been reached (`Maximum number of skills reached`).
 4. Search for the Skill by name in the **Search skills…** field, or browse the list.
 5. Click a Skill to attach it. It attaches immediately using the Skill's `base` version.
    - Skills already attached to the agent version are excluded from the list to prevent duplicates.
 
-   ![Attach Skill](../img/menus/skills/skills-add-agent.gif)
+   <video controls width="100%" aria-label="Attach a Skill to an Agent.">
+     <source src="../img/menus/skills/skills-add-agent.mp4" type="video/mp4" />
+   </video>   
 
-**To create a new Skill from the agent editor:**
+To create a new Skill from the agent editor:
 
-1. Click **`+ Skill`** in the Skills accordion.
-2. Click **Create new** at the bottom of the picker dropdown.
+1. Select **`+ Skill`** in the Skills accordion.
+2. Select **Create new** at the bottom of the picker dropdown.
 3. You are taken to the Skill creation form.
+
+If the selected attached version is later deleted, the Skill card shows this warning banner:
+
+> *The attached skill version no longer exists. Select a valid version or remove this skill.*
+
+If no Skills are attached to the agent, the mention list in chat shows:
+
+> *No skills attached to this agent*
 
 ---
 
-**Changing the Attached Version**
+### Change the Attached Version
 
 Each attached Skill card shows the currently active version name below the Skill's name. To change which version the agent uses:
 
-1. On the Skill card inside the agent's **Skills** section, click the version name (e.g., `base`).
+1. On the Skill card inside the agent **Skills** section, select the version name, for example `base`.
 2. A **Versions** dropdown appears, listing all available versions.
-3. Click the desired version. The attachment is updated automatically (the old version is detached and the new version is re-attached).
+3. Select the version you want. The attachment is updated automatically. The old version is detached and the new version is attached.
 4. The selected version is highlighted with a check mark.
 
     ![Change Attached Version](../img/menus/skills/skills-agent-version.gif)
@@ -318,7 +437,7 @@ Each attached Skill card shows the currently active version name below the Skill
 ---
 
 
-## Using Skills in Chat (Skill Mention)
+## Use Skills in Chat
 
 When an agent has one or more Skills attached, users can invoke a Skill explicitly during a chat conversation by typing `~` (tilde) followed by the Skill name in the chat composer.
 
@@ -326,22 +445,24 @@ When an agent has one or more Skills attached, users can invoke a Skill explicit
 2. A **Mention skill** dropdown appears above the input, listing all Skills attached to that agent.
    - If no Skills are attached, the dropdown shows: *"No skills attached to this agent"*.
 3. Type additional characters to filter the list, or use the arrow keys to highlight a Skill.
-4. Press **Enter** or click the Skill name to insert it as a mention token in your message.
+4. Press **Enter** or select the Skill name to insert it as a mention token in your message.
 5. Send the message. The agent receives and executes that Skill's instructions for this turn.
 
    ![Skill Mention](../img/menus/skills/skills-agent-mention.gif)
 
 ---
 
-## Deleting a Skill
+## Delete a Skill
 
 <Warning>
+**Delete warning**
+
 Deleting a Skill removes it from all agents it is attached to. This action cannot be undone.
 </Warning>
 
 1. Open the **⋮ menu** in the editor tab bar.
 2. Under the **SKILL** section, select **Delete skill**.
-3. Type the Skill name to confirm, then click **Delete**.
+3. Enter the Skill name to confirm, then select **Delete**.
 
    ![Delete Skill](../img/menus/skills/skills-delete.gif)
 
@@ -350,11 +471,11 @@ Deleting a Skill removes it from all agents it is attached to. This action canno
 ## Troubleshooting
 
 <AccordionGroup>
-  <Accordion title="The Skills menu item is missing from the sidebar">
+  <Accordion title="The Skills Menu Item Is Missing from the Sidebar">
     The Skills menu item is hidden when the **Public project** is selected. Open the project switcher at the top of the sidebar and select a team or personal project. If the item is still missing, contact your platform administrator to verify you have the required permissions.
   </Accordion>
 
-  <Accordion title="The Save button is disabled on the Skill creation or edit form">
+  <Accordion title="The Save Button Is Disabled on the Skill Creation or Edit Form">
     The **Save** button requires all of the following:
     - **Name** is non-empty and matches the allowed pattern (lowercase letters, digits, hyphens; no leading/trailing hyphens; no `claude` or `anthropic`).
     - **Description** is non-empty.
@@ -365,25 +486,25 @@ Deleting a Skill removes it from all agents it is attached to. This action canno
     Check the character counters next to each field and the validation error messages below the inputs.
   </Accordion>
 
-  <Accordion title="The + Skill button in the agent editor is disabled">
+  <Accordion title="The + Skill Button in the Agent Editor Is Disabled">
     Two conditions disable the button:
     - **Agent not yet saved** — save the agent first. The tooltip reads *"Save the agent first, then add skills"*.
     - **Limit reached** — the agent version already has 5 Skills attached. Remove one before adding another. The tooltip reads *"Maximum number of skills reached"*.
   </Accordion>
 
-  <Accordion title="A Skill card shows a warning banner">
+  <Accordion title="A Skill Card Shows a Warning Banner">
     The banner *"The attached skill version no longer exists. Select a valid version or remove this skill."* means the specific named version attached to this agent has been deleted from the Skill. Either select a different version from the version dropdown on the card, or remove the Skill and re-attach it.
   </Accordion>
 
-  <Accordion title="The Mention skill dropdown does not appear when I type ~ in chat">
+  <Accordion title="The Mention Skill Dropdown Does Not Appear When I Type ~ in Chat">
     The `~` trigger only shows the dropdown if the agent in the current conversation has at least one Skill attached. Check the agent's **Skills** section in the agent editor. If no Skills are listed, attach one and save the agent, then start a new conversation.
   </Accordion>
 
-  <Accordion title="Save As Version fails with 'A version with that name already exists'">
+  <Accordion title="Save As Version Fails with 'A Version with That Name Already Exists'">
     Each version name within a Skill must be unique. Choose a different name. Also note that the name `base` is reserved and cannot be used as a custom version name.
   </Accordion>
 
-  <Accordion title="Import fails or does not create the Skill">
+  <Accordion title="Import Fails or Does Not Create the Skill">
     - Only `.json` files exported from Elitea are accepted.
     - Ensure the target project is selected correctly in the **Import parameters** dialog.
     - If the Skill name in the file contains uppercase letters, spaces, or invalid characters, the import will be rejected. Edit the file or re-export from a corrected Skill.
@@ -392,7 +513,8 @@ Deleting a Skill removes it from all agents it is attached to. This action canno
 
 ---
 
-<Info title="Related Documentation">
+<Info>
+**Guides & References**
 
 - **[Agents](./agents)** — Configure agents and attach Skills, Toolkits, and MCPs
 - **[Project Context](./settings/project-context)** — Define shared background context injected into every AI interaction
