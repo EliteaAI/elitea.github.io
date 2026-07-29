@@ -1,0 +1,193 @@
+---
+title: "Use Elitea in Claude Code via MCP"
+sidebarTitle: "Use Elitea in Claude Code"
+description: "Connect Claude Code to Elitea through MCP and use Elitea agents, pipelines, and toolkit tools from your local workflow."
+---
+ 
+## Overview
+ 
+You can connect **Claude Code** to **Elitea** through MCP and use:
+ 
+- **Agents** tagged with `mcp`
+- **Pipelines** tagged with `mcp`
+- **Toolkit tools** with **Make tools available by MCP** enabled
+ 
+This is useful when you want Claude Code to call Elitea capabilities directly from your local development workflow.
+ 
+---
+ 
+## Prerequisites
+ 
+Before you start, make sure you have:
+ 
+- **Claude Code** installed
+- **Python 3.10+** installed
+- **pipx** installed
+- **elitea-mcp** installed with `pipx`
+- **Elitea deployment URL** (example: `https://next.elitea.ai`)
+- **Elitea personal access token** from [Create Personal Access Token](../../getting-started/create-personal-access-token)
+- **Elitea project ID** from [AI Configuration](../../menus/settings/ai-configuration#server-configuration-fields)
+ 
+---
+ 
+## Install `pipx` and `elitea-mcp`
+ 
+### macOS
+ 
+```bash
+python3 -m pip install --user pipx
+python3 -m pipx ensurepath
+pipx install elitea-mcp
+```
+ 
+### Windows
+
+1. **Open PowerShell**
+     - Press `Windows key`, type "PowerShell", and press Enter
+2. **Install pipx**  
+    ```powershell
+    python -m pip install --user pipx
+3. **Set up pipx's path**  
+    ```powershell
+    python -m pipx ensurepath
+    ```
+4. **Install elitea-mcp**  
+    ```powershell
+    pipx install elitea-mcp
+    ```
+
+   <video controls width="100%" aria-label="Install pipx and elitea-mcp on Windows.">
+     <source src="../../img/integrations/mcp/mcp-setup/install-pipx-&-elitea-mcp.mp4" type="video/mp4" />
+   </video>
+ 
+**Note:** Restart your terminal so `pipx` and `elitea-mcp` are available in PATH.
+ 
+---
+ 
+## Configure Claude Code
+ 
+Open Claude Code MCP configuration and add an Elitea server entry.
+ 
+Use the following example as a template:
+ 
+```json
+{
+  "mcpServers": {
+    "Elitea_Next": {
+      "command": "elitea-mcp",
+      "args": [
+        "run",
+        "--project_id", "13",
+        "--deployment_url", "https://next.elitea.ai",
+        "--auth_token", "YOUR_PERSONAL_TOKEN_IN_ELITEA",
+        "--host", "0.0.0.0",
+        "--port", "8000"
+      ]
+    }
+  }
+}
+```
+ 
+Replace:
+ 
+- `13` with your Elitea project ID
+- `https://next.elitea.ai` with your Elitea URL
+- `YOUR_PERSONAL_TOKEN_IN_ELITEA` with your personal access token
+ 
+**Note:** Claude Code configuration location may vary by installation method and OS. Open Claude Code settings for **Local MCP servers** and edit the generated config file there.
+ 
+![Placeholder: Claude Code local MCP servers screen](../../img/integrations/mcp/placeholders/claude-code-local-mcp-servers.png)
+ 
+_Placeholder: Add a screenshot of Claude Code **Settings → Developer → Local MCP servers** with the Elitea server configured and running._
+ 
+---
+ 
+## Make Elitea Items Available in MCP
+ 
+Claude Code will only see Elitea items that are exposed through MCP.
+ 
+### Agents
+ 
+Add the tag `mcp` to the agent and save it.
+ 
+![Placeholder: tag agent with mcp](../../img/integrations/mcp/placeholders/claude-code-agent-mcp-tag.png)
+ 
+_Placeholder: Add a screenshot of the Elitea agent edit page with the `mcp` tag highlighted._
+ 
+### Pipelines
+ 
+Add the tag `mcp` to the pipeline and save it.
+ 
+![Placeholder: tag pipeline with mcp](../../img/integrations/mcp/placeholders/claude-code-pipeline-mcp-tag.png)
+ 
+_Placeholder: Add a screenshot of the Elitea pipeline edit page with the `mcp` tag highlighted._
+ 
+### Toolkit tools
+ 
+When creating or editing a toolkit:
+ 
+1. Open the **TOOLS** section
+2. Select the tools you want to expose
+3. Enable **Make tools available by MCP**
+4. Save the toolkit
+ 
+For more details, see [Expose Elitea Tools via MCP](./make-tools-available-by-mcp).
+ 
+![Placeholder: toolkit MCP checkbox](../../img/integrations/mcp/placeholders/claude-code-toolkit-mcp-checkbox.png)
+ 
+_Placeholder: Add a screenshot of the toolkit configuration with **Make tools available by MCP** enabled._
+ 
+---
+ 
+## Use Elitea Tools in Claude Code
+ 
+After the MCP server is running in Claude Code:
+ 
+1. Open Claude Code
+2. Make sure the Elitea MCP server is shown as **running**
+3. Start a prompt that requires an Elitea agent, pipeline, or toolkit tool
+4. Claude Code will discover and use the available MCP tools
+ 
+If you add new agents, pipelines, or toolkit tools later, restart the Elitea MCP server in Claude Code.
+ 
+![Placeholder: Claude Code using Elitea MCP tool](../../img/integrations/mcp/placeholders/claude-code-tool-usage.png)
+ 
+_Placeholder: Add a screenshot of Claude Code invoking an Elitea MCP tool from chat._
+ 
+---
+ 
+## Quick Troubleshooting
+ 
+### Elitea tools do not appear
+ 
+Check that:
+ 
+- the agent or pipeline has the `mcp` tag
+- the toolkit has **Make tools available by MCP** enabled
+- the correct **project ID** is used
+- the personal token is valid
+- the MCP server was restarted after changes
+ 
+### `elitea-mcp` command is not found
+ 
+Check that:
+ 
+- `pipx` was installed successfully
+- your terminal was restarted
+- `elitea-mcp` is available in PATH
+ 
+### Server is added but not running
+ 
+Check that:
+ 
+- the config JSON is valid
+- `deployment_url`, `project_id`, and `auth_token` are correct
+- local firewall or security tools are not blocking the process
+ 
+---
+ 
+## Related Documentation
+ 
+- [Set Up a Local MCP Server (STDIO)](./create-and-use-server-stdio)
+- [Elitea MCP Server (SSE)](./mcp-server-sse)
+- [Expose Elitea Tools via MCP](./make-tools-available-by-mcp)
