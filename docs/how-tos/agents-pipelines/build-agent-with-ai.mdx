@@ -6,7 +6,7 @@ description: "Describe your agent in plain language and let ELITEA generate a fu
 
 ## Overview
 
-**Build with AI** is an agent creation shortcut that converts a natural-language description into a complete agent draft. Instead of filling in every field manually, you describe what the agent should do and ELITEA generates a starting configuration: name, description, instructions, welcome message, conversation starters, and suggestions for toolkits and child agents already available in your project.
+**Build with AI** is an agent creation shortcut that converts a natural-language description into a complete agent draft. Instead of filling in every field manually, describe what the agent should do and ELITEA generates a starting configuration: name, description, instructions, welcome message, conversation starters, and suggestions for toolkits and child agents already available in your project.
 
 The draft is fully editable before the agent is created — nothing is saved until you click **Create Agent**.
 
@@ -21,7 +21,7 @@ The draft is fully editable before the agent is created — nothing is saved unt
     ELITEA analyses the available toolkits and agents in your project and suggests relevant ones to attach. You decide which to include.
   </Card>
   <Card title="Non-Destructive" icon="shield-check">
-    No agent is created until you click **Create Agent**. You can go back to edit your prompt at any time before confirming.
+    No agent is created until you click **Create Agent**. Go back to edit your prompt at any time before confirming.
   </Card>
 </CardGroup>
 
@@ -39,11 +39,11 @@ The draft is fully editable before the agent is created — nothing is saved unt
 
 **Build with AI** is a three-step modal flow:
 
-| Step | What Happens |
+| Step | What happens |
 |------|-------------|
-| **1. Describe** | You type a free-text description of the agent's goal, tasks, and behavior |
+| **1. Describe** | Enter a free-text description of the agent's goal, tasks, and behavior |
 | **2. Generating** | ELITEA calls the AI backend to produce a structured agent draft |
-| **3. Review & Create** | You review and edit all generated fields, select suggested resources, and confirm creation |
+| **3. Review & Create** | Review and edit all generated fields, select suggested resources, and confirm creation |
 
 After you click **Create Agent**, the platform:
 1. Creates the agent with the reviewed fields and the project's default LLM model
@@ -56,16 +56,16 @@ The AI generates values for: **Name**, **Description**, **Instructions**, **Welc
 
 ---
 
-## Using Build with AI
+## Use Build with AI
 
 ### Step 1 — Open the Build with AI Dialog
 
-1. Navigate to **Agents** in the main menu.
+1. Go to **Agents** in the main menu.
 2. Click **+ Create** to open the new agent form.
 3. In the **General** accordion section, locate the **Build with AI** button in the section header (sparkle icon ✨).
 4. Click **Build with AI** to open the dialog.
 
-     ![Build with AI Dialog](../../img/how-tos/agents-pipelines/build-agent-ai/build-ai-open.gif)
+     ![Build with AI dialog open](../../img/how-tos/agents-pipelines/build-agent-ai/build-ai-open.png)
 
 <Tip title="Where to Find It">
 The **Build with AI** button appears in the header of the **General** section inside the new agent creation form — not as a standalone page entry. Open the agent creation form first.
@@ -77,23 +77,23 @@ The dialog opens on the **description input** step. A large multiline text field
 
 > *Describe your agent's goal, key tasks, and preferred tone or behavior.*
 
-1. Type your description in the text field. Include:
+1. Enter your description in the text field. Include:
    - What the agent is for
    - What tasks it should handle
    - Any specific tone, constraints, or behavior you want
 2. Click **Generate** or press **Enter** (without Shift) to submit.
 
-     ![Build with AI Description](../../img/how-tos/agents-pipelines/build-agent-ai/build-ai-description.png)
+     ![Build with AI description step](../../img/how-tos/agents-pipelines/build-agent-ai/build-ai-description.png)
 
 The dialog transitions to a loading state showing **"Generating agent draft…"** while the backend processes your description.
 
-If generation fails, an error message is shown and you remain on the input step. You can edit your description and try again.
+If generation fails, an error message is shown and you remain on the input step. Edit your description and try again.
 
 <Note>
 Pressing **Shift+Enter** inserts a line break in your description. Only plain **Enter** triggers generation.
 </Note>
 
-### Step 3 — Review and Edit the Draft
+### Step 3 — Review & Edit the Draft
 
 Once generation completes, the dialog shows the **Review** step with all generated fields pre-filled and fully editable.
 
@@ -105,23 +105,23 @@ Once generation completes, the dialog shows the **Review** step with all generat
 | **Description** | Multiline, no hard limit shown in the dialog. |
 | **Instructions** | Multiline, 4–10 visible rows. The core system prompt for the agent. |
 | **Welcome Message** | Single-line. Shown to users when they open a conversation with this agent. |
-| **Conversation Starters** | Up to **4** starters, each max **768** characters. You can edit, add, or remove starters. A counter shows `N/4 added`. |
+| **Conversation Starters** | Up to four starters, each max 768 characters. Edit, add, or remove starters. A counter shows `N/4 added`. |
 
 **Suggested resources:**
 
 If the AI detected relevant toolkits or agents in your project, they are shown in checkbox lists at the bottom of the review form:
 
-- **Suggested Toolkits** — shows toolkit name and type. Check the ones to attach.
-- **Suggested Agents** — shows agent name and description. Check the ones to attach as child agents.
+- **Suggested Toolkits** — shows toolkit name and type. Select the ones to attach.
+- **Suggested Agents** — shows agent name and description. Select the ones to attach as child agents.
 
-Resources that are not checked are **not attached** when the agent is created.
+Resources that are not checked are not attached when the agent is created.
 
 **Actions on the Review step:**
 
 - **Back to prompt** — returns to the description input step with your original text preserved, without losing the draft. Use this to refine your description and regenerate.
 - **Create Agent** — creates the agent with the current field values and selected resources.
 
-     ![Build with AI Review](../../img/how-tos/agents-pipelines/build-agent-ai/build-ai-review.gif)
+     ![Build with AI review step](../../img/how-tos/agents-pipelines/build-agent-ai/build-ai-review.png)
 
 ### Step 4 — Agent Created
 
@@ -130,29 +130,138 @@ After clicking **Create Agent**:
 1. The agent is created in the project.
 2. Selected toolkits are associated with the agent's first version.
 3. Selected agents are associated as child agents.
-4. The dialog closes and the browser navigates directly to the new agent's **Configuration** tab.
+4. The dialog closes and the browser goes directly to the new agent's **Configuration** tab.
 
-     ![Build with AI Create](../../img/how-tos/agents-pipelines/build-agent-ai/build-ai-create.gif)
+<video controls>
+  <source src="../../img/how-tos/agents-pipelines/build-agent-ai/build-agent-ai.mp4" type="video/mp4"/>
+  Your browser does not support the video tag.
+</video>
 
-From the Configuration tab, you can continue configuring the agent — adjust the LLM model, add more toolkits, set variables, configure internal tools, and save or publish.
+From the **Configuration** tab, continue configuring the agent — adjust the LLM model, add more toolkits, set variables, configure internal tools, and save or publish.
+
+---
+
+## Edit an Agent with AI
+
+Use AI after an agent already exists. **Edit with AI** helps you propose targeted updates to a saved agent, review the generated changes step by step, and then either apply them to the current version or save them as a new version.
+
+Unlike **Build with AI**, which creates a brand-new agent draft, **Edit with AI** starts from the current saved agent configuration and generates a proposed update.
+
+<CardGroup cols={2}>
+  <Card title="Prompt-Based Editing" icon="sparkles">
+    Describe the changes you want in plain language, such as refining instructions, updating the welcome message, or suggesting missing resources.
+  </Card>
+  <Card title="Step-by-Step Review" icon="list-check">
+    Review the generated update through a guided wizard that can include General, Instructions, User Interaction, Tools & Skills, and Summary steps.
+  </Card>
+  <Card title="Selective Apply" icon="toggle-on">
+    Choose which generated field changes to keep before saving. You do not have to accept every suggested update.
+  </Card>
+  <Card title="Version-Safe" icon="code-branch">
+    Save the AI-generated changes directly to the current version or create a new version from the reviewed draft.
+  </Card>
+</CardGroup>
+
+### Step 1 — Open the Edit with AI Dialog
+
+1. Open an existing saved agent.
+2. In the **General** accordion section, locate the **Edit with AI** button in the section header.
+3. Click **Edit with AI** to open the dialog.
+
+   ![Edit with AI dialog open](../../img/how-tos/agents-pipelines/build-agent-ai/edit-ai-open.png)
+
+<Tip title="Where to Find It">
+The **Edit with AI** button is available only for existing saved agents. It does not appear while creating a brand-new unsaved agent.
+</Tip>
+
+### Step 2 — Describe the Changes You Want
+
+The dialog opens on the prompt step with a multiline text field. The placeholder explains that AI can help update the agent's description, instructions, tools, skills, and other configuration details.
+
+1. Describe the changes you want to make. For example:
+
+   ```
+   Update this agent to focus on security-first pull request reviews,
+   tighten the instructions, add a stronger welcome message, and suggest
+   any missing GitHub or Jira resources.
+   ```
+
+2. Click **Generate Draft** or press **Enter** (without Shift).
+
+   ![Edit with AI prompt step](../../img/how-tos/agents-pipelines/build-agent-ai/edit-ai-prompt.png)
+
+The dialog switches to a loading state showing **Generating agent draft...** while ELITEA prepares the proposed update.
+
+If generation fails, an error message is shown and you remain on the prompt step. Edit the request and try again.
+
+<Note>
+Pressing **Shift+Enter** inserts a line break in the prompt. Only plain **Enter** triggers draft generation.
+</Note>
+
+### Step 3 — Review the Generated Update
+
+Once generation completes, ELITEA opens a wizard-style review flow. The exact steps depend on what the AI changed, but the wizard can include:
+
+| Step | What you review |
+|------|------------------|
+| **General** | Proposed updates to fields such as **Name** and **Description** |
+| **Instructions** | Updated agent instructions |
+| **User Interaction** | Proposed **Welcome Message** and **Conversation Starters** |
+| **Tools & Skills** | Suggested toolkits, MCPs, agents, pipelines, and Skills to add, keep, or remove |
+| **Summary** | Final review of all selected changes before saving |
+
+![Edit with AI review step](../../img/how-tos/agents-pipelines/build-agent-ai/edit-ai-review.png)
+
+During the wizard, you can:
+
+- Move between steps using **Previous** and **Next**
+- Use **Refine Prompt** to return to the prompt step and regenerate
+- Selectively keep or skip individual field changes
+- Review suggested resource changes before they are applied
+
+<Info title="What Can Be Updated">
+The AI edit flow can propose changes to **Name**, **Description**, **Instructions**, **Welcome Message**, **Conversation Starters**, and attached resources such as toolkits, MCPs, agents, pipelines, and Skills.
+</Info>
+
+### Step 4 — Save the Changes
+
+At the end of the wizard, choose one of the following actions:
+
+- **Save** — applies the selected AI-generated changes to the current version
+- **Save as Version** — opens a version-name dialog and creates a new version from the reviewed draft
+
+   ![Edit with AI summary step](../../img/how-tos/agents-pipelines/build-agent-ai/edit-ai-summary.png)
+
+If you choose **Save as Version**, enter a unique version name and confirm. ELITEA creates the new version first, then applies the selected resource associations to that version.
+
+### Step 5 — Continue Editing in Configuration
+
+After saving, the dialog closes and the agent remains available in the standard configuration view, where you can continue adjusting models, resources, modules, variables, and other settings manually if needed.
+
+<video controls>
+  <source src="../../img/how-tos/agents-pipelines/build-agent-ai/edit-agent-with-ai.mp4" type="video/mp4"/>
+  Your browser does not support the video tag.
+</video>
 
 ---
 
 ## Build an Agent with AI from Chat
 
-You can use **Build with AI** without leaving an active conversation, via the **Canvas** interface in Chat.
+Use **Build with AI** without leaving an active conversation, via the **Canvas** interface in Chat.
 
 1. In the chat input toolbar, click the **`+`** icon.
 2. Hover over **Agents** to expand the submenu.
 3. Click **Create New Agent** at the bottom of the submenu.
 4. The Agent Canvas slides in with the full creation form.
 5. In the **General** section header, click the **Build with AI** button (sparkle icon ✨).
-6. Type a description of your agent's goal, tasks, and behavior, then click **Generate**.
+6. Enter a description of your agent's goal, tasks, and behavior, then click **Generate**.
 7. Review and edit the generated draft — name, instructions, welcome message, conversation starters, and suggested resources.
 8. Click **Save** to create the agent.
 
-     ![Build with AI Create Chat](../../img/how-tos/agents-pipelines/build-agent-ai/build-ai-create-chat.gif)
-
+   <video controls>
+     <source src="../../img/how-tos/agents-pipelines/build-agent-ai/build-ai-create-chat.mp4" type="video/mp4"/>
+     Your browser does not support the video tag.
+   </video>
 
 ---
 
@@ -194,7 +303,7 @@ If the AI backend fails to generate a draft, an error message appears in the dia
 - The description is empty or too short
 - A backend service is temporarily unavailable
 
-Edit your description and click **Generate** again. If the error persists, contact your Elitea administrator.
+Edit your description and click **Generate** again. If the error persists, contact your ELITEA administrator.
 </Accordion>
 
 <Accordion title="Suggested toolkits or agents are not shown">
@@ -202,7 +311,7 @@ Suggestions are based on resources already in your project. If no toolkits or ag
 </Accordion>
 
 <Accordion title="The generated name or instructions are not suitable">
-All fields are fully editable in the Review step. You can overwrite the generated name, rewrite the instructions, and adjust any other field before clicking **Create Agent**. Alternatively, click **Back to prompt**, refine your description, and regenerate.
+All fields are fully editable in the Review step. Overwrite the generated name, rewrite the instructions, and adjust any other field before clicking **Create Agent**. Alternatively, click **Back to prompt**, refine your description, and regenerate.
 </Accordion>
 
 <Accordion title="I want to start over with a different description">
@@ -211,12 +320,12 @@ Click **Back to prompt** on the Review step. Your original description is preser
 
 ---
 
-## Related Features
+## Guides & References
 
 <Info title="Additional Resources">
-* **[Agents Overview](../../menus/agents)** - Creating and configuring agents manually
-* **[Agent Publishing](./agent-publishing)** - Publish your generated agent so others can use it
-* **[Entity Versioning](./entity-versioning)** - Create and manage versions of your agent after generation
-* **[Toolkits Overview](../../menus/toolkits)** - Create and configure toolkits to attach to your agent
-* **[Agents from Canvas](../chat-conversations/how-to-create-and-edit-agents-from-canvas)** - Another way to create and edit agents directly from a conversation
+* **[Agents Overview](../../menus/agents)** — Creating and configuring agents manually
+* **[Agent Publishing](./agent-publishing)** — Publish your generated agent so others can use it
+* **[Entity Versioning](./entity-versioning)** — Create and manage versions of your agent after generation
+* **[Toolkits Overview](../../menus/toolkits)** — Create and configure toolkits to attach to your agent
+* **[Agents from Canvas](../chat-conversations/how-to-create-and-edit-agents-from-canvas)** — Another way to create and edit agents directly from a conversation
 </Info>
