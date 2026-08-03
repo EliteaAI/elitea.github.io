@@ -213,7 +213,7 @@
             "icon": "database",
             "pages": [
               {
-                "group": "Start Here",
+                "group": "Start with Indexing",
                 "expanded": true,
                 "pages": [
                   "how-tos/indexing/indexing-overview",
@@ -222,7 +222,7 @@
                 ]
               },
               {
-                "group": "Manage & Query Indexes",
+                "group": "Manage Indexes",
                 "expanded": false,
                 "pages": ["how-tos/indexing/schedule-indexing", "how-tos/indexing/vector_search"]
               },
