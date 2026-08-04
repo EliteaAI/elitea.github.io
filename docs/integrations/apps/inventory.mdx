@@ -48,6 +48,10 @@ Integrating Inventory with ELITEA empowers your Agents to understand complex cod
   </Card>
 </CardGroup>
 
+<Info title="Kubernetes Deployment">
+When deployed on Kubernetes, the Inventory application runs ingestion in dedicated stateless Job workers managed by the `K8sIngestionJobManager`. This provides improved isolation and reliability for ingestion tasks. Deployment dependencies and requirements are clearly defined — consult your platform administrator to ensure the correct environment variables and artifact bucket access are configured before use.
+</Info>
+
 ---
 
 ## System Integration with ELITEA
@@ -86,11 +90,15 @@ If the **Inventory** application is not yet enabled for your project, the App Ca
     |-----------|----------|-------------|---------|
     | **Toolkit Name** | Yes | Descriptive name for the application | "Backend Codebase Graph" |
     | **Description** | No | Optional description of the application's purpose | "Knowledge graph for the core backend services" |
-    | **Bucket** | Yes | Storage bucket for knowledge graph data and configurations | "inventory_graphs" |
+    | **Bucket** | Yes | Storage bucket for knowledge graph data. Uses the fixed internal bucket `inventory_graphs` — no manual bucket configuration is required in standard deployments. | `inventory_graphs` |
     | **LLM Model** | Yes | LLM model used for entity and relationship extraction during ingestion | "gpt-4", "claude-sonnet-3-5" |
     | **Embedding Model** | No | Embedding model for semantic search (optional; enables natural language entity queries) | "text-embedding-3-small" |
     | **Sources** | No | Source toolkit IDs to ingest from (GitHub, ADO Repos, GitLab, Bitbucket) | Select from configured toolkits |
     | **Tools** | No | Select which tools to enable (default: all tools) | `run_ingestion`, `search_graph`, `impact_analysis` |
+
+<Note title="Source Validation Feedback">
+When you select source toolkits during app creation, ELITEA validates each source's availability early in the form. If a selected source toolkit cannot be resolved, a clear validation message appears before the application is saved — letting you correct the configuration immediately rather than encountering an error later during ingestion. Form field labels and reference pickers are also rendered with consistent sizing across all Inventory setup fields.
+</Note>
 
 6. **Save Application:** Click **Save** to create the application.
 
@@ -136,6 +144,12 @@ The **Inventory** application toolkit provides the following tools:
 | **get_preset_info** | Presets & Cache | `preset_name` | — | Returns details about a language preset including its file include patterns and exclude patterns. |
 | **get_cache_stats** | Presets & Cache | — | `output_format` | Returns statistics about the local graph cache: total size, graph count, and details per cached graph. |
 | **cleanup_cache** | Presets & Cache | — | `output_format` | Forces cleanup of stale graphs from the local cache (normally runs automatically in the background). |
+| **normalize_types** | Graph Maintenance | — | `output_format` | Normalizes all entity type names to canonical lowercase forms (e.g., `Feature` / `Features` → `feature`). Run to reduce type fragmentation after ingestion. |
+| **rebuild_indices** | Graph Maintenance | — | `output_format` | Rebuilds all graph indices (name, type, file, source) and normalizes entity types. Use after manual modifications or to fix index inconsistencies. |
+| **get_type_stats** | Graph Maintenance | — | `output_format`, `show_all` | Returns detailed statistics about entity types including counts and potential duplicates — useful for identifying type fragmentation before normalization. |
+| **link_toolkits_to_tools** | Graph Enrichment | — | `dry_run`, `output_format` | Creates `PROVIDES_TOOL` relationships between toolkit entities and their tools based on file paths, naming patterns, and `parent_toolkit` properties. Run after ingestion to improve toolkit–tool connectivity. |
+| **connect_orphan_nodes** | Graph Enrichment | — | `min_score`, `max_connections`, `dry_run`, `output_format` | Finds isolated entities (no relationships) and connects them to related entities using name-overlap scoring. Creates `RELATED_TO` relationships to reduce graph fragmentation. |
+| **validate_relationships** | Graph Enrichment | — | `fix_issues`, `output_format` | Validates existing relationships using heuristic rules — checks for self-loops, invalid relation types, and missing required relationships. Returns a validation report; optionally auto-fixes removable issues. |
 
 ---
 
@@ -235,6 +249,14 @@ Ingestion time depends on repository size and complexity: small repositories (< 
 | `Ingesting` | Ingestion is currently running |
 | `Done` | Ingestion completed successfully |
 | `Error` | Ingestion failed — inspect the error message for details |
+
+<Note title="Stopping an Active Ingestion">
+While ingestion is running, a **Stop** button appears at the top of the **Sources** panel (replacing the **Update All** button). Click **Stop** to cancel the active ingestion run. The backend task is interrupted and the ingestion slot is released, making it immediately available for a new run.
+</Note>
+
+<Warning title="Concurrent Ingestion Limit">
+The Inventory application enforces a limit on the number of simultaneously active ingestion runs. If all ingestion workers are already busy when you attempt to start a new ingestion, you will receive an error message listing the currently running ingestions and a suggested retry window. Wait for an active run to complete before starting another.
+</Warning>
 
 <Warning title="Async Ingestion Only">
 The `run_ingestion` and `delta_update` tools are **async-only** — they do not return a result synchronously. When invoked from an agent, the agent should check `get_sources_status` to confirm completion rather than expecting an immediate result.
