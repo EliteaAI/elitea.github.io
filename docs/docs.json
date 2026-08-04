@@ -184,7 +184,7 @@
                 ]
               },
               {
-                "group": "Internal Tools",
+                "group": "Modules",
                 "expanded": false,
                 "pages": [
                   "how-tos/chat-conversations/image-generation",
