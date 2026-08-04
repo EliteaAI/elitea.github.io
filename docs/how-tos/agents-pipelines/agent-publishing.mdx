@@ -74,7 +74,7 @@ When publishing, certain components will be stripped from the public version for
 - Credentials and API keys
 - Private datasource connections
 - Environment-specific configurations
-- Internal tool endpoints
+- Module endpoints
 
 Consumers of your published agent must provide their own credentials and configurations.
 Exception: attached Skills and sub-agents are not stripped — their instructions are embedded in the published agent. Retained Skills are never listed as separate entries in the catalog.
@@ -293,7 +293,7 @@ The following table lists notification events and their messages:
   </Accordion>
 
   <Accordion title="Account for credential exclusions">
-    When your agent is published, all credentials, private datasource connections, environment-specific configurations, and internal tool endpoints are stripped from the public version. Before publishing:
+    When your agent is published, all credentials, private datasource connections, environment-specific configurations, and internal module endpoints are stripped from the public version. Before publishing:
 
     - Ensure your agent instructions are written to guide users to provide their own credentials.
     - Document which credentials or configurations users must supply in the agent description.
