@@ -21,7 +21,7 @@ The **Agent Canvas** interface in ELITEA serves as an integrated agent managemen
   <Card title="Advanced Model Configuration" icon="sliders">
     Integration with ELITEA's LLM model management system for comprehensive AI model selection and fine-tuning.
   </Card>
-  <Card title="Internal Tools" icon="toolbox">
+  <Card title="Modules" icon="toolbox">
     Extend agent capabilities with built-in tools such as file attachments, image generation, data analysis, Python sandbox, and more.
   </Card>
 </CardGroup>
@@ -93,7 +93,7 @@ The **Agent Canvas** interface in ELITEA serves as an integrated agent managemen
   </Step>
 
   <Step title="Save Initial Configuration">
-    Click the **Save** button to create your agent. After saving, the canvas transitions to **edit mode** where the full configuration interface becomes available:
+    Click **Save** to create your agent. After saving, the canvas transitions to **edit mode** where the full configuration interface becomes available:
 
     <CardGroup cols={3}>
       <Card title="LLM Model Selector" icon="microchip">
@@ -102,12 +102,11 @@ The **Agent Canvas** interface in ELITEA serves as an integrated agent managemen
       <Card title="Integration Buttons" icon="plug">
         **+ Toolkit**, **+ MCP**, **+ Agent**, and **+ Pipeline** buttons become active in the TOOLKITS section.
       </Card>
-      <Card title="Internal Tools" icon="toolbox">
-        Built-in capability toggle cards appear in the TOOLKITS section, ready to enable.
+      <Card title="Modules" icon="toolbox">
+        Built-in capability toggle cards appear in **TOOLS**, ready to enable.
       </Card>
     </CardGroup>
 
-    ![Agent Initial Configuration](../../img/how-tos/chat-conversations/canvas-agent/canvas-agent-save.gif)
   </Step>
 </Steps>
 
@@ -229,7 +228,7 @@ The **LLM Model Selector** appears at the top of the editor panel in edit mode.
 
 ### Toolkits Configuration
 
-In the **TOOLS** section, enhance your agent's capabilities by adding integrations and enabling internal tools.
+In the **TOOLS** section, enhance your agent's capabilities by adding integrations and enabling modules.
 
 <Note title="Save first">
 The **+ Toolkit**, **+ MCP**, **+ Agent**, and **+ Pipeline** buttons are disabled until the agent has been saved at least once. Save the agent first, then add integrations.
@@ -266,11 +265,11 @@ The **+ Toolkit**, **+ MCP**, **+ Agent**, and **+ Pipeline** buttons are disabl
   </Tab>
 </Tabs>
 
-### Internal Tools
+### Modules
 
-Below the added integrations, the **INTERNAL TOOLS** section displays built-in capabilities as toggle cards. Enable these tools to extend your agent's functionality without needing external integrations:
+**MODULES** display built-in capabilities as toggle cards. Enable these tools to extend your agent's functionality without needing external integrations:
 
-![Agent Advanced Configuration](../../img/how-tos/chat-conversations/canvas-agent/canvas-agent-internal-tools.gif)
+<img src="../../img/how-tos/chat-conversations/canvas-agent/euch_modules.png" style={{width: "500px", height: "auto"}} alt="Modules" />
 
 <CardGroup cols={3}>
   <Card title="Attachments" icon="paperclip" href="./attach-files">
@@ -281,6 +280,9 @@ Below the added integrations, the **INTERNAL TOOLS** section displays built-in c
   </Card>
   <Card title="Data Analysis" icon="chart-bar" href="./data-analysis-internal-tool">
     Pandas-based data analysis on attached files without requiring a separate toolkit.
+  </Card>
+  <Card title="Agents & Pipeline Builder" icon="plug" href="./elitea-mcp-tools-internal-tool">
+    Create and update agents and pipelines directly from chat.
   </Card>
   <Card title="Planner" icon="list-check" href="./planner-internal-tool">
     Break work into steps and track progress with a built-in task planning tool.
@@ -293,9 +295,6 @@ Below the added integrations, the **INTERNAL TOOLS** section displays built-in c
   </Card>
   <Card title="Smart Tools Selection" icon="wand-magic-sparkles" href="./smart-tools-selection-internal-tool">
     Reduces token usage by using meta-tools to discover and invoke tools on demand instead of binding all upfront.
-  </Card>
-  <Card title="Elitea MCP Tools" icon="plug" href="./elitea-mcp-tools-internal-tool">
-    Expose ELITEA's own capabilities as MCP tools, allowing agents to interact with projects, prompts, datasources, and more.
   </Card>
 </CardGroup>
 
@@ -376,13 +375,13 @@ Once in edit mode, the interface displays current settings pre-populated. You ca
   <Card title="LLM Model and Settings" icon="sliders">
     Switch to a different model or fine-tune model parameters including creativity/reasoning level and max tokens. Click **Apply** after changing settings.
   </Card>
-  <Card title="Toolkits and Integrations" icon="toolbox">
-    Add or remove toolkits, MCP connections, nested agents, and nested pipelines. Toggle internal tools on or off as needed.
+  <Card title="Tools and Integrations" icon="toolbox">
+    Add or remove toolkits, MCP connections, nested agents, and nested pipelines. Toggle modules on or off as needed.
   </Card>
 </CardGroup>
 
 
-After making changes, click the **Save** button to apply them. The **Discard** button resets the form to the last saved state. Clicking **×** with unsaved changes triggers a confirmation dialog.
+After making changes, click **Save** to apply them. **Discard** resets the form to the last saved state. Clicking **×** with unsaved changes triggers a confirmation dialog.
 
 ### Version Management
 

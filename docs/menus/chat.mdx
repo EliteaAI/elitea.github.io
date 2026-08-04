@@ -56,7 +56,7 @@ For more details see [Chat Usage](../how-tos/chat-conversations/how-to-use-chat-
 <img src="../img/menus/chat/create-conversation.gif" alt="Create_Conversation" />
 
 <Tip title="Quick Start">
-You can add participants before sending your first message. Click the **`+`** icon in the input toolbar to access agents, pipelines, toolkits, MCPs, internal tools, and file attachments — or type **`#`** followed by a name to search directly.
+You can add participants before sending your first message. Click the **`+`** icon in the input toolbar to access agents, pipelines, toolkits, MCPs, modules, and file attachments — or type **`#`** followed by a name to search directly.
 </Tip>
 
 **Conversation Sorting and Organization**
@@ -253,27 +253,27 @@ When you add a participant to a conversation, the configured conversation starte
 
 <img src="../img//menus/chat/conversation-starter.gif" alt="Conversation Starter" />
 
-## Internal Tools
+## Modules
 
-Internal tools provide built-in capabilities that enhance your conversations without requiring external integrations. These tools can be enabled directly from the chat interface or configured as part of an agent's default setup.
+Modules provide built-in capabilities that enhance your chats without requiring external integrations. These modules can be enabled directly from the chat interface or configured as part of an agent's default setup.
 
-**Available Internal Tools:**
+**Available Modules:**
 
 <CardGroup cols={2}>
   <Card title="Python Sandbox" type="note" icon="python" href="../how-tos/chat-conversations/python-sandbox-internal-tool">
-    Execute Python code securely in conversations using Pyodide (Python compiled to WebAssembly). Useful for calculations, data processing, testing algorithms, and generating visualizations.
+    Execute Python code securely in chats using Pyodide (Python compiled to WebAssembly). Useful for calculations, data processing, testing algorithms, and generating visualizations.
   </Card>
   <Card title="Data Analysis" type="note" icon="chart-bar" href="../how-tos/chat-conversations/data-analysis-internal-tool">
     Perform Pandas-based data analysis on uploaded files (CSV, Excel, etc.) using natural language queries. Automatically processes data and generates charts with downloadable results.
   </Card>
   <Card title="Planner" type="note" icon="list-check" href="../how-tos/chat-conversations/planner-internal-tool">
-    Create, manage, and track tasks and action items directly within conversations. Set priorities, due dates, and monitor task progress without switching to external task management tools.
+    Create, manage, and track tasks and action items directly within chats. Set priorities, due dates, and monitor task progress without switching to external task management tools.
   </Card>
   <Card title="Image Creation" type="note" icon="image" href="../how-tos/chat-conversations/image-generation">
-    Generate AI-powered images from text prompts directly within conversations. Requires an image generation model configured in your project.
+    Generate AI-powered images from text prompts directly within chats. Requires an image generation model configured in your project.
   </Card>
   <Card title="Attachments" type="note" icon="paperclip" href="../how-tos/chat-conversations/attach-files">
-    Attach files and images to conversations for AI-powered analysis. Files are automatically stored in the default `attachments` artifact bucket.
+    Attach files and images to chats for AI-powered analysis. Files are automatically stored in the default `attachments` artifact bucket.
   </Card>
   <Card title="Smart Tools Selection" type="note" icon="bolt" href="../how-tos/chat-conversations/smart-tools-selection-internal-tool">
     Optimizes token usage when working with many toolkits by dynamically loading tool schemas on demand instead of binding all tools upfront. Recommended when your conversation uses 5 or more toolkits.
@@ -281,32 +281,29 @@ Internal tools provide built-in capabilities that enhance your conversations wit
   <Card title="Swarm Mode" type="note" icon="network-wired" href="../how-tos/chat-conversations/swarm-mode-internal-tool">
     Enables multi-agent collaboration by allowing all child agents to share the full conversation history and hand off control to each other. Ideal for complex workflows requiring multiple specialized agents working as a team.
   </Card>
-  <Card title="Elitea MCP Tools" type="note" icon="server" href="../how-tos/chat-conversations/elitea-mcp-tools-internal-tool">
-    Enable built-in ELITEA platform MCP tools for managing agents, pipelines, chat, and toolkits directly from within conversations — without switching to a separate configuration screen.
+  <Card title="Agent & Pipeline Builder" type="note" icon="server" href="../how-tos/chat-conversations/elitea-mcp-tools-internal-tool">
+    Enable built-in ELITEA MCP tools for managing agents, pipelines, chat, and toolkits directly from within chats — without switching to a separate configuration screen.
   </Card>
 </CardGroup>
 
-**Enabling Internal Tools:**
+**Enabling Modules:**
 
-1. Navigate to your conversation.
-2. In the chat input toolbar, click the **`+`** icon.
-3. Hover over **Internal Tools** in the popup menu.
-4. A flyout panel opens on the right showing all available tools with toggle switches.
-5. Click the toggle next to the tool name to enable or disable it.
-6. A success notification will appear: "Internal tools configuration updated".
-7. Click anywhere outside the popup to close it.
+1. Go to your chat.
+2. In the chat toolbar, select **+**.
+3. Select **Modules**.
+4. Toggle the selected module on or off to enable or disable it.
 
-     <img src="../img//menus/chat/enable-internal-tools.gif" alt="Enabling Internal Tools" />
+<img src="../../img/how-tos/chat-conversations/internal-tools/planner/euch_planner_on_chat.png" alt="Enable planner in chat"/>
 
 Once enabled, the AI assistant can automatically use these tools during conversations when appropriate.
 
 <Tip title="Agent Configuration">
-You can also enable internal tools as part of an agent's default configuration in the **TOOLKITS** section. This makes the tools available in all new conversations using that agent.
+You can also enable modules as part of an agent's default configuration in the **TOOLKITS** section. This makes the tools available in all new chas using that agent.
 </Tip>
 
-### Attachments in Conversations
+### Attachments in Chats
 
-Attach files and images directly to chat conversations for AI-powered analysis. This feature enables multimodal interactions where AI can process visual content, documents, and data files alongside text-based queries.
+Attach files and images directly to chats for AI-powered analysis. This feature enables multimodal interactions where AI can process visual content, documents, and data files alongside text-based queries.
 
 <CardGroup cols={3}>
   <Card title="Image Analysis" icon="image">
@@ -363,11 +360,15 @@ You can also attach files by:
 | Context | Attachment availability |
 |---------|------------------------|
 | **Direct LLM / model chat** | Always enabled — the **Attach Files** item is active whenever no agent or pipeline is selected. |
-| **Agent-based chat** | Only enabled if the agent has **Allow Attachments** toggled on in its **Internal Tools** configuration. If not enabled, **Attach Files** is grayed out with the tooltip: *"Attachments aren't available for the selected agent or pipeline."* |
-| **Pipeline-based chat** | Same rule as agents — requires `attachments` in the pipeline's internal tools. |
+| **Agent-based chat** | Only enabled if the agent has **Allow Attachments** toggled on in **Modules**. If not enabled, **Attach Files** is grayed out with the tooltip: *"Attachments aren't available for the selected agent or pipeline."* |
+| **Pipeline-based chat** | Same rule as agents — requires `attachments` in the pipeline's **Modules**. |
 
 <Tip title="Enable attachments for an agent">
-To enable attachments for an agent, open the agent in Canvas → go to the **Configuration** tab → expand **Internal Tools** → turn on the **Allow Attachments** toggle and save.
+To enable attachments for an agent,
+1. Open the agent.
+2. Find **Modules**.
+3. Toggle **Allow Attachments** on.
+4. Select **Save**.
 </Tip>
 
 For detailed information about attachments, including agent configuration and file management, see [Attach Files](../how-tos/chat-conversations/attach-files).
@@ -877,8 +878,8 @@ Ensure you have the necessary permissions. For team projects, verify that the pa
 Verify that attachments are enabled for the conversation and linked to an Artifact Toolkit. Check that your file format is supported and within size limits.
 </Accordion>
 
-<Accordion title="Internal Tools Not Appearing">
-Ensure internal tools are enabled via the Internal Tools icon in the chat input toolbar. For agents, verify the tools are configured in the agent's TOOLKITS section.
+<Accordion title="Modules Not Appearing">
+Ensure modules are enabled in the chat toolbar. For agents, verify the tools are configured in the agent's TOOLS section.
 </Accordion>
 
 <Accordion title="Model Not Responding">
