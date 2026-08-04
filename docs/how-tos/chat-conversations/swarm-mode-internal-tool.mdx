@@ -1,7 +1,7 @@
 ---
-title: "Swarm Mode Internal Tool"
+title: "Swarm Mode"
 sidebarTitle: "Swarm Mode"
-description: "Enable multiple agents to collaborate in a shared conversation with handoffs and shared context."
+description: "Enable multiple agents to collaborate in a shared chat with handoffs and shared context."
 ---
 
 ## Overview
@@ -78,41 +78,37 @@ When Swarm Mode is enabled, the system automatically creates handoff tools for e
 
 ---
 
-## Enabling Swarm Mode in Conversations
+## How to Enable Swarm Mode 
 
-Enable Swarm Mode for collaborative multi-agent conversations.
+### In Chat
 
-1. Navigate to your conversation.
-2. Ensure the conversation's agent has at least one child agent configured in its toolkits.
-3. Locate the chat input toolbar at the bottom of the screen.
-4. Click the **Internal Tools** icon (value icon) next to the attachment button.
-5. In the popup, find **Swarm Mode** in the list.
-6. Click the toggle switch next to "Swarm Mode" to enable it.
-7. A success toast notification appears: "Internal tools configuration updated".
-8. Click anywhere outside the popup to close it.
+Enable Swarm Mode for collaborative multi-agent chats.
 
-![Chat](<../../img/how-tos/chat-conversations/internal-tools/swarm-mode/swarm-mode-chat.gif>)
+1. Go to your chat.
+2. In the chat toolbar, select **+**.
+3. Select **Modules** → **Swarm Mode** in the list.
+5. Toggle **Swarm Mode** on to enable it.
+
+<img src="../../img/how-tos/chat-conversations/internal-tools/swarm-mode/euch_swarm_on_chat.png" alt="Enable Swarm Mode in chat"/>
 
 <Info title="Configuration Persistence">
-The Swarm Mode setting persists for the conversation. You can toggle it on/off at any time. However, Swarm Mode requires child agents to be configured in the agent's toolkits to function.
+The Swarm Mode setting persists for the duration of your chat session. You can toggle it on/off at any time. However, Swarm Mode requires child agents to be configured in the agent's toolkits to function.
 </Info>
 
 ---
 
-## Enabling Swarm Mode in Agent Configuration
+### For Agents
 
 Configure Swarm Mode as part of an agent's default configuration.
 
-1. Navigate to **Agents** in the main menu.
-2. Select the agent you want to configure or create a new agent.
-3. On the **Configuration** tab, add at least one child agent using the **+ Agent** button in the TOOLKITS section before proceeding.
-4. Scroll down to the **TOOLKITS** section and locate the **INTERNAL TOOLS** subsection.
-5. Find the **Swarm Mode** toggle. If it is not visible, click **Show all** to expand the full list of internal tools.
-6. Click the **Swarm Mode** toggle to enable it.
-7. Click **Save** at the top of the configuration page to persist the change.
-8. New conversations created with this agent will have Swarm Mode enabled by default.
+1. Open the agent you want to configure (or create and opena new agent).
+3. Scroll down to **TOOLS**.
+4. In **TOOLS**, find **MODULES**.
+5. Find **Swarm Mode**. If it is not immediately visible, select **Show all** to see the full list of modules.
+6. Toggle **Swarm Mode** on.
+7. Select **Save**.
 
-![Agent](<../../img/how-tos/chat-conversations/internal-tools/swarm-mode/swarm-mode-agent.gif>)
+     <img src="../../img/how-tos/chat-conversations/internal-tools/swarm-mode/euch_swarm-for-agent.png" alt="Enable Swarm Mode for agents" width="400" />
 
 <Tip title="Configure Child Agents First">
 Always add and configure your child agents before enabling Swarm Mode. The parent agent needs at least one child agent to create a functional swarm.
@@ -120,7 +116,7 @@ Always add and configure your child agents before enabling Swarm Mode. The paren
 
 ---
 
-## Using Swarm Mode
+## How to Use Swarm Mode
 
 Once enabled and child agents are configured, Swarm Mode works transparently during conversations. The parent agent automatically coordinates with child agents based on the task requirements.
 
@@ -153,7 +149,7 @@ You don't need to manually create handoff tools. When Swarm Mode is enabled, the
 
 ---
 
-## Example Scenarios
+### Example Scenarios
 
 <Accordion title="QA Coordination Agent">
 **Scenario:** A QA team uses a coordinator agent to manage testing across multiple platforms and tools.
@@ -263,8 +259,8 @@ Each child agent should have all the toolkits it needs to complete its specializ
 Run test scenarios to verify that handoffs work smoothly, agents return control properly, and the conversation flow makes sense. Check that child agents are being called appropriately based on task requirements.
 </Accordion>
 
-<Accordion title="Combine with other internal tools">
-Swarm Mode works well with other internal tools like Smart Tools Selection (for token optimization), Data Analysis (for specialist data agents), and Python Sandbox (for code execution specialists).
+<Accordion title="Combine with other modules">
+Swarm Mode works well with other modules like Smart Tools Selection (for token optimization), Data Analysis (for specialist data agents), and Python Sandbox (for code execution specialists).
 </Accordion>
 
 <Accordion title="Monitor conversation flow and handoffs">
@@ -336,7 +332,7 @@ The parent agent's system prompt should include guidance on when to delegate tas
 
 **Solution:**
 
-1. Verify Swarm Mode toggle is enabled in Internal Tools popup
+1. Verify Swarm Mode toggle is enabled in Modules
 2. Check that the success notification appeared when enabling
 3. All agents in a swarm automatically share conversation history via SwarmState
 4. If issues persist, try disabling and re-enabling Swarm Mode
@@ -366,8 +362,6 @@ Swarm Mode is designed for multi-agent collaboration. If no child agents are con
 </Info>
 
 ---
-
-## Related Features
 
 <Info title="Additional Resources">
 * **[Agent Configuration](../../menus/agents)** - Creating and configuring agents
