@@ -1,0 +1,295 @@
+---
+title: "Release Notes - 2.0.5"
+description: "ELITEA 2.0.5 adds AI-assisted editing and creation, reusable skills, usage and analytics visibility, redesigned settings and indexing flows, and broader toolkit, chat, and platform improvements."
+---
+
+## Release Overview
+
+ELITEA 2.0.5 focuses on making ELITEA easier to configure, easier to scale, and easier to understand in day-to-day use. This release expands AI-assisted creation and editing, introduces stronger skill reuse and publishing workflows, adds new usage and analytics visibility, redesigns settings, sidebar, and indexing experiences, and improves toolkit, chat, artifact, and platform behavior across both private and team projects.
+
+## Information
+
+* **Release Version**: 2.0.5
+* **Released on**: 06-Aug-2026
+* **Access**: [ELITEA Platform](https://next.elitea.ai)
+
+
+## New Features
+
+### Edit with AI for Agents, Skills, and Project Context
+
+ELITEA now extends AI-assisted authoring beyond creation flows by adding **Edit with AI** for existing agents, skills, and project context, so users can describe desired changes in plain language, review AI-generated updates, and apply only the changes they want.
+
+**What you can do now:**
+
+* **Edit existing agents with AI assistance**: Open **Edit with AI** on an agent, describe what should improve, and review suggested updates for fields such as general details, instructions, user interaction, tools, and skills through a guided comparison flow.
+* **Edit existing skills with the same AI-assisted pattern**: Request improvements to a skill's name, description, and instructions, then compare current and suggested values before applying the accepted result.
+* **Edit project context with AI-generated revisions**: Use **Edit with AI** on Project Context to generate a suggested update for the Project Background field, compare it against the current content, refine the prompt if needed, and apply the revised version.
+* **Review current versus suggested content before applying changes**: Work with side-by-side or step-based comparison flows that highlight differences and make it easier to understand what the AI is proposing.
+* **Keep control over what gets applied**: Edit suggested text further, exclude unwanted suggestions where supported, or cancel the flow entirely without changing the current configuration.
+
+**Benefits:** Faster iteration on existing assets, less manual rewriting, clearer review of AI-proposed changes, and a more consistent AI-assisted editing experience across core ELITEA entities.
+
+For more information, see [Agents](../menus/agents), [Skills](../menus/skills), and [Project Context](../menus/settings/project-context).
+
+### Skills Support Autonomous Invocation with Progressive Disclosure
+
+ELITEA now advances the Skills feature beyond explicit `~skill-name` usage by allowing agents to work with attached skills more autonomously through progressive disclosure, reducing the need for users to know and invoke every skill manually.
+
+**What you can do now:**
+
+* **Let agents use attached skills more autonomously**: Give agents access to attached skill context so they can apply relevant skills without always requiring an explicit `~skill-name` token in the user message.
+* **Keep skill usage scoped to what is attached**: Ensure agents only work with the skills attached to their own configuration rather than pulling from a broader global pool.
+* **Support richer multi-skill behavior in one turn**: Allow multiple relevant skills to be applied within the same interaction when the task calls for them.
+* **Improve visibility into skill usage during execution**: Surface loaded skill information more clearly in the runtime experience so users can better understand which skills were brought into the flow.
+* **Lay the groundwork for smarter skill-driven orchestration**: Move Skills closer to an on-demand, progressive-disclosure model that better supports advanced agent behavior and future sub-agent skill handling.
+
+**Benefits:** Less manual skill invocation, more natural use of attached expertise, better scalability for skill-driven agents, and a clearer path toward more autonomous agent behavior.
+
+For more information, see [Skills](../menus/skills) and [Agents](../menus/agents).
+
+### Skills Support Self-Service Publishing with Quality Validation
+
+ELITEA now extends the Skills feature with self-service publishing, allowing users to publish reusable skills into a shared catalog through a guided flow backed by deterministic and AI-powered quality validation, while also preserving attached skills when publishing agents that depend on them.
+
+**What you can do now:**
+
+* **Publish skills through a guided self-service flow**: Use a structured publishing wizard for skills instead of relying on a placeholder or manual publishing path.
+* **Validate skill quality before publishing**: Run deterministic and AI-assisted checks against skill name, description, instructions, icon, version name, and category before a skill becomes publicly discoverable.
+* **Classify published skills with categories**: Assign skills to curated categories so published content is easier to browse and manage in the shared catalog.
+* **Support multiple published versions of the same skill**: Publish and manage more than one version of a skill while keeping version naming and validation in the publishing flow.
+* **Publish agents without losing their attached skills**: Keep skills attached to an agent when that agent is published, so the published agent continues to use the expected skill-backed behavior.
+* **Use admin controls for governance and unpublishing**: Rely on platform-level controls for blocking publishing, managing validation rules and categories, and unpublishing skills when needed.
+
+**Benefits:** Faster skill sharing, stronger publishing quality, better discoverability of reusable skills, safer publishing of skill-dependent agents, and clearer governance for public skill content across the platform.
+
+For more information, see [Skills](../menus/skills) and [Agent HUB](../menus/agents-studio).
+
+### Skills Are Easier to Reuse, Customize, and Scale Across Projects
+
+ELITEA now expands the day-to-day usability of Skills by making them easier to fork between projects, personalize with custom icons, and author with longer instruction bodies.
+
+**What you can do now:**
+
+* **Fork a skill version directly to another project**: Copy a selected skill version into another project you can access without relying on a manual export-and-import workaround.
+* **Fork agents together with their attached skills**: Preserve skill-backed behavior when moving agents across projects so the forked result stays closer to the original working setup.
+* **Upload custom icons for skills**: Personalize skills with their own uploaded icons and see those icons reflected in skill cards, menus, and related skill-selection surfaces.
+* **Write more complete skill instructions**: Use an increased instructions limit of up to 5,000 characters so skills can hold richer guidance, examples, and output expectations.
+* **Improve skill discoverability and reuse across teams**: Work with skills that are easier to recognize visually, easier to move between projects, and easier to maintain as reusable building blocks.
+
+**Benefits:** Better cross-project reuse of skills, clearer visual identification, more expressive skill definitions, and a smoother workflow for teams building and sharing reusable prompt assets.
+
+For more information, see [Skills](../menus/skills) and [Agent HUB](../menus/agents-studio).
+
+### Aha! Toolkit Adds Product Management Integration & Indexing Support
+
+ELITEA now adds an **Aha!** toolkit under **Project Management**, so teams can connect Aha!, work with product-management records in agents, pipelines, and conversations, and index supported Aha! data for downstream AI use.
+
+**What you can do now:**
+
+* **Connect Aha! through native toolkit configuration**: Add **Aha!** as a toolkit in **Toolkits** > **Project Management**, configure it with an Aha! credential, and validate the connection with clear success or error feedback.
+* **Use personal or project-scoped Aha! credentials**: Create **Aha!** credentials in **Credentials** > **Project Management** and use either personal credentials for individual access or project credentials for shared project use.
+* **Work with Aha! records through dedicated toolkit tools**: Find projects, search and read records, analyze selected records, retrieve report data and metadata, manage supported records and reports, add comments, copy records, and create record links through the toolkit.
+
+**Benefits:** Better access to product-management data, smoother Aha!-based agent and indexing workflows, clearer traceability for indexed records, and safer handling of Aha! authentication and API errors.
+
+For more information, see [Toolkits](../menus/toolkits), [Credentials](../menus/credentials), and [Indexing](../how-tos/indexing/how-to-use-indexing).
+
+### Artifacts Add Bucket-Level Access Management for Team Projects
+
+ELITEA now adds bucket-level access management for **Artifacts** in Team projects, so authorized users can control who can view or modify content in a specific bucket through a redesigned **Manage access** experience.
+
+**What you can do now:**
+
+* **Manage access per bucket in Team projects**: Open **Manage access** for a selected bucket to control bucket-specific permissions without changing the existing behavior for Private or Public projects.
+* **Assign clear bucket permission levels**: Set **No access**, **Read**, or **Read & Write** permissions for individual users so access to bucket content is easier to control.
+* **Work with a redesigned Permission Exceptions view**: Use an updated access-management UI that presents assigned users as **Permission Exceptions**, with clearer terminology, improved empty states, and more consistent table behavior.
+* **Add and edit access exceptions more efficiently**: Use redesigned add and edit flows with searchable user selection, permission assignment, bulk actions, and clearer single-user or multi-user update patterns.
+* **Apply permissions to all content in the bucket**: Control access for the selected bucket and its nested folders and files through one bucket-level permission model.
+* **Enforce restrictions beyond the UI**: Rely on the same bucket permissions across the ELITEA Artifacts API and S3-compatible routes so users cannot bypass access rules through direct requests.
+
+**Benefits:** Better control over shared artifact content, clearer access-management workflows for Team projects, more consistent permission handling across interfaces, and safer protection of bucket data.
+
+For more information, see [Artifacts](../menus/artifacts).
+
+### Analytics Expand Token, Cost, Sub-Agent, & Chat Visibility
+
+ELITEA now expands analytics visibility with stronger tracking for token usage, cost, sub-agent activity, and chat-level insights, making it easier to understand how AI activity is consumed and where usage is coming from.
+
+**What you can do now:**
+
+* **Track token usage more clearly**: Work with improved analytics visibility for model token consumption across supported AI activity.
+* **Understand AI cost more directly**: Use enhanced cost tracking to better understand the financial impact of model usage.
+* **Improve observability for sub-agent activity**: Gain clearer insight into delegated or nested agent execution as part of analytics and tracing workflows.
+* **Review chat-focused analytics more effectively**: Use expanded chat analytics visibility to better understand conversation-level activity and usage patterns.
+* **Work with a more complete analytics picture**: Combine usage, cost, and execution visibility into a more useful analytics experience for monitoring and analysis.
+
+**Benefits:** Better usage transparency, clearer cost awareness, stronger observability for complex agent workflows, and more actionable analytics for chat-driven AI activity.
+
+For more information, see [Overview](../menus/overview).
+
+### Usage Adds Spend, Token, & Model Tracking in Settings
+
+ELITEA now adds a dedicated **Usage** page in **Settings** under project-related settings, so users can track spending, monthly limits, token usage, and model-level consumption from one place.
+
+**What you can do now:**
+
+* **Track usage from a dedicated Settings page**: Open **Settings** > **Usage** to review current usage information in a single project-focused view.
+* **Monitor monthly spend against limits**: See how much of the current monthly budget has been used and when the billing period resets.
+* **Review token and request usage**: Track prompt and completion token totals together with request counts for supported shared-model usage.
+* **Analyze usage by model**: Review model-level usage details, including cost, calls, token volume, and relative share by model.
+* **Use Usage in private and team projects**: Work with usage visibility for private projects, team projects, and per-user usage views inside team projects.
+* **Export usage data to Excel**: Download usage information for external review or reporting.
+* **Work with monthly reset behavior**: Use monthly usage periods that reset on the first day of each month.
+
+**Benefits:** Better visibility into AI consumption, clearer budget awareness, easier model-level analysis, and more practical reporting for private and team usage.
+
+For more information, see [Settings Overview](../menus/settings/settings-overview).
+
+### Artifacts & Chat Canvas Add HTML and MDX Preview & Editing Support
+
+ELITEA now expands file support in **Artifacts** and **Chat** canvas by adding preview and raw editing modes for HTML and MDX files, so users can review, edit, and save generated or uploaded content without leaving the platform.
+
+**What you can do now:**
+
+* **Open HTML and MDX files directly in canvas**: Work with supported `.html`, `.htm`, and `.mdx` files in **Artifacts** and open generated files from chat results without downloading them first.
+* **Switch between Preview and Raw modes**: Use **Preview** to render supported HTML or MDX output and **Raw** to inspect or edit the source code with syntax highlighting.
+* **Start in Preview mode by default**: Open HTML and MDX files in rendered view first, then move to **Raw** mode when you need to inspect or update the source.
+* **Edit and save source files in place**: Update HTML or MDX content in **Raw** mode and save changes back to the same file in the same Artifacts bucket and path, with existing save, discard, and unsaved-changes behavior.
+* **Open generated files from chat with the same workflow**: Use generated artifact items in chat to open HTML or MDX files in canvas, preview them immediately, and edit them when you have write access.
+* **Use safer preview isolation for rendered content**: Rely on sandboxed preview behavior that helps prevent rendered HTML or MDX content from accessing ELITEA application context, session data, cookies, local storage, or the parent page.
+* **Handle unsupported or unsafe MDX content more clearly**: Prevent unsafe MDX constructs from executing in preview and show a clear warning when a file contains unsupported or unsafe components.
+
+**Benefits:** Better in-platform review of generated reports and documentation, faster editing workflows for HTML and MDX content, safer preview handling for rendered files, and less need to switch to external tools.
+
+For more information, see [Artifacts](../menus/artifacts) and [Chat](../menus/chat).
+
+### Personalization Supports Personality-Specific Default User Instructions
+
+ELITEA now lets users save different default user instructions for each personality type, so switching between personalities also switches to the matching saved instruction set instead of reusing one shared text field.
+
+**What you can do now:**
+
+* **Save separate instructions for each personality**: Configure different default user instructions for personalities such as **Generic**, **QA**, **Nerdy**, **Quirky**, **Cynical**, **None**, and **Bare**.
+* **Switch personalities without losing instruction text**: Move between personality options and automatically restore the instructions previously saved for the selected personality.
+* **Start with an empty state for unconfigured personalities**: Open a personality with no saved instructions yet and work from a blank instruction field instead of inheriting unrelated text.
+* **Keep instruction editing more intuitive during personalization**: Work with a dynamic instructions field that stays aligned with the currently selected default personality.
+* **Preserve existing user setup more safely**: Keep backward compatibility by carrying forward existing default instructions into the new personality-specific model.
+
+**Benefits:** Better control over personality-specific behavior, cleaner prompt customization, less manual rewriting when switching styles, and a more predictable personalization workflow.
+
+For more information, see [Personalization](../menus/profile/personalization).
+
+
+## Changed Features
+
+### Toolkits & Indexes Redesigns the Full Index Lifecycle Experience
+
+The indexing experience has been redesigned across discovery, configuration, execution, scheduling, and history, with **Toolkits** renamed to **Toolkits & Indexes** to make index management easier to find and easier to use end to end.
+
+**What you can do now:**
+
+* **Discover index-capable toolkits more clearly**: Use the redesigned **Toolkits & Indexes** landing page to browse searchable toolkit cards and see which toolkits support indexing, including index counts where applicable.
+* **Navigate toolkit and index views more consistently**: Work with clearer breadcrumb-based navigation between toolkit-level and index-level pages.
+* **Create indexes through a dedicated configuration flow**: Open a dedicated new-index page from the toolkit details view, configure index parameters, validate required fields, and start indexing from one focused setup experience.
+* **Manage existing indexes directly from toolkit and index pages**: Reindex or delete indexes from cards or details pages, with safer delete confirmation and support for editing index configuration through a safer reindex workflow.
+* **Monitor runs with clearer status and history views**: Track in-progress and ready states, review indexed and skipped counts, open structured run history, and inspect activity and search settings from the redesigned index details page.
+* **Configure recurring indexing more flexibly**: Set schedule rules through a redesigned scheduling flow with simple default frequency options or advanced cron input, plus human-readable schedule summaries.
+* **Work with a more complete indexing workflow in one place**: Move from toolkit discovery to index creation, execution, search validation, scheduling, and history review through one more consistent interface.
+
+**Benefits:** Better index discoverability, clearer lifecycle management, safer reindex and delete workflows, improved visibility into run outcomes, and a more consistent indexing experience across supported toolkits.
+
+For more information, see [Toolkits](../menus/toolkits), [Indexing Overview](../how-tos/indexing/indexing-overview), and [Schedule Indexing](../how-tos/indexing/schedule-indexing).
+
+### Index Configuration Changes Use a Safer Reindex Workflow
+
+Index configuration updates are now handled through a safer reindex workflow, so users can change indexing-critical settings for an existing index without silently leaving the stored index out of sync with the saved configuration.
+
+**What you can do now:**
+
+* **Edit indexing-critical settings more safely**: Update existing index configuration values such as source settings, chunking parameters, filters, and other indexing-related options through a workflow that recognizes when a reindex is required.
+* **Avoid silent configuration drift**: Prevent situations where toolkit settings change but the existing index still reflects older indexing parameters.
+* **Use reindex as part of configuration updates**: Apply configuration changes through a safer reindex path instead of treating index-affecting edits as ordinary settings changes.
+* **Reduce risk when reindexing after configuration changes**: Work with a safer update flow designed to protect the existing index if the new reindex operation does not complete successfully.
+* **Keep index maintenance more predictable**: Make it clearer when configuration edits affect index quality or source coverage and require rebuilding the index.
+
+**Benefits:** Better consistency between saved settings and actual index contents, safer maintenance of existing indexes, less risk during configuration changes, and clearer expectations when reindexing is required.
+
+For more information, see [Indexing Overview](../how-tos/indexing/indexing-overview).
+
+### Settings, Sidebar, & Theme Selection Are Reorganized for Clearer Navigation
+
+ELITEA now reorganizes core navigation and settings flows with a redesigned sidebar, a restructured **Settings** menu, and a new **System** theme option, making project setup and personal preferences easier to find and easier to manage.
+
+**What you can do now:**
+
+* **Work with a reorganized Settings structure**: Use clearer **PROJECT** and **PERSONAL** groupings in **Settings** to manage project setup, AI providers, behavior, preferences, AI personality, and memory from more intuitive sections.
+* **Find moved configuration in more logical places**: Access content previously spread across **Project Params**, **AI Configuration**, **Project Context**, and **Personalization** through a more consolidated settings experience.
+* **Navigate through a redesigned sidebar**: Use a less cluttered sidebar with clearer grouping of primary features, resources, and supporting areas, plus improved access to settings and notifications.
+* **Switch projects more clearly from the sidebar**: Work with a project selector at the top of the sidebar and use default or custom project avatars for faster project recognition.
+* **Use more consistent product terminology**: Work with updated labels such as **Chats** and other renamed navigation items that better match the current product structure.
+* **Track notifications more easily**: Benefit from improved notification visibility and access as part of the broader sidebar redesign.
+* **Match ELITEA to your system theme automatically**: Select **System** in theme preferences so ELITEA follows the browser or operating system light or dark theme and updates automatically when that preference changes.
+
+**Benefits:** Clearer navigation, easier access to project and personal settings, better project switching, more consistent terminology, improved notification visibility, and a more flexible theme experience.
+
+For more information, see [Overview](../menus/overview), [Settings Overview](../menus/settings/settings-overview), and [Personalization](../menus/profile/personalization).
+
+### Inventory Application Setup & Ingestion Behave More Predictably
+
+The **Inventory** application now includes several usability and reliability improvements across setup, ingestion control, and deployment behavior, making it easier to configure and safer to operate.
+
+**What you can do now:**
+
+* **Get clearer validation during app creation**: See source-related validation feedback earlier in the Inventory app creation flow instead of encountering less clear behavior later.
+* **Control ingestion more reliably**: Use improved stop behavior for ingestion runs so active ingestion is easier to interrupt when needed.
+* **Avoid overlapping ingestion runs**: Prevent simultaneous ingestion attempts when another ingestion is already in progress.
+* **Work with a simplified bucket setup**: Use a fixed internal bucket for Inventory data instead of configuring the bucket manually, with the Inventory bucket aligned to the dedicated `inventory-graphs` path.
+* **Benefit from cleaner Inventory form presentation**: Work with more consistent field-label sizing in Inventory and related application setup flows.
+* **Use a more supportable deployment setup**: Benefit from improved Kubernetes deployment handling and clearer dependency and requirements expectations for the Inventory application.
+
+**Benefits:** More predictable Inventory setup, safer ingestion control, less configuration overhead, and a more reliable deployment and runtime experience.
+
+For more information, see [Applications](../menus/applications).
+
+### Internal Tools Are Renamed to Modules
+
+ELITEA now uses **Modules** instead of **Internal Tools** in key configuration and chat surfaces, making built-in capabilities easier to distinguish from toolkits, tools, and MCP-based tools.
+
+**What you can do now:**
+
+* **Find built-in capabilities under a clearer name in chat**: Use **Modules** in the chat add menu instead of the more ambiguous **Internal Tools** label.
+* **Work with clearer section names in agents and pipelines**: See **Modules** as the section label on agent and pipeline detail pages where built-in capabilities are configured.
+* **Keep existing module behavior unchanged**: Continue using built-in capabilities such as image creation, data analysis, planner, Python sandbox, swarm mode, smart tools selection, and related options without workflow changes.
+* **Reduce confusion between similar product terms**: Distinguish built-in platform capabilities more clearly from **Tools**, **Toolkits**, and **MCP Tools**.
+
+**Benefits:** Clearer terminology, easier navigation in chat and configuration pages, and less confusion between built-in capabilities and other tool-related concepts.
+
+For more information, see [Chat](../menus/chat), [Agents](../menus/agents), and [Pipelines](../menus/pipelines).
+
+
+
+
+## Fixed Issues
+
+* [#6057](https://github.com/EliteaAI/elitea_issues/issues/6057) **Continue now resumes truncated responses instead of generating a new one from scratch**: Clicking **Continue** now extends the previous incomplete response rather than replacing it with a separate fresh answer.
+* [#5996](https://github.com/EliteaAI/elitea_issues/issues/5996) **GitLab toolkit initialization no longer fails on missing description values**: GitLab toolkit loading now handles missing values more safely instead of failing with a `TypeError` during initialization.
+* [#5994](https://github.com/EliteaAI/elitea_issues/issues/5994) **GitLab root listing no longer requires a `path` value in the UI**: GitLab toolkit folder and file listing tools now treat `path` as optional in the UI, matching backend behavior for repository-root access.
+* [#5894](https://github.com/EliteaAI/elitea_issues/issues/5894) **Remote MCP sessions no longer remain active after logout**: Logging out now invalidates the related Remote MCP session so subsequent requests require proper re-authentication.
+* [#5823](https://github.com/EliteaAI/elitea_issues/issues/5823) **Thinking-step duration on regenerate now reflects actual processing time**: Regenerated responses no longer show the age of the conversation instead of the real thinking duration for that request.
+* [#5821](https://github.com/EliteaAI/elitea_issues/issues/5821) **Switching between reasoning and non-reasoning models no longer leaves incompatible LLM settings behind**: Model-specific settings such as temperature now align more safely with the selected model behavior, preventing related sub-agent execution failures.
+* [#5819](https://github.com/EliteaAI/elitea_issues/issues/5819) **`@Everyone` no longer causes inconsistent triggering or looping behavior in chat**: Mention handling now behaves more predictably so `@Everyone` does not trigger the same inconsistent LLM behavior or infinite-loop pattern.
+* [#5784](https://github.com/EliteaAI/elitea_issues/issues/5784) **Configured MCP login now opens the authentication popup directly**: Users no longer need to click **Load tools** first to trigger authentication for a configured MCP.
+* [#5643](https://github.com/EliteaAI/elitea_issues/issues/5643) **Nested agents with remote MCPs may not trigger the expected authorization request**: When an agent with a remote MCP is nested inside another agent or pipeline, the MCP authorization flow may fail to appear and the MCP tools may not be detected correctly.
+* [#5638](https://github.com/EliteaAI/elitea_issues/issues/5638) **SharePoint toolkits in agent chat do not yet support a smart OAuth authentication flow**: Users may still need static pre-configuration because runtime OAuth prompting is not available there in the same way as for remote MCPs.
+* [#5391](https://github.com/EliteaAI/elitea_issues/issues/5391) **Langfuse traces can miss the final executed pipeline or agent node**: The last executed step may be absent from the Langfuse trace even when ELITEA run details show the full execution sequence.
+* [#5390](https://github.com/EliteaAI/elitea_issues/issues/5390) **Langfuse pipeline traces can still have empty top-level input and output fields**: Child spans may be present while trace-level `input` and `output` remain empty, which limits Langfuse evaluation workflows.
+* [#5267](https://github.com/EliteaAI/elitea_issues/issues/5267) **Elitea MCP Tools may be unavailable when an agent is invoked as a sub-agent**: Agents that expose Elitea MCP Tools can lose those MCP tools when called from an orchestrator or other parent-agent flow.
+* [#3745](https://github.com/EliteaAI/elitea_issues/issues/3745) **Stopped indexing runs from chat, agents, and pipelines no longer remain stuck in `In progress`**: Index instances created from interrupted indexing runs now move to an appropriate final state instead of remaining unresolved in the toolkit index view.
+
+
+## Known Issues
+
+* [#3151](https://github.com/EliteaAI/elitea_issues/issues/3151) **PPT Files Fail to Read or Index from Artifacts or SharePoint**: Reading or indexing PowerPoint files can raise errors instead of completing successfully or returning a clear “format not supported” message.
+* [#2719](https://github.com/EliteaAI/elitea_issues/issues/2719) **MCP Client Disconnects on macOS**: MCP client disconnects from platform despite tray showing "connected" on macOS; logs show "packet queue is empty" errors and repeated disconnect/reconnect cycles.
+* [#1567](https://github.com/EliteaAI/elitea_issues/issues/1567) **MCP Only Executes Latest Version**: MCP-tagged resources execute the latest version regardless of which version has the MCP tag; only the latest version is accessible via MCP.
