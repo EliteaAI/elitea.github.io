@@ -1,7 +1,7 @@
 ---
-title: "Smart Tools Selection Internal Tool"
+title: "Smart Tools Selection"
 sidebarTitle: "Smart Tools Selection"
-description: "Reduce token usage in conversations and agents by loading toolkit schemas and tools on demand."
+description: "Reduce token usage in chats and agents by loading toolkit schemas and tools on demand."
 ---
 
 ## Overview
@@ -97,19 +97,18 @@ This compact format allows the assistant to access hundreds of tools while using
 
 ---
 
-## Enabling Smart Tools Selection in Conversations
+## How to Enable Smart Tools Selection
 
-Enable Smart Tools Selection for token-optimized conversations.
+### In Chats
 
-1. Navigate to your conversation.
-2. Locate the chat input toolbar at the bottom of the screen.
-3. Click the **Internal Tools** icon (value icon) next to the attachment button.
-4. In the popup, find **Smart Tools Selection** in the list.
-5. Click the toggle switch next to "Smart Tools Selection" to enable it.
-6. Once enabled, a success toast notification appears: "Internal tools configuration updated" and the configuration is saved to the conversation metadata.
-7. Click anywhere outside the popup to close it.
+Enable Smart Tools Selection for token-optimized chats.
 
-![Chat](<../../img/how-tos/chat-conversations/internal-tools/smart-tools-selection/smart-tools-enable-chat.gif>)
+1. Go to your chat.
+2. In the chat toolbar, select **+**.
+3. Select **Modules** → **Smart Tools Selection** in the list.
+5. Toggle **Smart Tools Selection** on to enable it.
+
+<img src="../../img/how-tos/chat-conversations/internal-tools/smart-tools-selection/euch_sts_on_chat.png" alt="Enable Smart Tools Selection in chat"/>
 
 <Info title="Configuration Persistence">
 The Smart Tools Selection setting persists for the conversation. You can toggle it on/off at any time during the conversation.
@@ -117,20 +116,18 @@ The Smart Tools Selection setting persists for the conversation. You can toggle 
 
 ---
 
-## Enabling Smart Tools Selection in Agent Configuration
+### For Agents
 
 Configure Smart Tools Selection as part of an agent's default configuration.
 
-1. Navigate to **Agents** in the main menu.
-2. Select the agent you want to configure or create a new agent.
-3. On the **Configuration** tab, scroll down to the **TOOLKITS** section.
-4. Within the TOOLKITS section, locate the **INTERNAL TOOLS** subsection.
-5. Find the **Smart Tools Selection** toggle. If it is not visible, click **Show all** to expand the full list of internal tools.
-6. Click the **Smart Tools Selection** toggle to enable it.
-7. Click **Save** at the top of the configuration page to persist the change.
-8. New conversations created with this agent will have Smart Tools Selection enabled by default.
+1. Open the agent you want to configure (or create and opena new agent).
+3. Scroll down to **TOOLS**.
+4. In **TOOLS**, find **MODULES**.
+5. Find **Smart Tools Selection**. If it is not immediately visible, select **Show all** to see the full list of modules.
+6. Toggle **Smart Tools Selection** on.
+7. Select **Save**.
 
-![Agent](<../../img/how-tos/chat-conversations/internal-tools/smart-tools-selection/smart-tools-enable-agent.gif>)
+     <img src="../../img/how-tos/chat-conversations/internal-tools/smart-tools-selection/euch_sts-for-agent.png" alt="Enable Smart Tools Selection for agents" width="400" />
 
 <Tip title="Recommended for Multi-Toolkit Agents">
 For agents configured with many toolkits (e.g., development agents with GitHub, Jira, Confluence, Slack, etc.), enabling Smart Tools Selection significantly reduces costs and improves response times.
@@ -138,7 +135,7 @@ For agents configured with many toolkits (e.g., development agents with GitHub, 
 
 ---
 
-## Using Smart Tools Selection
+## How to Use Smart Tools Selection
 
 Once enabled, Smart Tools Selection works transparently in the background. The assistant automatically uses meta-tools to access toolkit functionality without any changes to how you interact with the conversation.
 
@@ -154,7 +151,7 @@ Once enabled, Smart Tools Selection works transparently in the background. The a
 
 ---
 
-## Example Scenarios
+### Example Scenarios
 
 <Accordion title="QA Testing Coordinator">
 **Scenario:** A QA engineer uses an agent to manage test cases across multiple test management systems and coordinate with development teams.
@@ -224,7 +221,7 @@ Smart Tools Selection enables efficient cross-platform documentation searches an
 
 ---
 
-## Performance Considerations
+### Performance Considerations
 
 <Check title="When Smart Tools Selection Excels">
 **Many Configured Toolkits**
@@ -255,8 +252,7 @@ Smart Tools Selection enables efficient cross-platform documentation searches an
 </Warning>
 
 ---
-
-## Token Savings Calculator
+### Token Savings Calculator
 
 Use the following guidelines to estimate token savings:
 
@@ -293,7 +289,7 @@ Use your LLM provider's token monitoring dashboard to verify actual savings. Sma
 For new multi-toolkit agents, test both configurations: run the agent with Smart Tools Selection disabled to establish a baseline, then enable it to measure performance and token savings in your specific use case.
 </Accordion>
 
-<Accordion title="Combine with other internal tools">
+<Accordion title="Combine with other modules">
 Planning, Python Sandbox, Data Analysis, and other middleware tools work seamlessly with Smart Tools Selection. These tools are "always-bind" (bypass meta-tools) for immediate availability.
 </Accordion>
 
@@ -318,10 +314,10 @@ Meta-tool calls add minimal overhead (1-2 seconds per tool invocation). For late
 
 **Solution:**
 
-1. Verify Smart Tools Selection is enabled in the Internal Tools popup or agent configuration
-2. Check conversation logs for meta-tool calls (`get_tool_schema`, `invoke_tool`)
-3. Try disabling and re-enabling Smart Tools Selection
-4. If issues persist, disable Smart Tools Selection and use traditional tool binding
+1. Verify Smart Tools Selection is enabled in **Modules**.
+2. Check conversation logs for meta-tool calls (`get_tool_schema`, `invoke_tool`).
+3. Try disabling and re-enabling Smart Tools Selection.
+4. If issues persist, disable Smart Tools Selection and use traditional tool binding.
 </Accordion>
 
 <Accordion title="Increased latency">
@@ -383,32 +379,32 @@ Meta-tool calls add minimal overhead (1-2 seconds per tool invocation). For late
 4. If specific tools fail consistently, report to system administrators
 </Accordion>
 
-<Accordion title="Internal Tools icon is not visible in the chat toolbar">
+<Accordion title="Modules are not visible in the chat toolbar">
 **Possible causes:**
 
-* No internal tools passed the availability filter for the current project
+* No module has passed the availability filter for the current project
 * Image Generation is the only tool configured, but its required provider toolkit is not set up
 
 **Solution:**
 
-1. The Internal Tools icon is hidden entirely when no tools are available for the project
+1. Modules are hidden entirely when no tools are available for the project
 2. Verify that at least one applicable toolkit or provider is configured in the project settings
 3. Contact your project administrator to confirm the project has the necessary toolkit providers enabled
 </Accordion>
 
 ---
 
-<Info title="Compatibility with Other Internal Tools">
-Smart Tools Selection works seamlessly with other internal tools. Middleware tools like **Planning**, **Python Sandbox**, **Data Analysis**, **Swarm Mode**, and **Image Generation** are always bound directly (not through meta-tools) for immediate availability and optimal performance.
+<Info title="Compatibility with Other Modules">
+Smart Tools Selection works seamlessly with other moduless. Middleware tools like **Planning**, **Python Sandbox**, **Data Analysis**, **Swarm Mode**, and **Image Generation** are always bound directly (not through meta-tools) for immediate availability and optimal performance.
 </Info>
 
 ---
 
 <Info title="Additional Resources">
-* **[Agent Configuration](../../menus/agents)** - Setting up agents with internal tools
+* **[Agent Configuration](../../menus/agents)** - Setting up agents with tools
 * **[Chat Functionality](./how-to-use-chat-functionality)** - General chat features and usage
-* **[Python Sandbox](./python-sandbox-internal-tool)** - Python Sandbox internal tool
-* **[Data Analysis](./data-analysis-internal-tool)** - Data Analysis internal tool
+* **[Python Sandbox](./python-sandbox-internal-tool)** - Python Sandbox overview and usage
+* **[Data Analysis](./data-analysis-internal-tool)** - Data Analysis tool
 * **[Image Generation](./image-generation)** - Generate images in conversations
 * **[Attachments in Conversations](./attach-files)** - Upload and attach files for AI analysis
 * **[Conversation Management](../../menus/chat)** - Managing conversations and settings
