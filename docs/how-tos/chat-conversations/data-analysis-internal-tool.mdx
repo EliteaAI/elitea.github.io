@@ -1,20 +1,20 @@
 ---
-title: "Data Analysis Module"
-sidebarTitle: "Data Analysis Module"
-description: "Analyze uploaded tabular files in conversations and agents with the Data Analysis internal tool using natural language."
+title: "Data Analysis"
+sidebarTitle: "Data Analysis"
+description: "Analyze uploaded tabular files in chats and agents with the Data Analysis module using natural language."
 ---
 
 <Warning title="Migration Required: Pandas Toolkit Deprecated">
-Starting with release 2.0.0 B2, the legacy **Pandas** toolkit has been deprecated and replaced by the **Data Analysis** internal tool. Existing Pandas toolkits are disabled and no longer functional.
+Starting with release 2.0.0 B2, the legacy **Pandas** toolkit has been deprecated and replaced by the **Data Analysis** module. Existing Pandas toolkits are disabled and no longer functional.
 
-**Action Required:** Users must migrate to the Data Analysis internal tool available in chat conversations and agents. See the [Pandas Toolkit Migration Guide](../../migration/v2.0.1/pandas-toolkit-migration) for step-by-step migration instructions.
+**Action Required:** Users must migrate to the Data Analysis module available in chat conversations and agents. See the [Pandas Toolkit Migration Guide](../../migration/v2.0.1/pandas-toolkit-migration) for step-by-step migration instructions.
 </Warning>
 
-The **Data Analysis** internal tool provides powerful Pandas-based data analysis capabilities directly within ELITEA conversations. This tool enables seamless data processing and analysis without requiring separate toolkit configuration, making it easy to work with uploaded files using natural language queries.
+**Data Analysis** module provides powerful Pandas-based data analysis capabilities directly within ELITEA chats. This module enables seamless data processing and analysis without separate configurations, making it easy to work with uploaded files using natural language queries.
 
 **Key Features:**
 
-- **Direct Integration:** Available as an internal tool in chat conversations and agent configurations
+- **Direct Integration:** Available in chats and agents
 - **Natural Language Processing:** Use plain English to request data analysis operations
 - **File-Based Analysis:** Works with files uploaded directly to conversations (CSV, Excel, and other tabular formats)
 - **Automated Processing:** Intelligent file format detection and data analysis
@@ -24,64 +24,62 @@ The **Data Analysis** internal tool provides powerful Pandas-based data analysis
 
 ## Prerequisites
 
-- **Permission Level**: User role with conversation edit access
-- **Conversation**: An active conversation or agent configuration
+- **Permission Level**: User role with chat edit access
+- **Chat**: An active chat or agent configuration
 
 <Info title="Important">
-The Data Analysis internal tool must be explicitly enabled via the Internal Tools popup before it can be used in a conversation. It is hidden from the regular toolkit menu and exposed only through the internal tools configuration.
+The Data Analysis module must be explicitly enabled it can be used in a chat. It is hidden from the regular toolkit menu and exposed only through the **Modules** configuration.
 </Info>
 
 ---
 
-## Enabling Data Analysis in Conversations
+## How to Enable Data Analysis
 
-Enable the Data Analysis tool for ad-hoc data analysis in conversations.
+### In Chat
 
-1. Navigate to your conversation.
-2. Locate the chat input toolbar at the bottom of the screen.
-3. Click the **Internal Tools** icon (value icon) next to the attachment button.
-4. In the popup, find **Data Analysis** in the list.
-5. Click the toggle switch next to "Data Analysis" to enable it.
-6. Once enabled, a success toast notification appears: "Internal tools configuration updated" and the configuration is saved to the conversation metadata.
-7. Click anywhere outside the popup to close it.
+Enable the Data Analysis module for ad-hoc data analysis in conversations.
 
-<img src="../../img/how-tos/chat-conversations/internal-tools/data-analysis/data-analysis-enable-chat.gif" alt="Internal Tools Button" width="700" />
+1. Go to your chat.
+2. In the chat toolbar, select **+**.
+3. Select **Modules** → **Data Analysis** in the list.
+4. Toggle **Data Analysis** on to enable it.
+
+<img src="../../img/how-tos/chat-conversations/internal-tools/data-analysis/euch_da_on_chat.png" alt="Enable Data Analysis in chat"/>
 
 <Tip title="Quick Access">
-The internal tools configuration persists for the duration of your conversation session. You can toggle Data Analysis on/off at any time during the conversation.
+The module configuration persists for the duration of your chat session. You can toggle Data Analysis on/off at any time.
 </Tip>
 
 ---
 
-## Enabling Data Analysis in Agent Configuration
+### For Agents
 
 You can configure Data Analysis as part of an agent's default configuration.
 
-1. Navigate to **Agents** in the main menu.
-2. Select the agent you want to configure or create a new agent.
-3. On the **Configuration** tab, scroll down to the **TOOLKITS** section.
-4. Within the TOOLKITS section, locate the **INTERNAL TOOLS** subsection.
-5. Find the **Data Analysis** toggle. If it is not visible, click **Show all** to expand the full list of internal tools.
-6. Click the **Data Analysis** toggle to enable it.
-7. Click **Save** at the top of the configuration page to persist the change.
-8. New conversations created with this agent will have Data Analysis enabled by default.
+1. Open the agent you want to configure (or create and opena new agent).
+2. Scroll down to **TOOLS**.
+3. In **TOOLS**, find **MODULES**.
+4. Find **Data Analysis**. If it is not immediately visible, select **Show all** to see the full list of modules.
+5. Toggle **Data Analysis** on.
+6. Select **Save**.
+7. New conversations created with this agent will have Data Analysis enabled by default.
 
-<Info title="Agent vs Conversation Settings">
-- **Agent Configuration**: Sets the default state for all new conversations with that agent
-- **Conversation Configuration**: Overrides the agent's default for that specific conversation
-- Changes to agent configuration do not affect existing conversations
+     <img src="../../img/how-tos/chat-conversations/internal-tools/data-analysis/euch_da-for-agent.png" alt="Enable Data Analysis for agents" width="400" />
+
+<Info title="Agent vs Chat Settings">
+- **Agent Configuration**: Sets the default state for all new chats with that agent
+- **Chat Configuration**: Overrides the agent's default for that specific chat session
+- Changes to agent configuration do not affect existing chats
 </Info>
-
-<img src="../../img/how-tos/chat-conversations/internal-tools/data-analysis/data-analysis-enable-agent.gif" alt="Enable Agent" width="700" />
 ---
 
-## Using the Data Analysis Internal Tool
+## How to Use Data Analysis
 
-Once enabled, the Data Analysis internal tool allows you to perform comprehensive data analysis directly in conversations using natural language commands. Simply upload your data files and request analysis operations in plain English.
+Once enabled, the Data Analysis module allows you to perform comprehensive data analysis directly in chat using natural language commands. Simply upload your data files and request analysis operations in plain English.
 
-**How It Works**
+### How It Works
 
-1. **Upload Data:** Upload CSV, Excel, or other data files to your conversation
+1. **Upload Data:** Upload CSV, Excel, or other data files to your chat
 2. **Request Analysis:** Ask the assistant to perform analysis using natural language
 3. **Get Results:** Receive summaries, transformations, charts, and downloadable files
 
@@ -95,21 +93,21 @@ Once enabled, the Data Analysis internal tool allows you to perform comprehensiv
 - **Export:** Save transformed data as downloadable files
 
 <Info title="Important Notes">
-- Always upload your data file to the conversation before requesting analysis
+- Always upload your data file to the chat before requesting analysis
 - For very large datasets (>100MB) or complex custom operations, consider using the Python Sandbox instead
 </Info>
 
 ---
 
-## Example Workflows
+### Example Workflows
 
 
-These examples show typical workflows using the Data Analysis tool.
+These examples show typical workflows using the Data Analysis module.
 
 Example 1 — Natural language data summary
 
-1. Open the conversation and click the Internal Tools icon (value icon) next to the attachment button.
-2. Verify `Data Analysis` is visible in the popup and enable it.
+1. Open the chat and click **+**.
+2. Check that the Data Analysis module is enabled.
 3. Upload a small sample file (CSV) and ask the assistant to return a summary.
 4. Ask the assistant:
 
@@ -125,14 +123,14 @@ What happens: the assistant indexes the uploaded data first, then performs the r
 
 Example 2 — Summarize bug reports and highlight hotspots
 
-1. Ensure `Data Analysis` is enabled and upload `bug_reports.xlsx`.
+1. Check that the Data Analysis module is enabled and upload `bug_reports.xlsx`.
 2. Ask the assistant:
 
 ```
 Summarize Sprint 1 bug reports in `bug_reports.csv`: total count, trend over time, top 3 modules by number of reports, and recommended priorities for fixes.
 ```
 
-What happens: the assistant indexes the uploaded data first, then performs the requested analysis. If a chart is helpful (for example a histogram of sales or a time series), the assistant will generate one or more charts and save each chart as an image file in the conversation.
+What happens: the assistant indexes the uploaded data first, then performs the requested analysis. If a chart is helpful (for example a histogram of sales or a time series), the assistant will generate one or more charts and save each chart as an image file in chat.
 
 <img src="../../img/how-tos/chat-conversations/internal-tools/data-analysis/data-analysis-example-2.gif" alt="Example 2" width="700" />
 
@@ -156,7 +154,7 @@ When you need a specific output (for example: a downloadable CSV of filtered row
 </Accordion>
 
 <Accordion title="Expect saved files for charts and exports">
-Charts and exported files are saved to your conversation. The assistant will provide links to view or download these files. Charts are saved as PNG files with auto-generated UUID filenames.
+Charts and exported files are saved to your chat. The assistant will provide links to view or download these files. Charts are saved as PNG files with auto-generated UUID filenames.
 </Accordion>
 
 <Accordion title="Small iterative steps">
@@ -194,16 +192,16 @@ Provide clear, specific analysis requests. Instead of "analyze this data", try "
 
 ## Troubleshooting
 
-<Accordion title="Data Analysis tool requires file access">
+<Accordion title="Data Analysis requires file access">
 **Possible causes:**
 
-* Data Analysis tool not enabled in conversation
-* Conversation configuration issue
+* Data Analysis module not enabled in chat
+* Chat configuration issue
 
 **Solution:**
 
-1. Enable Data Analysis in the Internal Tools popup for the conversation
-2. Refresh the conversation and re-enable the tool if needed
+1. Enable Data Analysis in **Modules** for the chat
+2. Refresh the chat and re-enable the tool if needed
 </Accordion>
 
 <Accordion title="File format not recognized or read errors">
@@ -226,17 +224,17 @@ Provide clear, specific analysis requests. Instead of "analyze this data", try "
 **Possible causes:**
 
 * Insufficient user permissions
-* Internal Tools popup not accessible
-* Internal Tools icon hidden because no tools pass the availability filter
+* **Modules** are not accessible
+* **Modules** are hidden because no tools pass the availability filter
 * UI configuration issue
 
 **Solution:**
 
-1. Confirm you have conversation edit access permissions
-2. Check that the Internal Tools icon (value icon) is visible next to the attachment button — the icon is hidden entirely when no internal tools are available for the project
-3. Verify Data Analysis appears in the popup list after clicking the icon
-4. Refresh the page and try accessing the popup again
-5. If the icon is missing, contact your project administrator to confirm internal tools are enabled for the project
+1. Confirm you have chat edit access permissions.
+2. Check that **Modules** are visible — the icon is hidden entirely when no modules are available for the project.
+3. Check that Data Analysis appears in the list.
+4. Refresh the page and try accessing the popup again.
+5. If the icon is missing, contact your project administrator to confirm modules are enabled for the project.
 </Accordion>
 
 <Accordion title="Data Analysis requests timeout or fail">
@@ -308,8 +306,8 @@ Provide clear, specific analysis requests. Instead of "analyze this data", try "
 
 <Info title="Additional Resources">
 * **[Pandas Toolkit Migration Guide](../../migration/v2.0.1/pandas-toolkit-migration)** - Complete migration guide from legacy Pandas toolkit
-* **[Agent Configuration](../../menus/agents)** - Setting up agents with internal tools
+* **[Agent Configuration](../../menus/agents)** - Setting up agents with tools
 * **[Chat Functionality](./how-to-use-chat-functionality)** - General chat features and usage
-* **[Python Sandbox](./python-sandbox-internal-tool)** - Python Sandbox and internal tools overview
+* **[Python Sandbox](./python-sandbox-internal-tool)** - Python Sandbox overview
 * **[Conversation Management](../../menus/chat)** - Managing conversations and settings
 </Info>
