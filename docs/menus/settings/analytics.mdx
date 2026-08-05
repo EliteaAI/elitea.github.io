@@ -7,6 +7,10 @@ description: "The Analytics feature in ELITEA provides detailed, real-time visib
 
 Analytics data is always **scoped to the currently selected project** and is refreshed from the API with results cached for up to 5 minutes.
 
+<Info title="SUGGESTIONS">
+Add that the current analytics API queries use the same 5-minute cache lifetime across overview, list, detail, and cost analytics requests.
+</Info>
+
 <Warning title="Project Member Requirement">
 The Analytics section is available to **all project members** — no special permission level is required beyond membership in the project. You must be added as a member of the project to view its analytics data. Analytics are not accessible for projects you are not a member of.
 </Warning>
@@ -20,6 +24,10 @@ To access the Analytics section:
 2. Select **Analytics** from the settings menu (listed below **Users**).
 3. The Analytics dashboard will display, showing the project name next to the page title and the date filter bar at the top.
 
+<Info title="SUGGESTIONS">
+Add that the current page also includes a dedicated **Costs** tab.
+</Info>
+
      ![Accessing Analytics](../../img/menus/settings/analytics/analytics-access.gif)
 
 ### Analytics Interface Overview
@@ -30,6 +38,10 @@ Once opened, the Analytics page is composed of the following elements:
 - **Date filter bar** — Located directly below the header; contains the four quick-preset buttons (**Last 24h**, **Last 7d**, **Last 30d**, **Last 90d**) on the left and the **From / To** datetime pickers on the right.
 - **Tab bar** — A row of six tabs (**Overview**, **Agents**, **Tools**, **Users**, **Health**, **Guide**) used to switch between different analytics views.
 - **Content area** — The main scrollable panel that renders KPI cards, charts, and tables for the active tab.
+
+<Info title="SUGGESTIONS">
+Update this description to match the current UI. The current tab bar contains seven tabs: **Overview**, **Costs**, **Agents & Pipelines**, **Tools**, **Users**, **Health**, and **Guide**.
+</Info>
 
      ![Interface](../../img/menus/settings/analytics/analytics-interface.png)
 
@@ -73,11 +85,19 @@ The page loads with **Last 7d** pre-selected. Re-selecting a preset button insta
 
 The Analytics dashboard is divided into six tabs. Click any tab label to switch views.
 
+<Info title="SUGGESTIONS">
+Update this sentence to say that the dashboard is divided into seven tabs.
+</Info>
+
 ---
 
 ### Overview Tab
 
 The Overview tab presents project-wide KPI cards and summary charts for the selected date range.
+
+<Info title="SUGGESTIONS">
+Add that the current UI fetches the overview analytics payload for both the **Overview** and **Health** tabs.
+</Info>
 
 **KPI Cards**
 
@@ -118,6 +138,26 @@ Use this chart to spot usage spikes, identify quiet periods, or track adoption t
 
 Clicking a row navigates directly to that user's detail view in the **Users** tab.
 
+---
+
+### Costs Tab
+
+<Info title="SUGGESTIONS">
+Add a new section for the **Costs** tab.
+
+Suggested content:
+
+- The **Costs** tab shows estimated LLM spend for the selected date range.
+- ELITEA calculates these values from a local model-price table, so provider invoices may differ.
+- The tab includes KPI cards for **Total Cost**, **Total Tokens**, **Input Tokens**, **Output Tokens**, and **Avg Cost / Call**.
+- The tab includes these breakdowns:
+     - **Cost by Model**
+     - **Daily Cost Trend**
+     - **Cost by Agent & Pipeline**
+     - **Cost by User**
+- If no cost data is available for the selected date range, the tab shows empty-state messages for the affected charts or tables.
+</Info>
+
 * **Model Usage Breakdown** — Table ranking all LLM models used in the project by call volume. Columns include model name, total calls, distinct users, and a share bar showing each model's percentage of total LLM calls.
 
      ![Model Usage](../../img/menus/settings/analytics/model-usage.png)
@@ -125,6 +165,10 @@ Clicking a row navigates directly to that user's detail view in the **Users** ta
 ---
 
 ### Agents Tab
+
+<Info title="SUGGESTIONS">
+Rename this section to **Agents & Pipelines Tab** to match the current UI label.
+</Info>
 
 The Agents tab shows how individual agents (applications) are being used within the project.
 
@@ -257,6 +301,10 @@ Clicking a user in the **Top 5 AI Adopters** leaderboard on the Overview tab nav
 
 The Health tab provides system reliability metrics, helping you identify error patterns and latency issues.
 
+<Info title="SUGGESTIONS">
+Add that the current UI reuses the same overview analytics request for the **Health** tab.
+</Info>
+
 ![Health Tab](../../img/menus/settings/analytics/analytics-health-tab.gif)
 
 **Requests vs Errors Chart**
@@ -333,6 +381,14 @@ Open the **Guide** tab to familiarize yourself with all metric definitions befor
 | **Top charts limited to 20 items** | The Most Active Agents and Most Popular Tools bar charts always show the top 20 items only. Use the paginated table below each chart to browse additional entries. |
 | **Trace-ID correlation** | Tool-to-agent associations (in detail views) are resolved by matching `trace_id` values. This is only available when trace IDs are correctly propagated by the SDK. |
 | **Project-only scope** | There is no cross-project or portfolio-level view within Analytics. For cross-project analysis, use the **Monitoring** section in Settings. |
+
+<Info title="SUGGESTIONS">
+Add these current limitations:
+
+- **Costs are estimates** — The **Costs** tab uses a local model-price table, so provider invoices may differ.
+- **Costs uses a separate request** — The **Costs** tab loads from a dedicated cost analytics endpoint.
+- **Seven-tab layout** — The current Analytics page includes a dedicated **Costs** tab.
+</Info>
 
 ---
 
