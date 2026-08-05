@@ -247,7 +247,7 @@ ELITEA provides built-in modules that extend your agent's capabilities without r
 | [**Python sandbox**](../how-tos/chat-conversations/python-sandbox-internal-tool) | Turns on secure Python code execution using Pyodide. Your agent can execute Python code, perform calculations, analyze data, and use compatible Python packages like numpy, pandas, and matplotlib. |
 | [**Swarm Mode**](../how-tos/chat-conversations/swarm-mode-internal-tool) | Turns on multi-agent collaboration by allowing all child agents to share the full conversation history and hand off control to each other. Ideal for complex workflows requiring multiple specialized agents working as a team. |
 | [**Smart Tools Selection**](../how-tos/chat-conversations/smart-tools-selection-internal-tool) | Reduces token usage by using meta-tools instead of binding all tools directly. Recommended when using many toolkits. |
-| [**ELITEA MCP Tools**](../how-tos/chat-conversations/elitea-mcp-tools-internal-tool) | Exposes ELITEA platform capabilities as MCP tools, allowing the agent to interact with ELITEA resources (agents, skills, pipelines, etc.) directly during execution. |
+| [**ELITEA MCP Tools**](../how-tos/chat-conversations/agents-&-pipeline-builder) | Exposes ELITEA platform capabilities as MCP tools, allowing the agent to interact with ELITEA resources (agents, skills, pipelines, etc.) directly during execution. |
 
 **Turn On Modules:**
 
@@ -717,6 +717,10 @@ For complete details and pipeline forking, see the [**Fork Agents and Pipelines 
 ## View Agent History
 
 The **Run History** panel provides a complete audit trail of all past executions of your agent.
+
+<Note>
+In team projects, regular users can view only their own runs in the **Run History** panel. Only administrators can see runs created by other users.
+</Note>
 
 **Access Run History:**
 

@@ -69,7 +69,7 @@ Organize your conversations by grouping them into folders.
 
 The new folder will appear in your **CONVERSATIONS** sidebar.  
 
-<img src="../../img/menus/chat/create-folder.gif" alt="Create Folder" />
+<img src="../../img/menus/chat/create-folder.png" alt="Create Folder" />
 
 ## Managing Conversations
 
@@ -97,70 +97,13 @@ To organize conversations into folders:
 
 You can manage conversations directly from the **CONVERSATIONS** sidebar by right-clicking on a conversation or clicking the options menu (often **...**) associated with it. The following actions are available:
 
-* **Edit**: Rename the conversation. Enter the new name and confirm.
-* **Pin / Unpin**: Select **Pin** to keep the conversation at the top of the list for easy access. Select **Unpin** on a pinned conversation to remove it from the top.
+* **Rename**: Rename the conversation. Enter the new name and confirm.
 * **Move To**: Move the conversation into a folder, as described above.
-* **Make Public**: Convert a private conversation into a public one, visible to other project members.  
-     **Caution**: This action is irreversible; you cannot make a public conversation private again.
-*  **Share**: To share a conversation with team members, select **Share** from the conversation contextual menu. This action copies a direct link to the conversation to your clipboard. Team members can use this link to access and view the conversation. (`available for team project`)  
-* **Delete**: Permanently remove the conversation. You will be asked to confirm this action.
 * **Playback**: Enter Playback mode for this conversation (See [Playback Mode](#playback-mode)).
+* **Pin/Unpin**: Select **Pin on top** to keep the conversation at the top of the list for easy access. Select **Unpin** on a pinned conversation to remove it from the top.
+* **Delete**: Permanently remove the conversation. You will be asked to confirm this action.
 
 <img src="../../img/menus/chat/conversation_action.png" alt="Conversation actions" />
-
-### Sharing Conversations
-
-The conversation sharing feature allows you to share conversations with team members by providing them with a direct link. This is particularly useful for collaboration, code reviews, troubleshooting, and knowledge sharing within your team.
-
-<Warning title="Important Permissions">
-* **Team Projects Only**: Conversation sharing is only available for conversations in team projects. You cannot share conversations from personal projects.
-* **Team Members**: Only team members who have access to the project can view shared conversations.
-* **Access Level**: Recipients must have appropriate permissions within the project to access the shared content.
-</Warning>
-
-**How Conversation Sharing Works**
-
-When you share a conversation, ELITEA generates a unique URL that includes the conversation ID, name, and a special parameter that identifies it as a shared conversation. Team members who receive this link can access and view the complete conversation history in their browser.
-
-**How to Share a Conversation**
-
-1. Navigate to the **CONVERSATIONS** sidebar in the **Chat** section.
-2. Locate the conversation you want to share.
-3. Hover over the conversation to reveal the contextual menu.
-4. Select **Share** from the menu options.
-5. The conversation link is automatically copied to your clipboard.
-6. You will see a notification: "The link has been copied to the clipboard."
-7. Paste the link in your communication channel (email, Slack, Teams, etc.) to share it with team members.
-
-<img src="../../img/menus/chat/share-conversation.gif" alt="Chat_Share_Conversation" />
-
-
-**Use Cases for Sharing Conversations**
-
-* **Collaboration**: Share conversations to involve team members in ongoing discussions or problem-solving sessions
-* **Code Reviews**: Share conversations containing code generation or refactoring for peer review
-* **Troubleshooting**: Share error discussions with technical support or senior team members
-* **Knowledge Transfer**: Share valuable conversations as learning resources for team members
-* **Documentation**: Share conversations that demonstrate best practices or solutions to common problems
-* **Demos and Presentations**: Share conversations to demonstrate ELITEA capabilities or AI-assisted workflows
-
-<Tip title="Sharing vs Making Public">
-The **Share** action is different from **Make Public**. Sharing creates a link for easy access while maintaining existing permissions, whereas making a conversation public changes its visibility settings permanently and cannot be reversed.
-</Tip>
-
-**Accessing Shared Conversations**
-
-When a team member clicks on a shared conversation link:
-
-1. The link opens in their browser
-2. ELITEA automatically navigates to the specified conversation
-3. The conversation opens with the complete history visible
-4. The recipient can read the entire conversation thread
-5. Depending on their permissions, they may be able to interact with or continue the conversation
-
-<Info title="Access Permissions">
-If a user doesn't have access or permissions to the shared conversation (i.e., the conversation is not public and the user is not added as a participant), clicking the shared link will navigate them to the chat interface, but they will not be able to view the conversation content. This is the expected behavior to maintain conversation privacy and security.
-</Info>
 
 ## Managing Folders
 
@@ -168,8 +111,9 @@ If a user doesn't have access or permissions to the shared conversation (i.e., t
 
 Folders can be managed directly from the **CONVERSATIONS** sidebar. Right-click on a folder or click its associated options menu (**...**) to access the following actions:
 
-* **Edit Folder**: Rename the folder. Enter the new name and click the checkmark (✔) or **Save** button.
-* **Delete Folder**: Remove the folder.  
+* **Rename**: Rename the folder. Enter the new name and click the checkmark (✔) or **Save** button.
+* **Pin/Unpin**: Select **Pin on top** in the folder contextual menu to keep the folder at the top of the **CONVERSATIONS** sidebar for quicker access. Select **Unpin** to remove it from the top.
+* **Delete**: Remove the folder.  
   **Important**: Deleting a folder does not delete the conversations inside it. Conversations within a deleted folder are automatically moved back to the main conversation list (root level). You will be asked to confirm deletion.
 
 <img src="../../img/menus/chat/folder_actions.png" alt="Folder actions" />
@@ -795,7 +739,7 @@ Modules provide built-in capabilities that enhance your conversations without re
 
     **Use Cases**: Administrative tasks, resource management, and platform configuration without context-switching.
 
-    [→ Agent & Pipeline Builder Guide](./elitea-mcp-tools-internal-tool)
+    [→ Agent & Pipeline Builder Guide](./agents-&-pipeline-builder)
   </Tab>
 </Tabs>
 
@@ -835,7 +779,7 @@ For detailed usage examples, troubleshooting, and best practices, see:
 * [Data Analysis Guide](./data-analysis-internal-tool)
 * [Smart Tools Selection Guide](./smart-tools-selection-internal-tool)
 * [Swarm Mode Guide](./swarm-mode-internal-tool)
-* [Agent & Pipeline Builder Guide](./elitea-mcp-tools-internal-tool)
+* [Agent & Pipeline Builder Guide](./agents-&-pipeline-builder)
 
 
 ## Sensitive Action Authorization
