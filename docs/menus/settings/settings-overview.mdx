@@ -1,24 +1,63 @@
 ---
 title: "Settings Overview"
-description: "The Settings is designed to offer you a centralized space to manage vital aspects of your account and configurations. This centralized space is accessible by clicking on the Settings icon in the main navigation sidebar or through your user menu."
 ---
 
-**Navigation**:
+In **Settings Overview**, you can manage ELITEA behavior at project and personal levels.
 
-To navigate through the **Settings** sections, follow these steps:
+To open **Settings**, select the **Settings** icon in the main sidebar.
 
-1. Click on the **Settings** icon in the main navigation sidebar or access it through your user menu.
-2. Use the vertical navigation drawer on the left to select the desired section by clicking on its name.
+<img src="../../img/menus/settings/euch_settings.png" alt="Settings menu" />
 
-   <img src="../../img/menus/settings/overview/settings-menu-access.gif" alt="Settings menu" />
+## Project Settings
 
+In **Project** settings, you can manage project-wide configuration, access, analytics, and usage.
 
-The **Settings** consists of several sections organized in a vertical navigation drawer, each dedicated to specific functionalities:
+<CardGroup cols={3}>
+   <Card title="General" icon="briefcase" href="./general">
+      Review project information, AI configuration details, and agent and pipeline builder settings.
+   </Card>
+   <Card title="AI Providers" icon="sliders" href="./ai-providers">
+      Manage project AI providers, model configurations, defaults, and AI credentials.
+   </Card>
+   <Card title="Project Context" icon="folder-open" href="./project-context">
+      Define project-wide background information that ELITEA uses across conversations and workflows.
+   </Card>
+   <Card title="Secrets" icon="lock" href="./secrets">
+      Store and manage project secrets used by integrations and configurations.
+   </Card>
+   <Card title="Users" icon="users" href="./users">
+      Review project members, roles, and access-related information.
+   </Card>
+   <Card title="Analytics" icon="chart-line" href="./analytics">
+      Review project analytics, adoption, usage trends, and health metrics.
+   </Card>
+   <Card title="Usage" icon="coins" href="./usage">
+      Review project and personal usage of platform-shared models and budget consumption.
+   </Card>
+</CardGroup>
 
-* [**AI Configuration**](./ai-configuration): Manage AI model configurations, including LLM models, embedding models, vector storage, and image generation settings. Configure default models for different tiers and manage OpenAI templates.
-* [**Project Context**](./project-context): Define project-wide background information — domain terminology, workflows, tech stack, and constraints — that the AI automatically uses across all conversations, agents, and pipelines in the project.
-* [**Personal Tokens**](./personal-tokens): Create and manage personal access tokens for API access and IDE integrations.
-* [**Secrets**](./secrets): Securely store and manage API keys, passwords, and other authentication credentials used across your projects.
-* [**Users**](./users): Manage users within a project, including inviting new users, editing user roles, and viewing user activity. This section requires appropriate permissions.
-* [**Analytics**](./analytics): Explore detailed, project-scoped analytics covering AI adoption, agent and tool usage, per-user activity breakdowns, and system health metrics.
+## Personal Settings
+
+In **Personal** settings, you can manage your own profile, preferences, tokens, memory, and notifications.
+
+<CardGroup cols={3}>
+   <Card title="Profile" icon="user" href="./user-profile">
+      Review your account information and sign out of ELITEA.
+   </Card>
+   <Card title="Preferences" icon="palette" href="./preferences">
+      Set your personal application preferences, including theme, voice, and sound settings.
+   </Card>
+   <Card title="AI Personality" icon="sparkles" href="./ai-personality">
+      Configure how ELITEA interacts with you in new conversations.
+   </Card>
+   <Card title="Memory" icon="brain" href="./memory">
+      Configure context management, context editing, and automatic summarization for new conversations.
+   </Card>
+   <Card title="Personal Tokens" icon="key" href="./personal-tokens">
+      Create and manage personal access tokens for API access and external tools.
+   </Card>
+   <Card title="Notifications" icon="bell" href="./notifications">
+      Review and manage your notification settings and notification list.
+   </Card>
+</CardGroup>
 

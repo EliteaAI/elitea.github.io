@@ -1,11 +1,10 @@
 ---
 title: "Project Context"
-description: "Project Context lets you define shared background information that is automatically injected into every AI interaction in your project, ensuring consistent, accurate, and project-aware responses."
 ---
 
-## Overview
-
 **Project Context** is a project-level background document that the AI silently references when generating responses and running agents. It acts as a persistent system briefing — you write it once, and every AI interaction in the project automatically benefits from it.
+
+<img src="../../img/menus/settings/project/project-context/project-context.png" width="750" alt="Project Context" />
 
 Use Project Context to describe things the AI would otherwise not know: the domain your team operates in, how your systems are named, the workflows you follow, the terminology specific to your organization, and any constraints or policies that should always apply.
 
@@ -24,27 +23,16 @@ Use Project Context to describe things the AI would otherwise not know: the doma
   </Card>
 </CardGroup>
 
----
-
-## Access Project Context
+To open **Project Context**, in **Settings**, select **Project Context**.
 
 <Warning title="Permissions Required">
 You need the **`models.project_context.view`** permission to see this page. Editing requires **`models.project_context.edit`**. Users with Viewer or Monitor roles typically have view-only access. Contact your project administrator if the page is missing from your Settings menu.
 </Warning>
 
-To access Project Context:
-
-1. Select the **Settings** icon in the main navigation sidebar.
-2. In **Settings**, select **Project Context**.
-
 The main area shows the Project Background content if it exists, or an empty state with options to create it. From there you can turn on or turn off the context, edit it manually, or use AI-powered tools to generate and refine it.
 
-![Project Context settings page open in ELITEA.](../../img/menus/settings/project-context/project-context-open.png)
 
-
-
-
-## Create Project Context
+## Define Project Context
 
 When no Project Context exists, the page opens in an **empty state** with two actions:
 
@@ -52,6 +40,9 @@ When no Project Context exists, the page opens in an **empty state** with two ac
 - **Build with AI** — opens the same **Create** editor view and immediately launches the AI generation dialog.
 
 Both options lead to the **Project Background** editor, which is a full Markdown editor with real-time character counting, **Edit** and **Preview** modes.
+
+
+<img src="../../img/menus/settings/project/project-context/no-project-context.png" width="500" alt="No Project Context" />
 
 <Note>
 Turning off Project Context does **not** delete the saved content. The content is preserved and can be turned back on at any time. A banner is shown below the toggle when the context is turned off but content exists: *"Project Context is turned off. The project background is not applied to AI responses or workflows."*
@@ -193,7 +184,7 @@ To turn on the override:
 2. Expand the **ADVANCED** section.
 3. Select **Ignore Project Context**.
 
-     ![Ignore Project Context checkbox in the Advanced section of the agent configuration form.](../../img/menus/settings/project-context/project-context-agent.png)
+     ![Ignore Project Context checkbox in the Advanced section of the agent configuration form.](../../img/menus/settings/project/project-context/project-context-agent.png)
 
 
 > *"When turned on, this agent will not use the project background context in its responses."*

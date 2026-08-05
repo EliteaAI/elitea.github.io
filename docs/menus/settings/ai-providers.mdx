@@ -1,0 +1,511 @@
+---
+title: "AI Providers"
+---
+
+In **AI Providers**, you can view all the models and storages available to your project organized by their type, and choose default providers or models for each type.
+
+To open **AI Providers**, in **Settings**, select **AI Providers**.
+
+<Info>
+Available configurations depend on the selected project. To view or manage project-specific configurations, select the project in the project switcher.
+</Info>
+
+<img src="../../img/menus/settings/project/ai-providers/ai-providers.png" width="750" alt="AI Providers" />
+
+Your rights to view and edit **AI Providers** depend on your role and permissions.
+
+Default selections apply at the project level.
+
+## Available AI Providers
+
+ELITEA supports these AI provider types:
+
+<CardGroup cols={3}>
+	<Card title="LLMs" icon="brain">
+		Manage language model configurations and choose default, high-tier, and low-tier models.
+	</Card>
+	<Card title="Embedding Models" icon="database">
+		Manage embedding models used for indexing, semantic search, and retrieval.
+	</Card>
+	<Card title="Vector Storage" icon="hard-drive">
+		Manage vector storage configurations used to store and retrieve embeddings.
+	</Card>
+	<Card title="Image Generation" icon="image">
+		Manage image generation models and choose the default model for image creation.
+	</Card>
+	<Card title="Speech Recognition (ASR)" icon="microphone-lines">
+		Manage speech recognition models used for server-side voice input.
+	</Card>
+	<Card title="Text to Speech (TTS)" icon="volume-high">
+		Manage text-to-speech models used for spoken playback of AI responses.
+	</Card>
+</CardGroup>
+
+<CardGroup cols={1}>
+	<Card title="AI Credentials" icon="key">
+		Manage credentials used by AI providers and models.
+	</Card>
+</CardGroup>
+
+For each AI provider configuration, you can see:
+
+- Provider icon
+- Configuration name
+- Status that shows whether the configuration is local or shared
+- Default or tier badges, when applicable
+
+If you have permission to update configurations, you can open a configuration card and edit its details.
+
+<img src="../../img/menus/settings/project/ai-providers/config-card.png" alt="AI Provider configuration cards" />
+
+
+## Default Models
+
+Default models control which configurations ELITEA selects automatically for the current project.
+
+- **Default model** is used for most activities.
+- **High-tier model** is used for more complex work.
+- **Low-tier model** is used for routine tasks.
+- **Default embedding model** is used for embedding operations.
+- **Default vector storage** is used for vector database operations.
+- **Default image generation model** is used for image generation tasks.
+- **Default ASR model** is used for server-side voice input.
+- **Default TTS model** is used for spoken playback.
+
+Changes to default selections apply at the project level.
+
+
+## LLMs
+
+**LLMs** displays configured Large Language Model providers and their models.
+
+<img src="../../img/menus/settings/project/ai-providers/llm-open.png" alt="LLMs" />
+
+<Info title="Configuration Cards:">
+Each LLM configuration card displays:
+- Provider icon
+- Model name
+- Status that shows whether the configuration is local or shared
+- Tier badges for **High-tier**, **Low-tier**, or **Default**, when applicable
+- Status that shows whether the configuration can be edited
+</Info>
+
+**Default Model Settings**
+
+| Setting | Description | Examples |
+| --- | --- | --- |
+| **Default** | Used for most activities by default. Start here, then switch to High-tier or Low-tier when needed | General purpose models |
+| **High-tier** | More capable and more expensive models for complex workflows (multi-step reasoning, heavy tool usage) | Anthropic Sonnet or Opus, OpenAI GPT-5.x, Google Gemini Pro |
+| **Low-tier** | Cheaper and faster models for routine tasks (diagram fixing, formatting, simple edits) | Smaller OpenAI, Google, or Anthropic models |
+
+To set the default, high-tier, or low-tier model, select the necessary model from the corresponding dropdown list:
+
+<img src="../../img/menus/settings/project/ai-providers/llm-set-default.png" alt="Set default LLM" />
+
+**Edit LLMs (Authorized Only)**
+
+Users with configuration update permissions can open an LLM configuration card and edit its details.
+
+To edit an LLM model:
+
+1. Ensure that its credentials exist.
+2. Select the necessary LLM configuration card.
+3. Change the required fields:
+
+    | Field | Description |
+    |-------|-------------|
+    | **Display name** | Model name (e.g., "GPT-4o Production") |
+    | **ID*** | Auto-populated from the *Display Name* |
+    | **Name** | Exact model identifier from the provider (e.g., "gpt-4o", "claude-3-sonnet-20240229") |
+    | **Context window** | Maximum context window size in tokens (e.g., 128000) |
+    | **Max output tokens** | Maximum output token limit (e.g., 16000) |
+    | **Supports reasoning** | Checked if the model supports reasoning capabilities (e.g., for GPT-5.1 o3-mini) |
+    | **Supports vision** | Checked if the model can process and understand images |
+    | **Low tier** | Checked if this model as suitable for routine, cost-effective tasks |
+    | **High tier** | Checked if this model is suitable for complex workflows requiring advanced capabilities |
+    | **Openai Compatible** | Checked if this model is compatible with OpenAI's API |
+    | **Credentials** | AI credentials |
+
+4. Save the configuration.
+
+<Tip title="Model Name Accuracy">
+The model name must exactly match the provider's identifier. Refer to your provider's documentation:
+
+- **OpenAI**: [Model names](https://platform.openai.com/docs/models)
+- **Anthropic**: [Claude models](https://docs.anthropic.com/claude/docs/models-overview)
+- **Azure OpenAI**: Deployment name from your Azure portal
+- **Vertex AI**: Model names from Google Cloud console
+</Tip>
+
+## Embedding Models
+
+Embedding models convert text into numerical vector representations (embeddings) that capture semantic meaning. These vectors enable similarity comparisons, semantic search, and retrieval-augmented generation (RAG) workflows.
+
+Embedding models are essential for features like document indexing, knowledge base search, and context retrieval.
+
+Common examples include OpenAI, Azure OpenAI, HuggingFace, and Vertex AI embedding models.
+
+<img src="../../img/menus/settings/project/ai-providers/embedding.png" alt="Embedding Models" />
+
+<Info title="Configuration Cards:">
+Each embedding model configuration card displays:
+- Provider icon
+- Model name
+- Status that shows whether the configuration is local or shared
+- Status that shows whether the configuration can be edited
+</Info>
+
+**Edit Embedding Models (Authorized Only)**
+
+Users with configuration update permissions can open an embedding model configuration card and edit its details.
+
+To edit an embedding model:
+
+1. Ensure that its credentials exist.
+2. Select the necessary embedding model configuration card.
+3. Change the required fields:
+
+    | Field | Description |
+    |-------|-------------|
+    | **Display Name** | Model name (e.g., "OpenAI Embeddings Large") |
+    | **ID*** | Auto-populated from the Display Name |
+    | **Name*** | Exact model identifier (e.g., "text-embedding-3-large", "text-embedding-ada-002") |
+    | **Credentials** | AI credentials |
+
+4. Save the configuration.
+
+After you save the model, ELITEA makes it available among other embedding models.
+
+## Vector Storages
+
+Vector storage systems (vector databases) store and manage embedding vectors generated by embedding models. These specialized databases enable efficient similarity searches across large collections of embeddings, supporting features like semantic search, document retrieval, and knowledge base queries. Vector databases optimize storage and retrieval of high-dimensional vector data.
+
+**Default vector storage** specifies where embeddings are stored for search or retrieval. Choose it based on persistence and scale requirements.
+
+<img src="../../img/menus/settings/project/ai-providers/vector-storage.png" alt="Vector Storages" />
+
+<Info title="Configuration Cards:">
+Each vector storage configuration card displays:
+- Provider icon
+- Storage name
+- Icon that shows whether the configuration is local or shared
+</Info>
+
+**Edit Vector Storages**
+
+To edit a vector storage:
+
+1. Select the necessary vector storage configuration card.
+2. Choose **PGVector** from the available configuration types
+3. Change the required fields:
+
+    | Field | Description |
+    |-------|-------------|
+    | **Display Name** | Storage name (e.g., "Production PGVector") |
+    | **ID*** | Auto-populated from the Display Name |
+    | **Connection String** | PostgreSQL connection string |
+
+4. Save the configuration.
+
+After you save the model, ELITEA makes it available among other vector storages.
+
+<Warning title="PGVector Extension Required">
+For PGVector configurations, ensure the PostgreSQL database has the `pgvector` extension installed:
+```sql
+CREATE EXTENSION IF NOT EXISTS vector;
+```
+</Warning>
+
+## Image Generation
+
+Image generation models create images from text descriptions (text-to-image) or modify existing images based on prompts. These AI models enable creative workflows, visual content creation, and automated image production based on natural language instructions.
+
+**Default image generation model**  specifies the default model for image generation tasks.
+
+<img src="../../img/menus/settings/project/ai-providers/image-generation.png" alt="Image Generation" />
+
+<Info title="Configuration Cards:">
+Each image generation model configuration card displays:
+- Provider icon
+- Model name
+- Status that shows whether the configuration is local or shared
+- Status that shows whether the configuration can be edited
+</Info>
+
+**Edit Image Generation Models (Authorized Only)**
+
+Users with configuration update permissions can open an image generation model configuration card and edit its details.
+
+To edit an image generation model:
+
+1. Ensure that its credentials exist.
+2. Select the necessary image generation model configuration card.
+3. Change the required fields:
+
+    | Field | Description |
+    |-------|-------------|
+    | **Display Name** | Model name (e.g., "DALL-E 3 Standard") |
+    | **ID*** | Auto-populated from the Display Name |
+    | **Name*** | Exact model identifier (e.g., "dall-e-3", "dall-e-2") |
+    | **Credentials** | AI credentials |
+
+4. Save the configuration.
+
+After you save the model, ELITEA makes it available among other image generation models.
+
+
+## Speech Recognition
+
+Speech Recognition (ASR) models convert spoken audio into text. A configured ASR model powers the server-side **Voice Input** feature in Chat, Agents, and Pipelines — providing real-time transcription as users speak. When no ASR model is configured, Voice Input falls back to the browser's built-in Web Speech API. If neither is available, the microphone icon is hidden.
+
+**Default ASR model** specifies the default model used for server-side voice transcription across Chat, Agents, and Pipelines.
+
+**If no ASR model is configured, ELITEA falls back to the browser Web Speech API. If neither option is available, ELITEA hides the microphone control.**
+
+<img src="../../img/menus/settings/project/ai-providers/speech-recognition.png" alt="Speech Recognition" />
+
+**ASR Modes**
+
+ELITEA determines the ASR mode from the model name.
+
+| Mode | Model name pattern | Behavior |
+| --- | --- | --- |
+| Streaming | The model name does not include `whisper` or `transcribe` | ELITEA uses a realtime streaming path for transcription |
+| Batch | The model name includes `whisper` or `transcribe` | ELITEA sends buffered audio for batch transcription |
+
+The model name determines the transcription mode. Use names such as `whisper-1` or `gpt-4o-transcribe` for batch transcription.
+
+<Info title="Configuration Cards:">
+Each speech recognition model configuration card displays:
+- Provider icon
+- Model name
+- Status that shows whether the configuration is local or shared
+- Status that shows whether the configuration can be edited
+</Info>
+
+**Edit Speech Recognition Models (Authorized Only)**
+
+Users with configuration update permissions can open a speech recognition model configuration card and edit its details.
+
+To edit a ASR model:
+
+1. Ensure that its credentials exist.
+2. Select the necessary speech recognition model configuration card.
+3. Change the required fields:
+
+    | Field | Description |
+    |-------|-------------|
+    | **Display Name** | Model name (e.g., "OpenAI Whisper", "Realtime Transcription") |
+    | **ID\*** | Auto-populated from the Display Name |
+    | **Name\*** | Exact model identifier from the provider (e.g., `whisper-1`, `gpt-4o-transcribe`). Names containing `whisper` or `transcribe` are treated as batch models; all others are treated as streaming/Realtime models |
+    | **Credentials** | AI credentials |
+
+4. Save the configuration.
+
+After you save the model, ELITEA makes it available among other speech recognition models.
+
+
+## Text to Speech Models
+
+Text to Speech (TTS) models synthesize spoken audio from text. A configured TTS model powers the server-side **Text-to-Speech** and **Speaking Mode** features in Chat, Agents, and Pipelines — reading AI responses aloud using Web Audio API playback. When no TTS model is configured, playback falls back to the browser's built-in SpeechSynthesis API.
+
+**Default TTS model** specifies the default model used for reading AI responses aloud across Chat, Agents, and Pipelines.
+
+**If no TTS model is configured, ELITEA falls back to the browser `SpeechSynthesis` API.**
+
+<img src="../../img/menus/settings/project/ai-providers/tts.png" alt="Text to Speech" />
+
+<Info title="Configuration Cards:">
+Each text-to-speech model configuration card displays:
+- Provider icon
+- Model name
+- Status that shows whether the configuration is local or shared
+- Status that shows whether the configuration can be edited
+</Info>
+
+To edit a TTS model:
+
+1. Ensure that its credentials exist.
+2. Select the necessary text-to-speech model configuration card.
+3. Change the required fields:
+
+    | Field | Description |
+    |-------|-------------|
+    | **Display Name** | Model name (e.g., "OpenAI TTS", "Azure Neural Voice") |
+    | **ID\*** | Auto-populated from the Display Name |
+    | **Name\*** | Exact model identifier from the provider (e.g., `tts-1`, `tts-1-hd`) |
+    | **Credentials** | AI credentials |
+
+4. Save the configuration.
+
+After you save the model, ELITEA makes it available among other text-to-speech models.
+
+<Note>
+Server-side TTS delivers audio as PCM-16-LE chunks via Socket.IO, played back through the Web Audio API at 24 kHz. Text is highlighted in sync with playback. Pause and resume are fully supported for both server-side and browser-fallback TTS.
+</Note>
+
+## AI Credentials
+
+<Warning title="Conditional Visibility">
+The **AI Credentials** section only appears when credentials are configured in your project. If no credentials exist, this section will be hidden.
+</Warning>
+
+AI Credentials are authentication configurations that store API keys, tokens, endpoints, and connection strings for accessing AI service providers. These credentials serve as the foundation for other configurations, enabling secure communication with external AI platforms without exposing sensitive authentication details in individual model configurations.
+
+**One credential configuration can support multiple models.**
+
+<img src="../../img/menus/settings/project/ai-providers/ai-credentials.png" alt="AI Credentials" />
+
+<Info title="Configuration Cards:">
+Each AI credential configuration card displays:
+- Provider icon
+- Credential name
+- Status that shows whether the configuration is local or shared
+</Info>
+
+To add new AI credentials:
+
+1. Create a new AI credential configuration.
+2. Choose the provider you want to configure.
+3. Enter the provider-specific authentication details (see below).
+4. Save the configuration.
+
+**Available AI Service Providers**
+
+| Provider | Description |
+|----------|-------------|
+| **AI Dial** | For EPAM AI Dial platform |
+| **Amazon Bedrock** | For AWS AI services |
+| **Azure OpenAI** | For Azure-hosted OpenAI services |
+| **Ollama** | For local/self-hosted models |
+| **OpenAI** | For OpenAI API access |
+| **Vertex AI** | For Google Cloud AI services 
+
+**Provider-Specific Fields:**
+
+For OpenAI:
+
+| Field | Description | Example |
+|-------|-------------|----------|
+| **Display Name*** | Enter a descriptive name | "OpenAI Production Key" |
+| **ID*** | Auto-populated from the Display Name | |
+| **Api Base*** | OpenAI API endpoint URL | `https://api.openai.com/v1` |
+| **Api Key** | Your OpenAI API key from [platform.openai.com](https://platform.openai.com) | `sk-proj-...` |
+
+For Azure OpenAI:
+
+| Field | Description | Example |
+|-------|-------------|----------|
+| **Display Name*** | Enter a descriptive name | "Azure OpenAI East US" |
+| **ID*** | Auto-populated from the Display Name |  |
+| **Api Base*** | Azure OpenAI endpoint URL | `https://your-resource.openai.azure.com` |
+| **Api Key** | Azure OpenAI API key from Azure portal | `a1b2c3d4e5f6...` |
+ | **Api Version** | Azure API version | `2024-02-15-preview` |
+
+For Vertex AI:
+
+| Field | Description | Example |
+|-------|-------------|----------|
+| **Display Name** | Enter a descriptive name | "GCP Vertex AI" |
+| **ID*** | Auto-populated from the Display Name |  |
+| **Vertex Project*** | Google Cloud project ID | `my-gcp-project-123456` |
+| **Vertex Location*** | GCP region | `us-central1` |
+| **Vertex Credentials*** | Paste the complete JSON content from downloaded service account key file | `{"type": "service_account", "project_id": "...", ...}` |
+
+For Amazon Bedrock:
+
+| Field | Description | Example |
+|-------|-------------|----------|
+| **Display Name*** | Enter a descriptive name | "AWS Bedrock US-East-1" |
+| **ID*** | Auto-populated from the Display Name | |
+| **Aws Access Key Id** | IAM access key | `AKIAIOSFODNN7EXAMPLE` |
+| **Aws Secret Access Key** | IAM secret access key | `wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY` |
+| **Aws Region Name** | AWS region | `us-east-1` |
+
+For AI Dial:
+
+| Field | Description | Example |
+|-------|-------------|----------|
+| **Display Name** | Enter a descriptive name | "EPAM AI Dial Personal" |
+| **ID*** | Auto-populated from the Display Name |  |
+| **Api Base*** | AI Dial endpoint URL | `https://ai-proxy.lab.epam.com` |
+| **Api Key** | Your personal AI Dial token | `aidial_...` |
+| **Api Version** | API version for AI Dial | `2025-04-01-preview` |
+
+For Ollama:
+
+| Field | Description | Example |
+|-------|-------------|----------|
+| **Display Name*** | Enter a descriptive name | "Local Ollama Server" |
+| **ID*** | Auto-populated from the Display Name |  |
+| **Api Base*** | Ollama server URL | `http://localhost:11434` |
+
+
+## Troubleshooting
+
+If you cannot find or use the expected configuration, check the current project, your permissions, and the default configuration for the relevant section.
+
+<Accordion title="A Configuration Section Does Not Appear">
+If a section or configuration does not appear:
+
+1. Check that you selected the correct project in the project switcher.
+2. Refresh **Settings** > **AI Providers**.
+3. Confirm that the project contains configurations for that section.
+
+Available configurations are project-specific. If the selected project does not contain configurations for a section, ELITEA does not show configuration cards for that section.
+</Accordion>
+
+<Accordion title="You Cannot Edit a Configuration">
+If you can open **AI Providers** but cannot edit a configuration:
+
+1. Open the configuration card.
+2. Check whether ELITEA shows a disabled edit state.
+3. Ask a project administrator to grant configuration update permissions if needed.
+
+ELITEA allows editing only when your role includes configuration update permissions.
+</Accordion>
+
+<Accordion title="Voice Input Does Not Use a Server Model">
+If voice input does not use a server-side speech recognition model:
+
+1. In **Settings** > **AI Providers**, check the **Speech Recognition (ASR)** section.
+2. Confirm that the project has at least one ASR configuration.
+3. Confirm that a default ASR model is selected.
+4. Check your browser connection.
+
+If no ASR model is configured, ELITEA falls back to the browser Web Speech API. If neither the server model nor the browser API is available, ELITEA hides the microphone control.
+</Accordion>
+
+<Accordion title="Spoken Playback Uses the Browser Voice">
+If spoken playback does not use a server-side TTS model:
+
+1. In **Settings** > **AI Providers**, check the **Text to Speech (TTS)** section.
+2. Confirm that the project has at least one TTS configuration.
+3. Confirm that a default TTS model is selected.
+
+If no TTS model is configured, ELITEA falls back to the browser `SpeechSynthesis` API.
+</Accordion>
+
+<Accordion title="A Voice Model Does Not Behave as Expected">
+If an ASR model uses the wrong transcription mode, check the model name.
+
+ELITEA determines the ASR mode from the model name:
+
+- Names that include `whisper` or `transcribe` use batch transcription.
+- Names that do not include `whisper` or `transcribe` use the realtime streaming path.
+</Accordion>
+
+<Accordion title="A Provider Connection Fails">
+If a provider configuration does not work after you save it:
+
+1. Open the configuration and review the provider settings.
+2. Confirm that the selected credentials are correct for that provider.
+3. Save the configuration again after you correct the values.
+
+ELITEA supports connection validation for configuration types that expose connection checks.
+</Accordion>
+
+<Info title="See Also">
+- [General](./general.mdx)
+- [Secrets](./secrets.mdx)
+</Info>
