@@ -505,7 +505,6 @@
             "group": "Recent Releases",
             "icon": "clock-rotate-left",
             "pages": [
-              "release-notes/archived/rn-2-0-5",
               "release-notes/archived/rn-2-0-4",
               "release-notes/archived/rn-2-0-3"
             ]
