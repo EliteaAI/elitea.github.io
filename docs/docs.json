@@ -199,7 +199,7 @@
                 "pages": [
                   "how-tos/chat-conversations/image-generation",
                   "how-tos/chat-conversations/data-analysis-internal-tool",
-                  "how-tos/chat-conversations/elitea-mcp-tools-internal-tool",
+                  "how-tos/chat-conversations/agents-&-pipeline-builder",
                   "how-tos/chat-conversations/planner-internal-tool",
                   "how-tos/chat-conversations/python-sandbox-internal-tool",
                   "how-tos/chat-conversations/swarm-mode-internal-tool",
