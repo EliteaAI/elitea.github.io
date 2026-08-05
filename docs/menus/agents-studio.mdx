@@ -1,221 +1,292 @@
 ---
-title: "Agent HUB"
-sidebarTitle: "Agent HUB"
-description: "Agent HUB is a dedicated shared library menu in ELITEA that provides centralized access to community-published agents."
+title: "Catalog"
+sidebarTitle: "Catalog"
+description: "Catalog is a dedicated shared library menu in ELITEA that provides centralized access to community-published agents and skills."
 ---
 
 ## Overview
 
-Agent HUB is a shared library that includes all published agents from the ELITEA community. Each agent is a pre-configured AI assistant designed for specific tasks, complete with custom instructions, conversation starters, and optimized settings.
+Catalog is a shared library that includes published agents and skills from the ELITEA community. Agents are pre-configured AI assistants designed for specific tasks, while Skills are reusable instruction sets that can be attached to agents and reused across workflows.
 
 <Note title="Important Note">
-Agent HUB is available across all projects and provides a centralized view of all published agents, regardless of which project you're currently viewing.
+Catalog is available across all projects and provides a centralized view of all published agents and skills, regardless of which project you are currently viewing.
 </Note>
 
 <CardGroup cols={3}>
   <Card title="Instant access" icon="bolt">
-    Browse and use community-published agents without building anything from scratch.
+    Browse and use community-published agents and skills without building everything from scratch.
   </Card>
   <Card title="Driven by community" icon="users">
-    Leverage expertise from the ELITEA community — agents are created and shared by real users.
+    Leverage expertise from the ELITEA community — agents and skills are created and shared by real users.
   </Card>
   <Card title="Quality is assured" icon="shield-check">
-    All agents undergo moderation review before getting to Agent HUB.
+    Published catalog items undergo moderation review before appearing in Catalog.
   </Card>
   <Card title="Quick discovery" icon="magnifying-glass">
-    Find agents through real-time search, category filters, and trending sections.
+    Find agents and skills through real-time search, category filters, and trending sections.
   </Card>
   <Card title="Seamless integration" icon="plug">
-    Add agents directly to any conversation with one click — no extra configuration needed.
+    Add agents directly to conversations and discover reusable skills from one shared catalog surface.
   </Card>
   <Card title="Workflow enhancement" icon="rocket">
     Integrate specialized agents into daily workflows for code review, documentation, testing, and more.
   </Card>
 </CardGroup>
 
-**Agent HUB vs. Agents**
+**Catalog vs. Agents**
 
-| Feature | Agent HUB | Agents |
+The following table compares the Catalog and Agents menus.
+
+| Feature | Catalog | Agents |
 |---------|--------------|-------------|
-| **Purpose** | Discover and use community agents | Manage your personal agents |
-| **Content** | Published agents from all users | Only agents you have created |
-| **Access Level** | Read-only with temporary modifications | Full edit capabilities |
+| **Purpose** | Discover and use community agents and skills | Manage your personal agents |
+| **Content** | Published agents and skills from all users | Only agents you have created |
+| **Access level** | Read-only with temporary modifications | Full edit capabilities |
 
 ---
 
-## How to Get to Agent HUB
+## Open ELITEA Catalog
 
-Agent HUB is located in the ELITEA sidebar:
+Catalog is located in the ELITEA sidebar:
 
-1. Open ELITEA and ensure you're logged in
-2. Look for *Agent HUB* in the sidebar
-3. Click it to open Agent HUB
+1. Open ELITEA and ensure you are logged in.
+2. In the sidebar, locate *Catalog*.
+3. Select *Catalog* to open it.
 
-![Studio Menu Location](../img/menus/agents-studio/euch_open-hub.gif)
+![ELITEA sidebar with Catalog menu item highlighted](../img/menus/catalog/open-catalog.png)
 
 ---
 
-## Agents in Agent HUB
+## Catalog Tabs
+
+Catalog includes two tabs:
+
+- **Agents** — community-published agents that you can inspect and start in chat.
+- **Skills** — community-published reusable skills that can be discovered from the same shared library surface.
+
+---
+
+## Agents in Catalog
 
 Published agents are displayed as cards in a responsive grid layout, grouped by their assigned categories. Each card provides key agent information:
 
-* agent's display name
-* profile image of the agent's creator
-* number of likes the agent has received
+- Agent display name.
+- Profile image of the agent creator.
+- Number of likes the agent has received.
 
-In the agent card, you can
+From the agent card, you can:
 
-* Click the card to open the agent's full information
-* Like (or unlike) the agent
+- Select the card to open the agent full information.
+- Like or unlike the agent.
 
-![Agent Cards Grid](../img/menus/agents-studio/agent-card.png)
+![Agent cards displayed in a grid, grouped by category](../img/menus/catalog/agent-tab.png)
 
 ---
 
-## How to Browse and Search Agents
+### View Agent Details
 
-At the top of Agent HUB, you'll find a **Search field** that allows searching across published agents.
+When you select any agent card, a **dialog** opens that displays all the information about the agent:
 
-You can search by the agent's **name** and **description**. The search results update in real-time as you type. You can clear the search field to reset the search.
+- **Creator:** Details about who created the agent.
+- **Name:** Full name of the agent.
+- **Description:** Detailed explanation of the agent purpose and capabilities.
+- **Show instructions:** Select to open a read-only dialog displaying the agent full instructions and configuration details. You can read and copy the instructions but cannot modify them.
+- **Conversation starters:** Pre-defined prompts to help users get started.
+- **Welcome message:** The greeting users see when starting a conversation.
+- **Start chat:** Primary action to begin using the agent.
 
-**Search by Name**
+![Agent detail dialog showing creator, description, instructions, and Start chat button](../img/menus/catalog/catalog-agent-details.png)
 
-To search for an agent by name:
+---
 
-1. Click in the search field at the top of Agent HUB
-2. Type keywords related to the agent you're looking for
+### Start a Conversation with an Agent
 
-Results will filter automatically as you type.
+You can start a conversation with an agent in two ways:
 
-![Search Field](../img/menus/agents-studio/euch_hub-search.gif)
+1. Select **Start chat** to create a new conversation and display conversation starters.
+2. Select a **Conversation Starter** to create a new conversation and pre-fill the starter text in the chat input field.
+
+After you start a conversation:
+
+1. You are automatically redirected to the Chat menu.
+2. A new conversation is created for this agent.
+3. The agent is added to the Participants list.
+4. The agent is set as the active participant.
+5. Pre-defined prompts appear to guide your interaction (or if you selected a starter, it is pre-filled in the input field).
+6. You can immediately start sending messages.
+
+<video src="../img/menus/catalog/catalog-agent-run.mp4" controls alt="Video demonstrating how to start a conversation with a catalog agent."></video>
+
+Once the conversation is created, you can:
+
+- **Use conversation starters:** Select any starter to send that prompt immediately.
+- **Enter a custom message:** Enter your own message in the input box.
+- **Modify the model settings:** Adjust the LLM model and model parameters.
+
+---
+
+## Skills in Catalog
+
+Published skills are available in Catalog through the **Skills** tab.
+
+Use the **Skills** tab to:
+
+- Search for published skills using the **Search for skills** field.
+- Browse reusable skills from the ELITEA community.
+- Open skill details from the catalog surface.
+
+![Skills tab showing published skill cards](../img/menus/catalog/skills-tab.png)
+
+Skills are catalog items intended for reuse in agent configurations rather than direct standalone chat execution.
+
+### View Skill Details
+
+When you select a skill card, a details view opens from the Catalog surface.
+
+The skill details view can include:
+
+- **Creator:** Details about who created the skill.
+- **Name:** Full name of the skill.
+- **Description:** Explanation of the skill purpose and intended usage.
+- **Instructions / Content:** Read-only view of the skill content so you can review what it provides before using it.
+
+![Skill details view showing creator, description, and read-only instructions](../img/menus/catalog/catalog-skill-details.png)
+
+Use this view to inspect whether the skill matches your use case before attaching it to an agent.
+
+### Attach a Skill to an Agent
+
+Skills from Catalog are intended to be reused in agent configurations.
+
+To attach a published skill to an agent:
+
+1. Open the skill in the **Skills** tab and review its details.
+2. In the skill details view, select **Add to Agent**.
+3. Select one or more of your agents from the list.
+4. Choose one of the available actions:
+   - **Add & Test** — attaches the skill to the selected agent and redirects you to the **Chat** menu with a conversation opened for that agent.
+   - **Add** — attaches the skill to the selected agent without opening Chat.
+
+<video src="../img/menus/catalog/catalog-skill-add.mp4" controls alt="Video demonstrating how to attach a skill from Catalog to an agent."></video>
+
+After attaching the skill, the selected agent uses that skill according to its configured behavior and version.
+
+---
+
+## Browse & Search Catalog Items
+
+Catalog provides a **Search** field at the top of the page for both tabs.
+
+You can search by the item **name** and **description**. The search results update in real time as you enter text. Clear the search field to reset the search.
 
 **Filter by Category**
 
-Below the search field, there are **category filters** that help you browse agents by their assigned categories:
+Category filters are available for both **Agents** and **Skills** and are located in the right panel of Catalog.
+
+These filters help you browse catalog items by their assigned categories. The following table describes each category.
 
 | Category | Description |
 |----------|-------------|
 | **Trending** | Agents with the most likes from the community |
-| **My Liked** | Agents you have personally liked |
-| **Business Analyst** | Agents designed for business analysis tasks |
+| **My liked** | Agents you have personally liked |
+| **Business analyst** | Agents designed for business analysis tasks |
 | **DevOps** | Agents designed for DevOps tasks |
 | **Development** | Agents focused on software development and coding |
 | **Elitea** | Platform-specific agents for ELITEA workflows |
 | **Epam** | Agents designed for EPAM workflows |
-| **Knowledge & Documentation** | Agents specialized in creating and managing documentation and knowledge bases |
-| **Project Management** | Agents for project planning, execution, and management |
-| **Quality Assurance** | Agents for test planning, execution, and quality assurance |
-| **Other** | Miscellaneous agents that don't fit in specific categories |
+| **Knowledge & documentation** | Agents specialized in creating and managing documentation and knowledge bases |
+| **Project management** | Agents for project planning, execution, and management |
+| **Quality assurance** | Agents for test planning, execution, and quality assurance |
+| **Other** | Miscellaneous agents that do not fit in specific categories |
 
-To filter agents by category, 
+To filter catalog items by category:
 
-1. Click the category button (multiple filters can be applied simultaneously)
-2. Active category is highlighted
-3. Agent cards update automatically based on selected filters
+1. Select the category button. You can apply multiple filters simultaneously.
+2. The active category is highlighted.
+3. The visible cards update automatically based on the selected filters.
 
-![Category Filters](../img/menus/agents-studio/euch_hub-filters.gif)
+![Catalog category filters panel on the right side of the page](../img/menus/catalog/catalog-filters.png)
 
----
-
-## How to View Agent Details
-
-When you click on any agent card, a **pop-up modal** opens that displays all the information about the agent:
-
-* **Creator:** Details about who created the agent
-* **Like button:** Option to like/unlike the agent
-* **Copy link to clipboard button:** Option to copy the agent's link to the clipboard
-* **Name:** Full name of the agent
-* **Description:** Detailed explanation of the agent's purpose and capabilities
-* **Show context button:** Click to open a read-only modal displaying the agent's full instructions and configuration details. You can read and copy the instructions but cannot modify them
-* **Conversation starters:** Pre-defined prompts to help users get started
-* **Welcome message:** The greeting users see when starting a conversation
-* **Start conversation button:** Primary action to begin using the agent
-
-![Agent Detail Modal](../img/menus/agents-studio/euch_hub-agent-details.gif)
-
----
-
-## How to Start a Conversation with an Agent
-
-You can start a conversation with an agent in two ways:
-
-1. With the **Start Conversation** button: Creates a new conversation and displays conversation starters
-2. With a **Conversation Starter**: Creates a new conversation and pre-fills the starter text in the chat input field
-
-After you start a conversation:
-
-1. You're automatically redirected to the Chat menu
-2. A fresh conversation is created specifically for this agent
-3. The agent is added to the Participants list
-4. The agent is set as the active participant
-5. Pre-defined prompts appear to guide your interaction (or if you clicked a starter, it's pre-filled in the input field)
-6. You can immediately start sending messages
-
-Once the conversation is created, you can:
-
-* **Use conversation starters:** Click any starter to send that prompt immediately
-* **Type a custom message:** Enter your own message in the input box
-* **Modify the model settings:** Adjust LLM model and model parameters
-
-![Conversation Started](../img/menus/agents-studio/euch_hub-agent-run.gif)
 ---
 
 ## Modification Restrictions
 
-When using a published agent in a conversation, you have **limited modification capabilities** to maintain the integrity of the published agent:
+Catalog items are **read-only**. This applies to both published agents and published skills.
+
+- A published **agent** remains read-only, but certain conversation-level overrides are allowed for your current session when you start a chat with it.
+- A published **skill** is a snapshot of the skill at the time it was published. You can review its details and attach it to one or more of your agents, but you cannot edit the published skill directly from Catalog.
 
 **What You Can Modify**
 
-* **Variable values:** Provide or modify values for variables defined in the agent
-* **LLM Model:** Change which AI model the agent uses. Icons near the model name indicate its supported capabilities:
+For published agents used in chat, you can modify:
+
+- **Variable values:** Provide or modify values for variables defined in the agent.
+- **LLM model:** Change which AI model the agent uses. Icons near the model name indicate its supported capabilities:
 
   | Capability | What it means |
   |------------|---------------|
   | **Image analysis** | The model can analyze and interpret images alongside text input |
   | **Reasoning** | The model uses extended reasoning steps; exposes **Reasoning Effort** in Model settings instead of **Creativity** |
 
-* **Model settings:**
+- **Model settings:**
 
   | Parameter | Shown when | Description |
   |-----------|------------|-------------|
   | **Creativity** | Standard models | A 5-level discrete slider (Low → Mid-Low → Medium → Mid-High → High) controlling response randomness. Lower values produce focused, deterministic outputs; higher values produce more diverse, creative responses. |
   | **Reasoning Effort** | Reasoning-capable models (replaces Creativity) | A 3-level slider: **Low** (fast, surface-level), **Medium** (balanced), **High** (deep step-by-step analysis, slower). |
-  | **Max Completion Tokens** | Always | Limits the maximum length of AI responses. Toggle between **Auto** (model-managed) and **Custom** (enter a specific token count, default 4096). |
-  | **Steps Limit** | Always (in conversation context) | Maximum number of tool-call steps before the execution loop ends (default 25). |
+  | **Max completion tokens** | Always | Limits the maximum length of AI responses. Toggle between **Auto** (model-managed) and **Custom** (enter a specific token count, default 4096). |
+  | **Steps limit** | Always (in conversation context) | Maximum number of tool-call steps before the execution loop ends (default 25). |
 
-**How to Modify**
+**How to Modify Agent Conversation Overrides**
 
-1. With the agent active in a conversation, click the *Settings* icon at the bottom of the chat
-2. The **Model settings** dialog opens — adjust the parameters as needed
-3. Click **Apply** to save your changes, or **Cancel** to discard. Use **Reset to defaults** to restore the agent's original settings
-4. Changes apply only to this conversation — they do not affect the published agent
-
-![Model Settings](../img/menus/agents-studio/euch_hub-agent-modify.gif)
+1. With the agent active in a conversation, select the *Settings* icon at the bottom of the chat.
+2. The **Model settings** dialog opens — adjust the parameters as needed.
+3. Select **Apply** to save your changes, or **Cancel** to discard them.
+4. Use **Reset to defaults** in the dialog to restore the published agent original conversation settings.
+5. Changes apply only to this conversation — they do not affect the published agent.
 
 **What You Cannot Modify**
 
-These agent properties are **read-only** to preserve the published agent's design and functionality:
+These published catalog properties are **read-only** to preserve the original design and functionality.
 
-* Agent name
-* Instructions (core behavior and task guidelines are locked)
-* Welcome message
-* Conversation starters
-* Toolkits  (toolkits are locked as a part of the published agent)
-* Variable definitions (cannot add or remove variables but can modify their values)
+For published agents:
+
+- Agent name.
+- Instructions (core behavior and task guidelines are locked).
+- Welcome message.
+- Conversation starters.
+- Toolkits (toolkits are locked as part of the published agent).
+- Variable definitions (you cannot add or remove variables, but you can modify their values).
+
+For published skills:
+
+- Skill name.
+- Description.
+- Instructions / content.
+- Published version content shown in Catalog.
 
 <Warning title="Important">
-All modifications you make (LLM model, settings, variable values) apply **only to your current conversation**. They do not affect the original published agent or how other users experience it. If you want to create your own version with full editing capabilities, you'll need to create a new agent.
+Any modifications you make to a published agent conversation settings (LLM model, settings, variable values) apply **only to your current conversation**. They do not affect the original published catalog item or how other users experience it. To get a fully editable version, create your own agent or skill in the corresponding menu.
 </Warning>
 
+<Info title="Restrictions for Published Skills">
+For skills in Catalog:
+
+- You can **view** the published skill details.
+- You can **attach** the skill to one or more of your agents.
+- You cannot edit the published skill name, description, or instructions from Catalog.
+- To get a modified version, create or edit your own skill in the **Skills** menu instead of changing the published catalog entry.
+</Info>
+
 <Tip title="Alternative Methods">
-You can also add published agents directly from the Chat interface. See **[How to Use Public Agents from Chat](../how-tos/chat-conversations/use-public-items-from-chat)** for detailed instructions on using the # search or the Participants panel to add agents.
+You can also add published agents directly from the Chat interface. For detailed instructions on using the # search or the Participants panel to add agents, see **[How to Use Public Agents from Chat](../how-tos/chat-conversations/use-public-items-from-chat)**.
 </Tip>
 
 ---
 
-## Agent Powers and Limitations
+## Agent Powers & Limitations
 
-When using published agents from Agent HUB, keep these considerations in mind:
+When using published agents from Catalog, keep the following considerations in mind.
 
 <Tabs>
   <Tab title="Powers">
@@ -244,7 +315,7 @@ When using published agents from Agent HUB, keep these considerations in mind:
         You cannot modify instructions or core settings of the published agent.
       </Card>
       <Card title="Toolkit dependencies" icon="toolbox">
-        Some agents may require specific toolkits you need to configure before running the agent.
+        Some agents may require specific toolkits you must configure before running the agent.
       </Card>
       <Card title="Model restrictions" icon="robot">
         The agent may be optimized for specific models; switching models may affect quality.
@@ -258,22 +329,22 @@ When using published agents from Agent HUB, keep these considerations in mind:
     </CardGroup>
   </Tab>
 
-  <Tab title="Access & security">
+  <Tab title="Access & Security">
     <CardGroup cols={2}>
       <Card title="All users" icon="globe">
-        Any ELITEA user can browse, search, and use all published agents.
+        Any ELITEA user can browse, search, and use published catalog items that are available to them.
       </Card>
-      <Card title="No publishing from Agent HUB" icon="ban">
-        You cannot publish agents directly from Agent HUB.
+      <Card title="No publishing from Catalog" icon="ban">
+        You cannot publish agents or skills directly from Catalog.
       </Card>
       <Card title="Conversation privacy" icon="eye-slash">
         Your conversations with published agents are private. Other users cannot access them.
       </Card>
       <Card title="Data handling" icon="database">
-        Published agents follow ELITEA's data privacy policies.
+        Published agents follow ELITEA data privacy policies.
       </Card>
       <Card title="No sensitive data" icon="key">
-        Published agents should not contain credentials or sensitive information.
+        Published agents must not contain credentials or sensitive information.
       </Card>
     </CardGroup>
   </Tab>
@@ -284,19 +355,29 @@ When using published agents from Agent HUB, keep these considerations in mind:
 ## Troubleshooting
 
 <AccordionGroup>
-  <Accordion title="Agent does not appear in Agent HUB">
-    **Problem:** Expected agent doesn't show up in Agent HUB.
+  <Accordion title="Agent does not appear in Catalog">
+    **Problem:** Expected agent does not show up in Catalog.
 
     | Cause | Solution |
     |-------|----------|
-    | **Not published yet** | Only approved agents appear in Agent HUB — ask the creator if they've published the agent |
+    | **Not published yet** | Only approved agents appear in Catalog — ask the creator if they have published the agent |
     | **Pending moderation** | Agent may still be under review — wait for moderator approval (creators receive notifications) |
-    | **Rejected** | Only approved agents appear in Agent HUB |
+    | **Rejected** | Only approved agents appear in Catalog |
     | **Search/filter issue** | Agent may be filtered out — clear search and reset category filters to view all agents |
   </Accordion>
 
+  <Accordion title="Skill does not appear in Catalog">
+    **Problem:** Expected skill does not show up in the Skills tab.
+
+    | Cause | Solution |
+    |-------|----------|
+    | **Not published yet** | Only published skills appear in the Skills tab |
+    | **Wrong tab** | Switch from **Agents** to **Skills** in Catalog |
+    | **Search issue** | Clear the search field and try broader keywords |
+  </Accordion>
+
   <Accordion title="Cannot start conversation with the agent">
-    **Problem:** Clicking the *Start Conversation* button doesn't work or produces an error.
+    **Problem:** Selecting the *Start Conversation* button does not work or produces an error.
 
     | Cause | Solution |
     |-------|----------|
@@ -307,7 +388,7 @@ When using published agents from Agent HUB, keep these considerations in mind:
   </Accordion>
 
   <Accordion title="Agent behavior is different from expected">
-    **Problem:** Published agent doesn't perform as described.
+    **Problem:** Published agent does not perform as described.
 
     | Cause | Solution |
     |-------|----------|
@@ -332,41 +413,41 @@ When using published agents from Agent HUB, keep these considerations in mind:
 ## Best Practices
 
 <AccordionGroup>
-  <Accordion title="Finding the right agent">
-    1. **Start with Trending:** Browse trending agents to find proven, popular solutions
-    2. **Use specific keywords:** Search with task-specific terms (e.g., "code review," "documentation")
-    3. **Check descriptions:** Read full descriptions to understand capabilities and limitations
-    4. **Review conversation starters:** Starters often reveal the agent's core functionality
-    5. **Test multiple agents:** Try different agents for the same task to compare approaches
+  <Accordion title="Find the right agent">
+    1. **Start with Trending:** Browse trending agents to find proven, popular solutions.
+    2. **Use specific keywords:** Search with task-specific terms (for example, "code review," "documentation").
+    3. **Check descriptions:** Read full descriptions to understand capabilities and limitations.
+    4. **Review conversation starters:** Starters often reveal the agent core functionality.
+    5. **Test multiple agents:** Try different agents for the same task to compare approaches.
   </Accordion>
 
-  <Accordion title="Using agents effectively">
-    1. **Use conversation starters:** Start with provided prompts to understand agent capabilities
-    2. **Provide context:** Give agents sufficient context in your messages
-    3. **Configure required toolkits:** Set up necessary credentials for toolkit-dependent agents
-    4. **Adjust model settings:** Experiment with different models if results are not optimal
-    5. **Read welcome messages:** Welcome messages often contain important usage instructions
+  <Accordion title="Use agents effectively">
+    1. **Use conversation starters:** Start with provided prompts to understand agent capabilities.
+    2. **Provide context:** Give agents sufficient context in your messages.
+    3. **Configure required toolkits:** Set up necessary credentials for toolkit-dependent agents.
+    4. **Adjust model settings:** Experiment with different models if results are not optimal.
+    5. **Read welcome messages:** Welcome messages often contain important usage instructions.
   </Accordion>
 
-  <Accordion title="Building on published agents">
-    1. **Study instructions:** Learn how successful agents structure their behavior guidelines
-    2. **Analyze conversation starters:** See how effective prompts are crafted
-    3. **Create your own:** Use insights to build your custom agents
-    4. **Share back:** Once you've created valuable agents, consider publishing them
+  <Accordion title="Build on published agents">
+    1. **Study instructions:** Learn how successful agents structure their behavior guidelines.
+    2. **Analyze conversation starters:** See how effective prompts are crafted.
+    3. **Create your own:** Use insights to build your custom agents.
+    4. **Share back:** Once you have created valuable agents, consider publishing them.
   </Accordion>
 </AccordionGroup>
 
 ---
 
-## Guides and References
+## Guides & References
 
 <Info title="Related Documentation">
 
-* **[Agents Menu](./agents)** - Create and manage your personal agents
-* **[Chat Menu](./chat)** - Complete guide to chat interface and conversations
-* **[How to Use Public Agents from Chat](../how-tos/chat-conversations/use-public-items-from-chat)** - Detailed guide on using published agents in conversations
-* **[How to Create and Edit Agents from Canvas](../how-tos/chat-conversations/how-to-create-and-edit-agents-from-canvas)** - Visual agent creation guide
-* **[Agent Versioning](../how-tos/agents-pipelines/entity-versioning)** - Understanding agent versions and publishing
+- For information on creating and managing your personal agents, see **[Agents Menu](./agents)**.
+- For a complete guide to the chat interface and conversations, see **[Chat Menu](./chat)**.
+- For detailed instructions on using published agents in conversations, see **[How to Use Public Agents from Chat](../how-tos/chat-conversations/use-public-items-from-chat)**.
+- For visual agent creation guidance, see **[How to Create and Edit Agents from Canvas](../how-tos/chat-conversations/how-to-create-and-edit-agents-from-canvas)**.
+- For information on agent versions and publishing, see **[Agent Versioning](../how-tos/agents-pipelines/entity-versioning)**.
 </Info>
 
 ---
