@@ -91,16 +91,18 @@ Before creating a toolkit, you must first create OpenAPI Configuration credentia
 1. **Navigate to Credentials Menu:** Open the sidebar and select **[Credentials](../../menus/credentials)**.
 2. **Create New Credential:** Click the **`+ Create`** button.
 3. **Select OpenAPI Configuration:** Choose **OpenAPI Configuration** as the credential type.
+      ![OpenAPI Credential Type](../../img/integrations/toolkits/openapi/openapi-cred-type.png)
 4. **Configure Credential Details:**
      * **Display Name:** Enter a descriptive name (e.g., "GitHub API - Production", "Petstore API Key")
 5. **Configure Authentication Method:** Choose one of the following based on your API requirements:
      * **API Key Authentication:** For Bearer tokens, Basic auth, or Custom headers
-     * **OAuth 2.0 Authentication:** For OAuth flows
+     * **OAuth (Delegated):** For delegated OAuth flows that use an OAuth discovery endpoint and interactive login
+     * **OAuth (Client Credentials):** For machine-to-machine OAuth flows using client credentials and token exchange
      * **Anonymous:** For public APIs without authentication requirements
 6. **Fill Authentication Fields:** Depending on your selected authentication method (see [Authentication Methods Reference](#authentication-methods-reference) below for detailed field descriptions)
 7.  **Save Credential:** Click **Save** to create the credential
 
-![Create Credentials](../../img/integrations/toolkits/openapi/openapi-credential-create.gif)
+       ![Create Credentials](../../img/integrations/toolkits/openapi/openapi-cred-configs.png)
 
 <Tip title="Security Recommendation">
 It's highly recommended to use **[Secrets](../../menus/settings/secrets)** for API keys and sensitive values instead of entering them directly. Create a secret first, then reference it in your credential configuration.
@@ -111,63 +113,74 @@ It's highly recommended to use **[Secrets](../../menus/settings/secrets)** for A
 
 The OpenAPI Configuration credential supports multiple authentication methods. Configure the appropriate method based on your API's security requirements:
 
----
+<Tabs>
+     <Tab title="Anonymous">
+          **Used for:** Public APIs that don't require authentication
 
-**Anonymous**
+          **Configuration:**
 
-**Used for:** Public APIs that don't require authentication
+          * Select the **Anonymous** option when creating your OpenAPI Configuration credential
+          * Leave all authentication fields empty
+          * No authentication headers will be added to requests
+          * Note: Uncommon for production APIs; most APIs require some form of authentication
+                 ![No Authentication](../../img/integrations/toolkits/openapi/auth-anonymous.png)
+     </Tab>
 
-**Configuration:**
+     <Tab title="API Key">
+          **Used for:** APIs that require API keys in headers (Bearer tokens, Basic auth, or custom headers)
 
-*   Select the **Anonymous** option when creating your OpenAPI Configuration credential
-*   Leave all authentication fields empty
-*   No authentication headers will be added to requests
-*   Note: Uncommon for production APIs; most APIs require some form of authentication
+          **Configuration Fields:**
 
-![No Authentication](../../img/integrations/toolkits/openapi/auth-anonymous.png)
+          1. **Api Key** (Required)
+                     * Your API key or token value
+                     * Can reference ELITEA Secrets for enhanced security
 
----
+          2. **Auth Type** (Required)
 
-**API Key Authentication**
+          | Auth Type | Required | Description | Header Result | Additional Field |
+          |-----------|----------|-------------|---------------|------------------|
+          | **Bearer** (default) | Yes | Most common for modern APIs | `Authorization: Bearer <api_key>` | None |
+          | **Basic** | Yes | Legacy authentication method | `Authorization: Basic <api_key>` | None |
+          | **Custom** | Yes | For APIs with non-standard authentication headers | Custom header with specified name | **Custom Header Name** (Required): The header name where your API key will be sent. Examples: `X-API-Key`, `X-Auth-Token`, `api-key`, `X-Custom-Auth` |
 
-**Used for:** APIs that require API keys in headers (Bearer tokens, Basic auth, or custom headers)
+            ![api-key](../../img/integrations/toolkits/openapi/auth-api-key.png)
+     </Tab>
 
-**Configuration Fields:**
+     <Tab title="OAuth (Delegated)">
+          **Used for:** APIs that require delegated OAuth login with an interactive authorization flow.
 
-1. **Api Key** (Required)
-      *   Your API key or token value
-      *   Can reference ELITEA Secrets for enhanced security
+          **Configuration Fields:**
 
-2. **Auth Type** (Required)
+          | Field | Required | Description |
+          |-------|----------|-------------|
+          | **Client Secret** | Yes | OAuth client secret for the delegated application |
+          | **Client Id** | Yes | OAuth client identifier |
+          | **Oauth Discovery Endpoint** | Yes | OAuth discovery endpoint used to initiate delegated authorization |
+          | **Scope** | No | Optional OAuth scopes |
 
-| Auth Type | Required | Description | Header Result | Additional Field |
-|-----------|----------|-------------|---------------|------------------|
-| **Bearer** (default) | Yes | Most common for modern APIs | `Authorization: Bearer <api_key>` | None |
-| **Basic** | Yes | Legacy authentication method | `Authorization: Basic <api_key>` | None |
-| **Custom** | Yes | For APIs with non-standard authentication headers | Custom header with specified name | **Custom Header Name** (Required): The header name where your API key will be sent. Examples: `X-API-Key`, `X-Auth-Token`, `api-key`, `X-Custom-Auth` |
+          After configuring a delegated OpenAPI credential and using it in a toolkit, the UI exposes login status and login/logout actions through the OpenAPI OAuth status components.
 
-![apy-key](../../img/integrations/toolkits/openapi/auth-api-key.gif)
+            <video src="../../img/integrations/toolkits/openapi/oauth-delegated.mp4" controls></video>
+     </Tab>
 
----
+     <Tab title="OAuth (Client Credentials)">
+          **Used for:** Machine-to-machine OAuth flows where ELITEA exchanges client credentials for an access token without interactive user login.
 
-**OAuth 2.0 Authentication**
+          **Configuration Fields:**
 
-**Used for:** APIs that use OAuth 2.0 for authentication and authorization
+          | Field | Required | Description |
+          |-------|----------|-------------|
+          | **Client Secret** | Yes | OAuth client secret |
+          | **Client Id** | Yes | OAuth client identifier |
+          | **Method** | No | Token exchange method. UI options are **Default (POST request)** and **Basic authorization header** |
+          | **Scope** | No | Optional OAuth scopes |
+          | **Token Url** | Yes | OAuth token endpoint used for the client-credentials token exchange |
 
-**Configuration Fields:**
+          Use **Default (POST request)** unless your API documentation explicitly requires **Basic authorization header**.
 
-| Field | Required | Description | Example / Structure |
-|-------|----------|-------------|---------------------|
-| **client_id** | Yes | Your OAuth application's client identifier. This is a public identifier obtained from the API provider's developer console when you register your application. Structure varies by provider. | **GitHub:** `Iv1.a1b2c3d4e5f6g7h8` |
-| **client_secret** | Yes | Your OAuth application's client secret (confidential key). This proves your application's identity to the authorization server. **Never share or commit this to code!** Stored as SecretStr (encrypted). Recommended: Use ELITEA Secrets instead of direct entry. | **GitHub:** `ghp_1234567890abcdefghijklmnopqrstuv` |
-| **token_url** | Yes | OAuth token endpoint URL where access tokens are obtained. This is the endpoint that exchanges authorization codes or credentials for access tokens. Always starts with `https://`. Provided in API documentation. | **GitHub:** `https://github.com/login/oauth/access_token` |
-| **auth_url** | No | Authorization endpoint URL where users are redirected for login and consent. Required for authorization code flows (user interaction). Not needed for client credentials flow (server-to-server). Always starts with `https://`. | **GitHub:** `https://github.com/login/oauth/authorize`<br />**Leave empty** if using client credentials flow |
-| **scope** | No | Space-separated list of OAuth scopes (permissions) that define what API operations and data the access token can access. Scope names are API-specific and case-sensitive. Multiple scopes separated by spaces. |**Combined example:** `repo:status write:org read:user read:project`<br />**Leave empty** for default scopes |
-| **method** | No | Token exchange method that determines how client credentials are sent to the token endpoint.<br />**`default`**: Sends credentials in POST request body<br />**`Basic`**: Sends credentials in Authorization header | **Use `default`** (most common)<br />**Use `Basic`** if API documentation explicitly requires it<br />**Default:** `default` if omitted |
-
-**Important:** All required OAuth fields (client_id, client_secret, token_url) must be provided together. Partial OAuth configuration will result in a validation error.
-
-![OAuth](../../img/integrations/toolkits/openapi/auth-oauth.png)
+          ![OAuth Client Credentials](../../img/integrations/toolkits/openapi/oauth-client-credentials.png)
+     </Tab>
+</Tabs>
 
 ---
 
@@ -198,6 +211,12 @@ Once your credentials are configured, create the OpenAPI toolkit:
 9. **Save Toolkit:** Click **Save** to create the toolkit
 
 ![openapi-toolkit_creation](../../img/integrations/toolkits/openapi/openapi-toolkit-create.gif)
+
+<Note title="Delegated OAuth on the Toolkit Page">
+If you select an OAuth (Delegated) OpenAPI credential, the toolkit configuration page displays delegated OAuth connection controls. These controls remain available after the toolkit is created.
+The connection status and available actions (Login or Logout) are displayed based on the current authentication state. You can start the authentication process directly by selecting Login and completing the OAuth authentication flow.
+![delegated-in-toolkit](../../img/integrations/toolkits/openapi/delegated-login-toolkit.png)
+</Note>
 
 <Accordion title="Example: Petstore API Specification">
 You can use the official Petstore specification at `https://petstore3.swagger.io/api/v3/openapi.json` or paste the complete specification directly into the Schema field.
