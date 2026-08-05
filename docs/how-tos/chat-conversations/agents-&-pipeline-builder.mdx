@@ -1,16 +1,19 @@
 ---
-title: "Elitea MCP Tools Internal Tool"
-sidebarTitle: "Elitea MCP Tools"
-description: "Let agents call other tagged agents and MCP-enabled toolkits directly from conversations, using ELITEA's built-in MCP server."
+title: "Agents & Pipeline Builder"
+sidebarTitle: "Agents & Pipeline Builder"
+description: "Create and update agents and pipelines directly from chat, while also calling tagged agents and MCP-enabled toolkits through ELITEA's built-in MCP server."
 ---
 
 ## Overview
 
-**Elitea MCP Tools** is a built-in internal tool that connects a conversation agent to ELITEA's own **Model Context Protocol (MCP) server**. Once enabled, the agent can discover and call other agents and toolkit operations that have been explicitly made available through MCP — all from within a single conversation, without the user needing to pre-wire every dependency upfront.
+**Agents & Pipeline Builder** is a built-in Module that connects a conversation agent to ELITEA's own **Model Context Protocol (MCP) server**. Once enabled, the agent can create and update agents and pipelines directly from chat, while also discovering and calling other agents and toolkit operations that have been explicitly made available through MCP — all from within a single conversation, without the user needing to pre-wire every dependency upfront.
 
 <CardGroup cols={2}>
   <Card title="Platform-Native MCP Access" icon="server">
     Uses the same secure MCP server that external MCP clients use, but from inside a conversation — no separate connection needed.
+  </Card>
+  <Card title="Agent & Pipeline Creation" icon="sparkles">
+    Create and update agents and pipelines directly from chat when the conversation requires new automation or orchestration.
   </Card>
   <Card title="Agent Invocation" icon="robot">
     Call other agents tagged with **mcp** as tools — pass a task, get back the agent's full response.
@@ -23,27 +26,30 @@ description: "Let agents call other tagged agents and MCP-enabled toolkits direc
   </Card>
 </CardGroup>
 
-<Tip title="When to Use Elitea MCP Tools">
-Use Elitea MCP Tools when you want a **coordinator or meta-agent** to discover and delegate to other agents at runtime — without hardcoding every child agent in the configuration. It's also the right choice when you need an agent to invoke toolkit operations dynamically, based on what the conversation requires.
+<Tip title="When to Use Agents & Pipeline Builder">
+Use Agents & Pipeline Builder when you want a **coordinator or meta-agent** to discover and delegate to other agents at runtime, create or update agents and pipelines directly from chat, and invoke toolkit operations dynamically based on what the conversation requires.
 </Tip>
 
 ---
 
 ## Prerequisites
 
-- **MCP Enabled**: MCP features must be enabled on the platform. If the **Elitea MCP Tools** toggle does not appear in the Internal Tools list, contact your Elitea administrator.
+- **MCP Enabled**: MCP features must be enabled on the platform. If the **Agents & Pipeline Builder** toggle does not appear in the Modules list, contact your Elitea administrator.
 - **Permission Level**: User role with conversation or agent edit access
+- **Default Availability**: The feature can be enabled by default for new conversations through the project-level **Agent & Pipeline Builder** setting.
 - **Agents tagged with `mcp`**: To appear as callable tools, agents must have the **`mcp`** tag applied. Agents without this tag are not listed, regardless of publish status.
 - **MCP-Available Toolkits** *(optional)*: Toolkits with **Available via MCP** enabled in their settings, so their individual tools are callable.
+- **Elitea Personal Access Token** *(for internal MCP toolkits when required)*: Some internal MCP toolkit actions require a valid Elitea personal access token. If the token is missing or expired, renew or create one before retrying the action.
 
 ---
 
 ## How It Works
 
-When Elitea MCP Tools is enabled, the agent connects to ELITEA's built-in MCP server, which exposes two types of callable resources:
+When Agents & Pipeline Builder is enabled, the agent connects to ELITEA's built-in MCP server, which exposes callable resources and supports chat-driven builder workflows:
 
 | Category | What Is Exposed | Requirement |
 |----------|----------------|-------------|
+| **Builder Actions** | Agent can create or update agents and pipelines directly from chat | Feature enabled and user has the required project permissions |
 | **Agents** | Agents appear as tools the AI can call with a `task` argument | Agent must have the **`mcp` tag** applied |
 | **Toolkit Tools** | Each selected tool within a toolkit becomes a standalone callable | Toolkit must have **Available via MCP** enabled in its MCP Options |
 
@@ -61,44 +67,48 @@ Both agent and toolkit tool names are derived from the resource's display name: 
 
 ---
 
-## Enabling Elitea MCP Tools
+## Enabling Agents & Pipeline Builder
 
-Elitea MCP Tools can be toggled on per conversation or saved as part of an agent's configuration for persistent use across all conversations with that agent.
+Agents & Pipeline Builder can be toggled on per conversation or saved as part of an agent's configuration for persistent use across all conversations with that agent.
 
 
 <Note>
-If **Elitea MCP Tools** does not appear in the Internal Tools list, the MCP feature may be disabled at the platform level. Contact your Elitea administrator.
+If **Agents & Pipeline Builder** does not appear in the Modules list, the MCP feature may be disabled at the platform level. Contact your Elitea administrator.
 </Note>
 
 ### In a Conversation
 
-Enable Elitea MCP Tools for an ad-hoc conversation.
+Enable Agents & Pipeline Builder for an ad-hoc conversation.
 
 1. Navigate to your conversation.
 2. Locate the chat input toolbar at the bottom of the screen.
 3. Click the **`+`** icon in the toolbar to open the menu.
-4. Hover over **Internal Tools** to reveal the flyout panel.
-5. Find **Elitea MCP Tools** in the list and click the toggle to enable it.
-6. A success toast notification appears: **"Internal tools configuration updated"**.
+4. Hover over **Modules** to reveal the flyout panel.
+5. Find **Agents & Pipeline Builder** in the list and click the toggle to enable it.
+6. A success toast notification appears: **"Modules configuration updated"**.
 7. Click anywhere outside the panel to close it.
 
-  ![Elitea MCP Tools Access](../../img/how-tos/chat-conversations/internal-tools/elitea-mcp-tools/elitea-mcp-tools-chat.gif)
+    ![Agents & Pipeline Builder Access](../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/agent&pipeline-builder-chat.png)
 
-Once enabled, the agent has access to all MCP-exposed tools in that conversation. The agent can call them as needed based on the conversation flow and user instructions.
+Once enabled, the agent has access to builder capabilities and all MCP-exposed tools in that conversation. The agent can create or update agents and pipelines, and call available MCP tools as needed based on the conversation flow and user instructions.
 
 ### In Agent Configuration
 
-Configure Elitea MCP Tools as part of an agent's saved configuration so it is active for all new conversations using that agent.
+Configure Agents & Pipeline Builder as part of an agent's saved configuration so it is active for all new conversations using that agent.
 
 1. Navigate to **Agents** in the main menu.
 2. Select the agent you want to configure or create a new agent.
-3. Within the TOOLS section, locate the **INTERNAL TOOLS** subsection.
-4. Find the **Elitea MCP Tools** toggle. If it is not visible, click **Show all** to expand the full list.
-5. Click the **Elitea MCP Tools** toggle to enable it.
+3. Within the TOOLS section, locate the **MODULES** subsection.
+4. Find the **Agents & Pipeline Builder** toggle. If it is not visible, click **Show all** to expand the full list.
+5. Click the **Agents & Pipeline Builder** toggle to enable it.
 6. Click **Save** at the top of the configuration page.
-7. New conversations created with this agent will have Elitea MCP Tools active by default.
+7. New conversations created with this agent will have Agents & Pipeline Builder active by default.
 
-  ![Elitea MCP Tools Access](../../img/how-tos/chat-conversations/internal-tools/elitea-mcp-tools/elitea-mcp-tools-agent.gif)
+<Info title="Default Enablement for New Conversations">
+In the UI, **Agent & Pipeline Builder** can also be enabled by default for new conversations through the project general settings. When this default is on, new chat sessions start with the module already enabled.
+</Info>
+
+  ![Agents & Pipeline Builder Access](../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/agent&pipeline-builder-agent.png)
 
 <Tip title="Combine With Smart Tools Selection">
 When many platform agents and toolkits are available, consider also enabling **Smart Tools Selection** to reduce token usage from binding all discovered tools upfront.
@@ -122,7 +132,7 @@ Agents that have the **`mcp` tag** applied are exposed as callable tools. Each s
 | **Output** | The agent's final text response |
 
 <Warning title="Tag Your Agents">
-Agents without the **`mcp`** tag do **not** appear as tools, even if they are published. Apply the `mcp` tag to an agent in its settings to make it callable via Elitea MCP Tools.
+Agents without the **`mcp`** tag do **not** appear as tools, even if they are published. Apply the `mcp` tag to an agent in its settings to make it callable via Agents & Pipeline Builder.
 </Warning>
 
 ### Toolkit Tools
@@ -137,9 +147,28 @@ Toolkits with **Available via MCP** turned on in their **MCP Options** section e
 
 ---
 
-## Using Elitea MCP Tools
+## Using Agents & Pipeline Builder
 
 Once enabled, the agent automatically has access to all discovered tools. No additional prompting or configuration is needed — the agent uses them based on the task requirements.
+
+### Create an Agent from Chat
+
+<Warning>
+This feature is under development and will be improved in upcoming releases.
+</Warning>
+
+You can use Agents & Pipeline Builder to create a new agent directly from a conversation.
+
+1. Open a conversation where **Agents & Pipeline Builder** is enabled.
+2. Ask the agent to create a new agent and describe what it should do.
+3. Include the key details in your request.
+4. Review the generated result in chat.
+5. If needed, ask the agent to refine or update the generated agent configuration.
+6. Save or apply the created agent configuration in the platform when the result matches your intent.
+
+<Tip title="Be Specific in Builder Requests">
+The more specific your request is, the better the generated agent will be. Include the agent's goal, expected inputs, outputs, constraints, and any required tools or integrations.
+</Tip>
 
 ### Example Interaction
 
@@ -165,7 +194,7 @@ Once enabled, the agent automatically has access to all discovered tools. No add
 
 **Setup:**
 
-- Elitea MCP Tools: Enabled on the coordinator agent
+- Agents & Pipeline Builder: Enabled on the coordinator agent
 - `Reporting Agent` and `QA Agent` both have the **`mcp`** tag applied
 
 **User Request:**
@@ -189,7 +218,7 @@ The coordinator never needed hardcoded references to the child agents — adding
 
 **Setup:**
 
-- Elitea MCP Tools: Enabled
+- Agents & Pipeline Builder: Enabled
 - `Dev GitHub` toolkit — **Available via MCP** on; selected tools include `list_pull_requests`, `merge_pull_request`
 - `Project Jira` toolkit — **Available via MCP** on; selected tools include `search_issues`, `update_issue`
 
@@ -215,7 +244,7 @@ The coordinator never needed hardcoded references to the child agents — adding
 
 **Setup:**
 
-- Elitea MCP Tools: Enabled on the coordinator agent
+- Agents & Pipeline Builder: Enabled on the coordinator agent
 - `Test Runner Agent` — `mcp` tag applied; runs the test suite and returns results
 - `Failure Analysis Agent` — `mcp` tag applied; classifies failures as known regressions or new bugs
 - `QA Jira` toolkit — **Available via MCP** on; selected tools include `create_issue`
@@ -238,7 +267,7 @@ The coordinator never needed hardcoded references to the child agents — adding
 
 ## Troubleshooting
 
-<Accordion title="Elitea MCP Tools toggle is not visible in the Internal Tools list">
+<Accordion title="Agents & Pipeline Builder toggle is not visible in the Modules list">
 The toggle only appears when MCP features are enabled at the platform level. Contact your Elitea administrator and ask them to enable **MCP exposure** and **MCP in menu** in the platform configuration.
 </Accordion>
 
@@ -250,7 +279,7 @@ To expose an agent:
 2. Go to the agent's settings and add the **`mcp`** tag
 3. Save the agent
 
-The agent will now appear as a tool when Elitea MCP Tools is enabled.
+The agent will now appear as a tool when Agents & Pipeline Builder is enabled.
 </Accordion>
 
 <Accordion title="No toolkit tools appear after enabling">
@@ -279,16 +308,27 @@ Toolkit tool execution uses the current user's session credentials. Verify:
 - The toolkit's **Available via MCP** option is still enabled
 </Accordion>
 
+<Accordion title="Internal MCP toolkit actions ask for a personal access token">
+Some internal MCP toolkit actions require a valid Elitea personal access token.
+
+If the token is missing or expired:
+- Create a new Elitea personal access token
+- Renew the existing token if it has expired
+- Retry the action after updating the token
+
+If the issue persists, verify that the token belongs to the current user and has access to the current project.
+</Accordion>
+
 ---
 
 ## Related Features
 
 <Info title="Additional Resources">
-* **[Expose Elitea Tools via MCP](../../integrations/mcp/make-tools-available-by-mcp)** - Enable toolkit tools for ELITEA's MCP server so they appear as callables when Elitea MCP Tools is active
+* **[Expose Elitea Tools via MCP](../../integrations/mcp/make-tools-available-by-mcp)** - Enable toolkit tools for ELITEA's MCP server so they appear as callables when Agents & Pipeline Builder is active
 * **[Elitea MCP Server (SSE)](../../integrations/mcp/mcp-server-sse)** - Connect external MCP clients to ELITEA's built-in MCP server — the same server this feature uses internally
-* **[Smart Tools Selection](./smart-tools-selection-internal-tool)** - Reduce token usage when many agent and toolkit tools are available — pairs well with Elitea MCP Tools
+* **[Smart Tools Selection](./smart-tools-selection-internal-tool)** - Reduce token usage when many agent and toolkit tools are available — pairs well with Agents & Pipeline Builder
 * **[Swarm Mode](./swarm-mode-internal-tool)** - Another multi-agent pattern for tightly coupled agent handoffs with shared context
-* **[Agent Publishing](../agents-pipelines/agent-publishing)** - Publish an agent version before tagging it with `mcp` to make it callable via Elitea MCP Tools
+* **[Agent Publishing](../agents-pipelines/agent-publishing)** - Publish an agent version before tagging it with `mcp` to make it callable via Agents & Pipeline Builder
 * **[Remote MCP Servers](../../integrations/mcp/create-and-use-remote-mcp)** - Add external MCP servers to your project as toolkits, complementing the platform's built-in MCP capabilities
 * **[Agent Configuration](../../menus/agents)** - Creating and configuring agents
 * **[Conversation Management](../../menus/chat)** - Managing conversations and settings
