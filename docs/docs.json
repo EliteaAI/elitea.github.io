@@ -184,7 +184,7 @@
                 ]
               },
               {
-                "group": "Internal Tools",
+                "group": "Modules",
                 "expanded": false,
                 "pages": [
                   "how-tos/chat-conversations/image-generation",
@@ -213,7 +213,7 @@
             "icon": "database",
             "pages": [
               {
-                "group": "Start Here",
+                "group": "Start with Indexing",
                 "expanded": true,
                 "pages": [
                   "how-tos/indexing/indexing-overview",
@@ -222,7 +222,7 @@
                 ]
               },
               {
-                "group": "Manage & Query Indexes",
+                "group": "Manage Indexes",
                 "expanded": false,
                 "pages": ["how-tos/indexing/schedule-indexing", "how-tos/indexing/vector_search"]
               },
@@ -307,8 +307,8 @@
                           "how-tos/pipelines/nodes/utility-nodes"
                         ]
                       }
-                ]
-              }
+                    ]
+                  }
                 ]
               }
             ]
@@ -506,15 +506,14 @@
           {
             "group": "Latest Release",
             "icon": "tag",
-            "pages": ["release-notes/rn-2-0-4"]
+            "pages": ["release-notes/rn-2-0-5"]
           },
           {
             "group": "Recent Releases",
             "icon": "clock-rotate-left",
             "pages": [
-              "release-notes/archived/rn-2-0-3",
-              "release-notes/archived/rn-2-0-2",
-              "release-notes/archived/rn-2-0-1"
+              "release-notes/archived/rn-2-0-4",
+              "release-notes/archived/rn-2-0-3"
             ]
           },
           {
@@ -522,6 +521,8 @@
             "icon": "archive",
             "expanded": false,
             "pages": [
+              "release-notes/archived/rn-2-0-2",
+              "release-notes/archived/rn-2-0-1",
               "release-notes/archived/rn-2-0-0",
               "release-notes/archived/rn-2-0-0-b2",
               "release-notes/archived/rn-2-0-0-beta",
@@ -600,20 +601,20 @@
             "icon": "box-archive",
             "tag": "Legacy",
             "expanded": false,
-            "pages":[
-                "archive/agents-examples",
-                "archive/browser_toolkit",
-                "archive/pandas_toolkit",
-                "archive/ado_wiki_plan_board_toolkit",
-                "archive/monitoring",
-                "archive/manage-users-and-roles",
-                "archive/prompt-magic-assistant",
-                "archive/alita-dial",
-                "archive/pipeline-agent-framework",
-                "how-tos/pipelines/nodes/iteration-nodes",
-                "archive/mcp-server-stdio",
-                "archive/mcp-client"
-             ]
+            "pages": [
+              "archive/agents-examples",
+              "archive/browser_toolkit",
+              "archive/pandas_toolkit",
+              "archive/ado_wiki_plan_board_toolkit",
+              "archive/monitoring",
+              "archive/manage-users-and-roles",
+              "archive/prompt-magic-assistant",
+              "archive/alita-dial",
+              "archive/pipeline-agent-framework",
+              "how-tos/pipelines/nodes/iteration-nodes",
+              "archive/mcp-server-stdio",
+              "archive/mcp-client"
+            ]
           }
         ]
       }

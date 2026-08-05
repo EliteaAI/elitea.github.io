@@ -123,12 +123,14 @@ Use **[Secrets](../../menus/settings/secrets)** for your PAT instead of entering
 | **Work Item Search & Retrieval** | | | |
 | | **Search work items** | Search for work items using a WIQL query and dynamically fetch fields | Find tasks, bugs, or user stories matching criteria |
 | | **Get work item** | Get a single work item by ID | Retrieve detailed information about a specific work item |
-| | **Get comments** | Get comments for a work item by ID | Access discussion and collaboration history |
+| | **Get comments** | Get comments for a work item by ID | Access discussion history, optionally with embedded image descriptions |
+| | **Get image by url** | Analyze an image attachment from an Azure DevOps work item attachment URL | Extract text and describe screenshots or other attached images |
 | | **Get work item type fields** | Get fields for a specific work item type | Retrieve field definitions and metadata |
 | **Work Item Management** | | | |
 | | **Create work item** | Creates new work items | Add new tasks, bugs, or features programmatically |
 | | **Update work item** | Updates existing work items | Modify work item status, fields, or properties |
 | | **Delete work item** | Deletes a work item by ID | Remove obsolete or incorrect work items |
+| | **Attach file to work item** | Upload a file from ELITEA artifacts and attach it to a work item | Add screenshots, documents, or Gherkin files to work items and optionally render them inline |
 | **Work Item Linking** | | | |
 | | **Link work items** | Add a relation to the source work item | Establish relationships between work items |
 | | **Get relation types** | Returns available relation types | Discover valid link types for work items |
@@ -140,18 +142,37 @@ Use **[Secrets](../../menus/settings/secrets)** for your PAT instead of entering
 | | **Stepback search index** | Performs advanced contextual searches with broader scope | Execute sophisticated searches with expanded context |
 | | **Stepback summary index** | Creates comprehensive summaries of indexed content | Generate intelligent summaries of work item information |
 | | **Remove index** | Removes previously created search indexes | Clean up and manage indexed content |
-| | **List collections** | Lists available indexed collections | View and manage indexed data collections |
+| | **List indexes** | Lists available indexed indexes | View and manage indexed data |
 
-<Tip title="Vector Search Tools">
-The tools **Index data**, **List collections**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model.
-</Tip>
+<Info>
+**Vector Search Tools**
 
-<Note title="Supported Work Item Attachment Formats">
+The tools **Index data**, **List indexes**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model.
+</Info>
+
+<Info>
+**Supported Work Item Attachment Formats**
+
 When retrieving work items with attachments, the toolkit can parse and extract content from the following file types:
 
 - **Documents:** Word (.docx), PowerPoint (.pptx), CSV
 - **Email files:** Outlook Message (.msg), MIME Email (.eml) — including email metadata (sender, recipients, subject, date, CC/BCC), body content (plain text and HTML), and nested attachments
-</Note>
+</Info>
+
+<Info>
+**Image Processing and Caching**
+- **Get comments** supports `process_images=True` to analyze images embedded in comment text. When enabled, ELITEA inserts image descriptions next to the original image references in the returned comment content.
+- **Get image by url** analyzes a single Azure DevOps work item attachment image directly from its attachment URL.
+- Image descriptions are cached inside the toolkit runtime, so repeated analysis of the same image during a session avoids unnecessary duplicate vision-model calls.
+</Info>
+
+<Info>
+**Gherkin and Attachment Upload Support**
+
+- You can upload `.feature` files or other Gherkin-formatted content to Azure DevOps work items using **Attach file to work item**.
+- You can also store Gherkin content directly in HTML-capable work item fields such as `Microsoft.VSTS.TCM.ReproSteps` or `System.Description` by using **Create work item** or **Update work item** with the appropriate Azure DevOps field reference names.
+- **Attach file to work item** supports optional inline rendering in an HTML field and can also add the uploaded file reference as a work item comment.
+</Info>
 
 #### Testing Toolkit Tools
 
@@ -292,6 +313,37 @@ Agent Response: [Agent uses update_work_item tool]
 ```
 </Accordion>
 
+<Accordion title="Get Comments with Image Processing">
+**Chat Example:**
+```
+User: "Show the latest comments on work item #1234 and describe any screenshots."
+
+Agent Response: [Agent uses get_comments with process_images=True]
+
+💬 **Comments for Work Item #1234**
+
+- "The login form still fails in Safari."
+- "See attached screenshot below."
+    [image-description: Screenshot of the Safari login page showing a validation error under the password field.]
+```
+</Accordion>
+
+<Accordion title="Attach Screenshot or Gherkin File to Work Item">
+**Chat Example:**
+```
+User: "Attach the generated login-failure screenshot to bug #1234 and add it to the description field."
+
+Agent Response: [Agent uses attach_file_to_work_item]
+
+✅ **Attachment Uploaded Successfully!**
+
+- **Work Item ID**: #1234
+- **File**: login-failure.png
+- **Attachment**: Added to the work item
+- **Inline Rendering**: Appended to System.Description
+```
+</Accordion>
+
 ---
 
 ## Best Practices
@@ -330,6 +382,20 @@ Begin with read-only operations (searching and retrieving work items) before ena
 - **Tools Used:** `create_work_item`
 - **Example Instruction:** "Use 'create_work_item' to create a new 'Bug' with title 'Automated Test Failure Detected' and description containing the error logs from the failed workflow step."
 - **Benefit:** Ensures timely, consistent bug reporting directly from ELITEA workflows.
+</Accordion>
+
+<Accordion title="Attach Evidence Files to Work Items">
+- **Scenario:** After a failed automated test, attach a screenshot, log bundle, or Gherkin feature file to the related bug.
+- **Tools Used:** `attach_file_to_work_item`
+- **Example Instruction:** "Use 'attach_file_to_work_item' to upload the generated screenshot artifact to the bug work item and append it inline to System.Description."
+- **Benefit:** Keeps diagnostic evidence directly on the work item for faster triage and validation.
+</Accordion>
+
+<Accordion title="Store Gherkin Scenarios in Work Items">
+- **Scenario:** Teams maintain acceptance criteria or reproducible test scenarios in Gherkin format inside Azure DevOps work items.
+- **Tools Used:** `create_work_item`, `update_work_item`, `attach_file_to_work_item`
+- **Example Instruction:** "Use 'update_work_item' to add the Gherkin scenario to Microsoft.VSTS.TCM.ReproSteps, or attach the .feature file to the work item if the scenario is maintained as a file artifact."
+- **Benefit:** Preserves executable-style test scenarios alongside bugs, tasks, or test-related work items.
 </Accordion>
 
 <Accordion title="Automated Work Item Updates Based on Workflow Progress">
@@ -453,7 +519,23 @@ Verify the PAT has the `vso.work_write` scope for write operations. Also ensure 
 </Accordion>
 
 <Accordion title="Do I need PgVector configuration for all boards tools?">
-No. PgVector is only required for indexing and semantic search tools: **Index data**, **Search index**, **Stepback search index**, **Stepback summary index**, **Remove index**, and **List collections**. All other boards tools work without it.
+No. PgVector is only required for indexing and semantic search tools: **Index data**, **Search index**, **Stepback search index**, **Stepback summary index**, **Remove index**, and **List indexes**. All other boards tools work without it.
+</Accordion>
+
+<Accordion title="Can I attach screenshots or other files to a work item?">
+Yes. Use **Attach file to work item** to upload a file from ELITEA artifacts to Azure DevOps. Any file type can be attached. For images, you can optionally render them inline in an HTML-capable field such as `System.Description`. For non-image files, the toolkit inserts a link instead.
+</Accordion>
+
+<Accordion title="Can I upload Gherkin scenarios to Azure DevOps work items?">
+Yes. You can either:
+- put the Gherkin text directly into a work item field using **Create work item** or **Update work item**, or
+- upload a `.feature` file using **Attach file to work item**.
+
+For richer rendering inside the work item, use an HTML-capable field such as `System.Description` or `Microsoft.VSTS.TCM.ReproSteps`.
+</Accordion>
+
+<Accordion title="How do image descriptions work in comments and attachments?">
+For **Get comments**, set `process_images=True` to analyze images embedded in comment text. The toolkit keeps the original image reference and adds a textual description next to it. For direct analysis of a single attachment image, use **Get image by url** with the Azure DevOps attachment URL.
 </Accordion>
 
 <Accordion title="Can I use multiple ADO toolkits in the same agent?">

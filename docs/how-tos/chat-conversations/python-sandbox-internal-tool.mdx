@@ -1,5 +1,5 @@
 ---
-title: "Python Sandbox Internal Tool"
+title: "Python Sandbox"
 sidebarTitle: "Python Sandbox"
 description: "Run secure Python code in conversations with persistent session state and Pyodide-compatible libraries."
 ---
@@ -63,40 +63,37 @@ With Python Sandbox enabled, the assistant can:
 
 ---
 
-## Enabling Python Sandbox in Conversations
+## How to Enable Python Sandbox
 
-Enable Python Sandbox for code execution in your conversations.
+### In Chat
 
-1. Navigate to your conversation.
-2. Locate the chat input toolbar at the bottom of the screen.
-3. Click the **Internal Tools** icon (value icon) next to the attachment button.
-4. In the popup, find **Python sandbox** in the list.
-5. Click the toggle switch next to "Python sandbox" to enable it.
-6. A success toast notification appears: "Internal tools configuration updated".
-7. Click anywhere outside the popup to close it.
+Enable Python Sandbox for code execution in your chats.
 
-![Enable Python Sandbox](<../../img/how-tos/chat-conversations/internal-tools/python-sandbox/python-sandbox-chat.gif>)
+1. Go to your chat.
+2. In the chat toolbar, select **+**.
+3. Select **Modules** → **Python sandbox** in the list.
+5. Toggle **Python sandbox** on to enable it.
+
+<img src="../../img/how-tos/chat-conversations/internal-tools/python-sandbox/euch_python_on_chat.png" alt="Enable Python sandbox in chat"/>
 
 <Info title="Configuration Persistence">
-The Python Sandbox setting persists for the conversation. You can toggle it on/off at any time during the conversation.
+The Python Sandbox setting persists for the duration of your chat session. You can toggle it on/off at any time.
 </Info>
 
 ---
 
-## Enabling Python Sandbox in Agent Configuration
+### For Agents
 
 Configure Python Sandbox as part of an agent's default configuration.
 
-1. Navigate to **Agents** in the main menu.
-2. Select the agent you want to configure or create a new agent.
-3. On the **Configuration** tab, scroll down to the **TOOLKITS** section.
-4. Within the TOOLKITS section, locate the **INTERNAL TOOLS** subsection.
-5. Find the **Python sandbox** toggle. If it is not visible, click **Show all** to expand the full list of internal tools.
-6. Click the **Python sandbox** toggle to enable it.
-7. Click **Save** at the top of the configuration page to persist the change.
-8. New conversations created with this agent will have Python Sandbox enabled by default.
+1. Open the agent you want to configure (or create and opena new agent).
+3. Scroll down to **TOOLS**.
+4. In **TOOLS**, find **MODULES**.
+5. Find **Python sandbox**. If it is not immediately visible, select **Show all** to see the full list of modules.
+6. Toggle **Python sandbox** on.
+7. Select **Save**.
 
-![Agent Python Sandbox](<../../img/how-tos/chat-conversations/internal-tools/python-sandbox/python-sandbox-agent.gif>)
+     <img src="../../img/how-tos/chat-conversations/internal-tools/python-sandbox/euch_python-for-agent.png" alt="Enable Python sandbox for agents" width="400" />
 
 <Tip title="Recommended for Data & Development Agents">
 For agents designed for data analysis, testing, or development tasks, enabling **Python sandbox** significantly enhances their problem-solving capabilities and allows them to provide executable solutions.
@@ -104,7 +101,7 @@ For agents designed for data analysis, testing, or development tasks, enabling *
 
 ---
 
-## Using Python Sandbox
+## How to Use Python Sandbox
 
 Once enabled, Python Sandbox works seamlessly during conversations. The assistant automatically uses it to execute code when needed to solve your requests.
 
@@ -406,8 +403,8 @@ For better readability and debugging, ask the assistant to break complex analysi
 Perfect for quickly testing code snippets, validating algorithms, or prototyping data transformations before implementing in production. Get immediate feedback without setting up local environments or installing dependencies.
 </Accordion>
 
-<Accordion title="Combine with Data Analysis Internal Tool">
-When working with conversation attachments (CSV, Excel files), enable both Python Sandbox and Data Analysis internal tools. Python Sandbox provides the execution environment, while Data Analysis can help with file parsing and data structure handling.
+<Accordion title="Combine with Data Analysis module">
+When working with conversation attachments (CSV, Excel files), enable both Python Sandbox and Data Analysis modules. Python Sandbox provides the execution environment, while Data Analysis can help with file parsing and data structure handling.
 </Accordion>
 
 <Accordion title="Combine with Swarm Mode for multi-agent workflows">
@@ -475,17 +472,17 @@ When asking the assistant to work with data structures or algorithms, use clear 
 <Accordion title="Python Sandbox Not Executing Code">
 **Possible Causes:**
 
-* Python Sandbox not enabled in conversation or agent configuration
+* Python Sandbox not enabled in chat or agent configuration
 * Deno not installed on the server
 * Backend service unavailable or crashed
 
 **Solution:**
 
-1. Verify Python Sandbox is enabled in the Internal Tools popup or agent configuration
+1. Verify Python Sandbox is enabled in **Modules** for the chat or agent
 2. Check that the success notification appeared when enabling the tool
 3. Contact system administrator to verify Deno installation on the server
 4. Try disabling and re-enabling Python Sandbox to reset the connection
-5. Refresh the page and start a new conversation to reset state
+5. Refresh the page and start a new chat to reset state
 6. Check server logs for Deno-related errors
 </Accordion>
 
@@ -557,12 +554,12 @@ When asking the assistant to work with data structures or algorithms, use clear 
 - [Pyodide Documentation](https://pyodide.org/en/stable/) - Learn about Python in WebAssembly
 - [Pyodide Packages](https://pyodide.org/en/stable/usage/packages-in-pyodide.html) - Available Python packages and compatibility
 - [Deno Documentation](https://docs.deno.com/) - Deno runtime and security model
-- [Data Analysis Internal Tool](./data-analysis-internal-tool) - Complementary tool for working with uploaded CSV/Excel files
-- [Swarm Mode Internal Tool](./swarm-mode-internal-tool) - Multi-agent collaboration for complex workflows
-- [Smart Tools Selection Internal Tool](./smart-tools-selection-internal-tool) - Intelligent toolkit selection and management
-- [Planner Internal Tool](./planner-internal-tool) - Task planning and execution coordination
+- [Data Analysis](./data-analysis-internal-tool) - Complementary tool for working with uploaded CSV/Excel files
+- [Swarm Mode](./swarm-mode-internal-tool) - Multi-agent collaboration for complex workflows
+- [Smart Tools Selection](./smart-tools-selection-internal-tool) - Intelligent toolkit selection and management
+- [Planner](./planner-internal-tool) - Task planning and execution coordination
 - [Agent Configuration](../../menus/agents) - Complete guide to configuring agents and toolkits
 - [Conversation Management](../../menus/chat) - Managing conversations and settings
-- [Toolkits Overview](../../menus/toolkits) - Understanding toolkits and internal tools
+- [Toolkits Overview](../../menus/toolkits) - Understanding toolkits and tools
 </Info>
 

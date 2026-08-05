@@ -1,10 +1,10 @@
 ---
-title: "Use Chat in ELITEA"
+title: "Use Chat"
 sidebarTitle: "Use Chat"
 description: "Learn how conversations work in ELITEA, including participants, context, attachments, Canvas, and collaboration features."
 ---
 
-## Introduction to Chat Functionality
+## Introduction
 
 A Conversation in ELITEA represents a dynamic dialogue involving multiple participants. These can include language models (LLMs), Agents, Pipelines, Toolkits, MCPs, and human Users like yourself. You interact using natural language, and the chat maintains context, allowing you to refer to previous messages within the same conversation. Conversations are isolated; context is not shared between different conversations.
 
@@ -25,7 +25,7 @@ All your conversations are securely stored on the ELITEA server, making them acc
   <Card title="File Attachments" icon="paperclip">
     Upload and attach images and files for AI analysis and processing.
   </Card>
-  <Card title="Internal Tools" icon="wrench">
+  <Card title="Modules" icon="wrench">
     Execute Python code, plan tasks, analyze data, create images, and more — no external integrations needed.
   </Card>
   <Card title="Rich Interactions" icon="comments">
@@ -275,12 +275,12 @@ Participants are the "tools" or "entities" you add to your chat:
     Model Context Protocol servers for external tool capabilities (e.g., Playwright, Figma).
   </Card>
   <Card title="Users" icon="user">
-    In public conversations, other project members who join or interact become participants.
+    In public chats, other project members who join or interact become participants.
   </Card>
 </CardGroup>
 
 
-### Adding Participants to a Conversation
+### Adding Participants to a Chat
 
 <Tabs>
   <Tab title="Using the + Button">
@@ -670,32 +670,36 @@ Every file you attach is automatically uploaded to the default `attachments` buc
 4. Selected files appear as chips above the input field. To remove a file, click the **×** on its chip.
 5. Type your message and press **Send**.
 
+     ![Attachments](../../img/how-tos/chat-conversations/attachments/enable-attachment-chat.gif)
+
 You can also attach files by:
 - **Drag and drop** — drag files directly onto the chat input area.
 - **Paste** — paste files or images from your clipboard with **Ctrl+V** / **Cmd+V**.
 
-**Availability by Conversation Type:**
+**Availability by Chat Type:**
 
 | Context | Attachment availability |
 |---------|------------------------|
 | **Direct LLM / model chat** | Always enabled — **Attach Files** is active whenever no agent or pipeline is selected. |
-| **Agent-based chat** | Only enabled if the agent has **Allow Attachments** toggled on in its **Internal Tools** configuration. If not enabled, **Attach Files** is grayed out with the tooltip: *"Attachments aren't available for the selected agent or pipeline."* |
-| **Pipeline-based chat** | Same rule as agents — requires `attachments` in the pipeline's internal tools. |
+| **Agent-based chat** | Only enabled if the agent has **Allow Attachments** toggled on in **Modules**. If not enabled, **Attach Files** is grayed out with the tooltip: *"Attachments aren't available for the selected agent or pipeline."* |
+| **Pipeline-based chat** | Same rule as agents — requires `attachments` in **Modules**. |
 
 <Tip title="Enable attachments for an agent">
-To enable attachments for an agent, open the agent in Canvas → go to the **Configuration** tab → expand **Internal Tools** → turn on the **Allow Attachments** toggle and save.
+To enable attachments for an agent,
+1. Open the agent.
+2. Find **Modules**.
+3. Toggle **Allow Attachments** on.
+4. Select **Save**.
 </Tip>
-
-     ![Attachments](../../img/how-tos/chat-conversations/attachments/enable-attachment-chat.gif)
 
 For detailed information about attachments, including agent configuration and file management, see [Attach Files](./attach-files).
 
 
-## Using Internal Tools
+## Using Modules
 
-Internal tools provide built-in capabilities that enhance your conversations without requiring external integrations. These tools can be enabled directly from the chat interface or configured as part of an agent's default setup.
+Modules provide built-in capabilities that enhance your conversations without requiring external integrations. They can be enabled directly from the chat interface or configured as part of an agent's default setup.
 
-**Available Internal Tools**
+**Available Modules**
 
 <Tabs>
   <Tab title="Python Sandbox">
@@ -714,7 +718,7 @@ Internal tools provide built-in capabilities that enhance your conversations wit
   </Tab>
 
   <Tab title="Planner">
-    Create, manage, and track tasks and action items directly within conversations. Set priorities, due dates, and monitor task progress without switching to external tools.
+    Create, manage, and track tasks and action items directly within chats. Set priorities, due dates, and monitor task progress without switching to external tools.
 
     | Capability | Description |
     |-----------|-------------|
@@ -734,7 +738,7 @@ Internal tools provide built-in capabilities that enhance your conversations wit
     | Capability | Description |
     |-----------|-------------|
     | **Natural Language** | Use plain English to request data analysis operations |
-    | **File-Based Analysis** | Works with files uploaded directly to conversations |
+    | **File-Based Analysis** | Works with files uploaded directly to chats |
     | **Auto Processing** | Intelligent file format detection and data analysis |
     | **Chart Generation** | Automatic creation of visualizations with downloadable results |
 
@@ -744,12 +748,12 @@ Internal tools provide built-in capabilities that enhance your conversations wit
   </Tab>
 
   <Tab title="Image Creation">
-    Generate AI-powered images from text prompts directly within conversations. Requires an image generation model configured in your project.
+    Generate AI-powered images from text prompts directly within chats. Requires an image generation model configured in your project.
 
     | Capability | Description |
     |-----------|-------------|
     | **Text-to-Image** | Describe what you want and the AI generates the image |
-    | **Inline Results** | Generated images appear directly in the chat conversation |
+    | **Inline Results** | Generated images appear directly in chat |
 
     **Use Cases**: Mockups, illustrations, visual assets for presentations and documentation.
   </Tab>
@@ -760,7 +764,7 @@ Internal tools provide built-in capabilities that enhance your conversations wit
     | Capability | Description |
     |-----------|-------------|
     | **On-Demand Loading** | Tool schemas are loaded only when needed, reducing context overhead |
-    | **Recommended For** | Conversations using 5 or more toolkits |
+    | **Recommended For** | Chats using 5 or more toolkits |
 
     **Use Cases**: Large-scale automation tasks involving many different integrations.
 
@@ -768,11 +772,11 @@ Internal tools provide built-in capabilities that enhance your conversations wit
   </Tab>
 
   <Tab title="Swarm Mode">
-    Enables multi-agent collaboration by allowing all child agents to share the full conversation history and hand off control to each other.
+    Enables multi-agent collaboration by allowing all child agents to share the full chat history and hand off control to each other.
 
     | Capability | Description |
     |-----------|-------------|
-    | **Shared Context** | All child agents see the full conversation history |
+    | **Shared Context** | All child agents see the full chat history |
     | **Agent Handoff** | Agents transfer control to the most appropriate specialist |
 
     **Use Cases**: Complex workflows requiring multiple specialized agents working as a team.
@@ -780,49 +784,45 @@ Internal tools provide built-in capabilities that enhance your conversations wit
     [→ Swarm Mode Guide](./swarm-mode-internal-tool)
   </Tab>
 
-  <Tab title="Elitea MCP Tools">
-    Exposes built-in ELITEA platform MCP tools directly inside conversations. Once enabled, the AI can manage agents, pipelines, chat conversations, and toolkits through natural language — without leaving the chat interface.
+  <Tab title="Agent & Pipeline Builder">
+    Exposes built-in MCP tools directly inside chats. Once enabled, the AI can manage agents, pipelines, chats, and toolkits through natural language — without leaving the chat interface.
 
     | Capability | Description |
     |-----------|-------------|
     | **Agent & Pipeline Management** | Create and manage agents and pipelines from within a conversation |
-    | **Chat Management** | Manage conversations and participants programmatically |
+    | **Chat Management** | Manage chats and participants programmatically |
     | **Toolkit Management** | Configure toolkits through natural language requests |
 
     **Use Cases**: Administrative tasks, resource management, and platform configuration without context-switching.
 
-    [→ Elitea MCP Tools Guide](./elitea-mcp-tools-internal-tool)
+    [→ Agent & Pipeline Builder Guide](./elitea-mcp-tools-internal-tool)
   </Tab>
 </Tabs>
 
-**Enabling Internal Tools in Conversations**
+**Enabling Modules in Chats**
 
-1. Navigate to your conversation.
-2. In the chat input toolbar, click the **`+`** icon.
-3. Hover over **Internal Tools** in the popup menu.
-4. A flyout panel opens on the right showing all available tools with toggle switches.
-5. Click the toggle next to the tool name to enable or disable it.
-6. A success notification will appear: "Internal tools configuration updated".
-7. Click anywhere outside the popup to close it.
+1. Go to your chat.
+2. In the chat toolbar, select **+**.
+3. Select **Modules**.
+4. Toggle the selected module on or off to enable or disable it.
 
-<img src="../../img//menus/chat/enable-internal-tools.gif" alt="Enabling Internal Tools" />
+<img src="../../img/how-tos/chat-conversations/internal-tools/planner/euch_planner_on_chat.png" alt="Enable planner in chat"/>
 
-Once enabled, the AI assistant can automatically use these tools during conversations when appropriate.
+Once enabled, the AI assistant can automatically use these tools during the chat when appropriate.
 
-**Enabling Internal Tools in Agents**
+**Enabling Modules in Agents**
 
-You can also enable internal tools as part of an agent's default configuration. This makes the tools available in all new conversations using that agent.
+You can also enable modules as part of an agent's default configuration. This makes the tools available in all new chats using that agent.
 
 1. Navigate to **Agents** in the main menu and select the agent.
-2. Click the **Configuration** tab.
-3. Expand the **Internal Tools** section.
-4. Toggle the desired tools ON.
-5. Click **Save** at the top of the configuration page.
-6. The enabled internal tools will be available in all new conversations using this agent.
+2. Expand **MODULES**.
+3. Toggle the desired tools ON.
+4. Click **Save**.
+5. The enabled modules will be available in all new chats using this agent.
 
-**Using Internal Tools**
+**Using Modules**
 
-Once enabled, the AI assistant can use the internal tools during conversations:
+Once enabled, the AI assistant can use the modules during chats:
 
 * **Python Sandbox**: The assistant can execute Python code, install packages, perform calculations, and generate visualizations
 * **Planner**: The assistant can break down complex tasks, create structured plans with priorities and due dates, and track task progress
@@ -831,11 +831,11 @@ Once enabled, the AI assistant can use the internal tools during conversations:
 For detailed usage examples, troubleshooting, and best practices, see:
 
 * [Python Sandbox Guide](./python-sandbox-internal-tool)
-* [Planner Internal Tool Guide](./planner-internal-tool)
-* [Data Analysis Internal Tool Guide](./data-analysis-internal-tool)
+* [Planner Guide](./planner-internal-tool)
+* [Data Analysis Guide](./data-analysis-internal-tool)
 * [Smart Tools Selection Guide](./smart-tools-selection-internal-tool)
 * [Swarm Mode Guide](./swarm-mode-internal-tool)
-* [Elitea MCP Tools Guide](./elitea-mcp-tools-internal-tool)
+* [Agent & Pipeline Builder Guide](./elitea-mcp-tools-internal-tool)
 
 
 ## Sensitive Action Authorization

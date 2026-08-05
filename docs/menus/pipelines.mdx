@@ -506,11 +506,11 @@ Enable users to upload and share files — documents, images, code files, and mo
 File attachment support is **disabled by default** for pipelines. To enable it:
 
 1. Open the pipeline and locate the **left configuration panel**.
-2. Scroll to the **INTERNAL TOOLS** section.
-3. Toggle the **Attachments** switch to the on position.
-4. Click **Save** to apply the change.
+2. Scroll to **Modules**.
+3. Toggle **Attachments**.
+4. Select **Save** to apply changes.
 
-![Enable Attachments](../img/menus/pipeline/pipeline-attachments-enable.gif)
+<img src="../img/menus/pipeline/euch_attachments.png" width="400px" alt="Enable attachments"/>
 
 <Note>
 When you enable Attachments, ELITEA automatically adds an `input_attachments` state variable (type: `list`, default: `[]`) to the pipeline's YAML `state` section. When you disable Attachments, the variable is automatically removed. No manual YAML editing is needed.

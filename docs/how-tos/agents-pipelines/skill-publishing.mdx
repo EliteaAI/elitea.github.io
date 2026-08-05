@@ -47,8 +47,6 @@ Your role must include the `models.applications.skills.publish` permission to sh
 
 The **Publish version** dialog opens on the first step, **Preparation**.
 
-The following table lists the fields and actions on this step.
-
 **Fields and actions on this step:**
 
 | Element | Description |
@@ -66,7 +64,7 @@ The following table lists the fields and actions on this step.
 The wizard requires a **Category** before you can continue or publish.
 </Info>
 
-The following card summarizes the publishing terms.
+This card summarizes the publishing terms.
 
 <Card title="Publishing Terms" icon="file-lines">
   **Content Notice**
@@ -106,12 +104,10 @@ While the validation runs, the dialog shows:
 
 > *Reviewing your skill version to ensure it meets publication rules.*
 
-Use the following tabs to review the validation outcomes.
+In tabs, you can see possible validation outcomes.
 
 <Tabs>
   <Tab title="Passed">
-    The following table lists the validation statuses that let you continue.
-
     | Status | Message |
     |--------|---------|
     | <Badge color="green">PASS</Badge> | "Your skill version meets all the necessary requirements and is ready to publish to ELITEA Catalog." |
@@ -133,8 +129,6 @@ Use the following tabs to review the validation outcomes.
   </Tab>
 
   <Tab title="Not Passed">
-    The following table lists the validation status that blocks publishing.
-
     | Status | Message |
     |--------|---------|
     | <Badge color="red">FAIL</Badge> | "Sorry, your skill version doesn't meet all the necessary requirements. Follow summary details to fix the issues and try again." |
@@ -260,19 +254,19 @@ The backend and UI verify these conditions during the publish flow:
 ## Troubleshooting
 
 <AccordionGroup>
-  <Accordion title="Issue: The Publish option is not visible in the three-dot menu">
+  <Accordion title="The Publish option is not visible in the three-dot menu">
     **Cause:** Your role does not include the publish permission.
 
     **Solution:** Verify that your role includes `models.applications.skills.publish`.
   </Accordion>
 
-  <Accordion title="Issue: The Publish option is visible but disabled with a tooltip">
+  <Accordion title="The Publish option is visible but disabled with a tooltip">
     **Cause:** The tooltip reads **"Publishing is blocked by platform policy."** This occurs when `is_skill_publish_blocked` is enabled and your project is not included in `skill_publish_whitelist_project_ids`.
 
     **Solution:** Ask a platform administrator to add your project to the skill publishing allowlist.
   </Accordion>
 
-  <Accordion title="Issue: The Continue button remains disabled on the Preparation step">
+  <Accordion title="The Continue button remains disabled on the Preparation step">
     **Cause:** One or more of these conditions is not met:
 
     - The **Version name** field is empty
@@ -284,19 +278,19 @@ The backend and UI verify these conditions during the publish flow:
     **Solution:** Enter a valid version name, select a category, and check the agreement checkbox.
   </Accordion>
 
-  <Accordion title="Issue: Validation fails with a transient AI error on every attempt">
+  <Accordion title="Validation fails with a transient AI error on every attempt">
     **Cause:** The backend returned `ai_validation_failed` even after the UI retried the validation request twice.
 
     **Solution:** Try again later. If the problem persists, contact your platform administrator.
   </Accordion>
 
-  <Accordion title="Issue: Validation returns a FAIL result">
+  <Accordion title="Validation returns a FAIL result">
     **Cause:** The validation response returned status `FAIL`.
 
     **Solution:** Review the **Critical Issues** section in the validation details, update the skill and run validation again.
   </Accordion>
 
-  <Accordion title="Issue: Publishing fails because the validation token is invalid or expired">
+  <Accordion title="Publishing fails because the validation token is invalid or expired">
     **Cause:** The backend rejects invalid, expired or stale validation tokens. The implementation returns messages such as:
 
     - *Invalid validation token.*
@@ -306,19 +300,19 @@ The backend and UI verify these conditions during the publish flow:
     **Solution:** Return to the validation step and run validation again before publishing.
   </Accordion>
 
-  <Accordion title="Issue: Publishing fails with a duplicate version name error">
+  <Accordion title="Publishing fails with a duplicate version name error">
     **Cause:** The backend detected either `version_name_exists_in_source` or `version_name_exists`.
 
     **Solution:** Choose a different version name and try again.
   </Accordion>
 
-  <Accordion title="Issue: Publishing fails with 'Maximum published versions reached'">
+  <Accordion title="Publishing fails with 'Maximum published versions reached'">
     **Cause:** The backend returned `limit_reached`.
 
     **Solution:** Unpublish one or more older published versions before publishing a new one.
   </Accordion>
 
-  <Accordion title="Issue: Unpublish fails because the version is not published">
+  <Accordion title="Unpublish fails because the version is not published">
     **Cause:** The backend returned `not_published`.
 
     **Solution:** Verify that the selected skill version is in **Published** status.
@@ -330,7 +324,7 @@ The backend and UI verify these conditions during the publish flow:
 ## Guides & References
 
 <Note>
-- [ELITEA Catalog](../../menus/agents-studio) — Browse published agents and skills
-- [Agents](../../menus/agents) — Related publishing flow for agents
 - [Skills](../../menus/skills) — Manage skills and review skill versions
+- [ELITEA Catalog](../../menus/agents-studio) — Browse published agents and skills
+- [Agent Publishing](./agent-publishing.mdx) — Publishing flow for agents
 </Note>

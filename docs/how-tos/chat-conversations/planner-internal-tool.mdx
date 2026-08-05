@@ -1,7 +1,7 @@
 ---
-title: "Planner Internal Tool"
-sidebarTitle: "Planner Tool"
-description: "Create, prioritize, and track tasks directly within conversations using the Planner internal tool."
+title: "Planner"
+sidebarTitle: "Planner"
+description: "Create, prioritize, and track tasks directly within chats using the Planner."
 ---
 
 ## Overview
@@ -29,51 +29,47 @@ The Planner tool must be explicitly enabled via toggle switch before it can be u
 
 ---
 
-## Enabling Planner in Conversations
+## How to Enable Planner
 
-Enable the Planner tool for ad-hoc task management in conversations.
+### In Chat
 
-1. Navigate to your conversation
-2. Locate the chat input toolbar at the bottom of the screen
-3. Find the **Internal Tools** icon (value icon) next to the attachment button
-4. Click the Internal Tools icon to open the configuration popup
-5. In the popup, find **Planner** in the list
-6. Click the toggle switch next to "Planner" to enable it
-7. Once enabled, a success toast notification will appear: "Internal tools configuration updated"
-8. Click anywhere outside the popup to close it
+Enable the Planner tool for ad-hoc task management in chats.
 
-<img src="../../img/how-tos/chat-conversations/internal-tools/planner/planner-enable-chat.gif" alt="Internal Tools Button" width="700" />
+1. Go to your chat.
+2. In the chat toolbar, select **+**.
+3. Select **Modules** → **Planner** in the list.
+5. Toggle **Planner** on to enable it.
+
+<img src="../../img/how-tos/chat-conversations/internal-tools/planner/euch_planner_on_chat.png" alt="Enable planner in chat"/>
 
 <Tip title="Quick Access">
-The internal tools configuration persists for the duration of your conversation session. You can toggle the Planner on/off at any time during the conversation.
+Modules configuration persists for the duration of your chat session. You can toggle the Planner on/off at any time.
 </Tip>
 
 ---
 
-## Enabling Planner in Agent Configuration
+### For Agents
 
 Configure the Planner tool as part of an agent's default configuration.
 
-1. Navigate to **Agents** in the main menu
-2. Select the agent you want to configure or create a new agent
-3. On the **Configuration** tab, scroll down to the **TOOLKITS** section
-4. Within the TOOLKITS section, locate the **INTERNAL TOOLS** subsection
-5. Find the **Planner** toggle. If it is not visible, click **Show all** to expand the full list of internal tools
-6. Click the **Planner** toggle to enable it
-7. Click **Save** at the top of the configuration page to persist the change
-8. New conversations created with this agent will have Planner enabled by default
+1. Open the agent you want to configure (or create and opena new agent).
+3. Scroll down to **TOOLS**.
+4. In **TOOLS**, find **MODULES**.
+5. Find **Planner**. If it is not immediately visible, select **Show all** to see the full list of modules.
+6. Toggle **Planner** on.
+7. Select **Save**.
 
-<img src="../../img/how-tos/chat-conversations/internal-tools/planner/planner-enable-agent.gif" alt="Agent Planner Configuration" width="700" />
+     <img src="../../img/how-tos/chat-conversations/internal-tools/planner/euch_planner-for-agent.png" alt="Enable planner for agents" width="400" />
 
-<Info title="Agent vs Conversation Settings">
-- **Agent Configuration**: Sets the default state for all new conversations with that agent
-- **Conversation Configuration**: Overrides the agent's default for that specific conversation
+<Info title="Agent vs Chat Settings">
+- **Agent Configuration**: Sets the default state for all new chats with that agent
+- **Chat Configuration**: Overrides the agent's default for that specific conversation
 - Changes to agent configuration do not affect existing conversations
 </Info>
 
 ---
 
-## Using the Planner Tool
+## How to Use the Planner
 
 Once enabled, the Planner tool activates automatically when you express task-related intent in your conversation. It intelligently extracts task information from natural language, recognizing titles, priorities, due dates, and context.
 
@@ -229,7 +225,7 @@ Task creation consumes tokens for structured output. Complex plans with many ste
 
 ---
 
-## Usage Scenarios
+### Usage Scenarios
 
 <Accordion title="Meeting Action Items">
 **Use Case**: Capture and track action items from meeting discussions
@@ -497,7 +493,7 @@ Periodically ask to review and delete old completed tasks:
 
 **Solution:**
 
-1. Verify Planner toggle is ON in Internal Tools configuration
+1. Verify Planner toggle is ON in **Modules**
 2. Check that you're using clear task-related phrases
 3. Try explicit commands: "Create a task to...", "Add to my todo..."
 4. Ensure selected model supports tool invocation
@@ -531,7 +527,7 @@ Periodically ask to review and delete old completed tasks:
 1. Ensure you have edit permissions for the agent
 2. Check for any error messages at the top of the form
 3. Ensure all required agent fields are filled
-4. Save the entire configuration form, not just the internal tools toggle
+4. Save the entire configuration form, not just the toggle
 5. Try creating a new agent version if issues persist
 </Accordion>
 
@@ -551,7 +547,7 @@ Periodically ask to review and delete old completed tasks:
 5. Review and update task details after creation if needed
 </Accordion>
 
-<Accordion title="Issue: Internal tools configuration updated But Planner Still Not Working">
+<Accordion title="Issue: Modules configuration updated But Planner Still Not Working">
 **Possible causes:**
 
 * Toggle enabled but task commands not recognized
@@ -585,8 +581,8 @@ Periodically ask to review and delete old completed tasks:
 ---
 
 <Info title="Additional Resources">
-* **[Agent Configuration](../../menus/agents)** - Setting up agents with internal tools
+* **[Agent Configuration](../../menus/agents)** - Setting up agents with modules and tools
 * **[Chat Functionality](./how-to-use-chat-functionality)** - General chat features and usage
-* **[Python Sandbox](./python-sandbox-internal-tool)** - Python Sandbox and internal tools overview
+* **[Python Sandbox](./python-sandbox-internal-tool)** - Python Sandbox overview
 * **[Conversation Management](../../menus/chat)** - Managing conversations and settings
 </Info>
