@@ -167,14 +167,17 @@ The Aha! toolkit provides the following tools for interacting with Aha! records,
 | | **List epics** | List epics, optionally scoped to a product or release | Group features under an epic |
 | | **List ideas** | List ideas, optionally scoped to a product or filtered by free-text `q` | Triage the ideas portal backlog |
 | **Write** | | | |
-| | **Manage record** | Create, update, or delete an Aha! record. Accepted types: `feature`, `requirement`, `idea`, `release`, `initiative`, `epic`, `page`. Parent scope is required on `create` (feature → release, requirement → feature, idea/release/initiative/page → product, epic → release). | One-tool dispatcher for the full CRUD lifecycle |
+| | **Manage record** | Legacy combined interface to create, update, or delete an Aha! record. Accepted types: `feature`, `requirement`, `idea`, `release`, `initiative`, `epic`, `page`. Parent scope is required on `create` (feature → release, requirement → feature, idea/release/initiative/page → product, epic → release). Releases and initiatives also require `parent_id` on update/delete because Aha! scopes those mutation endpoints by product. | One-tool dispatcher for the full CRUD lifecycle |
+| | **Create record** | Create an Aha! record under its required parent scope. Parent scoping is release for features and epics, feature for requirements, and product for ideas, releases, initiatives, and pages. | Preferred create-only interface when you want to expose only record creation |
+| | **Update record** | Update fields on an existing Aha! record. Releases and initiatives require `parent_id` because Aha! scopes those mutation endpoints by product. | Preferred update-only interface when you want to expose only record updates |
+| | **Delete record** | Delete an existing Aha! record. Releases and initiatives require `parent_id` because Aha! scopes those mutation endpoints by product. | Preferred delete-only interface when you want to expose only record deletion |
 | | **Copy record** | Duplicate an Aha! record. Only `record_type='release'` is supported by Aha!'s REST API (`POST /releases/{id}/duplicate`). | Clone a release as the starting point for the next one |
 | | **Create record link** | Create a link between two Aha! records. Aha! REST only supports links **originating from features** (`from_record_type='feature'`). Optional `link_type` (e.g. `blocks`, `blocked_by`, `duplicate`, `related_to`). | Model dependencies between records |
 | **Comments** | | | |
-| | **Add comment** | Post a comment on an Aha! record (feature, requirement, idea, release, epic, initiative, goal, or to-do). Body accepts HTML or plain text. | Automate progress updates and cross-team notifications |
+| | **Add comment** | Post a comment on an Aha! record. Supports features, requirements, ideas, releases, release phases, epics, initiatives, goals, pages, and to-dos. Body accepts HTML or plain text. | Automate progress updates and cross-team notifications |
 | | **List comments** | List comments on an Aha! record (paginated) | Access discussion history |
 | **Attachments** | | | |
-| | **Attach file** | Upload an attachment to an Aha! record. Accepts a local path or an `artifact://<bucket>/<name>` URI resolved via the SDK artifact interface. | Attach evidence, screenshots, or generated documents to a record |
+| | **Attach file** | Upload an attachment to an Aha! record description or to-do. The toolkit resolves the record's description note ID when needed and uploads the file through Aha!'s attachments API. | Attach evidence, screenshots, or generated documents to a record |
 | **Metadata** | | | |
 | | **Fields metadata** | List custom-field definitions configured in the Aha! account | Discover which custom fields exist before writing them via `manage_record` |
 | | **Field options metadata** | List the option values defined for a specific custom field | Resolve the exact option name/ID to send when updating a select field |

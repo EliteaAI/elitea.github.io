@@ -24,6 +24,9 @@ The assistant is aware of your current context: it knows which project you are i
   <Card title="Markdown Responses" icon="markdown">
     Assistant responses render with full Markdown formatting — including code blocks, tables, lists, and inline styling.
   </Card>
+  <Card title="Mermaid & Image Rendering" icon="diagram-project">
+    Mermaid code blocks render as visual diagrams, and inline images or GIFs render directly in the conversation with click-to-expand preview.
+  </Card>
   <Card title="Fullscreen Mode" icon="expand">
     Expand the assistant to a fullscreen overlay for a more focused interaction when you need more space.
   </Card>
@@ -63,6 +66,21 @@ The Support Assistant may open automatically in certain situations — for examp
 4. The assistant streams its response in real time. A typing indicator (three animated dots) appears while the response is being generated.
 
 ![Sending a Message](../img/menus/support-assistant/sending-message.gif)
+
+## Response Rendering
+
+The Support Assistant uses the same rich message rendering approach as the main ELITEA Chat experience for common response content.
+
+**Rendering parity includes:**
+
+- **Mermaid diagrams**: fenced code blocks marked as `mermaid` are rendered as visual diagrams instead of being shown as raw code.
+- **Inline images and GIFs**: both Markdown image syntax and inline HTML `<img>` tags render directly in the assistant conversation.
+- **Expanded image preview**: selecting an inline image opens a larger preview overlay for easier inspection.
+- **Markdown formatting**: tables, lists, headings, inline code, and standard fenced code blocks render in formatted form.
+
+<Info title="Mermaid and HTML Image Support">
+Support Assistant responses support Mermaid diagram rendering and inline image rendering through the same Markdown pipeline used by the assistant widget, including GitHub-flavored Markdown and embedded raw HTML image tags.
+</Info>
 
 ## Attaching Files
 
@@ -148,6 +166,15 @@ The history dropdown is only active when at least one previous conversation exis
 
 <Accordion title="Context Does Not Seem Relevant to My Current Page">
 Context is captured at the moment you open the assistant. If you navigated to a different page after opening the panel, the context may not reflect your current location. Close and reopen the assistant to refresh the context.
+</Accordion>
+
+<Accordion title="Mermaid Diagram or Inline Image Does Not Render Correctly">
+Support Assistant renders Mermaid diagrams and inline images directly in the conversation. If rendering fails:
+
+- Verify the Mermaid block uses valid fenced syntax such as ` ```mermaid `.
+- Check that inline HTML image tags use a valid `src` value.
+- If a Mermaid diagram contains invalid syntax, the assistant may fall back to showing the raw Mermaid code block.
+- Reload the page and reopen the assistant if the message was streamed while the widget was still initializing.
 </Accordion>
 
 ---
