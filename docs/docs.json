@@ -107,23 +107,33 @@
                 "expanded": false,
                 "pages": [
                   "menus/settings/settings-overview",
-                  "menus/settings/ai-configuration",
-                  "menus/settings/project-context",
-                  "menus/settings/personal-tokens",
-                  "menus/settings/secrets",
-                  "menus/settings/users",
-                  "menus/settings/analytics"
+                  {
+                    "group": "Project Settings",
+                    "pages": [
+                      "menus/settings/general",
+                      "menus/settings/ai-providers",
+                      "menus/settings/project-context",
+                      "menus/settings/secrets",
+                      "menus/settings/users",
+                      "menus/settings/analytics",
+                      "menus/settings/usage"
+                    ]
+                  },
+                  {
+                    "group": "Personal Settings",
+                    "pages": [
+                      "menus/settings/user-profile",
+                      "menus/settings/preferences",
+                      "menus/settings/ai-personality",
+                      "menus/settings/memory",
+                      "menus/settings/personal-tokens",
+                      "menus/settings/notifications"
+                    ]
+                  }
                 ]
               },
               "menus/resources",
-              "menus/notification-center",
-              "menus/support-assistant",
-              {
-                "group": "Profile",
-                "icon": "user",
-                "expanded": false,
-                "pages": ["menus/profile/personalization"]
-              }
+              "menus/support-assistant"
             ]
           }
         ]
