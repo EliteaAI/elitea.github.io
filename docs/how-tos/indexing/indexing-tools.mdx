@@ -1,135 +1,172 @@
 ---
 title: "Indexing Tools"
-description: "Indexing tools are available in the Next environment (Release 1.7.0) and replace legacy Datasources/Datasets. For context, see Release Notes 1.7.0 and the Index"
+description: "Reference for Index Data, Search Index, Stepback Search Index, Stepback Summary Index, Remove Index, and List Indexes in the current Indexes section and index pages."
 ---
 
 
-## Prerequisites (once per project/toolkit)
+## Prerequisites
 
 - Credential for your toolkit (required for all except Artifact). See [Create a Credential](../../getting-started/create-credential).
 - Vector Storage: PgVector selected in Settings → [AI Configuration](../../menus/settings/ai-configuration).
-- Embedding Model selected in AI Configuration (defaults available).
-- A configured Toolkit that supports indexing. See [Indexing Overview](./indexing-overview#toolkits-which-support-indexes).
-
-**Supported toolkits**: ADO Repos, ADO Wiki, ADO Plans, ADO Boards, Bitbucket, GitHub, GitLab, Confluence, Jira, SharePoint, Artifact, Figma, TestRail, Xray Cloud, Zephyr Enterprise, Zephyr Essential, Zephyr Scale.
+- Embedding Model selected in Settings → [AI Configuration](../../menus/settings/ai-configuration).
+- A configured toolkit that supports indexing. See [Indexing Overview](./indexing-overview#toolkits-which-support-indexes).
 
 ---
 
 ## Index Data
 
-Create or update an index from your source system.
+Create a new index or refresh an existing one from the connected source system. This tool collects source content, processes it with the configured chunking strategy, and stores the result in the vector database so it can be searched later.
 
-Where to run it: 
+**Purpose**
 
-**Recommended: Indexes Tab Interface** Open your Toolkit → Indexes → "+" → configure → RUN.
+- Create a searchable index from supported toolkit data.
+- Update an existing index with the latest source content.
+- Prepare indexed content for Search Index, Stepback Search Index, and Stepback Summary Index.
 
-![Index Data – form](../../img/how-tos/indexing/index-tab/start-indexing.gif)
+**How to Execute**
 
-**Alternative: TEST SETTINGS** Open your Toolkit → TEST SETTINGS → select “Index data” → configure → RUN TOOL
+The **Index Data** tool runs when you create an index.
 
-![Index test settings](../../img/how-tos/indexing/index-test-settings.gif)
+**Recommended: Indexes Section**
 
-### Purpose
-- Build a new index collection or update an existing one for later search and Q&A.
+1. Open your toolkit.
+2. Expand the **Indexes** section.
+3. Select **+ Index**.
+4. Fill in the **Index Data** parameters.
+5. Select **Index** to run the tool and create the index.
 
+    ![Index Data form showing the configuration fields for creating a new index.](../../img/how-tos/indexing/indexes/index-data.png)
 
-### Common Settings and Parameters
+### Common Settings & Parameters
 
-| UI Label | Description | Required? | Default Value | Validation/Allowed |
+| UI label | Description | Required? | Default value | Validation/Allowed |
 | --- | --- | --- | --- | --- |
-| Collection Suffix | Used to separate datasets | Yes | - | max_length=7, min_length=1 |
+| Index Name | Unique collection name for the index | Yes | None | max_length=7, min_length=1 |
 | Progress Step | Step size for progress reporting | No | 10 | ge=0, le=100 |
-| Clean Index | Clean existing index before re-indexing | No | FALSE | - |
-| Chunking Tool | Name of chunking tool to apply | No | - | - |
-| Chunking Config | Configuration for chunking tool | No | {} | - |
+| Clean Index | Clean existing index before re-indexing | No | `FALSE` | None |
+| Skip Unsupported Extensions | Skip files with unsupported extensions instead of processing them with the text chunker | No | `TRUE` | boolean |
+| Chunking Config | Configuration for chunking tool | No | `{}` | None |
+
+ ![New Index page showing the full index configuration form.](../../img/how-tos/indexing/indexes/new-index-page.png)
 
 
 
-### Toolkit Specific Settings and Parameters
+### Toolkit-Specific Settings & Parameters
 
-| Toolkit type | UI Label | Description | Required? | Default | Validation/Allowed |
+The following parameters apply to specific toolkit types only.
+
+| Toolkit type | UI label | Description | Required? | Default | Validation/Allowed |
 | --- | --- | --- | --- | --- | --- |
-| Repositories (GitHub, GitLab, Bitbucket, ADO Repos) | Branch | Branch to index files from; defaults to the repository's active branch if None. | No | - | - |
-| Repositories (GitHub, GitLab, Bitbucket, ADO Repos) | Whitelist | Allow-list of file extensions or paths to include. Defaults to all files if None. Example: ["*.md", "*.java"]. | No | - | - |
-| Repositories (GitHub, GitLab, Bitbucket, ADO Repos) | Blacklist | Deny-list of file extensions or paths to exclude. Defaults to no exclusions if None. Example: ["*.md", "*.java"]. | No | - | - |
-| Test Management (Zephyr Enterprise) | Zql | ZQL query to search for test cases; Supported: estimatedTime, testcaseId, creator, release, project, priority, altId, version, versionId, automated, folder, contents, name, comment, tag; Examples: folder="TestToolkit", name~"TestToolkit5". | No | - | ZQL syntax |
-| Test Management (Zephyr Scale) | Project Key | Jira project key filter (e.g., "PROJ"). | No | - | Jira project key |
-| Test Management (Zephyr Scale) | Jql | JQL-like query for searching test cases; Supported fields: folder (exact name), folderPath (full path), label, text (name/description), customFields (JSON string), steps, orderBy, orderDirection (ASC|DESC), limit, includeSubfolders (true|false), exactFolderMatch (true|false); Example: 'folder = "Authentication" AND label in ("Smoke", "Critical") AND text ~ "login" AND orderBy = "name" AND orderDirection = "ASC"'. | No | - | JQL-like syntax |
-| ADO Boards | Wiql | WIQL (Work Item Query Language) query string to select and filter Azure DevOps work items. | Yes | - | WIQL syntax |
-| ADO Plans | Plan Id | ID of the test plan for which test cases are requested. | Yes | - | numeric ID |
-| ADO Plans | Suite Ids | List of test suite IDs for which test cases are requested (can be empty to index all suites from the plan). Example: [2, 23]. | No | - | array of numeric IDs |
-| ADO Wiki | Wiki Identifier | Wiki identifier to index (e.g., "ABCProject.wiki"). | Yes | - | string |
-| ADO Wiki | Title Contains | Include only pages with titles containing this exact string. | No | - | string (exact match) |
-| SharePoint | Limit Files | Limit (maximum number) of files to return; supports synonyms like First, Top, or a numeric literal (e.g., "Top 10 files"). If not specified, use the default with no extra confirmation from a user. | No | 1000 | number or synonym keyword |
-| SharePoint | Include Extensions | List of file extensions to include when processing; if empty, all files are processed (except those in Skip Extensions). Example: ["*.png", "*.jpg"]. | No | - | array of glob patterns |
-| SharePoint | Skip Extensions | List of file extensions to skip when processing. Example: ["*.png", "*.jpg"]. | No | - | array of glob patterns |
-| Figma | Project Id | ID of the project to list files from (e.g., 55391681). | No | - | numeric ID |
-| Figma | File Keys Include | List of file keys to include in index if Project Id is not provided. Example: ["Fp24FuzPwH0L74ODSrCnQo", "jmhAr6q78dJoMRqt48zisY"]. | No | - | array of strings |
-| Figma | File Keys Exclude | List of file keys to exclude from index; applied only if Project Id is provided and File Keys Include is not provided. Example: ["Fp24FuzPwH0L74ODSrCnQo", "jmhAr6q78dJoMRqt48zisY"]. | No | - | array of strings |
-| Figma | Node Ids Include | List of top-level nodes (pages) in a file to include in index; node-id from Figma URL. Example: ["123-56", "7651-9230"]. | No | - | array of strings |
-| Figma | Node Ids Exclude | List of top-level nodes (pages) to exclude; applied only if Node Ids Include is not provided; node-id from Figma URL. | No | - | array of strings |
-| Figma | Node Types Include | List of node types to include (e.g., FRAME, COMPONENT, RECTANGLE, COMPONENT_SET, INSTANCE, VECTOR). | No | - | array of enums |
-| Figma | Node Types Exclude | List of node types to exclude; applied only if Node Types Include is not provided. | No | - | array of enums |
-| TestRail | Project Id | TestRail project ID to index data from. | Yes | - | numeric ID |
-| TestRail | Suite Id | Optional TestRail suite ID to filter test cases. | No | - | numeric ID |
-| TestRail | Section Id | Optional section ID to filter test cases. | No | - | numeric ID |
-| TestRail | Include Attachments | Whether to include attachment content in indexing. Selected by default. | No | TRUE | boolean |
-| TestRail | Skip Attachment Extensions | List of file extensions to skip when processing attachments (e.g., ['.png', '.jpg']). | No | - | array of extensions |
-| Xray Cloud | Jql | JQL query for searching test cases in Xray. Supported fields include project, testType, labels, summary, description, status, priority. Example: project = "CALC" AND testType = "Manual" AND labels in ("Smoke", "Critical"). | No | - | JQL syntax |
-| Xray Cloud | Graphql | Custom GraphQL query for advanced data extraction. Should return test objects (issueId, jira, testType, steps, etc.). Example: `query \{ getTests(jql: "project = \"CALC\"") \{ results \{ issueId jira(fields: ["key"]) testType \{ name \} steps \{ action result \} \} \} \}`. | No | - | GraphQL syntax |
-| Xray Cloud | Include Attachments | Whether to include attachment content in indexing. | No | - | boolean |
-| Xray Cloud | Skip Attachment Extensions | List of file extensions to skip when processing attachments (e.g., ['.exe', '.zip', '.bin']). | No | - | array of extensions |
-| Confluence | Content Format | Render format for page content. | No | view | string (e.g., 'view') |
-| Confluence | Page Ids | List of page IDs to retrieve. | No | - | array of IDs |
-| Confluence | Label | Label to filter pages. | No | - | string |
-| Confluence | Cql | CQL query to filter pages. | No | - | CQL syntax |
+| Repositories (GitHub, GitLab, Bitbucket, ADO Repos) | Branch | Branch to index files from. Defaults to the active branch if not provided. | No | None | string |
+| Repositories (GitHub, GitLab, Bitbucket, ADO Repos) | Whitelist | File extensions or paths to include. Example: `["*.md", "*.java"]`. | No | None | array of glob patterns |
+| Repositories (GitHub, GitLab, Bitbucket, ADO Repos) | Blacklist | File extensions or paths to exclude. Example: `["*.md", "*.java"]`. | No | None | array of glob patterns |
+| Repositories (GitHub, GitLab, Bitbucket, ADO Repos) | Skip Unsupported Extensions | Skip files with unsupported extensions instead of processing them with the text chunker. | No | `TRUE` | boolean |
+| Test Management (Zephyr Enterprise) | Zql | ZQL query to search for test cases. Supported fields include estimatedTime, testcaseId, creator, release, project, priority, altId, version, versionId, automated, folder, contents, name, comment, and tag. Examples: `folder="TestToolkit"`, `name~"TestToolkit5"`. | No | None | ZQL syntax |
+| Test Management (Zephyr Scale) | Project Key | Jira project key filter (for example, `PROJ`). | Yes | None | Jira project key |
+| Test Management (Zephyr Scale) | Jql | JQL-like query for searching test cases. Supported fields include folder, folderPath, label, text, customFields, steps, orderBy, orderDirection, limit, includeSubfolders, and exactFolderMatch. | Yes | None | JQL-like syntax |
+| ADO Boards | Wiql | WIQL (Work Item Query Language) query string to select and filter Azure DevOps work items. | Yes | None | WIQL syntax |
+| ADO Boards | Workers | Maximum number of work items processed concurrently. | No | 1 | integer, 1–10 |
+| ADO Boards | Process Images | Describe inline images in HTML work item fields with the LLM before indexing. | No | `FALSE` | boolean |
+| ADO Boards | Image Description Prompt | Optional prompt used when `process_images` is turned on. | No | None | string |
+| ADO Boards | Fields | Whitelist of work item field reference names to include in indexed content. | No | None | array of field names |
+| ADO Boards | Sanitize | Sanitize HTML-rich field content before indexing. | No | `TRUE` | boolean |
+| ADO Plans | Plan Id | ID of the test plan for which test cases are requested. | Yes | None | numeric ID |
+| ADO Plans | Suite Ids | List of test suite IDs for which test cases are requested. Leave empty to index all suites from the plan. Example: `[2, 23]`. | No | `[]` | array of numeric IDs |
+| ADO Wiki | Wiki Identifier | Wiki identifier to index (for example, `ABCProject.wiki`). If omitted, the default wiki identifier from the toolkit configuration is used. | No | None | string |
+| ADO Wiki | Path Contains | Case-insensitive substring filter applied to the full wiki page path. Leave empty to index all pages. | No | None | string |
+| ADO Wiki | Process Images | Replace inline image markdown with LLM-generated descriptions so image content becomes searchable text. | No | `FALSE` | boolean |
+| ADO Wiki | Image Description Prompt | Optional custom prompt used when generating image descriptions. | No | None | string |
+| ADO Wiki | Include Attachments | Index `/.attachments/` files referenced by wiki pages as dependent documents. | No | `FALSE` | boolean |
+| SharePoint | Limit Files | Maximum number of files to return. Supports synonyms such as First, Top, or a numeric literal (for example, `Top 10 files`). If not specified, the default applies. | No | 1000 | number or synonym keyword |
+| SharePoint | Include Extensions | List of file extensions to include when processing. If empty, all files are processed except those in Skip Extensions. Example: `["*.png", "*.jpg"]`. | No | None | array of glob patterns |
+| SharePoint | Skip Extensions | List of file extensions to skip when processing. Example: `["*.png", "*.jpg"]`. | No | None | array of glob patterns |
+| SharePoint | Path | Folder path to scope indexing. Accepts a full server-relative path or a relative path. | No | None | string |
+| SharePoint | Form Name | Document library name to scope indexing to. | No | None | string |
+| SharePoint | Include OneNote | Index OneNote pages from the SharePoint site. Requires Graph API delegated access. | No | `FALSE` | boolean |
+| SharePoint | OneNote Filter | Optional dictionary controlling which OneNote notebooks, sections, and pages are indexed and how they are processed. | No | None | dictionary |
+| Figma | Urls Or File Keys | Comma-separated list of Figma file URLs or raw file keys to index. | Yes | None | comma-separated string |
+| Figma | Number Of Threads | Number of worker threads used when indexing Figma images. | No | 5 | integer, 1–5 |
+| Figma | Node Ids Include | List of top-level node IDs (pages) to include in the index. | No | None | array of strings |
+| Figma | Node Ids Exclude | List of top-level node IDs (pages) to exclude when `node_ids_include` is not provided. | No | None | array of strings |
+| Figma | Node Types Include | List of node types to include in the index. | No | None | array of strings |
+| Figma | Node Types Exclude | List of node types to exclude when `node_types_include` is not provided. | No | None | array of strings |
+| Figma | Scale To Limit Threshold | Maximum image dimension in pixels for LLM vision processing. Larger frames are scaled down. | No | 8000 | integer |
+| Figma | Subframe Extract Threshold | Frames larger than this dimension are split into subframes and processed individually. | No | 15000 | integer |
+| TestRail | Project Id | TestRail project ID to index data from. | Yes | None | string or numeric ID |
+| TestRail | Suite Id | Optional TestRail suite ID to filter test cases. | No | None | string or numeric ID |
+| TestRail | Section Id | Optional section ID to filter test cases. | No | None | numeric ID |
+| TestRail | Include Attachments | Whether to include attachment content in indexing. | No | `FALSE` | boolean |
+| TestRail | Skip Attachment Extensions | List of file extensions to skip when processing attachments (for example, `['.png', '.jpg']`). | No | None | array of extensions |
+| Xray Cloud | Jql | JQL query for searching test cases in Xray. Supported fields include project, testType, labels, summary, description, status, and priority. | No | None | JQL syntax |
+| Xray Cloud | Graphql | Custom GraphQL query for advanced data extraction. Use either `jql` or `graphql`, not both. | No | None | GraphQL syntax |
+| Xray Cloud | Include Attachments | Whether to include attachment content in indexing. | No | `FALSE` | boolean |
+| Xray Cloud | Skip Attachment Extensions | List of file extensions to skip when processing attachments (for example, `['.exe', '.zip', '.bin']`). | No | None | array of extensions |
+| Confluence | Content Format | Render format for page content. | No | `view` | string (for example, `view`) |
+| Confluence | Page Ids | List of page IDs to retrieve. | No | None | array of IDs |
+| Confluence | Label | Label to filter pages. | No | None | string |
+| Confluence | Cql | CQL query to filter pages. | No | None | CQL syntax |
 | Confluence | Limit | Limit the number of results. | No | 10 | number |
 | Confluence | Max Pages | Maximum number of pages to retrieve. | No | 1000 | number |
-| Confluence | Include Restricted Content | Include content with view restrictions (if permitted). | No | - | boolean |
-| Confluence | Include Archived Content | Include archived pages in results. | No | - | boolean |
-| Confluence | Include Attachments | Whether to include attachment content in indexing. | No | - | boolean |
-| Confluence | Include Comments | Include page comments in indexing. | No | - | boolean |
-| Confluence | Include Labels | Include page labels in indexing. | No | TRUE | boolean |
-| Confluence | Ocr Languages | OCR languages for processing attachments. | No | eng | language codes (e.g., 'eng') |
-| Confluence | Keep Markdown Format | Keep Markdown formatting in output. | No | TRUE | boolean |
-| Confluence | Keep Newlines | Preserve newlines in extracted content. | No | TRUE | boolean |
-| Confluence | Bins With Llm | Use LLM for processing binary files. | No | - | boolean |
-| Jira | Jql | JQL query to filter issues; if omitted, all accessible issues are indexed. Examples: 'project=PROJ', 'parentEpic=EPIC-123', 'status=Open'. | No | - | JQL syntax |
-| Jira | Fields To Extract | Additional fields to extract from issues. | No | - | array of field keys |
-| Jira | Fields To Index | Additional fields to include in indexed content. | No | - | array of field keys |
-| Jira | Include Attachments | Whether to include attachment content in indexing. | No | - | boolean |
+| Confluence | Include Restricted Content | Include restricted content. | No | `FALSE` | boolean |
+| Confluence | Include Archived Content | Include archived content. | No | `FALSE` | boolean |
+| Confluence | Include Attachments | Whether to include attachment content in indexing. | No | `FALSE` | boolean |
+| Confluence | Include Extensions | List of file extensions to include when processing attachments. If empty, all files are processed except those in Skip Extensions. | No | `[]` | array of glob patterns |
+| Confluence | Skip Extensions | List of file extensions to skip when processing attachments. | No | `[]` | array of glob patterns |
+| Confluence | Include Comments | Include page comments in indexing. | No | `FALSE` | boolean |
+| Confluence | Include Labels | Include page labels in indexing. | No | `FALSE` | boolean |
+| Confluence | Ocr Languages | OCR languages for processing attachments. | No | `eng` | language codes (for example, `eng`) |
+| Confluence | Keep Markdown Format | Keep Markdown formatting in output. | No | `TRUE` | boolean |
+| Confluence | Keep Newlines | Preserve newlines in extracted content. | No | `TRUE` | boolean |
+| Confluence | Bins With Llm | Use LLM for processing binary files. | No | `FALSE` | boolean |
+| Jira | Jql | JQL query to filter issues. If omitted, all accessible issues are indexed. Examples: `project=PROJ`, `parentEpic=EPIC-123`, `status=Open`. | No | None | JQL syntax |
+| Jira | Fields To Extract | Additional fields to extract from issues. | No | None | array of field keys |
+| Jira | Fields To Index | Additional fields to include in indexed content. | No | None | array of field keys |
+| Jira | Include Attachments | Whether to include attachment content in indexing. | No | `FALSE` | boolean |
+| Jira | Include Comments | Whether to fetch and index comments for each issue. | No | `FALSE` | boolean |
+| Jira | Process Images | Whether to use a vision LLM to describe images referenced in issue descriptions and comments. | No | `FALSE` | boolean |
 | Jira | Max Total Issues | Maximum number of issues to index. | No | 1000 | number |
-| Jira | Skip Attachment Extensions | List of file extensions to skip when processing attachments (e.g., ['.png', '.jpg']). | No | - | array of extensions |
+| Jira | Skip Attachment Extensions | List of file extensions to skip when processing attachments (for example, `['.png', '.jpg']`). | No | None | array of extensions |
+| Jira | Chunking Tool | Name of chunking tool for the base document. | No | `markdown` | `markdown` or empty |
 
 ---
 
 ## Search Index
 
-Search your indexed content using natural language.
+Search indexed content using natural-language queries. This tool returns matching chunks from the selected index so you can inspect the raw search results directly.
 
-**Recommended: Indexes Tab Interface** Open your Toolkit → Indexes → "Run" tab → select “Search index” → configure → RUN.
+**Purpose**
 
-![Index Data – form](../../img/how-tos/indexing/search-index-tool.gif)
+- Search indexed content with a direct semantic query.
+- Retrieve matching chunks from a selected index.
+- Test search quality before using more advanced stepback tools.
 
-**Alternative: TEST SETTINGS** Toolkit → TEST SETTINGS → select “Search index” → configure → RUN TOOL.
+**How to Execute**
 
-### Purpose
-- Retrieve relevant chunks from one or more index collections.
+1. Open your toolkit.
+2. Expand the **Indexes** section.
+3. Open an existing index page.
+4. In the left panel, select **Select tool**.
+5. Choose **Search Index**.
+6. Fill in the search parameters.
+7. Select **Search** to run the tool.
+
+![Search Index form showing the query and parameter fields.](../../img/how-tos/indexing/indexes/search-index.png)
 
 
-### Common Settings and Parameters
+### Common Settings & Parameters
 
-| UI Label | Description | Required? | Default | Validation/Allowed |
+| UI label | Description | Required? | Default | Validation/Allowed |
 | --- | --- | --- | --- | --- |
-| Query | Query text to search in index | Yes | - | - |
-| Collection Suffix | Search specific dataset or all if empty | No | "" | max_length=7 |
-| Filter | Metadata filter for search results | No | {} | JSON format |
-| Cut-off Score | Minimum similarity score threshold | No | 0.2 | - |
-| Search Top | Number of top results to return | No | 10 | - |
-| Reranker | Reranker configuration | No | {} | - |
-| Full Text Search | Full text search configuration | No | - | JSON with enabled, weight, fields, language |
-| Reranking Config | Advanced reranking configuration | No | - | JSON with field weights and rules |
-| Extended Search | Additional chunk types to search | No | - | title,summary,propositions,keywords,documents |
+| Query | Query text to search in index | Yes | None | None |
+| Index Name | Target index collection name used for the search | No | `""` | max_length=7 |
+| Filter | Metadata filter for search results | No | `{}` | JSON format |
+| Cut Off (0–1) | Minimum similarity score threshold | No | 0.2 | None |
+| Search Top | Number of top results to return | No | 10 | None |
+| Full Text Search | Full text search configuration | No | None | JSON with enabled, weight, fields, language |
+| Extended Search | Additional chunk types to search | No | None | title, summary, propositions, keywords, documents |
+| Reranker | Reranker configuration | No | `{}` | None |
+| Reranking Config | Advanced reranking configuration | No | None | JSON with field weights and rules |
+| Output Fields | Fields to include in the search response payload | No | None | page_content, score, metadata.* |
 
 <Info title="Note">
 Applicable to all toolkits that support indexing.
@@ -139,154 +176,167 @@ Applicable to all toolkits that support indexing.
 
 ## Stepback Search Index
 
-Advanced search that first “simplifies” your query for better matches and can consider conversation context.
+Advanced search that rewrites or simplifies the query before searching and can use conversation context to improve retrieval.
 
-**Recommended: Indexes Tab Interface** Open your Toolkit → Indexes → "Run" tab → select “Stepback search index” → configure → RUN.
+**Purpose**
 
-![Stepback Search – form](../../img/how-tos/indexing/stepback-search-tool.gif)
+- Improve retrieval for complex or multi-part questions.
+- Use conversation context through the `Messages` parameter.
+- Return raw matching chunks after stepback query transformation.
 
-**Alternative: TEST SETTINGS** Toolkit → TEST SETTINGS → select “Stepback search index” → configure → RUN TOOL.
+**How to Execute**
+
+1. Open your toolkit.
+2. Expand the **Indexes** section.
+3. Open an existing index page.
+4. In the left panel, select **Select tool**.
+5. Choose **Stepback Search Index**.
+6. Fill in the search parameters.
+7. Select **Search** to run the tool.
+
+![Stepback Search Index form showing the query and context parameters.](../../img/how-tos/indexing/indexes/stepback-search-index.png)
 
 
-### Purpose
-- Improve retrieval by transforming your question (e.g., “How do I configure GitHub auth?” → “configure GitHub authentication”). Returns raw results.
 
+### Common Settings & Parameters
 
-### Common Settings and Parameters
-
-| UI Label | Description | Required? | Default | Validation/Allowed |
+| UI label | Description | Required? | Default | Validation/Allowed |
 | --- | --- | --- | --- | --- |
-| Query | Query text to search in index | Yes | - | - |
-| Collection Suffix | Search specific dataset or all if empty | No | "" | max_length=7 |
-| Filter | Metadata filter for search results | No | {} | JSON format |
-| Messages | Chat messages for stepback search context | No | {} | JSON format |
-| Cut-off Score | Minimum similarity score threshold | No | 0.2 | - |
-| Search Top | Number of top results to return | No | 10 | - |
-| Reranker | Reranker configuration | No | {} | - |
-| Full Text Search | Full text search configuration | No | - | JSON with enabled, weight, fields, language |
-| Reranking Config | Advanced reranking configuration | No | - | JSON with field weights and rules |
-| Extended Search | Additional chunk types to search | No | - | title,summary,propositions,keywords,documents |
+| Query | Query text to search in index | Yes | None | None |
+| Index Name | Target index collection name used for the search | No | `""` | max_length=7 |
+| Messages | Chat messages for stepback search context | No | `{}` | JSON format |
+| Filter | Metadata filter for search results | No | `{}` | JSON format |
+| Cut Off (0–1) | Minimum similarity score threshold | No | 0.2 | None |
+| Search Top | Number of top results to return | No | 10 | None |
+| Full Text Search | Full text search configuration | No | None | JSON with enabled, weight, fields, language |
+| Extended Search | Additional chunk types to search | No | None | title, summary, propositions, keywords, documents |
+| Reranker | Reranker configuration | No | `{}` | None |
+| Reranking Config | Advanced reranking configuration | No | None | JSON with field weights and rules |
 
 <Info title="Note">
-* Applicable to all toolkits that support indexing.
+Applicable to all toolkits that support indexing.
 </Info>
-	* Output is a list of matching documents/chunks. If you prefer a generated answer, use Stepback Summary Index.
+
+Output is a list of matching documents and chunks. If you prefer a generated answer, use **Stepback Summary Index**.
 
 ---
 
 ## Stepback Summary Index
 
-Contextual search plus an AI‑generated answer, with optional citations.
+Contextual search plus an AI-generated answer, with optional citations. This tool combines stepback retrieval with answer generation for users who want a direct response instead of raw chunks.
 
-**Recommended: Indexes Tab Interface** Open your Toolkit → Indexes → "Run" tab → select “Stepback Sumary index” → configure → RUN.
+**Purpose**
 
-![Stepback Search – form](../../img/how-tos/indexing/index-tab/stepback-summary-index.gif)
+- Search indexed content with stepback retrieval.
+- Generate a concise answer from the retrieved content.
+- Support question-answering workflows where users want a direct response.
 
-**Alternative: TEST SETTINGS**: Toolkit → TEST SETTINGS →  select “Stepback summary index”→ configure → RUN..
+**How to Execute**
 
-### Purpose
-- Combine stepback search with a concise, human‑readable answer. Good for end‑users who want a direct response.
+1. Open your toolkit.
+2. Expand the **Indexes** section.
+3. Open an existing index page.
+4. In the left panel, select **Select tool**.
+5. Choose **Stepback Summary Index**.
+6. Fill in the search parameters.
+7. Select **Search** to run the tool.
 
-### 
+![Stepback Summary Index form showing the query and answer-generation parameters.](../../img/how-tos/indexing/indexes/stepback-summary-index.png)
 
-### Common Settings and Parameters
+### Common Settings & Parameters
 
-
-| UI Label | Description | Required? | Default | Validation/Allowed |
+| UI label | Description | Required? | Default | Validation/Allowed |
 | --- | --- | --- | --- | --- |
-| Query | Query text to search in index | Yes | - | - |
-| Collection Suffix | Search specific dataset or all if empty | No | "" | max_length=7 |
-| Filter | Metadata filter for search results | No | {} | JSON format |
-| Messages | Chat messages for stepback search context | No | {} | JSON format |
-| Cut-off Score | Minimum similarity score threshold | No | 0.2 | - |
-| Search Top | Number of top results to return | No | 10 | - |
-| Reranker | Reranker configuration | No | {} | - |
-| Full Text Search | Full text search configuration | No | - | JSON with enabled, weight, fields, language |
-| Reranking Config | Advanced reranking configuration | No | - | JSON with field weights and rules |
-| Extended Search | Additional chunk types to search | No | - | title,summary,propositions,keywords,documents |
+| Query | Query text to search in index | Yes | None | None |
+| Index Name | Target index collection name used for the search | No | `""` | max_length=7 |
+| Messages | Chat messages for stepback search context | No | `{}` | JSON format |
+| Filter | Metadata filter for search results | No | `{}` | JSON format |
+| Cut Off (0–1) | Minimum similarity score threshold | No | 0.2 | None |
+| Search Top | Number of top results to return | No | 10 | None |
+| Full Text Search | Full text search configuration | No | None | JSON with enabled, weight, fields, language |
+| Extended Search | Additional chunk types to search | No | None | title, summary, propositions, keywords, documents |
+| Reranker | Reranker configuration | No | `{}` | None |
+| Reranking Config | Advanced reranking configuration | No | None | JSON with field weights and rules |
+
 
 <Info title="Note">
-* Applicable to all toolkits that support indexing.
+Applicable to all toolkits that support indexing.
 </Info>
-	* If the answer lacks sources, increase Search Top or lower Cut Off slightly to include more candidate passages.
+
+If the answer lacks sources, increase **Search Top** or lower **Cut Off** slightly to include more candidate passages.
 
 ---
 
 ## Remove Index
 
-Delete an existing collection (index) when it’s no longer needed.
+Delete an existing collection when it is no longer needed. Use this tool to remove outdated or temporary indexes from the toolkit.
 
-**Recommended: Indexes Tab Interface** Open your Toolkit → Indexes → "Select Index" → Delete.
+**Purpose**
 
-![Delete Index](../../img/how-tos/indexing/index-tab/delete-index.gif)
+- Remove an index that is no longer needed.
+- Clean up outdated, duplicate, or test indexes.
 
-**Alternative: TEST SETTINGS**: Toolkit → TEST SETTINGS → “Remove index”.
+**How to Execute**
 
-![Remove Index – form](../../img/how-tos/indexing/remove-index-tool.gif)
+1. Open your toolkit.
+2. Expand the **Indexes** section.
+3. Open the index page you want to remove.
+4. Select **Delete**.
+5. Confirm the deletion.
 
-### Purpose
-- Clean up test data or retire outdated collections.
+![Delete Index confirmation dialog for removing an existing index.](../../img/how-tos/indexing/indexes/delete-index.png)
 
-### Applies to toolkits
-- All toolkits that support indexing.
-
-### Fields
-
-| Field | Description | Required | Applicable toolkits |
-| --- | --- | --- | --- |
-| Collection Suffix | Name of the collection to remove. | Yes | All |
 
 <Warning>
-	Removing an index deletes its data from vector storage for this toolkit. Make sure you’re targeting the correct collection.
+**Warning**: Removing an index deletes its data from vector storage for this toolkit. Make sure you are targeting the correct collection.
 </Warning>
 
 ---
 
-## List Collections
+## List Indexes
 
-List all available collections for the toolkit.
+List all available indexes for the current toolkit. Use this tool to confirm which indexes exist before searching, reindexing, or deleting.
 
-**Recommended: Indexes Tab Interface** Open your Toolkit → Indexes → "Left sidebar.
+**Purpose**
 
-![List Index](../../img/how-tos/indexing/index-tab/index-card.png)
+- View the indexes available for the current toolkit.
+- Confirm index names before running search or delete actions.
+- Check whether an expected index has been created.
 
-**Alternative: TEST SETTINGS**: Toolkit → TEST SETTINGS → “List collections”.
+**How to Execute**
 
-![List Collections – output](../../img/how-tos/indexing/list-collection.gif)
+1. Open your toolkit.
+2. Expand the **Indexes** section.
+3. Review the index list in the left panel.
 
-### Purpose
-- Quickly verify what indexes exist and their names (suffixes).
+![List Indexes panel showing all available indexes for the current toolkit.](../../img/how-tos/indexing/indexes/index-section.png)
 
-### Fields
+---
 
-| Field | Description | Required | Applicable toolkits |
+## Search Tools Comparison
+
+The following table compares the three search tools available in the Indexes section.
+
+| Aspect | Search Index | Stepback Search Index | Stepback Summary Index |
 | --- | --- | --- | --- |
-| (none) | No input required; runs immediately. | — | All |
+| Output | Raw results (document chunks with scores) | Raw results (document chunks with scores) | Short, AI-generated answer with optional citations |
+| Uses conversation context | No | Yes (for query transform) | Yes (for search and answer generation) |
+| Best for | Direct semantic search and quick result inspection | Exploring documents and improving retrieval for complex questions | Direct answers for end users |
+| Cost/latency | Lowest | Lower | Higher |
 
 ---
 
-## Stepback tools: quick comparison
+## Tips & Troubleshooting
 
-| Aspect | Stepback Search Index | Stepback Summary Index |
-| --- | --- | --- |
-| Output | Raw results (document chunks with scores) | Short, AI‑generated answer with optional citations |
-| Uses conversation context | Yes (for query transform) | Yes (for search + answer) |
-| Best for | Exploring documents, exporting results | Direct answers for end‑users |
-| Cost/latency | Lower | Higher |
+- If search returns few or no results, try lowering **Cut Off** (for example, from `0.5` to `0.35`) or increasing **Search Top**.
+- Use **Index Name** consistently (for example, `prod`, `test`) so you can target the right dataset later.
+- For better question answering, consider proposal-style chunking when indexing, because it turns on titles, summaries, and propositions.
+- For known limitations and workarounds, see [Release Notes 1.7.0](../../release-notes/archived/rn-1-7-0#known-issues).
 
----
+<Info>
+**Guides & References**
 
-## Tips and troubleshooting
-
-- If Search returns few/no results, try lowering Cut Off (e.g., from 0.5 to 0.35) or increasing Search Top.
-- Use Collection Suffix consistently (e.g., prod/test) so you can target the right dataset later.
-- For better Q&A, consider Proposal chunking when indexing (enables titles/summaries/propositions).
-- Known limitations and workarounds: see [Release Notes 1.7.0](../../release-notes/archived/rn-1-7-0#known-issues).
-
-<Info title="Related guides">
 - [Indexing Overview](./indexing-overview)
-- [How tocreate and use Indexes](./using-indexes-tab-interface)
--  [GitHub](./index-github-data), [Confluence](./index-confluence-data), [Jira](./index-jira-data), [SharePoint](./index-sharepoint-data): Per‑toolkit examples
-- [AI Configuration](../../menus/settings/ai-configuration)
+- [Create & Use Indexes](./using-indexes-tab-interface)
+- [GitHub](./index-github-data), [Confluence](./index-confluence-data), [Jira](./index-jira-data), [SharePoint](./index-sharepoint-data) — per-toolkit examples
 </Info>
-

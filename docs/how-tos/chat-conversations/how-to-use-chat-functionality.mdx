@@ -1,10 +1,10 @@
 ---
-title: "Use Chat in ELITEA"
+title: "Use Chat"
 sidebarTitle: "Use Chat"
 description: "Learn how conversations work in ELITEA, including participants, context, attachments, Canvas, and collaboration features."
 ---
 
-## Introduction to Chat Functionality
+## Introduction
 
 A Conversation in ELITEA represents a dynamic dialogue involving multiple participants. These can include language models (LLMs), Agents, Pipelines, Toolkits, MCPs, and human Users like yourself. You interact using natural language, and the chat maintains context, allowing you to refer to previous messages within the same conversation. Conversations are isolated; context is not shared between different conversations.
 
@@ -25,7 +25,7 @@ All your conversations are securely stored on the ELITEA server, making them acc
   <Card title="File Attachments" icon="paperclip">
     Upload and attach images and files for AI analysis and processing.
   </Card>
-  <Card title="Internal Tools" icon="wrench">
+  <Card title="Modules" icon="wrench">
     Execute Python code, plan tasks, analyze data, create images, and more — no external integrations needed.
   </Card>
   <Card title="Rich Interactions" icon="comments">
@@ -69,7 +69,7 @@ Organize your conversations by grouping them into folders.
 
 The new folder will appear in your **CONVERSATIONS** sidebar.  
 
-<img src="../../img/menus/chat/create-folder.gif" alt="Create Folder" />
+<img src="../../img/menus/chat/create-folder.png" alt="Create Folder" />
 
 ## Managing Conversations
 
@@ -97,70 +97,13 @@ To organize conversations into folders:
 
 You can manage conversations directly from the **CONVERSATIONS** sidebar by right-clicking on a conversation or clicking the options menu (often **...**) associated with it. The following actions are available:
 
-* **Edit**: Rename the conversation. Enter the new name and confirm.
-* **Pin / Unpin**: Select **Pin** to keep the conversation at the top of the list for easy access. Select **Unpin** on a pinned conversation to remove it from the top.
+* **Rename**: Rename the conversation. Enter the new name and confirm.
 * **Move To**: Move the conversation into a folder, as described above.
-* **Make Public**: Convert a private conversation into a public one, visible to other project members.  
-     **Caution**: This action is irreversible; you cannot make a public conversation private again.
-*  **Share**: To share a conversation with team members, select **Share** from the conversation contextual menu. This action copies a direct link to the conversation to your clipboard. Team members can use this link to access and view the conversation. (`available for team project`)  
-* **Delete**: Permanently remove the conversation. You will be asked to confirm this action.
 * **Playback**: Enter Playback mode for this conversation (See [Playback Mode](#playback-mode)).
+* **Pin/Unpin**: Select **Pin on top** to keep the conversation at the top of the list for easy access. Select **Unpin** on a pinned conversation to remove it from the top.
+* **Delete**: Permanently remove the conversation. You will be asked to confirm this action.
 
 <img src="../../img/menus/chat/conversation_action.png" alt="Conversation actions" />
-
-### Sharing Conversations
-
-The conversation sharing feature allows you to share conversations with team members by providing them with a direct link. This is particularly useful for collaboration, code reviews, troubleshooting, and knowledge sharing within your team.
-
-<Warning title="Important Permissions">
-* **Team Projects Only**: Conversation sharing is only available for conversations in team projects. You cannot share conversations from personal projects.
-* **Team Members**: Only team members who have access to the project can view shared conversations.
-* **Access Level**: Recipients must have appropriate permissions within the project to access the shared content.
-</Warning>
-
-**How Conversation Sharing Works**
-
-When you share a conversation, ELITEA generates a unique URL that includes the conversation ID, name, and a special parameter that identifies it as a shared conversation. Team members who receive this link can access and view the complete conversation history in their browser.
-
-**How to Share a Conversation**
-
-1. Navigate to the **CONVERSATIONS** sidebar in the **Chat** section.
-2. Locate the conversation you want to share.
-3. Hover over the conversation to reveal the contextual menu.
-4. Select **Share** from the menu options.
-5. The conversation link is automatically copied to your clipboard.
-6. You will see a notification: "The link has been copied to the clipboard."
-7. Paste the link in your communication channel (email, Slack, Teams, etc.) to share it with team members.
-
-<img src="../../img/menus/chat/share-conversation.gif" alt="Chat_Share_Conversation" />
-
-
-**Use Cases for Sharing Conversations**
-
-* **Collaboration**: Share conversations to involve team members in ongoing discussions or problem-solving sessions
-* **Code Reviews**: Share conversations containing code generation or refactoring for peer review
-* **Troubleshooting**: Share error discussions with technical support or senior team members
-* **Knowledge Transfer**: Share valuable conversations as learning resources for team members
-* **Documentation**: Share conversations that demonstrate best practices or solutions to common problems
-* **Demos and Presentations**: Share conversations to demonstrate ELITEA capabilities or AI-assisted workflows
-
-<Tip title="Sharing vs Making Public">
-The **Share** action is different from **Make Public**. Sharing creates a link for easy access while maintaining existing permissions, whereas making a conversation public changes its visibility settings permanently and cannot be reversed.
-</Tip>
-
-**Accessing Shared Conversations**
-
-When a team member clicks on a shared conversation link:
-
-1. The link opens in their browser
-2. ELITEA automatically navigates to the specified conversation
-3. The conversation opens with the complete history visible
-4. The recipient can read the entire conversation thread
-5. Depending on their permissions, they may be able to interact with or continue the conversation
-
-<Info title="Access Permissions">
-If a user doesn't have access or permissions to the shared conversation (i.e., the conversation is not public and the user is not added as a participant), clicking the shared link will navigate them to the chat interface, but they will not be able to view the conversation content. This is the expected behavior to maintain conversation privacy and security.
-</Info>
 
 ## Managing Folders
 
@@ -168,8 +111,9 @@ If a user doesn't have access or permissions to the shared conversation (i.e., t
 
 Folders can be managed directly from the **CONVERSATIONS** sidebar. Right-click on a folder or click its associated options menu (**...**) to access the following actions:
 
-* **Edit Folder**: Rename the folder. Enter the new name and click the checkmark (✔) or **Save** button.
-* **Delete Folder**: Remove the folder.  
+* **Rename**: Rename the folder. Enter the new name and click the checkmark (✔) or **Save** button.
+* **Pin/Unpin**: Select **Pin on top** in the folder contextual menu to keep the folder at the top of the **CONVERSATIONS** sidebar for quicker access. Select **Unpin** to remove it from the top.
+* **Delete**: Remove the folder.  
   **Important**: Deleting a folder does not delete the conversations inside it. Conversations within a deleted folder are automatically moved back to the main conversation list (root level). You will be asked to confirm deletion.
 
 <img src="../../img/menus/chat/folder_actions.png" alt="Folder actions" />
@@ -275,12 +219,12 @@ Participants are the "tools" or "entities" you add to your chat:
     Model Context Protocol servers for external tool capabilities (e.g., Playwright, Figma).
   </Card>
   <Card title="Users" icon="user">
-    In public conversations, other project members who join or interact become participants.
+    In public chats, other project members who join or interact become participants.
   </Card>
 </CardGroup>
 
 
-### Adding Participants to a Conversation
+### Adding Participants to a Chat
 
 <Tabs>
   <Tab title="Using the + Button">
@@ -573,11 +517,15 @@ If you want to refine your prompt instead of sending a brand-new follow-up, ELIT
 1. Locate your most recent user message.
 2. Use the action icons shown under that message, then click the **Edit** (pencil) icon.
 3. The message switches into inline edit mode.
-4. Update the text as needed.
-5. Click **Save and apply** to submit the edited message and regenerate the answer, or click **Cancel** to discard your changes.
+4. If the original message included attachments, they remain visible in edit mode and are not lost automatically.
+5. Update the text as needed.
+6. If needed, remove an existing attached file from the edit view, or use the **attach** icon on the left side to add a new file.
+7. Click **Save and apply** to submit the edited message and regenerate the answer, or click **Cancel** to discard your changes.
 
 <Note>
 The edit action is shown as **Edit the message and regenerate answer**. The **Save and apply** button stays disabled until the message content changes and the edited text is not empty.
+
+When you edit the last message, existing attachments stay attached and visible by default. You can remove any existing file if you no longer want to send it, and you can add new attachments from the attach icon on the left side of the editor.
 </Note>
 
 ### Like/Dislike and Commenting
@@ -670,32 +618,36 @@ Every file you attach is automatically uploaded to the default `attachments` buc
 4. Selected files appear as chips above the input field. To remove a file, click the **×** on its chip.
 5. Type your message and press **Send**.
 
+     ![Attachments](../../img/how-tos/chat-conversations/attachments/enable-attachment-chat.gif)
+
 You can also attach files by:
 - **Drag and drop** — drag files directly onto the chat input area.
 - **Paste** — paste files or images from your clipboard with **Ctrl+V** / **Cmd+V**.
 
-**Availability by Conversation Type:**
+**Availability by Chat Type:**
 
 | Context | Attachment availability |
 |---------|------------------------|
 | **Direct LLM / model chat** | Always enabled — **Attach Files** is active whenever no agent or pipeline is selected. |
-| **Agent-based chat** | Only enabled if the agent has **Allow Attachments** toggled on in its **Internal Tools** configuration. If not enabled, **Attach Files** is grayed out with the tooltip: *"Attachments aren't available for the selected agent or pipeline."* |
-| **Pipeline-based chat** | Same rule as agents — requires `attachments` in the pipeline's internal tools. |
+| **Agent-based chat** | Only enabled if the agent has **Allow Attachments** toggled on in **Modules**. If not enabled, **Attach Files** is grayed out with the tooltip: *"Attachments aren't available for the selected agent or pipeline."* |
+| **Pipeline-based chat** | Same rule as agents — requires `attachments` in **Modules**. |
 
 <Tip title="Enable attachments for an agent">
-To enable attachments for an agent, open the agent in Canvas → go to the **Configuration** tab → expand **Internal Tools** → turn on the **Allow Attachments** toggle and save.
+To enable attachments for an agent,
+1. Open the agent.
+2. Find **Modules**.
+3. Toggle **Allow Attachments** on.
+4. Select **Save**.
 </Tip>
-
-     ![Attachments](../../img/how-tos/chat-conversations/attachments/enable-attachment-chat.gif)
 
 For detailed information about attachments, including agent configuration and file management, see [Attach Files](./attach-files).
 
 
-## Using Internal Tools
+## Using Modules
 
-Internal tools provide built-in capabilities that enhance your conversations without requiring external integrations. These tools can be enabled directly from the chat interface or configured as part of an agent's default setup.
+Modules provide built-in capabilities that enhance your conversations without requiring external integrations. They can be enabled directly from the chat interface or configured as part of an agent's default setup.
 
-**Available Internal Tools**
+**Available Modules**
 
 <Tabs>
   <Tab title="Python Sandbox">
@@ -714,7 +666,7 @@ Internal tools provide built-in capabilities that enhance your conversations wit
   </Tab>
 
   <Tab title="Planner">
-    Create, manage, and track tasks and action items directly within conversations. Set priorities, due dates, and monitor task progress without switching to external tools.
+    Create, manage, and track tasks and action items directly within chats. Set priorities, due dates, and monitor task progress without switching to external tools.
 
     | Capability | Description |
     |-----------|-------------|
@@ -734,7 +686,7 @@ Internal tools provide built-in capabilities that enhance your conversations wit
     | Capability | Description |
     |-----------|-------------|
     | **Natural Language** | Use plain English to request data analysis operations |
-    | **File-Based Analysis** | Works with files uploaded directly to conversations |
+    | **File-Based Analysis** | Works with files uploaded directly to chats |
     | **Auto Processing** | Intelligent file format detection and data analysis |
     | **Chart Generation** | Automatic creation of visualizations with downloadable results |
 
@@ -744,12 +696,12 @@ Internal tools provide built-in capabilities that enhance your conversations wit
   </Tab>
 
   <Tab title="Image Creation">
-    Generate AI-powered images from text prompts directly within conversations. Requires an image generation model configured in your project.
+    Generate AI-powered images from text prompts directly within chats. Requires an image generation model configured in your project.
 
     | Capability | Description |
     |-----------|-------------|
     | **Text-to-Image** | Describe what you want and the AI generates the image |
-    | **Inline Results** | Generated images appear directly in the chat conversation |
+    | **Inline Results** | Generated images appear directly in chat |
 
     **Use Cases**: Mockups, illustrations, visual assets for presentations and documentation.
   </Tab>
@@ -760,7 +712,7 @@ Internal tools provide built-in capabilities that enhance your conversations wit
     | Capability | Description |
     |-----------|-------------|
     | **On-Demand Loading** | Tool schemas are loaded only when needed, reducing context overhead |
-    | **Recommended For** | Conversations using 5 or more toolkits |
+    | **Recommended For** | Chats using 5 or more toolkits |
 
     **Use Cases**: Large-scale automation tasks involving many different integrations.
 
@@ -768,11 +720,11 @@ Internal tools provide built-in capabilities that enhance your conversations wit
   </Tab>
 
   <Tab title="Swarm Mode">
-    Enables multi-agent collaboration by allowing all child agents to share the full conversation history and hand off control to each other.
+    Enables multi-agent collaboration by allowing all child agents to share the full chat history and hand off control to each other.
 
     | Capability | Description |
     |-----------|-------------|
-    | **Shared Context** | All child agents see the full conversation history |
+    | **Shared Context** | All child agents see the full chat history |
     | **Agent Handoff** | Agents transfer control to the most appropriate specialist |
 
     **Use Cases**: Complex workflows requiring multiple specialized agents working as a team.
@@ -780,49 +732,45 @@ Internal tools provide built-in capabilities that enhance your conversations wit
     [→ Swarm Mode Guide](./swarm-mode-internal-tool)
   </Tab>
 
-  <Tab title="Elitea MCP Tools">
-    Exposes built-in ELITEA platform MCP tools directly inside conversations. Once enabled, the AI can manage agents, pipelines, chat conversations, and toolkits through natural language — without leaving the chat interface.
+  <Tab title="Agent & Pipeline Builder">
+    Exposes built-in MCP tools directly inside chats. Once enabled, the AI can manage agents, pipelines, chats, and toolkits through natural language — without leaving the chat interface.
 
     | Capability | Description |
     |-----------|-------------|
     | **Agent & Pipeline Management** | Create and manage agents and pipelines from within a conversation |
-    | **Chat Management** | Manage conversations and participants programmatically |
+    | **Chat Management** | Manage chats and participants programmatically |
     | **Toolkit Management** | Configure toolkits through natural language requests |
 
     **Use Cases**: Administrative tasks, resource management, and platform configuration without context-switching.
 
-    [→ Elitea MCP Tools Guide](./elitea-mcp-tools-internal-tool)
+    [→ Agent & Pipeline Builder Guide](./agents-&-pipeline-builder)
   </Tab>
 </Tabs>
 
-**Enabling Internal Tools in Conversations**
+**Enabling Modules in Chats**
 
-1. Navigate to your conversation.
-2. In the chat input toolbar, click the **`+`** icon.
-3. Hover over **Internal Tools** in the popup menu.
-4. A flyout panel opens on the right showing all available tools with toggle switches.
-5. Click the toggle next to the tool name to enable or disable it.
-6. A success notification will appear: "Internal tools configuration updated".
-7. Click anywhere outside the popup to close it.
+1. Go to your chat.
+2. In the chat toolbar, select **+**.
+3. Select **Modules**.
+4. Toggle the selected module on or off to enable or disable it.
 
-<img src="../../img//menus/chat/enable-internal-tools.gif" alt="Enabling Internal Tools" />
+<img src="../../img/how-tos/chat-conversations/internal-tools/planner/euch_planner_on_chat.png" alt="Enable planner in chat"/>
 
-Once enabled, the AI assistant can automatically use these tools during conversations when appropriate.
+Once enabled, the AI assistant can automatically use these tools during the chat when appropriate.
 
-**Enabling Internal Tools in Agents**
+**Enabling Modules in Agents**
 
-You can also enable internal tools as part of an agent's default configuration. This makes the tools available in all new conversations using that agent.
+You can also enable modules as part of an agent's default configuration. This makes the tools available in all new chats using that agent.
 
 1. Navigate to **Agents** in the main menu and select the agent.
-2. Click the **Configuration** tab.
-3. Expand the **Internal Tools** section.
-4. Toggle the desired tools ON.
-5. Click **Save** at the top of the configuration page.
-6. The enabled internal tools will be available in all new conversations using this agent.
+2. Expand **MODULES**.
+3. Toggle the desired tools ON.
+4. Click **Save**.
+5. The enabled modules will be available in all new chats using this agent.
 
-**Using Internal Tools**
+**Using Modules**
 
-Once enabled, the AI assistant can use the internal tools during conversations:
+Once enabled, the AI assistant can use the modules during chats:
 
 * **Python Sandbox**: The assistant can execute Python code, install packages, perform calculations, and generate visualizations
 * **Planner**: The assistant can break down complex tasks, create structured plans with priorities and due dates, and track task progress
@@ -831,11 +779,11 @@ Once enabled, the AI assistant can use the internal tools during conversations:
 For detailed usage examples, troubleshooting, and best practices, see:
 
 * [Python Sandbox Guide](./python-sandbox-internal-tool)
-* [Planner Internal Tool Guide](./planner-internal-tool)
-* [Data Analysis Internal Tool Guide](./data-analysis-internal-tool)
+* [Planner Guide](./planner-internal-tool)
+* [Data Analysis Guide](./data-analysis-internal-tool)
 * [Smart Tools Selection Guide](./smart-tools-selection-internal-tool)
 * [Swarm Mode Guide](./swarm-mode-internal-tool)
-* [Elitea MCP Tools Guide](./elitea-mcp-tools-internal-tool)
+* [Agent & Pipeline Builder Guide](./agents-&-pipeline-builder)
 
 
 ## Sensitive Action Authorization

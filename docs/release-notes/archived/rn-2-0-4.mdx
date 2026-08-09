@@ -1,0 +1,378 @@
+---
+title: "Release Notes - 2.0.4"
+description: "ELITEA 2.0.4 adds AI-assisted setup, refined chat and navigation, and smoother configuration and toolkit workflows."
+---
+
+## Release Overview
+
+ELITEA 2.0.4 focuses on making setup and everyday work faster and clearer. This release adds AI-assisted creation, improves chat and navigation flows, and refines configuration, observability, and toolkit experiences across the platform.
+
+## Information
+
+* **Release Version**: 2.0.4
+* **Released on**: 02-Jul-2026
+* **Access**: [ELITEA Platform](https://next.elitea.ai)
+
+
+## New Features
+
+### Build with AI for New Agents
+
+ELITEA now lets users create new agents from natural-language descriptions with **Build with AI**, generating a complete draft they can review, edit, and approve before anything is saved.
+
+**What you can do now:**
+
+* **Describe an agent in plain language**: Open **Build with AI** from the new agent flow or from the in-chat agent creation experience and explain what the agent should do instead of filling every field manually.
+* **Generate a full editable draft**: Receive AI-generated values for the agent name, description, instructions, welcome message, and conversation starters, then adjust any field before creation.
+* **Review suggested resources before attaching them**: See relevant suggested toolkits, agents, pipelines, MCPs, and skills based on the generated draft, and choose explicitly which ones to include.
+
+**Benefits:** Faster time to first agent, lower setup effort for non-technical and technical users alike, and more consistent agent creation without sacrificing user review and control.
+
+For more information, see [Build an Agent with AI](../../how-tos/agents-pipelines/build-agent-with-ai), [Agents](../../menus/agents), and [Agent HUB](../../menus/agents-studio.mdx).
+
+### Skills for Reusable Agent Guidance
+
+ELITEA now introduces Skills as reusable, versioned Markdown instruction packages that teams can create, test, import, export, attach to agents, and generate with AI to standardize behavior without duplicating large instruction blocks.
+
+**What you can do now:**
+
+* **Manage Skills from a dedicated menu**: Open a new **Skills** area from the sidebar, and create or import Skills as standalone `.md` entities.
+* **Create and version Markdown-based Skills**: Build Skills with name, description, tags, and Markdown instructions, preview them before saving.
+* **Test reusable guidance before attaching it**: Use the Skill test panel to validate how a selected Skill version behaves without creating a normal chat conversation, subagent, or separate agent configuration.
+* **Attach specific Skill versions to agents**: Add up to five Skills to an agent, choose the exact version for each one, and reference attached Skills directly inside agent instructions with `~` mentions.
+* **Generate new Skills with Build with AI**: Describe the Skill you need in natural language, review the generated name, description, and Markdown instructions, then edit and create the Skill before anything is saved.
+
+**Benefits:** More reusable agent guidance, cleaner agent instructions, stronger consistency across teams, and safer control over versioned expertise that can be shared and reused across multiple agents.
+
+For more information, see [Skills](../../menus/skills).
+
+### Project Context in Settings
+
+ELITEA now lets teams define shared **Project Context** in project settings, giving conversations, and agentsa reusable Markdown background that keeps terminology, rules, and domain knowledge more consistent across the project.
+
+**What you can do now:**
+
+* **Create shared project background in one place**: Open **Settings->Project Context** and add a Markdown-based Project Context that captures architecture, workflows, terminology, constraints, and other project-wide background information.
+* **Apply context automatically across project AI usage**: Reuse the same saved Project Context across project conversations and agent executions instead of repeating the same background information in individual prompts and configurations.
+* **Exclude context for specific agents when needed**: Use the **Ignore Project Context** option on an agent when that agent should run without the shared project background.
+* **Generate project background with Build with AI**: Describe your project in natural language and let **Build with AI** draft editable Project Context content before you apply and save it.
+
+**Benefits:** More consistent AI behavior across a project, less repeated setup in individual agents and conversations, and a faster way to establish reusable project knowledge with or without manual authoring.
+
+For more information, see [Project Context](../../menus/settings/project-context), [Settings Overview](../../menus/settings/settings-overview), and [Agents](../../menus/agents).
+
+### Code Node Debug Artifact Capture
+
+ELITEA now adds a debug mode for pipeline **Code** nodes that can automatically save the full assembled Python source sent to the sandbox, making it easier to inspect what actually ran during execution.
+
+**What you can do now:**
+
+* **Enable debug per Code node**: Turn on a dedicated debug flag only for the Code nodes you want to inspect, without changing the behavior of the rest of the pipeline.
+* **Capture the exact code sent to the sandbox**: Save the assembled Python source, including the runtime preamble and user code, so you can inspect the same code the Pyodide sandbox received.
+* **Find debug output in a dedicated artifact bucket**: Store captured code in the `code_debug` artifact bucket using the code node ID as the filename, with bucket creation handled automatically when needed.
+* **Troubleshoot code-node behavior more directly**: Inspect saved debug artifacts when a Code node fails, behaves unexpectedly, or uses injected state in a way that is hard to understand from the node configuration alone.
+* **Keep pipeline execution resilient while debugging**: Use artifact capture as a non-blocking debugging aid, so pipeline execution continues even if saving the debug artifact itself fails.
+
+**Benefits:** Better visibility into Code node execution, faster troubleshooting for sandbox-based pipeline logic, and a more practical way to inspect runtime-generated code without changing normal pipeline behavior.
+
+For more information, see [Execution Nodes](../../how-tos/pipelines/nodes/execution-nodes).
+
+### Notes for Agents and Pipelines
+
+ELITEA now adds a dedicated **Notes** field to agent and pipeline configuration screens, making it easier to keep internal implementation comments, testing guidance, and editor-facing reminders directly with the entity they belong to.
+
+**What you can do now:**
+
+* **Add internal notes to agents and pipelines**: Use the new multiline **Notes** field in the **Advanced** section to capture development comments, TODOs, testing instructions, known limitations, migration reminders, and usage hints.
+* **Keep notes separate from execution behavior**: Store notes as metadata only, without sending them into LLM instructions, prompt context, runtime execution, chat messages, or monitoring payloads as prompt content.
+* **Support collaboration across editors**: Leave practical context for other users who maintain or test the same agent or pipeline without changing how the entity behaves at runtime.
+
+**Benefits:** Better maintainability for shared agents and pipelines.
+
+For more information, see [Agents](../../menus/agents), [Pipelines](../../menus/pipelines), and [Agent HUB](../../menus/agents-studio).
+
+### Block with Comments for Sensitive Tool Authorization
+
+ELITEA now expands the Sensitive Action Authorization guardrail with a **Block with Comments** flow, allowing users to reject sensitive tool execution while sending human feedback back into the interrupted AI workflow.
+
+**What you can do now:**
+
+* **Block a sensitive action with explicit feedback**: Reject a guarded tool call and include a free-text reason instead of only approving or blocking without context.
+* **Give the AI clearer guidance after a rejection**: Send the user comment back as part of the blocked-tool result so the model can understand why the action was denied and adjust its next step more effectively.
+* **Use the same flow without breaking existing approvals**: Continue using the existing approve and block actions while adding a more informative rejection path when needed.
+
+**Benefits:** Better human control over sensitive actions, more useful AI recovery after a blocked tool call, and clearer auditability when users need to explain why an operation should not proceed.
+
+For more information, see [Sensitive Action Authorization Guardrail](../../how-tos/chat-conversations/sensitive-action-authorization-guardrail).
+
+### Parallel Sub-Agent Fan-Out with Multi-Interrupt HITL
+
+ELITEA now supports parallel execution of multiple sub-agent calls from a single parent response, including a multi-interrupt HITL flow when more than one child execution needs human approval.
+
+**What you can do now:**
+
+* **Run multiple sub-agents concurrently**: Let several sub-agent tool calls emitted in one assistant response execute in parallel instead of being processed one by one.
+* **Reduce total wait time for delegated work**: Complete parent-agent fan-out closer to the longest individual child run rather than the combined duration of all child runs.
+* **Handle child failures independently**: Allow one sub-agent failure to return its own result without cancelling sibling executions in the same parent step.
+* **Resolve multiple approvals in one parent flow**: Surface multiple pending sensitive-tool approvals from parallel child executions through a multi-interrupt HITL contract instead of collapsing them into a single interrupt path.
+* **Keep delegated execution more reliable across advanced workflows**: Use parallel fan-out with more durable park-and-dispatch behavior for orchestrated sub-agent scenarios.
+
+**Benefits:** Faster delegated execution, better scalability for orchestrator-style agents, and a more robust HITL model when parallel child work triggers multiple approval points.
+
+For more information, see [Agents](../../menus/agents), [Pipelines](../../menus/pipelines), and [Chat Functionality](../../how-tos/chat-conversations/how-to-use-chat-functionality).
+
+### Bare Personality Type
+
+ELITEA now adds a **Bare** personality option for conversations, allowing users to interact with the underlying model without ELITEA-authored personality wrapping while still keeping the technical runtime needed for tools and conversation infrastructure.
+
+**What you can do now:**
+
+* **Choose a rawer conversation mode**: Select **Bare** in personalization and persona controls when you want the model to respond without the usual ELITEA identity and assistant-style wrapper.
+* **Send only your own instructions as prompt guidance**: Use **Bare** so custom instructions pass through directly, instead of being combined with ELITEA-authored personality content.
+* **Benchmark and compare provider-native behavior more easily**: Test how different models respond on their own for prompt engineering, evaluation, compliance review, and migration scenarios.
+* **Keep tooling and conversation mechanics working**: Continue using tool schemas, model parameters, summarization, and conversation plumbing while removing the ELITEA-authored system persona layer.
+* **Preserve existing personality behavior for other modes**: Use **Bare** as an additional option without changing how **Generic**, **QA**, **Nerdy**, **Quirky**, **Cynical**, or **None** behave today.
+
+**Benefits:** Cleaner model benchmarking, less platform bias in prompt testing, and more control for advanced users who need direct instruction-to-model behavior without changing the rest of the conversation infrastructure.
+
+For more information, see [Personalization](../../menus/profile/personalization) and [Chat](../../menus/chat).
+
+### Edit and Re-submit the Last User Message
+
+ELITEA now lets users edit the most recent submitted user message inline and regenerate the corresponding response, making it faster to refine prompts without manually copying, pasting, and sending a new message.
+
+**What you can do now:**
+
+* **Edit the latest user prompt inline**: Use the new **Edit** action on the most recent user message to reopen that message directly in the conversation flow instead of composing a separate retry message.
+* **Save changes and regenerate the latest response**: Update the last prompt and use **Save and apply** to replace the previous latest assistant response with a regenerated one based on the edited input.
+* **Keep the edit flow lightweight and in context**: Work with inline editing, **Cancel**, and **Save and apply** actions directly in the chat area without switching to another page or modal.
+* **Use the same prompt-iteration pattern across experiences**: Apply this last-message edit and regenerate behavior consistently in Chat conversations, Agents, and Pipelines.
+* **Preserve message context more cleanly during iteration**: Refine the latest exchange without rewriting older messages or cluttering the conversation with duplicate near-identical prompts.
+
+**Benefits:** Faster prompt iteration, cleaner conversation history, less friction when fine-tuning the latest request, and a more familiar editing workflow for chat-based AI interactions.
+
+For more information, see [Chat Functionality](../../how-tos/chat-conversations/how-to-use-chat-functionality), [Chat](../../menus/chat), [Agents](../../menus/agents), and [Pipelines](../../menus/pipelines).
+
+### Elitea MCP Tools
+
+ELITEA now adds **Elitea MCP Tools** as a built-in internal tool, allowing agents in conversations to discover and call MCP-exposed agents and toolkit tools directly through ELITEA's own MCP server without requiring a separate external MCP connection.
+
+**What you can do now:**
+
+* **Enable Elitea MCP Tools access inside a conversation or agent**: Turn on **Elitea MCP Tools** from a conversation's Internal Tools menu or save it in an agent configuration for ongoing use.
+* **Call other agents as tools at runtime**: Expose agents tagged with **`mcp`** as callable tools so a coordinator or meta-agent can delegate self-contained tasks dynamically.
+* **Invoke toolkit operations through the same internal MCP flow**: Use toolkit tools individually when the toolkit has **Available via MCP** enabled and the relevant tools are selected.
+* **Reduce setup overhead for multi-agent and tool orchestration**: Let agents discover eligible resources through the built-in MCP server instead of pre-wiring every child agent or toolkit dependency into the configuration.
+* **Use platform-native access without separate credentials**: Rely on the current user session for authentication when using internal MCP-exposed tools.
+
+For more information, see [Elitea MCP Tools](../../how-tos/chat-conversations/agents-&-pipeline-builder), [Chat Functionality](../../how-tos/chat-conversations/how-to-use-chat-functionality).
+
+### Figma Toolkit Adds Design Token Extraction Tools
+
+ELITEA now expands the **Figma toolkit** with dedicated design-token extraction tools for both single-node and multi-node workflows, making it easier to analyze colors, typography, strokes, and effects directly from Figma structures and reuse that output in audits, documentation, and style-guide generation.
+
+**What you can do now:**
+
+* **Extract deduplicated tokens from a single Figma node tree**: Use **`extract_design_tokens`** with a `file_key` and supported `node_id` to collect colors, strokes, typography, and effects from one node and its subtree.
+* **Run bulk token extraction across multiple nodes in one request**: Use **`extract_design_tokens_batch`** to process several Figma nodes together, with optional per-entry depth settings and parallel execution for faster results.
+* **Control extraction depth for targeted or broader analysis**: Fetch node trees at configurable depth levels so you can balance detail and payload size based on the design area you want to inspect.
+* **Work with normalized Figma node identifiers automatically**: Pass node IDs with hyphens or colons and let the toolkit normalize them for API use during extraction.
+
+For more information, see [Figma](../../integrations/toolkits/figma_toolkit).
+
+### Notification Cleanup and Completion Sounds
+
+ELITEA now improves the notification experience by letting users clear unread items more directly from the notifications dropdown and by adding configurable sound alerts for task completion when ELITEA is running in the background.
+
+**What you can do now:**
+
+* **Mark notifications as read from the dropdown**: Clear unread items directly in the notifications panel without opening each notification one by one.
+* **Keep unread indicators more meaningful**: Update notification read state immediately so the unread badge and red-dot indicator reflect what still needs attention.
+* **Review and clear notifications more efficiently**: Use faster unread cleanup in the quick notifications flow while keeping notifications available in the full Notification Center when needed.
+* **Hear when background work finishes**: Enable sound notifications so long-running or background tasks can alert you when they complete, even when you are working elsewhere.
+* **Support multitasking more comfortably**: Stay aware of finished work without constantly watching the ELITEA window, especially during longer-running chat, agent, or pipeline activity.
+
+For more information, see [Notification Center](../../menus/settings/notifications).
+
+### Create New Secrets from Credential Forms
+
+ELITEA now makes secret-backed credential setup faster by letting users start secret creation directly from the credential secret dropdown instead of leaving the form and navigating manually to settings first.
+
+**What you can do now:**
+
+* **Create secrets directly from a credential field**: Use a new **CREATE** section in secret-mode credential dropdowns to start creating a secret without breaking the current credential flow.
+* **Choose the right secret scope more quickly**: Open **New Private Secret** or **New Project Secret** directly from the dropdown, depending on the current project context and permissions.
+* **Open secret creation in a new tab and return to the form**: Launch the Secrets page with a new secret row ready to create, then return to the credential setup flow once the secret is saved.
+* **Refresh saved secrets without reopening the form**: Use the refresh action in the **SAVED SECRETS** section to reload the available secret list and pick the newly created item.
+* **Reduce credential setup context switching**: Stay closer to the credential configuration workflow instead of navigating away just to create a missing secret dependency.
+
+**Benefits:** Faster credential setup, less navigation friction, better secret-creation discoverability, and a more consistent selection flow between credentials and other ELITEA configuration surfaces.
+
+For more information, see [Secrets](../../menus/settings/secrets) and [How to Use Credentials](../../how-tos/credentials-toolkits/how-to-use-credentials).
+
+
+## Changed Features
+
+### Chat Experience Is Redesigned Around the New Conversation Flow
+
+The Chat experience has been reworked to streamline how conversations start, how participants are added and managed, and how the main chat UI behaves during everyday work in both private and team projects.
+
+**What you can do now:**
+
+* **Start conversations from a clearer chat sidebar**: Use a more prominent **New Conversation** entry point.
+* **Add participants from one unified `+` flow**: Open a categorized `+` menu in the input toolbar to add agents, pipelines, toolkits, MCPs, and internal tools from one place instead of using separate participant-entry patterns.
+* **Work with a less cluttered Participants panel**: Use a Participants panel that is collapsed by default and focused on displaying assigned participants rather than serving as a direct-add surface.
+* **Switch more cleanly between models and active participants**: Select an agent or pipeline directly from the conversation flow, and return automatically to the LLM model selector when that active participant is removed.
+* **Get faster and more guided participant setup**: Benefit from lazy-loaded and cached participant lists, redesigned attachment controls, updated microphone placement, and clearer warnings when agents, pipelines, toolkits, or MCPs are misconfigured.
+
+**Benefits:** Faster conversation setup, less UI clutter, more consistent participant management.
+
+For more information, see [Chat](../../menus/chat), [Chat Functionality](../../how-tos/chat-conversations/how-to-use-chat-functionality), [Agents](../../menus/agents), and [Pipelines](../../menus/pipelines).
+
+### Agent HUB Uses Curated Categories Instead of Free-Form Publishing Tags
+
+Agent HUB discovery and publishing are now more structured by moving away from the old free-form published-agent tag experience and toward a curated category model that is easier to browse, filter, and manage.
+
+**What you can do now:**
+
+* **Browse published agents through a curated category bar**: Use predefined category filters such as **Trending**, **My Liked**, and role or domain-based categories instead of navigating a noisy free-form tag cloud.
+* **Filter published agents more consistently**: Find agents through stable category-based discovery that reduces duplicate, misspelled, and low-signal published classifications.
+* **Select a required category during publishing**: Choose a single mandatory category in the publishing flow before continuing, so every published agent is classified more consistently.
+* **Keep uncategorized or fallback content discoverable**: Use the **Other** category path as a safer fallback for agents that do not fit the main curated categories.
+
+**Benefits:** Cleaner agent discovery, more consistent published-agent classification and a simpler browsing experience for end users.
+
+For more information, see [Agent HUB](../../menus/agents-studio) and [Agents](../../menus/agents).
+
+### The Sidebar Create Control Uses a Split-Button Quick Action Pattern
+
+The sidebar **Create** control has been redesigned into a split-button pattern so users can create the most relevant item for the current menu faster while still keeping quick access to other creation targets from the same control.
+
+**What you can do now:**
+
+* **Create the context-relevant item more directly**: Use the primary part of the split button to launch the creation flow that best matches the current menu or working context.
+* **Open a dropdown with other creation options**: Use the secondary part of the control to access a broader list of available entity types from the same sidebar action.
+* **Navigate creation flows more consistently across menus**: Work with one standardized create interaction instead of relying on a single undifferentiated button behavior everywhere.
+* **Discover additional entity creation paths more easily**: Reach conversations, agents, pipelines, credentials, secrets, toolkits, and other supported creation flows from one clearer entry point.
+
+**Benefits:** Faster access to common create actions, better discoverability of available entity types.
+
+For more information, see [Overview](../../menus/overview), [Chat](../../menus/chat), [Agents](../../menus/agents), [Pipelines](../../menus/pipelines), and [Credentials](../../menus/credentials).
+
+### Langfuse Tracing Provides Clearer Project and Agent Context
+
+The Langfuse integration has been improved to make ELITEA traces easier to identify and separate, especially when multiple projects or agents are sending observability data into the same Langfuse workspace.
+
+**What you can do now:**
+
+* **Distinguish traces by ELITEA project more clearly**: Use project-based Langfuse environment tagging instead of relying only on the shared runtime environment label.
+* **See more meaningful trace names**: Identify traces by the actual agent or application name, with version context, instead of seeing a generic fallback such as `agent`.
+* **Work with richer trace-level observability data**: Capture more useful top-level Langfuse trace metadata for better debugging and evaluation workflows where the integration path supports it.
+* **Filter shared Langfuse projects more effectively**: Send multiple ELITEA projects into the same Langfuse project with clearer separation for analysis and troubleshooting.
+
+**Benefits:** Better Langfuse trace readability, clearer separation between ELITEA projects, stronger observability for agent executions, and easier debugging when multiple agents or environments share the same tracing destination.
+
+For more information, see [Langfuse](../../integrations/third-party-integrations/langfuse).
+
+### Several ELITEA Labels Are Renamed for Clearer Navigation
+
+Several product labels have been updated across the interface to better match what each area actually does, making navigation and configuration flows easier to understand for both new and existing users.
+
+**What you can do now:**
+
+* **Use Help Center instead of Resources**: Find documentation, release notes, tutorials, and related learning materials under the clearer **Help Center** name across the main app and admin-facing references.
+* **Use Agent HUB instead of Agent HUB**: Browse published community agents under a name that emphasizes discovery and reuse instead of suggesting a creation workspace.
+* **Work with a broader TOOLS section in agent and pipeline pages**: See the old **TOOLKITS** section renamed to **TOOLS**, which better reflects that the area includes toolkits, MCPs, agents, and pipelines.
+* **Use Configurations instead of Integrations in AI Configuration**: Manage model and service setup under **Configurations**, which more accurately describes LLM, embedding, speech, image, and vector-store configuration pages.
+
+**Benefits:** Clearer product terminology, less confusion between discovery and creation surfaces, and more intuitive settings language.
+
+### API v1 Endpoints Are Deprecated in Favor of API v2
+
+ELITEA now deprecates the remaining **v1 API** endpoints and standardizes platform API usage on **v2**, with v2-supported equivalents available for every endpoint that was previously served through v1.
+
+**What you can do now:**
+
+* **Use v2 endpoints for all supported platform API operations**: Move any remaining integrations, scripts, or client calls from `/api/v1/...` paths to the corresponding `/api/v2/...` routes.
+* **Rely on v2 for complete endpoint coverage**: Use the v2 API as the current supported surface now that the remaining v1 endpoints have v2-supported counterparts.
+* **Update API references and client examples more consistently**: Standardize internal and external documentation, automation, and custom integrations around the v2 route structure.
+* **Validate available operations through the current API contract**: Review the latest endpoint definitions and request schemas in the shared Swagger documentation.
+
+**Benefits:** Clearer API versioning, less ambiguity for integrations, and a single supported API surface for ongoing client and documentation work.
+
+For more information, see [Swagger API Documentation](https://next.elitea.ai/shared/swagger/#/).
+
+### SharePoint Toolkit Moves Away from Azure ACS Credentials
+
+ELITEA now aligns SharePoint toolkit guidance with Microsoft's retirement of **Azure ACS (Access Control Services)** for SharePoint Online. Azure ACS for SharePoint Online was retired on 27-Nov-2023 and will stop working on 02-Apr-2026, while Azure ACS outside SharePoint was already retired on 07-Nov-2018 and is now end-of-life.
+
+**What you can do now:**
+
+* **Move away from Azure ACS-based SharePoint authentication**: Do not rely on legacy Azure ACS credential patterns for SharePoint Online integrations that need to remain operational after 02-Apr-2026.
+* **Use Delegated SharePoint credentials instead**: Configure SharePoint credentials with the **Delegated** option for ongoing SharePoint toolkit access and usage.
+* **Plan migrations with the right support expectations**: Treat **retirement** as a state where the feature receives no new investment but is still supported, and **end-of-life** as a state where the feature is discontinued and no longer available for use.
+* **Review Microsoft's retirement details directly**: Use the official Azure ACS retirement announcement when validating migration scope, timing, and impact for your SharePoint Online integrations.
+
+**Benefits:** Lower risk of SharePoint toolkit authentication failures after the Azure ACS shutdown date, clearer credential guidance, and a more supportable authentication path for SharePoint Online access.
+
+For more information, see [SharePoint Toolkit](../../integrations/toolkits/sharepoint_toolkit), [How to Use Credentials](../../how-tos/credentials-toolkits/how-to-use-credentials), and the [Azure ACS retirement announcement](https://aka.ms/retirement/acs/support).
+
+### qTest Search and API Calls Are More Efficient and Safer by Default
+
+The qTest integration now behaves more predictably under heavier workloads by reducing unnecessary payload size in DQL searches and by adding timeout protection to outbound API requests.
+
+**What you can do now:**
+
+* **Run lighter qTest DQL searches by default**: Avoid automatically pulling full test steps and external properties on every `search_by_dql` call when that extra data is not needed.
+* **Opt in to heavy qTest response data only when required**: Request test steps or external properties explicitly for workflows that truly need the fuller payload.
+* **Reduce unnecessary response size and latency**: Work with smaller default qTest search payloads for standard list and lookup scenarios.
+* **Get clearer failure behavior when qTest is slow or unavailable**: Surface timeout-related failures in a more controlled way instead of leaving requests stuck without recovery.
+
+For more information, see [qTest](../../integrations/toolkits/qtest_toolkit).
+
+### Confluence Page Reads Support More Flexible Content Formats
+
+The Confluence integration is now more flexible when reading pages by ID by allowing user to control which page body format is requested instead of always relying on a single hardcoded rendering mode.
+
+**What you can do now:**
+
+* **Choose how Confluence page content is expanded**: Pass a configurable content format when using the page-read flow instead of being limited to one fixed body representation.
+* **Keep the previous default when no override is needed**: Continue using the existing default behavior when no custom format is specified.
+* **Work with pages that use structured macros more reliably**: Request alternative body formats such as storage-oriented or export-oriented representations when the default rendered view does not expose the needed content well.
+* **Adapt page reads to different downstream use cases**: Select the most useful page-content format for parsing, display, or follow-up processing depending on the Confluence content structure.
+* **Improve compatibility across more Confluence page types**: Handle macro-heavy or specially structured pages with more control over how ELITEA retrieves the page body.
+
+**Benefits:** Better Confluence content compatibility, more reliable access to structured page data, and greater control when reading pages that do not render correctly through a single default format.
+
+For more information, see [Confluence Toolkit](../../integrations/toolkits/confluence_toolkit).
+
+
+## Fixed Issues
+
+* [#5462](https://github.com/EliteaAI/elitea_issues/issues/5462) **Personalization default context management now persists and applies to new conversations**: The personalization toggle now saves correctly, and newly created conversations inherit the expected default context-management state.
+* [#5354](https://github.com/EliteaAI/elitea_issues/issues/5354) **Imported toolkits with missing embedding models can now be corrected and saved**: Replacing an unavailable embedding model now clears the invalid state and re-enables saving.
+* [#5346](https://github.com/EliteaAI/elitea_issues/issues/5346) **qTest create_test_cases and get_modules now handle 404 responses more safely**: These tools no longer fail in the same way when qTest field-definition or module endpoints return not found responses.
+* [#5293](https://github.com/EliteaAI/elitea_issues/issues/5293) **Agents no longer get stuck repeatedly re-prompting for MCP authorization after refusal**: MCP authorization refusals now flow back more intelligently so the agent can adapt instead of looping on the same prompt.
+* [#5249](https://github.com/EliteaAI/elitea_issues/issues/5249) **Preconfigured remote MCP authentication now persists after the first successful sign-in**: Remote MCP participants no longer prompt for authentication on every use in the same session.
+* [#5240](https://github.com/EliteaAI/elitea_issues/issues/5240) **Historical analytics no longer change retroactively when project membership changes**: Past user counts and activity metrics now stay aligned with the reporting period in which the activity actually happened.
+* [#5183](https://github.com/EliteaAI/elitea_issues/issues/5183) **Agents and pipelines now show clearer warnings for invalid credentials**: User-facing validation messages now replace the previous raw technical error output.
+* [#5151](https://github.com/EliteaAI/elitea_issues/issues/5151) **Multiple tags now save correctly on existing agents and pipelines**: Updating an entity with several new tags no longer drops all but the first tag or requires a reload to continue editing.
+* [#5081](https://github.com/EliteaAI/elitea_issues/issues/5081) **Scheduled and webhook pipeline run history now preserves the correct message order**: Human and assistant messages render in deterministic chronological order instead of appearing reversed.
+* [#5031](https://github.com/EliteaAI/elitea_issues/issues/5031) **GitHub file tools now fall back to the configured active branch when Branch is left empty**: `read_multiple_files` and `grep_file` no longer pass `None` instead of the toolkit’s active branch.
+* [#4384](https://github.com/EliteaAI/elitea_issues/issues/4384) **Swarm Mode can keep stale context when a nested agent is attached**: Some nested-agent setups may not refresh context as expected.
+* [#4327](https://github.com/EliteaAI/elitea_issues/issues/4327) **SharePoint upload_file now works more reliably with EPAM App-Only permissions**: File uploads can proceed through a safer REST-first path instead of failing the same way on the Graph-only route.
+* [#3491](https://github.com/EliteaAI/elitea_issues/issues/3491) **Chat now supports adding participants before the first message is sent**: New conversations can be configured with participants earlier as part of the redesigned chat flow.
+* [#3347](https://github.com/EliteaAI/elitea_issues/issues/3347) **Deprecated Pipeline Node Fails When Calling a Nested Pipeline**: Executions can error when using the deprecated **Pipeline** node to invoke a nested pipeline.
+* [#3341](https://github.com/EliteaAI/elitea_issues/issues/3341) **Index tool instances can remain stuck in `In progress` after stopping execution**: When an indexing run is stopped from chat, an agent, or a pipeline, the related Toolkit Index entry can remain stuck in `In progress` instead of moving to a final stopped state.
+
+
+## Known Issues
+
+* [#5643](https://github.com/EliteaAI/elitea_issues/issues/5643) **Nested agents with remote MCPs may not trigger the expected authorization request**: When an agent with a remote MCP is nested inside another agent or pipeline, the MCP authorization flow may fail to appear and the MCP tools may not be detected correctly.
+* [#5638](https://github.com/EliteaAI/elitea_issues/issues/5638) **SharePoint toolkits in agent chat do not yet support a smart OAuth authentication flow**: Users may still need static pre-configuration because runtime OAuth prompting is not available there in the same way as for remote MCPs.
+* [#5391](https://github.com/EliteaAI/elitea_issues/issues/5391) **Langfuse traces can miss the final executed pipeline or agent node**: The last executed step may be absent from the Langfuse trace even when ELITEA run details show the full execution sequence.
+* [#5390](https://github.com/EliteaAI/elitea_issues/issues/5390) **Langfuse pipeline traces can still have empty top-level input and output fields**: Child spans may be present while trace-level `input` and `output` remain empty, which limits Langfuse evaluation workflows.
+* [#5267](https://github.com/EliteaAI/elitea_issues/issues/5267) **Elitea MCP Tools may be unavailable when an agent is invoked as a sub-agent**: Agents that expose Elitea MCP Tools can lose those MCP tools when called from an orchestrator or other parent-agent flow.
+* [#3151](https://github.com/EliteaAI/elitea_issues/issues/3151) **PPT Files Fail to Read or Index from Artifacts or SharePoint**: Reading or indexing PowerPoint files can raise errors instead of completing successfully or returning a clear “format not supported” message.
+* [#2719](https://github.com/EliteaAI/elitea_issues/issues/2719) **MCP Client Disconnects on macOS**: MCP client disconnects from platform despite tray showing "connected" on macOS; logs show "packet queue is empty" errors and repeated disconnect/reconnect cycles.
+* [#1567](https://github.com/EliteaAI/elitea_issues/issues/1567) **MCP Only Executes Latest Version**: MCP-tagged resources execute the latest version regardless of which version has the MCP tag; only the latest version is accessible via MCP.

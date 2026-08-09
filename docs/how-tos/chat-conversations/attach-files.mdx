@@ -1,5 +1,5 @@
 ---
-title: "Attach Files in Conversations"
+title: "Attach Files"
 sidebarTitle: "Attach Files"
 description: "Upload files and images to conversations for analysis, search, and multimodal chat workflows."
 ---
@@ -51,11 +51,11 @@ Configure attachment capabilities at the Agent level to enable file uploads in a
 
 1. Navigate to **Agents** from the main menu
 2. Select the agent to configure
-3. On the **Configuration** tab, locate the **Allow attachments** toggle in the INTERNAL TOOLS section (disabled by default)
+3. On the **Configuration** tab, locate the **Allow attachments** toggle in **Modules** (disabled by default)
 4. Click the toggle to enable attachments
 5. Save the agent
 
-**Result:** The `Attachments` internal tool is added to the agent. The backend automatically provisions storage using the default `attachments` bucket — no additional toolkit configuration is required. When using this agent in a conversation, **Attach Files** becomes available in the **`+`** menu of the message input area.
+**Result:** The `Attachments` module is added to the agent. The backend automatically provisions storage using the default `attachments` bucket — no additional toolkit configuration is required. When using this agent in a conversation, **Attach Files** becomes available in the **`+`** menu of the message input area.
 
 ![Enable Attachments on Agent](../../img/how-tos/chat-conversations/attachments/enable-attachment-agent.gif)
 
@@ -122,6 +122,20 @@ The Send button remains disabled until you enter text. A text prompt provides co
 </Info>
 
 ### Manage Attachments in Chat
+
+### Edit the Last Message with Attachments
+
+When you edit your last chat message, existing attachments remain visible and are not lost automatically.
+
+**While editing the last message, you can:**
+
+- Keep the existing attached files as they are
+- Remove any existing attachment if you no longer want to send it
+- Add a new attachment using the **attach** icon on the left side of the editor
+
+<Info title="Editing Preserves Attachments">
+Entering message edit mode does not remove previously attached files. Existing attachments stay visible until you explicitly remove them.
+</Info>
 
 **View Attachments**
 
@@ -350,7 +364,7 @@ Duplicate filenames are handled automatically. The system renames the new file b
 </Accordion>
 
 <Accordion title="Can I use attachments in Pipeline conversations?">
-Yes. Pipelines support the **Allow attachments** toggle in their INTERNAL TOOLS section. When enabled, the toggle adds `attachments` to the pipeline's internal tools and also adds an `input_attachments` state variable to the pipeline YAML. Once enabled, the paperclip icon becomes active when using that pipeline in a conversation.
+Yes. Pipelines have the **Allow attachments** toggle in **Modules**. When enabled, the toggle adds `attachments` to the pipeline's modules and also adds an `input_attachments` state variable to the pipeline YAML. Once enabled, the paperclip icon becomes active when using that pipeline in a conversation.
 </Accordion>
 
 ---
@@ -453,7 +467,7 @@ Yes. Pipelines support the **Allow attachments** toggle in their INTERNAL TOOLS 
 <Info title="Related Documentation">
 For more information about related features and configurations:
 
-- **[Data Analysis Internal Tool](./data-analysis-internal-tool)** - Analyze CSV and data files with Pandas capabilities
+- **[Data Analysis](./data-analysis-internal-tool)** - Analyze CSV and data files with Pandas capabilities
 - **[Artifacts Menu](../../menus/artifacts)** - Manage buckets, retention policies, and file storage
 - **[Agent Configuration](../../menus/agents)** - Configure agents with attachment support
 - **[Chat Functionality](./how-to-use-chat-functionality)** - General chat features and usage

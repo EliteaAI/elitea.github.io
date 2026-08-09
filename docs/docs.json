@@ -107,23 +107,33 @@
                 "expanded": false,
                 "pages": [
                   "menus/settings/settings-overview",
-                  "menus/settings/ai-configuration",
-                  "menus/settings/project-context",
-                  "menus/settings/personal-tokens",
-                  "menus/settings/secrets",
-                  "menus/settings/users",
-                  "menus/settings/analytics"
+                  {
+                    "group": "Project Settings",
+                    "pages": [
+                      "menus/settings/general",
+                      "menus/settings/ai-providers",
+                      "menus/settings/project-context",
+                      "menus/settings/secrets",
+                      "menus/settings/users",
+                      "menus/settings/analytics",
+                      "menus/settings/usage"
+                    ]
+                  },
+                  {
+                    "group": "Personal Settings",
+                    "pages": [
+                      "menus/settings/user-profile",
+                      "menus/settings/preferences",
+                      "menus/settings/ai-personality",
+                      "menus/settings/memory",
+                      "menus/settings/personal-tokens",
+                      "menus/settings/notifications"
+                    ]
+                  }
                 ]
               },
               "menus/resources",
-              "menus/notification-center",
-              "menus/support-assistant",
-              {
-                "group": "Profile",
-                "icon": "user",
-                "expanded": false,
-                "pages": ["menus/profile/personalization"]
-              }
+              "menus/support-assistant"
             ]
           }
         ]
@@ -184,12 +194,12 @@
                 ]
               },
               {
-                "group": "Internal Tools",
+                "group": "Modules",
                 "expanded": false,
                 "pages": [
                   "how-tos/chat-conversations/image-generation",
                   "how-tos/chat-conversations/data-analysis-internal-tool",
-                  "how-tos/chat-conversations/elitea-mcp-tools-internal-tool",
+                  "how-tos/chat-conversations/agents-&-pipeline-builder",
                   "how-tos/chat-conversations/planner-internal-tool",
                   "how-tos/chat-conversations/python-sandbox-internal-tool",
                   "how-tos/chat-conversations/swarm-mode-internal-tool",
@@ -213,7 +223,7 @@
             "icon": "database",
             "pages": [
               {
-                "group": "Start Here",
+                "group": "Start with Indexing",
                 "expanded": true,
                 "pages": [
                   "how-tos/indexing/indexing-overview",
@@ -222,7 +232,7 @@
                 ]
               },
               {
-                "group": "Manage & Query Indexes",
+                "group": "Manage Indexes",
                 "expanded": false,
                 "pages": ["how-tos/indexing/schedule-indexing", "how-tos/indexing/vector_search"]
               },
@@ -260,11 +270,11 @@
             ]
           },
           {
-            "group": "Agents & Pipelines",
+            "group": "Agents, Pipelines & Skills",
             "icon": "robot",
             "pages": [
               {
-                "group": "Manage Agents & Pipelines",
+                "group": "Manage Agents, Pipelines & Skills",
                 "expanded": true,
                 "pages": [
                   "how-tos/agents-pipelines/build-agent-with-ai",
@@ -272,7 +282,8 @@
                   "how-tos/agents-pipelines/entity-versioning",
                   "how-tos/agents-pipelines/import-export",
                   "how-tos/agents-pipelines/forking",
-                  "how-tos/agents-pipelines/agent-publishing"
+                  "how-tos/agents-pipelines/agent-publishing",
+                  "how-tos/agents-pipelines/skill-publishing"
                 ]
               },
               {
@@ -282,33 +293,33 @@
                   "how-tos/pipelines/overview",
                   "how-tos/pipelines/flow-editor",
                   "how-tos/pipelines/yaml",
-                  "how-tos/pipelines/ai-assistant-in-nodes"
-                ]
-              },
-              {
-                "group": "Pipeline Structure & Components",
-                "expanded": false,
-                "pages": [
-                  "how-tos/pipelines/states",
-                  "how-tos/pipelines/entry-point",
-                  "how-tos/pipelines/nodes-connectors",
+                  "how-tos/pipelines/ai-assistant-in-nodes",
                   {
-                    "group": "Nodes",
+                    "group": "Runs & Reference",
+                    "expanded": false,
+                    "pages": ["how-tos/pipelines/pipeline-runs", "how-tos/pipelines/appendix-comparison-tables"]
+                  },
+                  {
+                    "group": "Pipeline Structure & Components",
                     "expanded": false,
                     "pages": [
-                      "how-tos/pipelines/nodes/overview",
-                      "how-tos/pipelines/nodes/interaction-nodes",
-                      "how-tos/pipelines/nodes/execution-nodes",
-                      "how-tos/pipelines/nodes/control-flow-nodes",
-                      "how-tos/pipelines/nodes/utility-nodes"
+                      "how-tos/pipelines/states",
+                      "how-tos/pipelines/entry-point",
+                      "how-tos/pipelines/nodes-connectors",
+                      {
+                        "group": "Nodes",
+                        "expanded": false,
+                        "pages": [
+                          "how-tos/pipelines/nodes/overview",
+                          "how-tos/pipelines/nodes/interaction-nodes",
+                          "how-tos/pipelines/nodes/execution-nodes",
+                          "how-tos/pipelines/nodes/control-flow-nodes",
+                          "how-tos/pipelines/nodes/utility-nodes"
+                        ]
+                      }
                     ]
                   }
                 ]
-              },
-              {
-                "group": "Runs & Reference",
-                "expanded": false,
-                "pages": ["how-tos/pipelines/pipeline-runs", "how-tos/pipelines/appendix-comparison-tables"]
               }
             ]
           },
@@ -371,6 +382,13 @@
                 ]
               },
               {
+                "group": "Use Elitea in Claude Code",
+                "expanded": true,
+                "pages": [
+                  "integrations/mcp/use-elitea-in-claude-code"
+                ]
+              },
+              {
                 "group": "Connect External Tools to ELITEA",
                 "expanded": true,
                 "pages": [
@@ -428,7 +446,8 @@
                 "pages": [
                   "integrations/toolkits/ado_boards_toolkit",
                   "integrations/toolkits/jira_toolkit",
-                  "integrations/toolkits/rally_toolkit"
+                  "integrations/toolkits/rally_toolkit",
+                  "integrations/toolkits/aha_toolkit"
                 ]
               },
               {
@@ -497,15 +516,14 @@
           {
             "group": "Latest Release",
             "icon": "tag",
-            "pages": ["release-notes/rn-2-0-4"]
+            "pages": ["release-notes/rn-2-0-5"]
           },
           {
             "group": "Recent Releases",
             "icon": "clock-rotate-left",
             "pages": [
-              "release-notes/archived/rn-2-0-3",
-              "release-notes/archived/rn-2-0-2",
-              "release-notes/archived/rn-2-0-1"
+              "release-notes/archived/rn-2-0-4",
+              "release-notes/archived/rn-2-0-3"
             ]
           },
           {
@@ -513,6 +531,8 @@
             "icon": "archive",
             "expanded": false,
             "pages": [
+              "release-notes/archived/rn-2-0-2",
+              "release-notes/archived/rn-2-0-1",
               "release-notes/archived/rn-2-0-0",
               "release-notes/archived/rn-2-0-0-b2",
               "release-notes/archived/rn-2-0-0-beta",
@@ -591,20 +611,20 @@
             "icon": "box-archive",
             "tag": "Legacy",
             "expanded": false,
-            "pages":[
-                "archive/agents-examples",
-                "archive/browser_toolkit",
-                "archive/pandas_toolkit",
-                "archive/ado_wiki_plan_board_toolkit",
-                "archive/monitoring",
-                "archive/manage-users-and-roles",
-                "archive/prompt-magic-assistant",
-                "archive/alita-dial",
-                "archive/pipeline-agent-framework",
-                "how-tos/pipelines/nodes/iteration-nodes",
-                "archive/mcp-server-stdio",
-                "archive/mcp-client"
-             ]
+            "pages": [
+              "archive/agents-examples",
+              "archive/browser_toolkit",
+              "archive/pandas_toolkit",
+              "archive/ado_wiki_plan_board_toolkit",
+              "archive/monitoring",
+              "archive/manage-users-and-roles",
+              "archive/prompt-magic-assistant",
+              "archive/alita-dial",
+              "archive/pipeline-agent-framework",
+              "how-tos/pipelines/nodes/iteration-nodes",
+              "archive/mcp-server-stdio",
+              "archive/mcp-client"
+            ]
           }
         ]
       }

@@ -1,437 +1,326 @@
 ---
-title: "Toolkits"
-description: "The Toolkits menu in the ELITEA platform provides a centralized interface for managing and configuring integrations that power your AI agents. Toolkits extend t"
+title: "Toolkits & Indexes"
+description: "The Toolkits menu in the ELITEA platform provides a centralized interface for managing and configuring integrations that power your AI agents. Toolkits extend the capabilities of agents by connecting them to external platforms and internal services."
 ---
 
-## Introduction to the Toolkits Menu
+## Introduction to Toolkits
 
----
-
-## What Are Toolkits?
-
-**Toolkits** in ELITEA are modular integrations that connect your agents to external platforms and internal services. Each toolkit provides an interface for configuring connection parameters (like API keys, URLs, or credentials) and setting options specific to the target service. Once configured, toolkits can be assigned to agents, empowering them to automate tasks across different systems and domains.
+**Toolkits** in ELITEA are modular integrations that connect your agents to external platforms and internal services. Each toolkit provides an interface for configuring connection parameters (such as API keys, URLs, or credentials) and setting options specific to the target service. Once configured, toolkits can be assigned to agents, empowering them to automate tasks across different systems and domains.
 
 ---
 
-## Navigating the Toolkits Menu
+## Navigate the Toolkits & Indexes Menu
 
-The Toolkits menu is accessible from the main platform navigation. Upon entering the Toolkits section, you'll see a dashboard listing all available toolkits, along with their configuration status.
+The **Toolkits & Indexes** menu is accessible from the main platform navigation. Upon entering this section, you will see a dashboard listing all available toolkits along with their configuration status.
 
-![Toolkits-Menu_Interface](../img/menus/toolkits/toolkits-menu-access.gif)
+![Toolkits menu interface](../img/menus/toolkits/toolkits-menu-access.png)
 
+**Main elements:**
 
-**Main Elements:**
-
-* **Toolkit Cards:** Each card provides a brief description, current status, and toolkit type.
-* **Search and Filter:** Quickly locate a toolkit using the search bar or filter by type.
-* **Create Toolkit Button:** Use the `+ Create` button to add a new integration or configure an existing one.
-
-### Toolkits Dashboard
-
-The Toolkits dashboard provides multiple ways to view and manage your toolkits:
-
-**View Options**
-
-* **Card View** - Visual cards displaying toolkit name, type, and key information. Ideal for browsing and quick identification.
-* **Table View** - Organized list format with columns for detailed toolkit information. Better for managing large numbers of toolkits.
-
-Switch between views using the view toggle button in the top-right corner of the dashboard.
-
-![Toolkits-Menu_Interface](../img/menus/toolkits/toolkits-view.gif)
-
-**Search and Filter**
-
-* **Search Bar** - Quickly find toolkits by typing the toolkit name or related keywords
-* **Filter by Type** - Filter toolkits by their type/category (e.g., show only GitHub, Jira, or Slack toolkits). Select one or multiple types to narrow down the list.
-
-![Toolkits-Menu_Interface](../img/menus/toolkits/toolkits-filter.gif)
-
-
-**Pinning Toolkits**
-
-Pin frequently used toolkits to keep them at the top of your list for quick access:
-
-1. Locate the toolkit you want to pin
-2. Click the pin icon (📌) on the toolkit card or in the table row
-3. Pinned toolkits will appear at the top of the list, separated from unpinned ones
-4. Click the pin icon again to unpin the toolkit
-
-<img src="../img/menus/toolkits/toolkits-pin.gif" alt="Toolkits-Menu_Interface" />
-
+- **Toolkit cards:** Each card provides a brief description, current status, and toolkit type.
+- **Search and filter:** Locate a toolkit using the search bar or filter by type.
+- **Create Toolkit button:** Use the **+ Create** button to add a new integration or configure an existing one.
+- **View toggle:** Switch between **Card List View** and **Table View** using the toggle in the top-right corner.
+- **Pinning:** Pin frequently used toolkits to keep them at the top of the list.
 
 ---
 
-## Creating a New Toolkit
+## Create a New Toolkit
 
-You can add new integrations to the platform by creating a new toolkit through the Toolkits menu.
+Add new integrations to the platform by creating a new toolkit through the Toolkits menu.
 
-**How to Create a New Toolkit
+### Start Toolkit Creation
 
-Follow these steps to add a new integration to the platform:
+- **From the Toolkits & Indexes page:** Select the **+ Toolkit** button at the top of the page.
+- **From any page:** Open the global **Create** dropdown in the navigation bar and select **Toolkit**.
 
-1. **Open the Toolkits Menu:** Go to the Toolkits section from the main navigation bar.
-2. **Click `+ Create`:** Find the `+ Create` button at the top right of the sidebar.
-
-<img src="../img/menus/toolkits/toolkits-create.gif" alt="Toolkits-Create" />
+<img src="../img/menus/toolkits/toolkits-create.png" alt="Toolkit creation entry points." />
 
 <Info title="Note">
-Only users with the necessary permissions can create or configure toolkits. If the `+ Create` button is disabled, contact your platform administrator.
+Only users with the necessary permissions can create or configure toolkits. If the **+ Create** button is disabled, contact your platform administrator.
 </Info>
 
-**Selecting a Toolkit Type**
+### Select a Toolkit Type
 
-Choose the desired toolkit type from the categorized list. The toolkit types are organized by category to help you quickly find the integration you need. You can also use the search bar to quickly locate a specific toolkit type by name.
+Choose the desired toolkit type from the categorized list. Toolkit types are organized by category to help you find the integration you need. Use the search bar to locate a specific toolkit type by name.
 
-<img src="../img/menus/toolkits/toolkits-select.gif" alt="Toolkits Select" />
+<img src="../img/menus/toolkits/toolkits-select-type.png" alt="Toolkit type selection dialog." width="550" />
 
-### Configuring Toolkit Details
+### Configure Toolkit Details
 
-Once you've selected a toolkit type, you'll need to configure the following fields:
+Once you have selected a toolkit type, configure the following fields:
 
-**Main Configuration Fields:**
+**Main configuration fields:**
 
-* **Toolkit Name** - A clear, descriptive name for your toolkit
-* **Description** - A brief description to clarify the toolkit's purpose and usage
-* **Credentials Configuration** - (varies by toolkit type) Select or create credentials for the integration
-    * For toolkits that require credentials (e.g., Jira, GitHub), open the Credentials dropdown and either create new credentials or select an existing one
-    * For toolkits without credential requirements (e.g., Artifact), configuration fields will be shown directly on the create toolkit page
-* **PgVector Configuration** - Select or configure a PgVector connection to enable vector storage capabilities for document indexing and similarity search
-* **Embedding Model** - Select an appropriate embedding model configuration to enable text processing and semantic search features
-* **Parameters** - (varies by toolkit type) Additional integration-specific parameters such as:
-    * URLs and endpoints
-    * Project identifiers
-    * Custom configuration options
-* **TOOLS** - Select which specific tools and actions to enable for this toolkit
-    * Review available tools carefully and enable only those needed for your use case
-    * Enabling only necessary tools improves security (principle of least privilege) and optimizes performance
-    * **[Make Tools Available by MCP](../integrations/mcp/make-tools-available-by-mcp)** - (optional checkbox) Enable this option to make the selected tools accessible through the external MCP clients to use the toolkit's capabilities
+| Field | Description |
+|---|---|
+| **Toolkit Name** | A clear, descriptive name for your toolkit. |
+| **Description** | A brief description to clarify the toolkit's purpose and usage. |
+| **Credentials Configuration** | Varies by toolkit type. Select or create credentials for the integration. For toolkits that require credentials, such as Jira or GitHub, open the **Credentials** dropdown and either create new credentials or select an existing one. For toolkits without credential requirements, such as Artifact, configuration fields are shown directly on the create toolkit page. |
+| **PgVector Configuration** | Select or configure a PgVector connection to turn on vector storage capabilities for document indexing and similarity search. |
+| **Embedding Model** | Select an appropriate embedding model configuration to turn on text processing and semantic search features. |
+| **Parameters** | Varies by toolkit type. Additional integration-specific parameters can include URLs and endpoints, project identifiers, and custom configuration options. |
+| **Tools** | Select which specific tools and actions to turn on for this toolkit. Review available tools carefully and turn on only those needed for your use case. Turning on only necessary tools improves security and optimizes performance. **[Make Tools Available by MCP](../integrations/mcp/make-tools-available-by-mcp)** is an optional checkbox that makes the selected tools accessible through external MCP clients. |
 
-<img src="../img/menus/toolkits/toolkits-config.png" alt="Toolkits-Create" />
+<img src="../img/menus/toolkits/toolkits-config.png" alt="Toolkit configuration form." width="650" />
 
-<Info title="Raw JSON Editing">
-Advanced users can switch to **Raw JSON** mode to directly edit the toolkit configuration as JSON. This provides more flexibility for complex configurations and bulk data entry. Toggle between the form view and Raw JSON view using the interface switch.
+<Info title="Raw JSON editing">
+Advanced users can switch to **Raw JSON** mode to directly edit the toolkit configuration as JSON. This provides more flexibility for complex configurations and bulk data entry. Toggle between the form view and **Raw JSON** view using the interface switch.
 
-<img src="../img/menus/toolkits/toolkits-row-json.gif" alt="Select a Model" width="350" />
+<img src="../img/menus/toolkits/raw-json.png" alt="Switching to Raw JSON mode." />
 </Info>
 
-<Tip title="Vector Search Tools">
-The tools **Index data**, **List collections**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These enable advanced semantic search capabilities across your artifact files. For setup instructions, see [AI Configuration](./settings/ai-configuration).
+<Tip title="Vector search tools">
+The tools **Index data**, **List collections**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These turn on advanced semantic search capabilities across your artifact files. For setup instructions, see [AI Configuration](./settings/ai-configuration).
 </Tip>
 
-**Saving Your Toolkit**
+### Save Your Toolkit
 
-Click **Save** (top right) to create the toolkit. It will now appear in your toolkits dashboard, where you can access its detailed configuration page to modify settings or adjust tool selection as needed.
+Select **Save** (top right) to create the toolkit. It will appear in your toolkits dashboard, where you can access its detailed configuration page to modify settings or adjust tool selection as needed.
 
-<img src="../img/menus/toolkits/toolkits-save.gif" alt="Toolkits-Create" />
+<video src="../img/menus/toolkits/toolkit-create-full.mp4" alt="Full toolkit creation walkthrough." width="650" controls />
 
-<Tip title="Tool Selection">
-You can modify tool selection at any time by visiting the toolkit's detailed configuration page. This allows you to add or remove tools as your requirements evolve.
+<Tip title="Tool selection">
+Modify tool selection at any time by visiting the toolkit's detailed configuration page. This allows you to add or remove tools as your requirements evolve.
 </Tip>
 
 ---
 
 ## Toolkit Categories & Descriptions
 
-The platform supports a wide range of toolkits, organized by category. Below is the latest list of categories and available toolkits. 
+The platform supports a wide range of toolkits, organized by category. This table lists the available categories and toolkit types.
 
-| **Category**                    | **Toolkit Type**                                                                  | **Description**                                      |
-|---------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------|
-| **Code Repositories**           | [ADO Repos](../integrations/toolkits/ado_repos_toolkit)                       | Azure DevOps repositories                            |
-|                                 | [Bitbucket](../integrations/toolkits/bitbucket_toolkit)                       | Bitbucket code repositories                          |
-|                                 | [GitHub](../integrations/toolkits/github_toolkit)                             | GitHub code repositories                             |
-|                                 | [GitLab](../integrations/toolkits/gitlab_toolkit)                             | GitLab code repositories                             |
-|                                 | [GitLab Org](../integrations/toolkits/gitlab_org_toolkit)                     | GitLab organization-level integration                |
-| **Communication**               | [Slack](../integrations/toolkits/slack_toolkit)                               | Slack team messaging and collaboration               |
-| **Development**                 | [Sonar](../integrations/toolkits/sonar_toolkit)                               | SonarQube code quality and security analysis         |
-|                                 | [SQL](../integrations/toolkits/sql_toolkit)                                   | SQL database integration and querying                |
-| **Documentation**               | [ADO Wiki](../integrations/toolkits/ado_wiki_toolkit)              | Azure DevOps wiki and documentation                  |
-|                                 | [Confluence](../integrations/toolkits/confluence_toolkit)                      | Confluence wiki and knowledge management             |
-| **Integrations**                | [OpenAPI](../integrations/toolkits/openapi_toolkit)                           | OpenAPI specification integration                    |
-| **Office**                      | [PPTX](../integrations/toolkits/powerpoint_toolkit)                           | PowerPoint presentation creation and editing         |
-|                                 | [SharePoint](../integrations/toolkits/sharepoint_toolkit)                     | SharePoint document management and collaboration     |
-| **Other**                       | [Artifact](../integrations/toolkits/artifact_toolkit)                         | Artifact file storage and management                 |
-|                                 | [Custom](../integrations/toolkits/custom_toolkit)                             | Custom toolkit integration                           |
-|                                 | [Figma](../integrations/toolkits/figma_toolkit)                               | Figma design collaboration and prototyping           |
-|                                 | [Google Places](../integrations/toolkits/google_places_toolkit)               | Google Places location services and information      |
-|                                 | [Memory](../integrations/toolkits/memory_toolkit)                             | Memory storage and retrieval capabilities            |
-|                                 | [Postman](../integrations/toolkits/postman_toolkit)                           | Postman API development and testing                  |
-|                                 | [Salesforce](../integrations/toolkits/salesforce_toolkit)                     | Salesforce CRM integration                           |
-|                                 | [ServiceNow](../integrations/toolkits/servicenow_toolkit)                     | ServiceNow IT service management                     |
-| **Project Management**          | [ADO Boards](../integrations/toolkits/ado_boards_toolkit)                     | Azure DevOps project boards and work items           |
-|                                 | [Jira](../integrations/toolkits/jira_toolkit)                                 | Jira issue and project tracking                      |
-|                                 | [Rally](../integrations/toolkits/rally_toolkit)                               | Rally agile project management                       |
-| **Test Management**             | [ADO Plans](../integrations/toolkits/ado_plans_toolkit)                       | Azure DevOps test plans and test management          |
-|                                 | [QTest](../integrations/toolkits/qtest_toolkit)                               | QTest test case management                           |
-|                                 | [TestRail](../integrations/toolkits/testrail_toolkit)                         | TestRail test case and test run management           |
-|                                 | [XRAY Cloud](../integrations/toolkits/xray_toolkit)                           | Xray test management for Jira Cloud                  |
-|                                 | [Zephyr Enterprise](../integrations/toolkits/zephyr_enterprise_toolkit)       | Zephyr test management, enterprise edition           |
-|                                 | Zephyr Essential                                                                  | Zephyr test management, essential edition            |
-|                                 | [Zephyr Scale](../integrations/toolkits/zephyr_scale_toolkit)                 | Zephyr Scale test management for Jira Cloud          |
-|                                 | Zephyr Squad                                                                      | Zephyr Squad test management for Jira Server         |
-| **Testing**                     | Carrier                                                                           | Carrier performance testing platform                 |
-|                                 | [Report Portal](../integrations/toolkits/reportportal_toolkit)                | Test reporting, analytics, and dashboards            |
-|                                 | [TestIO](../integrations/toolkits/testIO_toolkit)                             | TestIO crowdsourced testing services                 |
+| Category | Toolkit Type | Description |
+|---|---|---|
+| **Code Repositories** | [ADO Repos](../integrations/toolkits/ado_repos_toolkit) | Azure DevOps repositories |
+| | [Bitbucket](../integrations/toolkits/bitbucket_toolkit) | Bitbucket code repositories |
+| | [GitHub](../integrations/toolkits/github_toolkit) | GitHub code repositories |
+| | [GitLab](../integrations/toolkits/gitlab_toolkit) | GitLab code repositories |
+| | [GitLab Org](../integrations/toolkits/gitlab_org_toolkit) | GitLab organization-level integration |
+| **Communication** | [Slack](../integrations/toolkits/slack_toolkit) | Slack team messaging and collaboration |
+| **Development** | [Sonar](../integrations/toolkits/sonar_toolkit) | SonarQube code quality and security analysis |
+| | [SQL](../integrations/toolkits/sql_toolkit) | SQL database integration and querying |
+| **Documentation** | [ADO Wiki](../integrations/toolkits/ado_wiki_toolkit) | Azure DevOps wiki and documentation |
+| | [Confluence](../integrations/toolkits/confluence_toolkit) | Confluence wiki and knowledge management |
+| **Integrations** | [OpenAPI](../integrations/toolkits/openapi_toolkit) | OpenAPI specification integration |
+| **Office** | [PPTX](../integrations/toolkits/powerpoint_toolkit) | PowerPoint presentation creation and editing |
+| | [SharePoint](../integrations/toolkits/sharepoint_toolkit) | SharePoint document management and collaboration |
+| **Other** | [Artifact](../integrations/toolkits/artifact_toolkit) | Artifact file storage and management |
+| | [Custom](../integrations/toolkits/custom_toolkit) | Custom toolkit integration |
+| | [Figma](../integrations/toolkits/figma_toolkit) | Figma design collaboration and prototyping |
+| | [Google Places](../integrations/toolkits/google_places_toolkit) | Google Places location services and information |
+| | [Memory](../integrations/toolkits/memory_toolkit) | Memory storage and retrieval capabilities |
+| | [Postman](../integrations/toolkits/postman_toolkit) | Postman API development and testing |
+| | [Salesforce](../integrations/toolkits/salesforce_toolkit) | Salesforce CRM integration |
+| | [ServiceNow](../integrations/toolkits/servicenow_toolkit) | ServiceNow IT service management |
+| **Project Management** | [Aha!](../integrations/toolkits/aha_toolkit) | Aha! product management and roadmap planning |
+| | [ADO Boards](../integrations/toolkits/ado_boards_toolkit) | Azure DevOps project boards and work items |
+| | [Jira](../integrations/toolkits/jira_toolkit) | Jira issue and project tracking |
+| | [Rally](../integrations/toolkits/rally_toolkit) | Rally agile project management |
+| **Test Management** | [ADO Plans](../integrations/toolkits/ado_plans_toolkit) | Azure DevOps test plans and test management |
+| | [QTest](../integrations/toolkits/qtest_toolkit) | QTest test case management |
+| | [TestRail](../integrations/toolkits/testrail_toolkit) | TestRail test case and test run management |
+| | [XRAY Cloud](../integrations/toolkits/xray_toolkit) | Xray test management for Jira Cloud |
+| | [Zephyr Enterprise](../integrations/toolkits/zephyr_enterprise_toolkit) | Zephyr test management, enterprise edition |
+| | Zephyr Essential | Zephyr test management, essential edition |
+| | [Zephyr Scale](../integrations/toolkits/zephyr_scale_toolkit) | Zephyr Scale test management for Jira Cloud |
+| | Zephyr Squad | Zephyr Squad test management for Jira Server |
+| **Testing** | Carrier | Carrier performance testing platform |
+| | [Report Portal](../integrations/toolkits/reportportal_toolkit) | Test reporting, analytics, and dashboards |
+| | [TestIO](../integrations/toolkits/testIO_toolkit) | TestIO crowdsourced testing services |
 
 <Info title="Note">
-Toolkit availability may evolve. Refer to the platform UI for the most current list.
+Toolkit availability may change. Refer to the platform UI for the most current list.
 </Info>
 
 ---
 
-## Managing Toolkit Configuration
+## Manage Toolkit Configuration
 
-The toolkit detail page provides a comprehensive interface for configuring, testing, and monitoring your toolkits. Access it by clicking on any toolkit from the Toolkits dashboard. The page is organized into **two main tabs**, each serving a specific purpose:
+The toolkit detail page provides a comprehensive interface for configuring, testing, and monitoring your toolkits. Access it by selecting any toolkit from the Toolkits dashboard.
 
----
+### Configure & Test a Toolkit
 
-### Configuration Tab: Managing and Testing Toolkit
+The toolkit detail page is the primary interface for configuring toolkit settings, managing tool selection, and testing toolkit functionality in real time. The page header includes a **Back** button, the toolkit name, and a controls dropdown in the top-right area. The layout is split into two main areas:
 
-The **Configuration** tab (⚙ icon) is the primary interface for configuring toolkit settings, managing tool selection, and testing toolkit functionality in real-time. It uses a **two-column layout**:
+- **Left panel** — the configuration form, including toolkit settings, tool selection, a **Run History** button above the form, and an **Indexes** accordion section when indexing is supported for the toolkit.
+- **Right panel** — the testing area, which shows an empty state before a tool is selected, **Test Settings** after a tool is selected, and **Run Results** after a tool run.
 
-- **Left panel** — the configuration form (name, description, credentials, parameters, tool selection)
-- **Right panel** — the **Test Settings** panel for running tools interactively, with a **View run history** (🕐 clock icon) in the top bar (see [Viewing Toolkit History](#viewing-toolkit-history))
+<img src="../img/menus/toolkits/toolkit-detail-page.png" alt="Toolkit detail page layout." />
 
-<img src="../img/menus/toolkits/toolkit-config-tab.png" alt="Toolkits-Manage" />
+On the toolkit detail page, you can:
 
-**How to Edit Toolkit Configuration**
+- **Edit toolkit details:** Edit the name, description, credentials, and other toolkit-specific settings in the left panel.
+- **Select tools:** In the **Tools** section, turn on only the tools your agent needs.
+- **Update advanced settings:** Update PgVector configuration or embedding model as your indexing needs change.
+- **Save or discard:** **Save** becomes active once you make changes. Changing the embedding model while indexes exist triggers a warning first, since it can make those indexes non-operational.
+- **View run history:** Select the **Run History** button above the form to view past test runs.
+- **Use the controls menu:** Use the **three-dot menu (⋮)** for **Copy Link**, **Pin/Unpin**, and **Delete**. **Export** and **Fork** are listed but currently unavailable.
+- **View authors:** Shown in the header when viewing a public toolkit.
+- **Edit Raw JSON:** Supported toolkits let you switch the form to **Raw JSON** editing via the view toggle in the left panel.
 
-On the **Configuration tab**, you can:
-
-* **Edit Toolkit Details:** Update the name, description, credentials (API keys, tokens, service URLs), and any custom or advanced options directly in the configuration panel.
-* **Manage Tool Selection:** Configure which specific tools are enabled for this toolkit. In the "Tools" section, check only the tools your agent will use. Enabling only necessary tools improves security (principle of least privilege) and optimizes performance.
-* **Update Advanced Configurations:** Modify PgVector configuration settings or change embedding model selections to optimize performance or adapt to new requirements.
-* **Save Changes:** Click **Save** to apply your updates. Changes are applied immediately and reflected in the dashboard.
-* **Remove Toolkit:** Click the **Remove** (trash) icon to delete the toolkit. Confirm the removal in the dialog.
-* **Copy Link:** Click the copy link icon to copy a direct link to the toolkit’s detailed page—useful for sharing with teammates who have access.
-* **Export and Fork:** Available in the **three-dot menu (⋮)** in the toolbar. These options are currently **disabled** (greyed out) and will be enabled in a future release.
-
-**Tool Selection Best Practices**
-
-When selecting tools for your toolkit:
-    
-* **Review available tools** carefully and enable only those needed for your specific use case
-* **Test each enabled tool** using the Test Settings panel to ensure proper functionality
-* **Update tool selection** as your requirements change or new tools become available
-
-    <img src="../img/menus/toolkits/select-tools.gif" alt="Toolkits-Create" />
-
-**Make Tools Available by MCP**
-
-When configuring toolkit tools, you may see a checkbox labeled **[Make Tools Available by MCP](../integrations/mcp/make-tools-available-by-mcp)** in the Tools section. This option controls whether the selected tools can be accessed through the Model Context Protocol (MCP) interface.
-
-* **Purpose:** Enables toolkit tools to be exposed and accessible via MCP servers
-* **Location:** Appears in the Tools configuration section when selecting toolkit tools
-* **When to Enable:** 
-     - You plan to use this toolkit's tools through an MCP server
-     - You want to make these tools available to external MCP clients
-     - You're building MCP-based integrations that need access to these tools
-
-<Tip title="Tip">
-Regularly use the edit function to rotate credentials, update tool selections, or modify toolkit capabilities as your needs change.
+<Tip title="Tool selection best practices">
+Turn on only the tools your use case requires, test each one in the **Test Settings** panel, and revisit the toolkit configuration when credentials, tool access, or capabilities need to change.
 </Tip>
 
-**Testing Toolkit Functionality**
+### Make Tools Available by MCP
 
-The **right panel** of the Configuration tab contains the **Test Settings** area, which lets you test toolkit functionality in real-time without leaving the configuration view. The top bar of the Test Settings panel includes a **View run history** (🕐 clock icon) — click it to open the Run History panel. See [Viewing Toolkit History](#viewing-toolkit-history) for details.
+When configuring toolkit tools, you may see a checkbox labeled **[Make Tools Available by MCP](../integrations/mcp/make-tools-available-by-mcp)** in the **Tools** section. This option controls whether the selected tools can be accessed through the Model Context Protocol (MCP) interface.
+
+- **Purpose:** Turns on toolkit tools to be exposed and accessible via MCP servers.
+- **Location:** Appears in the **Tools** configuration section when selecting toolkit tools.
+- **When to turn on:**
+  - You plan to use this toolkit's tools through an MCP server.
+  - You want to make these tools available to external MCP clients.
+  - You are building MCP-based integrations that need access to these tools.
+
+### Test a Toolkit
+
+The right panel contains the toolkit testing workflow:
+
+- Before a tool is selected, the panel shows an empty state.
+- After a tool is selected, the panel shows **Test Settings**.
+- After you run a tool, the panel switches to **Run Results**, where you can review the output and use the back button to return to the settings view.
 
 For comprehensive testing instructions and best practices, see [How to Test Toolkit Tools](../how-tos/credentials-toolkits/how-to-test-toolkit-tools).
 
-**Steps to Test a Toolkit:**
+**Steps to test a toolkit:**
 
-1. **Select a Model:** Choose the LLM model from the model dropdown (e.g., `gpt-4o`).
+1. **Select a tool:** Use the **Tool** dropdown to choose which toolkit action you want to test. Type in the search box to filter available tools and select from the options.
+2. **Select a model and adjust settings** (optional): Choose the LLM model from the model dropdown (for example, `gpt-4o`). To fine-tune the response, select the **Model Settings** icon (⚙️) next to the model selector. The available settings vary by model:
 
-     <img src="../img/menus/toolkits/select-model.gif" alt="Select a Model" />
+     <Tabs>
+          <Tab title="Reasoning Models (e.g. GPT-5.1)">
+               | Setting | Option | Description |
+               |---|---|---|
+               | **Reasoning** | Low | Fast, surface-level reasoning with concise answers and minimal steps |
+               | | Medium *(default)* | Balanced reasoning with clear explanations and moderate multi-step thinking |
+               | | High | Deep, thorough reasoning with detailed step-by-step analysis (may be slower) |
+               | **Max Completion Tokens** | Auto *(default)* | System automatically sets the token limit to 4096 tokens |
+               | | Custom | Manually set a specific token limit; interface shows remaining tokens available. An error is shown if the value exceeds the model's maximum output tokens |
+          </Tab>
+          <Tab title="Standard Models (e.g. GPT-4o)">
+               | Setting | Option | Description |
+               |---|---|---|
+               | **Creativity** | 1 | Highly focused and deterministic outputs |
+               | | 2 | Mostly focused with slight variation |
+               | | 3 *(default)* | Balanced between focus and creativity |
+               | | 4 | More varied and creative responses |
+               | | 5 | Maximum creativity and diversity |
+               | **Max Completion Tokens** | Auto *(default)* | System automatically sets the token limit to 4096 tokens |
+               | | Custom | Manually set a specific token limit; interface shows remaining tokens available. An error is shown if the value exceeds the model's maximum output tokens |
+          </Tab>
+     </Tabs>
 
-2. **Adjust Model Settings** (Optional): Click the **Model Settings** icon (⚙️) next to the model selector to fine-tune the response generation. The settings vary depending on the selected model:
+3. **Provide required parameters (if prompted):** Enter any inputs required by the selected tool.
+4. **Run the tool:** Select the **Run Test** button and review the results in the output area. The **Run Test** button appears after selecting a tool.
 
-    **For Reasoning Models** (e.g., GPT-5.1):
+     <video controls>
+          <source src="../img/menus/toolkits/toolkit-test-tools.mp4" type="video/mp4"/>
+          Your browser does not support the video tag.
+     </video>
 
-    | Setting | Level | Description |
-    |---------|-------|-------------|
-    | **Reasoning** | Low | Fast, surface-level reasoning with concise answers and minimal steps |
-    | | Medium *(default)* | Balanced reasoning with clear explanations and moderate multi-step thinking |
-    | | High | Deep, thorough reasoning with detailed step-by-step analysis (may be slower) |
-
-    **For Standard Models** (e.g., GPT-4o):
-
-    | Setting | Level | Description |
-    |---------|-------|-------------|
-    | **Creativity** | 1 | Highly focused and deterministic outputs |
-    | | 2 | Mostly focused with slight variation |
-    | | 3 *(default)* | Balanced between focus and creativity |
-    | | 4 | More varied and creative responses |
-    | | 5 | Maximum creativity and diversity |
-
-    **All Models:**
-
-    | Setting | Option | Description |
-    |---------|--------|-------------|
-    | **Max Completion Tokens** | Auto *(default)* | System automatically sets the token limit to 4096 tokens |
-    | | Custom | Manually set a specific token limit; interface shows remaining tokens available. An error is shown if the value exceeds the model's maximum output tokens |
-
-    <img src="../img/menus/toolkits/model-settings.gif" alt="Model Settings" />
-
-3. **Select Tool:** Use the **Tool** dropdown to choose which toolkit action you want to test.
-    * **Search functionality:** Type in the search box to filter available tools
-    * **Tool options:** Select from available tools
-    * **Provide Required Parameters (if prompted):** Fill in any inputs required by the selected tool.
-4. **Execute the tool:** Click the **RUN TOOL** button and review the results in the output area. `(The RUN TOOL button appears after selecting a tool.)`
-
-     <img src="../img/menus/toolkits/run-tool.gif" alt="Execute Tool" />
-    
 ---
 
 ### Shared Toolkit Credentials
 
-When a toolkit is configured in a **team project** and its credential is shared across team members, two warning mechanisms protect users from unexpected disruptions.
-
----
-
-#### Credential Setup Required Banner
-
-If you add a shared toolkit to an agent and the toolkit uses **shared credentials** that require each user to supply their own private copy, a warning banner is displayed on the tool card:
+Shared toolkits in team projects can show warnings when each user must provide a matching private credential, or when a credential change may affect other team members.
 
 <Card icon="circle-exclamation" color="#ef4444" horizontal>
 <span style={{color: '#f43f5e'}}> <strong> <span style={{color: '#eb4f69'}}> Credential setup required:</span> </strong> This toolkit requires your own private *[credential type]* credentials. Create a credential with the matching ID *"[credential ID]"* in your Private workspace to use this toolkit.</span>
 </Card>
 
-
-
-**When it appears:** The banner is shown when the platform detects a `private_credential_not_found` error — meaning the shared toolkit references a credential ID that does not exist in your personal (private) workspace.
-
-**What to do:**
-
-1. Click the **Create a credential** link in the banner. It opens your Private workspace in a new tab with the credential name and ID pre-filled.
-2. Complete the credential form (supply your own API key, token, or login details).
-3. Save the credential. The banner will no longer appear once the matching private credential exists.
-
-     ![Shared Credentials Banner](../img/menus/toolkits/shared-credentials-banner.gif)
-
-<Note title="Why private credentials?">
-Some toolkits (e.g., GitHub, Jira) are configured with shared connection settings but require each team member to authenticate with their own account. The private credential in your Personal workspace holds your individual credentials while reusing the shared toolkit's configuration.
-</Note>
-
----
-
-#### Credential Configuration Change Warning
-
-When you **edit the credentials** of a toolkit that lives in a **team project**, a confirmation modal appears before the change is saved:
-
 <Card title="Credential Configuration Change" icon="circle-exclamation" color="#ef4444">
-  Changing the credential may make this toolkit non-operational for other team members who do not have a matching Private credential. Make this decision considering the potential impact on your team.
+  Changing the credential may make this toolkit non-operational for other team members who do not have a matching private credential. Make this decision considering the potential impact on your team.
 </Card>
 
-**When it appears:** Only in **Edit mode** for toolkits in a team project, and only when you actually change the credential selection or toggle the private/shared flag. The modal is triggered when you click **Save**.
+---
 
-**Actions in the modal:**
+### Indexes Section
 
-| Button | Behavior |
-|--------|----------|
-| **Confirm changes** | Saves the new credential configuration. Team members without a matching private credential will see the Credential Setup Required banner. |
-| **Discard changes** | Reverts the credential fields to their original state and closes the modal without saving. |
+Toolkits that include indexing tools expose an **Indexes** accordion in the left configuration panel. Indexing ingests documents into a vector store so agents can search and retrieve content using semantic similarity.
 
-     ![Shared Credentials Banner](../img/menus/toolkits/credentials-change-warning.gif)
+When indexes exist, the accordion lists index cards. Each card shows the collection name, indexed/total document count, skipped document count, current status, and last run date. From each card you can:
 
-<Warning title="Team Impact">
-Changing a shared toolkit's credentials to a private credential means that team members will need to create their own matching private credential in their Personal workspace before the toolkit works for them again. Communicate the change to your team before confirming.
-</Warning>
+- **Open** — select the card to open the index detail page.
+- **Reindex** — rebuild the index; a confirmation is required before existing data is replaced.
+- **Delete** — remove the index (requires confirmation).
+- **Open in new tab** — open the index detail page in a separate browser tab.
+
+To create a new index, select the **+ Index** button at the bottom of the list.
+
+For detailed instructions, see [How to Create and Use Indexes](../how-tos/indexing/using-indexes-tab-interface).
+
+<Note>
+If the accordion shows a banner instead of index cards, indexing is not yet ready:
+
+- *"Turn on the 'Index data' tool to activate indexing and create indexes."* — the `index_data` tool is not selected, or PgVector or Embedding Model are not configured (see [AI Configuration](./settings/ai-configuration)).
+- *"Create your first index to get started."* — indexing is active but no indexes exist yet.
+</Note>
+
+<img src="../img/menus/toolkits/indexes-section.png" alt="Indexes section in the toolkit configuration panel." />
 
 ---
 
-### Indexes Tab: Managing Toolkit Indexes
+### View Toolkit Run History
 
-Toolkits that support document processing and content indexing provide an **Indexes** tab for managing indexed data.
-For detailed instructions on using the Indexes tab, see [Using Indexes Tab Interface](../how-tos/indexing/using-indexes-tab-interface). 
-
-<Warning title="Indexes Tab Availability">
-The **Indexes tab** is automatically disabled if either of the following requirements are not met:
-
-* **Index Data tool must be enabled** - The Index Data tool must be selected in your toolkit configuration
-* **Project-level configuration required** - PgVector and Embedding Model must be properly configured at the project level (see [AI Configuration](./settings/ai-configuration))
-
-Both requirements must be satisfied before the Indexes tab becomes available.
-</Warning>
-
-**Accessing the Indexes Tab**
-
-The Indexes tab is enabled in the toolkit detail page alongside the **Configuration tab** when:
-
-* The toolkit schema includes indexing tools (such as `index_data`, `search_index`, `remove_index`)
-* PgVector configuration is set
-* Embedding Model is configured
-* **index_data** tool is selected in the toolkit's tool selection
-
-     ![Indexes Tab](../img/menus/toolkits/toolkit-indexes-tab.gif)
-
-**Using the Indexes Tab**
-
-The Indexes tab provides a dedicated interface for:
-
-* **Creating new indexes:** Set up document indexing for the external service
-* **Search indexes:** View, configure, and monitor active indexes
-* **Index configuration:** Configure indexing parameters specific to each index
-* **Index operations:** Execute indexing operations and track their progress
-* **Removing indexes:** Delete indexes that are no longer needed
-
-     <img src="../img/menus/toolkits/indexes-tab.gif" alt="Indexex Tab" />
-
----
-
-### Viewing Toolkit History
-
-The **Run History** panel provides a complete audit trail of all past test executions performed in the toolkit's Test Settings panel.
+The **Run History** page provides a complete audit trail of all past test executions performed in the toolkit's **Test Settings** panel.
 
 **How to access Run History:**
 
 1. Open any saved toolkit.
-2. In the **right panel** of the Configuration tab (Test Settings area), click the **clock icon** (🕐) in the top bar. The tooltip reads *"View run history"*.
-3. The toolkit page is replaced by the two-panel Run History display. Click the **✕ (Close)** button to return to the Configuration tab.
+2. Go to the toolkit's detail page and select the **View run history** button. This opens the dedicated Run History page for that toolkit.
+3. Use the back navigation (breadcrumb or back button) to return to the toolkit's configuration tab.
+
+![Run History button location.](../img/menus/toolkits/run-history-button.png)
 
 **Run History layout:**
 
-The Run History panel uses a two-panel layout:
+The Run History page uses the shared `RunHistoryContainer` layout:
 
-- **Left panel** — sortable list of all past test runs. Click any column header to sort:
+- **Left panel** — sortable list of all past test runs. Select any column header to sort:
 
-    | Column | Description |
-    |--------|-------------|
-    | **Date** | Timestamp of the run in `dd-MM-yyyy, hh:mm a` format |
-    | **Version** | Toolkit version used for the run |
-    | **Duration** | Total execution time of the run |
+     | Column | Description |
+     |---|---|
+     | **Date** | Timestamp of the run in `dd-MM-yyyy, hh:mm a` format |
+     | **Version** | Toolkit version used for the run |
+     | **Duration** | Total execution time of the run |
 
-    Click a row to load the conversation replay in the right panel. Each row also has a **three-dot menu (⋮)** with: **Share link**, **Delete**.
+     Select a row to load the conversation replay in the right panel. Each row also has a **three-dot menu (⋮)** with **Share link** and **Delete**.
 
 - **Right panel** — full conversation replay of the selected test run.
 
-     ![History](../img/menus/toolkits/toolkit-view-history.gif)
+![Run History page showing past test executions.](../img/menus/toolkits/toolkit-run-history.png)
 
-<Info title="Learn More About History">
-For detailed instructions on using the Toolkit History panel, see the **[Toolkit History Tab Guide](../how-tos/credentials-toolkits/toolkit_history_tab)**.
-
-For general information on the History panel shared across agents, pipelines, and toolkits, see the **[Agents and Pipelines History Guide](../how-tos/agents-pipelines/agents-pipelines-history)**.
+<Info title="Learn more about history">
+For detailed instructions on using the Toolkit History panel, see [Toolkit History Tab Guide](../how-tos/credentials-toolkits/toolkit_history_tab).
 </Info>
 
 ---
 
-## Using Toolkits in Your Workflows
+## Use Toolkits in Your Workflows
 
-Once a toolkit is configured, you can use it across different areas of the platform to enhance your workflows:
+Once a toolkit is configured, use it across different areas of the platform to enhance your workflows.
 
 **In Agents**
 
-1. Navigate to the **[Agents](./agents)** menu.
+1. Go to the **[Agents](./agents)** menu.
 2. Select or create an agent.
 3. In the agent's configuration, add the desired toolkit from the list of available toolkits.
 4. Configure any agent-specific toolkit options, if prompted.
-5. Save your agent.
+5. Select **Save**.
+
+      ![Add toolkit to agent configuration.](../img/menus/toolkits/agent-add.png)
 
 **In Pipelines**
 
-1. Navigate to the **[Pipelines](./pipelines)** menu.
+1. Go to the **[Pipelines](./pipelines)** menu.
 2. Select or create a pipeline.
-3. In the pipeline configuration, add the desired toolkit to enable automated workflow steps.
+3. In the pipeline configuration, add the desired toolkit to turn on automated workflow steps.
 4. Configure pipeline-specific toolkit parameters as needed.
-5. Save your pipeline.
+5. Select **Save**.
+
+      ![Add toolkit to pipeline configuration.](../img/menus/toolkits/pipeline-add.png)
 
 **In Chat**
 
@@ -439,9 +328,11 @@ Once a toolkit is configured, you can use it across different areas of the platf
 2. Access the toolkit selector within the chat interface.
 3. Select one or more toolkits to make their capabilities available during the conversation.
 4. Use natural language to interact with the toolkit's features.
+    
+      ![Add toolkit to chat session.](../img/menus/toolkits/chat-add.png)
 
 <Info title="Tip">
-You can use multiple toolkits simultaneously in agents, pipelines, and chat sessions to create powerful, integrated workflows that span multiple services and platforms.
+Use multiple toolkits simultaneously in agents, pipelines, and chat sessions to create powerful, integrated workflows that span multiple services and platforms.
 </Info>
 
 ---
@@ -449,19 +340,19 @@ You can use multiple toolkits simultaneously in agents, pipelines, and chat sess
 ## Best Practices
 
 <Accordion title="Secure Your Credentials">
-Always use secure tokens or API keys. Never share credentials in public areas.
+Use dedicated credentials for each integration, store them only in the platform credential manager, and avoid sharing private credentials across users or workspaces.
 </Accordion>
 
 <Accordion title="Test Before Use">
-Use the Test Settings panel to test toolkit functionality before assigning them to agents.
+Test each turned-on tool in the **Test Settings** panel before assigning the toolkit to agents, pipelines, or chat workflows.
 </Accordion>
 
 <Accordion title="Keep Toolkits Updated">
-Update credentials and settings if your external service changes.
+Review toolkit settings whenever credentials rotate, service URLs change, available tools change, or indexing configuration is updated.
 </Accordion>
 
 <Accordion title="Minimal Permissions">
-Grant only the permissions necessary for the agent's tasks.
+Turn on only the tools and external-service permissions required for the intended workflow.
 </Accordion>
 
 ---
@@ -469,39 +360,39 @@ Grant only the permissions necessary for the agent's tasks.
 ## Troubleshooting
 
 <Accordion title="Failed Connection">
-Double-check credentials, URLs, and network connectivity.
+Verify the selected credential, confirm any required URLs or project identifiers, and check that the target service is reachable from your environment.
 </Accordion>
 
 <Accordion title="Toolkit Not Appearing">
-Refresh the toolkits list or verify your permissions.
+Refresh the Toolkits page, clear active filters or search terms, and verify that you have permission to view or create that toolkit type.
 </Accordion>
 
 <Accordion title="Agent Cannot Use Toolkit">
-Ensure the toolkit is configured and assigned to the agent.
+Confirm the toolkit is saved, properly configured, and explicitly attached to the agent, pipeline, or chat session where you expect to use it.
 </Accordion>
 
-<Accordion title="Indexes Tab Not Available">
-If the Indexes tab is disabled in your toolkit:
+<Accordion title="Indexes Section Not Available">
+If the **Indexes** section does not appear or cannot be used in your toolkit:
 
-1. **Verify Index Data tool is enabled** - Check your toolkit configuration and ensure the Index Data tool is selected in the Tools section
-2. **Check project-level configuration** - Confirm that PgVector and Embedding Model are properly configured at the project level in [AI Configuration](./settings/ai-configuration)
-3. **Save and refresh** - After making changes, save your toolkit configuration and refresh the page to see the Indexes tab become available
+1. **Verify indexing tools are turned on** — Confirm the **Index data** tool is selected in the toolkit's **Tools** section.
+2. **Check AI configuration** — Confirm that PgVector and an Embedding Model are configured in [AI Configuration](./settings/ai-configuration).
+3. **Save and refresh** — Save the toolkit after making changes, then refresh the page so the **Indexes** accordion can load with the updated configuration.
 </Accordion>
 
 For further assistance, contact your platform administrator.
 
 ### Support Contact
 
-If you encounter issues not covered in this guide or need additional assistance with toolkit management, please refer to **[Contact Support](../support/contact-support)** for detailed information on how to reach the ELITEA Support Team.
+If you encounter issues not covered in this guide or need additional assistance with toolkit management, see [Contact Support](../support/contact-support) for detailed information on how to reach the ELITEA Support Team.
 
 ---
 
-<Info title="Additional Resources">
+<Info title="Additional resources">
 Explore these related guides to maximize your toolkit usage:
 
-* **[Sensitive Action Authorization Guardrail](../how-tos/chat-conversations/sensitive-action-authorization-guardrail)** — Learn how to protect sensitive toolkit actions by requiring human approval before they are executed.
-* **[Glossary](../home/glossary)** — Definitions of common terms used across the platform
-* **[Credentials](./credentials)** — Learn how to create and manage credentials used by toolkits
-* **[AI Configuration](./settings/ai-configuration)** — Set up embedding models and vector configurations
-* **[Secrets Management](./settings/secrets)** — Secure credential storage best practices
+- **[Sensitive Action Authorization Guardrail](../how-tos/chat-conversations/sensitive-action-authorization-guardrail)** — Learn how to protect sensitive toolkit actions by requiring human approval before they are executed.
+- **[Glossary](../home/glossary)** — Definitions of common terms used across the platform.
+- **[Credentials](./credentials)** — Learn how to create and manage credentials used by toolkits.
+- **[AI Configuration](./settings/ai-configuration)** — Set up embedding models and vector configurations.
+- **[Secrets Management](./settings/secrets)** — Secure credential storage best practices.
 </Info>
