@@ -612,6 +612,7 @@
             "tag": "Legacy",
             "expanded": false,
             "pages": [
+              "menus/settings/ai-configuration",
               "archive/agents-examples",
               "archive/browser_toolkit",
               "archive/pandas_toolkit",
