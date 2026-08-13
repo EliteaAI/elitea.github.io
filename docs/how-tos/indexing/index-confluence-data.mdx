@@ -1,42 +1,36 @@
 ---
 title: "Index Confluence Data"
-description: "Indexing tools are available in the Next environment (Release 1.7.0) and replace legacy Datasources/Datasets. For context, see Release Notes 1.7.0 and the Index"
+description: "Learn how to index Confluence data in ELITEA for semantic search, context-aware chat, and knowledge extraction."
 ---
 
-<Warning title="Availability">
-Indexing tools are available in the [Next environment](https://next.elitea.ai) (Release 1.7.0) and replace legacy Datasources/Datasets. For context, see [Release Notes 1.7.0](../../release-notes/archived/rn13#indexing-dedicated-toolkit-indexes-tab) and the [Indexing Overview](./indexing-overview).
-</Warning>
 
-
-<Info title="Primary Interface">
-Indexing operations are performed through the **Indexes** interface within Toolkit Configuration. This interface provides comprehensive index management with visual status indicators, real-time progress monitoring, and integrated search capabilities. For detailed information, see [How to create and use indexes](./using-indexes-tab-interface).
-</Info>
 
 ## Overview
 
-Confluence indexing allows you to create searchable indexes from your Confluence knowledge base content:
+Confluence indexing turns your Confluence content into a searchable knowledge base inside ELITEA. You can index pages, spaces, labels, attachments, and comments, then use that data for semantic search, AI chat with citations, and broader knowledge discovery across your documentation.
 
-- **Pages & Documentation**: Meeting notes, project documentation, how-to guides, and knowledge articles
-- **Spaces**: Organized content collections for teams, projects, or departments
-- **Labels & Metadata**: Content categorization and tagging systems
-- **Attachments**: Document files, images, and other media attached to pages
-- **Comments**: User discussions and collaborative input on pages
+Typical use cases include:
 
-**What you can do with indexed Confluence data:**
-
-- **Semantic Search**: Find information across your Confluence spaces using natural language queries
-- **Context-Aware Chat**: Get AI-generated answers from your knowledge base with citations
-- **Cross-Space Discovery**: Search across multiple Confluence spaces and projects
-- **Knowledge Extraction**: Transform Confluence content into searchable organizational knowledge
-- **Content Analysis**: Analyze patterns, gaps, and relationships in your documentation
-
-**Common use cases:**
-
-- Onboarding new team members by allowing them to ask questions about processes and documentation
-- Finding specific procedures, policies, or best practices across your knowledge base
-- Generating summaries or explanations from existing documentation
-- Support ticket resolution using indexed knowledge articles and FAQ content
-- Content audit and analysis to identify documentation gaps or outdated information
+<CardGroup cols={2}>
+  <Card title="Knowledge Search" icon="magnifying-glass">
+    Find procedures, policies, and technical guidance across Confluence spaces.
+  </Card>
+  <Card title="Faster Onboarding" icon="user-plus">
+    Help new team members learn from existing documentation more quickly.
+  </Card>
+  <Card title="Support Enablement" icon="life-ring">
+    Resolve tickets faster with indexed knowledge articles and FAQs.
+  </Card>
+  <Card title="Summaries & Answers" icon="sparkles">
+    Generate concise answers and summaries from existing Confluence content.
+  </Card>
+  <Card title="Content Audits" icon="clipboard-check">
+    Identify gaps, overlap, and outdated information in your documentation.
+  </Card>
+  <Card title="Knowledge Reuse" icon="arrows-rotate">
+    Reuse existing Confluence content in chats, workflows, and team research.
+  </Card>
+</CardGroup>
 
 ---
 
@@ -45,8 +39,8 @@ Confluence indexing allows you to create searchable indexes from your Confluence
 Before indexing Confluence data, ensure you have:
 
 1. **Confluence Credential**: A Confluence API token or [authentication credentials](../credentials-toolkits/how-to-use-credentials#confluence-credential-setup) configured in ELITEA
-2. **Vector Storage**: PgVector selected in Settings → [AI Configuration](../../menus/settings/ai-configuration)
-3. **Embedding Model**: Selected in AI Configuration (defaults available) → [AI Configuration](../../menus/settings/ai-configuration)
+2. **Vector Storage**: PgVector selected in Settings → [AI Providers](../../menus/settings/ai-providers#vector-storages)
+3. **Embedding Model**: Selected in AI Configuration (defaults available) → [AI Providers](../../menus/settings/ai-providers#embedding-models)
 4. **Confluence Toolkit**: Configured with your Confluence instance details, credentials, and **Index Data tool enabled**
 
 <Warning title="Requirements">
@@ -57,167 +51,203 @@ The **Indexes** interface requires:
 Complete both project-level setup and toolkit configuration to access indexing functionality.
 </Warning>
 
-### Required Permissions
+**Required Permissions**
 
-Your Confluence credential needs appropriate permissions based on what you want to index:
+<Card icon="shield-check">
+**Your Confluence credential must have**
+- Read access to the spaces and pages you want to index
+- Access to attachments and comments if you plan to include them
+- Access to restricted content only if you want restricted pages indexed
+</Card>
 
-**For Content Access:**
-
-- Read access to Confluence spaces and pages
-- Permission to view the specific spaces you want to index
-
-**For Comprehensive Indexing:**
-
-- Access to view attachments (if including attachments)
-- Permission to view comments (if including comments)
-- Access to both public and restricted content (based on your requirements)
-
-**Authentication Methods:**
+<Card icon="key">
+**Supported authentication methods**
 
 - **Basic Authentication**: Username and API Key
 - **Bearer Token**: Confluence API token
+</Card>
 
 ---
 
-## Step-by-Step: Creating a Confluence Credential
+### Setting Up the Confluence Toolkit
 
-1. **Generate Confluence API Token** in your Atlassian account (Security → API Tokens)
-2. **Create Credential in ELITEA**: Navigate to **Credentials** → **+ Create** → **Confluence** → enter details and save
-
-<Info title="Detailed Instructions">
-For complete credential setup steps including token generation and security best practices, see:
-
-- [Create a Credential](../../getting-started/create-credential)
-- [Confluence Credential Setup](../credentials-toolkits/how-to-use-credentials#confluence-credential-setup)
-- [Confluence Toolkit Guide](../../integrations/toolkits/confluence_toolkit) (Token generation section)
-</Info>
-
----
-
-## Step-by-Step: Configure Confluence Toolkit
-
-1. **Create Toolkit**: Navigate to **Toolkits** → **+ Create** → **Confluence**
-2. **Configure Settings**: Set base URL, space, hosting option, and assign your Confluence credential
-3. **Enable Tools**: Select `Index Data`, `List Collections`, `Search Index`, `Stepback Search Index`, `Stepback Summary Index`, and `Remove Index` tools
-4. **Save Configuration**
+1. **Generate a Confluence API Token** in your Atlassian account under **Security → API Tokens**
+2. **Create a Confluence Credential in ELITEA**: Go to **Credentials** → **+ Credential** → **Confluence**, enter the required details, and save
+3. **Create a Confluence Toolkit**: Go to **Toolkits** → **+ Toolkit** → **Confluence**
+4. **Configure the Toolkit**: Set the base URL, space, hosting option, and assign the Confluence credential you created
+5. **Enable Required Tools**: Select `Index Data`, `List Collections`, `Search Index`, `Stepback Search Index`, `Stepback Summary Index`, and `Remove Index`
+6. **Save the Toolkit**
 
 <Warning title="Required Tool">
 The **Index Data** tool must be enabled for indexing functionality to be available. Without this tool, you cannot access the indexing interface.
 </Warning>
 
-### Tool Overview:
-   - **Index Data**: Creates searchable indexes from Confluence pages and content
-   - **List Collections**: Lists all available collections/indexes to verify what's been indexed
-   - **Search Index**: Performs semantic search across indexed content using natural language queries
-   - **Stepback Search Index**: Advanced search that breaks down complex questions into simpler parts for better results
-   - **Stepback Summary Index**: Generates summaries and insights from search results across indexed content
-   - **Remove Index**: Deletes existing collections/indexes when you need to clean up or start fresh
+**Tool Overview**
+
+| Tool | Purpose |
+|------|---------|
+| `Index Data` | Creates searchable indexes from Confluence pages and content. |
+| `List Collections` | Lists available collections and indexes so you can verify what has been indexed. |
+| `Search Index` | Performs semantic search across indexed content using natural language queries. |
+| `Stepback Search Index` | Breaks down complex questions into simpler parts to improve search results. |
+| `Stepback Summary Index` | Generates summaries and insights from search results across indexed content. |
+| `Remove Index` | Deletes existing collections and indexes when you need to clean up or start fresh. |
 
 <Info title="Detailed Instructions">
-For complete toolkit configuration including space setup and authentication options, see:
+For complete credential and toolkit setup details, see:
 
-- [Toolkits Menu](../../menus/toolkits)
 - [Confluence Toolkit Integration Guide](../../integrations/toolkits/confluence_toolkit)
 </Info>
 
 ---
 
-## Step-by-Step: Index Confluence Data
+## Index Confluence Data
 
-### Step 1: Access the Interface
+### Access the Interface
 
-1. **Navigate to Toolkits**: Go to **Toolkits** in the main navigation
-2. **Select Your Confluence Toolkit**: Choose your configured Confluence toolkit from the list
-3. **Open Indexes Tab**: Click on the **Indexes** tab in the toolkit detail view
+1. Go to **Toolkits & Indexes** in the main navigation.
+2. Choose your configured Confluence toolkit from the list.
+3. In the toolkit configuration view, expand the **INDEXES** section.
+4. Use the left-side index list to create a new index or open an existing one.
 
-If the tab is disabled or not visible, verify that:
-- PgVector and Embedding Model are configured in Settings → AI Configuration
-- The **Index Data** tool is enabled in your toolkit configuration
+    <img src="../../img/how-tos/indexing/confluence/confluence-index-section.png" alt="Confluence Index Section" width="400" />
 
-### Step 2: Create a New Index
+<Warning title="Indexing section Availability">
+If the **Index Data** tool is not turned on in the toolkit configuration, the **INDEXES** section displays the message **"Indexing is not available for now"**. Turn on **Index Data** before using indexing features.
+</Warning>
 
-1. **Click Create New Index**: In the Indexes sidebar, click the **+ Create New Index** button
-2. **New Index Form**: The center panel displays the new index creation form
+### Create a New Index
 
-### Step 3: Configure Index Parameters
+1. In the **INDEXES** section, select **+ Index**.
+2. Open the dedicated **New index** page with **Index configuration** parameters.
+3. Enter the required and optional values for the Confluence indexing parameters.
 
-Fill in the required and optional parameters for your Confluence space:
+**Confluence Index Parameters**
 
 | Parameter | Description | Example Value | Required |
 |-----------|-------------|---------------|----------|
 | Index Name | Suffix for collection name (max 7 chars) | `kb` or `docs` | ✓ |
 | Clean Index | Remove existing index data before re-indexing | ✓ (checked) or ✗ (unchecked) | ✗ |
-| Chunking Tool | Method for splitting content into chunks | Default chunking or custom | ✗ |
-| content_format | The format of the content to be retrieved | `view`, `storage`, `export_view`, `editor`, `anonymous` | ✗ |
-| page_ids | List of page IDs to retrieve | `["123456", "789012"]` | ✗ |
-| label | Label to filter pages | `"api-docs"` | ✗ |
-| cql | CQL query to filter pages | `"space = DEV"` | ✗ |
-| limit | Limit the number of results | `10` | ✗ |
-| max_pages | Maximum number of pages to retrieve | `1000` | ✗ |
-| include_restricted_content | Include restricted content in indexing | ✓ (checked) or ✗ (unchecked) | ✗ |
-| include_archived_content | Include archived content in indexing | ✓ (checked) or ✗ (unchecked) | ✗ |
-| include_attachments | Include attachments in indexing | ✓ (checked) or ✗ (unchecked) | ✗ |
-| include_comments | Include page comments | ✓ (checked) or ✗ (unchecked) | ✗ |
-| include_labels | Include page labels | ✓ (checked) or ✗ (unchecked) | ✗ |
-| ocr_languages | OCR languages for processing attachments | `eng`, `fra`, `deu` | ✗ |
-| keep_markdown_format | Preserve Markdown formatting | ✓ (checked) or ✗ (unchecked) | ✗ |
-| keep_newlines | Preserve line breaks and formatting | ✓ (checked) or ✗ (unchecked) | ✗ |
-| bins_with_llm | Use LLM for processing binary files | ✓ (checked) or ✗ (unchecked) | ✗ |
+| Progress Step (0 - 100) | Controls how often progress updates are reported during indexing. | `10` | ✗ |
+| Chunking Config | Custom chunking configuration for processing indexed content. | `{}` | ✗ |
+| Content Format | Defines which Confluence content representation to retrieve. | `view`, `storage`, `export_view` | ✗ |
+| Page Ids | Limits indexing to specific Confluence page IDs. | `["123456", "789012"]` | ✗ |
+| Label | Filters indexed pages by label. | `"api-docs"` | ✗ |
+| Cql | Uses a Confluence Query Language filter to narrow indexed content. | `"space = DEV"` | ✗ |
+| Limit | Limits the number of results returned by the source query. | `10` | ✗ |
+| Max Pages | Sets the maximum number of pages to retrieve and index. | `1000` | ✗ |
+| Include Restricted Content | Includes restricted pages if the credential has access. | ✓ (checked) or ✗ (unchecked) | ✗ |
+| Include Archived Content | Includes archived Confluence content in the index. | ✓ (checked) or ✗ (unchecked) | ✗ |
+| Include Attachments | Includes page attachments in the indexing run. | ✓ (checked) or ✗ (unchecked) | ✗ |
+| Include Extensions | Restricts indexing to selected file extensions. | `["pdf", "docx"]` | ✗ |
+| Skip Extensions | Excludes selected file extensions from indexing. | `["png", "zip"]` | ✗ |
+| Include Comments | Includes page comments in indexed content. | ✓ (checked) or ✗ (unchecked) | ✗ |
+| Include Labels | Includes Confluence labels in indexed metadata. | ✓ (checked) or ✗ (unchecked) | ✗ |
+| Ocr Languages | Sets OCR languages for processing supported attachments. | `eng`, `fra`, `deu` | ✗ |
+| Keep Markdown Format | Preserves Markdown formatting in indexed output. | ✓ (checked) or ✗ (unchecked) | ✗ |
+| Keep Newlines | Preserves line breaks and formatting in indexed text. | ✓ (checked) or ✗ (unchecked) | ✗ |
+| Bins With Llm | Uses an LLM to process supported binary files. | ✓ (checked) or ✗ (unchecked) | ✗ |
 
-### Step 4: Start Indexing
+    <img src="../../img/how-tos/indexing/confluence/confluence-index-parameters.png" alt="Confluence Index Parameters" width="250" />
 
-1. **Form Validation**: The **Index** button remains inactive until all required fields are filled
-2. **Review Configuration**: Verify all parameters are correct
-3. **Click Index Button**: Start the indexing process
-4. **Monitor Progress**: Watch real-time updates with visual indicators:
-     - 🔄 **In Progress**: Indexing is currently running
-     - ✅ **Completed**: All items indexed successfully
-     - ⚠️ **Partially Indexed**: Indexing finished but some files were skipped (unsupported extension, empty content, or errors). The index is fully usable for search and scheduling — review the skipped-file breakdown in the chat panel.
-     - ❌ **Failed**: Indexing encountered an error
+### Start and Monitor Indexing
 
-   ![Index Tab](../../img/how-tos/indexing/confluence/confluence-index-tab.png)
+1. Fill in all required fields until the **Index** button becomes active.
+2. Select **Index** to start the indexing process.
+3. Track progress on the dedicated index page after the run starts.
+4. Watch real-time status updates on the index page.
 
-### Step 5: Verify Index Creation
+ <video src="../../img/how-tos/indexing/confluence/confluence-indexing-full.mp4" controls width="600"></video>
+
+ <Info>
+**Index Statuses**
+- 🔄 **In Progress**: Indexing is currently running.
+- ✅ **Completed**: All items indexed successfully.
+- ⚠️ **Partially Indexed**: Indexing finished but some files were skipped (unsupported extension, empty content, or errors). The index is fully usable for search and scheduling. Review the skipped-file breakdown in the chat panel.
+- ❌ **Failed**: Indexing encountered an error.
+
+</Info>
+
+### Verify Index Creation
 
 Once indexing completes:
 
-1. **Check Index Status**: Verify the index shows ✅ **Completed** status in the sidebar
-2. **Review Index Information**: Click on your index to see:
-     - **Document Count**: Number of indexed pages
-     - **Last Updated**: Timestamp of indexing completion
-     - **Index Name**: Your specified collection suffix
+- The index status should appear as **Completed** or **Partially Indexed**.
+- The dedicated index page shows the **General** section with the index name, created date, and the initial **Files indexed** and **Files skipped** counts.
+   <img src="../../img/how-tos/indexing/confluence/index-details.png" alt="Confluence Index Parameters" width="300" />
+
+- The **INDEXES** section shows an index card with the collection name, created date, indexed or total file count, and skipped file count when applicable.
+    <img src="../../img/how-tos/indexing/confluence/conf-index-card.png" alt="Confluence Index Card" width="550" />
+
+### Reindexing
+
+Use **Reindex** on the dedicated index page when you want to refresh the indexed Confluence content.
+
+- The **Index configuration** section loads the saved settings for the current index.
+- You can update the configuration before starting the reindex run, except for `index_name`, which remains read-only.
+- After a successful reindex, the **General** section shows the latest reindex details, including the last reindex date and updated file counts.
+
+<Note>
+**Confluence Reindex Behavior**
+- If attachments are deleted from a Confluence page, they are not removed from the index during reindexing, even when **Clean Index** is selected. If new attachments are added to the page, they are added to the index. **This behavior is caused by Atlassian-side limitations.**
+- If a page is deleted from Confluence, it is not removed from the index during reindexing unless **Clean Index** is selected.
+
+</Note>
+
+   <img src="../../img/how-tos/indexing/confluence/conf-reindex.png" alt="Confluence reindex Parameters" width="500" />
+
+
+### Scheduling
+
+Use the **Schedule** section on the index page to automate reindexing.
+
+- Select **+ Schedule** to create a schedule and define when the index should run.
+- Existing schedules can be edited, deleted, enabled, or disabled from the same section.
+- Scheduling is available only for indexes in **Completed** or **Partially Indexed** status.
+- Scheduled indexing runs also generate notifications, so you can track successful, partial, or failed updates.
+   <img src="../../img/how-tos/indexing/confluence/conf-schedule.png" alt="Confluence schedule Parameters" width="500" />
 
 ---
 
-## Using Search Tools with Indexed Data
+## Use Search Tools
 
-Once your Confluence data is indexed, you can search and interact with it directly through the interface:
+Once your Confluence data is indexed, you can search and interact with it directly through the interface.
 
-### Accessing Search Functionality
+The following search tools are available:
 
-1. **Select Your Index**: Click on your completed index from the sidebar
-2. **Navigate to Run Tab**: Click the **Run** tab in the center panel
-3. **Choose Search Tool**: Select from available search tools in the dropdown:
-     - **Search Index**: Basic semantic search across indexed content
-     - **Stepback Search Index**: Advanced search that breaks down complex questions
-     - **Stepback Summary Index**: Search with automatic summarization of results
+| Tool | Description |
+|------|-------------|
+| **Search Index** | Basic semantic search across indexed content. |
+| **Stepback Search Index** | Advanced search that breaks down complex questions. |
+| **Stepback Summary Index** | Search with automatic summarization of results. |
 
-### Running a Search
+<Info>
+**Prerequisites for Search**
+- Indexes in **Completed** or **Partially Indexed** status support search.
+- At least one search tool must be enabled in the toolkit configuration: **Search Index**, **Stepback Search Index**, or **Stepback Summary Index**.
+</Info>
 
-1. **Enter Your Query**: Type your search query (e.g., "What is our vacation policy?")
-2. **Configure Parameters**: Adjust optional settings like filters and model configuration
-3. **Click Run**: Execute the search
-4. **View Results**: Results appear in the integrated chat interface on the right panel
+### Select a Search Tool
 
-![Run search](../../img/how-tos/indexing/confluence/confluence-run-search.png)
+1. Open the index page.
+2. In the left panel, select **Select tool**.
+3. Choose a search tool from the dropdown list.
+4. The page switches to the selected tool settings.
 
+   <img src="../../img/how-tos/indexing/indexes/search-tool-select.png" alt="Select Search Tool" width="300" />
+
+### Run a Search
+
+1. Enter your query.
+2. Adjust optional parameters such as filters or model settings.
+3. Select **Search**.
+4. Review the results in the integrated chat panel.
+
+   <video src="../../img/how-tos/indexing/confluence/search-indexed-data.mp4" controls width="600"></video>
 ---
 
-## Search and Chat with Indexed Data
 
-Once your Confluence data is indexed, you can use the toolkit to search and interact with your content in multiple ways:
-
-### Using Toolkit in Conversations and Agents
+## Use Indexed Data in Conversations
 
 Your Confluence toolkit can be used in two main contexts:
 
@@ -234,35 +264,23 @@ Your Confluence toolkit can be used in two main contexts:
 
 Let's walk through a complete example of indexing and using a company knowledge base:
 
-**Step 1: Setup Confluence Toolkit for Company Knowledge Base**
+**Step 1: Add toolkit to a conversation and start asking questions**
 
- **Configure Confluence Toolkit:**
+   - Navigate to **Chat** → **+ Chat**
+   - select the **`+`** icon in the input toolbar.
+   - Hover over the Toolkits category and enable your Confluence toolkit
 
-   - Base URL: `https://yourcompany.atlassian.net/wiki`
-   - Space: `KB` (Knowledge Base space key)
-   - Hosting Option: `Cloud`
-   - Credential: Your Confluence API token
-   - Tools enabled: `Index Data`, `List Collections`, `Search Index`, `Stepback Search Index`, `Stepback Summary Index`, `Remove Index`
+   <img src="../../img/how-tos/indexing/confluence/add-toolkit-chat.png" alt="Add Toolkit to Chat" width="300" />
 
-
-**Step 2: Use in Conversations**
-
- **Add toolkit to a conversation and start asking questions:**
-
-   - Navigate to **Conversations** → **+ New Conversation**
-   - In the participants section click + to add Toolkit
-   - Select your Confluence toolkit from the available toolkits list
-
-**Step 3: Index the Knowledge Base**
+**Step 2: Index the Knowledge Base**
 
  * **User Request in Chat:**
  
-   > "Index our knowledge base with collection suffix 'kb'. Include attachments and labels but exclude comments. Keep markdown formatting and clean any existing index first."
+   > "Index our knowledge base with collection suffix 'kb'. Include comments and labels but exclude attachments. Keep markdown formatting and clean any existing index first."
 
-![Confluence Index Configuration](../../img/how-tos/indexing/confluence/confluence-index.png)
- 
+<video src="../../img/how-tos/indexing/confluence/confluence-index-chat.mp4" controls width="600"></video>
 
-**Step 4: Verify Index Creation**
+**Step 3: Verify Index Creation**
 
  * **User Request:**
  
@@ -270,11 +288,11 @@ Let's walk through a complete example of indexing and using a company knowledge 
 
  **Confluence Toolkit Response:**
 
- ![Confluence list collections](../../img/how-tos/indexing/confluence/confluence-list.png)
+   <img src="../../img/how-tos/indexing/confluence/list-collections-chat.png" alt="List Collections in Chat" width="600" />
 
  This confirms the indexing completed successfully and your knowledge base collection is available for searching.
 
-**Step 5: Start the conversation and begin asking questions about your indexed content**
+**Step 4: Start the conversation and begin asking questions about your indexed content**
 
   * **User Request:** "What is our company's vacation policy?"
    
@@ -286,7 +304,8 @@ Let's walk through a complete example of indexing and using a company knowledge 
    
    *Source: HR Policies → Employee Benefits → Vacation Policy (Page ID: 12345)*"
 
-   ![Confluence Search](../../img/how-tos/indexing/confluence/confluence-search.png)
+   <video src="../../img/how-tos/indexing/confluence/confluence-search-chat.mp4" controls width="600"></video>
+
    
    * **User Request:** "How do I set up a new development environment?"
    
@@ -305,131 +324,120 @@ Let's walk through a complete example of indexing and using a company knowledge 
    
    *Source: Developer Documentation → Environment Setup → Development Environment (Page ID: 67890)*"
 
-   ![Confluence Search](../../img/how-tos/indexing/confluence/confluence-search1.png)
+## Troubleshooting
 
-## Troubleshooting & Tips
+<Accordion title="Indexing Interface Not Visible or Tab Disabled">
 
-### Common Issues and Solutions
+- Verify PgVector and Embedding Model are configured in Settings → AI Configuration.
+- Ensure the **Index Data** tool is enabled in your Confluence toolkit configuration.
+- Check that your toolkit supports indexing.
+- Refresh the browser page and try again.
 
-**"Indexing interface not visible" or "Tab disabled":**
+</Accordion>
 
-- Verify PgVector and Embedding Model are configured in Settings → AI Configuration
-- Ensure the **Index Data** tool is enabled in your Confluence toolkit configuration
-- Check that your toolkit supports indexing (Confluence is supported)
-- Refresh the browser page and retry
+<Accordion title="Create New Index Button Not Working">
 
-**"+ Create New Index button not working":**
+- Verify all project-level prerequisites are met.
+- Check that you have the required permissions for the toolkit.
+- Ensure the toolkit is saved with valid credentials.
 
-- Verify all project-level prerequisites are met (PgVector and Embedding Model)
-- Check that you have proper permissions for the toolkit
-- Ensure the toolkit is properly saved with credentials
+</Accordion>
 
-### Common Errors and Solutions
+<Accordion title="Space Not Found or Authentication Failed">
 
-**"Space not found" or "Authentication failed":**
+- Verify that your Confluence credential uses the correct API token.
+- Ensure the space key is exact and case-sensitive, for example `KB` instead of `kb`.
+- Check that the credential has access to the target space.
 
-  - Verify your Confluence credential has the correct API token
-  - Ensure the space key is exact and case-sensitive (e.g., `KB`, not `kb`)
-  - Check that your token has appropriate permissions for the space
+</Accordion>
 
-**"Index creation failed" or "Indexing stuck in progress":**
+<Accordion title="Index Creation Failed or Indexing Stuck in Progress">
 
-- Check your space and filter configurations aren't too restrictive
-- Verify the space contains pages matching your criteria
-- Monitor the progress indicators for specific error messages
+- Check that your space and filter settings are not too restrictive.
+- Verify that the space contains pages matching your criteria.
+- Review the progress indicators for specific error details.
 
-**"API rate limit exceeded":**
+</Accordion>
 
-  - Large spaces may hit Confluence API limits
-  - Reduce Max Pages or use more specific filtering (labels, CQL)
-  - Wait and retry, or consider indexing in smaller batches
+<Accordion title="API Rate Limit Exceeded">
 
-**"No documents indexed":**
+- Reduce **Max Pages** or narrow the scope with labels or CQL.
+- Wait and retry the indexing run.
+- Consider indexing large spaces in smaller batches.
 
-  - Check your label or CQL filters aren't too restrictive
-  - Verify the space contains pages matching your criteria
-  - Try indexing without filters first, then add restrictions
+</Accordion>
 
-**"No search results returned":**
+<Accordion title="No Documents Indexed">
 
-- Verify the index shows ✅ **Completed** status
-- Check that your search query matches the type of content indexed
-- Try broader search terms or different search tools (Stepback Search, Stepback Summary)
-- Ensure the indexed content contains relevant information
+- Check that your label or CQL filters are not too restrictive.
+- Verify that the space contains pages matching your criteria.
+- Try indexing without filters first, then narrow the scope.
 
-**"Vector database connection failed" or "PgVector errors":**
+</Accordion>
 
-  - Ensure PgVector is properly configured in Settings → AI Configuration
-  - Verify the vector database is running and accessible
-  - Check connection credentials and database permissions
-  - Restart the vector database service if connection issues persist
+<Accordion title="No Search Results Returned">
 
-**"Embedding model not found" or "Embedding errors":**
+- Verify that the index status is **Completed**.
+- Check that your query matches the type of indexed content.
+- Try broader search terms or a different search tool.
+- Verify that the indexed content contains the information you expect.
 
-  - Verify an embedding model is selected in AI Configuration
-  - Check if the embedding model is properly downloaded/initialized
-  - Try switching to a different embedding model (e.g., text-embedding-ada-002)
-  - Ensure sufficient system resources for the embedding model to load
+</Accordion>
 
-### Performance and Scope Considerations
+<Accordion title="Vector Database Connection Failed or PgVector Errors">
 
-**For Large Confluence Spaces:**
+- Ensure PgVector is configured correctly in Settings → AI Configuration.
+- Verify that the vector database is running and accessible.
+- Check connection credentials and database permissions.
+- Restart the vector database service if needed.
 
-- Use specific label filters: `label="documentation"` or `label="public"`
-- Use CQL queries to target specific content: `space="KB" AND created>="2024-01-01"`
-- Consider indexing by space hierarchy: index parent pages first, then children
-- Monitor the progress indicators and document count during indexing
+</Accordion>
 
-### Search Result Quality
+<Accordion title="Embedding Model Not Found or Embedding Errors">
 
-**If search returns few/no results:**
+- Verify that an embedding model is selected in AI Configuration.
+- Check that the model is available and initialized.
+- Try switching to a different embedding model.
+- Ensure the environment has enough resources to load the model.
 
-- Verify the index shows ✅ **Completed** status in the sidebar
-- Lower the cut-off score from 0.5 to 0.35 or 0.3
-- Increase search_top from 10 to 20 or 30
-- Try rephrasing your query with different keywords
-- Verify the indexed content contains relevant information for your query
+</Accordion>
 
-**For better search quality:**
+<Accordion title="Large Confluence Spaces">
 
-- Include both pages and attachments for comprehensive coverage
-- Use natural language queries rather than exact keyword matches
-- Leverage the integrated chat interface for follow-up questions
-- Create separate indexes for different content types (public vs internal, different spaces)
+- Use label filters such as `label="documentation"` or `label="public"`.
+- Use CQL to narrow the scope, for example `space="KB" AND created>="2024-01-01"`.
+- Consider indexing by page hierarchy or in smaller batches.
+- Monitor progress indicators and document counts during the run.
 
-### Content-Specific Indexing Tips
+</Accordion>
 
-**For Knowledge Base Content:**
+<Accordion title="Search Result Quality">
 
-- Focus on pages with `public` or `documentation` labels
-- Include attachments for comprehensive policy and procedure documents
-- Consider excluding comments unless they contain valuable information
+If search returns few or no results:
 
-**For Project Documentation:**
+- Verify that the index status is **Completed**.
+- Lower the cut-off score from `0.5` to `0.35` or `0.3`.
+- Increase `search_top` from `10` to `20` or `30`.
+- Rephrase the query with different keywords.
 
-- Use space-specific indexing for better organization
-- Include both current and archived content for historical context
-- Index meeting notes and project updates separately from technical documentation
+For better search quality:
 
-**For Troubleshooting Guides:**
+- Include both pages and attachments for broader coverage.
+- Use natural language queries instead of exact keyword matches.
+- Use follow-up questions in the integrated chat interface.
+- Create separate indexes for different content types or scopes.
 
-- Include pages with labels like `troubleshooting`, `faq`, or `support`
-- Index both internal and customer-facing content
-- Consider including comments as they often contain additional solutions
+</Accordion>
 
 ---
 
-## References
-
-<Info title="Related Documentation">
-For additional information and detailed setup instructions, see:
-
+<Info>
+**Guides & References**
 - [Indexing Overview](./indexing-overview) - General indexing concepts and features
-- [Create a Credential](../../getting-started/create-credential) - Step-by-step credential creation guide
 - [How to Use Credentials](../credentials-toolkits/how-to-use-credentials) - Credential management and Confluence setup
 - [Toolkits Menu](../../menus/toolkits) - Toolkit configuration and management
 - [Confluence Toolkit Integration Guide](../../integrations/toolkits/confluence_toolkit) - Complete Confluence toolkit reference
-- [AI Configuration](../../menus/settings/ai-configuration) - Vector storage and embedding model setup
+- [AI Providers](../../menus/settings/ai-providers) - Vector storage and embedding model setup
 - [Chat Menu](../../menus/chat) - Creating conversations and adding toolkit participants
 </Info>
 
