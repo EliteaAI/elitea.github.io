@@ -370,18 +370,49 @@ To add new AI credentials:
 3. Enter the provider-specific authentication details (see below).
 4. Save the configuration.
 
-**Available AI Service Providers**
+## Available AI Service Providers
 
 | Provider | Description |
 |----------|-------------|
 | **AI Dial** | For EPAM AI Dial platform |
 | **Amazon Bedrock** | For AWS AI services |
 | **Azure OpenAI** | For Azure-hosted OpenAI services |
+| **LLM Models** | Model configurations that reference AI credentials and define model capabilities, tiers, and limits |
 | **Ollama** | For local/self-hosted models |
 | **OpenAI** | For OpenAI API access |
 | **Vertex AI** | For Google Cloud AI services 
 
 **Provider-Specific Fields:**
+
+**LLM Models**
+
+Use an **LLM Model** configuration to register a model that references one of the AI credentials above.
+
+| Field | Description | Example |
+|-------|-------------|----------|
+| **Display Name** | Human-readable model name shown in ELITEA | `GPT 5.4 Production` |
+| **ID*** | Auto-populated from the Display Name | `gpt_5_4_production` |
+| **Name*** | Exact provider model identifier or deployment name | `gpt-5.4` |
+| **Context Window** | Maximum supported context size in tokens | `128000` |
+| **Max Output Tokens** | Maximum generated output tokens | `16000` |
+| **Supports Reasoning** | Enable if the model supports reasoning-specific capabilities | Enabled for reasoning-capable models |
+| **Supports Vision** | Enable if the model accepts image input | Enabled for multimodal models |
+| **Low Tier** | Mark the model as suitable for routine, lower-cost tasks | Enabled for lighter/faster models |
+| **High Tier** | Mark the model as suitable for more advanced workflows | Enabled for premium/capable models |
+| **OpenAI Compatible** | Enable if the model uses an OpenAI-compatible API surface | Enabled for compatible providers |
+| **AI Credentials** | Select the AI credential configuration used by this model | `OpenAI GPT 5.4 Production Key` |
+
+The exact **Name** value must match the provider identifier or Azure deployment name used by the selected credential.
+
+<Warning>
+**AI Dial and Reasoning Models**
+
+When you create an OpenAI or Anthropic LLM model and use **AI Dial** as the selected **AI Credentials** provider, do not enable **Supports Reasoning**.
+
+OpenAI and Anthropic model configurations that use **AI Dial** credentials must have **Supports Reasoning** turned off.
+
+![AI Dial and Reasoning Models](../../img/menus/settings/project/ai-providers/ai-dial-reasoning.png)
+</Warning>
 
 For OpenAI:
 
@@ -503,6 +534,18 @@ If a provider configuration does not work after you save it:
 3. Save the configuration again after you correct the values.
 
 ELITEA supports connection validation for configuration types that expose connection checks.
+</Accordion>
+
+<Accordion title="An OpenAI or Anthropic Model Fails Connection Validation with AI Dial Credentials">
+If an OpenAI or Anthropic LLM model fails connection validation when it uses **AI Dial** credentials:
+
+1. Open the LLM model configuration.
+2. Check the **AI Credentials** field and confirm that it uses **AI Dial**.
+3. Clear the **Supports Reasoning** option.
+4. Save the configuration again.
+5. Run the connection check again.
+
+When **AI Dial** is used as the credential provider for OpenAI or Anthropic LLM models, connection validation fails if **Supports Reasoning** is enabled. Keep **Supports Reasoning** disabled for these configurations.
 </Accordion>
 
 <Info title="See Also">
