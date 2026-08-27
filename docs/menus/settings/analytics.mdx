@@ -12,27 +12,32 @@ Analytics data is always **scoped to the currently selected project** and is ref
 
 To access **Analytics** settings, select **Settings** > **Analytics**.
 
-<img src="../../img/menus/settings/project/analytics/euch_analytics.png" alt="Analytics" />
+![Analytics](../../img/menus/settings/project/analytics/analytics.png)
 
 **Analytics** includes these elements:
 
-- **Page header** displays the name of the current project.
+- **Page header** displays the name of the current project, along with **Refresh** and **Export to Excel** buttons on the right.
+- **Refresh button** manually refreshes analytics data, updating the currently active tab with the latest data from the API.
+- **Export to Excel button** downloads a comprehensive Excel workbook containing all analytics data (Overview, Costs, Tokens, Agents & Pipelines, Tools, Users, and Health) for the selected date range. The export includes metadata about the project, date range, and timezone.
 - **Date filter bar** contains the four quick-preset buttons (**Last 24h**, **Last 7d**, **Last 30d**, **Last 90d**) on the left and the **From / To** datetime pickers on the right.
-- **Tabs**: Seven tabs to switch between different analytics views.
+- **Tabs**: Eight tabs to switch between different analytics views (Overview, Costs, Tokens, Agents & Pipelines, Tools, Users, Health, and Guide).
 - **Content area**: The main scrollable panel that renders KPI cards, charts, and tables for the active tab.
 
 <Info title="Project Scope">
 All metrics and charts show data only for the **currently selected project**. To view analytics for a different project, switch projects using the project switcher before opening Analytics.
 </Info>
 
-In **Analytics**, you can see seven tabs:
+In **Analytics**, you can see eight tabs:
 
 <CardGroup cols={3}>
 	<Card title="Overview" icon="chart-line" href="#overview">
 		Project-wide KPI cards, activity trends, top adopters, and model usage.
 	</Card>
 	<Card title="Costs" icon="coins" href="#costs">
-		Estimated LLM spend, token usage, and cost breakdowns by model, user, and agent.
+		Estimated LLM spend and cost breakdowns by model, user, and agent.
+	</Card>
+	<Card title="Tokens" icon="coins" href="#tokens">
+		Token usage breakdown including cache tokens, by model, user, and agent.
 	</Card>
 	<Card title="Agents & Pipelines" icon="diagram-project" href="#agents--pipelines">
 		Usage, latency, errors, and activity trends for agents and pipelines.
@@ -107,14 +112,16 @@ KPI cards show the most important metrics for the selected date range.
 
 ### Daily Activity
 
-A stacked area chart with two series:
+A multi-series area chart showing AI usage trends over time:
 
-- **Events** (blue): total platform events per day.
-- **Users** (green): unique active users per day.
+- **LLM Calls** (purple): AI model invocations per day.
+- **Tool Runs** (orange): Tool executions per day.
+- **Agent & Pipeline Runs** (green): Agent and pipeline interactions per day.
+- **Active Users** (blue, Team Projects only): unique active users per day.
 
-<img src="../../img/menus/settings/project/analytics/euch_overview-daily.png" alt="Daily Activity" />
+<img src="../../img/menus/settings/project/analytics/analytics-overview-daily.png" alt="Daily Activity" />
 
-Use this chart to spot usage spikes, identify quiet periods, or track adoption trends over time.
+Use this chart to spot usage spikes, identify quiet periods, or track adoption trends over time. For Personal Projects, the Active Users series is not displayed.
 
 ### Top 5 AI Adopters
 
@@ -144,7 +151,7 @@ Five KPI cards appear at the top of the Costs tab:
 
 | KPI | Description |
 | --- | --- |
-| **TOTAL COST** | Estimated total LLM cost for the selected date range |
+| **TOTAL COST** | Estimated total LLM cost for the selected date range, including input, output, cache read, and cache write costs |
 | **TOTAL TOKENS** | Total input and output tokens combined |
 | **INPUT TOKENS** | Total prompt tokens |
 | **OUTPUT TOKENS** | Total completion tokens |
@@ -207,6 +214,98 @@ Ranks agents and pipelines by estimated total cost.
 If no agent or pipeline cost data is available for the selected date range, ELITEA shows an empty-state message.
 
 <img src="../../img/menus/settings/project/analytics/euch_cost-agent.png" alt="Cost by Agent & Pipeline" />
+
+## Tokens
+
+**Tokens** provides detailed token usage analytics for the selected date range, including cache token tracking.
+
+![Tokens Tab](../../img/menus/settings/project/analytics/analytics-tokens-tab.png)
+
+<Info title="Cache Tokens">
+Cache read and cache write tokens are tracked separately for models that support prompt caching (e.g., Claude models). Cache tokens help reduce costs by reusing previously processed prompts.
+</Info>
+
+### KPI Cards
+
+Five KPI cards appear at the top of the Tokens tab:
+
+| KPI | Description |
+| --- | --- |
+| **TOTAL TOKENS** | Sum of all token types consumed during the selected date range. This includes input tokens (prompts), output tokens (responses), cache read tokens (reused from cache), and cache write tokens (stored to cache). Use this metric to track overall token consumption trends and compare usage across different time periods. |
+| **INPUT TOKENS** | Tokens sent to AI models as part of your requests, including system prompts, user messages, instructions, conversation history, and any context provided. Reducing input tokens through prompt optimization or conversation pruning directly lowers costs. |
+| **OUTPUT TOKENS** | Tokens generated by AI models in their responses to your prompts. Higher output token counts may indicate verbose responses. You can reduce output tokens by setting max_tokens limits or instructing models to provide more concise answers. |
+| **CACHE READ** | Tokens served from the provider's prompt cache instead of being processed fresh. Cache hits can reduce costs by 50-90% for supported models (e.g., Claude with prompt caching). A high cache read count indicates effective prompt reuse and cost optimization. Only available for models that support prompt caching. |
+| **CACHE WRITE** | Tokens written to the provider's prompt cache for potential reuse in future requests. These tokens are stored once and can then be read multiple times at a reduced cost. High cache write values indicate new or frequently changing prompts. Structure prompts with static content at the beginning to maximize cache effectiveness. |
+
+![Tokens KPI Cards](../../img/menus/settings/project/analytics/analytics-tokens-kpi.png)
+
+### Daily Token Usage
+
+A multi-bar chart showing  daily total, input, and output token usage for LLM requests in the selected date range:
+
+- **Total Tokens** (primary bar): combined token usage per day
+- **Input Tokens** (second bar): prompt tokens per day
+- **Output Tokens** (third bar): completion tokens per day
+- **Cache Read Tokens** (fourth bar): cached tokens read per day
+- **Cache Write Tokens** (fifth bar): tokens written to cache per day
+
+![Daily Token Usage](../../img/menus/settings/project/analytics/analytics-tokens-daily.png)
+
+If no token data is available for the selected date range, ELITEA shows **No token usage is available for the selected date range.**
+
+### Token Usage by User
+
+Shows token usage attributed to each project user during the selected date range.
+
+| Column | Description |
+| --- | --- |
+| **USER** | User email or identifier |
+| **TOTAL TOKENS** | Combined input, output, cache read, and cache write tokens |
+| **INPUT TOKENS** | Prompt tokens attributed to that user |
+| **OUTPUT TOKENS** | Completion tokens attributed to that user |
+| **CACHE READ** | Cache read tokens attributed to that user |
+| **CACHE WRITE** | Cache write tokens attributed to that user |
+| **SHARE** | Percentage of the total project token usage represented by that user |
+
+![Token Usage by User](../../img/menus/settings/project/analytics/analytics-token-usage-user.png)
+
+If no user token data is available for the selected date range, ELITEA shows an empty-state message.
+
+### Token Usage by Model
+
+Shows token usage for each AI model used in the selected date range.
+
+| Column | Description |
+| --- | --- |
+| **MODEL** | Model display name or model identifier |
+| **TOTAL TOKENS** | Combined tokens for that model |
+| **INPUT TOKENS** | Prompt tokens for that model |
+| **OUTPUT TOKENS** | Completion tokens for that model |
+| **CACHE READ** | Cache read tokens for that model |
+| **CACHE WRITE** | Cache write tokens for that model |
+| **SHARE** | Percentage of the total project token usage represented by that model |
+
+![Token Usage by Model](../../img/menus/settings/project/analytics/analytics-token-usage-model.png)
+
+If no model token data is available for the selected date range, ELITEA shows an empty-state message.
+
+### Token Usage by Agent & Pipeline
+
+Shows token usage attributed to Agents and Pipelines during the selected date range.
+
+| Column | Description |
+| --- | --- |
+| **AGENT / PIPELINE** | Agent or pipeline name |
+| **TOTAL TOKENS** | Combined tokens attributed to that agent or pipeline |
+| **INPUT TOKENS** | Prompt tokens attributed to that agent or pipeline |
+| **OUTPUT TOKENS** | Completion tokens attributed to that agent or pipeline |
+| **CACHE READ** | Cache read tokens attributed to that agent or pipeline |
+| **CACHE WRITE** | Cache write tokens attributed to that agent or pipeline |
+| **SHARE** | Percentage of the total project token usage represented by that row |
+
+If no agent or pipeline token data is available for the selected date range, ELITEA shows an empty-state message.
+
+![Token Usage by Agent](../../img/menus/settings/project/analytics/analytics-token-usage-agent.png)
 
 ## Agents & Pipelines
 
@@ -400,9 +499,9 @@ It explains every KPI, chart, and table column with:
 | **Top charts limited to 20 items** | **Most Active Agents** and **Most Popular Tools** charts always show the top 20 items only. Use the paginated table below each chart to browse additional entries. |
 | **Trace-ID correlation** | Tool-to-agent associations (in detail views) are resolved by matching `trace_id` values. This is only available when trace IDs are correctly propagated by the SDK. |
 | **Project-only scope** | There is no cross-project or portfolio-level view within Analytics. For cross-project analysis, use the **Monitoring** section in Settings. |
-| **Costs are estimates** | **Costs** uses a local model-price table, so provider invoices may differ. |
-| **Costs uses a separate request** | **Costs** loads data from a dedicated cost analytics endpoint. |
-| **Project-only scope** | There is no cross-project or portfolio-level view within Analytics. For cross-project analysis, use the **Monitoring** section in Settings. |
+| **Costs are estimates** | **Costs** and **Tokens** use a local model-price table, so provider invoices may differ. |
+| **Costs and Tokens use separate requests** | **Costs** and **Tokens** load data from a dedicated cost analytics endpoint. |
+| **Cache token support** | Cache read and cache write tokens are only available for models that support prompt caching (e.g., Claude models with Anthropic's prompt caching feature). |
 
 
 ## Practical Examples
@@ -447,6 +546,24 @@ It explains every KPI, chart, and table column with:
 5. Narrow the date range using the **From/To** pickers to focus on the spike period, then re-examine the relevant tab.
 </Accordion>
 
+<Accordion title="Monitoring Token Usage and Optimizing Costs">
+1. Open the **Tokens** tab to get a complete view of token consumption.
+2. Review the **Daily Token Usage** chart to identify days with unusually high token consumption.
+3. Check the **Token Usage by Model** table to see which AI models are consuming the most tokens. Models with high output tokens may indicate verbose responses that could be optimized.
+4. In the **Token Usage by Agent & Pipeline** table, identify agents with disproportionately high token usage relative to their value.
+5. Look at **CACHE READ** and **CACHE WRITE** KPI cards — high cache read percentages indicate good prompt caching efficiency, which reduces costs for supported models (e.g., Claude).
+6. Cross-reference with the **Costs** tab to understand the financial impact of token usage patterns.
+</Accordion>
+
+<Accordion title="Evaluating Prompt Caching Effectiveness">
+1. Open the **Tokens** tab and note the **CACHE READ** and **CACHE WRITE** values.
+2. Calculate cache hit ratio: divide **CACHE READ** tokens by (**CACHE READ** + **INPUT** tokens) × 100%.
+3. Review **Token Usage by Agent & Pipeline** to identify which agents benefit most from caching.
+4. Agents with high cache read tokens are efficiently reusing prompts, reducing costs by up to 90% for cached portions.
+5. Agents with low or zero cache tokens may benefit from prompt restructuring to enable caching — place static instructions at the beginning of prompts.
+6. Use **Daily Token Usage** to track how caching efficiency changes over time after prompt optimizations.
+</Accordion>
+
 
 ## Best Practices
 
@@ -472,4 +589,16 @@ When an agent shows high errors in the **Agents** tab, open its detail view and 
 
 <Accordion title="Leverage Cross-Tab Navigation">
 You can navigate directly from the **Overview** leaderboard to a specific user's detail view without going through the Users tab manually. Similarly, using the back arrow in any detail view returns you smoothly to the list without losing your sort or search state.
+</Accordion>
+
+<Accordion title="Use Tokens Tab to Optimize AI Costs">
+The **Tokens** tab is your primary tool for cost optimization. Start by identifying the biggest token consumers in the **Token Usage by Model** and **Token Usage by Agent & Pipeline** tables. Focus optimization efforts on the top 20% of consumers, which typically account for 80% of total usage. For models supporting prompt caching (like Claude), monitor cache read tokens — a healthy cache hit rate can reduce costs by 50-90% on repeated prompts. If cache tokens are low, restructure prompts to place static instructions at the beginning, enabling the provider's caching system to work effectively.
+</Accordion>
+
+<Accordion title="Track Token Trends After Prompt Changes">
+Whenever you modify agent prompts or system instructions, use the **Tokens** tab to measure the impact. Set a custom date range spanning one week before and one week after the change. Compare **Daily Token Usage** patterns to see if input tokens decreased (more concise prompts) or if output tokens changed (different response length). Review **Token Usage by Agent & Pipeline** to isolate the impact to specific agents. This data-driven approach helps validate that prompt engineering efforts are actually reducing token consumption and costs.
+</Accordion>
+
+<Accordion title="Monitor Per-User Token Consumption for Fair Usage Policies">
+If your organization has fair usage policies or user quotas, use the **Token Usage by User** table in the **Tokens** tab to monitor individual consumption. Sort by **TOTAL TOKENS** to identify outliers. Click through to the **Users** tab for detailed daily activity patterns. High token users may be running inefficient workflows, testing extensively, or legitimately processing large volumes. Combine token data with the **Costs** tab to understand the financial impact per user, helping inform capacity planning and budget allocation decisions.
 </Accordion>
