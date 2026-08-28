@@ -152,41 +152,42 @@ Once your credentials are configured, create the Bitbucket toolkit:
        * **[Make Tools Available by MCP](../mcp/make-tools-available-by-mcp)** - (optional checkbox) Enable this option to make the selected tools accessible through external MCP clients
 6. **Save Toolkit:** Click **Save** to create the toolkit
    
-     <img src="../../img/integrations/toolkits/bitbucket/bitbucket-credential-create.gif" alt="Toolkit" />
+    <video width="750" controls>
+        <source src="../../img/integrations/toolkits/bitbucket/bitbucket-toolkit-create.mp4" type="video/mp4"/>
+    </video>
 
 #### Available Tools:
 
-The Bitbucket toolkit provides the following tools for interacting with Bitbucket repositories, organized by functional categories:
+The Bitbucket toolkit provides 23 tools for interacting with Bitbucket repositories, organized into 3 categories as shown in the UI:
 
-| **Tool Category** | **Tool Name** | **Description** | **Primary Use Case** |
-|:-----------------:|---------------|-----------------|----------------------|
-| **Branch Management** | | | |
-| | **Create branch** | Creates a new branch from the active branch. Automatically sets the new branch as active after creation. Returns success message or handles conflicts if branch already exists | Set up new feature branches or bug fix branches for development work |
-| | **Delete branch** | Deletes a branch from the repository with safety checks. Prevents deletion of main/master branches and cannot delete the currently active branch | Remove obsolete or merged feature branches to keep repository clean |
-| | **List branches in repo** | Lists branches in the repository with optional limit parameter (default: 20) and wildcard filtering support (e.g., '*dev') | View all branches or find specific branches matching a pattern for branch management |
-| | **Set active branch** | Switches the active branch for subsequent operations. Validates branch existence before switching and provides helpful error messages with available branches | Switch context to work on a specific branch for file operations and pull requests |
-| **File Operations** | | | |
-| | **Create file** | Creates a new file on the Bitbucket repository at the specified path with provided contents and commits it to the specified branch | Add new configuration files, documentation, or source code to the repository |
-| | **Edit file** | Edits an existing file using OLD/NEW marker format. Supports multiple edits in a single operation with markers on dedicated lines (e.g., OLD &lt;&lt;&lt;&lt; content &gt;&gt;&gt;&gt; OLD, NEW &lt;&lt;&lt;&lt; content &gt;&gt;&gt;&gt; NEW) | Apply precise changes to existing files with clear before/after content specification |
-| | **Grep file** | Searches for text patterns or regular expressions within a specific file in the repository | Find specific code patterns, function definitions, or configuration values in files |
-| | **List files** | Lists files in the repository with optional path filter, recursive/non-recursive search control, and branch specification. Non-recursive mode returns only direct children | Browse repository structure, explore directories, or locate specific file paths |
-| | **Read file** | Reads and returns the complete contents of a file from the repository at the specified branch | Retrieve file contents for review, analysis, or processing by the AI agent |
-| | **Read multiple files** | Reads multiple files from the repository in a single operation, improving efficiency when accessing several files | Efficiently retrieve contents of related files for comprehensive code review or analysis |
-| | **Update file** | Updates an existing file using OLD/NEW marker format for content replacement. Validates changes and provides detailed error messages if markers are malformed | Modify existing file contents with explicit old-to-new content transformations | Modify existing file contents with explicit old-to-new content transformations |
-| **Pull Request Management** | | | |
-| | **Add pull request comment** | Adds a comment to a pull request with support for multiple content types (raw text, markup, HTML) and inline comments with line numbers | Provide code review feedback, ask questions, or discuss specific changes in pull requests |
-| | **Close pull request** | Closes (declines) a pull request without merging. Optionally adds a comment explaining the closure reason | Reject pull requests that don't meet requirements or are no longer needed |
-| | **Create pull request** | Creates a pull request from the bot's branch to the base branch using JSON data specification. Returns PR details including URL upon success | Initiate code review process for changes made by the agent or automation |
+| **Category** | **Tool Name** | **Description** | **Primary Use Case** |
+|:------------:|---------------|-----------------|----------------------|
+| **Read** | | | |
 | | **Get pull request** | Retrieves complete details of a specific pull request including metadata, status, author, and links | Inspect pull request information to understand changes or status before taking action |
 | | **Get pull requests changes** | Retrieves the diff/changes from a pull request showing file modifications, additions, and deletions | Examine specific file changes and modifications included in a pull request |
 | | **Get pull requests commits** | Retrieves the list of commits included in a pull request with commit details and metadata | Review commit history and individual commits that make up a pull request |
-| **Indexing & Search** | | | |
-| | **Index data** | Loads Bitbucket repository data into PgVector for semantic search. Requires PgVector configuration and embedding model to create searchable code index | Enable AI-powered semantic search across repository code for intelligent code discovery |
-| | **List collections** | Lists all available indexed collections in the PgVector database to identify searchable datasets | View and manage indexed data collections to understand what code bases are searchable |
-| | **Remove index** | Removes previously created search indexes from PgVector to free resources or refresh data | Clean up outdated indexes or prepare for re-indexing with updated repository content |
+| | **Grep file** | Searches for text patterns or regular expressions within a specific file in the repository | Find specific code patterns, function definitions, or configuration values in files |
+| | **List branches in repo** | Lists branches in the repository with optional limit parameter (default: 20) and wildcard filtering support (e.g., '\*dev') | View all branches or find specific branches matching a pattern for branch management |
+| | **List files** | Lists files in the repository with optional path filter, recursive/non-recursive search control, and branch specification. Non-recursive mode returns only direct children | Browse repository structure, explore directories, or locate specific file paths |
+| | **List indexes** | Lists all available indexed collections in the PgVector database to identify searchable datasets | View and manage indexed data collections to understand what code bases are searchable |
+| | **Read file** | Reads and returns the complete contents of a file from the repository at the specified branch. Supports partial reads with start_line and end_line parameters for reading specific sections of large files | Retrieve file contents for review, analysis, or processing by the AI agent |
+| | **Read multiple files** | Reads multiple files from the repository in a single operation, improving efficiency when accessing several files | Efficiently retrieve contents of related files for comprehensive code review or analysis |
 | | **Search index** | Performs semantic searches across indexed repository content using natural language queries | Find specific code patterns, implementations, or documentation using AI-powered search |
 | | **Stepback search index** | Performs advanced contextual searches with broader scope, using step-back prompting to generate better search queries | Execute sophisticated searches requiring broader context understanding and query refinement |
 | | **Stepback summary index** | Creates comprehensive summaries of indexed content using step-back prompting for more thorough analysis | Generate intelligent, context-aware summaries of repository code and documentation |
+| **Create & update** | | | |
+| | **Add pull request comment** | Adds a comment to a pull request with support for multiple content types (raw text, markup, HTML) and inline comments with line numbers | Provide code review feedback, ask questions, or discuss specific changes in pull requests |
+| | **Close pull request** | Closes (declines) a pull request without merging. Optionally adds a comment explaining the closure reason | Reject pull requests that don't meet requirements or are no longer needed |
+| | **Create branch** | Creates a new branch from the active branch. Automatically sets the new branch as active after creation. Returns success message or handles conflicts if branch already exists | Set up new feature branches or bug fix branches for development work |
+| | **Create file** | Creates a new file on the Bitbucket repository at the specified path with provided contents and commits it to the specified branch | Add new configuration files, documentation, or source code to the repository |
+| | **Create pull request** | Creates a pull request from the bot's branch to the base branch using JSON data specification. Returns PR details including URL upon success | Initiate code review process for changes made by the agent or automation |
+| | **Index data** | Loads Bitbucket repository data into PgVector for semantic search. Requires PgVector configuration and embedding model to create searchable code index | Enable AI-powered semantic search across repository code for intelligent code discovery |
+| | **Set active branch** | Switches the active branch for subsequent operations. Validates branch existence before switching and provides helpful error messages with available branches | Switch context to work on a specific branch for file operations and pull requests |
+| | **Update file** | Updates an existing file using OLD/NEW marker format for content replacement. Validates changes and provides detailed error messages if markers are malformed. Markers must be on dedicated lines | Modify existing file contents with explicit old-to-new content transformations |
+| **Delete** | | | |
+| | **Delete branch** | Deletes a branch from the repository with safety checks. Prevents deletion of main/master branches and cannot delete the currently active branch | Remove obsolete or merged feature branches to keep repository clean |
+| | **Delete file** | Deletes a file from the repository at the specified path on the specified branch with an optional commit message | Remove obsolete files, clean up temporary files, or delete configuration files no longer needed |
+| | **Remove index** | Removes previously created search indexes from PgVector to free resources or refresh data | Clean up outdated indexes or prepare for re-indexing with updated repository content |
 
 <Tip title="Vector Search Tools">
 The tools **Index data**, **List collections**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These enable advanced semantic search capabilities across your Bitbucket repository.
