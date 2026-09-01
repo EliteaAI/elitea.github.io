@@ -98,11 +98,11 @@ It's highly recommended to use **[Secrets](../../menus/settings/secrets)** for A
 
 Once your credentials are configured, create the Confluence toolkit:
 
-1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits](../../menus/toolkits)**.
-2. **Create New Toolkit:** Click the **`+ Create`** button.
+1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits & Indexes](../../menus/toolkits)**.
+2. **Create New Toolkit:** Click the **`+ Toolkit`** button.
 3. **Select Confluence:** Choose **Confluence** from the list of available toolkit types.
 
-     ![Confluence Toolkit Access](../../img/integrations/toolkits/confluence/confluence-toolkit-access.gif)
+     ![Confluence Toolkit Access](../../img/integrations/toolkits/confluence/confluence-toolkit-access.png)
 
 4. **Configure Toolkit Details:**
 
@@ -113,8 +113,8 @@ Once your credentials are configured, create the Confluence toolkit:
    | **Credential** | Required | — | Select the Confluence credential created in Step 1 |
    | **PgVector Configuration** | Optional | — | PgVector connection for vector database integration and semantic search |
    | **Embedding Model** | Optional | — | Embedding model for semantic search capabilities (required when PgVector is configured) |
-   | **API Version** | Optional | Auto | REST API version. **Auto** selects automatically based on the Hosting setting in the linked credential (Cloud → V3, Server → V2). Set **V3** for Confluence Cloud or **V2** for Confluence Server / Data Center if Auto does not resolve correctly |
-   | **Space** | Required | — | Space key of the Confluence space to access (e.g., `DOCS`, `TEAM`). Found in space settings or in the URL when viewing the space |
+   | **API Version** | Optional | Auto | REST API version used for Confluence operations. **Auto** (recommended) automatically selects V2 for Cloud or V1 for Server based on the credential's Hosting setting. Manually override only if Auto does not resolve correctly. See the note below for details |
+   | **Space Key** | Required | — | Space key of the Confluence space to access (e.g., `DOCS`, `TEAM`). Found in space settings or in the URL when viewing the space |
    | **Limit** | Optional | 5 | Maximum number of pages retrieved per individual API request. Controls page size per call |
    | **Labels** | Optional | — | Filter content retrieval to pages with specific labels, comma-separated (e.g., `meeting-notes,documentation`) |
    | ***Advanced Settings*** | | | |
@@ -128,47 +128,63 @@ Once your credentials are configured, create the Confluence toolkit:
        * **[Make Tools Available by MCP](../mcp/make-tools-available-by-mcp)** - (optional) Enable to expose selected tools to external MCP clients.
 6. **Save Toolkit:** Click **Save** to create the toolkit.
 
-     ![Confluence Toolkit](../../img/integrations/toolkits/confluence/confluence-toolkit-create.gif)
+<video src="../../img/integrations/toolkits/confluence/confluence-toolkit-create.mp4" controls></video>
+
+<Info>
+**API Version Selection**
+
+The **API Version** field determines which Confluence REST API endpoints are used:
+
+- **Auto** (default) — Automatically selects the API version based on the **Hosting** setting in the linked credential:
+  - **Cloud hosting** (base URL contains `.atlassian.net`) → **V2** (`/wiki/api/v2`)
+  - **Server hosting** (on-premises or Data Center) → **V1** (`/rest/api`)
+
+- **V2** — Confluence Cloud REST API v2. Uses cursor-based pagination and storage/atlas_doc_format body representation. **Cloud-only** — selecting V2 against a Server/Data Center instance will fail.
+
+- **V1** — Legacy Confluence REST API v1. **Required for Confluence Server / Data Center**; also still supported on Cloud for backward compatibility.
+
+⚠️ **Important:** Confluence does not provide a public API v3. This differs from other Atlassian products like Jira which use v2/v3.
+</Info>
 
 #### Available Tools:
 
-The Confluence toolkit provides the following tools for interacting with Confluence spaces and pages, organized by functional categories:
+The Confluence toolkit provides 25 tools for interacting with Confluence spaces and pages, organized by functional categories:
 
-| **Tool Category** | **Tool Name** | **Description** | **Primary Use Case** |
-|:-----------------:|---------------|-----------------|----------------------|
-| **Search & Discovery** | | | |
-| | **Site search** | Performs a search across the entire Confluence site | Find content across all spaces and pages based on keywords |
-| | **Search by title** | Searches for pages based on their title | Locate specific pages by title within the workspace |
-| | **Search pages** | Searches for pages within a specified space based on keywords | Find relevant pages within a specific space or project |
-| | **Get page id by title** | Retrieves the page ID using the page title | Get page ID when you only know the page title |
-| **Content Access** | | | |
-| | **Read page by id** | Retrieves the content of a page using its unique ID | Access specific page content for analysis or processing |
-| | **Get pages with label** | Retrieves pages within a space that have a specific label | Access related content organized by labels |
-| | **List pages with label** | Lists titles of pages within a space that have a specific label | Get overview of pages categorized by labels |
-| | **Get page tree** | Retrieves the hierarchical structure of pages within a space | Understand content organization and page relationships |
-| | **Get page attachments** | Retrieves attachments from a specific page | Access files and documents attached to pages |
-| | **Get page with image descriptions** | Retrieves page content with image descriptions | Access pages with detailed image information |
-| **Content Management** | | | |
-| | **Create page** | Creates a new page within a specified space | Generate new documentation, meeting notes, or project pages |
-| | **Create pages** | Creates multiple pages within a space in bulk | Efficiently create large sets of related documentation |
-| | **Update page by id** | Updates content of a page using its unique ID | Modify specific page content programmatically |
-| | **Update page by title** | Updates content of a page using its title | Update pages when you know the title but not the ID |
-| | **Update pages** | Updates content of multiple pages in bulk | Efficiently modify large sets of related pages |
-| | **Delete page** | Deletes a specific page identified by its ID | Remove outdated or obsolete content |
-| | **Add file to page** | Attaches a file to a specific Confluence page | Upload and attach supporting files or screenshots to pages |
-| **Organization & Metadata** | | | |
-| | **Update labels** | Adds or removes labels from a specific page | Categorize and organize content for better discoverability |
-| **Indexing & Search** | | | |
-| | **Index data** | Creates searchable indexes of Confluence content | Enable advanced search and discovery across pages |
-| | **List collections** | Lists available indexed collections | View and manage indexed data collections |
-| | **Remove index** | Removes previously created search indexes | Clean up and manage indexed content |
-| | **Search index** | Performs searches across indexed content | Find specific content across indexed pages |
-| | **Stepback search index** | Performs advanced contextual searches with broader scope | Execute sophisticated searches with expanded context |
-| | **Stepback summary index** | Creates comprehensive summaries of indexed content | Generate intelligent summaries of page information |
-| **Advanced Operations** | | | |
-| | **Execute generic confluence** | Sends custom HTTP requests to Confluence API | Access any Confluence API endpoint not covered by specific tools |
+| **Category** | **Tool Name** | **Description** |
+|:------------:|---------------|-----------------|
+| **Read** | | |
+| | **Get page attachments** | Retrieves attachments from a specific page |
+| | **Get page id by title** | Retrieves the page ID using the page title |
+| | **Get page tree** | Retrieves the hierarchical structure of pages within a space |
+| | **Get page with image descriptions** | Retrieves page content with image descriptions |
+| | **Get pages with label** | Retrieves pages within a space that have a specific label |
+| | **List indexes** | Lists available indexed collections for vector search |
+| | **List pages with label** | Lists titles of pages within a space that have a specific label |
+| | **Read page by id** | Retrieves the content of a page using its unique ID |
+| | **Search by title** | Searches for pages based on their title |
+| | **Search index** | Performs searches across indexed content |
+| | **Search pages** | Searches for pages within a specified space based on keywords |
+| | **Site search** | Performs a search across the entire Confluence site |
+| | **Stepback search index** | Performs advanced contextual searches with broader scope across indexed content |
+| | **Stepback summary index** | Creates comprehensive summaries of indexed content with enhanced context |
+| **Create & update** | | |
+| | **Add file to page** | Attaches a file to a specific Confluence page |
+| | **Create page** | Creates a new page within a specified space |
+| | **Create pages** | Creates multiple pages within a space in bulk |
+| | **Index data** | Creates searchable vector indexes of Confluence content |
+| | **Update labels** | Adds or removes labels from a specific page |
+| | **Update page by id** | Updates content of a page using its unique ID |
+| | **Update page by title** | Updates content of a page using its title |
+| | **Update pages** | Updates content of multiple pages in bulk |
+| **Delete** | | |
+| | **Delete page** | Deletes a specific page identified by its ID |
+| | **Remove index** | Removes previously created search indexes |
+| **Execute** | | |
+| | **Execute generic confluence** | Sends custom HTTP requests to Confluence API for operations not covered by specific tools |
 
-<Note title="Read page by id: content format override">
+<Note>
+**Read page by id: content format override**
+
 The **Read page by id** tool now supports an optional per-call `content_format` parameter. Use it when the default rendered page body does not expose the content you need clearly, especially on macro-heavy or specially structured Confluence pages.
 
 Supported values are:
@@ -185,7 +201,7 @@ If `content_format` is not provided, the tool keeps using the toolkit's configur
 </Note>
 
 <Tip title="Vector Search Tools">
-The tools **Index data**, **List collections**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These enable advanced semantic search capabilities across your Confluence spaces and pages.
+The tools **Index data**, **List indexes**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These enable advanced semantic search capabilities across your Confluence spaces and pages.
 </Tip>
 
 #### Testing Toolkit Tools
@@ -221,7 +237,7 @@ Now you can add the configured Confluence toolkit to your agents, pipelines, or 
 1. **Navigate to Agents:** Open the sidebar and select **[Agents](../../menus/agents)**.
 2. **Create or Edit Agent:** Either create a new agent or select an existing agent to edit.
 3. **Add Confluence Toolkit:** 
-     * In the **"TOOLKITS"** section of the agent configuration, click the **"+Toolkit"** icon
+     * In the **"TOOLS"** section of the agent configuration, click the **"+Toolkit"** icon
      * Select your configured Confluence toolkit from the dropdown list
      * The toolkit will be added to your agent with the previously configured tools enabled
 
@@ -235,7 +251,7 @@ Your agent can now interact with Confluence using the configured toolkit and spa
 1. **Navigate to Pipelines:** Open the sidebar and select **[Pipelines](../../menus/pipelines)**.
 2. **Create or Edit Pipeline:** Either create a new pipeline or select an existing pipeline to edit.
 3. **Add Confluence Toolkit:** 
-     * In the **"TOOLKITS"** section of the pipeline configuration, click the **"+Toolkit"** icon
+     * In the **"TOOLS"** section of the pipeline configuration, click the **"+Toolkit"** icon
      * Select your configured Confluence toolkit from the dropdown list
      * The toolkit will be added to your pipeline with the previously configured tools enabled
 
@@ -245,13 +261,18 @@ Your agent can now interact with Confluence using the configured toolkit and spa
 #### In Chat:
 
 1. **Navigate to Chat:** Open the sidebar and select **[Chat](../../menus/chat)**.
-2. **Start New Conversation:** Click **+Create** or open an existing conversation.
-3. **Add Toolkit to Conversation:**
-     * In the chat Participants section, look for the **Toolkits** element
-     * Click the **"Add Tools"** Icon to open the tools selection dropdown
-     * Select your configured Confluence toolkit from the dropdown list
-     * The toolkit will be added to your conversation with all previously configured tools enabled
-4. **Use Toolkit in Chat:** You can now directly interact with your Confluence spaces and pages by asking questions or requesting actions that will trigger the Confluence toolkit tools.
+2. **Start New Conversation:** Click **+ Conversation** or open an existing conversation.
+3. **Add Confluence Toolkit to Conversation:**
+   - Click the **`+`** icon in the chat input toolbar (tooltip: *Add files, agents, toolkits and more…*)
+   - Hover over **Toolkits** in the popup menu
+   - Search for your Confluence toolkit by name
+   - Enable the toolkit to add it to your conversation
+4. **Verify Toolkit Added:** The Confluence toolkit appears in the **PARTICIPANTS** panel on the right side under the **Toolkits** section.
+5. **Use Toolkit in Chat:** You can now directly interact with your Confluence spaces and pages by asking questions or requesting actions that will trigger the Confluence toolkit tools.
+
+<Tip>
+You can also add the toolkit by typing **`#`** in the chat input box and searching for your Confluence toolkit.
+</Tip>
 
 <Info title="Example Chat Usage:">
 - "Show me the project documentation from the DOCS space."
@@ -260,7 +281,7 @@ Your agent can now interact with Confluence using the configured toolkit and spa
 - "Update the project overview page with latest milestones."
 </Info>
 
-<img src="../../img/integrations/toolkits/confluence/confluence-chat-add.gif" alt="Confluence Chat" />
+<video src="../../img/integrations/toolkits/confluence/confluence-chat-add.mp4" controls></video>
 
 
 ## Instructions and Prompts for Using the Confluence Toolkit
