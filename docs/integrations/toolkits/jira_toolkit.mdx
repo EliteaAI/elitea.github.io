@@ -97,11 +97,11 @@ It's highly recommended to use **[Secrets](../../menus/settings/secrets)** for A
 
 Once your credentials are configured, create the Jira toolkit:
 
-1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits](../../menus/toolkits)**.
-2. **Create New Toolkit:** Click the **`+ Create`** button.
+1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits & Indexes](../../menus/toolkits)**.
+2. **Create New Toolkit:** Click the **`+ Toolkit`** button.
 3. **Select Jira:** Choose **Jira** from the list of available toolkit types.
 
-     ![Jira create Toolkit](../../img/integrations/toolkits/jira/jira-toolkit-access.gif)
+     ![Jira create Toolkit](../../img/integrations/toolkits/jira/jira-toolkit-access.png)
 
 4. **Configure Toolkit Details:**
 
@@ -109,10 +109,10 @@ Once your credentials are configured, create the Jira toolkit:
    |-------|----------|---------|-------------|
    | **Toolkit Name** | Required | — | Descriptive name for the toolkit (e.g., *"Jira Project Management"*) |
    | **Description** | Optional | — | Brief description of the toolkit's purpose |
-   | **Credential** | Required | — | Select the Jira credential created in Step 1 |
+   | **Jira Configuration ** | Required | — | Select the Jira credential created in Step 1 |
    | **PgVector Configuration** | Optional | — | PgVector connection for vector database integration and semantic search |
    | **Embedding Model** | Optional | — | Embedding model for semantic search capabilities (required when PgVector is configured) |
-   | **API Version** | Optional | Auto | REST API version. **Auto** selects automatically based on the Hosting setting in the linked credential (Cloud → V3, Server → V2). Set **V3** for Jira Cloud or **V2** for Jira Server / Data Center if Auto does not resolve correctly |
+   | **API Version** | Optional | Auto | REST API version used for Jira operations. **Auto** (recommended) automatically selects V3 for Cloud or V2 for Server based on the credential's Hosting setting. Manually override only if Auto does not resolve correctly. See the note below for details |
    | **Limit** | Optional | 5 | Maximum number of issues returned per request. Increase for large JQL result sets (e.g., 50, 100) |
    | **Labels** | Optional | — | Comma-separated labels applied to created or updated Jira entities (e.g., `alita,elitea`) |
    | ***Advanced Settings*** | | | |
@@ -120,51 +120,62 @@ Once your credentials are configured, create the Jira toolkit:
    | **Additional Fields** | Optional | — | Custom Jira field IDs accessible within the toolkit, comma-separated (e.g., `customfield_10045,customfield_10100`) |
    | **Custom Headers** | Optional | — | Additional HTTP headers included with every API request, in JSON format (e.g., `{"X-Custom-Header": "value"}`) |
 
+<Info title="API Version Selection">
+The **API Version** field determines which Jira REST API endpoints are used:
+
+- **Auto** (default) — Automatically selects the API version based on the **Hosting** setting in the linked credential:
+  - **Cloud hosting** (base URL contains `.atlassian.net`) → **V3** (`/rest/api/3`)
+  - **Server hosting** (on-premises or Data Center) → **V2** (`/rest/api/2`)
+
+- **V3** — Jira Cloud REST API v3. Uses Atlassian Document Format (ADF) for comments and descriptions. **Cloud-only** — selecting V3 against a Server/Data Center instance will fail.
+
+- **V2** — Jira REST API v2. **Standard for Jira Server / Data Center**; also still supported on Cloud for backward compatibility. Uses plain text and wiki markup.
+
+⚠️ **Important:** Using the wrong version for your instance type may cause failures in comments, search, and attachments.
+</Info>
+
 5. **Enable Desired Tools:** In the **"Tools"** section, select the checkboxes next to the specific Jira tools you want to enable. **Enable only the tools your agents will actually use** to follow the principle of least privilege.
        * **[Make Tools Available by MCP](../mcp/make-tools-available-by-mcp)** - (optional) Enable to expose selected tools to external MCP clients.
 6. **Save Toolkit:** Click **Save** to create the toolkit.
 
-     ![Jira create Toolkit](../../img/integrations/toolkits/jira/jira-toolkit-create.gif)
+<video src="../../img/integrations/toolkits/jira/jira-toolkit-create.mp4" controls></video>
 
 #### Available Tools:
 
 The Jira toolkit provides the following tools for interacting with Jira projects and issues, organized by functional categories:
 
-| **Tool Category** | **Tool Name** | **Description** | **Primary Use Case** |
-|:-----------------:|---------------|-----------------|----------------------|
-| **Search & Discovery** | | | |
-| | **Search using JQL** | Search for Jira issues using Jira Query Language (JQL) queries | Find issues based on complex criteria using JQL |
-| | **List projects** | Retrieve a list of all projects available in the Jira instance | Discover and list available Jira projects |
-| **Issue Management** | | | |
-| | **Create issue** | Create new Jira issues within a specified project | Automate issue creation from workflows |
-| | **Update issue** | Modify fields of existing Jira issues | Update issue status, assignees, priorities, and custom fields |
-| | **Set issue status** | Change the status of a specific Jira issue | Transition issues through workflow states |
-| | **Get specific field info** | Retrieve information from a specific field of a Jira issue | Extract specific data points from issues |
-| | **Get field with image descriptions** | Retrieve field information with enhanced image description support | Extract field data with visual content analysis |
-| | **Modify labels** | Add or remove labels from a specific Jira issue | Categorize and organize issues with labels |
-| **Communication** | | | |
-| | **List comments** | Retrieve comments associated with a specific Jira issue | Access discussion history for issues |
-| | **Add comments** | Add new comments to a Jira issue | Automate communication and updates |
-| | **Update comment with file** | Update existing comments with file attachments | Enhance comments with supporting documentation |
-| | **Get comments with image descriptions** | Retrieve comments with enhanced image description support | Access comments with visual content analysis |
-| **Content & Attachments** | | | |
-| | **Get attachments content** | Retrieve content of attachments from a Jira issue | Access and process attached files |
-| | **Add file to issue description** | Attach a file and embed it in the issue description | Enrich issue descriptions with supporting files or screenshots |
-| | **Get remote links** | Retrieve remote links associated with a Jira issue | Access external resources linked to issues |
-| **Relationship Management** | | | |
-| | **Link issues** | Create links between Jira issues | Establish relationships and dependencies |
-| **Data Management & Indexing** | | | |
-| | **Index data** | Index Jira data for enhanced search and analytics | Create searchable indexes of project data |
-| | **Search index** | Search through indexed Jira data for enhanced discovery | Find indexed content and data across Jira projects |
-| | **Stepback search index** | Perform stepback search through indexed data | Advanced search with contextual stepback functionality |
-| | **List collections** | Retrieve available data collections | Access and manage data collection listings |
-| | **Remove index** | Remove existing data indexes | Clean up and manage index storage |
-| | **Stepback summary index** | Generate stepback summaries for indexed data | Create contextual summaries of indexed content |
-| **Advanced Operations** | | | |
-| | **Execute generic rq** | Send custom HTTP requests to Jira API | Access any Jira API endpoint not covered by specific tools |
+| **Category** | **Tool Name** | **Description** |
+|:------------:|---------------|-----------------|
+| **Read** | | |
+| | **Search using JQL** | Search for Jira issues using Jira Query Language (JQL) queries |
+| | **List projects** | Retrieve a list of all projects available in the Jira instance |
+| | **List comments** | Retrieve comments associated with a specific Jira issue |
+| | **Get specific field info** | Retrieve information from a specific field of a Jira issue |
+| | **Get field with image descriptions** | Retrieve field information with enhanced image description support |
+| | **Get comments with image descriptions** | Retrieve comments with enhanced image description support |
+| | **Get attachments content** | Retrieve content of attachments from a Jira issue |
+| | **Get remote links** | Retrieve remote links associated with a Jira issue |
+| | **Search index** | Search through indexed Jira data for enhanced discovery |
+| | **Stepback search index** | Perform stepback search through indexed data |
+| | **Stepback summary index** | Generate stepback summaries for indexed data |
+| | **List indexes** | Retrieve available data indexes |
+| **Create & update** | | |
+| | **Create issue** | Create new Jira issues within a specified project |
+| | **Update issue** | Modify fields of existing Jira issues |
+| | **Set issue status** | Change the status of a specific Jira issue |
+| | **Modify labels** | Add or remove labels from a specific Jira issue |
+| | **Add comments** | Add new comments to a Jira issue |
+| | **Update comment with file** | Update existing comments with file attachments |
+| | **Add file to issue description** | Attach a file and embed it in the issue description |
+| | **Link issues** | Create links between Jira issues |
+| | **Index data** | Index Jira data for enhanced search and analytics |
+| **Delete** | | |
+| | **Remove index** | Remove existing data indexes |
+| **Execute** | | |
+| | **Execute generic rq** | Send custom HTTP requests to Jira API |
 
 <Tip title="Vector Search Tools">
-The tools **Index data**, **List collections**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These enable advanced semantic search capabilities across your Jira projects.
+The tools **Index data**, **List indexes**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These enable advanced semantic search capabilities across your Jira projects.
 </Tip>
 
 #### Testing Toolkit Tools
@@ -200,7 +211,7 @@ Now you can add the configured Jira toolkit to your agents, pipelines, or use it
 1. **Navigate to Agents:** Open the sidebar and select **[Agents](../../menus/agents)**.
 2. **Create or Edit Agent:** Either create a new agent or select an existing agent to edit.
 3. **Add Jira Toolkit:** 
-     * In the **"TOOLKITS"** section of the agent configuration, click the **"+Toolkit"** icon
+     * In the **"TOOLS"** section of the agent configuration, click the **"+Toolkit"** icon
      * Select your configured Jira toolkit from the dropdown list
      * The toolkit will be added to your agent with the previously configured tools enabled
 
@@ -214,7 +225,7 @@ Your agent can now interact with Jira using the configured toolkit and enabled t
 1. **Navigate to Pipelines:** Open the sidebar and select **[Pipelines](../../menus/pipelines)**.
 2. **Create or Edit Pipeline:** Either create a new pipeline or select an existing pipeline to edit.
 3. **Add Jira Toolkit:** 
-     * In the **"TOOLKITS"** section of the pipeline configuration, click the **"+Toolkit"** icon
+     * In the **"TOOLS"** section of the pipeline configuration, click the **"+Toolkit"** icon
      * Select your configured Jira toolkit from the dropdown list
      * The toolkit will be added to your pipeline with the previously configured tools enabled
 
@@ -224,13 +235,14 @@ Your agent can now interact with Jira using the configured toolkit and enabled t
 #### In Chat:
 
 1. **Navigate to Chat:** Open the sidebar and select **[Chat](../../menus/chat)**.
-2. **Start New Conversation:** Click **+Create** or open an existing conversation.
-3. **Add Toolkit to Conversation:**
-     * In the chat Participants section, look for the **Toolkits** element
-     * Click the **"Add Tools"** Icon to open the tools selection dropdown
-     * Select your configured Jira toolkit from the dropdown list
-     * The toolkit will be added to your conversation with all previously configured tools enabled
-4. **Use Toolkit in Chat:** You can now directly interact with your Jira projects and issues by asking questions or requesting actions that will trigger the Jira toolkit tools.
+2. **Start New Conversation:** Click **+ Conversation** or open an existing conversation.
+3. **Add Jira Toolkit to Conversation:**
+   - Click the **`+`** icon in the chat input toolbar (tooltip: *Add files, agents, toolkits and more…*)
+   - Hover over **Toolkits** in the popup menu
+   - Search for your Jira toolkit by name
+   - Enable the toolkit to add it to your conversation
+4. **Verify Toolkit Added:** The Jira toolkit appears in the **PARTICIPANTS** panel on the right side under the **Toolkits** section.
+5. **Use Toolkit in Chat:** You can now directly interact with your Jira projects and issues by asking questions or requesting actions that will trigger the Jira toolkit tools.
 
 <Info title="Example Chat Usage:">
 - "Show me all open bugs in project DEMO that are assigned to me."
@@ -239,7 +251,7 @@ Your agent can now interact with Jira using the configured toolkit and enabled t
 - "Search for all user stories related to authentication."
 </Info>
 
-![Jira Conversation](../../img/integrations/toolkits/jira/jira-chat-add.gif)
+<video src="../../img/integrations/toolkits/jira/jira-chat-add.mp4" controls></video>
 
 ---
 ## Instructions and Prompts for Using the Jira Toolkit
