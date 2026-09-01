@@ -79,9 +79,10 @@ Use **[Secrets](../../menus/settings/secrets)** for API tokens instead of enteri
 
 ### Step 2: Create qTest toolkit
 
-1. **Go to Toolkits:** Open the sidebar and select **[Toolkits](../../menus/toolkits)**.
-2. **Create new toolkit:** Select **`+ Create`**.
+1. **Go to Toolkits:** Open the sidebar and select **[Toolkits & Indexes](../../menus/toolkits)**.
+2. **Create new toolkit:** Select **`+ Toolkit`**.
 3. **Select qTest:** Choose **qTest** from the list of available toolkit types.
+    <img src="../../img/integrations/toolkits/qtest/qtest-toolkit-access.png" alt="qTest Toolkit Access" />
 4. **Complete the fields:**
    - **Toolkit name:** Enter a descriptive name for your toolkit (required). Example: "qTest - Project Testing"
    - **Description:** Provide an optional description to explain the toolkit purpose. Example: "Toolkit for managing test cases and test execution in qTest for Project Alpha"
@@ -138,37 +139,37 @@ The **No of tests shown in DQL search** field is a mandatory setting that contro
 
 In the table you can see tools for interacting with qTest projects and test cases, organized by functional categories:
 
-| Tool category | Tool name | Description | Primary use case |
-|---|---|---|---|
-| **Search & discovery** | | | |
-| | **Search by DQL** | Search for test cases using qTest Data Query Language (DQL) queries | Find test cases based on complex criteria using DQL |
-| | **Search entities by DQL** | Search for various qTest entities using DQL queries | Find requirements, test runs, defects, and other entities |
-| | **Get modules** | Retrieve module IDs and names from the qTest project | Discover project module structure for accurate DQL queries |
-| | **Find entity by ID** | Retrieve any qTest entity by its unique identifier | Access detailed information for any entity type |
-| **Test case management** | | | |
-| | **Create test cases** | Create new test cases in qTest within a specified project and folder | Automate test case creation from requirements or user stories |
-| | **Update test case** | Modify fields of existing test cases | Update test case steps, expected results, and attributes |
-| | **Find test case by ID** | Retrieve detailed information about a specific test case | Access comprehensive test case details for analysis |
-| | **Delete test case** | Delete a test case from qTest | Remove obsolete or redundant test cases |
-| | **Add file to test case** | Upload a file from artifact storage to a qTest test case or specific test step | Attach files, screenshots, or documents to test cases or individual test steps |
-| | **Get all test cases fields for project** | Retrieve all available custom and standard fields for test cases | Understand available fields for creating or updating test cases |
-| **Test run & defect management** | | | |
-| | **Find test runs by test case ID** | Retrieve all test run instances for a specific test case | Track execution history and test run results |
-| | **Find defects by test run ID** | Retrieve all defects associated with a specific test run | Analyze defects found during test execution |
-| | **Update test run status** | Update the execution status of a manual test run and optionally add an execution note | Record execution outcomes such as Passed, Failed, Blocked, or Incomplete |
-| | **Upload attachment to test run** | Upload a file to the test run context by attaching it to the underlying test case or to the latest test log | Add evidence files, logs, or screenshots to execution records |
-| **Requirements & traceability** | | | |
-| | **Find requirements by test case ID** | Retrieve all requirements linked to a specific test case | Verify test coverage for requirements |
-| | **Find test cases by requirement ID** | Retrieve all test cases linked to a specific requirement | Assess requirement testing completeness |
-| | **Link tests to Jira requirement** | Link test cases to Jira requirements | Maintain traceability between qTest tests and Jira requirements |
-| | **Link tests to qTest requirement** | Link test cases to qTest requirements | Maintain traceability between tests and qTest requirements |
-| **Advanced search (vector/index)** | | | |
-| | **Index data** | Index test case data into a vector database for semantic search | Turn on AI-powered semantic search across test cases |
-| | **Search index** | Perform semantic search across indexed test case data | Find relevant test cases using natural language queries |
-| | **Stepback search index** | Perform stepback semantic search with query refinement | Enhanced search with automatic query optimization |
-| | **Stepback summary index** | Generate summaries from stepback search results | Get concise summaries of search results |
-| | **List collections** | List all available vector database collections | Discover indexed data collections |
-| | **Remove index** | Delete indexed data from the vector database | Remove or refresh indexed data |
+| **Category** | **Tool Name** | **Description** |
+|:------------:|---------------|-----------------|
+| **Read** | | |
+| | **Find defects by test run ID** | Retrieve all defects associated with a specific test run |
+| | **Find entity by ID** | Retrieve any qTest entity by its unique identifier |
+| | **Find requirements by test case ID** | Retrieve all requirements linked to a specific test case |
+| | **Find test case by ID** | Retrieve detailed information about a specific test case |
+| | **Find test cases by requirement ID** | Retrieve all test cases linked to a specific requirement |
+| | **Find test runs by test case ID** | Retrieve all test run instances for a specific test case |
+| | **Get all test cases fields for project** | Retrieve all available custom and standard fields for test cases |
+| | **Get modules** | Retrieve module IDs and names from the qTest project |
+| | **Get test case versions** | Retrieve version history of a specific test case |
+| | **List indexes** | List all available vector database collections |
+| | **Search by dql** | Search for test cases using qTest Data Query Language (DQL) queries |
+| | **Search entities by dql** | Search for various qTest entities using DQL queries |
+| | **Search index** | Perform semantic search across indexed test case data |
+| | **Stepback search index** | Perform stepback semantic search with query refinement |
+| | **Stepback summary index** | Generate summaries from stepback search results |
+| **Create & update** | | |
+| | **Add file to test case** | Upload a file from artifact storage to a qTest test case or specific test step |
+| | **Create test cases** | Create new test cases in qTest within a specified project and folder |
+| | **Index data** | Index test case data into a vector database for semantic search |
+| | **Link tests to Jira requirement** | Link test cases to Jira requirements |
+| | **Link tests to qTest requirement** | Link test cases to qTest requirements |
+| | **Update test case** | Modify fields of existing test cases |
+| | **Update test run status** | Update the execution status of a manual test run and optionally add an execution note |
+| | **Upload attachment to test run** | Upload a file to the test run context by attaching it to the underlying test case or to the latest test log |
+| **Delete** | | |
+| | **Delete test case** | Delete a test case from qTest |
+| | **Remove index** | Delete indexed data from the vector database |
+| **Execute** | | |
 
 <Note title="Search by DQL: lighter defaults & timeout protection">
 The **Search by DQL** tool uses lighter default request behavior for more predictable performance under heavier workloads.
@@ -188,7 +189,7 @@ qTest API requests run with timeout protection. Slow or unresponsive qTest endpo
 </Info>
 
 <Tip title="Vector search tools">
-The tools **Index data**, **List collections**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These turn on advanced semantic search capabilities across your qTest projects.
+The tools **Index data**, **List indexes**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These turn on advanced semantic search capabilities across your qTest projects.
 </Tip>
 
 <Warning title="Image extraction considerations">
@@ -234,13 +235,13 @@ You can add the configured qTest toolkit to your agents, pipelines, or use it di
 1. **Go to Agents:** Open the sidebar and select **[Agents](../../menus/agents)**.
 2. **Create or edit agent:** Create a new agent or select an existing agent to edit.
 3. **Add qTest toolkit:**
-   - In the **"TOOLKITS"** section of the agent configuration, select the **"+Toolkit"** icon.
+   - In the **"TOOLS"** section of the agent configuration, select the **"+Toolkit"** icon.
    - Select your configured qTest toolkit from the dropdown list.
    - The toolkit will be added to your agent with the previously configured tools turned on.
 
-Your agent can now interact with qTest using the configured toolkit and turned-on tools.
+    ![Add qTest toolkit to an agent](../../img/integrations/toolkits/qtest/qtest-agent-add.png)
 
-![Add qTest toolkit to an agent](../../img/integrations/toolkits/qtest/qtest-agent-add.gif)
+Your agent can now interact with qTest using the configured toolkit and turned-on tools.
 
 ---
 
@@ -249,26 +250,31 @@ Your agent can now interact with qTest using the configured toolkit and turned-o
 1. **Go to Pipelines:** Open the sidebar and select **[Pipelines](../../menus/pipelines)**.
 2. **Create or edit pipeline:** Create a new pipeline or select an existing pipeline to edit.
 3. **Add qTest toolkit:**
-   - In the **"TOOLKITS"** section of the pipeline configuration, select the **"+Toolkit"** icon.
+   - In the **"TOOLS"** section of the pipeline configuration, select the **"+Toolkit"** icon.
    - Select your configured qTest toolkit from the dropdown list.
    - The toolkit will be added to your pipeline with the previously configured tools turned on.
 
-![Add qTest toolkit to a pipeline](../../img/integrations/toolkits/qtest/qtest-pipeline-add.gif)
+    ![Add qTest toolkit to a pipeline](../../img/integrations/toolkits/qtest/qtest-pipeline-add.png)
 
 ---
 
 #### In Chat
 
-1. **Go to Chat:** Open the sidebar and select **[Chat](../../menus/chat)**.
-2. **Start new conversation:** Select **+Create** or open an existing conversation.
-3. **Add toolkit to conversation:**
-   - In the chat Participants section, look for the **Toolkits** element.
-   - Select the **"Add tools"** icon to open the tools selection dropdown.
-   - Select your configured qTest toolkit from the dropdown list.
-   - The toolkit will be added to your conversation with all previously configured tools turned on.
-4. **Use toolkit in chat:** You can now interact with your qTest projects and test cases by asking questions or requesting actions that trigger the qTest toolkit tools.
+1. **Navigate to Chat:** Open the sidebar and select **[Chat](../../menus/chat)**.
+2. **Start New Conversation:** Click **+ Conversation** or open an existing conversation.
+3. **Add qTest Toolkit to Conversation:**
+   - Click the **`+`** icon in the chat input toolbar (tooltip: *Add files, agents, toolkits and more…*)
+   - Hover over **Toolkits** in the popup menu.
+   - Search for your qTest toolkit by name.
+   - Enable the toolkit to add it to your conversation.
+4. **Verify Toolkit Added:** The qTest toolkit appears in the **PARTICIPANTS** panel on the right side under the **Toolkits** section.
+5. **Use Toolkit in Chat:** You can now directly interact with your qTest projects and test cases by asking questions or requesting actions that will trigger the qTest toolkit tools.
 
-![Add qTest toolkit to a chat conversation](../../img/integrations/toolkits/qtest/qtest-chat-add.gif)
+    ![Add qTest toolkit to a chat conversation](../../img/integrations/toolkits/qtest/qtest-chat-add.png)
+
+<Tip>
+You can also add the toolkit by typing **`#`** in the chat input box and searching for your qTest toolkit.
+</Tip>
 
 <Info title="Example chat usage">
 - "Search for all test cases in module 'Partners pages' with status 'Ready for Testing'."
