@@ -140,11 +140,11 @@ Use **[Secrets](../../menus/settings/secrets)** for your PAT instead of entering
 
 Once your credentials are configured, create the Azure Repos toolkit:
 
-1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits](../../menus/toolkits)**.
-2. **Create New Toolkit:** Click the **`+ Create`** button.
+1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits & Indexes](../../menus/toolkits)**.
+2. **Create New Toolkit:** Click the **`+ Toolkit`** button.
 3. **Select Azure Repos:** Choose **Azure Repos (ADO Repos)** from the list of available toolkit types.
 
-    <img src="../../img/integrations/toolkits/adorepos/ado-repo-access.gif" alt="Azure Repos Toolkit Access" />
+    <img src="../../img/integrations/toolkits/adorepos/ado-repo-access.png" alt="Azure Repos Toolkit Access" />
 
 4. **Configure Toolkit Settings:**
 
@@ -164,7 +164,9 @@ Once your credentials are configured, create the Azure Repos toolkit:
        * **[Make Tools Available by MCP](../mcp/make-tools-available-by-mcp)** - (optional checkbox) Enable this option to make the selected tools accessible through the external MCP clients to use the toolkit's capabilities
 6. **Save Toolkit:** Click **Save** to create the toolkit.
 
-     <img src="../../img/integrations/toolkits/adorepos/ado-repo-toolkit-create.gif" alt="AdoRepos-Toolkit_Configuration" />
+<video controls>
+  <source src="../../img/integrations/toolkits/adorepos/ado-repo-toolkit-create.mp4" type="video/mp4"/>
+</video>
 
 <Info title="How to Get Repository ID">
 To find your Repository ID, run this curl command in your terminal:
@@ -181,44 +183,58 @@ curl -u mytoken: https://dev.azure.com/MyOrg/MyProject/_apis/git/repositories?ap
 ```
 </Info>
 
-#### Available Tools:
+#### Available Repos Tools
 
-The Azure Repos toolkit provides the following tools for interacting with Azure DevOps repositories, organized by functional categories:
+| **Category** | **Tool Name** | **Description** |
+|:------------:|---------------|-----------------|
+| **Read** | | |
+| | **Get commits** | Retrieves commit history and details |
+| | **Get pull request** | Retrieves details of a specific pull request |
+| | **Get work items** | Retrieves work items linked to pull requests |
+| | **List branches in repo** | Retrieves all branches in the repository |
+| | **List files** | Lists files in the active branch |
+| | **List indexes** | Lists available indexed indexes |
+| | **List open pull requests** | Retrieves list of open pull requests |
+| | **List pull request files** | Lists files changed in a pull request |
+| | **Read file** | Reads content of a specific file |
+| | **Search code** | Search code across the repository using keywords |
+| | **Search index** | Searches indexed repository data |
+| | **Stepback search index** | Performs advanced stepback search on indexed data |
+| | **Stepback summary index** | Generates summaries from stepback search results |
+| **Create & update** | | |
+| | **Comment on pull request** | Adds comments to a pull request |
+| | **Create branch** | Creates a new branch in the repository |
+| | **Create file** | Creates a new file in the repository |
+| | **Create pull request** | Creates a new pull request |
+| | **Index data** | Indexes repository data for semantic search |
+| | **Set active branch** | Sets a specific branch as active for operations |
+| | **Update file** | Updates content of an existing file |
+| **Delete** | | |
+| | **Delete file** | Deletes a file from the repository |
+| | **Remove index** | Removes indexed data from the system |
 
-| **Tool Category** | **Tool Name** | **Description** | **Primary Use Case** |
-|:-----------------:|---------------|-----------------|----------------------|
-| **Branch Management** | | | |
-| | **List branches in repo** | Retrieves all branches in the repository | View available branches for project management |
-| | **Set active branch** | Sets a specific branch as active for operations | Switch context for file operations |
-| | **Create branch** | Creates a new branch in the repository | Start new feature development or bug fixes |
-| **File Operations** | | | |
-| | **List files** | Lists files in the active branch | Browse repository contents |
-| | **Read file** | Reads content of a specific file | Retrieve code or configuration files |
-| | **Create file** | Creates a new file in the repository | Add new code or documentation files |
-| | **Update file** | Updates content of an existing file | Modify code or configuration |
-| | **Delete file** | Deletes a file from the repository | Remove obsolete or temporary files |
-| **Pull Request Management** | | | |
-| | **List open pull requests** | Retrieves list of open pull requests | Track pending code reviews |
-| | **Get pull request** | Retrieves details of a specific pull request | Get PR information for review |
-| | **List pull request files** | Lists files changed in a pull request | See what files were modified in PR |
-| | **Create pull request** | Creates a new pull request | Initiate code review process |
-| | **Comment on pull request** | Adds comments to a pull request | Provide feedback on code changes |
-| **Commit Operations** | | | |
-| | **Get commits** | Retrieves commit history and details | Track code changes and commit information |
-| **Work Item Integration** | | | |
-| | **Get work items** | Retrieves work items linked to pull requests | View associated issues and tasks |
-| **Search & Index Operations** | | | |
-| | **Index data** | Indexes repository data for semantic search | Enable AI-powered code search capabilities |
-| | **Search index** | Searches indexed repository data | Find code patterns and relevant files |
-| | **Remove index** | Removes indexed data from the system | Clean up outdated search indexes |
-| | **Stepback search index** | Performs advanced stepback search on indexed data | Complex multi-step code analysis |
-| | **Stepback summary index** | Generates summaries from stepback search results | Summarize complex search findings |
-| **Collections** | | | |
-| | **List collections** | Lists available collections in the repository | Manage and view collection structures |
+<Info>
+**Vector Search Tools**
 
-<Tip title="Vector Search Tools">
-The tools **Index data**, **List collections**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These enable advanced semantic search capabilities across your ADO repositories.
-</Tip>
+The tools **Index data**, **List indexes**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model.
+</Info>
+
+<Note>
+**Search Code Tool - Branch Indexing**
+
+The **Search code** tool uses Azure DevOps Code Search, which only indexes the repository's default branch by default. 
+
+**To search code in non-default branches:**
+1. Navigate to **Project Settings** → **Repositories** → **Options** → **Searchable branches** in your Azure DevOps project
+2. Add the specific branches you want to search
+3. Wait for Azure DevOps to index those branches
+
+**Important notes:**
+- Forked repositories are never indexed by Azure DevOps Code Search
+- This indexing is handled on the Azure DevOps side and is separate from ELITEA's **Index data** tool functionality
+
+<img src="../../img/integrations/toolkits/adorepos/ado-searchable-branches.png" alt="Configure Searchable Branches" />
+</Note>
 
 #### Testing Toolkit Tools
 
@@ -252,11 +268,11 @@ Now you can add the configured Azure Repos toolkit to your agents, pipelines, or
 1. **Navigate to Agents:** Open the sidebar and select **[Agents](../../menus/agents)**.
 2. **Create or Edit Agent:** Either create a new agent or select an existing agent to edit.
 3. **Add Azure Repos Toolkit:** 
-     * In the **"TOOLKITS"** section of the agent configuration, click the **"+Toolkit"** icon
+     * In the **"TOOLS"** section of the agent configuration, click the **"+Toolkit"** icon
      * Select your configured Azure Repos toolkit from the dropdown list
      * The toolkit will be added to your agent with the previously configured tools enabled
 
-    <img src="../../img/integrations/toolkits/adorepos/ado-repo-agent-add.gif" alt="Agents" />     
+    <img src="../../img/integrations/toolkits/adorepos/ado-repo-agent-add.png" alt="Agents" />     
 
 Your agent can now interact with Azure DevOps Repos using the configured toolkit and enabled tools.
 
@@ -266,25 +282,30 @@ Your agent can now interact with Azure DevOps Repos using the configured toolkit
 1. **Navigate to Pipelines:** Open the sidebar and select **[Pipelines](../../menus/pipelines)**.
 2. **Create or Edit Pipeline:** Either create a new pipeline or select an existing pipeline to edit.
 3. **Add Azure Repos Toolkit:** 
-     * In the **"TOOLKITS"** section of the pipeline configuration, click the **"+Toolkit"** icon
+     * In the **"TOOLS"** section of the pipeline configuration, click the **"+Toolkit"** icon
      * Select your configured Azure Repos toolkit from the dropdown list
      * The toolkit will be added to your pipeline with the previously configured tools enabled
 
-     <img src="../../img/integrations/toolkits/adorepos/ado-repo-pipeline-add.gif" alt="Agents" /> 
+     <img src="../../img/integrations/toolkits/adorepos/ado-repo-pipeline-add.png" alt="Agents" /> 
 
 ---
 #### In Chat:
 
 1. **Navigate to Chat:** Open the sidebar and select **[Chat](../../menus/chat)**.
-2. **Start New Conversation:** Click **+Create** or open an existing conversation.
-3. **Add Toolkit to Conversation:**
-     * In the chat Participants section, look for the **Toolkits** element
-     * Click the **"Add Tools"** Icon to open the tools selection dropdown
-     * Select your configured Azure Repos toolkit from the dropdown list
-     * The toolkit will be added to your conversation with all previously configured tools enabled
-4. **Use Toolkit in Chat:** You can now directly interact with your Azure DevOps repositories by asking questions or requesting actions that will trigger the Azure Repos toolkit tools.
+2. **Start New Conversation:** Click **+ Conversation** or open an existing conversation.
+3. **Add Ado Repos Toolkit to Conversation:**
+   - Click the **`+`** icon in the chat input toolbar (tooltip: *Add files, agents, toolkits and more…*)
+   - Hover over **Toolkits** in the popup menu
+   - Search for your Ado Repos toolkit by name
+   - Enable the toolkit to add it to your conversation
+4. **Verify Toolkit Added:** The Ado Repos toolkit appears in the **PARTICIPANTS** panel on the right side under the **Toolkits** section.
+5. **Use Toolkit in Chat:** You can now directly interact with your Azure DevOps Repos by asking questions or requesting actions that will trigger the Ado Repos toolkit tools.
 
-     <img src="../../img/integrations/toolkits/adorepos/ado-repo-chat-add.gif" alt="Agents" /> 
+<Tip>
+You can also add the toolkit by typing **`#`** in the chat input box and searching for your Ado Repos toolkit.
+</Tip>
+
+     <img src="../../img/integrations/toolkits/adorepos/ado-repo-chat-add.png" alt="Ado Repos Toolkit" /> 
 
 <Info title="Example Chat Usage:">
 - "List all open pull requests in the repository that are in review."
@@ -575,6 +596,27 @@ The following work items are linked to PR #247:
 2. Correct the branch name(s) in the toolkit settings — ensure capitalization matches exactly
 3. If the branch was recently deleted or renamed, update the toolkit configuration accordingly
 4. After saving the toolkit, use the **List branches in repo** tool to confirm available branches
+</Accordion>
+
+<Accordion title="Search Code Returns No Results or Cannot Search Non-Default Branch">
+**Problem:** The **Search code** tool returns no results when searching in a non-default branch, or searches only return results from the default branch.
+
+**Cause:** Azure DevOps Code Search only indexes the repository's default branch by default. Non-default branches must be explicitly configured as searchable branches in Azure DevOps project settings. Additionally, forked repositories are never indexed by Azure DevOps Code Search.
+
+**Resolution:**
+
+1. **Add Branch to Searchable Branches:**
+   - Navigate to **Project Settings** → **Repositories** → **Options** → **Searchable branches** in your Azure DevOps project
+   - Click **Add branch** and select the branch you want to search
+   - Wait for Azure DevOps to index the newly added branch (this may take a few minutes depending on repository size)
+
+2. **Verify Default Branch:** If you're trying to search the default branch and still getting no results, verify that Code Search is enabled for your Azure DevOps organization
+
+3. **Forked Repository Limitation:** If you're working with a forked repository, note that Azure DevOps Code Search does not index forked repositories. You must search the original repository instead.
+
+4. **Indexing vs ELITEA Indexing:** Remember that this Azure DevOps indexing is separate from ELITEA's **Index data** tool functionality. The **Search code** tool uses Azure DevOps' native Code Search, while **Search index** uses ELITEA's own indexing.
+
+<img src="../../img/integrations/toolkits/adorepos/ado-searchable-branches.png" alt="Configure Searchable Branches in Azure DevOps" />
 </Accordion>
 
 ### Support Contact
