@@ -1,0 +1,124 @@
+---
+title: "Back Up & Restore Project Data"
+sidebarTitle: "Back Up & Restore"
+description: "Download a project's agents, pipelines, toolkits, MCP servers and skills as a single backup file, then restore it into the same project or a different one."
+---
+
+In a project, you can back up its agents, pipelines, toolkits, MCP servers and skills into a single file, then restore that file later into the same project or, with confirmation, into a different project. ELITEA excludes credentials, tokens and other secrets from every backup file, so you must reconfigure them after a restore.
+
+<Note>
+**Back Up & Restore** is visible only to users who have permission to download or restore project backups.
+</Note>
+
+## Reasons to Back Up a Project
+
+A backup preserves the current state of a project's agents, pipelines, toolkits, MCP servers and skills, so you can recover that state later.
+
+<Tip title="When to Back Up a Project">
+Create a backup before you make large changes to a project, so you can recover the current data if something goes wrong.
+</Tip>
+
+## Locate the Back Up & Restore Settings
+
+1. Select **Settings** > **General**.
+2. In **General**, expand **Back Up & Restore**.
+
+<img src="../../img/menus/settings/project/general/gen_backup.png" alt="The Back Up & Restore section in General settings, with the Create a Backup and Restore from the Backup buttons." />
+
+**Back Up & Restore** shows two independent actions:
+
+- **Create a Backup** — visible if you have the `models.project_backup.download` permission.
+- **Restore from the Backup** — visible if you have the `models.project_backup.restore` permission. ELITEA also shows this action to the owner of a private project, even without this permission, because a private project has no admin, only an editor.
+
+## Create a Backup
+
+1. In **Back Up & Restore**, select **Create a Backup**.
+2. Wait while ELITEA prepares the file. The button label changes to indicate that it is preparing the backup.
+3. ELITEA downloads the backup as an encrypted SQL file, named *project-&lt;project_id&gt;-backup.sql* by default.
+
+<CardGroup cols={2}>
+	<Card title="Included in the backup file" icon="check" color="#22c55e">
+		- Agents
+		- Skills
+		- Pipelines
+		- Toolkits
+		- MCP servers
+	</Card>
+	<Card title="Excluded from the backup file" icon="circle-exclamation" color="#ef4444">
+		- Credentials
+		- Tokens
+	</Card>
+</CardGroup>
+
+## Restore Data Into a Project
+
+Use this method to add a backup's data to a project without deleting the data already there.
+
+1. In **Back Up & Restore**, select **Restore from the Backup**.
+2. In the **Restore Project Data** dialog, select **Choose a backup file**, then select an *.sql* or *.enc* backup file.
+3. Keep **Preview only (no data is restored yet)** selected, clear **Replace existing data - do not merge**, then select **Preview**.
+4. Review the restore summary: the number of statements and rows, the tables affected, any skipped tables, and any columns that ELITEA dropped or filled because of differences between the backup and the current project structure.
+5. If the file belongs to a different project, ELITEA shows a warning and disables the submit action. Select **Restore here anyway** only if you intend to bring that project's data into the current project, then select **Preview** again.
+6. Clear **Preview only (no data is restored yet)** and select **Restore**.
+
+ELITEA merges the backup into the current data: it adds rows that are not yet in the project, updates matching rows and keeps rows that are not in the backup.
+
+## Restore the Whole Project
+
+Use this method to replace a project's data with a backup, instead of merging the two.
+
+<Warning>
+When you select **Replace existing data - do not merge**, ELITEA deletes the current rows in the affected tables before it applies the backup. Rows that are not in the backup are lost.
+</Warning>
+
+1. In **Back Up & Restore**, select **Restore from the Backup**, then in the **Restore Project Data** dialog, select **Choose a backup file** and select an *.sql* or *.enc* backup file.
+2. Select **Replace existing data - do not merge**.
+3. Keep **Preview only (no data is restored yet)** selected and select **Preview** to review the restore summary, including the number of tables that will be truncated, before you commit to the change.
+4. Clear **Preview only (no data is restored yet)** and select **Restore**.
+
+## Best Practices
+
+- Create a backup before you make large changes to a project.
+- Preview a restore before you apply it. ELITEA selects **Preview only (no data is restored yet)** by default.
+- Store backup files in a secure location. A backup file, together with the restore permission, is enough to load its data into a project.
+- Reconfigure credentials, tokens and other secrets after every restore. ELITEA never includes them in a backup file.
+- Confirm the source project before you select **Restore here anyway**. Restoring a backup from a different project mixes that project's data into the current one.
+
+## Fix Common Backup & Restore Issues
+
+<Accordion title="Issue: Back Up & Restore is not visible in General settings">
+**Cause:** You do not have the `models.project_backup.download` or `models.project_backup.restore` permission for the project.
+
+**Solution:** Ask a project administrator for one of these permissions.
+</Accordion>
+
+<Accordion title="Issue: Create a Backup fails to download">
+**Cause:** The download request failed.
+
+**Solution:** ELITEA shows an error message describing the failure. Try the download again. If the issue continues, contact your project administrator.
+</Accordion>
+
+<Accordion title="Issue: The Restore button stays disabled">
+**Cause:** No backup file is selected yet, or the file belongs to a different project and **Restore here anyway** is not selected.
+
+**Solution:** Choose a backup file. If the mismatch warning appears, select **Restore here anyway** only if you intend to restore data from another project.
+</Accordion>
+
+<Accordion title="Issue: ELITEA reports a project mismatch">
+**Cause:** The backup file was created from a different project than the one you are restoring into.
+
+**Solution:** Confirm you have the correct file for this project, or select **Restore here anyway** to bring that project's data into the current one intentionally.
+</Accordion>
+
+<Accordion title="Issue: Columns were dropped or filled during a restore">
+**Cause:** The project structure changed between when ELITEA created the backup and when you restore it. ELITEA drops columns the current project no longer has, and leaves columns empty when the backup has no value for a column the current project requires.
+
+**Solution:** Review the dropped and filled columns in the restore summary, then update the restored agents, pipelines, toolkits, MCP servers or skills as needed.
+</Accordion>
+
+<Info title="See Also">
+See also:
+- [General Settings](../../menus/settings/general.mdx)
+- [Import/Export Agents and Pipelines](../agents-pipelines/import-export.mdx)
+- [Glossary](../../home/glossary.mdx)
+</Info>
