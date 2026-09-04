@@ -1,6 +1,6 @@
 ---
 title: "Toolkits & Indexes"
-description: "The Toolkits menu in the ELITEA platform provides a centralized interface for managing and configuring integrations that power your AI agents. Toolkits extend the capabilities of agents by connecting them to external platforms and internal services."
+description: "Manage and configure toolkit integrations, organize toolkits with folders, test toolkit tools, and create indexes for semantic search across your data sources."
 ---
 
 ## Introduction to Toolkits
@@ -19,9 +19,96 @@ The **Toolkits & Indexes** menu is accessible from the main platform navigation.
 
 - **Toolkit cards:** Each card provides a brief description, current status, and toolkit type.
 - **Search and filter:** Locate a toolkit using the search bar or filter by type.
-- **Create Toolkit button:** Use the **+ Create** button to add a new integration or configure an existing one.
+- **Create Toolkit button:** Use the **+ Toolkit** button to add a new integration or configure an existing one.
 - **View toggle:** Switch between **Card List View** and **Table View** using the toggle in the top-right corner.
-- **Pinning:** Pin frequently used toolkits to keep them at the top of the list.
+- **Folders panel (right side):** Organize your toolkits into folders for better organization (see [Organize Toolkits with Folders](#organize-toolkits-with-folders) below)
+- **Types filter panel:** Filter toolkits by their type/category tags
+- **Pinning:** Pin frequently used toolkits to keep them at the top of the list
+
+---
+
+## Organize Toolkits with Folders
+
+The **Folders** feature helps you organize toolkits into custom categories for easier navigation and management. Folders appear in a dedicated panel on the right side of the Toolkits & Indexes page.
+<img src="../img/menus/toolkits/folders-panel.png" alt="Folders panel" />
+
+### Create a Folder
+
+1. **Locate the Folders panel:** On the right side of the Toolkits & Indexes page
+2. **Click the + Folder button:** Opens the Create Folder dialog
+3. **Enter Folder name:** A descriptive name for your folder (e.g., "Production Toolkits", "Testing Tools")
+4. **Click Create:** The new folder appears in the Folders panel
+     <img src="../img/menus/toolkits/folder-create.png" alt="Create Folder dialog" width="400" />
+
+### Add Toolkits to a Folder
+
+1. **Hover over a toolkit card:** A "Move to folder" icon (folder with arrow) appears on the card
+2. **Click the folder icon:** Opens a menu with folder options
+3. **Select a folder from the list:** The menu displays:
+   - **+ Create Folder** option at the top
+   - A scrollable list of existing folders
+   - Pinned folders are marked with a pin icon
+   - The current folder (if any) is highlighted and marked with a checkmark
+4. The toolkit is moved to the selected folder
+    <img src="../img/menus/toolkits/add-to-folder.png" alt="Add toolkit to folder from card" width="300" />
+
+### Move or Remove Toolkits from Folders
+
+**Move to another folder:**
+
+1. **Hover over the toolkit card**
+2. **Click the folder icon**
+3. **Select a different folder** from the menu
+   - The current folder is marked with a checkmark
+   - Click any other folder to move the toolkit there
+4. The toolkit is moved from the current folder to the selected folder
+
+**Remove from a folder:**
+
+1. **Hover over the toolkit card** that is in a folder
+2. **Click the folder icon** (Move to folder button)
+3. **Click "Remove from folder"** at the bottom of the menu (shown with an ungroup icon)
+   - This option only appears when the toolkit is currently in a folder
+4. The toolkit is removed from the folder and returns to the main toolkit list
+
+**Create a folder while moving:**
+
+1. Open the folder menu from any toolkit card (hover and click the folder icon)
+2. Click **"Create Folder"** at the top of the menu 
+3. Enter the folder name in the dialog and click Create
+4. The new folder appears in the list and the toolkit is automatically moved to it
+
+<img src="../img/menus/toolkits/move-to-folder.png" alt="Move toolkit to folder from card" width="250" />
+
+
+<Info title="Note">
+Removing a toolkit from a folder does not delete the toolkit itself — it only removes the folder association. The toolkit remains available in the main toolkit list.
+</Info>
+
+### Manage Folders
+
+Each folder in the Folders panel includes a **three-dot menu (⋮)** with the following options:
+
+- **Pin folder:** Pinned folders appear at the top of the list for quick access
+- **Rename:** Change the folder name and description
+- **Delete:** Remove the folder (toolkits inside are not deleted, only removed from the folder)
+
+      <img src="../img/menus/toolkits/manage-folder.png" alt="Manage folder menu" width="200" />
+
+### View Folder Contents
+
+Click any folder in the Folders panel to filter the toolkit list to show only toolkits in that folder. The folder name appears in the header, and the toolkit count updates to reflect the filtered view. Click **X** to close the folder view and return to the full list.
+
+<img src="../img/menus/toolkits/folder-content.png" alt="Folder content view" />
+
+<Tip>
+**Folder organization tips**
+
+- **Group by purpose:** Create folders like "Production", "Development", "Testing"
+- **Group by team:** Organize toolkits by team or project ownership
+- **Group by integration type:** Separate code repositories, test management, documentation, etc.
+- **Use pinning:** Pin your most frequently accessed folders for quick access
+</Tip>
 
 ---
 
@@ -60,7 +147,7 @@ Once you have selected a toolkit type, configure the following fields:
 | **PgVector Configuration** | Select or configure a PgVector connection to turn on vector storage capabilities for document indexing and similarity search. |
 | **Embedding Model** | Select an appropriate embedding model configuration to turn on text processing and semantic search features. |
 | **Parameters** | Varies by toolkit type. Additional integration-specific parameters can include URLs and endpoints, project identifiers, and custom configuration options. |
-| **Tools** | Select which specific tools and actions to turn on for this toolkit. Review available tools carefully and turn on only those needed for your use case. Turning on only necessary tools improves security and optimizes performance. **[Make Tools Available by MCP](../integrations/mcp/make-tools-available-by-mcp)** is an optional checkbox that makes the selected tools accessible through external MCP clients. |
+| **Tools** | Select which specific tools and actions to turn on for this toolkit. Tools are organized into 4 groups: **Read**, **Create & update**, **Delete**, and **Execute**. Each group has a select-all checkbox and shows a count badge (selected/total). Use the search box to filter tools by name. Review available tools carefully and turn on only those needed for your use case. Turning on only necessary tools improves security and optimizes performance. **[Make Tools Available by MCP](../integrations/mcp/make-tools-available-by-mcp)** is an optional checkbox at the bottom of the Tools section that makes the selected tools accessible through external MCP clients. |
 
 <img src="../img/menus/toolkits/toolkits-config.png" alt="Toolkit configuration form." width="650" />
 
@@ -71,7 +158,7 @@ Advanced users can switch to **Raw JSON** mode to directly edit the toolkit conf
 </Info>
 
 <Tip title="Vector search tools">
-The tools **Index data**, **List collections**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These turn on advanced semantic search capabilities across your artifact files. For setup instructions, see [AI Configuration](./settings/ai-configuration).
+The tools **Index data**, **List indexes**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These turn on advanced semantic search capabilities across your indexed content. For setup instructions, see [AI Configuration](./settings/ai-configuration).
 </Tip>
 
 ### Save Your Toolkit
@@ -139,31 +226,36 @@ Toolkit availability may change. Refer to the platform UI for the most current l
 
 The toolkit detail page provides a comprehensive interface for configuring, testing, and monitoring your toolkits. Access it by selecting any toolkit from the Toolkits dashboard.
 
-### Configure & Test a Toolkit
+### Configure a Toolkit
 
-The toolkit detail page is the primary interface for configuring toolkit settings, managing tool selection, and testing toolkit functionality in real time. The page header includes a **Back** button, the toolkit name, and a controls dropdown in the top-right area. The layout is split into two main areas:
+The toolkit detail page is the primary interface for configuring toolkit settings and managing tool selection. The page header includes a **Back** button, the toolkit name, and a controls dropdown in the top-right area. The layout is split into two main panels:
 
-- **Left panel** — the configuration form, including toolkit settings, tool selection, a **Run History** button above the form, and an **Indexes** accordion section when indexing is supported for the toolkit.
-- **Right panel** — the testing area, which shows an empty state before a tool is selected, **Test Settings** after a tool is selected, and **Run Results** after a tool run.
+- **Left panel** — the configuration form, including toolkit settings, tool selection, and a **Run History** button above the form
+- **Right panel** — the **Indexes** section when indexing is supported for the toolkit
 
 <img src="../img/menus/toolkits/toolkit-detail-page.png" alt="Toolkit detail page layout." />
 
 On the toolkit detail page, you can:
 
 - **Edit toolkit details:** Edit the name, description, credentials, and other toolkit-specific settings in the left panel.
-- **Select tools:** In the **Tools** section, turn on only the tools your agent needs.
+- **Select tools:** In the **Tools** section, turn on only the tools your agent needs. Tools are organized into groups (**Read**, **Create & update**, **Delete**, **Execute**). Use the group-level checkboxes to select/deselect all tools in a group at once, or use the search box to filter tools by name.
 - **Update advanced settings:** Update PgVector configuration or embedding model as your indexing needs change.
 - **Save or discard:** **Save** becomes active once you make changes. Changing the embedding model while indexes exist triggers a warning first, since it can make those indexes non-operational.
 - **View run history:** Select the **Run History** button above the form to view past test runs.
+- **Test toolkit:** Select the **Test** button in the page header to open the dedicated [Test page](#test-a-toolkit) where you can test individual toolkit tools.
 - **Use the controls menu:** Use the **three-dot menu (⋮)** for **Copy Link**, **Pin/Unpin**, and **Delete**. **Export** and **Fork** are listed but currently unavailable.
 - **View authors:** Shown in the header when viewing a public toolkit.
 - **Edit Raw JSON:** Supported toolkits let you switch the form to **Raw JSON** editing via the view toggle in the left panel.
+- **Manage indexes:** In the right panel, the **Indexes** section shows all indexes for this toolkit with options to create, reindex, or delete indexes (see [Indexes Section](#indexes-section) below).
 
 <Tip title="Tool selection best practices">
-Turn on only the tools your use case requires, test each one in the **Test Settings** panel, and revisit the toolkit configuration when credentials, tool access, or capabilities need to change.
+Use the tool groups (**Read**, **Create & update**, **Delete**, **Execute**) to quickly select related tools. Turn on only the tools your use case requires, use the search box to find specific tools quickly, test each one in the **Test Settings** panel, and revisit the toolkit configuration when credentials, tool access, or capabilities need to change.
+<img src="../img/menus/toolkits/tool-groups.png" alt="Tool Groups." width="400" />
 </Tip>
 
 ### Make Tools Available by MCP
+
+  <img src="../img/menus/toolkits/enable-mcp.png" alt="Enable MCP." width="550" />
 
 When configuring toolkit tools, you may see a checkbox labeled **[Make Tools Available by MCP](../integrations/mcp/make-tools-available-by-mcp)** in the **Tools** section. This option controls whether the selected tools can be accessed through the Model Context Protocol (MCP) interface.
 
@@ -176,18 +268,17 @@ When configuring toolkit tools, you may see a checkbox labeled **[Make Tools Ava
 
 ### Test a Toolkit
 
-The right panel contains the toolkit testing workflow:
-
-- Before a tool is selected, the panel shows an empty state.
-- After a tool is selected, the panel shows **Test Settings**.
-- After you run a tool, the panel switches to **Run Results**, where you can review the output and use the back button to return to the settings view.
+The **Test page** provides a dedicated full-screen interface for testing individual toolkit tools. Access it by selecting the **Test** button in the toolkit detail page header.
 
 For comprehensive testing instructions and best practices, see [How to Test Toolkit Tools](../how-tos/credentials-toolkits/how-to-test-toolkit-tools).
 
 **Steps to test a toolkit:**
 
-1. **Select a tool:** Use the **Tool** dropdown to choose which toolkit action you want to test. Type in the search box to filter available tools and select from the options.
-2. **Select a model and adjust settings** (optional): Choose the LLM model from the model dropdown (for example, `gpt-4o`). To fine-tune the response, select the **Model Settings** icon (⚙️) next to the model selector. The available settings vary by model:
+1. **Access the Test page:** From the toolkit detail page, select the **Test** button in the page header. This opens the dedicated Test page.
+
+2. **Select a tool:** Use the **Tool** dropdown to choose which toolkit action you want to test. Type in the search box to filter available tools and select from the options.
+
+3. **Select a model and adjust settings** (optional): Choose the LLM model from the model dropdown (for example, `GPT-5.4`). To fine-tune the response, select the **Model Settings** icon (⚙️) next to the model selector. The available settings vary by model:
 
      <Tabs>
           <Tab title="Reasoning Models (e.g. GPT-5.1)">
@@ -212,8 +303,11 @@ For comprehensive testing instructions and best practices, see [How to Test Tool
           </Tab>
      </Tabs>
 
-3. **Provide required parameters (if prompted):** Enter any inputs required by the selected tool.
-4. **Run the tool:** Select the **Run Test** button and review the results in the output area. The **Run Test** button appears after selecting a tool.
+4. **Provide required parameters (if prompted):** Enter any inputs required by the selected tool. The form dynamically displays fields based on the tool's requirements.
+
+5. **Run the tool:** Select the **Run Test** button. The results appear in the right panel, showing the tool execution output and LLM response. You can run multiple tests in sequence, and each result is added to the conversation history in the Results panel.
+
+6. **Return to configuration:** Use the breadcrumb navigation or back button to return to the toolkit detail page.
 
      <video controls>
           <source src="../img/menus/toolkits/toolkit-test-tools.mp4" type="video/mp4"/>
@@ -238,27 +332,32 @@ Shared toolkits in team projects can show warnings when each user must provide a
 
 ### Indexes Section
 
-Toolkits that include indexing tools expose an **Indexes** accordion in the left configuration panel. Indexing ingests documents into a vector store so agents can search and retrieve content using semantic similarity.
+Toolkits with indexing tools display an **Indexes** panel in the right side of the toolkit detail page. Indexing ingests documents into a vector store for semantic search and retrieval.
 
-When indexes exist, the accordion lists index cards. Each card shows the collection name, indexed/total document count, skipped document count, current status, and last run date. From each card you can:
+<img src="../img/menus/toolkits/indexes-section.png" alt="Indexes section in the toolkit detail right panel." width="600" />
 
-- **Open** — select the card to open the index detail page.
-- **Reindex** — rebuild the index; a confirmation is required before existing data is replaced.
-- **Delete** — remove the index (requires confirmation).
-- **Open in new tab** — open the index detail page in a separate browser tab.
+**Panel Overview:**
 
-To create a new index, select the **+ Index** button at the bottom of the list.
+The panel header shows "Indexes" with a count (e.g., "Indexes (3)") and a **+ Index** button to create new indexes. Each index card displays collection name, document counts, status, and last run date.
 
-For detailed instructions, see [How to Create and Use Indexes](../how-tos/indexing/using-indexes-tab-interface).
+**Index Actions** :
+- **Open** — View the Index Details page with Configuration and Activity tabs
+- **Reindex** — Rebuild the index (requires confirmation)
+- **Delete** — Remove the index (requires confirmation)
+- **Open in new tab** — Open index details in a separate tab
+
+**Create an Index:**
+
+Select **+ Index** to open the Create Index page and configure name, source filters, and chunking settings. For detailed instructions, see [How to Create and Use Indexes](../how-tos/indexing/using-indexes-tab-interface).
 
 <Note>
-If the accordion shows a banner instead of index cards, indexing is not yet ready:
+**Indexing Status Banners**
 
-- *"Turn on the 'Index data' tool to activate indexing and create indexes."* — the `index_data` tool is not selected, or PgVector or Embedding Model are not configured (see [AI Configuration](./settings/ai-configuration)).
-- *"Create your first index to get started."* — indexing is active but no indexes exist yet.
+If a banner appears instead of index cards, indexing is not ready:
+
+- *"Turn on the 'Index data' tool..."* — The `index_data` tool is not selected, or PgVector/Embedding Model are not configured (see [AI Configuration](./settings/ai-configuration))
+- *"Create your first index..."* — Indexing is active but no indexes exist yet
 </Note>
-
-<img src="../img/menus/toolkits/indexes-section.png" alt="Indexes section in the toolkit configuration panel." />
 
 ---
 
@@ -290,7 +389,7 @@ The Run History page uses the shared `RunHistoryContainer` layout:
 
 - **Right panel** — full conversation replay of the selected test run.
 
-![Run History page showing past test executions.](../img/menus/toolkits/toolkit-run-history.png)
+   ![Run History page showing past test executions.](../img/menus/toolkits/toolkit-run-history.png)
 
 <Info title="Learn more about history">
 For detailed instructions on using the Toolkit History panel, see [Toolkit History Tab Guide](../how-tos/credentials-toolkits/toolkit_history_tab).
