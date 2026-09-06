@@ -384,9 +384,7 @@
               {
                 "group": "Use Elitea in Claude Code",
                 "expanded": true,
-                "pages": [
-                  "integrations/mcp/use-elitea-in-claude-code"
-                ]
+                "pages": ["integrations/mcp/use-elitea-in-claude-code"]
               },
               {
                 "group": "Connect External Tools to ELITEA",
@@ -516,21 +514,19 @@
           {
             "group": "Latest Release",
             "icon": "tag",
-            "pages": ["release-notes/rn-2-0-5"]
+            "pages": ["release-notes/rn-2-0-6"]
           },
           {
             "group": "Recent Releases",
             "icon": "clock-rotate-left",
-            "pages": [
-              "release-notes/archived/rn-2-0-4",
-              "release-notes/archived/rn-2-0-3"
-            ]
+            "pages": ["release-notes/archived/rn-2-0-5", "release-notes/archived/rn-2-0-4"]
           },
           {
             "group": "Older Releases",
             "icon": "archive",
             "expanded": false,
             "pages": [
+              "release-notes/archived/rn-2-0-3",
               "release-notes/archived/rn-2-0-2",
               "release-notes/archived/rn-2-0-1",
               "release-notes/archived/rn-2-0-0",
