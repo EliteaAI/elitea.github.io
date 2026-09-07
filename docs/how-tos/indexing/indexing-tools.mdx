@@ -7,8 +7,8 @@ description: "Reference for Index Data, Search Index, Stepback Search Index, Ste
 ## Prerequisites
 
 - Credential for your toolkit (required for all except Artifact). See [Create a Credential](../../getting-started/create-credential).
-- Vector Storage: PgVector selected in Settings → [AI Configuration](../../menus/settings/ai-configuration).
-- Embedding Model selected in Settings → [AI Configuration](../../menus/settings/ai-configuration).
+- Vector Storage: PgVector selected in Settings → [AI Providers](../../menus/settings/ai-configuration).
+- Embedding Model selected in Settings → [AI Providers](../../menus/settings/ai-configuration).
 - A configured toolkit that supports indexing. See [Indexing Overview](./indexing-overview#toolkits-which-support-indexes).
 
 ---
@@ -29,8 +29,8 @@ The **Index Data** tool runs when you create an index.
 
 **Recommended: Indexes Section**
 
-1. Open your toolkit.
-2. Expand the **Indexes** section.
+1. Open your toolkit detail page.
+2. The **Indexes** section appears in the right panel.
 3. Select **+ Index**.
 4. Fill in the **Index Data** parameters.
 5. Select **Index** to run the tool and create the index.
@@ -142,10 +142,10 @@ Search indexed content using natural-language queries. This tool returns matchin
 
 **How to Execute**
 
-1. Open your toolkit.
-2. Expand the **Indexes** section.
-3. Open an existing index page.
-4. In the left panel, select **Select tool**.
+1. Open your toolkit detail page.
+2. Select an existing index card from the Indexes section.
+3. Click the **Search** button in the page header.
+4. Select **Select Tool** in the left panel.
 5. Choose **Search Index**.
 6. Fill in the search parameters.
 7. Select **Search** to run the tool.
@@ -186,10 +186,10 @@ Advanced search that rewrites or simplifies the query before searching and can u
 
 **How to Execute**
 
-1. Open your toolkit.
-2. Expand the **Indexes** section.
-3. Open an existing index page.
-4. In the left panel, select **Select tool**.
+1. Open your toolkit detail page.
+2. Select an existing index card from the Indexes section.
+3. Click the **Search** button in the page header.
+4. Select **Select Tool** in the left panel.
 5. Choose **Stepback Search Index**.
 6. Fill in the search parameters.
 7. Select **Search** to run the tool.
@@ -233,10 +233,10 @@ Contextual search plus an AI-generated answer, with optional citations. This too
 
 **How to Execute**
 
-1. Open your toolkit.
-2. Expand the **Indexes** section.
-3. Open an existing index page.
-4. In the left panel, select **Select tool**.
+1. Open your toolkit detail page.
+2. Select an existing index card from the Indexes section.
+3. Click the **Search** button in the page header.
+4. Select **Select Tool** in the left panel.
 5. Choose **Stepback Summary Index**.
 6. Fill in the search parameters.
 7. Select **Search** to run the tool.
@@ -278,11 +278,10 @@ Delete an existing collection when it is no longer needed. Use this tool to remo
 
 **How to Execute**
 
-1. Open your toolkit.
-2. Expand the **Indexes** section.
-3. Open the index page you want to remove.
-4. Select **Delete**.
-5. Confirm the deletion.
+1. Open your toolkit detail page.
+2. Select an index card from the Indexes section.
+3. On the index detail page, click **Delete Index** link in the left panel.
+4. Confirm the deletion.
 
 ![Delete Index confirmation dialog for removing an existing index.](../../img/how-tos/indexing/indexes/delete-index.png)
 
@@ -305,9 +304,8 @@ List all available indexes for the current toolkit. Use this tool to confirm whi
 
 **How to Execute**
 
-1. Open your toolkit.
-2. Expand the **Indexes** section.
-3. Review the index list in the left panel.
+1. Open your toolkit detail page.
+2. The Indexes section appears in the right panel showing all available index cards.
 
 ![List Indexes panel showing all available indexes for the current toolkit.](../../img/how-tos/indexing/indexes/index-section.png)
 
@@ -331,7 +329,6 @@ The following table compares the three search tools available in the Indexes sec
 - If search returns few or no results, try lowering **Cut Off** (for example, from `0.5` to `0.35`) or increasing **Search Top**.
 - Use **Index Name** consistently (for example, `prod`, `test`) so you can target the right dataset later.
 - For better question answering, consider proposal-style chunking when indexing, because it turns on titles, summaries, and propositions.
-- For known limitations and workarounds, see [Release Notes 1.7.0](../../release-notes/archived/rn-1-7-0#known-issues).
 
 <Info>
 **Guides & References**
