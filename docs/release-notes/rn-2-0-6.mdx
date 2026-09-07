@@ -2,10 +2,10 @@
 title: "Release Notes - 2.0.6"
 ---
 
-ELITEA 2.0.6 focuses on organizing, protecting and sharing your work, and on making agents easier to build and verify. This release introduces a new Agent Evaluation (Beta) tool for scoring and comparing agent runs, project backup and restore, folders with folder-level permissions across project entities, chat-built Skills and Project Context with a new Ask User tool, external conversation sharing, AI follow-up suggestions and side-by-side version comparison. It also redesigns the indexing, toolkit and testing experience, and improves navigation, version selection, Canvas and catalog discoverability.
+ELITEA 2.0.6 focuses on organizing, protecting and sharing your work. This release introduces agent evaluation, project backup and restore, chat-built Skills and Project Context with a new Ask User tool, external conversation sharing, AI follow-up suggestions and side-by-side version comparison. It also redesigns the indexing, toolkit and testing experience, and improves navigation, version selection, Canvas and catalog discoverability.
 
 * **Release version**: 2.0.6
-* **Released on**: Sep 13, 2026
+* **Released on**: September 13, 2026
 * **Access**: [ELITEA Platform](https://next.elitea.ai)
 
 ## New Features
@@ -13,161 +13,158 @@ ELITEA 2.0.6 focuses on organizing, protecting and sharing your work, and on mak
 ### Agent Evaluation (Beta)
 
 You can now evaluate chat and task-automation agents from a new **Evaluation** tab on the agent editor, scoring runs against configurable dimensions and comparing results across datasets and runs.
-* Define evaluation dimensions using an AI-judge (rubric-based), Human or Code engine, each with its own evidence scope (agent structure, input, output), weight, target and polarity.
-* Group dimensions and code validations into a **suite** bound to a specific agent version, with an optional override for the AI-judge model.
-* Build test datasets' cases manually, by importing CSV or JSON files, or by promoting turns from chat conversations and agent run history.
-* Run a suite as an offline batch over a dataset or on demand against a single conversation, with per-case progress and errored cases surfaced without stopping the run.
-* Review a results scorecard with native and normalized scores per dimension and a weighted headline score against your target, and add inline human scores that trigger automatic re-aggregation.
-* Rely on an append-only human-score audit trail and role-gated access, with viewers limited to read-only results, and browse past runs of a suite to spot drift across evaluations.
+
+<Note>
+Agent Evaluation is a Beta feature. Supported engines and metrics may change.
+</Note>
+
+* Define evaluation dimensions using an AI-judge, Human or Code engine, each with its own evidence scope, weight, target and polarity.
+* Group dimensions and code validations into a suite bound to a specific agent version.
+* Run a suite as an offline batch over a dataset or on demand against a single conversation.
+* Review the results with native and normalized scores, and add inline human scores that trigger automatic re-aggregation.
+* Rely on an append-only human-score audit trail and role-gated access.
 
 **Benefits:** Repeatable, measurable agent testing that surfaces regressions and quality issues before they reach users.
 
 Details: [Agents](../menus/agents).
 
-**Note:** Agent Evaluation is a Beta feature. Screens, metrics and supported engines may change before general availability.
+### Project Back up & Restore
 
-### Project Backup & Restore
+You can now back up your project's data and restore it for both team and private projects.
 
-You can now back up a project's data and restore it later from a new **Backup & Restore** section in **Settings → General**, for both *team* and *private* projects.
-* Download a backup file covering **agents, pipelines, toolkits, MCP servers and skills**, and restore that same set of entities from an existing backup or an uploaded file.
-* Keep credentials, tokens and other secrets out of the backup entirely — they are never exported and cannot be restored.
-* Preview a restore with a dry run before applying it, and restore all backed-up data or only selected tables.
-* Choose whether a restore replaces existing project data or merges the backup into what is already there.
-* Rely on encrypted backup files and on project admins being scoped to backing up and restoring only their own project.
+* Create an encrypted backup file covering agents, pipelines, toolkits, MCP servers and skills to restore them, if needed. Credentials, tokens and other secrets are excluded from the backup.
+* Preview a restore with a dry run before applying it.
+* Choose whether the restored entities replace the existing project data or merge with them.
+* Platform Admins can take a full, raw database-level backup or restore of a project from the Admin panel.
 
-**Benefits:** Faster recovery from accidental deletion or bad bulk changes, without exposing credentials or secrets in the backup file.
+**Benefits:** Faster recovery of the project data without compromizing its security.
 
-Details: [Settings](../menus/settings/general#back-up-restore).
+Details: [General Settings](../menus/settings/general#back-up-restore), [Back Up & Restore Project Data](../how-tos/entity-management/backup.mdx).
 
 <img src="../img/menus/settings/project/general/gen_backup.png" alt="Back Up &amp; Restore settings" />
 
-**Note:** Platform Admins can additionally take a full, raw database-level backup or restore of a project from the Admin panel.
+### Clarifying Questions and Follow-up Suggestions in Chat
 
-### Organize Project Entities into Folders
+You can now communicate with chat more effectively and get more correct responces with a new chat module and an additional clickable AI-generated follow-up suggestions.
 
-You can now group Agents, Pipelines, Toolkits & Indexes, MCPs and Credentials into folders from each entity's main listing page, in both card and table views.
-* Create a folder from the **Folders** panel, from an entity card, or directly while moving an entity into a new folder.
-* Move an entity into an existing folder, move it between folders, or remove it from its folder without affecting its configuration, tags, permissions, versions or pin status.
-* Open a folder to see only the entities assigned to it, with a live entity count, and close it to return to the full list.
-* Rename or delete folders at any time — deleting a folder only removes the folder itself, leaving its entities untouched and available in the main list.
-* Keep search global across all folders and unfiled entities, with each result showing its folder association when it has one.
-* See folder assignment respect existing entity permissions, so folder organization never grants access beyond what a user's role already allows.
+* Enable the **Ask User** module so the assistant can pause mid-run and ask structured clarifying questions instead of guessing.
+* Answer clarifying questions one at a time.
+* Rely on **Ask User** failing safely in headless or API-only runs, returning a default answer instead of hanging.
+* Select a suggestion chip to insert it into the chat input as editable text or skip the suggestion.
+* Keep suggestions private and non-persistent.
 
-**Benefits:** Easier organization and navigation of growing agent, pipeline, toolkit, MCP and credential collections, without changing how entities work.
+**Benefits:** fewer wrong assumptions from agents when requirements are unclear, faster follow-up messages with less typing.
+
+Details: [Chat](../menus/chat), [Ask User](???).
+
+### Skill and Project Context Buiders
+
+You can now build skills and project context directly from the chat, using two new chat modules.
+
+* Turn on the new **Skills Builder** or **Project Context Builder** modules — each toggled independently.
+* Open a generated skill or project context from a chip/link in the chat response.
+* Keep the creation of skills and project contexts scoped to the current project, even when you have access to other projects.
+
+**Benefits:** Faster and easier creation.
+
+Details: [Skill Builder](???), [Project Context Builder](???).
+
+### Folders for Project Entities
+
+You can now group Agents, Pipelines, Toolkits & Indexes, MCPs and Credentials into folders.
+
+* Create a folder from the **Folders** panel, from a card, or directly while moving an entity into a new folder.
+* Move entities to or between folders without affecting their configurations, versions or permissions — folder organization is never a mechanism for granting access or changing the entity.
+* Rename or delete folders at any time — deleting a folder leaving its entities untouched.
+* Keep search global across all folders and unfiled entities.
+
+**Benefits:** Easier organization and navigation.
 
 Details: [Agents](../menus/agents), [Pipelines](../menus/pipelines), [Toolkits](../menus/toolkits#organize-toolkits-with-folders), [MCPs](../menus/mcps), [Credentials](../menus/credentials).
 
 ### Folder-Level Permissions for Project Entities
 
-You can now restrict selected team members to **Read-only** or **No access** on folders of Agents, Pipelines, Toolkits & Indexes, MCPs and Credentials in team projects, using the same **Manage Permissions** experience as Artifacts buckets.
-* Open **Manage Permissions** from a folder's menu to add per-user exceptions on top of everyone's normal role-based access.
-* Add, search, edit and remove exceptions for one or multiple users at once, with a clear **Exceptions** count and an empty state when none exist.
-* Apply a folder exception to every entity currently inside it, including indexes, which inherit the permission of their containing toolkit folder.
-* Restore a user to normal role-based access at any time by setting their exception back to **Read/write (default)**.
+You can now control who can view or modify content in team folders of Agents, Pipelines, Toolkits & Indexes, MCPs and Credentials.
+
+* Manage access per folder by assigning clear folder permission levels.
+* Apply a folder exception to every entity currently inside it, including indexes.
+* Add, search, edit and remove exceptions for one or multiple users at once, with a clear **Exceptions** count.
+* Restore a user to normal role-based access at any time.
 * Enforce restrictions consistently across the UI, REST and RPC paths, including list, search, move, copy, fork and export operations, so direct API access cannot bypass a folder restriction.
 
-**Benefits:** Finer-grained control over sensitive agents, pipelines toolkits and skills without changing project-wide roles.
+**Benefits:** Better control over sensitive entities without changing project-wide roles.
 
 Details: [Agents](../menus/agents), [Pipelines](../menus/pipelines), [Toolkits](../menus/toolkits), [Credentials](../menus/credentials).
 
-### Ask User & Chat-Built Skills and Project Context
+### Sharing Conversations with External Users
 
-You can now have the assistant build Skills and Project Context directly from a chat request, and let any agent pause to ask you clarifying questions instead of guessing, using two new Chat modules alongside a new **Ask User** tool.
-* Turn on the new **Skills Builder** or **Project Context Builder** modules to let the assistant create a Skill, or create or update Project Context, from a chat request — each toggled independently of the other and of the existing **Agent & Pipeline Builder**.
-* Enable the new **Ask User** tool so the assistant can pause mid-run and ask 1 to 4 structured clarifying questions — single-select, multi-select or free text with an optional "Other" answer — instead of guessing when your request is ambiguous or missing details.
-* Answer clarifying questions one at a time in a stepwise card with **Back**/**Next** navigation and **Submit** on the last question, then let the assistant resume and complete the original request using your answers.
-* Open a generated entity from a chip/link in the chat response — Skills and Project Context through the new modules, or Agents and Pipelines through the existing **Agent & Pipeline Builder** module — which reopens it in Canvas mode for review and editing, without adding it as a chat participant.
-* Keep Skill and Project Context creation scoped to the project the conversation is running in, even when you have access to other projects.
-* Rely on **Ask User** failing safely in headless or API-only runs, returning a default answer instead of hanging.
+You can now share chat conversations with people outside ELITEA through a secure, read-only public link.
 
-**Benefits:** Faster, more accurate Skill and Project Context creation directly from chat, and fewer wrong assumptions from agents when requirements are unclear.
+* Use a secure, read-only public link to share your conversation.
+* Choose what to share before generating the link.
+* Set the expiration period and (optional) protect the link with a password.
+* Share the link with recipients even without an ELITEA account — they can only view the shared content, not modify it or reply.
 
-Details: [Chat](../menus/chat), [Skills](../menus/skills), [Project Context](../menus/settings/project-context).
-
-### AI Follow-Up Suggestions in Chat
-
-You can now see up to three AI-generated follow-up suggestions as clickable chips above the Chat composer after each AI response, letting you pick one instead of typing your own next message from scratch.
-* Select a suggestion chip to insert its text into the Chat input as editable text, without sending it automatically, then edit it or pick a different chip before sending.
-* Get suggestions generated only after the AI response is fully delivered, so they never delay or block the main reply.
-* Skip suggestions for very short AI responses that aren't worth the extra model call.
-* See the suggestion list clear automatically once you start typing, send a message, edit the inserted text, switch conversations, or receive a new AI response.
-* Keep suggestions private and non-persistent — visible only in the browser tab of the user who triggered them, never saved to the database, and never shown in other users' sessions or shared conversation views.
-* Rely on Admins controlling the feature globally and per-project through a disallow list.
-
-**Benefits:** Faster follow-up messages with less typing, while staying fully optional and under your control.
+**Benefits:** A simple, controlled way to share your conversations to people outside your organization.
 
 Details: [Chat](../menus/chat).
 
-### Share Conversations with External Users
+### Creating New Chats Inside a Folder
 
-You can now share a chat conversation with people outside ELITEA through a secure, read-only public link, using the new **Share externally** action alongside the existing internal **Share**.
-* Select **Share externally** from a conversation's action menu to open the **Share conversation** dialog.
-* Choose what to share, covering the entire conversation, including its messages and attachments, by default.
-* Set how long the generated link stays valid before it expires.
-* Optionally protect the link with a password of at least 8 characters.
-* Generate the link and hand it to anyone, even without an ELITEA account — recipients can only view the shared content, not modify it or reply.
-* Lose access to the shared conversation automatically once the link expires or is revoked.
+You can now start new conversations directly in the chat folder instead creating it elsewhere and moving to the folder manually.
 
-**Benefits:** A simple, controlled way to hand off a conversation to people outside your organization without granting them ELITEA access.
-
-Details: [Chat](../menus/chat).
-
-### Create a New Chat Directly Inside a Folder
-
-You can now start a new conversation directly inside a chat folder, instead of creating it outside any folder and moving it in afterward.
-* Select **New chat** from a folder's menu to open a new conversation that's already placed inside that folder.
-* Skip the extra step of creating a conversation elsewhere and manually moving it into the folder afterward.
-* Continue to rename, unpin or delete the folder from the same menu.
-
-**Benefits:** Faster chat organization, with new conversations landing in the right folder from the start.
+**Benefits:** Faster chat organization.
 
 Details: [Chat](../menus/chat).
 
 ### Default Modules for Chats and Agents
 
-You can now configure which built-in Modules are turned on by default for Chats and Agents in a project, from **Settings → General → Default Modules**.
-* Set a separate default toggle per module for Chats and for Agents, covering Image Creation, Data Analysis, Agent & Pipeline Builder, Skill Builder, Project Context Builder, Ask User, Planner, Python Sandbox, Swarm Mode and Smart Tools Selection.
-* Rely on every module toggle being disabled by default for new projects and for any project without existing configuration.
-* Apply project-level defaults only to newly created Chats and Agents — existing Chats and Agents keep their current Module configuration unchanged.
-* Continue to change Module toggles on a specific Chat or Agent after creation if you have permission.
+You can now configure default modules for chats and agents in the project settings.
 
-**Benefits:** Consistent, predictable default behavior for new chats and agents without affecting entities you've already configured.
+* Specify what modules are turned on by default for your project by a set of separate toggles. All toggles are disabled by default for new projects.
+* Apply project-level defaults only to newly created chats and agents.
+* Turn on or off modules when using chats and agents (if you have the necessary permission).
 
-Details: [Settings](../menus/settings/general#default-modules).
+**Benefits:** Consistent, predictable default behavior for new chats and agents.
 
-### Compare Agent and Skill Versions
+Details: [General Settings](../menus/settings/general#default-modules).
 
-You can now compare two saved versions of an Agent or a Skill side by side, with highlighted differences, per-field copy actions and the ability to edit and save either version directly from the comparison view.
-* Select **Compare versions** from a version's action menu to open a comparison modal, with the version you started from fixed on the left and any other version selectable on the right.
-* Step through Agent comparisons across **Instructions**, **User Interaction** (Welcome Message and Chat Starters) and **Tools & Skills**, or through the single **Instructions** step for Skills.
-* See line- and word-level highlighting for content that differs or exists only on one side, including unsaved edits made during the comparison, without labeling either version as current or suggested.
-* Edit Instructions, Welcome Message and existing Chat Starter text independently on each side, and copy any individual field to the clipboard.
-* Save either version on its own — overwriting that version in place without creating a new one — while the **Tools & Skills** dependency list stays read-only for comparison only.
-* Get a confirmation prompt before closing the comparison with unsaved changes, and rely on the action being available only to users with edit permission and only when at least two versions exist.
+<img src="../../img/menus/settings/project/general/gen_default-modules.png" alt="Default Modules" />
 
-**Benefits:** Faster, more accurate review of how Agent and Skill versions differ, with corrections possible without leaving the comparison view or reaching for external diff tools.
+### Comparing Agent and Skill Versions
+
+You can now compare two saved versions of an agent or skill in a designated comparison modal.
+
+<Note>
+Version editing is available only to users with edit permissions and only when at least two versions exist.
+</Note>
+
+* Use a side-by-side comparison modal with highlighted differences and available per-field copy actions.
+* See all the differences, including unsaved edits made during the comparison.
+* Edit and save versions independently. Saving overwrites the existing version without creating a new one.
+
+**Benefits:** Faster, more accurate version review for agents and skills.
 
 Details: [Agents](../menus/agents), [Skills](../menus/skills).
 
 ### JavaScript Execution in HTML Preview
 
-You can now run JavaScript in the HTML preview frame, in both Artifacts and Chat, for more dynamic HTML content.
+You can now run JavaScript in the HTML preview frame, in both Artifacts and Chat.
+
 * Execute JS code embedded in `.html` files when rendered in the **Preview** mode, in both the Artifacts canvas and Chat.
 * Build more dynamic, interactive HTML content instead of static markup only.
-* Continue to rely on the existing sandboxed preview isolation that keeps rendered content from accessing ELITEA session data, cookies, local storage, or the parent page.
+* Rely on the existing sandboxed preview isolation that keeps rendered content from accessing ELITEA session data, cookies, local storage, or the parent page.
 
 **Benefits:** Richer, more interactive HTML previews without leaving Artifacts or Chat.
 
 Details: [Artifacts](../menus/artifacts), [Chat](../menus/chat).
-
-
-
 
 ## Changed Features
 
 ### Indexing and Reindexing Enhancements & Redesign
 
 You can now create, configure, monitor and search indexes through fully redesigned Toolkit and Index pages, with clearer information, safer reindexing and consistent run history across the whole indexing experience.
+
 * Create a new index from a dedicated **New Index** page, then land on the Index details page with **Activity** selected once indexing starts.
 * Navigate a redesigned two-column Index details page — index summary, item counts and schedule on the left, **Configuration** and **Activity** tabs on the right — with **Search**, **Run History** and **Delete Index** actions, and status-aware **Stop**/**Reindex** actions in each indexing state.
 * Run searches against an index from a dedicated **Search** page with its own Settings and Results panels, limited to the search tools that index actually supports.
@@ -184,6 +181,7 @@ Details: [Toolkits](../menus/toolkits), [Indexing Overview](../how-tos/indexing/
 ### Redesigned Toolkit Tools Section
 
 You can now configure a toolkit's tools through a redesigned **Tools** section that groups, searches and flags tools by risk, on both the create and edit forms.
+
 * Browse tools grouped by operation type — **Read**, **Create & update**, **Delete** and **Execute** — each with a risk badge, an info tooltip explaining the group, and a selected/total tool count, in a fixed order with empty groups hidden.
 * Search tools by display name or technical name without changing your current selections, and see groups with no matches hidden.
 * Select or deselect every tool in a group at once from the group header.
@@ -198,6 +196,7 @@ Details: [Toolkits](../menus/toolkits).
 ### Test Toolkits from a Dedicated Page
 
 You can now test a toolkit's tools from a dedicated **Test** page instead of an embedded panel on the Toolkit details page.
+
 * Select **Test** from the Toolkit action bar, next to **Run History**, to open the Toolkit Test page in the same browser tab.
 * Navigate back to the Toolkit details page at any time using the **Toolkits / [Toolkit name] / Test** breadcrumb trail.
 * Select a tool, search among available tools, configure its parameters and choose a model where applicable, from a dedicated **Test Settings** panel on the left.
@@ -210,6 +209,7 @@ Details: [Toolkits](../menus/toolkits).
 ### UI Enhancements for Agents, Pipelines and Skills
 
 You can now navigate and manage versions on Agent, Pipeline and Skill details pages more clearly, with breadcrumb navigation and a redesigned version selector.
+
 * Navigate with breadcrumbs — **Agents / [Agent name]**, **Pipelines / [Pipeline name]**, **Skills / [Skill name]** — instead of a back button, with the entity-type link returning you to its list page.
 * Search the version dropdown by version name or creator, and see each version listed with its name, creation timestamp and creator instead of a single combined line.
 * Tell the currently loaded version apart from the default version — a checkmark and row highlight mark what's selected, an active pin marks the default, and the two states stay independent of each other.
@@ -223,6 +223,7 @@ Details: [Agents](../menus/agents), [Pipelines](../menus/pipelines), [Skills](..
 ### Canvas Mode for Chat-Generated Entities
 
 You can now review and edit an Agent, Pipeline, Skill or Project Context generated from Chat immediately in Canvas mode, without leaving the conversation.
+
 * Have a newly generated Agent, Pipeline, Skill or Project Context open automatically in Canvas mode, with Chat still visible alongside it.
 * See multiple items generated in the same response open as separate Canvas tabs, each showing the entity's name and type icon, and switch between tabs without losing unsaved edits.
 * Reopen a generated entity's Canvas from its chip/link in the Chat response at any time after closing it.
@@ -236,6 +237,7 @@ Details: [Chat](../menus/chat).
 ### Catalog Item Counts and "New" Badges
 
 You can now see how many Agents and Skills are available in the catalog at a glance, and spot recently added items without scanning the whole list.
+
 * See a total count of visible Agents and Skills in the catalog header or section titles, updating in real time as you search or apply filters.
 * Spot a **New** badge on any Agent or Skill catalog card added within the recency window, with the badge disappearing automatically once the item ages out of that window.
 * Use the **New** quick filter in the catalog filter panel to show only recently added items.
@@ -244,7 +246,6 @@ You can now see how many Agents and Skills are available in the catalog at a gla
 **Benefits:** Faster sense of catalog breadth and easier discovery of new Agents and Skills without manually scanning the whole catalog.
 
 Details: [Agents](../menus/agents), [Skills](../menus/skills).
-
 
 ## Fixed Issues
 
@@ -268,7 +269,6 @@ Details: [Agents](../menus/agents), [Skills](../menus/skills).
 * [#5255](https://github.com/EliteaAI/elitea_issues/issues/5255) OAuth-authenticated MCP toolkits no longer loop re-authorization when an agent is launched from the Agent page.
 * [#5241](https://github.com/EliteaAI/elitea_issues/issues/5241) Pipeline LLM nodes with multiple toolkits keep access to duplicate-named tools instead of losing them to the first toolkit.
 * [#3562](https://github.com/EliteaAI/elitea_issues/issues/3562) Clicking **Continue** after hitting the token limit resumes pipeline or agent execution instead of restarting from the beginning.
-
 
 ## Known Issues
 
