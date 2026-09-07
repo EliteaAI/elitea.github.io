@@ -1,6 +1,6 @@
 ---
 title: "Indexing Overview"
-description: "Learn how indexing works in ELITEA, which tools and toolkits support it, and how to configure and manage indexes in the Next environment."
+description: "Learn how indexing works in ELITEA, which tools and toolkits support it and how to configure and manage indexes in the Next environment."
 ---
 
 
@@ -8,7 +8,7 @@ description: "Learn how indexing works in ELITEA, which tools and toolkits suppo
 
 **Indexing** turns your external content (repos, wikis, issues, files, designs, tests) into searchable knowledge that Agents and Pipelines, as well as LLMs from Conversations can use. Instead of manually browsing systems, create indexes once and then search or ask questions with natural language.
 
-The **Indexes** section provides a comprehensive, user-friendly way to create, manage, and search indexes directly within Toolkit Configuration, featuring visual status indicators, real-time progress monitoring, and dedicated index pages.
+The **Indexes** section provides a comprehensive, user-friendly way to create, manage and search indexes directly within Toolkit Configuration, featuring visual status indicators, real-time progress monitoring and dedicated index pages.
 
 ## Purpose of Indexing
 
@@ -97,9 +97,9 @@ The **Indexes** section in Toolkit Configuration is the primary interface for al
 
 ### Create Index
 
-A new index collects content from the connected source, chunks and embeds it, and stores the result in the vector database. Configure the index name, chunking strategy, and toolkit-specific parameters (branch, filters, space keys, and so on) at creation time.
+A new index collects content from the connected source, chunks and embeds it and stores the result in the vector database. Configure the index name, chunking strategy and toolkit-specific parameters (branch, filters, space keys and so on) at creation time.
 
-After the run starts, the index page tracks progress in real time. When complete, the index enters **Completed** or **Partially Indexed** state and becomes available for search, scheduling, reindexing, and history review.
+After the run starts, the index page tracks progress in real time. When complete, the index enters **Completed** or **Partially Indexed** state and becomes available for search, scheduling, reindexing and history review.
 
 For step-by-step instructions and index status details, see [Create & Use Indexes](./using-indexes-tab-interface).
 
@@ -123,11 +123,11 @@ For details on reindexing behavior and skipped-file categories, see [Create & Us
 
 Each user can configure an independent automated reindexing schedule per index using a cron expression. Schedules can be turned on or off at any time without losing the configured expression. The minimum supported schedule frequency is once per day.
 
-For cron expression reference, schedule management, troubleshooting, and best practices, see [Schedule Indexing](./schedule-indexing).
+For cron expression reference, schedule management, troubleshooting and best practices, see [Schedule Indexing](./schedule-indexing).
 
 ### Index History
 
-The index page records all past indexing operations in chronological order — initial indexing, manual reindexes, scheduled reindexes, and any failures or stops. The history includes the event type, timestamp, indexed and skipped file counts.
+The index page records all past indexing operations in chronological order — initial indexing, manual reindexes, scheduled reindexes and any failures or stops. The history includes the event type, timestamp, indexed and skipped file counts.
 
 For details on history entries and available columns, see [Create & Use Indexes – History](./using-indexes-tab-interface).
 
