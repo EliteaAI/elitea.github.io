@@ -1,16 +1,16 @@
 ---
 title: "Create & Use Indexes"
-description: "The Indexes interface in Toolkit Configuration lets you create indexes, monitor indexing progress, run search tools, review configuration, and inspect index history for supported toolkits."
+description: "The Indexes interface in Toolkit Configuration lets you create indexes, monitor indexing progress, run search tools, review configuration and inspect index history for supported toolkits."
 ---
 
 ## Key Features
 
 <CardGroup cols={2}>
      <Card title="Visual Status Indicators" icon="signal">
-          Real-time identification of index states, including in-progress, completed, partly indexed, failed, and stopped.
+          Real-time identification of index states, including in-progress, completed, partly indexed, failed and stopped.
      </Card>
      <Card title="Dedicated Pages" icon="window-maximize">
-          Separate pages for creating a new index, working with an existing index, and reviewing index history.
+          Separate pages for creating a new index, working with an existing index and reviewing index history.
      </Card>
      <Card title="Real-time Progress Monitoring" icon="arrows-rotate">
           Live updates during index creation and updates with conversation recovery.
@@ -22,7 +22,7 @@ description: "The Indexes interface in Toolkit Configuration lets you create ind
           Configure periodic reindexing using cron expressions for hands-free maintenance.
      </Card>
      <Card title="Multiple Search Tools" icon="magnifying-glass">
-          Access Search Index, Stepback Search Index, and Stepback Summary Index when those tools are turned on for the toolkit.
+          Access Search Index, Stepback Search Index and Stepback Summary Index when those tools are turned on for the toolkit.
      </Card>
 </CardGroup>
 
@@ -35,16 +35,18 @@ Before using the Indexes, ensure the following requirements are met:
 ### Project-Level Configuration
 
 1. **PgVector Configuration**: Vector storage must be configured at the project level.
-      - In **Settings**, select **[AI Configuration](../../menus/settings/ai-configuration)**.
+      - In **Settings**, select **[AI Providers](../../menus/settings/ai-configuration)**.
       - Configure PgVector connection settings.
       - Verify the connection is active.
 
 2. **Embedding Model Configuration**: An embedding model must be selected.
-      - In **Settings**, select **[AI Configuration](../../menus/settings/ai-configuration)**.
+      - In **Settings**, select **[AI Providers](../../menus/settings/ai-configuration)**.
       - Select and configure an embedding model.
       - Test model availability.
 
-<Warning title="Access Control">
+<Warning>
+**Access Control**
+
 When project-level prerequisites are missing, the **Indexes** section displays the message **"Indexing is not available for now"**. Configure both **PgVector** and an **Embedding Model** before using indexing features.
 </Warning>
 
@@ -72,7 +74,9 @@ When project-level prerequisites are missing, the **Indexes** section displays t
 | **List Indexes** | Optional | For viewing available indexes |
 | **Remove Index** | Optional | For index cleanup |
 
-<Warning title="Indexing section Availability">
+<Warning>
+**Indexing section Availability**
+
 If the **Index Data** tool is not turned on in the toolkit configuration, the **Indexes** section displays the message **"Indexing is not available for now"**. Turn on **Index Data** before using indexing features.
 </Warning>
 
@@ -80,21 +84,29 @@ If the **Index Data** tool is not turned on in the toolkit configuration, the **
 
 ## Access the Indexes Interface
 
-1. Open a toolkit that supports indexing.
-2. In the toolkit **Configuration** page, expand the **Indexes** section.
-3. Use the left-side index list to create a new index or open an existing one.
+1. Go to **Toolkits & Indexes** from the main navigation
+2. Click on a toolkit that supports indexing to open its detail page
+3. The toolkit detail page displays a two-panel layout:
+   - **Left panel**: Toolkit configuration form
+   - **Right panel**: Indexes section showing the list of indexes for this toolkit
+4. The Indexes section displays:
+   - **Header**: "Indexes" title with count badge (e.g., "Indexes (3)")
+   - **+ Index button**: Appears in the header when indexes exist
+   - **Index cards**: Each card shows the index name, created date, status and file counts
 
       ![Indexes Section](../../img/how-tos/indexing/indexes/index-section.png)
-
-If the **Indexes** section is turned off or not visible, verify that your project-level prerequisites are properly configured and that the **Index Data** tool is turned on for the toolkit.
 
 ---
 
 ## Create a New Index
 
-1. In the index section, select **+ Index**.
-2. A dedicated **New index** page opens with breadcrumb navigation and an **Index configuration** accordion.
-3. Fill in the required fields for the **Index Data** tool.
+1. In the Indexes section, click **+ Index** button
+2. A dedicated **Create Index** page opens with:
+   - **Breadcrumb navigation**: Toolkits & Indexes > [Toolkit Name] > Create Index
+   - **Index configuration** form displaying all fields for the **Index Data** tool
+3. Fill in the required fields for the **Index Data** tool
+
+      ![Index Data Form](../../img/how-tos/indexing/indexes/index-data.png)
 
 The **Index Data** form includes required and toolkit-specific parameters such as:
 
@@ -108,7 +120,9 @@ The **Index Data** form includes required and toolkit-specific parameters such a
 
       ![New Index Page](../../img/how-tos/indexing/indexes/new-index-page.png)
 
-<Tip title="Toolkit-Specific Settings">
+<Tip>
+**Toolkit-Specific Settings**
+
 Different toolkits require different parameters. For example:
 
 - **GitHub**: Repository name, branch, file patterns
@@ -119,53 +133,78 @@ Different toolkits require different parameters. For example:
 Refer to toolkit-specific documentation for detailed parameter information.
 </Tip>
 
-The **Index** button remains turned off until the form is valid.
+The **Index** button at the bottom remains disabled until all required fields are valid.
 
-4. Select **Index** to start indexing, or **Cancel** to return.
-5. After the run starts, the UI navigates to the dedicated page for that index and begins tracking progress there.
+4. Click **Index** to start indexing
+5. After the indexing run starts:
+   - The page navigates to the dedicated index detail page for that index
+   - The index detail page has two tabs: **Configuration** and **Activity**
+   - The **Activity** tab is automatically selected, displaying live progress updates
+   - Progress is tracked in real-time with conversation-style updates
 
-![Indexing Process](../../img/how-tos/indexing/indexes/indexing-process.png)
+      ![Indexing Process](../../img/how-tos/indexing/indexes/indexing-process.png)
 
-6. When indexing completes, the index enters **Completed** or **Partially Indexed** state and becomes available for search, scheduling, configuration review, reindexing, history review, and deletion.
+6. When indexing completes:
+   - The index enters **Completed** or **Partially Indexed** state
+   - The index becomes available for:
+     - Search operations (via the Search button)
+     - Scheduling automated reindexing
+     - Viewing configuration (switch to Configuration tab on the index detail page)
+     - Manual reindexing
+     - Viewing history (History button)
+     - Deletion (if Remove Index tool is enabled)
 
  <video controls>
    <source src="../../img/how-tos/indexing/indexes/create-index.mp4" type="video/mp4"/>
    Your browser does not support the video tag.
  </video>
 
-<Note title="Partially Indexed vs Failed">
+<Note>
+**Partially Indexed vs Failed**
+
 An index with **Partially Indexed** status is fully usable—search tools and scheduling work normally. It means that some files were skipped during the operation (for example, binary or archive files with unsupported extensions). Review the **Indexing Results** section in the chat panel to see exactly which files were skipped and why.
 </Note>
 
-## Index Page Details
+## Index Detail Page
 
-When you open an index, the dedicated page displays the current state, metadata, controls, and results for that index.
+When you open an index, the dedicated page displays the current state, metadata, controls and results for that index.
 
-**General section**
+**Index statistics:** 
 
-The **General** section displays the index name with the index icon, the created date, and the initial **Files indexed** and **Files skipped** counts. It also provides the main index actions, including **Reindex** and **Delete Index** when the user has permission to delete indexes.
+Created date, Files indexed, Files skipped. After first reindex: Last reindex date, Files reindexed, Files skipped.
+
+**SCHEDULE:** 
+
+The Schedule section shows whether a schedule is configured. When no schedule exists, it displays a placeholder and **+ Schedule** button. When a schedule exists, it shows the cron expression, next run time, selected credentials, edit/delete icons and enable/disable toggle.
 
 ![Indexes General Section](../../img/how-tos/indexing/indexes/indexes-general-section.png)
 
-**Schedule section**
 
-The **Schedule** section shows whether a schedule is configured for the index. When no schedule exists, it displays a placeholder and a **+ Schedule** action. When a schedule exists, it shows the schedule summary, the next run date, the selected credentials, edit and delete actions, and the enable or disable switch. If the schedule exists but is turned off, the page also displays a dedicated banner.
+**Configuration Tab**
 
-![Indexes Schedule Section](../../img/how-tos/indexing/indexes/indexes-schedule-section.png)
-
-**Index configuration section**
-
-The **Index configuration** section loads the stored **Index Data** settings for the current index. The `index_name` field remains non-editable, while the other configuration fields stay editable and can be adjusted before running a reindex.
+Displays editable **Index Data** tool configuration fields. The `index_name` field is **read-only**, all other fields are **editable**. Changes are saved when clicking **Save** or **Save & Reindex**. If no editable fields exist: "No additional configuration required".
 
 ![Indexes Config Section](../../img/how-tos/indexing/indexes/indexes-config-section.png)
 
-### Index Card Summary
 
-On the toolkit detail page, the **Indexes** section displays index cards for the current toolkit. Each card provides a compact summary of the index together with quick actions.
+**Index Cards**
 
-The card shows the **collection name**, **created date**, **indexed / total file count**, and, when applicable, the **skipped file count**. For non-completed states, it also displays a **status icon**. On hover, the card exposes actions to **open the index page**, **reindex**, or **delete** the index.
+**Displays:** Collection name, created date, file counts (Indexed / total), skipped file count and status icon for in-progress, failed or stopped states.
+
+**Interactions:** Click card to open index detail page. Hover to expose quick action buttons: Open, Reindex, Delete.
 
 ![Indexes Card](../../img/how-tos/indexing/indexes/indexes-card.png)
+
+<Info>
+**Index Card States**
+
+Index cards display different visual indicators based on their current state:
+- **In Progress**: Shows loading indicator and progress percentage
+- **Completed**: Shows green checkmark icon
+- **Partially Indexed**: Shows warning icon with skipped file count
+- **Failed**: Shows error icon with red accent
+- **Stopped**: Shows stopped icon
+</Info>
 
 <Check title="Indexing Notifications">
 You will receive notifications for all indexing operations (initial indexing and reindexing):
@@ -185,17 +224,41 @@ Notifications appear in the notifications panel.
 
 ## Manage Existing Indexes
 
-Select any index card on the toolkit detail page to open its dedicated index page. From there you can reindex, stop an active run, configure a schedule, view history, and delete the index.
+Select any index card on the toolkit detail page to open its dedicated index page. From there you can reindex, stop an active run, configure a schedule, view history and delete the index.
 
 ### Reindex
 
-To trigger a manual reindex, select **Reindex** in the **General** section. A confirmation dialog appears—confirm to start the run.
+To trigger a manual reindex:
 
-Before confirming, you can adjust the configuration fields in the **Index configuration** section. Those values are used for the reindex run. The `index_name` field cannot be changed.
+1. Open the index detail page (click an index card from the Indexes section)
+2. Open the **Configuration** tab and modify configuration fields if needed (all fields are editable except `index_name`)
+3. Click the **Reindex** button in the footer (shows "Save & Reindex" if changes are pending)
+4. A confirmation dialog appears—click **Reindex** to confirm
+5. The page tab showes real-time progress updates
+6. During reindexing, the footer displays a **Stop** button to cancel the operation
 
-During reindexing, the system compares incoming content with the data already stored for the index. Files that are unchanged are not duplicated, while files whose content or source update timestamp changed are refreshed so the stored index stays current. In practice, this means partially indexed or previously outdated files are processed again on the next reindex to restore a complete and up-to-date result.
+**Reindex behavior:**
 
-After the index has been reindexed successfully at least once, the **General** section also shows a separate reindex summary with **Last reindex**, **Files reindexed**, and the skipped-file count for the latest reindex run.
+During reindexing, the system compares incoming content with existing index data:
+- **Unchanged files**: Not duplicated, existing data is retained
+- **Modified files**: Content or timestamps changed, data is refreshed
+- **Previously skipped files**: Processed again if conditions changed
+- **Result**: Index remains current with the latest source data
+
+<Note>
+**Index Availability During Reindexing**
+
+The existing index remains searchable during reindexing. If reindexing fails due to network issues, expired authentication or service unavailability, the previous working index stays available for search operations. The system replaces the index only after successful completion of the reindexing operation.
+</Note>
+
+**After first reindex:**
+
+The **General** section displays an additional reindex summary:
+- **Last reindex**: Date and time of the most recent reindex
+- **Files reindexed**: Count of files processed in the latest reindex
+- **Files skipped**: Count of files skipped in the latest reindex
+
+<video src="../../img/how-tos/indexing/indexes/reindex.mp4" controls></video>
 
 ### Skipped File Categories
 
@@ -210,79 +273,114 @@ The following table describes the categories of files that may be skipped during
 | **Read error** | File could not be read due to permissions or corruption. |
 | **Runtime error** | Unexpected error during processing. |
 
-<Tip title="Handle Unsupported Files">
+<Tip>
+**Handle Unsupported Files**
 To index files with unsupported extensions (for example, plain-text configuration files with a custom extension), turn off the **Skip Unsupported Extensions** parameter when creating the index. Files with unsupported extensions will then be processed using plain-text chunking instead of being skipped.
 </Tip>
 
-<Info title="Long Skip Lists">
+<Info>
+**Long Skip Lists**
+
 When more than five files are skipped in a single category, the results summary shows the first five file names followed by a "... X more" indicator. The full list is stored in the index metadata and accessible via the API.
 </Info>
 
-<video src="../../img/how-tos/indexing/indexes/reindex.mp4" controls></video>
-
-<Warning title="Reindex Replaces Current Data">
-Reindexing replaces all current index data and cannot be undone once started.
-</Warning>
 
 ### Schedule
 
 To configure automated reindexing, use the **Schedule** section on the index page.
 
-- Select **+ Schedule** to create a new schedule. Set the cron expression using the builder or manual input, and select the credentials to use for scheduled runs.
-- Once a schedule exists, use the **edit** icon to update it, the **delete** icon to remove it, and the toggle switch to turn it on or off without deleting it.
-- The section shows the schedule summary, the next run date, and the selected credentials at a glance.
+- Select **+ Schedule** to create a new schedule. Set the cron expression using the builder or manual input and select the credentials to use for scheduled runs.
+- Once a schedule exists, use the **edit** icon to update it, the **delete** icon to remove it and the toggle switch to turn it on or off without deleting it.
+- The section shows the schedule summary, the next run date and the selected credentials at a glance.
 
 <video src="../../img/how-tos/indexing/indexes/scheduling-index.mp4" controls></video>
 
-<Info title="Schedule Availability">
+<Info>
+**Schedule Requirements**
+
 Scheduling is available only for indexes in **Completed** or **Partially Indexed** state. Indexes in **Failed** or **Stopped** state cannot be scheduled.
 </Info>
 
-<Tip title="Detailed Scheduling Documentation">
-For comprehensive information about scheduling features, cron expressions, troubleshooting, and best practices, see [Schedule Indexing](./schedule-indexing).
+<Tip>
+**Detailed Scheduling Documentation**
+
+For comprehensive information about scheduling features, cron expressions, troubleshooting and best practices, see [Schedule Indexing](./schedule-indexing).
 </Tip>
 
 ### View History
 
-The **History** button is available in the index page header. It opens the dedicated History page for that index. The button is turned off when no history exists yet or when an active run is in progress.
+The **History** button in the index detail page header opens a dedicated run history page:
 
-![Index History](../../img/how-tos/indexing/indexes/index-history.png)
+**Access history:**
+1. Open an index detail page
+2. Click the **History** button in the page header
+3. The History page opens showing all indexing operations for this index
 
-<Warning title="History Limitations">
-- Schedule configuration changes are not tracked in the history.
-- History is permanently deleted when an index is removed.
+       ![Index History](../../img/how-tos/indexing/indexes/index-history.png)
+
+**History page displays:**
+
+- **Run history table**: Sortable list of all indexing operations
+  - Run date and time
+  - Operation type (initial index, reindex, scheduled run)
+  - Status (completed, partially indexed, failed, stopped)
+  - Files indexed and skipped counts
+  - Duration
+- **Click any row**: Opens the details for that specific run
+
+![Index History Page](../../img/how-tos/indexing/indexes/index-history-page.png)
+
+**Button states:**
+- **Disabled**: When no history exists yet or when an active run is in progress
+- **Enabled**: When at least one completed run exists and no active operation is running
+
+<Warning>
+**History Limitations**
+
+- Schedule configuration changes are not tracked in the history
+- History records only indexing operations (initial index, reindex, scheduled runs)
+- History is permanently deleted when an index is removed
 </Warning>
 
 ### Delete Indexes
 
-**Delete process:**
+To delete an index:
 
 1. Open the index you want to delete.
-2. Select **Delete**.
+2. Select **Delete** icon.
 3. Enter the index name in the confirmation dialog.
 4. Confirm the deletion.
-5. The index and its associated data are permanently removed, and the UI returns to the toolkit detail page.
 
 ![Delete Index](../../img/how-tos/indexing/indexes/delete-index.png)
 
-<Warning title="Deletion Warning">
-Index deletion is **permanent** and **cannot be undone**. All indexed data, search history, and configurations are permanently removed.
+**What gets deleted:**
+- All indexed data and vectors
+- Run history records
+- Schedule configuration
+- Index metadata and settings
+
+<Warning>
+**Deletion is Permanent**
+
+Index deletion **cannot be undone**. All indexed data, run history, schedule configuration and metadata are permanently removed. Confirm you want to delete the index before proceeding.
 </Warning>
 
 ---
 
 ## Use Search Tools
 
-The following prerequisites must be met before using search tools:
+The search functionality is available through a dedicated search page for each index.
+
+**Prerequisites for Search:**
 
 <Info>
-**Prerequisites for Search**
+**Search Requirements**
 
 - **Successful Index**: Indexes with **Completed** or **Partially Indexed** status both support search operations. Failed and stopped indexes do not.
-- **Turned-on Search Tools**: At least one search tool (Search Index, Stepback Search Index, or Stepback Summary Index) must be turned on in toolkit configuration.
+- **Enabled Search Tools**: At least one search tool (Search Index, Stepback Search Index, or Stepback Summary Index) must be enabled in toolkit configuration.
 </Info>
 
-The following search tools are available:
+**Available Search Tools:**
 
 | Tool | Description |
 |------|-------------|
@@ -290,14 +388,28 @@ The following search tools are available:
 | **Stepback Search Index** | Advanced search that breaks down complex questions |
 | **Stepback Summary Index** | Search with automatic summarization of results |
 
-**Select a search tool:**
+**Access the Search Page:**
 
-1. Open an index page.
-2. In the left panel, select **Select tool**.
-3. Choose a search tool from the dropdown list.
-4. The page switches from the initial state to the selected tool settings.
+Open an index detail page and click the **Search** button in the page header. A dedicated search page opens with a two-panel layout: the left panel shows search tool selection and parameter configuration, the right panel displays search results. The left panel initially displays an empty state with a **Select Tool** button.
+
+![Search Tool Selection](../../img/how-tos/indexing/indexes/search-page-open.png)
+
+
+**Select a Search Tool:**
+
+Click **Select Tool** in the left panel to open a searchable dropdown listing available search tools. Choose a search tool from the list and the page switches to the selected tool's configuration form.
 
 ![Search Tool Selection](../../img/how-tos/indexing/indexes/search-tool-select.png)
+
+<Info>
+**Search Button States**
+
+The **Search** button on the index detail page is:
+- **Disabled** when:
+  - No search tools are enabled in toolkit configuration
+  - The index status is Failed or Stopped
+  - An indexing operation is currently in progress
+</Info>
 
 ### Stepback Summary Index
 
@@ -320,16 +432,14 @@ The following search tools are available:
      | **Reranking Config** | Dictionary with field-based reranking rules | `{"importance": {"weight": 3.0, "rules": {"contains": "critical"}}}`, `{"created_at": {"weight": 1.0, "rules": {"sort": "desc"}}}` |
 
 3. Select **Search** to execute the search operation.
-4. The page switches to the results view, where the chat panel displays the search output.
+4. The right panel displays the search output in a chat-style format.
 
 <video src="../../img/how-tos/indexing/indexes/stepback-summary-index.mp4" controls></video>
 
 ### Search Index
 
-**Configuration:**
-
-1. **Select Tool**: Choose "Search Index" from the search tool options.
-2. **Configure Search Parameters**:
+1. Select "Search Index" from the search tool options.
+2. Configure Search Parameters:
 
      | Parameter | Description | Example |
      |-----------|-------------|---------|
@@ -344,18 +454,13 @@ The following search tools are available:
      | **Reranking Config** | Dictionary with field-based reranking rules | `{"severity": {"weight": 2.5, "rules": {"priority": "critical"}}}`, `{"file_type": {"weight": 1.5, "rules": {"contains": "test"}}}` |
      | **Output Fields** | Fields to include in the search response payload | `["page_content", "score", "metadata.source"]` |
 
-**Execute search:**
-
-1. **Activate Run Button**: The button becomes active when the form is valid.
-2. **Run Search**: Execute the search operation.
-3. **View Results**: The page switches to the results view, where the chat panel displays the search output.
+3. Select **Search** to execute the search operation.
+4. The right panel displays the search output in a chat-style format.
 
 ### Stepback Search Index
 
-**Configuration:**
-
-1. **Select Tool**: Choose "Stepback Search Index" from the search tool options.
-2. **Configure Search Parameters**:
+1. Select "Stepback Search Index" from the search tool options.
+2. Configure Search Parameters:
 
      | Parameter | Description | Example |
      |-----------|-------------|---------|
@@ -370,44 +475,85 @@ The following search tools are available:
      | **Reranker** | Reranker configuration used to reorder retrieved results | `{"model": "cross-encoder", "top_k": 20}` |
      | **Reranking Config** | Dictionary with field-based reranking rules | `{"importance": {"weight": 3.0, "rules": {"contains": "critical"}}}`, `{"created_at": {"weight": 1.0, "rules": {"sort": "desc"}}}` |
 
-<Tip title="Result Actions">
-- **Copy Results**: Copy search output for external use.
-- **Export Data**: Save results in various formats.
-- **Refine Search**: Modify parameters and search again.
-- **Follow-up Questions**: Continue the conversation with additional queries.
+3. Select **Search** to execute the search operation.
+4. The right panel displays the search output in a chat-style format.
+
+<Tip>
+**Search Result Actions**
+
+**Copy Results**: Copy search output for use elsewhere. **Refine Search**: Modify parameters in the left panel and search again. **Follow-up Searches**: The search history persists in the right panel during the session. **Navigate Back**: Use breadcrumbs to return to the index detail page.
 </Tip>
 
 ---
 
 ## <Icon icon="triangle-exclamation" size={32} /> Troubleshooting
 
-<Accordion title="Turned-Off Sections & Buttons">
-**Indexes Section Turned Off:**
+<Accordion title="Disabled Sections & Buttons">
+**Indexes Section Not Visible:**
 
-The **Indexes** section is automatically turned off if required prerequisites are not met. To access this section in your toolkit configuration, ensure:
+The **Indexes** section is not visible or shows "Indexing is not available for now" if required prerequisites are not met.
 
-- **PgVector Configuration**: Vector storage must be configured at project level (In **Settings**, select **AI Configuration**).
-- **Embedding Model**: An embedding model must be selected and configured (In **Settings**, select **AI Configuration**).
-- **Index Data Tool**: The **Index Data** tool must be turned on in your toolkit configuration.
+**Requirements:**
+- **PgVector Configuration**: Configure at Settings > AI Configuration
+- **Embedding Model**: Select and configure at Settings > AI Configuration
+- **Index Data Tool**: Must be enabled in the toolkit configuration
 
 **Solutions:**
+1. Navigate to **Settings** > **AI Configuration**
+2. Configure PgVector connection settings
+3. Select and configure an embedding model
+4. In toolkit configuration, enable the **Index Data** tool
+5. Save the toolkit configuration
+6. Return to the toolkit detail page to see the Indexes section
 
-1. **Verify Prerequisites**: Ensure PgVector and Embedding Model are configured.
-2. **Check Toolkit Support**: Confirm the toolkit supports indexing.
-3. **Review Permissions**: Verify the user has access to indexing features.
-4. **Refresh Browser**: Clear the cache and reload the page.
+**Delete Index Button Disabled:**
 
-**Delete Button Turned Off:**
+The **Delete Index** button on the index detail page is disabled when:
+- The **Remove Index** tool is not enabled in toolkit configuration
+- The user lacks permissions to delete indexes
+- An active indexing operation is in progress
 
-The **Delete** button in the **Indexes** section or on an index page is turned off if the **Remove Index** tool is not selected in toolkit configuration. Turn on this tool to allow index deletion operations.
+**Solutions:**
+1. Enable the **Remove Index** tool in toolkit configuration
+2. Verify you have delete permissions for the project
+3. Wait for any active indexing operations to complete
 
-**Search Section Turned Off:**
+**Search Button Disabled:**
 
-The search area on the index page is turned off if at least one search index tool (**Search Index**, **Stepback Search Index**, or **Stepback Summary Index**) is not selected in toolkit configuration. It is also turned off for indexes with **Failed** or **Stopped** status—only **Completed** and **Partially Indexed** indexes support search. Turn on at least one search tool and ensure your index is in a searchable state to access search actions.
+The **Search** button on the index detail page header is disabled when:
+- No search tools are enabled in toolkit configuration
+- The index status is Failed or Stopped
+- An indexing operation is currently in progress
 
-**Reindex Button Turned Off:**
+**Solutions:**
+1. Enable at least one search tool in toolkit configuration:
+   - Search Index
+   - Stepback Search Index
+   - Stepback Summary Index
+2. Ensure the index status is Completed or Partially Indexed
+3. Wait for any active indexing operations to complete
 
-The **Reindex** button is available from the index page when the index state and permissions allow it. If it is turned off, verify that you are on the index page, the index is not in an active run, and the current toolkit configuration supports reindexing.
+**Reindex Button Disabled:**
+
+The **Reindex** button on the index detail page is disabled when:
+- An indexing operation is already in progress
+- The toolkit configuration has changed and not been saved
+
+**Solutions:**
+1. Wait for the current indexing operation to complete
+2. Save any pending changes to the toolkit configuration
+3. Navigate to the index detail page and ensure you are viewing the Configuration tab (not Activity tab)
+
+**History Button Disabled:**
+
+The **History** button on the index detail page header is disabled when:
+- No run history exists yet (newly created index)
+- An active indexing operation is in progress
+
+**Solutions:**
+1. Wait for the first indexing operation to complete
+2. If an operation is running, wait for it to finish
+3. History becomes available after at least one indexing operation completes
 </Accordion>
 
 <Accordion title="Index Creation Failures">
@@ -474,7 +620,9 @@ The **Reindex** button is available from the index page when the index state and
 6. **Apply Filters**: Use filters to narrow scope (for example, `file_type:markdown`, `author:john.doe`).
 7. **Configure Reranking**: Use Reranking Config to boost relevance of specific fields.
 
-<Tip title="Optimize the Cut Off Parameter">
+<Tip>
+**Optimize the Cut Off Parameter**
+
 The **Cut Off** parameter has the most significant impact on search quality. Start with 0.7 and adjust based on results:
 
 - **0.8-0.9**: Very strict, only highly relevant matches.
