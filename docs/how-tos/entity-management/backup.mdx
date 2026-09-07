@@ -1,40 +1,33 @@
 ---
 title: "Back Up & Restore Project Data"
-sidebarTitle: "Back Up & Restore"
-description: "Download a project's agents, pipelines, toolkits, MCP servers and skills as a single backup file, then restore it into the same project or a different one."
 ---
 
-In a project, you can back up its agents, pipelines, toolkits, MCP servers and skills into a single file, then restore that file later into the same project or, with confirmation, into a different project. ELITEA excludes credentials, tokens and other secrets from every backup file, so you must reconfigure them after a restore.
+With ELITEA, you can preserve your project data by creating a backup.
 
-<Note>
-**Back Up & Restore** is visible only to users who have permission to download or restore project backups.
-</Note>
+You can back up agents, pipelines, toolkits, MCP servers and skills into a single file, and restore them later into the same project or, with confirmation, into a different project. ELITEA excludes credentials, tokens and other secrets from backup files, so you must reconfigure them after the restore.
 
-## Reasons to Back Up a Project
+<Callout icon="lightbulb" color="#a855f7" title="When to Back Up a Project">
+Consider creating a backup before making large changes to your project.
+</Callout>
 
-A backup preserves the current state of a project's agents, pipelines, toolkits, MCP servers and skills, so you can recover that state later.
+## Back Up & Restore Settings
 
-<Tip title="When to Back Up a Project">
-Create a backup before you make large changes to a project, so you can recover the current data if something goes wrong.
-</Tip>
-
-## Locate the Back Up & Restore Settings
+To create a backup file or restore data from a backup: 
 
 1. Select **Settings** > **General**.
 2. In **General**, expand **Back Up & Restore**.
 
+**Back Up & Restore** shows two independent actions, **Create a Backup** and **Restore from the Backup**.
+
 <img src="../../img/menus/settings/project/general/gen_backup.png" alt="The Back Up & Restore section in General settings, with the Create a Backup and Restore from the Backup buttons." />
 
-**Back Up & Restore** shows two independent actions:
-
-- **Create a Backup** — visible if you have the `models.project_backup.download` permission.
-- **Restore from the Backup** — visible if you have the `models.project_backup.restore` permission. ELITEA also shows this action to the owner of a private project, even without this permission, because a private project has no admin, only an editor.
+All ELITEA users see these actions for their private projects. For team projects, ELITEA shows them only to users who have the required permissions. You can request the permissions from your project administrator.
 
 ## Create a Backup
 
 1. In **Back Up & Restore**, select **Create a Backup**.
 2. Wait while ELITEA prepares the file. The button label changes to indicate that it is preparing the backup.
-3. ELITEA downloads the backup as an encrypted SQL file, named *project-&lt;project_id&gt;-backup.sql* by default.
+3. ELITEA downloads the backup as an encrypted SQL file.
 
 <CardGroup cols={2}>
 	<Card title="Included in the backup file" icon="check" color="#22c55e">
@@ -52,44 +45,58 @@ Create a backup before you make large changes to a project, so you can recover t
 
 ## Restore Data Into a Project
 
-Use this method to add a backup's data to a project without deleting the data already there.
+To restore data into a project:
 
 1. In **Back Up & Restore**, select **Restore from the Backup**.
 2. In the **Restore Project Data** dialog, select **Choose a backup file**, then select an *.sql* or *.enc* backup file.
 3. Keep **Preview only (no data is restored yet)** selected, clear **Replace existing data - do not merge**, then select **Preview**.
+
+   <img src="../../img/how-tos/entity-management/backup/restore_preview.png" alt="Preview data to be restored" />
+
 4. Review the restore summary: the number of statements and rows, the tables affected, any skipped tables, and any columns that ELITEA dropped or filled because of differences between the backup and the current project structure.
-5. If the file belongs to a different project, ELITEA shows a warning and disables the submit action. Select **Restore here anyway** only if you intend to bring that project's data into the current project, then select **Preview** again.
-6. Clear **Preview only (no data is restored yet)** and select **Restore**.
+5. Clear **Preview only (no data is restored yet)** and select **Restore**.
+
+   <img src="../../img/how-tos/entity-management/backup/restore_restore.png" alt="Restore data" />
 
 ELITEA merges the backup into the current data: it adds rows that are not yet in the project, updates matching rows and keeps rows that are not in the backup.
 
+If the file belongs to a different project, ELITEA shows a warning and disables the submit action:
+
+<img src="../../img/how-tos/entity-management/backup/restore_warning-other-project.png" alt="Trying to restore data from a different project" />
+
+If you want to add the data from a different project, select **Restore here anyway**, then select **Preview** again or **Restore** (depending on whether you want to preview the changes first).
+
+<img src="../../img/how-tos/entity-management/backup/restore_restore-other-project.png" alt="Restoring data from a different project" />
+
 ## Restore the Whole Project
 
-Use this method to replace a project's data with a backup, instead of merging the two.
+To restore the whole project, you must create a new empty project or select a project whose data you are willing to overwrite.
 
 <Warning>
-When you select **Replace existing data - do not merge**, ELITEA deletes the current rows in the affected tables before it applies the backup. Rows that are not in the backup are lost.
+When you select **Replace existing data - do not merge**, ELITEA deletes the current data in the project before it applies the backup. Any data not in the backup file is lost.
 </Warning>
 
-1. In **Back Up & Restore**, select **Restore from the Backup**, then in the **Restore Project Data** dialog, select **Choose a backup file** and select an *.sql* or *.enc* backup file.
-2. Select **Replace existing data - do not merge**.
-3. Keep **Preview only (no data is restored yet)** selected and select **Preview** to review the restore summary, including the number of tables that will be truncated, before you commit to the change.
-4. Clear **Preview only (no data is restored yet)** and select **Restore**.
+0. Create a new empty project.
+1. In **Back Up & Restore**, select **Restore from the Backup**.
+2. In the **Restore Project Data** dialog, select **Choose a backup file** and select an *.sql* or *.enc* backup file.
+3. Select **Replace existing data - do not merge**.
+4. Keep **Preview only (no data is restored yet)** selected and select **Preview** to review the restore summary, including the number of tables that will be truncated, before you commit to the change.
+5. Clear **Preview only (no data is restored yet)** and select **Restore**.
 
 ## Best Practices
 
 - Create a backup before you make large changes to a project.
 - Preview a restore before you apply it. ELITEA selects **Preview only (no data is restored yet)** by default.
 - Store backup files in a secure location. A backup file, together with the restore permission, is enough to load its data into a project.
-- Reconfigure credentials, tokens and other secrets after every restore. ELITEA never includes them in a backup file.
+- Reconfigure credentials, tokens and other secrets after every restore. ELITEA does not include them in a backup file.
 - Confirm the source project before you select **Restore here anyway**. Restoring a backup from a different project mixes that project's data into the current one.
 
-## Fix Common Backup & Restore Issues
+## Troubleshooting
 
-<Accordion title="Issue: Back Up & Restore is not visible in General settings">
-**Cause:** You do not have the `models.project_backup.download` or `models.project_backup.restore` permission for the project.
+<Accordion title="Issue: You do not see Back Up & Restore in General settings">
+**Cause:** You do not have the required permissions for the project.
 
-**Solution:** Ask a project administrator for one of these permissions.
+**Solution:** Ask a project administrator for the necessary permissions.
 </Accordion>
 
 <Accordion title="Issue: Create a Backup fails to download">
@@ -98,16 +105,20 @@ When you select **Replace existing data - do not merge**, ELITEA deletes the cur
 **Solution:** ELITEA shows an error message describing the failure. Try the download again. If the issue continues, contact your project administrator.
 </Accordion>
 
-<Accordion title="Issue: The Restore button stays disabled">
-**Cause:** No backup file is selected yet, or the file belongs to a different project and **Restore here anyway** is not selected.
+<Accordion title="Issue: The Restore button is disabled">
+**Cause #1:** No backup file is selected.
 
-**Solution:** Choose a backup file. If the mismatch warning appears, select **Restore here anyway** only if you intend to restore data from another project.
+**Solution #1:** Select a backup file. If the issue continues, contact your project administrator.
+
+**Cause #2:** The selected file belongs to a different project and **Restore here anyway** is not selected.
+
+**Solution #2:** Select another file, if you do not intend to restore data from another project. If you do intend to restore data from another project, select **Restore here anyway**.
 </Accordion>
 
 <Accordion title="Issue: ELITEA reports a project mismatch">
 **Cause:** The backup file was created from a different project than the one you are restoring into.
 
-**Solution:** Confirm you have the correct file for this project, or select **Restore here anyway** to bring that project's data into the current one intentionally.
+**Solution:** Confirm you have the correct file for this project, or select **Restore here anyway** to bring that project's data into the current one.
 </Accordion>
 
 <Accordion title="Issue: Columns were dropped or filled during a restore">
@@ -119,6 +130,4 @@ When you select **Replace existing data - do not merge**, ELITEA deletes the cur
 <Info title="See Also">
 See also:
 - [General Settings](../../menus/settings/general.mdx)
-- [Import/Export Agents and Pipelines](../agents-pipelines/import-export.mdx)
-- [Glossary](../../home/glossary.mdx)
 </Info>
