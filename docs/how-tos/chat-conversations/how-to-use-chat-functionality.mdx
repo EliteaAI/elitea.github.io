@@ -37,26 +37,70 @@ All your conversations are securely stored on the ELITEA server, making them acc
   </Card>
 </CardGroup>
 
-## Getting Started
+## Create a New Chat
 
-### Creating a New Conversation
+There are three ways to create a new chat in ELITEA:
 
-1. In the main sidebar on the left, locate the **Chat** section.
-2. Click the **+ Conversation** button at the top of the sidebar.
-3. The chat input field appears and is highlighted to focus your attention.
-4. You'll see a welcome screen with the message "Hello, [Your Name]! What can I do for you today?"
-5. The message input box at the bottom shows the placeholder: "Type your message. Use # to search and add AI assistants to conversation."
-6. **Choose your approach:**
-      - **Add a participant first**: Type `#` to search and select an Agent, Pipeline, Toolkit, or MCP from the dropdown list that appears. Selected participants will appear as chips above the input box.
-      - **Select a model**: Click the model selector dropdown to choose an LLM (e.g., GPT-4, Claude).
-7. **Type your message**: Enter your initial message, question, or command (e.g., "Help me write a Python script", "What are the best practices for API design?", "Explain quantum computing").
-8. **Send**: Click the **Send** icon (paper airplane icon) or press Enter.
-9. The new conversation is created and appears in the **CONVERSATIONS** sidebar on the left.
-10. The conversation name is automatically generated based on your message content. During name generation (1-2 seconds), you'll see a loader icon with "Naming" text next to the conversation item. You can manually rename it at any time after generation completes.
+<AccordionGroup>
+  <Accordion title="By the Create button in the left sidebar" id="create-sidebar">
+    Creating a chat from the sidebar is the quickest way to start a new conversation.
 
-<img src="../../img/menus/chat/create-conversation.gif" alt="Create conversation" />
+    1. In the left sidebar, locate the **Chat** section.
+    2. Select the **+ Conversation** button at the top of the sidebar.
 
-### Creating a New Folder
+       <img src="../../img/how-tos/chat-conversations/create_new.png" width="200" alt="The + Chat button in the left sidebar." />
+
+    3. Use the conversation controls to configure your new chat.
+    4. Enter your first message and select **Send**, or press Enter, to create the conversation.
+  </Accordion>
+
+  <Accordion title="From a Folder" id="create-folder">
+    Creating a new chat directly inside a folder will save your time moving conversations to the necessary folders after they are created.
+
+    1. Go to the overflow menu of the folder, in which you want to create a new chat.
+    2. Select **New chat**.
+
+       <img src="../../img/how-tos/chat-conversations/create_from-folder.png" width="200" alt="The New Chat item in the folder overflow menu." />
+
+    3. Use the conversation controls to configure your new chat — select models, add participants, attach files or turn on modules.
+    4. Enter your first message to create the chat inside the folder.
+
+    ELITEA assigns the new conversation to the folder immediately, so you do not need to move it afterward.
+
+    <Note>
+    ELITEA disables **New chat** if you do not have permissions to create chats, or while a new folder has not been saved yet.
+    </Note>
+  </Accordion>
+
+  <Accordion title="By Duplicating a Conversation" id="create-duplicate">
+    You can duplicate a conversation to reuse its participants and settings without recreating them.
+
+    <Note>
+    **Duplicate** is unavailable while you are editing Canvas in the active conversation.
+    </Note>
+
+    1. Go to the overflow menu of the conversation you want to duplicate.
+    2. Select **Duplicate**.
+
+       <img src="../../img/how-tos/chat-conversations/create_duplicate.png" width="200" alt="The Duplicate item in the conversation overflow menu." />
+
+    ELITEA creates a new conversation with the same visibility and participants as the source conversation and opens it.
+
+    <Note>
+    The duplicate does not include messages of the source conversation, only its visibility and participants.
+    </Note>
+
+    ELITEA names the duplicate by appending "(1)" to the original name, or by incrementing the number already in parentheses (for example, duplicating "Report Review (1)" produces "Report Review (2)").
+
+    If you duplicate a conversation inside a folder, the new conversation is **not** automatically assigned to that folder — you will need to move it manually.
+  </Accordion>
+</AccordionGroup>
+
+All new conversations are created and appear in the **CHATS** sidebar.
+
+For new  — not duplicated — conversations, ELITEA generates their name automatically based on your message content. You can manually rename any conversation at any time afterwards.
+
+## Create a New Folder
 
 Organize your conversations by grouping them into folders.
 
@@ -68,23 +112,6 @@ Organize your conversations by grouping them into folders.
 The new folder will appear in your **CONVERSATIONS** sidebar.  
 
 <img src="../../img/menus/chat/create-folder.png" alt="Create Folder" />
-
-### Creating a New Chat from a Folder
-
-You can create a new chat directly inside a folder. this will save your time moving conversations to the necessary folders after their creation.
-
-1. Go to the overflow menu of the folder, in which you want to create a new chat.
-2. Select **New chat**.
-
-   <img src="../../img/how-tos/chat-conversations/create_from-folder.png" width="200" alt="The New Chat item in the folder overflow menu." />
-
-3. Enter your first message to create the chat inside the folder.
-
-ELITEA assigns the new conversation to the folder immediately, so you do not need to move it afterward.
-
-<Note>
-ELITEA disables **New chat** if you do not have permissions to create chats, or while a new folder has not been saved yet.
-</Note>
 
 ## Managing Conversations
 
