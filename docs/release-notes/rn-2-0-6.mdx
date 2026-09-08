@@ -28,7 +28,7 @@ Agent Evaluation is a Beta feature. Supported engines and metrics may change.
 
 Details: [Agents](../menus/agents).
 
-### Project Back up & Restore
+### Project Back Up & Restore
 
 You can now back up your project's data and restore it for both team and private projects.
 
@@ -37,15 +37,15 @@ You can now back up your project's data and restore it for both team and private
 * Choose whether the restored entities replace the existing project data or merge with them.
 * Platform Admins can take a full, raw database-level backup or restore of a project from the Admin panel.
 
-**Benefits:** Faster recovery of the project data without compromizing its security.
+**Benefits:** Faster recovery of the project data without compromising its security.
 
 Details: [General Settings](../menus/settings/general#back-up-restore), [Back Up & Restore Project Data](../how-tos/entity-management/backup.mdx).
 
 <img src="../img/menus/settings/project/general/gen_backup.png" alt="Back Up &amp; Restore settings" />
 
-### Clarifying Questions and Follow-up Suggestions in Chat
+### Clarifying Questions & Follow-up Suggestions in Chat
 
-You can now communicate with chat more effectively and get more correct responces with a new chat module and an additional clickable AI-generated follow-up suggestions.
+You can now communicate with chat more effectively and get more correct responses with a new chat module and additional clickable AI-generated follow-up suggestions.
 
 * Enable the **Ask User** module so the assistant can pause mid-run and ask structured clarifying questions instead of guessing.
 * Answer clarifying questions one at a time.
@@ -53,11 +53,11 @@ You can now communicate with chat more effectively and get more correct responce
 * Select a suggestion chip to insert it into the chat input as editable text or skip the suggestion.
 * Keep suggestions private and non-persistent.
 
-**Benefits:** fewer wrong assumptions from agents when requirements are unclear, faster follow-up messages with less typing.
+**Benefits:** Fewer wrong assumptions from agents when requirements are unclear, faster follow-up messages with less typing.
 
 Details: [Chat](../menus/chat), [Ask User](???).
 
-### Skill and Project Context Buiders
+### Skill & Project Context Builders
 
 You can now build skills and project context directly from the chat, using two new chat modules.
 
@@ -75,7 +75,7 @@ You can now group Agents, Pipelines, Toolkits & Indexes, MCPs and Credentials in
 
 * Create a folder from the **Folders** panel, from a card, or directly while moving an entity into a new folder.
 * Move entities to or between folders without affecting their configurations, versions or permissions — folder organization is never a mechanism for granting access or changing the entity.
-* Rename or delete folders at any time — deleting a folder leaving its entities untouched.
+* Rename or delete folders at any time — deleting a folder leaves its entities untouched.
 * Keep search global across all folders and unfiled entities.
 
 **Benefits:** Easier organization and navigation.
@@ -105,19 +105,19 @@ You can now share chat conversations with people outside ELITEA through a secure
 * Set the expiration period and (optional) protect the link with a password.
 * Share the link with recipients even without an ELITEA account — they can only view the shared content, not modify it or reply.
 
-**Benefits:** A simple, controlled way to share your conversations to people outside your organization.
+**Benefits:** A simple, controlled way to share your conversations with people outside your organization.
 
 Details: [Chat](../menus/chat).
 
 ### Creating New Chats Inside a Folder
 
-You can now start new conversations directly in the chat folder instead creating it elsewhere and moving to the folder manually.
+You can now start new conversations directly in the chat folder instead of creating it elsewhere and moving it to the folder manually.
 
 **Benefits:** Faster chat organization.
 
 Details: [Chat](../menus/chat).
 
-### Default Modules for Chats and Agents
+### Default Modules for Chats & Agents
 
 You can now configure default modules for chats and agents in the project settings.
 
@@ -131,9 +131,9 @@ Details: [General Settings](../menus/settings/general#default-modules).
 
 <img src="../../img/menus/settings/project/general/gen_default-modules.png" alt="Default Modules" />
 
-### Comparing Agent and Skill Versions
+### Comparing Agent & Skill Versions
 
-You can now compare two saved versions of an agent or skill in a designated comparison modal.
+You can now compare two saved versions of an agent or skill in a dedicated comparison modal.
 
 <Note>
 Version editing is available only to users with edit permissions and only when at least two versions exist.
@@ -161,95 +161,88 @@ Details: [Artifacts](../menus/artifacts), [Chat](../menus/chat).
 
 ## Changed Features
 
-### Indexing and Reindexing Enhancements & Redesign
+### Redesigned Indexing & Reindexing
 
-You can now create, configure, monitor and search indexes through fully redesigned Toolkit and Index pages, with clearer information, safer reindexing and consistent run history across the whole indexing experience.
+You can now create, configure, monitor and search indexes through fully redesigned Index pages.
 
-* Create a new index from a dedicated **New Index** page, then land on the Index details page with **Activity** selected once indexing starts.
-* Navigate a redesigned two-column Index details page — index summary, item counts and schedule on the left, **Configuration** and **Activity** tabs on the right — with **Search**, **Run History** and **Delete Index** actions, and status-aware **Stop**/**Reindex** actions in each indexing state.
-* Run searches against an index from a dedicated **Search** page with its own Settings and Results panels, limited to the search tools that index actually supports.
-* See enabled/total tool and index counts, and warning/error status icons, in the Toolkit details page's **Tools** and **Indexes** section headers, with **Configuration** grouping secondary fields behind **Show more** and Form/Raw JSON switched to icon controls.
-* Keep an existing index searchable throughout a reindex — a failed manual or scheduled reindex no longer breaks or empties the active index, which is only replaced once the new version completes successfully.
-* Save configuration changes to an index with **Save** alone, without triggering a reindex, or use **Save & Reindex** to also reindex with the newly saved settings; scheduled reindexing always uses the latest saved configuration.
-* Read readable, source-specific indexing and reindexing summaries — successfully indexed, skipped, not indexed and failed counts with reasons, using source-appropriate item names — in place of raw JSON or chunk counts, in both Toolkit and Index History.
-* Get consistent Run History across toolkits and indexes, with the same Date, Event and Duration columns, a **Share link** action scoped to users with access to that index, and correctly labeled search-tool events.
+* Work with completely reworked **New Index**, **Index details** and **Search** pages.
+* See enabled/total tool and index counts and warning/error status icons.
+* Keep an existing index searchable throughout a reindex — a failed manual or scheduled reindex no longer breaks or empties the active index.
+* When saving configuration changes, select whether ELITEA must trigger a reindex.
+* Read source-specific indexing and reindexing summaries.
+* Get consistent and shareable run history across toolkits and indexes.
 
-**Benefits:** Clearer indexing status at every step, safer reindexing that never breaks a working index, and consistent, understandable history across toolkits and indexes.
+**Benefits:** Clearer indexing status, safer reindexing, consistent run history.
 
-Details: [Toolkits](../menus/toolkits), [Indexing Overview](../how-tos/indexing/indexing-overview), [Create & Use Indexes](../how-tos/indexing/using-indexes-tab-interface.mdx).
+Details: [Indexing Overview](../how-tos/indexing/indexing-overview), [Create & Use Indexes](../how-tos/indexing/using-indexes-tab-interface.mdx).
 
-### Redesigned Toolkit Tools Section
+### Redesigned Toolkit Tools
 
-You can now configure a toolkit's tools through a redesigned **Tools** section that groups, searches and flags tools by risk, on both the create and edit forms.
+You can now configure tools of your toolkits through a redesigned **Tools** section.
 
-* Browse tools grouped by operation type — **Read**, **Create & update**, **Delete** and **Execute** — each with a risk badge, an info tooltip explaining the group, and a selected/total tool count, in a fixed order with empty groups hidden.
-* Search tools by display name or technical name without changing your current selections, and see groups with no matches hidden.
-* Select or deselect every tool in a group at once from the group header.
-* Use **Keep read-only only** to deselect every selected Create & update, Delete and Execute tool in one click, while leaving your Read selections untouched — nothing is saved automatically.
-* Review previously selected tools that are no longer available in a separate **Unavailable** block above the grouped list.
-* Turn on **Enable MCP access for selected tools** — the renamed MCP checkbox, now a toggle disabled by default for new toolkits and preserving existing values for toolkits you already created.
+* Browse tools grouped by operation type — **Read**, **Create & update**, **Delete** and **Execute**.
+* Search tools by display name or technical name without changing your current selections.
+* Select or deselect all tools in a group from the group header.
+* Review currently unavailable, but previously selected tools in a separate list.
 
-**Benefits:** Faster, safer tool configuration with clear visibility into which tools read, write, delete or execute unrestricted actions.
+**Benefits:** Faster tool configuration, better visibility of tools.
 
 Details: [Toolkits](../menus/toolkits).
 
-### Test Toolkits from a Dedicated Page
+### Tool Testing
 
-You can now test a toolkit's tools from a dedicated **Test** page instead of an embedded panel on the Toolkit details page.
+You can now test any tools of your toolkit in a dedicated **Test** page.
 
-* Select **Test** from the Toolkit action bar, next to **Run History**, to open the Toolkit Test page in the same browser tab.
-* Navigate back to the Toolkit details page at any time using the **Toolkits / [Toolkit name] / Test** breadcrumb trail.
-* Select a tool, search among available tools, configure its parameters and choose a model where applicable, from a dedicated **Test Settings** panel on the left.
-* Run the selected tool and review its execution result, including existing copy actions, error display and loading states, in the **Results** panel on the right.
+* Start the tool testing from the action bar and navigate back to the details page in the breadcrumb trail.
+* Use a dedicated **Test Settings** panel to search and select tools and configure their parameters.
+* Review test execution results, including existing copy actions, errors and loading states.
 
-**Benefits:** More room to configure and review toolkit tests, without the Toolkit details page's configuration and indexes competing for space.
+**Benefits:** Easier and more comprehensive testing of toolkit and tools.
 
 Details: [Toolkits](../menus/toolkits).
 
-### UI Enhancements for Agents, Pipelines and Skills
+### UI Enhancements for Agents, Pipelines & Skills
 
 You can now navigate and manage versions on Agent, Pipeline and Skill details pages more clearly, with breadcrumb navigation and a redesigned version selector.
 
-* Navigate with breadcrumbs — **Agents / [Agent name]**, **Pipelines / [Pipeline name]**, **Skills / [Skill name]** — instead of a back button, with the entity-type link returning you to its list page.
-* Search the version dropdown by version name or creator, and see each version listed with its name, creation timestamp and creator instead of a single combined line.
-* Tell the currently loaded version apart from the default version — a checkmark and row highlight mark what's selected, an active pin marks the default, and the two states stay independent of each other.
-* Keep versions sorted by creation date, newest first, regardless of search or which version is selected or default.
-* Continue setting a version as default through the same **Set as default?** confirmation, now triggered from the redesigned pin action.
+* Navigate with breadcrumbs instead of a back button.
+* Search the version dropdown by version name or creator.
+* Distinguish visually between the currently loaded and default versions.
+* Keep versions sorted by creation date regardless of search or selected version.
 
-**Benefits:** Faster navigation and clearer version identification across Agents, Pipelines and Skills.
+**Benefits:** Faster navigation, clearer version identification.
 
 Details: [Agents](../menus/agents), [Pipelines](../menus/pipelines), [Skills](../menus/skills).
 
 ### Canvas Mode for Chat-Generated Entities
 
-You can now review and edit an Agent, Pipeline, Skill or Project Context generated from Chat immediately in Canvas mode, without leaving the conversation.
+You can now review and edit chat-generated agents, pipelines, skills or project context in Canvas, without leaving the conversation.
 
-* Have a newly generated Agent, Pipeline, Skill or Project Context open automatically in Canvas mode, with Chat still visible alongside it.
-* See multiple items generated in the same response open as separate Canvas tabs, each showing the entity's name and type icon, and switch between tabs without losing unsaved edits.
-* Reopen a generated entity's Canvas from its chip/link in the Chat response at any time after closing it.
-* Save or discard changes and close a Canvas tab using the existing entity editor controls, with a warning before losing unsaved changes.
-* Keep generated entities out of the Chat's participant list by default — add a generated Agent or Pipeline as a participant afterward through the existing participant-selection flow, while generated Skills and Project Context stay accessible only from their chip/link, never as participants.
+* Open a newly generated agent, pipeline, skill or project context automatically in Canvas, alongside with Chat.
+* See multiple items generated in the same response open as separate Canvas tabs.
+* Reopen a generated entity in Canvas from its chip/link in the chat response.
+* Save or discard changes and close a Canvas using the entity editor controls.
+* Keep generated entities out of the chat's participant list by default.
 
-**Benefits:** Faster review and editing of chat-generated entities, with no extra tabs or navigation needed.
+**Benefits:** Faster review and editing of chat-generated entities.
 
 Details: [Chat](../menus/chat).
 
-### Catalog Item Counts and "New" Badges
+### Enhanced Catalog
 
-You can now see how many Agents and Skills are available in the catalog at a glance, and spot recently added items without scanning the whole list.
+You can now see how many agents and skills are available in the ELITEA catalog and spot recently added items without scanning the whole list.
 
-* See a total count of visible Agents and Skills in the catalog header or section titles, updating in real time as you search or apply filters.
-* Spot a **New** badge on any Agent or Skill catalog card added within the recency window, with the badge disappearing automatically once the item ages out of that window.
-* Use the **New** quick filter in the catalog filter panel to show only recently added items.
-* Rely on an admin-configurable recency window (default 14 days, 7–60 days range) that controls how long items are marked **New**.
+* See a total count of agents and skills in the catalog header or section title.
+* See a **New** badge on any agent or skill catalog card added within the recency window.
+* Use the catalog filter to show only recently added items.
 
-**Benefits:** Faster sense of catalog breadth and easier discovery of new Agents and Skills without manually scanning the whole catalog.
+**Benefits:** Better navigation.
 
-Details: [Agents](../menus/agents), [Skills](../menus/skills).
+Details: [Catalog](../menus/agents-studio.mdx).
 
 ## Fixed Issues
 
-* [#6532](https://github.com/EliteaAI/elitea_issues/issues/6532) GitLab toolkit `get_issues` returns properly formatted, indented JSON, consistent with GitHub's `get_issues`.
+* [#6532](https://github.com/EliteaAI/elitea_issues/issues/6532) GitLab toolkit `get_issues` returns properly formatted, indented, consistent JSON.
 * [#6523](https://github.com/EliteaAI/elitea_issues/issues/6523) A conversation no longer becomes inaccessible when a participant's stored settings are missing an expected field.
 * [#6476](https://github.com/EliteaAI/elitea_issues/issues/6476) Jira `update_issue` no longer crashes with an unhandled error when `description` contains a nested/ADF object.
 * [#6431](https://github.com/EliteaAI/elitea_issues/issues/6431) GPT thinking models can continue a conversation after an image has been generated in chat.
@@ -262,10 +255,10 @@ Details: [Agents](../menus/agents), [Skills](../menus/skills).
 * [#6294](https://github.com/EliteaAI/elitea_issues/issues/6294) Agents deliver partial output up to the configured max completion tokens instead of failing immediately with none.
 * [#6274](https://github.com/EliteaAI/elitea_issues/issues/6274) MCP tool schemas sanitize property names such as `fname[]`, preventing Claude Code from rejecting them with a 400 error.
 * [#6273](https://github.com/EliteaAI/elitea_issues/issues/6273) Connected toolkits appear in the cloud MCP tools list, not only agents tagged for MCP.
-* [#6262](https://github.com/EliteaAI/elitea_issues/issues/6262) Agent publishing prompt validation blocks publishing on critical issues instead of only showing warnings.
+* [#6262](https://github.com/EliteaAI/elitea_issues/issues/6262) Prompt validation blocks agent publishing on critical issues instead of only showing warnings.
 * [#6076](https://github.com/EliteaAI/elitea_issues/issues/6076) Slack toolkit `read_messages` returns the message `ts` timestamp field.
 * [#6051](https://github.com/EliteaAI/elitea_issues/issues/6051) SharePoint `read_file_from_sharing_link` no longer crashes on large files exceeding the LLM message length limit.
-* [#5872](https://github.com/EliteaAI/elitea_issues/issues/5872) Scheduled reindexation executes for team projects, not only private ones.
+* [#5872](https://github.com/EliteaAI/elitea_issues/issues/5872) Scheduled reindexing executes for team projects, not only private ones.
 * [#5255](https://github.com/EliteaAI/elitea_issues/issues/5255) OAuth-authenticated MCP toolkits no longer loop re-authorization when an agent is launched from the Agent page.
 * [#5241](https://github.com/EliteaAI/elitea_issues/issues/5241) Pipeline LLM nodes with multiple toolkits keep access to duplicate-named tools instead of losing them to the first toolkit.
 * [#3562](https://github.com/EliteaAI/elitea_issues/issues/3562) Clicking **Continue** after hitting the token limit resumes pipeline or agent execution instead of restarting from the beginning.
