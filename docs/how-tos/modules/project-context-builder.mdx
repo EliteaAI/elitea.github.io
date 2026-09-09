@@ -1,0 +1,102 @@
+---
+title: "Project Context Builder Module"
+description: "Create and edit project context from the chat using the Project Context Builder module."
+---
+
+## Overview
+
+The **Project Context Builder** module enables agents to create and modify project-wide context directly from the chat conversation. When enabled, agents can update the shared context that applies to all agents in your project, making it easier to maintain consistent project-level information and guidelines.
+
+**Key Capabilities:**
+
+* Create project context from natural language descriptions in chat
+* Edit existing project context instructions and configurations
+* Update project-wide guidelines without navigating to the Project Context menu
+* Maintain consistency across all agents in the project through shared context
+
+<Note>
+The Project Context Builder module must be enabled in your agent configuration or project settings to use this functionality. Project context changes affect all agents in the project.
+</Note>
+
+## When to Use Project Context Builder
+
+Use the Project Context Builder module when you want to:
+
+* Establish or update project-wide guidelines and standards
+* Define common terminology, coding standards, or workflows for all agents
+* Add project-specific knowledge that multiple agents should reference
+* Make quick updates to project context based on evolving requirements
+
+## How It Works
+
+When the Project Context Builder module is enabled in an agent:
+
+1. Describe the project context you want to create or modify in natural language
+2. The agent uses the Project Context Builder tools to update the project context
+3. The context is saved at the project level and becomes immediately available to all agents
+4. You can continue refining the context through follow-up messages
+
+## Example Usage
+
+**Creating project context:**
+```
+User: Add to the project context that we follow the Google Style Guide 
+for all Python code and use pytest for testing
+
+Agent: [Uses Project Context Builder to update project context]
+I've added the coding standards to the project context. All agents 
+in this project will now be aware that Python code follows Google 
+Style Guide and uses pytest for testing.
+```
+
+**Updating project context:**
+```
+User: Update the project context to include our new API versioning 
+strategy - all APIs should use semantic versioning
+
+Agent: [Uses Project Context Builder to update project context]
+I've updated the project context to include the API versioning strategy. 
+All agents will now follow semantic versioning for API development.
+```
+
+## Best Practices
+
+<Accordion title="Context Creation">
+* Define clear, actionable guidelines that apply across all agents
+* Include information that is truly project-wide, not agent-specific
+* Keep context concise and focused on essential project knowledge
+* Use consistent terminology and formatting
+</Accordion>
+
+<Accordion title="Context Updates">
+* Review existing context before making changes to avoid conflicts
+* Be specific about what sections need updating
+* Test with multiple agents to ensure context is interpreted correctly
+* Version important context changes for rollback if needed
+</Accordion>
+
+<Accordion title="Module Configuration">
+* Enable Project Context Builder only for agents that need project management capabilities
+* Consider restricting this module to lead/admin agents to maintain consistency
+* Review project context periodically to remove outdated information
+* Document significant context changes for team awareness
+</Accordion>
+
+## Project Context vs Agent Instructions
+
+Understanding when to use project context versus agent-specific instructions:
+
+| **Project Context** | **Agent Instructions** |
+|---|---|
+| Shared across all agents in the project | Specific to one agent |
+| Project-wide guidelines, standards, terminology | Agent-specific behavior and tasks |
+| Coding standards, API conventions, workflows | Individual agent goals and capabilities |
+| Long-term, stable information | May change frequently per agent |
+
+---
+
+<Info title="Additional Resources">
+- [Project Context](../../menus/settings/project-context.mdx) - Complete guide to managing project context
+- [Modules](../../menus/agents#modules) - Overview of all available agent modules
+- [Agent Configuration](../../menus/agents#configure-an-agent) - How to enable modules in agents
+</Info>

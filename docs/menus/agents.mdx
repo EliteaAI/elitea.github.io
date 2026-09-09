@@ -48,19 +48,136 @@ Once configured, the agent uses advanced natural language processing to interpre
 
 ## Navigate the Agents Menu
 
-Select **Agents** in the main sidebar to open the Agents dashboard—a list of all agents in the current project. The dashboard supports card and table views, search by name or keyword, tag-based filtering, and pinning agents to the top of the list.
+Select **Agents** in the main sidebar to open the Agents dashboard—a list of all agents in the current project. The dashboard supports card and table views, search by name or keyword, tag-based filtering, pinning agents to the top of the list, and organizing agents into folders.
 
 ![Agents menu navigation](../img/menus/agents/agents-menu-Interface.png)
 
 ---
 
+## Organize Agents into Folders
+
+Folders help you organize agents into logical groups for better navigation and management. You can create folders, move agents between folders, and control folder access within team projects.
+
+![Agent folder section](../img/menus/agents/agent-folder-section.png)
+
+**Create a Folder:**
+
+1. In the **Agents** dashboard right panel, locate the **Folders** section.
+2. Select **+ Create Folder**.
+3. Enter a folder name (up to 128 characters).
+4. Select **Save**.
+
+     <img src="../img/menus/agents/agent-folder-create.png" alt="Create folder " width="430" />
+
+**Move an Agent to a Folder:**
+
+1. **Hover over an Agent card:** A "Move to folder" icon (folder with arrow) appears on the card
+2. **Click the folder icon:** Opens a menu with folder options
+3. **Select a folder from the list:** The menu displays:
+   - **+ Create Folder** option at the top
+   - A scrollable list of existing folders
+   - Pinned folders are marked with a pin icon
+   - The current folder (if any) is highlighted and marked with a checkmark
+4. The Agent is moved to the selected folder
+
+    <img src="../img/menus/agents/add-to-folder.png" alt="Add to folder" width="430" />
+
+**View Folder Contents:**
+
+Click any folder in the Folders panel to filter the agent list to show only agents in that folder. The folder name appears in the header, and the agent count updates to reflect the filtered view. Click **X** to close the folder view and return to the full list.
+
+    <img src="../img/menus/agents/folder-content.png" alt="Folder content" />
+
+**Manage Folders:**
+
+Each folder card in the right panel has a three-dot menu (⋮) with the following options:
+    <img src="../img/menus/agents/folder-actions.png" alt="Folder actions" width="200" />
+| Action | Description |
+| --- | --- |
+| **Rename** | Change the folder name |
+| **Pin to top** | Pin the folder to the top of the folders list |
+| **Delete** | Permanently remove the folder (agents inside are moved back to the main list, not deleted) |
+| **Manage Access** *(Team projects only)* | Control which team members can view the folder |
+
+**Remove an Agent from a Folder:**
+
+1. Open the agent card's three-dot menu (⋮).
+2. Select **Remove from Folder**.
+3. The agent returns to the main agents list and the folder icon is removed from its card.
+
+<Note>
+Folders are available in team and personal projects. In team projects, folder access can be restricted to specific users. The Public project does not support folders.
+</Note>
+
+### Folder Permission Management
+
+In team projects, you can control which users can view and modify specific folders by setting permission exceptions. By default, users retain the permissions granted by their project roles. Permission exceptions can only restrict access.
+
+**Access Folder Permissions:**
+
+1. In the **Agents** dashboard right panel, locate the folder in the **Folders** list.
+2. Select the folder's three-dot menu (⋮).
+3. Select **Manage Access**.
+4. The Manage Permissions dialog opens.
+    <img src="../img/menus/agents/folder-permissions-open.png" alt="Folder permissions open" width="500" />
+
+**Add Permission Exceptions:**
+
+1. In the Manage Permissions dialog, select **+ Add Exception**.
+2. Search for and select one or more users from the project.
+3. Choose a permission level: **Read-only** or **No access**.
+4. Select **Add**. The selected users are added to the permissions table.
+
+    <img src="../img/menus/agents/folder-add-exceptions.png" alt="Folder add exceptions" width="500" />
+
+**Permission Levels:**
+
+| Permission Level | Description |
+| --- | --- |
+| **Read/write (default)** | User can view folder contents and modify folder settings |
+| **Read-only** | User can view folder contents but cannot modify folder settings or move agents |
+| **No access** | User cannot see the folder or its contents |
+
+**Edit Permission Exceptions:**
+
+- To modify an existing exception, locate the user in the permissions table and select the **Edit** (pencil) icon in the Actions column. Change the permission level to your desired setting and select **Save**. 
+- To remove an exception and return the user to default permissions, change the permission level to **Read/write (default)**. When saved, the user is removed from the exceptions table and inherits permissions based on their project role.
+
+<Note>
+Permission exceptions apply only to the folder itself. Users with no access to a folder cannot see it in their folders list or view its contents.
+</Note>
+
+---
+
 ## Create an Agent
 
-To set up a new agent:
+### Create Agent from Chat
+
+You can create agents directly from your chat conversation using the **Agent & Pipeline Builder** module. When enabled, simply ask the AI to create an agent with specific capabilities, and it will guide you through the configuration process within the chat interface.
+
+**How it works:**
+
+1. Enable the **Agent & Pipeline Builder** module in your project settings or chat modules.
+2. In your chat, describe the agent you want to create (e.g., "Create a code review agent that checks for security issues").
+3. The AI will create the agent based on your description and add it to the Participants panel.
+4. The newly created agent is automatically activated and ready to use in your conversation.
+
+**Example prompts:**
+- "Create an agent that reviews Python code for best practices"
+- "Build a Jira ticket creation agent with my Jira toolkit"
+- "Make an agent that summarizes meeting notes"
+
+<Note>
+The Agent & Pipeline Builder module must be enabled in your project settings to create agents from chat. Created agents appear in the Participants panel and can be edited anytime through the agent configuration interface. For more details, see [Agent & Pipeline Builder](/how-tos/chat-conversations/agents-&-pipeline-builder).
+</Note>
+
+### Create Agent from Sidebar
+
+To set up a new agent from the sidebar:
 
 1. Select the **+ Agent** button at the top of the main sidebar.
 
-    ![Create agent](../img/menus/agents/agent-create.gif)
+    ![Create agent](../img/menus/agents/agent-create.png)
 
 2. Complete the agent configuration fields:
 
@@ -238,27 +355,27 @@ ELITEA provides built-in modules that extend your agent's capabilities without r
 
 **Available Modules:**
 
-| Tool | Description |
+| Module | Description |
 | --- | --- |
-| [**Attachments**](../how-tos/chat-conversations/attach-files) | Lets users attach files and images to conversations for AI-powered analysis. Turns on document upload, indexing, and search operations. Available for agents only. |
-| [**Image creation**](../how-tos/chat-conversations/image-generation) | Turns on AI-powered image creation from text prompts directly within your agent. Requires an image generation toolkit (`ImageGenServiceProvider`) configured in your project. |
-| [**Data Analysis**](../how-tos/chat-conversations/data-analysis-internal-tool) | Turns on comprehensive data analysis capabilities using pandas and natural language queries. Your agent can process CSV files, Excel spreadsheets, perform statistical analysis, and generate visualizations. |
-| [**Planner**](../how-tos/chat-conversations/planner-internal-tool) | Provides structured planning and task breakdown capabilities, helping your agent organize complex workflows into manageable steps. |
-| [**Python sandbox**](../how-tos/chat-conversations/python-sandbox-internal-tool) | Turns on secure Python code execution using Pyodide. Your agent can execute Python code, perform calculations, analyze data, and use compatible Python packages like numpy, pandas, and matplotlib. |
-| [**Swarm Mode**](../how-tos/chat-conversations/swarm-mode-internal-tool) | Turns on multi-agent collaboration by allowing all child agents to share the full conversation history and hand off control to each other. Ideal for complex workflows requiring multiple specialized agents working as a team. |
-| [**Smart Tools Selection**](../how-tos/chat-conversations/smart-tools-selection-internal-tool) | Reduces token usage by using meta-tools instead of binding all tools directly. Recommended when using many toolkits. |
-| [**ELITEA MCP Tools**](../how-tos/chat-conversations/agents-&-pipeline-builder) | Exposes ELITEA platform capabilities as MCP tools, allowing the agent to interact with ELITEA resources (agents, skills, pipelines, etc.) directly during execution. |
+| [**Attachments**](../how-tos/chat-conversations/attach-files) | Allow the agent to use uploaded files and images as context during conversations. Turns on document upload, indexing, and search operations. Available for agents only. |
+| [**Image Creation**](../how-tos/chat-conversations/image-generation) | Generate images from the chat using AI-powered text-to-image capabilities. Requires an image generation toolkit (`ImageGenServiceProvider`) configured in your project. |
+| [**Data Analysis**](../how-tos/chat-conversations/data-analysis-internal-tool) | Perform Pandas-based data analysis on uploaded files. Your agent can process CSV files, Excel spreadsheets, perform statistical analysis, and generate visualizations using natural language queries. |
+| [**Agent & Pipeline Builder**](../how-tos/chat-conversations/agents-&-pipeline-builder) | Create and edit agents and pipelines from the chat. Exposes ELITEA platform capabilities as MCP tools, allowing the agent to interact with ELITEA resources directly during execution. |
+| [**Skill Builder**](../how-tos/modules/skill-builder) | Create and edit skills from the chat. Allows agents to modify skill instructions and configurations without leaving the conversation. |
+| [**Project Context Builder**](../how-tos/modules/project-context-builder) | Create and edit your project context from the chat. Enables agents to update project-wide context that applies to all agents in the project. |
+| [**Ask User**](../how-tos/modules/ask-user) | Allow agents to ask you clarifying questions instead of guessing. When the agent needs additional information or faces ambiguous requirements, it can prompt for user input mid-execution. |
+| [**Planner**](../how-tos/chat-conversations/planner-internal-tool) | Create, manage, and track tasks and action items from the chat. Provides structured planning and task breakdown capabilities, helping your agent organize complex workflows into manageable steps. |
+| [**Python Sandbox**](../how-tos/chat-conversations/python-sandbox-internal-tool) | Execute Python code in a secure sandbox using Pyodide. Your agent can run Python code, perform calculations, analyze data, and use compatible Python packages like numpy, pandas, and matplotlib. |
+| [**Swarm Mode**](../how-tos/chat-conversations/swarm-mode-internal-tool) | Enable multi-agent collaboration by sharing the full conversation history and control between agents. All child agents can hand off control to each other, ideal for complex workflows requiring multiple specialized agents working as a team. |
+| [**Smart Tools Selection**](../how-tos/chat-conversations/smart-tools-selection-internal-tool) | Reduce token usage when working with many toolkits by using meta-tools instead of binding all tools directly. Recommended when using many toolkits to optimize context window usage. |
 
 **Turn On Modules:**
 
 1. In the **TOOLS** section, scroll to the bottom to find the **MODULES** subsection.
-2. Each tool has its own toggle switch. If not all tools are visible, select **Show all** to expand the full list.
-3. Turn on the tools you need:
+2. Each module has its own toggle switch. If not all modules are visible, select **Show all** to expand the full list.
+3. Turn on the modules you need:
 
-   <video controls>
-     <source src="../img/menus/agents/agent-modules-enable.mp4" type="video/mp4"/>
-     Your browser does not support the video tag.
-   </video>
+    ![Agent Modules](../img/menus/agents/agent-modules.png)
 
 ### Create Instructions
 
@@ -323,11 +440,13 @@ The Variables section is only visible when instructions contain at least one `{{
 
 ### Editor Notes
 
-The **Editor Notes** section is a separate accordion in the left configuration panel. It is intended for internal documentation about the current agent version.
+The **Editor Notes** section is a separate accordion in the left configuration panel. It is intended for internal documentation about the current agent version.Use this field to record implementation notes, review comments, rollout reminders, or other editor-facing context that should stay with the agent configuration.
+<img src="../img/menus/agents/editor-notes.png" alt="Editor Notes" width="500"/>
 
-Use this field to record implementation notes, review comments, rollout reminders, or other editor-facing context that should stay with the agent configuration.
+<Note>
+The content is **not sent to the LLM**, **not included in chat or execution**, and **not used in monitoring**.
+</Note>
 
-- The content is **not sent to the LLM**, **not included in chat or execution**, and **not used in monitoring**.
 
 **Example uses:**
 
@@ -357,21 +476,21 @@ When users go to the **Chat** section of the agent, they see the configured **We
   - "I can help you analyze code, write documentation, and review pull requests"
 </Info>
 
-### Conversation Starters
+### Chat Starters
 
-The **Conversation Starter** feature lets you configure predefined prompts that help users quickly initiate specific types of interactions with your agent. These starters appear as selectable options in the chat interface, making it easy for users to get started.
+The **Chat Starter** feature lets you configure predefined prompts that help users quickly initiate specific types of interactions with your agent. These starters appear as selectable options in the chat interface, making it easy for users to get started.
 
-**Add a Conversation Starter:**
+**Add a Chat Starter:**
 
-1. Go to the **Conversation Starter** section in the agent creation or editing interface.
-2. Select the `+` icon to open the text input field and enter the text you want to use as a conversation starter.
-3. Select **Save** to save the configuration. This makes the configured conversation starter available for use.
+1. Go to the **Chat Starter** section in the agent creation or editing interface.
+2. Select the `+` icon to open the text input field and enter the text you want to use as a chat starter.
+3. Select **Save** to save the configuration. This makes the configured chat starter available for use.
 
-**Use a Conversation Starter:**
+**Use a Chat Starter:**
 
-Go to the **Chat** section of the agent. The saved conversation starters appear as selectable options. Select the desired starter to automatically populate the chat input and execute the agent.
+Go to the **Chat** section of the agent. The saved chat starters appear as selectable options. Select the desired starter to automatically populate the chat input and execute the agent.
 
-![Agents conversation starter](../img/menus/agents/agents-conversation-starter.gif)
+![Agents chat starter](../img/menus/agents/chat-starters.png)
 
 <Info>
   - "Generate test cases for provided Acceptance Criteria."
@@ -524,6 +643,38 @@ Context Management provides intelligent control over conversation token usage th
 
 ![Agents execution](../img/menus/agents/agents-execution.png)
 
+### Mid-Turn Input (Beta)
+
+**Mid-Turn Input** lets you send a message to an agent while it is still working, allowing you to steer the rest of the run without waiting for completion or starting over.
+
+**Availability:**
+
+Mid-Turn Input must be enabled at both the platform level and the project level:
+
+1. Platform administrators control which projects have access to this feature through a project allowlist.
+2. Project administrators or editors can turn on Mid-Turn Input in **Settings** > **[Project General](../menus/settings/general)** > **Mid-turn Input (Beta)** toggle.
+
+**How to Use Mid-Turn Input:**
+
+1. Start an agent interaction that produces a multi-step or long-running response.
+2. While the agent is still generating its response, the message input field remains active.
+3. Enter a new instruction or correction in the input field (for example, "Focus on security aspects only" or "Skip the implementation details").
+4. Select **Send**. Your mid-turn message is injected into the agent's current execution context.
+5. The agent adjusts its response based on your new input without restarting from the beginning.
+
+<Tip>
+**When to Use Mid-Turn Input:**
+
+- Redirect the agent when it begins exploring an unintended direction.
+- Add constraints or clarifications mid-execution (for example, "Make it shorter" or "Add code examples").
+- Skip unnecessary steps when you realize they are not needed (for example, "Skip the background section").
+- Provide additional context that becomes relevant during execution.
+</Tip>
+
+<Note>
+Mid-Turn Input is a Beta feature. If the toggle is not visible in your project settings, contact your platform administrator to request access.
+</Note>
+
 ## Voice Capabilities
 
 The agent chat interface supports voice input and voice output, letting you dictate prompts and have agent responses read back to you.
@@ -601,16 +752,43 @@ Speaking Mode requires a voice recognition source (server ASR model or browser W
 
 ---
 
+## Agent Evaluation
+
+Agent Evaluation provides a comprehensive framework for measuring and improving agent performance through dimensions, test cases, and automated scoring. You can create evaluation suites that test your agent against predefined criteria and receive actionable feedback on how to improve instructions and behavior.
+
+**Access Agent Evaluation:**
+
+1. Open any saved agent.
+2. Select the **three-dot menu (⋮)** in the agent tab bar.
+3. Select **Evaluate (Beta)**.
+4. The Agent Evaluation page opens with tabs for Suites, Dimensions, Datasets, and History.
+
+     <img src="../img/menus/agents/evaluate-open.png" alt="Evaluate Agent" width="170" />
+
+**Key Capabilities:**
+
+- **Dimensions**: Define scoring criteria (for example, relevance, tone, accuracy) that can be scored by AI, humans, or custom code validation scripts.
+- **Datasets**: Create collections of test cases with inputs and expected outputs to run against your agent.
+- **Suites**: Combine dimensions and datasets into evaluation suites that score agent responses across multiple criteria.
+- **Runs**: Execute evaluation suites to generate scored results and identify areas for improvement.
+- **Enhance with AI**: Analyze failed checks and generate suggested fixes for your agent instructions or evaluation criteria.
+
+<Info>
+For complete details on creating dimensions, datasets, suites, running evaluations, and using AI-powered enhancement features, see [**Agent Evaluation**](../how-tos/agents-pipelines/agent-evaluation) and [**Agent Evaluation FAQ**](../how-tos/agents-pipelines/agent-evaluation-faq).
+</Info>
+
+---
+
 ## Create & Manage Versions
 
 To manage your agent, you must understand how to save and create versions. Follow these guidelines to save your agent, create versions, and manage them.
 
 **Save an Agent:**
 
-- To save your work on an agent for the first time, select the **Save** button. This creates the "**latest**" version of your agent.
-- You can continue to modify your agent and save the changes to the "**latest**" version at any time by selecting the **Save** button again. To discard any changes made, select the **Discard** button before saving.
+- To save your work on an agent for the first time, select the **Save** button. This creates the "**base**" version of your agent.
+- You can continue to modify your agent and save the changes to the "**base**" version at any time by selecting the **Save** button again. To discard any changes made, select the **Discard** button before saving.
 
-The "**latest**" version represents the initial version you create. You can keep updating this version with your changes by saving them, without creating additional versions for your agent.
+The "**base**" version represents the initial version you create. You can keep updating this version with your changes by saving them, without creating additional versions for your agent.
 
 ### Create New Versions
 
@@ -618,23 +796,61 @@ For instances where you must create and manage different iterations of your agen
 
 1. **Start a New Version**: Select the **Save As Version** button.
 2. **Name Your Version**: Provide a version name that clearly identifies the iteration or changes made. Select **Save** to confirm your entry.
+    <img src="../img/menus/agents/new-version.png" alt="New Version" width="470" />
 
-**Best practices for version naming:**
+**Navigate Between Versions:**
 
-- **Length**: Keep the version name concise, not exceeding 48 characters. This ensures readability and compatibility across various systems.
-- **Characters**: Avoid using special characters such as spaces (" ") and underscores ("\_"), as they may cause parsing or recognition issues in certain environments.
-- **Clarity**: Choose names that clearly and concisely describe the version's purpose or the changes it introduces, making it easier to track and manage different versions.
+Use the **Version** dropdown selector in the agent tab bar to switch between different versions. The version selector displays:
 
-Upon creating a new version of the agent, several options become available to you:
+<img src="../img/menus/agents/version-select.png" alt="Version Selector" width="270" />
 
-- **Delete**: Remove this version of the agent if it is no longer needed.
-- **Execute**: Run this specific version of the agent to see how it performs.
-- **Navigate Versions**: Use the **Version** dropdown list to switch between and select different versions of the agent. This allows for easy comparison and management of various iterations.
-  ![Agents publish](../img/menus/agents/agents-version-create.gif)
+- **Version Name**: The name you assigned when creating the version.
+- **Creation Metadata**: Date, time, and author information (format: Month DD, YYYY, HH:MM · by Author Name).
+- **Status Indicators**:
+  - **Pin icon**: Marks the default version (the version that opens when you first access the agent).
+  - **Published icon**: Shows versions that have been published to Agents HUB.
+- **Sorting**: Versions are sorted newest first by creation date. The "base" version always appears at the bottom of the list.
+
+You can search within the version dropdown by typing the version name, author name, or author email to quickly locate specific versions.
 
 <Info>
 For detailed information on version management, naming conventions, and best practices, see the [**Entity Versioning guide**](../how-tos/agents-pipelines/entity-versioning).
 </Info>
+
+### Compare Versions
+
+The **Compare Versions** feature lets you view side-by-side differences between two agent versions and selectively adopt changes from one version to the other without manual retyping.
+
+**Access Compare Versions:**
+
+1. Open any saved agent with at least two versions.
+2. Select the **three-dot menu (⋮)** in the agent tab bar.
+3. Select **Compare Versions**.
+    <img src="../img/menus/agents/compare-versions-open.png" alt="Compare Versions Dialog" width="140"/>
+4. The Compare Versions dialog opens with the current version pre-selected under the **Base version**.
+5. From the **Compare with** dropdown, select the version you want to compare against.
+6. Select **Compare** to load both versions and enter the comparison wizard.
+    <img src="../img/menus/agents/compare-version-select.png" alt="Compare Versions Select" width="450"/>
+
+**How Compare Versions Works:**
+
+The wizard presents a step-by-step comparison across different configuration areas:
+
+1. **Comparison Steps**:
+   - **Instructions**: View a diff of the instructions field showing added, removed, and unchanged text.
+   - **User Interaction**: Compare Welcome Message and Conversation Starters side-by-side.
+   - **Tools & Skills**: See which toolkits, MCPs, agents, pipelines, and skills were added, removed, or kept the same between versions.
+2. **Make Changes**: For each comparison step, you can selectively adopt changes from either version or keep both versions unchanged. Each editable section (Instructions, Welcome Message, Conversation Starters) has its own **Save** button to apply changes immediately.
+
+    <img src="../img/menus/agents/compare-versions.png" alt="Compare Versions"/>
+
+<Note>
+Compare Versions is read-only until you actively choose to adopt changes. Closing the dialog without saving discards all pending adoptions.
+</Note>
+
+<Tip>
+Use Compare Versions when you have made parallel changes in different versions and want to merge specific improvements without overwriting entire configurations.
+</Tip>
 
 ### Publish an Agent Version
 

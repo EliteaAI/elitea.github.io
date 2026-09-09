@@ -1,0 +1,88 @@
+---
+title: "Skill Builder Module"
+description: "Create and edit skills from the chat using the Skill Builder module."
+---
+
+## Overview
+
+The **Skill Builder** module enables agents to create and modify skills directly from the chat conversation without leaving the interface. When enabled, agents can build new skills or update existing ones based on your instructions, making skill development more streamlined and conversational.
+
+**Key Capabilities:**
+
+* Create new skills from natural language descriptions in chat
+* Edit existing skill instructions and configurations
+* Update skill parameters without navigating to the Skills menu
+* Iterate on skill definitions through conversational feedback
+
+<Note>
+The Skill Builder module must be enabled in your agent configuration or project settings to use this functionality.
+</Note>
+
+## When to Use Skill Builder
+
+Use the Skill Builder module when you want to:
+
+* Rapidly prototype and test new skills during a conversation
+* Make quick adjustments to skill instructions based on immediate feedback
+* Build skills collaboratively through conversational iteration
+* Avoid context-switching between chat and the Skills menu
+
+## How It Works
+
+When the Skill Builder module is enabled in an agent:
+
+1. Describe the skill you want to create or modify in natural language
+2. The agent uses the Skill Builder tools to create or update the skill
+3. The skill is saved to your project and becomes immediately available
+4. You can continue iterating on the skill through follow-up messages
+
+## Example Usage
+
+**Creating a new skill:**
+```
+User: Create a skill called "Code Formatter" that formats Python code 
+according to PEP 8 standards
+
+Agent: [Uses Skill Builder to create the skill]
+I've created the "Code Formatter" skill with instructions to format 
+Python code following PEP 8 standards. The skill is now available 
+in your project.
+```
+
+**Editing an existing skill:**
+```
+User: Update the "Data Validator" skill to also check for email format validation
+
+Agent: [Uses Skill Builder to update the skill]
+I've updated the "Data Validator" skill to include email format validation 
+in addition to its existing validation rules.
+```
+
+## Best Practices
+
+<Accordion title="Skill Creation">
+* Provide clear, detailed descriptions of what the skill should do
+* Include specific requirements, constraints, or examples
+* Test the skill immediately after creation to verify behavior
+* Iterate based on results rather than trying to perfect it upfront
+</Accordion>
+
+<Accordion title="Skill Editing">
+* Be specific about what needs to change
+* Review the updated skill configuration to ensure changes were applied correctly
+* Keep a history of working versions before making significant changes
+</Accordion>
+
+<Accordion title="Module Configuration">
+* Enable Skill Builder only for agents that need skill creation capabilities
+* Consider project-level enablement if many agents will use this functionality
+* Review created skills periodically to maintain quality and consistency
+</Accordion>
+
+---
+
+<Info title="Additional Resources">
+- [Skills](../../menus/skills) - Complete guide to creating and managing skills
+- [Modules](../../menus/agents#modules) - Overview of all available agent modules
+- [Agent Configuration](../../menus/agents#configure-an-agent) - How to enable modules in agents
+</Info>
