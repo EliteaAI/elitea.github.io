@@ -917,7 +917,7 @@ For full details including configuration, pipeline behavior, and troubleshooting
 
 ## Voice Capabilities
 
-ELITEA Chat includes voice input and voice output capabilities that let you speak your messages and have AI responses read back to you.
+Chat includes voice input and voice output capabilities that let you speak your messages and have AI responses read back to you.
 
 <CardGroup cols={3}>
   <Card title="Voice Input" icon="microphone">
@@ -933,18 +933,32 @@ ELITEA Chat includes voice input and voice output capabilities that let you spea
 
 ### Voice Input
 
-**Voice Input** lets you dictate messages directly into the chat input field using a microphone. The transcribed text is inserted at the cursor position, so you can combine typed and spoken content in the same message.
+**Voice Input** lets you dictate messages directly into the chat input field using a microphone. The transcribed text is inserted at the **current cursor position**, so you can combine typed and spoken content in the same message — position your cursor anywhere in the text before starting to record.
 
 **How to use Voice Input:**
 
-1. Click the **microphone** icon in the message input toolbar to start recording.
-2. Speak your message. A live transcript appears in the input field as you talk — interim results update in real time.
-3. Click the **Stop** (■) button to finish recording. The final transcript is committed and focus returns to the input field.
+1. (Optional) Click inside the input field and place the cursor where you want the dictation inserted.
+2. Click the **microphone** icon in the message input toolbar (tooltip: *Start voice input*) to start recording.
+3. The mic icon turns **teal** and a **Stop (■)** button appears beside it in a pill-shaped container — this indicates active recording.
+4. Speak your message. A live transcript appears in the input field in real time. Interim (in-progress) words are shown immediately and replaced by the final transcript as recognition completes.
+5. Click the **Stop (■)** button (tooltip: *Stop dictation*) to finish recording. The final transcript is committed at the cursor position and focus returns to the input field.
+6. Review the transcribed text, then press **Send** to send your message.
 
-<img src="../../img/menus/chat/voice-input.gif" alt="Voice Input" />
+<Info title="Note">
+The **Send** button is disabled while recording is active. Stop recording before sending.
+</Info>
+
+   ![Voice Input](../img/menus/chat/voice-input.gif)
 
 <Note>
-When a server-side ASR (automatic speech recognition) model is configured in **Settings → AI Configuration → Speech Recognition (ASR)**, Voice Input uses that model via streaming. If no server ASR model is available, Voice Input falls back to the browser's built-in Web Speech API. If neither is available, the microphone icon is hidden.
+**ASR model selection.** ELITEA selects the best available speech recognition source in the following priority order:
+
+1. **Server-side Realtime/Streaming ASR model** (default model first, if configured in [Settings → AI Configuration → Speech Recognition](./settings/ai-configuration#speech-recognition-asr))
+2. **Server-side Whisper ASR model** (default model first — batch transcription with slightly higher latency)
+3. **Browser Web Speech API** (built-in browser fallback, no server configuration required)
+4. **Microphone icon hidden** — if none of the above is available, the button is not shown
+
+If an administrator has temporarily disabled voice features, the microphone icon is visible but grayed out with the tooltip *"Temporarily disabled by admin"*.
 </Note>
 
 ### Text-to-Speech
@@ -954,32 +968,32 @@ When a server-side ASR (automatic speech recognition) model is configured in **S
 **How to use Text-to-Speech:**
 
 1. Click the **Read out** (megaphone) button below an AI message to start playback.
-2. The text is read aloud and a **playback pill** appears in the input area with:
-   - A **Stop (■)** button to halt audio playback at any time.
-   - A **Voice settings (⚙)** gear icon — opens the Voice Settings dialog (disabled while playback is active).
-3. After stopping, a **Play (▶)** button replaces the Stop button to restart playback from the beginning.
-4. Click the **⚙** gear icon (only available when playback is stopped) to open the **Voice settings** dialog.
+2. The text is read aloud and a **playback pill** appears in the input area containing:
+   - A **megaphone** icon
+   - A **Stop (■)** button (tooltip: *Stop speaking*) — click to stop playback
+   - A **Voice settings (⚙)** gear icon (tooltip: *Voice settings*) — opens the Voice Settings dialog. Disabled while playback is active.
+3. To restart playback after stopping, click the **Play (▶)** button that replaces the Stop button in the pill.
 
-<img src="../../img/menus/chat/text-to-speech.gif" alt="Text-to-Speech" />
+   ![Text-to-Speech](../img/menus/chat/text-to-speech.gif)
 
 <Note>
-When a TTS model is configured in **Settings → AI Configuration → Text to Speech (TTS)**, ELITEA uses that model for audio generation. If no TTS model is configured, playback uses the browser's built-in SpeechSynthesis API as a fallback.
+When a TTS model is configured in [**Settings → AI Configuration → Text to Speech (TTS)**](./settings/ai-configuration#text-to-speech-tts), ELITEA uses that model for audio generation. If no TTS model is configured, playback uses the browser's built-in SpeechSynthesis API as a fallback.
 </Note>
 
 **Voice Settings:**
 
-Click the **⚙** gear icon in the playback pill to open the **Voice settings** dialog. Settings are saved to your browser and persist across sessions.
+Click the **⚙** gear icon in the playback pill (only available when playback is stopped) to open the **Voice settings** dialog. Settings are saved to your browser and persist across sessions.
 
 | Setting | Description |
 |---------|-------------|
-| **Voice** | Select the voice for playback. When a server-side TTS model is configured, the list shows that model's voices. Without a server TTS model, browser built-in voices are listed (non-local voices marked *"online"*). |
-| **Speed** | Controls playback rate. Range: **0.5×** to **2×**. Default: **1×**. |
+| **Voice** | Select the voice to use for playback. When a server-side TTS model is configured, the list shows that model's available voices. Without a server TTS model, the list shows your browser's built-in speech synthesis voices (non-local voices are marked *"online"*). |
+| **Speed** | Controls playback rate. Range: **0.5×** (slower) to **2×** (faster). Default: **1×**. |
 | **Volume** | Controls playback volume. Range: **Mute (0%)** to **100%**. Default: **100%**. |
-| **Preview Voice** | Plays a short sample sentence with the current settings. Only available when playback is not active. |
+| **Preview Voice** | Plays a short sample sentence with the currently selected voice and settings. Only available when playback is not active. |
 
 Click **Apply** to save, or **Cancel** to discard changes.
 
-   ![Text-to-Speech](../../img/menus/chat/voice-settings.gif)
+   ![Text-to-Speech](../img/menus/chat/voice-settings.gif)
 
 
 <Tip title="Global voice preferences">
