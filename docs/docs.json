@@ -287,6 +287,13 @@
                 ]
               },
               {
+                "group": "Agent Evaluation",
+                "expanded": false,
+                "pages": [
+                  "how-tos/agents-pipelines/agent-evaluation-faq"
+                ]
+              },
+              {
                 "group": "Start Building Pipelines",
                 "expanded": false,
                 "pages": [
