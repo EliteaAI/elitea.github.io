@@ -1,0 +1,177 @@
+---
+title: "Ask User Module"
+description: "Enable agents to ask clarifying questions during execution using the Ask User module."
+---
+
+## Overview
+
+The **Ask User** module enables agents to ask clarifying questions during task execution instead of making assumptions or guessing. When enabled, agents can pause mid-execution to request additional information, confirm ambiguous requirements, or present choices to the user before proceeding.
+
+**Key Capabilities:**
+
+* Ask targeted clarifying questions when facing ambiguous requirements
+* Present multiple-choice options for user selection
+* Request additional context or details mid-execution
+* Confirm critical decisions before taking action
+* Reduce errors caused by incorrect assumptions
+
+<Note>
+The Ask User module must be enabled in your agent configuration or project settings to use this functionality. This module is particularly valuable for complex tasks with multiple possible approaches.
+</Note>
+
+## When to Use Ask User
+
+The Ask User module is especially useful when:
+
+* Requirements are ambiguous or incomplete
+* Multiple valid approaches exist for solving a problem
+* Critical decisions require user confirmation
+* Missing information is needed to proceed correctly
+* User preferences would significantly impact the solution
+
+## How It Works
+
+When the Ask User module is enabled in an agent:
+
+1. The agent encounters a decision point or ambiguity during task execution
+2. Instead of guessing, the agent pauses and asks a clarifying question
+3. You provide the requested information or make a selection
+4. The agent continues execution with the clarified requirements
+5. The process repeats as needed until the task is complete
+
+## Example Usage
+
+**Clarifying ambiguous requirements:**
+```
+Agent: I need to create a user authentication system. Should I implement:
+A) Username and password authentication
+B) Email and password authentication
+C) OAuth with third-party providers (Google, GitHub)
+D) Multi-factor authentication
+
+Which authentication method would you prefer?
+
+User: Let's go with option B - email and password authentication
+
+Agent: Thank you for clarifying. I'll implement email and password 
+authentication for the user system.
+```
+
+**Requesting missing information:**
+```
+Agent: To configure the database connection, I need to know:
+1. Which database system are you using? (PostgreSQL, MySQL, MongoDB)
+2. What should I name the database?
+3. Should I use environment variables for credentials?
+
+User: We're using PostgreSQL, name it "production_db", and yes, 
+use environment variables
+
+Agent: Perfect. I'll set up PostgreSQL with the database name 
+"production_db" and configure credentials via environment variables.
+```
+
+**Confirming critical decisions:**
+```
+Agent: I'm about to delete the "legacy-data" table as part of the 
+database migration. This action cannot be undone. 
+
+Should I proceed with deleting the "legacy-data" table?
+
+User: Wait, no - let's keep that table for now and just deprecate it
+
+Agent: Understood. I'll mark the "legacy-data" table as deprecated 
+instead of deleting it.
+```
+
+## Question Types
+
+The Ask User module supports different types of questions:
+
+<Accordion title="Multiple Choice">
+Present predefined options for the user to select from. Best for:
+* Choosing between known alternatives
+* Selecting configuration options
+* Picking from a list of supported approaches
+
+**Example:**
+```
+Which test framework should I use?
+A) Jest
+B) Mocha
+C) Jasmine
+D) Vitest
+```
+</Accordion>
+
+<Accordion title="Open-ended">
+Request free-form text input. Best for:
+* Gathering detailed information
+* Collecting specific values (names, paths, URLs)
+* Understanding user preferences in detail
+
+**Example:**
+```
+What should I name the new API endpoint? 
+Please provide the path (e.g., /api/users/profile)
+```
+</Accordion>
+
+<Accordion title="Confirmation">
+Yes/No questions to confirm actions. Best for:
+* Verifying destructive operations
+* Confirming critical decisions
+* Validating assumptions before proceeding
+
+**Example:**
+```
+This will overwrite the existing configuration file. 
+Do you want to proceed? (Yes/No)
+```
+</Accordion>
+
+## Best Practices
+
+<Accordion title="When to Ask Questions">
+* **Do** ask when requirements are genuinely ambiguous
+* **Do** ask before destructive or irreversible operations
+* **Do** ask when multiple valid approaches exist with different trade-offs
+* **Don't** ask about obvious defaults or standard practices
+* **Don't** ask questions that can be answered from available context
+* **Don't** over-ask – too many questions slow down execution
+</Accordion>
+
+<Accordion title="Question Quality">
+* Be specific and clear about what information is needed
+* Provide context about why the information is needed
+* Present reasonable options when offering multiple choices
+* Make it easy for the user to answer (clear options, sensible defaults)
+* Group related questions together when possible
+</Accordion>
+
+<Accordion title="Module Configuration">
+* Enable Ask User for agents handling complex, variable tasks
+* Consider disabling for simple, repetitive tasks where questions would slow things down
+* Balance between asking too much (annoying) and too little (making wrong assumptions)
+* Train agents to ask high-value questions that significantly impact outcomes
+</Accordion>
+
+## Ask User vs Making Assumptions
+
+Understanding when to ask versus when to proceed with reasonable defaults:
+
+| **Ask User** | **Make Assumption** |
+|---|---|
+| Destructive operations | Standard configurations |
+| Critical business decisions | Common coding patterns |
+| Multiple equally valid approaches | Industry best practices |
+| Missing required information | Optional preferences with sensible defaults |
+| User-specific preferences | Universal conventions |
+
+---
+
+<Info title="Additional Resources">
+- [Modules](../../menus/agents#modules) - Overview of all available agent modules
+- [Agent Configuration](../../menus/agents#configure-an-agent) - How to enable modules in agents
+- [Agent Instructions](../../menus/agents#instructions) - Best practices for writing effective agent instructions
+</Info>
