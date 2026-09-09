@@ -161,80 +161,6 @@ Folders can be managed directly from the **CONVERSATIONS** sidebar. Right-click 
 
 <img src="../../img/menus/chat/folder_actions.png" alt="Folder actions" />
 
-## Understanding Conversation/Folder Visibility
-
-ELITEA has two project types — **Private** and **Team**. Visibility and access rules for conversations and folders depend on which type you're working in.
-
-<Tabs>
-  <Tab title="Private Project">
-    Conversations and folders in a private project are personal to you only.
-
-    | Aspect | Details |
-    |--------|---------|
-    | **Visibility** | Only you (the creator) can see and access all conversations and folders |
-    | **AI Participants** | Add Agents, Pipelines, Toolkits, and MCPs as AI assistants |
-    | **Users** | Cannot add other users as participants |
-  </Tab>
-
-  <Tab title="Team Project">
-    Team projects support shared collaboration with configurable visibility per conversation and folder.
-
-    | Aspect | Details |
-    |--------|---------|
-    | **Folders** | All folders in the project are visible to all team members |
-    | **Conversations** | Only visible to you if you are a member (participant) of that conversation |
-    | **Moving Conversations** | Members can use **Move To** or **Back to the list** to organize conversations across folders |
-    | **Folder Permissions** | You cannot delete folders created by other users |
-    | **Public Conversations** | Conversations can be marked as public — visible and interactable by all project members |
-    | **Public Folders** | Public folders and their contents are visible to all project members |
-
-    <Warning>
-    Making a conversation or folder **public is irreversible** — it cannot be converted back to private.
-    </Warning>
-  </Tab>
-</Tabs>
-
-**Example: Collaboration in a Team Project**
-
-<Accordion title="View collaboration scenario">
-**Scenario**: The QA, PM, and BA team collaborate on a new file upload feature using a shared team project conversation.
-
-**Steps:**
-
-- **BA adds requirements:**
-  ```
-  @BA: "The new feature should allow users to upload files up to 10MB. The system must validate file types and provide error messages for unsupported formats."
-  ```
-
-- **PM sets the timeline:**
-  ```
-  @PM: "Development completes by May 15th. QA starts testing May 16th. Release target: May 20th."
-  ```
-
-- **QA plans testing:**
-  ```
-  @QA: "I'll create test cases for uploads, file types, size limits, and error handling. @BA, does the system support drag-and-drop uploads?"
-  ```
-
-- **BA clarifies:**
-  ```
-  @BA: "Yes, drag-and-drop should be supported. Also add a progress bar during uploads."
-  ```
-
-- **PM tracks progress:**
-  ```
-  @PM: "QA, please share test results by May 18th for pre-release review."
-  ```
-
-The PM creates a **"Feature: File Upload"** folder and moves the conversation there so all team members can find it easily.
-</Accordion>
-
-**Tips for Effective Collaboration in Team Projects**
-
-* Use `@` mentions to notify specific teammates in a conversation.
-* Group related conversations into folders for better navigation.
-* Define roles, responsibilities, and deadlines directly in the chat.
-* Regularly post progress updates and flag blockers in the conversation.
 
 ## Share Conversations with External Users
 
@@ -418,6 +344,47 @@ For detailed information on adding teammates, see [Adding Teammates to Conversat
 
 <img src="../../img/menus/chat/add-user.gif" alt="Add_User" />
 
+**Tips for Effective Collaboration in Team Projects**
+
+* Use `@` mentions to notify specific teammates in a conversation.
+* Group related conversations into folders for better navigation.
+* Define roles, responsibilities, and deadlines directly in the chat.
+* Regularly post progress updates and flag blockers in the conversation.
+
+**Example: Collaboration in a Team Project**
+
+<Accordion title="View collaboration scenario">
+**Scenario**: The QA, PM, and BA team collaborate on a new file upload feature using a shared team project conversation.
+
+**Steps:**
+
+- **BA adds requirements:**
+  ```
+  @BA: "The new feature should allow users to upload files up to 10MB. The system must validate file types and provide error messages for unsupported formats."
+  ```
+
+- **PM sets the timeline:**
+  ```
+  @PM: "Development completes by May 15th. QA starts testing May 16th. Release target: May 20th."
+  ```
+
+- **QA plans testing:**
+  ```
+  @QA: "I'll create test cases for uploads, file types, size limits, and error handling. @BA, does the system support drag-and-drop uploads?"
+  ```
+
+- **BA clarifies:**
+  ```
+  @BA: "Yes, drag-and-drop should be supported. Also add a progress bar during uploads."
+  ```
+
+- **PM tracks progress:**
+  ```
+  @PM: "QA, please share test results by May 18th for pre-release review."
+  ```
+
+The PM creates a **"Feature: File Upload"** folder and moves the conversation there so all team members can find it easily.
+</Accordion>
 
 ### Using Participants in a Conversation
 
