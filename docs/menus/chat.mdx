@@ -254,35 +254,13 @@ Voice capabilities rely on speech recognition (ASR) and text-to-speech (TTS) mod
 For detailed information about voice capabilities, see [Voice Capabilities](../how-tos/chat-conversations/how-to-use-chat-functionality#voice-capabilities), including [Voice Input](../how-tos/chat-conversations/how-to-use-chat-functionality#voice-input), [Text-to-Speech](../how-tos/chat-conversations/how-to-use-chat-functionality#text-to-speech), and [Speaking Mode](../how-tos/chat-conversations/how-to-use-chat-functionality#speaking-mode).
 </Info>
 
----
-
 ### CHATS Sidebar
 
-#### Conversations and Folders Actions
+In the CHATS sidebar, you can view all your conversations, organized by time period or in folders. You can also create new conversations, rename or delete existing ones, and manage folders.
 
-The following actions are available for created conversations from **CONVERSATIONS** sidebar:
+#### Conversations and Folders Organization
 
-* **Rename**: To rename a conversation, on the left panel, in the conversation contextual menu, select **Rename** and confirm your action. Only the conversation author can rename their own conversation.
-* **Move To**: To move a conversation to a folder, on the left panel, in the conversation contextual menu, select **Move To** and choose the desired folder. If no folder exists, you can create one by clicking **+ New Folder**.
-* **Playback**: The **Playback** mode can be used to simulate the current conversation without any engagement with models. This mode accurately reproduces the conversation like a recording and includes forward/backward navigation controls. It's well designed for demo purposes and allows you to step through conversations turn by turn. During playback, you can use keyboard arrows (left/right) or the on-screen controls to navigate through the conversation history.
-* **Pin on Top**: To pin a single conversation, on the left panel, in the conversation contextual menu, select **Pin**. Your conversation will be pinned at the top of your conversation's list. 
-* **Delete**: To delete a single conversation, on the left panel, in the conversation contextual menu, select **Delete** and confirm your action.
-
-<img src="../img/menus/chat/conversation_action.png" alt="Chat_Conversation_Actions" />
-
-The following actions are available for managing folders in the **CONVERSATIONS** sidebar:
-
-* **Rename**: Select **Rename** in the folder contextual menu, update the folder name and click the **✔** button to save your changes.
-* **Pin/Unpin**: Select **Pin on top** in the folder contextual menu to keep the folder at the top of the **CONVERSATIONS** sidebar for quicker access. Select **Unpin** to remove it from the top.
-* **Delete Folder**: Select **Delete** in the folder contextual menu and confirm the deletion. **Note**: Deleting a folder will not delete the conversations inside it; they will be moved back to the main **CONVERSATIONS** list.
-
-<img src="../img/menus/chat/folder_actions.png" alt="Chat_Folder_Actions" />
-
-#### Conversation Sorting and Organization
-
-**Conversation Sorting and Organization**
-
-Conversations in the **CONVERSATIONS** sidebar are automatically organized by time periods for better navigation:
+By default, conversations are organized by time period:
 
 | Period | Description |
 |--------|-------------|
@@ -291,12 +269,47 @@ Conversations in the **CONVERSATIONS** sidebar are automatically organized by ti
 | **This Week** | Conversations from the current week are grouped together. |
 | **Older** | All conversations older than this week are grouped under this section. |
 
-This automatic time-based sorting helps you quickly locate recent conversations and maintain an organized conversation history. Pinned conversations will always appear at the very top, regardless of their creation date.
+This automatic time-based sorting helps you quickly locate recent conversations. 
 
+**Pinned conversations** will always appear at the very top, regardless of their creation date.
 
-<Tip title="Quick Start">
-You can add participants before sending your first message. Click the **`+`** icon in the input toolbar to access agents, pipelines, toolkits, MCPs, modules, and file attachments — or type **`#`** followed by a name to search directly.
-</Tip>
+**Folders** allow you to organize conversations into custom groups. You can create folders, rename them, and move conversations into them for better organization:
+
+* Folders are displayed in the CHATS sidebar above the time-based sections.
+* Within a folder, conversations are sorted by their creation date.
+* You cannot pin conversations inside a folder but you can pin the folder itself.
+* You can move conversations between folders or back to the main list at any time.
+* You can [move a conversation to a folder](../how-tos/chat-conversations/how-to-use-chat-functionality#move-chats-to-folders) from its overflow menu or by simply dragging and dropping it into the desired folder.
+
+#### Conversations and Folders Actions
+
+In the **CHATS** sidebar, you can perform these actions from the conversation's overflow menu:
+
+* **Rename**: Change the conversation's name. Available only to the conversation's creator.
+* **Move To**: Move the conversation into a folder, or back to the main list. If no folder exists, you can create one by clicking **+ New Folder**. Not available while the conversation is pinned.
+* **Playback**: Simulate the conversation without any engagement with models — a read-only replay with forward/backward navigation. Well suited for demos and for stepping through a conversation turn by turn using the on-screen controls or the keyboard arrows (left/right).
+* **[Duplicate](../how-tos/chat-conversations/how-to-use-chat-functionality#create-duplicate)**: Create a new conversation with the same privacy setting and participants as the original (participants added automatically by an agent are not copied). Messages and history are not copied.
+* **Make Public** *(Team projects only)*: Turn a private conversation into a public one, visible and interactable by all project members.
+* **Share** *(Team projects only)*: Copy a link to the conversation for other project members who already have access.
+* **[Share Externally](../how-tos/chat-conversations/how-to-use-chat-functionality#share-conversations-with-external-users)**: Generate a secure, read-only link so people outside ELITEA can view the conversation.
+* **Manage Links**: View, copy or revoke existing external share links. Shown only once at least one link has been created for the conversation.
+* **Pin/Unpin**: Pin the conversation to the top of the list, or unpin it. Available to anyone who can see the conversation; a conversation already inside a folder cannot be pinned.
+* **Delete**: Permanently remove the conversation. Available only to the conversation's creator.
+
+<div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+  <img src="../img/menus/chat/chat_actions_chat.png" alt="Conversation actions menu" style={{ width: "32%" }} />
+  <img src="../img/menus/chat/chat_actions_chat-in-folder.png" alt="Conversation actions menu for a conversation inside a folder" style={{ width: "32%" }} />
+  <img src="../img/menus/chat/chat_actions_chat_public-project.png" alt="Conversation actions menu in a team project" style={{ width: "32%" }} />
+</div>
+
+Unlike conversation actions, all of **folder actions are restricted to the folder's creator** and, in team projects, also require the corresponding folder permission:
+
+* **Rename**: Select **Rename** in the folder contextual menu, update the folder name and click the **✔** button to save your changes.
+* **Pin/Unpin**: Select **Pin on top** in the folder contextual menu to keep the folder at the top of the **CHATS** sidebar for quicker access. Select **Unpin** to remove it from the top.
+* **Delete Folder**: Permanently remove the folder. Deleting a folder will not delete the conversations inside it — they will be moved back to the main **CHATS** list.
+
+<img src="../img/menus/chat/chat_actions_folder.png" width="250" alt="." />
+
 
 ## Participants
 
@@ -380,9 +393,6 @@ If a toolkit in your Chat uses shared credentials that are not yet configured in
 
 <img src="../img/menus/chat/credentials-warning-chat.gif" alt="Credential setup required banner in Chat toolkit canvas editor" />
 </Note>
-
-
-
 
 
 ## Display Configured Conversation Starter
