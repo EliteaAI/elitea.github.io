@@ -48,9 +48,110 @@ The **Skills** page opens, showing the **Skills** tab — a scrollable list (or 
 
 ---
 
+## Organize Skills into Folders
+
+Folders help you organize Skills into logical groups for better navigation and management. You can create folders, move Skills between folders, and control folder access within team projects.
+
+![Skill folder section](../img/menus/folders/folder-section.png)
+
+**Create a Folder:**
+
+1. In the **Skills** dashboard right panel, locate the **Folders** section.
+2. Select **+ Create Folder**.
+3. Enter a folder name (up to 128 characters).
+4. Select **Save**.
+
+     <img src="../img/menus/folders/folder-create.png" alt="Create folder" width="430" />
+
+**Move a Skill to a Folder:**
+
+1. **Hover over a Skill card:** A "Move to folder" icon (folder with arrow) appears on the card.
+2. **Click the folder icon:** Opens a menu with folder options.
+3. **Select a folder from the list:** The menu displays:
+   - **+ Create Folder** option at the top
+   - A scrollable list of existing folders
+   - Pinned folders are marked with a pin icon
+   - The current folder (if any) is highlighted and marked with a checkmark
+4. The Skill is moved to the selected folder.
+
+    <img src="../img/menus/folders/add-to-folder.png" alt="Add to folder" width="430" />
+
+**View Folder Contents:**
+
+Click any folder in the Folders panel to filter the Skills list to show only Skills in that folder. The folder name appears in the header, and the Skills count updates to reflect the filtered view. Click **X** to close the folder view and return to the full list.
+
+    <img src="../img/menus/skills/folder-content-skill.png" alt="Folder content" />
+
+**Manage Folders:**
+
+Each folder card in the right panel has a three-dot menu (⋮) with the following options:
+    <img src="../img/menus/folders/folder-actions.png" alt="Folder actions" width="200" />
+| Action | Description |
+| --- | --- |
+| **Rename** | Change the folder name |
+| **Pin to top** | Pin the folder to the top of the folders list |
+| **Delete** | Permanently remove the folder (Skills inside are moved back to the main list, not deleted) |
+| **Manage Access** *(Team projects only)* | Control which team members can view the folder |
+
+**Remove a Skill from a Folder:**
+
+1. Open the Skill card's three-dot menu (⋮).
+2. Select **Remove from Folder**.
+3. The Skill returns to the main Skills list and the folder icon is removed from its card.
+
+<Note>
+Folders are available in team and personal projects. In team projects, folder access can be restricted to specific users. The Public project does not support folders.
+</Note>
+
+### Folder Permission Management
+
+In team projects, you can control which users can view and modify specific folders by setting permission exceptions. By default, users retain the permissions granted by their project roles. Permission exceptions can only restrict access.
+
+**Access Folder Permissions:**
+
+1. In the **Skills** dashboard right panel, locate the folder in the **Folders** list.
+2. Select the folder's three-dot menu (⋮).
+3. Select **Manage Access**.
+4. The Manage Permissions dialog opens.
+    <img src="../img/menus/folders/folder-permissions-open.png" alt="Folder permissions open" width="500" />
+
+**Add Permission Exceptions:**
+
+1. In the Manage Permissions dialog, select **+ Add Exception**.
+2. Search for and select one or more users from the project.
+3. Choose a permission level: **Read-only** or **No access**.
+4. Select **Add**. The selected users are added to the permissions table.
+
+    <img src="../img/menus/folders/folder-add-exceptions.png" alt="Folder add exceptions" width="500" />
+
+**Permission Levels:**
+
+| Permission Level | Description |
+| --- | --- |
+| **Read/write (default)** | User can view folder contents and modify folder settings |
+| **Read-only** | User can view folder contents but cannot modify folder settings or move Skills |
+| **No access** | User cannot see the folder or its contents |
+
+**Edit Permission Exceptions:**
+
+- To modify an existing exception, locate the user in the permissions table and select the **Edit** (pencil) icon in the Actions column. Change the permission level to your desired setting and select **Save**. 
+- To remove an exception and return the user to default permissions, change the permission level to **Read/write (default)**. When saved, the user is removed from the exceptions table and inherits permissions based on their project role.
+
+<Note>
+Permission exceptions apply only to the folder itself. Users with no access to a folder cannot see it in their folders list or view its contents.
+</Note>
+
+---
+
 ## Create a Skill
 
-You can create a Skill from the Skills page or directly from the agent editor.
+You can create a Skill from the Skills page, directly from the agent editor, or from chat using the Skill Builder module.
+
+<Tip>
+**Create from Chat:**
+
+You can also create and update Skills directly from chat using the **Skill Builder** module. When enabled, you can describe your skill requirements in natural language, and the conversation will create or update the Skill for you. The created skill automatically opens in Canvas mode for review and is added to your project. See [Skill Builder](../how-tos/modules/skill-builder) for details.
+</Tip>
 
 ### From the Skills Page
 
@@ -256,47 +357,31 @@ When a text-to-speech (TTS) model is configured in **Settings** > **AI Configura
 
 ## Create & Manage Versions
 
-### Version a Skill
+Skills support **versioning**, allowing you to maintain multiple iterations of a Skill without breaking existing agents that depend on it. Every Skill has a `base` version, and you can create additional named versions to test changes, iterate on improvements, or maintain different variants for different use cases.
 
-Skills support multiple named versions in addition to the always-present `base` version.
+**Key Version Concepts:**
 
-To create a new version:
+- **base version**: The always-present initial version of every Skill. Cannot be deleted.
+- **Default version**: The version agents use when a Skill is attached without specifying a particular version. Can be changed to any version except those currently attached to agents.
+- **Named versions**: Additional versions you create (e.g., "v2", "updated-for-api-v3"). Each must have a unique name within the Skill.
+- **Version selector**: Dropdown in the Skill editor tab bar that shows all versions, their creators, and creation dates.
 
-1. Open the Skill editor and make your changes.
-2. Select **Save As Version** in the tab bar.
-3. The **Create version** dialog appears. Enter a unique version name in the input field.
-   - The name `base` is reserved and cannot be used.
-   - Duplicate names within the same Skill are rejected with an error toast.
-4. Select **Save** in the dialog to confirm.
-5. The page navigates to the new version automatically.
+**Common Version Operations:**
 
-<video controls width="100%" aria-label="Full skill creation flow from form to saved Skill.">
-  <source src="../img/menus/skills/skills-new-version.mp4" type="video/mp4" />
-</video>
+| Operation | How to Access | Description |
+|-----------|---------------|-------------|
+| **Create version** | **Save As Version** button in tab bar | Save current changes as a new named version |
+| **Switch versions** | Version selector dropdown in tab bar | Navigate between existing versions to view or edit |
+| **Set default** | **⋮** menu > **Set as a default** | Make a version the default for agent attachments |
+| **Compare versions** | **⋮** menu > **Compare Versions** | View side-by-side differences and selectively merge changes |
+| **Delete version** | **⋮** menu > **Delete** | Remove a version (not available for base or default versions) |
 
-Use the version selector in the tab bar of the Skill editor. It lists all saved versions with the default version shown first. Non-default versions are sorted by creation date (newest first). The `base` version appears last unless it is currently set as the default.
+![Version Selector](../img/menus/skills/version-selector.png)
 
-To set the default version:
 
-1. Open the Skill editor and go to the version you want to set as default.
-2. Select the **⋮ overflow menu** in the tab bar to open the controls menu.
-3. Select **Set as a default** under the **VERSION** section.
-   - This option is disabled if the selected version is already the default.
-
-   ![Set Default Version](../img/menus/skills/skills-default-version.png)
-
-The overflow menu also provides **Share** (copy a link to the current version) and **Share** under the **SKILL** section (copy a link to the skill).
-
-The same menu also includes **Export**, **Fork**, **Publish**, and **Unpublish** when those actions are available for the selected version.
-
-To delete a version:
-
-1. Go to the version you want to delete.
-2. Open the **⋮ overflow menu** and select **Delete** under the **VERSION** section.
-3. Confirm deletion in the confirmation dialog.
-   - You cannot delete the default version or the `base` version.
-
-   ![Delete Version](../img/menus/skills/skills-delete-version.png)
+<Note>
+For detailed information about version management patterns, best practices, naming conventions, and the complete Compare Versions workflow, see [Entity Versioning](../how-tos/agents-pipelines/entity-versioning). The reference documentation describes agent versioning, but skill versioning works the same way.
+</Note>
 
 
 ### Export a Skill
@@ -516,6 +601,7 @@ Deleting a Skill removes it from all agents it is attached to. This action canno
 <Info>
 **Guides & References**
 
+- **[Skill Builder](../how-tos/modules/skill-builder)** — Create and update Skills directly from chat
 - **[Agents](./agents)** — Configure agents and attach Skills, Toolkits, and MCPs
 - **[Project Context](./settings/project-context)** — Define shared background context injected into every AI interaction
 - **[Entity Versioning](../how-tos/agents-pipelines/entity-versioning)** — Version management patterns for agents, pipelines, and Skills
