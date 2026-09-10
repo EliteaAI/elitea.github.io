@@ -404,36 +404,6 @@ The **Regenerate Last Output** option becomes available only after initiating a 
 
 <img src="../img/menus/chat/regenerate.gif" alt="Chat_Regenerate" />
 
-## Sensitive Action Authorization
-
-When an agent or pipeline attempts to call a **sensitive tool** (such as deleting a repository, running a shell command, or dropping a database table), the conversation automatically pauses and displays an authorization card before anything is executed.
-
-<Warning title="Administrator-configured feature">
-The Sensitive Action Authorization Guardrail is configured at the **server/infrastructure level** by your ELITEA administrator. It applies automatically to all conversations once active — individual users cannot enable or disable it.
-</Warning>
-
-**Authorization Dialog Elements:**
-
-| Element | Description |
-|---------|-------------|
-| **Header** | ⚠️ Sensitive Action Authorization Required — amber-highlighted panel |
-| **Action label** | "Agent is about to perform:" followed by the specific action name (e.g., `github.delete_repo`) |
-| **Parameters** | The exact arguments the tool will be called with, shown in a collapsible panel. Security-sensitive fields (`password`, `token`, `api_key`, `secret`, `credential`, `private_key`, `access_key`, `refresh_token`, `session_token`, `cookie`, etc.) are automatically masked as `***` |
-| **Policy message** | Your organization's custom message explaining why the action requires approval |
-
-**Actions:**
-
-* **Authorize** — Approves the tool call. Execution resumes and the tool runs as planned.
-* **Block** — Rejects the tool call. The tool is skipped entirely; the agent receives a cancellation message (*"User blocked the sensitive action. This tool call was skipped and not executed."*) and continues or stops based on its logic.
-
-<Note>
-Each sensitive tool invocation is reviewed independently. Authorizing one call does **not** auto-approve subsequent calls to the same tool — every invocation requires a separate user decision.
-</Note>
-
-<img src="../img/how-tos/chat-conversations/sensitive-action/authorization-chat-approve.gif" alt="Sensitive Action Authorization" />
-
-For full details on how the guardrail works, configuration options, and pipeline behavior, see [Sensitive Action Authorization Guardrail](../how-tos/chat-conversations/sensitive-action-authorization-guardrail).
-
 ## Real-time Collaboration in Canvas
 
 **Editing Generated Content with Canvas**
@@ -587,9 +557,17 @@ When you add a participant to a conversation, the configured conversation starte
 
 <img src="../img//menus/chat/conversation-starter.gif" alt="Conversation Starter" />
 
+### Sensitive Action Authorization
 
+When an agent or pipeline attempts to call a **sensitive tool** (such as deleting a repository, running a shell command, or dropping a database table), the conversation automatically pauses and displays an authorization card before anything is executed.
 
+<img src="../img/how-tos/chat-conversations/sensitive-action/authorization-chat-approve.gif" alt="Sensitive Action Authorization" />
 
+Each sensitive tool invocation is reviewed independently. Authorizing one call does **not** auto-approve subsequent calls to the same tool — every invocation requires a separate user decision.
+
+<Info>
+For detailed information about how the guardrail works, configuration options, and pipeline behavior, see [Sensitive Action Authorization Guardrail](../how-tos/chat-conversations/sensitive-action-authorization-guardrail).
+</Info>
 
 ## Troubleshooting
 

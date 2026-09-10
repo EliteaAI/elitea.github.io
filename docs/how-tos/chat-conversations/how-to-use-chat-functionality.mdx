@@ -727,38 +727,6 @@ For detailed usage examples, troubleshooting, and best practices, see:
 * [Swarm Mode Guide](./swarm-mode-internal-tool)
 * [Agent & Pipeline Builder Guide](./agents-&-pipeline-builder)
 
-
-## Sensitive Action Authorization
-
-When an agent or pipeline attempts to call a **sensitive tool** (such as deleting a repository, running a shell command, or dropping a database table), the conversation automatically pauses and displays an authorization card before anything is executed.
-
-<Warning title="Administrator-configured feature">
-The Sensitive Action Authorization Guardrail is configured at the **server/infrastructure level** by your ELITEA administrator. It applies automatically to all conversations once active — individual users cannot enable or disable it.
-</Warning>
-
-**Authorization Dialog Elements:**
-
-| Element | Description |
-|---------|-------------|
-| **Header** | ⚠️ Sensitive Action Authorization Required — amber-highlighted panel |
-| **Action label** | The specific action the agent plans to run (e.g., `github.delete_repo`) |
-| **Parameters** | The exact arguments the tool will be called with. Security-sensitive fields (`password`, `token`, `api_key`, `secret`, etc.) are automatically masked as `***` |
-| **Policy message** | Your organization's custom message explaining why the action requires approval |
-
-**Actions:**
-
-* **Authorize** — Approves the tool call. Execution resumes and the tool runs as planned.
-* **Block** — Rejects the tool call. The tool is skipped entirely; the agent receives a cancellation message and continues or stops based on its logic.
-
-<Tip title="Auto-approve within a batch">
-If an agent calls the same sensitive tool multiple times in one execution cycle, only the **first call** raises the interrupt. Subsequent calls to the same tool in the same batch are auto-approved — avoiding repeated dialogs for the same action.
-</Tip>
-
-<img src="../../img/how-tos/chat-conversations/sensitive-action/authorization-chat-approve.gif" alt="Sensitive Action Authorization" />
-
-For full details including configuration, pipeline behavior, and troubleshooting, see [Sensitive Action Authorization Guardrail](./sensitive-action-authorization-guardrail).
-
-
 ## Voice Capabilities
 
 Chat includes voice input and voice output capabilities that let you speak your messages and have AI responses read back to you.
