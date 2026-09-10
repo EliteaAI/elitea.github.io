@@ -202,6 +202,7 @@
                   "how-tos/chat-conversations/agents-&-pipeline-builder",
                   "how-tos/modules/skill-builder",
                   "how-tos/modules/project-context-builder",
+                  "how-tos/modules/ask-user",
                   "how-tos/chat-conversations/planner-internal-tool",
                   "how-tos/chat-conversations/python-sandbox-internal-tool",
                   "how-tos/chat-conversations/swarm-mode-internal-tool",
