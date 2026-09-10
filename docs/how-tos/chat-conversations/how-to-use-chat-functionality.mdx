@@ -334,8 +334,38 @@ Once added, participants are ready to process your messages:
 1. **Check Participants**: Ensure the desired participant is listed in the **Participants** section.
 2. **Select Active Participant(s)**: 
        - **Click**: Click the participant's name/icon in the **Participants** list to make it active for your next message.
-3. **Mention Users** (Team Projects only): You can mention other team members using `@` followed by their name (e.g., `@John Doe`). This notifies them and brings their attention to specific parts of the conversation.
+3. **Mention Users** (Team Projects only): Hover over user avatars in the participant list or type **@username** in the chat input to mention and notify teammates in the conversation. To mention everyone in the conversation, select the **All Users** option.
 4. **Send Message/Command**: Type your message or a simple command (like "Go", "Execute", "Run it") and press **Send**. The active participant(s) will process your input.
+
+#### Mentioning Toolkits and Tools
+
+You can direct the AI to use a specific tool from an already-added toolkit by typing `/` in the chat input. This is a two-phase selection:
+
+**Select a Toolkit:**
+
+1. In the chat input box, type `/` to open the **Mention toolkit** dropdown.
+2. The dropdown lists all toolkits that are already added as participants in the current conversation.
+3. Continue typing to filter by toolkit name (e.g., `/Jira` filters to Jira-related toolkits).
+4. Click a toolkit name from the dropdown, or type the full name and press `/` again to confirm it.
+5. The input updates to `/{ToolkitName}/` and the dropdown switches to show the toolkit's available tools.
+
+**Select a Tool:**
+
+6. The dropdown now shows **"{ToolkitName} available tools"** with all tools exposed by that toolkit.
+7. Continue typing after the second `/` to filter tools by name (e.g., `/Jira/create` shows create-related tools).
+8. Each tool shows its name and a short description.
+9. Click the desired tool to confirm the selection.
+10. The mention is committed to the input as `/{ToolkitName}/{ToolName}` with a cyan highlight and a trailing space so you can continue typing your message.
+
+<img src="../img/menus/chat/mention-toolkit-tool.gif" alt="Mention Toolkit Tool" />
+
+You can include multiple toolkit tool mentions in a single message, and they can be placed anywhere within the message. For example: `Please use /Jira/createIssue to create a new issue and then /GitHub/createPR to create a pull request.`
+
+Each mention is highlighted independently and sent to the AI as separate tool directives.
+
+<Note>
+The `/` mention works with both **Toolkits** and **MCP** participants that are already added to the conversation. If a toolkit or MCP does not appear in the dropdown, add it first via the **`+`** button in the input toolbar or by typing `#`. Toolkits and MCPs with misconfiguration errors are excluded from the dropdown until the configuration issue is resolved.
+</Note>
 
 <Accordion title="Example Usage">
 * **To ask a general question using a specific model**:
