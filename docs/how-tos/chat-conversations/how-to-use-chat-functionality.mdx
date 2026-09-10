@@ -211,103 +211,61 @@ After a link expires or is revoked, recipients see a message that the link is no
 
 Participants are the core components you interact with within a conversation.
 
-### What are Participants?
+### Adding Participants (Agents, Pipelines, Toolkits, MCPs)
 
-Participants are the "tools" or "entities" you add to your chat:
-
-<CardGroup cols={3}>
-  <Card title="Models" icon="brain">
-    Large Language Models (e.g., GPT-4, Claude) for generating text and answering questions.
-  </Card>
-  <Card title="Agents" icon="robot">
-    Pre-configured automated workflows or specialized bots designed for specific tasks.
-  </Card>
-  <Card title="Pipelines" icon="diagram-project">
-    Multi-step automated processes that orchestrate multiple agents and tools.
-  </Card>
-  <Card title="Toolkits" icon="toolbox">
-    Collections of tools and integrations (e.g., GitHub, Jira, Confluence) that extend chat capabilities.
-  </Card>
-  <Card title="MCPs" icon="server">
-    Model Context Protocol servers for external tool capabilities (e.g., Playwright, Figma).
-  </Card>
-  <Card title="Users" icon="user">
-    In public chats, other project members who join or interact become participants.
-  </Card>
-</CardGroup>
-
-
-### Adding Participants to a Chat
+You can add various AI participants to enhance your conversations:
 
 <Tabs>
-  <Tab title="Using the + Button">
-    1. In the chat input toolbar, click the **`+`** icon.
-    2. Hover over the relevant category (**Agents**, **Pipelines**, **Toolkits**, or **MCPs**).
-    3. A flyout submenu appears listing available participants of that type.
-    4. Select an existing item from the list, or click **Create New {Type}** at the bottom to create one inline.
-    5. The participant is added and appears in the **PARTICIPANTS** panel on the right.
+  <Tab title="Method 1: Using the + Button">
+    1. In the chat input toolbar, select the **`+`** icon (tooltip: *Add files, agents, toolkits and more…*).
+    2. A popup menu opens. Hover over the category you want:
+       - **Agents** — shows a searchable list of available agents
+       - **Pipelines** — shows a searchable list of available pipelines
+       - **Toolkits** — shows a searchable list of available toolkits (with a Public/Private toggle)
+       - **MCPs** — shows a searchable list of available MCP servers (with a Public/Private toggle)
+    3. Search by name in the submenu search box, then select a participant to add it.
+    4. The added participant appears in the **PARTICIPANTS** panel on the right side of the screen.
+    5. For **Agents** and **Pipelines**: selecting the participant in the panel activates it. An **AgentEditorPanel** strip appears above the input area showing the participant name, version selector, variables and a settings button.
 
     <img src="../../img/menus/chat/add-participants-section.gif" alt="Add participants" />
   </Tab>
+  <Tab title="Method 2: Using the # Symbol">
+    1. In the chat input box, type `#` to open a **Search results** dropdown of available participants.
+    2. Continue typing to filter by name (e.g., `#Jira` will show all Jira-related participants).
+    3. Select a participant from the filtered list — the dropdown searches across **Agents**, **Pipelines**, **Toolkits** and **MCPs**.
+    4. The selected participant appears in the **PARTICIPANTS** panel.
 
-  <Tab title="# Symbol">
-    1. In the chat input box, type `#` to open a dropdown of frequently used participants.
-    2. Continue typing to filter by name (e.g., `#Jira` shows all Jira-related participants).
-    3. Select a participant from the list (e.g., `#Data Analysis Agent`, `#Jira Toolkit`).
-    4. The selected participant appears as a chip above the input box.
-    5. Type your message and click **Send**.
-
-    <img src="../../img/menus/chat/add-participants-search.gif" alt="Search participant" />
-  </Tab>
-
-  <Tab title="/ Toolkit Tool Mention">
-    Direct the AI to use a specific tool from an already-added toolkit or MCP by typing `/` in the chat input. This is a two-phase selection:
-
-    **Phase 1 — Select a Toolkit:**
-
-    1. Type `/` to open the **Mention toolkit** dropdown.
-    2. The dropdown lists all toolkits and MCPs already added as participants.
-    3. Continue typing to filter by name (e.g., `/Jira`).
-    4. Click a toolkit name, or type the full name and press `/` again to confirm.
-    5. The input updates to `/{ToolkitName}/` and the dropdown switches to available tools.
-
-    **Phase 2 — Select a Tool:**
-
-    6. The dropdown shows **"{ToolkitName} available tools"** with all exposed tools.
-    7. Continue typing after the second `/` to filter tools (e.g., `/Jira/create`).
-    8. Each tool shows its name and a short description.
-    9. Click the desired tool to confirm.
-    10. The mention is committed as `/{ToolkitName}/{ToolName}` with a cyan highlight.
-
-    <img src="../../img/menus/chat/mention-toolkit-tool.gif" alt="Mention Toolkit Tool" />
-
-    <Note>
-    The `/` mention works with both **Toolkits** and **MCP** participants already added to the conversation. If a toolkit or MCP does not appear, add it first via the **PARTICIPANTS** panel or by typing `#`. Misconfigured toolkits and MCPs are excluded until the issue is resolved.
-    </Note>
-
-    You can include multiple mentions in a single message:
-    ```
-    Please use /Jira/createIssue to create a new issue and then /GitHub/createPR to create a pull request.
-    ```
+    <img src="../../img/menus/chat/add-participants-search.gif" alt="Add participants" />
   </Tab>
 </Tabs>
 
+The `/` mention works with both **Toolkits** and **MCP** participants already added to the conversation. If a toolkit or MCP does not appear, add it first via the **PARTICIPANTS** panel or by typing `#`. Misconfigured toolkits and MCPs are excluded until the issue is resolved.
 
-### Creating New Participants from Chat
+You can include multiple mentions in a single message:
+```
+Please use /Jira/createIssue to create a new issue and then /GitHub/createPR to create a pull request.
+```
 
-You can create new participants directly from the chat interface:
+### Creating New Participants
 
-1. Click the **`+`** icon in the input toolbar.
-2. Hover over the relevant category (Agents, Pipelines, Toolkits, or MCPs).
-3. Click the **Create New {Type}** option at the bottom of the submenu.
+You can create new participants directly from the chat interface via the `+` menu:
+
+1. Select the **`+`** icon in the input toolbar.
+2. Hover over the relevant category (Agents, Pipelines, Toolkits or MCPs).
+3. Select the **Create New \{Type\}** option at the bottom of the submenu.
 4. The corresponding Canvas editor opens inline.
 
-* **Agents**: See [How to Create and Edit Agents from Canvas](./how-to-create-and-edit-agents-from-canvas).
-* **Pipelines**: See [How to Create and Edit Pipelines from Canvas](./how-to-create-and-edit-pipelines-from-canvas).
-* **Toolkits**: See [How to Create and Edit Toolkits from Canvas](./how-to-create-and-edit-toolkits-from-canvas).
-* **MCPs**: See [How to Create and Edit MCPs from Canvas](./how-to-create-and-edit-mcps-from-canvas).
+![Create New Participants](../../img/menus/chat/canvas-create.gif)
 
-<img src="../../img/menus/chat/canvas-create.gif" alt="Create New Participants" />
+The **PARTICIPANTS** panel shows one collapsible accordion per participant type — **Users**, **Agents**, **Pipelines**, **Toolkits** and **MCPs** — with the **Users** accordion shown only in team projects.
+
+![Create New Participants](../../img/menus/chat/manage-participants.gif)
+
+<Note title="Shared Toolkit Credentials">
+If a toolkit in your Chat uses shared credentials that are not yet configured in your Personal workspace, a **Misconfiguration errors found. Check the toolkit.** message appears on the toolkit card. Clicking **Check the toolkit** opens the toolkit in the Canvas editor, where the **Credential setup required** warning banner is displayed. Click the **Create a credential** link to create the matching credential. See [Shared Toolkit Credentials](./toolkits#shared-toolkit-credentials) for details.
+
+<img src="../../img/menus/chat/credentials-warning-chat.gif" alt="Credential setup required banner in Chat toolkit canvas editor" />
+</Note>
 
 
 ### Adding Users to a Conversation

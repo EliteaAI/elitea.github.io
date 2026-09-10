@@ -86,7 +86,7 @@ The message input toolbar is located at the bottom of the chat area. It includes
   </tbody>
 </table>
 
-#### Model Selection & Settings
+#### Models & ModelSettings
 
 In chat, you select the LLM model that responds to your messages using the **model selector dropdown** at the bottom of the chat.
 
@@ -310,89 +310,39 @@ Unlike conversation actions, all of **folder actions are restricted to the folde
 
 <img src="../img/menus/chat/chat_actions_folder.png" width="250" alt="." />
 
+### Participants Panel
 
-## Participants
+#### Participants
 
-Participants are additional resources that can be added to a conversation to extend its capabilities. The following types of participants are available:
+Participants are additional resources you can add to a conversation to extend its capabilities:
 
-<CardGroup cols={2}>
-  <Card title="Models" icon="microchip-ai">
-    LLM models added to the conversation to interact with Gen AI and get responses from the selected model.
+<CardGroup cols={3}>
+  <Card title="Agents" icon="robot">
+    Pre-configured automated workflows or specialized bots designed for specific tasks.
   </Card>
-  <Card title="Agents / Pipelines" icon="robot">
-    Agents or pipelines—created within the project or available as public resources—that can be executed to receive AI-driven responses.
+  <Card title="Pipelines" icon="diagram-project">
+    Multi-step automated processes that orchestrate agents and toolkits.
   </Card>
   <Card title="Toolkits" icon="toolbox">
-    Toolkits provide integrations with external services (e.g., Jira, GitHub, databases). Added toolkits appear in the **Participants** panel and can be targeted directly with the `/` mention.
+    Collections of tools and integrations (e.g., GitHub, Jira, Confluence) that extend chat capabilities.
   </Card>
   <Card title="MCPs" icon="server">
-    Model Context Protocol servers — EPAM pre-built or custom remote connections — that expose additional tools to the conversation.
-  </Card>
-  <Card title="Users" icon="user">
-    In team projects, other project members can be added to public conversations to collaborate, mention teammates with **@username**, or follow the conversation thread.
+    Pre-built or custom remote Model Context Protocol servers that expose additional tools to the conversation (e.g., Playwright, Figma).
   </Card>
 </CardGroup>
 
-<Info title="Note">
-Users cannot be added to private project conversations.
+You can add any combination of agents, pipelines, toolkits and MCPs to a conversation. ELITEA supports these actions on participants:
+
+* **Add**: Add a participant using the **`+`** button in the message input toolbar or the `#` mention in the chat input field.
+* **Edit or view settings**: Hover over a participant's card and select **Edit** on a toolkit's, pipeline's or agent's card to open it in the editor, or to view its settings if you do not have edit permission.
+* **Log out**: For a connected remote MCP participant, select the log-out icon on its card to disconnect your account.
+* **Remove**: Hover over a participant's card and select the remove icon to remove it from the conversation.
+
+You can also collapse the panel to an icon-only view using the arrow button in the panel header.
+
+<Info>
+For detailed information about working with participants, see [Working with Participants](../how-tos/chat-conversations/how-to-use-chat-functionality#working-with-participants).
 </Info>
-
-
-
-### Adding Participants (Agents, Pipelines, Toolkits, MCPs)
-
-You can add various AI participants to enhance your conversations:
-
-<Tabs>
-  <Tab title="Method 1: Using the + Button">
-    1. In the chat input toolbar, click the **`+`** icon (tooltip: *Add files, agents, toolkits and more…*).
-    2. A popup menu opens. Hover over the category you want:
-       - **Agents** — shows a searchable list of available agents
-       - **Pipelines** — shows a searchable list of available pipelines
-       - **Toolkits** — shows a searchable list of available toolkits (with a Public/Private toggle)
-       - **MCPs** — shows a searchable list of available MCP servers (with a Public/Private toggle)
-    3. Search by name in the submenu search box, then click a participant to add it.
-    4. The added participant appears in the **PARTICIPANTS** panel on the right side of the screen.
-    5. For **Agents** and **Pipelines**: clicking the participant in the panel activates it. An **AgentEditorPanel** strip appears above the input area showing the participant name, version selector, variables, and a settings button.
-
-    <img src="../img/menus/chat/add-participants-section.gif" alt="Add participants" />
-  </Tab>
-  <Tab title="Method 2: Using the # Symbol">
-    1. In the chat input box, type `#` to open a **Search results** dropdown of available participants.
-    2. Continue typing to filter by name (e.g., `#Jira` will show all Jira-related participants).
-    3. Select a participant from the filtered list — the dropdown searches across **Agents**, **Pipelines**, **Toolkits**, and **MCPs**.
-    4. The selected participant appears in the **PARTICIPANTS** panel.
-
-    <img src="../img/menus/chat/add-participants-search.gif" alt="Add participants" />
-  </Tab>
-</Tabs>
-
-### Creating New Participants
-
-You can create new participants directly from the chat interface via the `+` menu:
-
-1. Click the **`+`** icon in the input toolbar.
-2. Hover over the relevant category (Agents, Pipelines, Toolkits, or MCPs).
-3. Click the **Create New \{Type\}** option at the bottom of the submenu.
-4. The corresponding Canvas editor opens inline.
-
-![Create New Participants](../img/menus/chat/canvas-create.gif)
-
-
-**Managing Participants:**
-
-* Added participants are visible in the **PARTICIPANTS** panel on the right. The panel shows sections: **Users**, **Agents**, **Pipelines**, **Toolkits**, **MCPs** — each as a collapsible accordion.
-* To remove a participant, hover over their card in the panel and click the remove icon.
-* To switch the active agent or pipeline, click its card in the panel.
-* The panel can be collapsed to an icon-only view using the arrow button in the panel header.
-
-![Create New Participants](../img/menus/chat/manage-participants.gif)
-
-<Note title="Shared Toolkit Credentials">
-If a toolkit in your Chat uses shared credentials that are not yet configured in your Personal workspace, a **Misconfiguration errors found. Check the toolkit.** message appears on the toolkit card. Clicking **Check the toolkit** opens the toolkit in the Canvas editor, where the **Credential setup required** warning banner is displayed. Click the **Create a credential** link to create the matching credential. See [Shared Toolkit Credentials](./toolkits#shared-toolkit-credentials) for details.
-
-<img src="../img/menus/chat/credentials-warning-chat.gif" alt="Credential setup required banner in Chat toolkit canvas editor" />
-</Note>
 
 
 ## Display Configured Conversation Starter
@@ -631,13 +581,13 @@ In both private and team projects, you can [share a conversation with users outs
 
 
 
-## Communicating in the chat
+## Chat Responses and Outputs
 
 ### Clarifying questions
 
 ### Follow-up suggestions
 
-### Mentions
+
 
 
 
@@ -668,6 +618,11 @@ You can direct the AI to use a specific tool from an already-added toolkit by ty
 You can include multiple toolkit tool mentions in a single message, and they can be placed anywhere within the message. For example: `Please use /Jira/createIssue to create a new issue and then /GitHub/createPR to create a pull request.`
 
 Each mention is highlighted independently and sent to the AI as separate tool directives.
+
+You can include multiple mentions in a single message:
+```
+Please use /Jira/createIssue to create a new issue and then /GitHub/createPR to create a pull request.
+```
 
 <Note>
 The `/` mention works with both **Toolkits** and **MCP** participants that are already added to the conversation. If a toolkit or MCP does not appear in the dropdown, add it first via the **`+`** button in the input toolbar or by typing `#`. Toolkits and MCPs with misconfiguration errors are excluded from the dropdown until the configuration issue is resolved.
