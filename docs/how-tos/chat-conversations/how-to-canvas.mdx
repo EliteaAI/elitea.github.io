@@ -1,30 +1,15 @@
 ---
 title: "Use Canvas in Conversations"
-sidebarTitle: "Use Canvas"
-description: "Use Canvas to review, edit, and refine AI-generated code, tables, and diagrams directly in chat."
 ---
-
-This guide walks you through Canvas features, SDLC scenarios, and best practices. For related context, see the linked resources throughout.
-
-## In this guide, you will learn:
-
-* What Canvas is and the types of content it supports.
-* Step-by-step instructions for accessing and using Canvas.
-* A deep dive into the features of the Code, Table, and Diagram editors.
-* Practical, real-world scenarios for BAs, QAs, and AQAs.
-* Best practices and troubleshooting tips.
- 
-## What is Canvas?
-
 Canvas is a built-in editor that appears automatically when ELITEA generates code, tables, or [Mermaid](https://mermaid-js.github.io/) diagrams in a chat.
 
-### Key Benefits:
+**Key Benefits**
 
 * Instant Editing: Modify content on the fly, eliminating the need for external tools.
 * Version Control: Easily track changes with built-in undo/redo functionality.
 * Flexible Exporting: Save or copy your refined content in various formats suitable for documentation, code repositories, or reports.
 
-### Canvas supports four primary content types:
+### Content Types
 
 | **Content Type**   | **Description**                          | **Common Uses**                                      |
 |---------------------|------------------------------------------|-----------------------------------------------------|
@@ -34,7 +19,7 @@ Canvas is a built-in editor that appears automatically when ELITEA generates cod
 | **DOCX Files**      | For Word documents (.docx).              | Reports, specifications, documentation drafts.      |
 
  
-## Getting Started: Accessing and Using Canvas
+## Accessing and Using Canvas
 
 Using Canvas is a simple, three-step process.
  
@@ -65,7 +50,7 @@ Click the pencil icon to launch the Canvas editor for that content block.*
 
 Clicking the icon opens the Canvas editor in a modal window. Here, you can directly modify the content. 
 
-### Navigating the Canvas Interface
+### Canvas Interface
 
 All Canvas editors share a set of universal controls:
 
@@ -78,11 +63,11 @@ All Canvas editors share a set of universal controls:
  
 ![Canvas_Actions](../../img/how-tos/chat-conversations/canvas/Canvas_Actions.png)
 
-### A Deep Dive into Canvas Editors
+### Canvas Editors
 
 Let's explore the unique features of each editor and see how they apply in real-world situations.
 
-#### The Code Editor
+#### Code Editor
 
 **Perfect for developers, AQA engineers, and DevOps**
 
@@ -94,22 +79,33 @@ The Code Editor is a robust environment for refining AI-generated code snippets 
 * **Find/Replace**: Quickly locate and update variables, function names, or other text strings.
 * **Code Folding**: Collapse functions or classes to focus on a specific part of the code.
 
-![Canvas-code Edit](../../img/how-tos/chat-conversations/canvas/canvas_code.png)
+**How to Edit Code**
 
-**Real-World Example: Refining an AQA Test Script**
-   * **Role**: Sarah, an AQA Engineer.  
-   * **Goal**: Create a reliable Selenium test for a new checkout feature.
+1. Click the **Pencil** icon ✏️ next to a code block to open the Canvas Code Editor.
+2. The editor will display the code, and the currently selected code language will be shown.
+3. You can directly edit the code within this view.
+4. Use the following actions:
+   * **Copy to clipboard**: Click the copy icon to copy the entire code block.
+   * **Undo/Redo**: Click the respective icons to revert or reapply changes.
+   * **Save**: Click the **X** icon to save your changes and close the Canvas editor.
+
+<img src="../../img/menus/chat/canvas_code.png" alt="Canvas_Code_Editor" />
+
+<Accordion title="Real-World Example: Refining an AQA Test Script">
+* **Role**: Sarah, an AQA Engineer.
+* **Goal**: Create a reliable Selenium test for a new checkout feature.
 
 1. **Generate**: Sarah asks ELITEA: "Write a Selenium Python script to add an item to the cart and proceed to checkout."
 2. **Activate Canvas**: The AI generates a functional but basic script. Sarah clicks the ✏️ icon to open it in the Code Editor.
 3. **Refine in Canvas**:
-      * She adds explicit waits to handle slow-loading page elements, making the script more stable.
-      * She uses **Find/Replace** to change a generic variable name like `button` to a more descriptive name like `proceed_to_checkout_button`.
-      * She adds a `try/except` block for error handling, ensuring the test fails gracefully and provides useful logs.
-      * She adds comments to explain complex steps to her teammates.
+   * She adds explicit waits to handle slow-loading page elements, making the script more stable.
+   * She uses **Find/Replace** to change a generic variable name like `button` to a more descriptive name like `proceed_to_checkout_button`.
+   * She adds a `try/except` block for error handling, ensuring the test fails gracefully and provides useful logs.
+   * She adds comments to explain complex steps to her teammates.
 4. **Export**: Once satisfied, Sarah clicks **Export** and saves the file as `test_checkout.py`, ready to be committed to her team's automation framework.
+</Accordion>
 
-#### The Table Editor
+#### Table Editor
 
 **Ideal for Business Analysts, QA Analysts, and Project Managers.**  
 The Table Editor transforms simple Markdown tables into a powerful, spreadsheet-like interface for organizing and managing structured data.
@@ -121,23 +117,47 @@ The Table Editor transforms simple Markdown tables into a powerful, spreadsheet-
 * **Sorting and Filtering**: Quickly organize your data to find what you need.
 * **Import/Export**: Export your table to formats like XLSX (Excel) or Markdown.
 
-![canvas-table](../../img/how-tos/chat-conversations/canvas/canvas_table.png)
+**How to Edit Tables**
 
-**Real-World Example: Test Case Documentation**
+1. Click the **Pencil** icon ✏️ next to a table to open the Canvas Table Editor. Tables are presented in Markdown format within the editor but rendered as interactive tables.
+2. You can directly edit the table content and structure.
+3. Use the following actions:
+   * **Manual Editing**: Modify text directly in table cells and column headings.
+   * **Delete Rows**: Select the checkbox(es) next to the rows you wish to remove, then click the delete row icon.
+   * **Add Columns/Rows**: Click the **Add column** or **Add row** icons to expand the table.
+   * **Copy to clipboard**: Click the copy icon to copy the table data.
+   * **Import CSV**: Click the **Import table** icon to upload data from a CSV file.
+   * **Download as XLSX**: Click the **Download as xlsx** button to save the table data as an Excel file.
+   * **Undo/Redo**: Click the respective icons to revert or reapply changes.
+   * **Save**: Click the **X** icon to save your changes and close the Canvas editor.
 
-* **Role**: David (Business Analyst).  
-* **Goal**: Document test cases for a new user profile feature.  
+<img src="../../img/menus/chat/canvas_table.png" alt="Canvas_Table_Editor" />
+
+**Table Manipulations:**
+
+* **Sorting**: Click the sorting icons (e.g., ▲▼) next to each column heading to sort the data in ascending or descending order for that column.
+* **Filtering**: Click the **...** (ellipsis) icon next to a column heading and select the **Filter** option to apply filters to the data in that column.
+* **Hiding Columns**: Click the **...** (ellipsis) icon next to a column heading and select the **Hide column** option to remove the column from view.
+* **Column Resizing**: Drag the column borders to resize columns to your preferred width.
+* **Cell Editing**: Double-click any cell to edit its content directly within the table interface.
+
+<img src="../../img/menus/chat/canvas-table-filtering.gif" alt="Canvas_Table_Editor_Filtering" />
+
+<Accordion title="Real-World Example: Test Case Documentation">
+* **Role**: David (Business Analyst).
+* **Goal**: Document test cases for a new user profile feature.
 
 1. **Generate**: David asks ELITEA: "Create a test case table for editing a user profile."
 2. **Activate Canvas**: The AI generates a table with columns for ID, Step, and Expected Result. David clicks the ✏️ icon to open the table in Canvas.
 3. **Refine in Canvas**:
-      * David adds a new column called "Requirement ID" and populates it, linking each test case back to the original business requirements.
-      * He adds another column for "Priority" (High, Medium, Low) to categorize the test cases.
-      * Using the **Sort** feature, David organizes the table to display all "High" priority test cases first.
-      * He reviews the steps and updates the "Expected Result" column to ensure clarity and accuracy.
+   * David adds a new column called "Requirement ID" and populates it, linking each test case back to the original business requirements.
+   * He adds another column for "Priority" (High, Medium, Low) to categorize the test cases.
+   * Using the **Sort** feature, David organizes the table to display all "High" priority test cases first.
+   * He reviews the steps and updates the "Expected Result" column to ensure clarity and accuracy.
 4. **Export**: Once satisfied, David clicks **Export** and chooses XLSX. He now has a formatted spreadsheet to share with the testing team and stakeholders.
+</Accordion>
 
-#### The Mermaid Diagram Editor
+#### Mermaid Diagram Editor
 
 **A visual tool for Business Analysts, System Architects, and anyone needing to map processes.**  
 The Mermaid Diagram Editor allows you to edit the simple text-based syntax of a Mermaid diagram while seeing your changes rendered visually in real-time.
@@ -148,23 +168,33 @@ The Mermaid Diagram Editor allows you to edit the simple text-based syntax of a 
 * **Syntax Highlighting & Error Detection**: Quickly spots issues in your Mermaid code.
 * **Multiple Export Options**: Save your finished diagram as a PNG, JPG, or SVG image file.
 
-![Canvas-Mermaid](../../img/how-tos/chat-conversations/canvas/canvas_mermaid.png)
+**How to Edit Mermaid Diagrams**
 
-**Real-World Example: Visualizing a Business Process**
+1. Click the **Pencil** icon ✏️ next to a Mermaid diagram to open the Canvas Mermaid Diagram Editor.
+2. You can directly edit the Mermaid diagram code in the editor view.
+3. A live **Preview** of the diagram will be displayed below the editor, updating as you make changes to the code.
+4. Use the following actions:
+   * **Copy to clipboard**: Click the copy icon to copy the Mermaid diagram code.
+   * **Download**: Download the rendered diagram in JPG, PNG, or SVG formats using the respective download button.
+   * **Undo/Redo**: Click the respective icons to revert or reapply changes.
+   * **Save**: Click the **X** icon to save your changes and close the Canvas editor.
 
-* **Role**: Tom, a Business Analyst.  
+<img src="../../img/menus/chat/canvas_mermaid.png" alt="Canvas_Mermaid_Editor" />
+
+<Accordion title="Real-World Example: Visualizing a Business Process">
+* **Role**: Tom, a Business Analyst.
 * **Goal**: Create a clear flowchart for a new expense approval workflow to present to stakeholders.
 
 1. **Generate**: Tom asks ELITEA: "Generate a Mermaid flowchart for an employee submitting an expense report that needs manager approval."
 2. **Activate Canvas**: ELITEA provides a simple, linear flowchart. Tom opens it in Canvas.
 3. **Refine in Canvas**:
-      * Using the **Live Preview**, Tom adds a decision point: `If Amount > $500`.
-      * He adds two new paths from this decision: one for "Senior Manager Approval" and another back to the standard "Manager Approval."
-      * He adds styling to the "Rejected" end-state node to make it red, highlighting the negative path.
+   * Using the **Live Preview**, Tom adds a decision point: `If Amount > $500`.
+   * He adds two new paths from this decision: one for "Senior Manager Approval" and another back to the standard "Manager Approval."
+   * He adds styling to the "Rejected" end-state node to make it red, highlighting the negative path.
 4. **Export**: Happy with the visual, Tom clicks **Export** and saves the diagram as a PNG, ready to be inserted directly into his PowerPoint presentation.
+</Accordion>
 
-
-#### The DOCX Editor
+#### DOCX Editor
 
 **Ideal for Business Analysts, Technical Writers, and anyone working with Word documents.**  
 The DOCX Editor provides a full WYSIWYG editing experience for `.docx` files stored in Artifacts or attached to chat conversations. You can edit document content directly—no need to download, open in Word, and re-upload.
@@ -178,37 +208,40 @@ The DOCX Editor provides a full WYSIWYG editing experience for `.docx` files sto
 * **Save as DOCX**: Saving overwrites the original `.docx` file, preserving the Word format.
 * **Discard Changes**: Reset the editor to the last saved state at any time.
 
+**How to edit a DOCX file**
+
+1. Navigate to the **Artifacts** bucket (or open an attachment) containing your `.docx` file.
+2. Click the **View/Edit file icon** to open the file in the Canvas DOCX Editor.
+3. Edit the document content directly using the WYSIWYG editor and formatting toolbar.
+4. Use the **Zoom Control** to review the full-page layout before saving.
+5. Click **Save** — the updated file overwrites the original `.docx` in the bucket.
+
+<img src="../../img/how-tos/chat-conversations/canvas/docx-editor.gif" alt="Docx" width="680" />
+
 <Info title="DOCX Editor Limitations">
 - DOCX files are always edited in **WYSIWYG mode**. There is no Raw mode or language dropdown.
 - The DOCX Editor is only available for `.docx` files. Legacy `.doc` files are not editable.
 - The Canvas pencil icon (✏️) does **not** appear for DOCX files in chat — open DOCX files via the **View/Edit file icon** in Artifacts or chat attachments instead.
 </Info>
 
-**Real-World Example: Editing a Requirements Document**
-
-<Info title="Example">
-**Role**: Emma, a Business Analyst.  
-**Goal**: Update a requirements specification stored in Artifacts without leaving ELITEA.
+<Accordion title="Real-World Example: Editing a Requirements Document">
+* **Role**: Emma, a Business Analyst.
+* **Goal**: Update a requirements specification stored in Artifacts without leaving ELITEA.
 
 1. **Open**: Emma navigates to the Artifacts bucket containing `requirements_v2.docx` and clicks the **View/Edit file icon** to open it in Canvas.
 2. **Edit in Canvas**:
-    - She uses the formatting toolbar to update section headings and fix bullet list formatting.
-    - She adds a new acceptance criteria section directly in the WYSIWYG editor.
-    - She uses the zoom control to review the full-page layout before saving.
+   * She uses the formatting toolbar to update section headings and fix bullet list formatting.
+   * She adds a new acceptance criteria section directly in the WYSIWYG editor.
+   * She uses the zoom control to review the full-page layout before saving.
 3. **Save**: Emma clicks **Save** — the updated file overwrites the original `.docx` in the bucket.
 4. **Result**: The refreshed specification is immediately available to all team members with bucket access, without any download/upload cycle.
-
-<img src="../../img/how-tos/chat-conversations/canvas/docx-editor.gif" alt="Docx" width="680" />
-</Info>
-
+</Accordion>
 
 **Benefits:**
 
 - No need to download, edit in Microsoft Word, and re-upload
 - Changes are immediately visible to all team members with bucket access
 - Preserves native Word formatting and structure
-
----
 
 ### Tips and Best Practices
 
@@ -217,8 +250,7 @@ The DOCX Editor provides a full WYSIWYG editing experience for `.docx` files sto
 * **Use for Configuration Files**: The Code Editor is excellent for generating and refining YAML or JSON configuration files for CI/CD pipelines or application settings.
 * **Follow Team Standards**: Use Canvas to enforce your team’s coding and documentation conventions before exporting.
 
-
-### Troubleshooting Common Issues
+### Troubleshooting
 
 **Q: The Canvas pencil icon (✏️) isn't appearing.**  
 **A:** Ensure the AI-generated content is a properly formatted code block, Markdown table, or Mermaid diagram. If the format is incorrect, try re-phrasing your prompt to be more specific (e.g., "format the output as a Markdown table").
