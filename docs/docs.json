@@ -201,6 +201,7 @@
                   "how-tos/chat-conversations/data-analysis-internal-tool",
                   "how-tos/chat-conversations/agents-&-pipeline-builder",
                   "how-tos/modules/skill-builder",
+                  "how-tos/modules/project-context-builder",
                   "how-tos/chat-conversations/planner-internal-tool",
                   "how-tos/chat-conversations/python-sandbox-internal-tool",
                   "how-tos/chat-conversations/swarm-mode-internal-tool",
