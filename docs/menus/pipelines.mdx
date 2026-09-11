@@ -78,6 +78,101 @@ Pin frequently used pipelines to keep them at the top of your list for quick acc
 
 ---
 
+## Organize Pipelines into Folders
+
+Folders help you organize pipelines into logical groups for better navigation and management. You can create folders, move pipelines between folders, and control folder access within team projects.
+
+![Pipeline folder section](../img/menus/folders/folder-section.png)
+
+**Create a Folder:**
+
+1. In the **Pipelines** dashboard right panel, locate the **Folders** section.
+2. Select **+ Create Folder**.
+3. Enter a folder name (up to 128 characters).
+4. Select **Save**.
+
+     <img src="../img/menus/folders/folder-create.png" alt="Create folder" width="430" />
+
+**Move a Pipeline to a Folder:**
+
+1. **Hover over a Pipeline card:** A "Move to folder" icon (folder with arrow) appears on the card.
+2. **Click the folder icon:** Opens a menu with folder options.
+3. **Select a folder from the list:** The menu displays:
+   - **+ Create Folder** option at the top
+   - A scrollable list of existing folders
+   - Pinned folders are marked with a pin icon
+   - The current folder (if any) is highlighted and marked with a checkmark
+4. The Pipeline is moved to the selected folder.
+
+    <img src="../img/menus/folders/add-to-folder.png" alt="Add to folder" width="430" />
+
+**View Folder Contents:**
+
+Click any folder in the Folders panel to filter the pipelines list to show only pipelines in that folder. The folder name appears in the header, and the pipelines count updates to reflect the filtered view. Click **X** to close the folder view and return to the full list.
+
+    <img src="../img/menus/pipeline/folder-content.png" alt="Folder content" />
+
+**Manage Folders:**
+
+Each folder card in the right panel has a three-dot menu (⋮) with the following options:
+    <img src="../img/menus/folders/folder-actions.png" alt="Folder actions" width="200" />
+| Action | Description |
+| --- | --- |
+| **Rename** | Change the folder name |
+| **Pin to top** | Pin the folder to the top of the folders list |
+| **Delete** | Permanently remove the folder (pipelines inside are moved back to the main list, not deleted) |
+| **Manage Access** *(Team projects only)* | Control which team members can view the folder |
+
+**Remove a Pipeline from a Folder:**
+
+1. Open the pipeline card's three-dot menu (⋮).
+2. Select **Remove from Folder**.
+3. The pipeline returns to the main pipelines list and the folder icon is removed from its card.
+
+<Note>
+Folders are available in team and personal projects. In team projects, folder access can be restricted to specific users. The Public project does not support folders.
+</Note>
+
+### Folder Permission Management
+
+In team projects, you can control which users can view and modify specific folders by setting permission exceptions. By default, users retain the permissions granted by their project roles. Permission exceptions can only restrict access.
+
+**Access Folder Permissions:**
+
+1. In the **Pipelines** dashboard right panel, locate the folder in the **Folders** list.
+2. Select the folder's three-dot menu (⋮).
+3. Select **Manage Access**.
+4. The Manage Permissions dialog opens.
+    <img src="../img/menus/folders/folder-permissions-open.png" alt="Folder permissions open" width="500" />
+
+**Add Permission Exceptions:**
+
+1. In the Manage Permissions dialog, select **+ Add Exception**.
+2. Search for and select one or more users from the project.
+3. Choose a permission level: **Read-only** or **No access**.
+4. Select **Add**. The selected users are added to the permissions table.
+
+    <img src="../img/menus/folders/folder-add-exceptions.png" alt="Folder add exceptions" width="500" />
+
+**Permission Levels:**
+
+| Permission Level | Description |
+| --- | --- |
+| **Read/write (default)** | User can view folder contents and modify folder settings |
+| **Read-only** | User can view folder contents but cannot modify folder settings or move pipelines |
+| **No access** | User cannot see the folder or its contents |
+
+**Edit Permission Exceptions:**
+
+- To modify an existing exception, locate the user in the permissions table and select the **Edit** (pencil) icon in the Actions column. Change the permission level to your desired setting and select **Save**.
+- To remove an exception and return the user to default permissions, change the permission level to **Read/write (default)**. When saved, the user is removed from the exceptions table and inherits permissions based on their project role.
+
+<Note>
+Permission exceptions apply only to the folder itself. Users with no access to a folder cannot see it in their folders list or view its contents.
+</Note>
+
+---
+
 ## Creating a Pipeline
 
 The pipeline creation flow follows a **two-phase approach**: first you provide the pipeline metadata and save, then the full editor environment — including the Flow/YAML designer, tools, and the embedded test chat — becomes available.
@@ -585,7 +680,7 @@ The `input_attachments` state variable is fully managed by the platform. It is a
 
 ---
 
-## Managing Pipeline Versions: Save, Create Versions, and Manage
+## Managing Pipeline Versions
 
 To optimally manage your pipeline, understanding how to save and create versions is crucial. Follow these guidelines to efficiently save your pipeline, create versions, and manage them.
 
@@ -598,29 +693,32 @@ To optimally manage your pipeline, understanding how to save and create versions
 The "**base**" version represents the initial version you create. You can keep updating this version with your changes by saving them, without the need to create additional versions for your pipeline.
 </Info>
 
-### How to Create New Versions:
+### How to Create New Versions
 
-For instances where you need to create and manage different iterations of your Pipeline:
+Pipelines support versioning, allowing you to maintain multiple iterations of a Pipeline without disrupting other pipelines or agents that reference it as a tool. Every Pipeline has a base version, and you can create additional named versions to test changes, iterate on improvements, or maintain different variants for different use cases.
 
-1. **Initiate a New Version**: Start by clicking the **Save As Version** button.
-2. **Name Your Version**: When saving your work, provide a version name that clearly identifies the iteration or changes made.
-3. Click **Save** to confirm your entry. 
+**Key Version Concepts:**
 
-     <img src="../img/menus/pipeline/pipeline-save-version.gif" alt="Pipeline New Version" />
+- **base version**: The always-present initial version of every Pipeline, created the first time you click **Save**. Cannot be deleted.
+- **Named versions**: Additional versions you create with **Save As Version** (for example, "v2", "updated-for-api-v3"). Each must have a unique name within the Pipeline.
+- **Version selector**: The **Version** dropdown in the pipeline toolbar that lists all versions of the Pipeline so you can switch between them.
+
+**Common Version Operations:**
+
+| Operation | How to Access | Description |
+|-----------|---------------|-------------|
+| **Create version** | **Save As Version** button in toolbar | Save current changes as a new named version |
+| **Switch versions** | **Version** dropdown in toolbar | Navigate between existing versions to view or edit |
+| **Execute** | **Execute** action on a version | Run that specific version of the Pipeline |
+| **Delete version** | **Delete** action on a version | Remove a version that is no longer needed |
+
+<img src="../img/menus/pipeline/version-selector.png" alt="Pipeline New Version" />
 
 <Tip title="Best Practices for Version Naming">
-* **Length**: Keep the version name concise, not exceeding 48 characters. This ensures readability and compatibility across various systems.
-* **Characters**: Avoid using special characters such as spaces (" "), underscores ("_"), and others that might cause parsing or recognition issues in certain environments.
-* **Clarity**: Choose names that clearly and succinctly describe the version's purpose or the changes it introduces, facilitating easier tracking and management of different versions.
+- **Length**: Keep the version name concise, not exceeding 48 characters, for readability and compatibility across systems.
+- **Characters**: Avoid special characters such as spaces (" ") and underscores ("_") that might cause parsing issues in some environments.
+- **Clarity**: Choose names that clearly describe the version's purpose or the changes it introduces, for easier tracking and management.
 </Tip>
-
-Upon creating a new version of the Pipeline, several options become available to you:
-
-* **Delete**: Remove this version of the Pipeline if it's no longer needed.
-* **Execute**: Run this specific version of the Pipeline to see how it performs.
-* **Navigate Versions**: Use the **Version** dropdown list to switch between and select different versions of the Pipeline. This allows for easy comparison and management of various iterations.
-
-By following these steps, you can effectively manage the lifecycle and iterations of your pipelines, ensuring that each version is appropriately saved and utilized as per your requirements.
 
 <Info title="Full Versioning Guide">
 For detailed information on version management, naming conventions, and best practices, see the **[Entity Versioning guide](../how-tos/agents-pipelines/entity-versioning)**.
@@ -731,8 +829,17 @@ The **Information** accordion at the bottom of the left panel provides read-only
 | **Version ID** | The unique identifier for the currently selected version. Click the copy icon to copy it. |
 | **Forked from** | Visible only if this pipeline was forked. Displays the name of the original pipeline with a clickable link. The link is disabled if you do not have permission to view the source project. |
 | **Pipeline** | A **Show** link that opens a read-only preview of the pipeline flow diagram in a modal. |
+| **Trigger type** | Visible only when the entry point uses the **Schedule** trigger. Shows `Schedule`. |
+| **Cron expression** | Visible only when the entry point uses the **Schedule** trigger. Shows the configured cron expression. |
+| **Timezone** | Visible only when the entry point uses the **Schedule** trigger. Shows the timezone used to calculate run times. |
+| **Last run** | Visible only when the entry point uses the **Schedule** trigger. Shows the timestamp of the most recent scheduled execution. |
+| **Next run** | Visible only when the entry point uses the **Schedule** trigger. Shows the timestamp of the next scheduled execution, calculated from the cron expression, timezone, and current date and time. Refreshes after the schedule is updated, turned on or off, or the pipeline executes. |
 
 ![INFORMATION](../img/menus/pipeline/pipeline-information-section.png)
+
+<Note>
+For details on configuring the Schedule trigger, see [Schedule](../how-tos/pipelines/entry-point#schedule).
+</Note>
 ---
 
 ## Best Practices
