@@ -457,6 +457,29 @@ Each sensitive tool invocation is reviewed independently. Authorizing one call d
 For detailed information about how the guardrail works, configuration options, and pipeline behavior, see [Sensitive Action Authorization Guardrail](../how-tos/chat-conversations/sensitive-action-authorization-guardrail).
 </Info>
 
+### Chat-Generated Entities
+
+When an agent or pipeline generates an **Agent**, **Pipeline**, **Toolkit**, **MCP**, **Skill** or **Project Context** in a chat message, ELITEA automatically opens it in the Canvas side-by-side with the chat main area:
+
+<img src="../img/menus/chat/chat_generated-open-in-canvas.png" alt="." />
+
+All entities open in the matching editor with the generated content pre-filled. You can review and refine your agent, skill or other generated entity before saving it to your project.
+
+If ELITEA generated several entities in a single message, they are opened in separate tabs in the Canvas area. You can switch between them using the tabs at the top of the Canvas:
+
+<video src="../img/menus/chat/chat_canvas-two-tabs.mp4" controls></video>
+
+Besides opening in Canvas, generated entities are displayed as chips in the chat message. You can interact with it directly from the chat:
+
+* Hover over the chip to reveal the **Edit** and **Delete** icons.
+* Select **Edit** to open the entity in its matching editor (Agent, Pipeline, Toolkit, Skill or Project Context editor) in a Canvas-side tab, where you can review and refine it before saving.
+* Select **Delete** to discard the generated entity without creating it.
+
+<Info>
+MCPs do not have a separate chip type — a generated MCP is a Toolkit definition, shown with the MCP icon on its chip and opened in the same Toolkit editor.
+</Info>
+
+
 ## Troubleshooting
 
 <Accordion title="Conversation Not Loading">
