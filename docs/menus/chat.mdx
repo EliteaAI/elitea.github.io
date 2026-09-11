@@ -196,7 +196,7 @@ You can attach files and images directly to chats for AI-powered analysis. This 
     Attach documents for content indexing, semantic search, and information retrieval.
   </Card>
   <Card title="Data files" icon="table">
-    Upload CSV, JSON, and other data formats for dataprocessing.
+    Upload CSV, JSON, and other data formats for data processing.
   </Card>
 </CardGroup>
 
@@ -249,7 +249,7 @@ Modules enhance your chats without requiring external integrations.
 | [Swarm Mode](../how-tos/chat-conversations/swarm-mode-internal-tool) | Enable multi-agent collaboration by sharing the full conversation history and control between agents. |
 | [Smart Tools Selection](../how-tos/chat-conversations/smart-tools-selection-internal-tool) | Reduce token usage when working with many toolkits by using meta-tools instead of binding all tools directly. Recommended when your conversation uses 5 or more toolkits. |
 
-Default modules are configured by project administarators [General Settings → Default Modules](./settings/general#default-modules).
+Default modules are configured by project administrators in [General Settings → Default Modules](./settings/general#default-modules).
 
 All team members can turn a module on or off for their own chats or agents at any time, regardless of the project default.
 
@@ -282,7 +282,9 @@ By default, conversations are organized by time period:
 | **This Week** | Conversations from the current week are grouped together. |
 | **Older** | All conversations older than this week are grouped under this section. |
 
-This automatic time-based sorting helps you quickly locate recent conversations. 
+This automatic time-based sorting helps you quickly locate recent conversations.
+
+<img src="../../img/menus/chat/chat_chats-sidebar.png" width="250" alt="The CHATS sidebar with conversations grouped into Today, Yesterday, This Week, and Older." />
 
 **Pinned conversations** will always appear at the very top, regardless of their creation date.
 
@@ -315,7 +317,7 @@ In the **CHATS** sidebar, you can perform these actions from the conversation's 
   <img src="../img/menus/chat/chat_actions_chat_public-project.png" alt="Conversation actions menu in a team project" style={{ width: "32%" }} />
 </div>
 
-Unlike conversation actions, all of **folder actions are restricted to the folder's creator** and, in team projects, also require the corresponding folder permission:
+Unlike conversation actions, all **folder actions are restricted to the folder's creator** and, in team projects, also require the corresponding folder permission:
 
 * **Rename**: Select **Rename** in the folder contextual menu, update the folder name and click the **✔** button to save your changes.
 * **Pin/Unpin**: Select **Pin on top** in the folder contextual menu to keep the folder at the top of the **CHATS** sidebar for quicker access. Select **Unpin** to remove it from the top.
@@ -361,7 +363,7 @@ For detailed information about working with participants, see [Working with Part
 
 #### Users
 
-In team projects, you can invite exact members of your team to cooperate in the conversation. These users are invited from the **+** button in the message input toolbar and are listed in the **PARTICIPANTS** panel as Users:
+In team projects, you can invite specific members of your team to collaborate in the conversation. These users are invited from the **+** button in the message input toolbar and are listed in the **PARTICIPANTS** panel as Users:
 
 <img src="../img/menus/chat/chat_participants_users.png" width="250" alt="The PARTICIPANTS panel showing users invited to a team project conversation." />
 
@@ -375,7 +377,7 @@ Once a user is added to the conversation, you can mention them by hovering over 
 
 #### Context Budget
 
-**Context Budget** widget displays real-time token usage metrics and allows you to configure how the system manages conversation context as it approaches model token limits.
+The **Context Budget** widget displays real-time token usage metrics and allows you to configure how the system manages conversation context as it approaches model token limits.
 
 **Key Features**
 
@@ -420,7 +422,7 @@ For detailed information about Context Budget configuration and usage, see [Cont
 
 ## Conversation & Folder Visibility
 
-Visibility and access rules for conversations and folders depend on what type of your project  — private or team.
+Visibility and access rules for conversations and folders depend on your project type — private or team.
 
 **Private Project**
 
@@ -434,7 +436,7 @@ In a private project, only you can see, access and manage any conversations and 
 Team projects support shared collaboration with configurable visibility per conversation and folder.
 
 * **Folders**: All folders in the project are visible to all team members.
-* **Conversations**: Conversations are only visible to you if you are added to it as a participant (= conversation member).
+* **Conversations**: A conversation is only visible to you if you are added to it as a participant (= conversation member).
 * **Public Conversations**: Conversations can be marked as public — visible and interactable by all project members.
 * **Moving Conversations**: Members can use **Move To** or **Back to the list** to organize conversations across folders.
 * **Folder Permissions**: You cannot delete folders created by other users.
@@ -450,7 +452,7 @@ In both private and team projects, you can [share a conversation with users outs
 
 Beyond plain text responses, ELITEA can ask you clarifying questions, suggest follow-up messages, and open entities directly from a chat response.
 
-### Clarifying questions
+### Clarifying Questions
 
 When you turn on the **Ask User** module for your conversation in chat or an agent, LLM can pause and ask you one or more clarifying questions instead of guessing. These clarifying questions are shown as a card in the chat:
 
@@ -470,7 +472,7 @@ Your answers are sent directly back to the conversation or agent to resume its r
 For detailed information, see [Ask User](../how-tos/modules/ask-user.mdx).
 </Info>
 
-### Follow-up suggestions
+### Follow-up Suggestions
 
 After a response, ELITEA can automatically suggest possible next messages, shown as clickable chips below the last message:
 
@@ -484,7 +486,7 @@ Follow-up suggestions are controlled by your ELITEA administrator and are only g
 
 ### Conversation Starters
 
-When you add a participant to a conversation, the configured conversation starter for that participant will be automatically displayed in the chat. This will provide you the immediate context and guide you on how to interact with each participant.
+When you add a participant to a conversation, the configured conversation starter for that participant will be automatically displayed in the chat. This will provide you with the immediate context and guide you on how to interact with each participant.
 
 <img src="../img//menus/chat/conversation-starter.gif" alt="Conversation Starter" />
 
@@ -512,7 +514,7 @@ If ELITEA generated several entities in a single message, they are opened in sep
 
 <video src="../img/menus/chat/chat_canvas-two-tabs.mp4" controls></video>
 
-Besides opening in Canvas, generated entities are displayed as chips in the chat message. You can interact with it directly from the chat:
+Besides opening in Canvas, generated entities are displayed as chips in the chat message. You can interact with them directly from the chat:
 
 * Hover over the chip to reveal the **Edit** and **Delete** icons.
 * Select **Edit** to open the entity in its matching editor (Agent, Pipeline, Toolkit, Skill or Project Context editor) in a Canvas-side tab, where you can review and refine it before saving.
@@ -546,7 +548,7 @@ Check that you have selected a valid LLM model and that your project has access 
 </Accordion>
 
 <Accordion title="Context Budget Issues">
-Ensure the `context_manager` secret is set to `true` in Settings → Secrets. Check that you've sent at least one message for the widget to appear.
+Ensure the `context_manager` secret is set to `true` in **Settings** > **Secrets**. Check that you've sent at least one message for the widget to appear.
 </Accordion>
 
 <Accordion title="Canvas Editor Not Opening">
@@ -558,7 +560,7 @@ Ensure the recipient has access to the team project and appropriate permissions.
 </Accordion>
 
 <Accordion title="Voice Input Not Working">
-- **Microphone icon is hidden**: No server-side ASR model is configured and your browser does not support the Web Speech API. Check your browser compatibility or ask your administrator to configure an ASR model in **Settings → AI Configuration**.
+- **Microphone icon is hidden**: No server-side ASR model is configured and your browser does not support the Web Speech API. Check your browser compatibility or ask your administrator to configure an ASR model.
 - *"Microphone access denied."*: Allow microphone access in your browser settings and reload the page.
 - *"No microphone found."*: Connect a microphone and try again.
 - *"Voice input requires an internet connection."*: A network error occurred during server-side transcription. Check your connection and try again.
@@ -567,10 +569,10 @@ Ensure the recipient has access to the team project and appropriate permissions.
 For further assistance, contact your platform administrator.
 
 
-<Info title="Additional Resources">
-Explore these comprehensive guides to master ELITEA Chat features:
+<Info title="See Also">
+See also:
 
-* [Sensitive Action Authorization Guardrail](../how-tos/chat-conversations/sensitive-action-authorization-guardrail) — Understand how the guardrail pauses conversations for human approval before sensitive tool actions are executed.
+* [Sensitive Action Authorization Guardrail](../how-tos/chat-conversations/sensitive-action-authorization-guardrail)
 * [How to Create and Edit Agents from Canvas](../how-tos/chat-conversations/how-to-create-and-edit-agents-from-canvas)
 * [How to Create and Edit Pipelines from Canvas](../how-tos/chat-conversations/how-to-create-and-edit-pipelines-from-canvas)
 * [How to Create and Edit Toolkits from Canvas](../how-tos/chat-conversations/how-to-create-and-edit-toolkits-from-canvas)
