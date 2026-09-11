@@ -174,9 +174,7 @@ You can share a conversation with people outside ELITEA through a secure, read-o
 
 ELITEA copies the link to your clipboard and displays it in the dialog.
 
-<video controls width="100%" aria-label="Share conversation externally.">
-  <source src="../../img/how-tos/chat-conversations/share-external.mp4" type="video/mp4" />
-</video>
+<video src="../../img/how-tos/chat-conversations/share-external.mp4" controls alt="Video demonstrating how to share a conversation externally."></video>
 
 <Warning>
 Anyone with the link can view the shared content. Do not share a link for a conversation that contains sensitive information.
@@ -255,7 +253,7 @@ The **PARTICIPANTS** panel shows one collapsible accordion per participant type 
 ![Create New Participants](../../img/menus/chat/manage-participants.gif)
 
 <Note title="Shared Toolkit Credentials">
-If a toolkit in your Chat uses shared credentials that are not yet configured in your Personal workspace, a **Misconfiguration errors found. Check the toolkit.** message appears on the toolkit card. Clicking **Check the toolkit** opens the toolkit in the Canvas editor, where the **Credential setup required** warning banner is displayed. Click the **Create a credential** link to create the matching credential. See [Shared Toolkit Credentials](./toolkits#shared-toolkit-credentials) for details.
+If a toolkit in your Chat uses shared credentials that are not yet configured in your Personal workspace, a **Misconfiguration errors found. Check the toolkit.** message appears on the toolkit card. Clicking **Check the toolkit** opens the toolkit in the Canvas editor, where the **Credential setup required** warning banner is displayed. Click the **Create a credential** link to create the matching credential. See [Shared Toolkit Credentials](../../menus/toolkits#shared-toolkit-credentials) for details.
 
 <img src="../../img/menus/chat/credentials-warning-chat.gif" alt="Credential setup required banner in Chat toolkit canvas editor" />
 </Note>
@@ -357,7 +355,7 @@ You can direct the AI to use a specific tool from an already-added toolkit by ty
 9. Click the desired tool to confirm the selection.
 10. The mention is committed to the input as `/{ToolkitName}/{ToolName}` with a cyan highlight and a trailing space so you can continue typing your message.
 
-<img src="../img/menus/chat/mention-toolkit-tool.gif" alt="Mention Toolkit Tool" />
+<img src="../../img/menus/chat/mention-toolkit-tool.gif" alt="Mention Toolkit Tool" />
 
 You can include multiple toolkit tool mentions in a single message, and they can be placed anywhere within the message. For example: `Please use /Jira/createIssue to create a new issue and then /GitHub/createPR to create a pull request.`
 
@@ -714,12 +712,12 @@ Chat includes voice input and voice output capabilities that let you speak your 
 The **Send** button is disabled while recording is active. Stop recording before sending.
 </Info>
 
-   ![Voice Input](../img/menus/chat/voice-input.gif)
+   ![Voice Input](../../img/menus/chat/voice-input.gif)
 
 <Note>
 **ASR model selection.** ELITEA selects the best available speech recognition source in the following priority order:
 
-1. **Server-side Realtime/Streaming ASR model** (default model first, if configured in [Settings → AI Configuration → Speech Recognition](./settings/ai-configuration#speech-recognition-asr))
+1. **Server-side Realtime/Streaming ASR model** (default model first, if configured in [Settings → AI Configuration → Speech Recognition](../../menus/settings/ai-configuration#speech-recognition-asr))
 2. **Server-side Whisper ASR model** (default model first — batch transcription with slightly higher latency)
 3. **Browser Web Speech API** (built-in browser fallback, no server configuration required)
 4. **Microphone icon hidden** — if none of the above is available, the button is not shown
@@ -740,10 +738,10 @@ If an administrator has temporarily disabled voice features, the microphone icon
    - A **Voice settings (⚙)** gear icon (tooltip: *Voice settings*) — opens the Voice Settings dialog. Disabled while playback is active.
 3. To restart playback after stopping, click the **Play (▶)** button that replaces the Stop button in the pill.
 
-   ![Text-to-Speech](../img/menus/chat/text-to-speech.gif)
+   ![Text-to-Speech](../../img/menus/chat/text-to-speech.gif)
 
 <Note>
-When a TTS model is configured in [**Settings → AI Configuration → Text to Speech (TTS)**](./settings/ai-configuration#text-to-speech-tts), ELITEA uses that model for audio generation. If no TTS model is configured, playback uses the browser's built-in SpeechSynthesis API as a fallback.
+When a TTS model is configured in [**Settings → AI Configuration → Text to Speech (TTS)**](../../menus/settings/ai-configuration#text-to-speech-tts), ELITEA uses that model for audio generation. If no TTS model is configured, playback uses the browser's built-in SpeechSynthesis API as a fallback.
 </Note>
 
 **Voice Settings:**
@@ -759,7 +757,7 @@ Click the **⚙** gear icon in the playback pill (only available when playback i
 
 Click **Apply** to save, or **Cancel** to discard changes.
 
-   ![Text-to-Speech](../img/menus/chat/voice-settings.gif)
+   ![Text-to-Speech](../../img/menus/chat/voice-settings.gif)
 
 
 <Tip title="Global voice preferences">
