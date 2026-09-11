@@ -12,6 +12,69 @@ description: "Execution Nodes enable your pipeline to perform actions, call exte
 
 ---
 
+## Tool Outcome
+
+Every tool-executing node (Toolkit, MCP) writes a typed outcome into pipeline state beside its normal output. This removes the need to parse the message history to determine whether a tool call failed.
+
+### New Pipeline State Keys
+
+| Key | Shape | Meaning |
+|-----|-------|---------|
+| **last_tool_outcome** | One outcome object | The most recent tool node's outcome |
+| **tool_outcomes** | `{ node_id: outcome }` | One entry per node that ran, merged across the run |
+
+<Warning title="Add These State Variables Manually">
+Unlike `input` and `messages`, `last_tool_outcome` and `tool_outcomes` are not added to the pipeline's `state` section automatically. Add them yourself before referencing them elsewhere in the pipeline. See **[Pipeline States](../states)** for how to manage state variables.
+
+```yaml
+state:
+  last_tool_outcome:
+    type: dict
+    value: {}
+  tool_outcomes:
+    type: dict
+    value: {}
+```
+</Warning>
+
+<Note>
+Both keys are cleared at the start of every turn, so a previous turn's failure cannot leak into a condition. Re-entering a node (a loop) overwrites that node's entry.
+</Note>
+
+### Outcome Object
+
+| Field | Values | Use It For |
+|-------|--------|------------|
+| **status** | `success` \| `error` \| `truncated` \| `blocked` | The one field to branch on |
+| **error_class** | `infrastructure` \| `input` \| `tool_internal` \| `policy` \| `null` | What kind of failure occurred |
+| **retriable** | `true` \| `false` | `true` only for infrastructure failures — retrying identical input could work |
+| **message** | Prose | The same human/LLM-facing text as before (capped at 4000 characters) |
+| **tool_name**, **toolkit_type** | String \| `null` | Which tool failed |
+| **exception_type** | Class name \| `null` | For example, `ReadTimeout`, `ValueError` — never a traceback |
+| **message_truncated**, **message_original_size** | Present only when the message was capped | Detect and inspect truncated messages |
+
+**Example: Routing on Tool Outcome**
+
+```yaml
+nodes:
+  - id: call_api
+    type: toolkit
+    # ...
+    transition: check_outcome
+
+  - id: check_outcome
+    type: decision
+    condition: "{{ last_tool_outcome.status == 'error' and last_tool_outcome.retriable }}"
+    if_true: retry_call
+    if_false: continue_flow
+```
+
+<Tip title="Branch on error_class, not on message text">
+Use `last_tool_outcome.status` and `last_tool_outcome.error_class` to route pipeline logic. Avoid matching on `message` text, since prose wording can change between tool versions.
+</Tip>
+
+---
+
 ## Toolkit Node
 
 The Toolkit Node executes specific tools from ELITEA Toolkits with direct parameter mapping. It provides fast, deterministic execution without LLM overhead, making it ideal for scenarios where you know exactly which tool to call and how to configure its parameters.

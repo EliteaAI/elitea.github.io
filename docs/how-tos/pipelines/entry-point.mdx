@@ -91,6 +91,10 @@ When a node is the entry point, a **Trigger** dropdown appears inside the node b
 Schedule and Webhook triggers are unavailable when the pipeline contains HITL nodes, Printer nodes, or interrupt configurations. Only Chat Message is available for interactive pipelines.
 </Note>
 
+<Warning title="OAuth Toolkits Disable All Triggers">
+If the pipeline includes a toolkit that requires OAuth authorization (for example, Azure SharePoint Delegated, or an MCP toolkit configured with OAuth), all trigger options in the Trigger dropdown are currently disabled, not only Schedule and Webhook. Only the Chat Message trigger is guaranteed to work for such pipelines.
+</Warning>
+
 ### Chat Message
 
 The default trigger. The pipeline runs each time a user sends a message in a chat session.
@@ -103,19 +107,36 @@ The default trigger. The pipeline runs each time a user sends a message in a cha
 ### Schedule
 
 The pipeline runs automatically at a defined time using a cron expression.
-
 Selecting **Schedule** opens a configuration modal with two modes:
 
 | Mode | Description |
 |------|-------------|
-| **Default** | Visual cron builder — select minute, hour, day, month, and weekday fields interactively |
-| **Advanced** | Enter a raw cron expression manually |
+| **Builder** | Visual cron builder — choose a **Day**, **Week**, or **Month** frequency and configure the corresponding fields interactively |
+| **Cron Expression** | Enter a raw cron expression manually |
 
 - Default cron expression: `0 0 * * 6` (every Saturday at midnight)
 - Timezone is automatically detected from your browser settings
 - Cron format: `minute – hour – day (month) – month – day (week)`
 
-![Schedule Trigger](../../img/how-tos/agents-pipelines/pipeline-building-blocks/entry-point/schedule-type.gif)
+![Schedule Trigger](../../img/how-tos/agents-pipelines/pipeline-building-blocks/entry-point/schedule-type.png)
+
+**Schedule Information:**
+
+Once a schedule is configured, the pipeline's **INFORMATION** accordion (in the left panel) displays:
+
+| Field | Description |
+|-------|-------------|
+| **Trigger** | Shows `Schedule` |
+| **Schedule** | The configured cron expression |
+| **Timezone** | The timezone used to calculate run times |
+| **Last run** | Timestamp of the most recent scheduled execution |
+| **Next run** | Timestamp of the next scheduled execution, calculated from the cron expression, timezone, and current date and time |
+
+![Schedule Information](../../img/how-tos/agents-pipelines/pipeline-building-blocks/entry-point/schedule-info.png)
+
+<Note>
+Next run information refreshes automatically after you update the schedule, turn it on or off, or the pipeline executes. See [INFORMATION](../../menus/pipelines#information) for the full list of fields shown in this accordion.
+</Note>
 
 
 ### Webhook
