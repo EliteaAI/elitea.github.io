@@ -358,23 +358,9 @@ Unlike Agents, Pipelines, Toolkits and MCPs, Users are not added to a conversati
 
 Once a user is added to the conversation, you can mention them by hovering over their card and selecting **Mention**, or by typing `@` followed by their name in the chat input. This inserts an `@username` mention and addresses that user directly.
 
-## Context Budget
+#### Context Budget
 
-The **Context Budget** widget provides intelligent control over conversation token usage through automated message management. When enabled, it displays real-time token usage metrics and allows you to configure how the system manages conversation context as it approaches model token limits.
-
-**Widget Location**
-
-The Context Budget widget appears in the bottom-left area of the **PARTICIPANTS** panel on the right side of the chat interface after you send the first message in a conversation.
-
-<img src="../img/how-tos/chat-conversations/context-management/chat-context-budget.gif" alt="Chat Context Budget" width="600" />
-
-**Widget Views**
-
-The widget has three views that provide progressively more detailed information:
-
-* **Collapsed View**: Shows a simple line indicator of token usage status (green for normal, orange for high usage)
-* **Compact View**: Displays pruning strategy, message count, summaries count, and an expand button
-* **Expanded View**: Provides comprehensive configuration options organized in collapsible sections
+**Context Budget** widget displays real-time token usage metrics and allows you to configure how the system manages conversation context as it approaches model token limits.
 
 **Key Features**
 
@@ -385,15 +371,37 @@ The widget has three views that provide progressively more detailed information:
 * **Message Preservation**: Configure how many recent messages are always protected from pruning
 * **Summarization**: Enable automatic summarization of older messages to reduce token usage while preserving conversation context
 
+**Location and Views**
+
+The widget appears in the bottom-left area of the **PARTICIPANTS** panel after you send the first message in a conversation.
+
+<img src="../img/how-tos/chat-conversations/context-management/chat-context-budget.gif" alt="Chat Context Budget" width="600" />
+
+The widget has three views that provide progressively more detailed information:
+
+* **Collapsed view**: Shows a simple line indicating the token usage status (green for normal, orange for high usage)
+
+  <img src="../img/menus/chat/chat_context-budget_collapsed.png" alt="." />
+
+* **Compact view**: Displays pruning strategy, message count, summaries count, and an expand button
+
+  <img src="../img/menus/chat/chat_context-budget_compact.png" width="250" alt="." />
+
+* **Configuration view**: Allows you to set context management parameters, including max context tokens, message preservation, pruning strategy, and summarization settings
+
+  <img src="../img/menus/chat/chat_context-budget_configuration.png" width="450" alt="." />
+
 **Configuration Parameters**
 
-When you expand the Context Budget widget, you can configure:
+In the **Context Budget** widget, you can configure:
 
 * **Context Strategy & Token Management**: Set max context tokens, preserve recent messages count, and pruning strategy
 * **Summarization**: Enable/disable automatic summarization, configure summary instructions and trigger ratio
 * **System Messages**: Manage system-level instructions and preservation settings
 
+<Info>
 For detailed information about Context Budget configuration and usage, see [Context Management Guide](../how-tos/chat-conversations/context-management).
+</Info>
 
 ## Conversation & Folder Visibility
 
