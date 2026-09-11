@@ -293,6 +293,7 @@
                 "group": "Agent Evaluation",
                 "expanded": false,
                 "pages": [
+                  "how-tos/agents-pipelines/agent-evaluation",                  
                   "how-tos/agents-pipelines/agent-evaluation-faq"
                 ]
               },
