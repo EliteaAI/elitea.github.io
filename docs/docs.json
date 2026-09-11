@@ -71,7 +71,8 @@
               "home/key-concepts/what-is-a-credential",
               "home/key-concepts/what-is-a-toolkit",
               "home/key-concepts/what-is-a-conversation",
-              "home/key-concepts/what-is-an-artifact"
+              "home/key-concepts/what-is-an-artifact",
+              "home/key-concepts/what-is-a-canvas"
             ]
           },
           {
@@ -370,7 +371,8 @@
             "pages": [
               "how-tos/entity-management/search-entities",
               "how-tos/entity-management/working-with-pins",
-              "how-tos/entity-management/organizing-entities"
+              "how-tos/entity-management/organizing-entities",
+              "how-tos/entity-management/backup"
             ]
           }
         ]
