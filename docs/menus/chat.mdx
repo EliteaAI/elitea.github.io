@@ -228,9 +228,9 @@ Modules enhance your chats without requiring external integrations.
 | [Image Creation](../how-tos/chat-conversations/image-generation) | Generate images from the chat. Requires an image generation model configured in your project. |
 | [Data Analysis](../how-tos/chat-conversations/data-analysis-internal-tool) | Perform Pandas-based data analysis on uploaded files (CSV, Excel, etc.) using natural language queries. Automatically processes data and generates charts with downloadable results. |
 | [Agent & Pipeline Builder](../how-tos/chat-conversations/agents-&-pipeline-builder) | Create and edit agents and pipelines directly from the chat. |
-| **Skill Builder** | Create and edit skills directly from the chat. |
-| **Project Context Builder** | Create and edit your project context directly from the chat. |
-| **Ask User** | Allow agents to pause and ask you clarifying questions instead of guessing. |
+| [Skill Builder](../how-tos/modules/skill-builder.mdx) | Create and edit skills directly from the chat. |
+| [Project Context Builder](../how-tos/modules/project-context-builder.mdx) | Create and edit your project context directly from the chat. |
+| [Ask User](../how-tos/modules/ask-user.mdx) | Allow agents to pause and ask you clarifying questions instead of guessing. |
 | [Planner](../how-tos/chat-conversations/planner-internal-tool) | Create, manage, and track tasks and action items directly within chats. Set priorities, due dates, and monitor task progress without switching to external task management tools. |
 | [Python Sandbox](../how-tos/chat-conversations/python-sandbox-internal-tool) | Execute Python code in a secure sandbox using Pyodide (Python compiled to WebAssembly). Useful for calculations, data processing, testing algorithms, and generating visualizations. |
 | [Swarm Mode](../how-tos/chat-conversations/swarm-mode-internal-tool) | Enable multi-agent collaboration by sharing the full conversation history and control between agents. |
@@ -431,11 +431,27 @@ Making a conversation or folder **public is irreversible** — it cannot be conv
 
 In both private and team projects, you can [share a conversation with users outside ELITEA](../how-tos/chat-conversations/how-to-use-chat-functionality#share-conversations-with-external-users) through a secure, read-only link.
 
-
-
 ## Chat Responses and Outputs
 
 ### Clarifying questions
+
+When you turn on the **Ask User** module for your conversation in chat or an agent, LLM can pause and ask you one or more clarifying questions instead of guessing. These clarifying questions are shown as a card in the chat:
+
+* Each question appears one at a time, with a stepper showing your position (e.g. `1/4`) and arrows to move between questions.
+* You can select one of the provided options, or use the free-text field to enter your own answer.
+* Select **Continue** to submit your answer and move to the next question, or **Skip** to leave a question unanswered.
+
+Your answers are sent directly back to the conversation or agent to resume its run, not as a new chat message.
+
+<img src="../img/menus/chat/chat_clarify.png" alt="." />
+
+<Note>
+**Ask User** must be turned on for the conversation or agent you work with. You can check whether it is enabled by default for your project in **Settings** > **General**.
+</Note>
+
+<Info>
+For detailed information, see [Ask User](../how-tos/modules/ask-user.mdx).
+</Info>
 
 ### Follow-up suggestions
 
