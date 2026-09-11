@@ -4,6 +4,8 @@ title: "Chat"
 
 **Chat** is the central hub where all ELITEA capabilities come together. It provides a conversational interface where you can interact with AI models, agents, pipelines, skills, modules, toolkits and MCP servers — all in one place, using natural language.
 
+<img src="../img/menus/chat/chat.png" alt="The Chat page with an ongoing conversation." />
+
 Each conversation is an independent dialogue session. You can refer to earlier messages within the same conversation, but context is not shared between separate conversations. All conversations are securely stored on the ELITEA server and are accessible from any device via the **Chat** menu.
 
 <CardGroup cols={3}>
@@ -44,13 +46,11 @@ There are three ways to create a new chat:
 * [From a folder](../how-tos/chat-conversations/how-to-use-chat-functionality#create-folder) — create a chat directly inside a folder.
 * [By duplicating a conversation](../how-tos/chat-conversations/how-to-use-chat-functionality#create-duplicate) — reuse an existing conversation's participants and settings.
 
-<img src="../img/menus/chat/create-conversation.gif" alt="Create_Conversation" />
-
 ## Chat Structure
 
 In ELITEA, all conversations are located in the dedicated **Chat** page that includes the **CHATS** sidebar on the left, the **PARTICIPANTS** panel and **Context Budget** widget on the right, and the main chat area in the center.
 
-<img src="../../img/menus/chat/chat_page-structure.png" alt="." />
+<img src="../../img/menus/chat/chat_page-structure.png" alt="The Chat page with the CHATS sidebar, PARTICIPANTS panel, Context Budget widget, and main chat area labeled." />
 
 |Element | Description |
 |---|---|
@@ -61,7 +61,7 @@ In ELITEA, all conversations are located in the dedicated **Chat** page that inc
 
 ### Main Chat Area
 
-The chat area contains the conversation header, message history, and message input toolbar.
+The main chat area contains the conversation header, message history, and message input toolbar.
 
 The message input toolbar is located at the bottom of the chat area. It includes the input field and associated controls:
 
@@ -77,7 +77,7 @@ The message input toolbar is located at the bottom of the chat area. It includes
     <tr><th>No.</th><th>Element</th><th>Description</th></tr>
   </thead>
   <tbody>
-    <tr><td>1</td><td><strong>Input field</strong></td><td>Enter your message here.</td></tr>
+    <tr><td>1</td><td><strong>Message input field</strong></td><td>Enter your message here.</td></tr>
     <tr><td>2</td><td><strong><code>+</code></strong></td><td>Attach files, turn on modules, add participants (agents, pipelines, toolkits, MCPs, users) or invite users.</td></tr>
     <tr><td>3</td><td><strong>Model selector</strong></td><td>Choose which LLM model responds in this conversation.</td></tr>
     <tr><td>4</td><td><strong>Model settings</strong></td><td>Configure the parameters of the selected model.</td></tr>
@@ -86,17 +86,30 @@ The message input toolbar is located at the bottom of the chat area. It includes
   </tbody>
 </table>
 
+#### Message Input Field
+
+Type your message in the input field, then press **Enter** to send it, or **Shift+Enter** to insert a line break without sending. Type `@` followed by a name to mention a user, or `#` followed by a name to mention an agent, pipeline, toolkit or MCP.
+
+While the AI is generating a response, the input field is disabled — select **Stop generating** to interrupt the response early. Stopping restores your last message to the input field so you can edit and resend it.
+
+<Note>
+If your ELITEA administrator has [turned on mid-turn input for your project](./settings/general#chat), you can keep typing and send additional messages while the AI is still generating a response, up to 4000 characters per message. The message is injected into the running turn instead of starting a new one.
+
+<img src="../../img/menus/chat/chat_min-turn-input.png" alt="The chat input field with a Send to the running agent button shown during response generation." />
+
+</Note>
+
 #### Models & Model Settings
 
 In chat, you select the LLM model that responds to your messages using the **model selector dropdown** at the bottom of the chat.
 
-<img src="../../img/menus/chat/chat_model-selector.png" width="350" alt="." />
+<img src="../../img/menus/chat/chat_model-selector.png" width="350" alt="The model selector dropdown at the bottom of the chat." />
 
 The dropdown lists all LLM models available in your project.
 
 Each model in the list can carry a small capability label — an icon shown next to its name indicating that it supports **image analysis** or **reasoning**:
 
-<img src="../../img/menus/chat/chat_model-labels.png" width="200" alt="." />
+<img src="../../img/menus/chat/chat_model-labels.png" width="200" alt="A model name in the selector with an image analysis or reasoning capability icon." />
 
 | Label | Meaning |
 |-------|---------|
@@ -119,7 +132,7 @@ Next to the model selector, you can see the **Settings** (⚙️) icon where you
     | **Medium** | Balanced reasoning with clear explanations and moderate multi-step thinking *(default)* |
     | **High** | Deep, thorough reasoning with detailed step-by-step analysis (may be slower) |
 
-    <img src="../../img/menus/chat/chat_model-sets_reasoning.png" width="300" alt="." />
+    <img src="../../img/menus/chat/chat_model-sets_reasoning.png" width="300" alt="The reasoning level setting in model settings for a reasoning model." />
   </Tab>
   <Tab title="Standard Models">
     Creativity controls the randomness of the responses.
@@ -133,7 +146,7 @@ Next to the model selector, you can see the **Settings** (⚙️) icon where you
     | **4** | More varied and creative responses |
     | **5** | Maximum creativity and diversity |
 
-    <img src="../../img/menus/chat/chat_model-sets_standard.png" width="300" alt="." />
+    <img src="../../img/menus/chat/chat_model-sets_standard.png" width="300" alt="The creativity level setting in model settings for a standard model." />
   </Tab>
 </Tabs>
 
@@ -308,9 +321,11 @@ Unlike conversation actions, all of **folder actions are restricted to the folde
 * **Pin/Unpin**: Select **Pin on top** in the folder contextual menu to keep the folder at the top of the **CHATS** sidebar for quicker access. Select **Unpin** to remove it from the top.
 * **Delete Folder**: Permanently remove the folder. Deleting a folder will not delete the conversations inside it — they will be moved back to the main **CHATS** list.
 
-<img src="../img/menus/chat/chat_actions_folder.png" width="250" alt="." />
+<img src="../img/menus/chat/chat_actions_folder.png" width="250" alt="The folder contextual menu with Rename, Pin on top, and Delete Folder options." />
 
 ### PARTICIPANTS Panel
+
+The **PARTICIPANTS** panel lists everyone and everything taking part in the current conversation — agents, pipelines, toolkits and MCPs, as well as users in team projects.
 
 #### Participants
 
@@ -348,7 +363,7 @@ For detailed information about working with participants, see [Working with Part
 
 In team projects, you can invite exact members of your team to cooperate in the conversation. These users are invited from the **+** button in the message input toolbar and are listed in the **PARTICIPANTS** panel as Users:
 
-<img src="../img/menus/chat/chat_participants_users.png" width="250" alt="." />
+<img src="../img/menus/chat/chat_participants_users.png" width="250" alt="The PARTICIPANTS panel showing users invited to a team project conversation." />
 
 <Note>
 Users can only be invited to a conversation in team projects. Private projects have no other members, so this section does not apply there.
@@ -381,15 +396,15 @@ The widget has three views that provide progressively more detailed information:
 
 * **Collapsed view**: Shows a simple line indicating the token usage status (green for normal, orange for high usage)
 
-  <img src="../img/menus/chat/chat_context-budget_collapsed.png" alt="." />
+  <img src="../img/menus/chat/chat_context-budget_collapsed.png" alt="The Context Budget widget in collapsed view, showing a token usage status line." />
 
 * **Compact view**: Displays pruning strategy, message count, summaries count, and an expand button
 
-  <img src="../img/menus/chat/chat_context-budget_compact.png" width="250" alt="." />
+  <img src="../img/menus/chat/chat_context-budget_compact.png" width="250" alt="The Context Budget widget in compact view, showing pruning strategy, message count, and summaries count." />
 
 * **Configuration view**: Allows you to set context management parameters, including max context tokens, message preservation, pruning strategy, and summarization settings
 
-  <img src="../img/menus/chat/chat_context-budget_configuration.png" width="450" alt="." />
+  <img src="../img/menus/chat/chat_context-budget_configuration.png" width="450" alt="The Context Budget widget in configuration view, showing context management parameters." />
 
 **Configuration Parameters**
 
@@ -433,6 +448,8 @@ In both private and team projects, you can [share a conversation with users outs
 
 ## Chat Responses and Outputs
 
+Beyond plain text responses, ELITEA can ask you clarifying questions, suggest follow-up messages, and open entities directly from a chat response.
+
 ### Clarifying questions
 
 When you turn on the **Ask User** module for your conversation in chat or an agent, LLM can pause and ask you one or more clarifying questions instead of guessing. These clarifying questions are shown as a card in the chat:
@@ -443,7 +460,7 @@ When you turn on the **Ask User** module for your conversation in chat or an age
 
 Your answers are sent directly back to the conversation or agent to resume its run, not as a new chat message.
 
-<img src="../img/menus/chat/chat_clarify.png" alt="." />
+<img src="../img/menus/chat/chat_clarify.png" alt="A clarifying question card in the chat with answer options and a free-text field." />
 
 <Note>
 **Ask User** must be turned on for the conversation or agent you work with. You can check whether it is enabled by default for your project in **Settings** > **General**.
@@ -457,7 +474,7 @@ For detailed information, see [Ask User](../how-tos/modules/ask-user.mdx).
 
 After a response, ELITEA can automatically suggest possible next messages, shown as clickable chips below the last message:
 
-<img src="../img/menus/chat/chat_follow-up-suggestions.png" alt="." />
+<img src="../img/menus/chat/chat_follow-up-suggestions.png" alt="Follow-up suggestion chips shown below the last message in the chat." />
 
 Select a suggestion chip to insert its text into the message input field. The suggestion is not sent automatically — review or edit it, then send it like any other message.
 
@@ -487,7 +504,7 @@ For detailed information about how the guardrail works, configuration options, a
 
 When an agent or pipeline generates an **Agent**, **Pipeline**, **Toolkit**, **MCP**, **Skill** or **Project Context** in a chat message, ELITEA automatically opens it in the Canvas side-by-side with the chat main area:
 
-<img src="../img/menus/chat/chat_generated-open-in-canvas.png" alt="." />
+<img src="../img/menus/chat/chat_generated-open-in-canvas.png" alt="A chat-generated entity opened in the Canvas area next to the chat." />
 
 All entities open in the matching editor with the generated content pre-filled. You can review and refine your agent, skill or other generated entity before saving it to your project.
 
