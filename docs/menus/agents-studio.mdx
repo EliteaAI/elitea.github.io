@@ -1,12 +1,10 @@
 ---
 title: "Catalog"
-sidebarTitle: "Catalog"
-description: "Catalog is a dedicated shared library menu in ELITEA that provides centralized access to community-published agents and skills."
 ---
 
-## Overview
-
 Catalog is a shared library that includes published agents and skills from the ELITEA community. Agents are pre-configured AI assistants designed for specific tasks, while Skills are reusable instruction sets that can be attached to agents and reused across workflows.
+
+<img src="../img/menus/catalog/catalog.png" alt="The Catalog page listing published agents and skills from the ELITEA community." />
 
 <Note title="Important Note">
 Catalog is available across all projects and provides a centralized view of all published agents and skills, regardless of which project you are currently viewing.
@@ -35,7 +33,7 @@ Catalog is available across all projects and provides a centralized view of all 
 
 **Catalog vs. Agents**
 
-The following table compares the Catalog and Agents menus.
+This table compares the **Catalog** and **Agents** menus.
 
 | Feature | Catalog | Agents |
 |---------|--------------|-------------|
@@ -53,35 +51,42 @@ Catalog is located in the ELITEA sidebar:
 2. In the sidebar, locate *Catalog*.
 3. Select *Catalog* to open it.
 
-![ELITEA sidebar with Catalog menu item highlighted](../img/menus/catalog/open-catalog.png)
+<img src="../img/menus/catalog/catalog_find.png" width="200" alt="Finding the Catalog menu in the ELITEA sidebar." />
 
----
-
-## Catalog Tabs
+## Catalog Tabs & Cards
 
 Catalog includes two tabs:
 
 - **Agents** — community-published agents that you can inspect and start in chat.
 - **Skills** — community-published reusable skills that can be discovered from the same shared library surface.
 
----
+Each tab includes the number of published agents or skills:
+
+<img src="../img/menus/catalog/catalog_number.png" width="400" alt="Number of published agents and skills in each tab." />
+
+In each tab — **Agents** or **Skills** — you can:
+
+- Search for published items using the **Search** field.
+- Browse reusable agents and skills from the ELITEA community.
+- Open agent or skill details from the catalog card.
+
+Published agents and skills are displayed as cards in a responsive grid layout, grouped by their assigned categories. Each card provides key agent or skill information:
+
+- Display name.
+- Profile image of the creator.
+- Number of likes received. The heart icon is filled if you've liked the agent or skill.
+- **New** label for recently published items.
+
+<img src="../img/menus/catalog/catalog_card.png" width="500" alt="Agent card in the Catalog." />
+
+From the card, you can:
+
+- Open the agent or skill details.
+- Like or unlike the agent or skill.
 
 ## Agents in Catalog
 
-Published agents are displayed as cards in a responsive grid layout, grouped by their assigned categories. Each card provides key agent information:
-
-- Agent display name.
-- Profile image of the agent creator.
-- Number of likes the agent has received.
-
-From the agent card, you can:
-
-- Select the card to open the agent full information.
-- Like or unlike the agent.
-
-![Agent cards displayed in a grid, grouped by category](../img/menus/catalog/agent-tab.png)
-
----
+Published agents are available in Catalog in the **Agents** tab.
 
 ### View Agent Details
 
@@ -90,14 +95,12 @@ When you select any agent card, a **dialog** opens that displays all the informa
 - **Creator:** Details about who created the agent.
 - **Name:** Full name of the agent.
 - **Description:** Detailed explanation of the agent purpose and capabilities.
-- **Show instructions:** Select to open a read-only dialog displaying the agent full instructions and configuration details. You can read and copy the instructions but cannot modify them.
+- **Show instructions:** Select to open a read-only dialog displaying the agent's full instructions and configuration details. You can read and copy the instructions but cannot modify them.
 - **Conversation starters:** Pre-defined prompts to help users get started.
 - **Welcome message:** The greeting users see when starting a conversation.
 - **Start chat:** Primary action to begin using the agent.
 
-![Agent detail dialog showing creator, description, instructions, and Start chat button](../img/menus/catalog/catalog-agent-details.png)
-
----
+<img src="../img/menus/catalog/catalog-agent-details.png" width="475" alt="Agent detail dialog showing creator, description, instructions, and Start chat button." />
 
 ### Start a Conversation with an Agent
 
@@ -123,19 +126,9 @@ Once the conversation is created, you can:
 - **Enter a custom message:** Enter your own message in the input box.
 - **Modify the model settings:** Adjust the LLM model and model parameters.
 
----
-
 ## Skills in Catalog
 
-Published skills are available in Catalog through the **Skills** tab.
-
-Use the **Skills** tab to:
-
-- Search for published skills using the **Search for skills** field.
-- Browse reusable skills from the ELITEA community.
-- Open skill details from the catalog surface.
-
-![Skills tab showing published skill cards](../img/menus/catalog/skills-tab.png)
+Published skills are available in Catalog in the **Skills** tab.
 
 Skills are catalog items intended for reuse in agent configurations rather than direct standalone chat execution.
 
@@ -150,7 +143,7 @@ The skill details view can include:
 - **Description:** Explanation of the skill purpose and intended usage.
 - **Instructions / Content:** Read-only view of the skill content so you can review what it provides before using it.
 
-![Skill details view showing creator, description, and read-only instructions](../img/menus/catalog/catalog-skill-details.png)
+<img src="../img/menus/catalog/catalog-skill-details.png" width="475" alt="Skill details view showing creator, description, and read-only instructions." />
 
 Use this view to inspect whether the skill matches your use case before attaching it to an agent.
 
@@ -171,8 +164,6 @@ To attach a published skill to an agent:
 
 After attaching the skill, the selected agent uses that skill according to its configured behavior and version.
 
----
-
 ## Browse & Search Catalog Items
 
 Catalog provides a **Search** field at the top of the page for both tabs.
@@ -183,21 +174,22 @@ You can search by the item **name** and **description**. The search results upda
 
 Category filters are available for both **Agents** and **Skills** and are located in the right panel of Catalog.
 
-These filters help you browse catalog items by their assigned categories. The following table describes each category.
+These filters help you browse catalog items by their assigned categories:
 
 | Category | Description |
 |----------|-------------|
-| **Trending** | Agents with the most likes from the community |
-| **My liked** | Agents you have personally liked |
-| **Business analyst** | Agents designed for business analysis tasks |
-| **DevOps** | Agents designed for DevOps tasks |
-| **Development** | Agents focused on software development and coding |
-| **Elitea** | Platform-specific agents for ELITEA workflows |
-| **Epam** | Agents designed for EPAM workflows |
-| **Knowledge & documentation** | Agents specialized in creating and managing documentation and knowledge bases |
-| **Project management** | Agents for project planning, execution, and management |
-| **Quality assurance** | Agents for test planning, execution, and quality assurance |
-| **Other** | Miscellaneous agents that do not fit in specific categories |
+| **Trending** | Catalog items with the most likes from the community |
+| **My liked** | Catalog items you have personally liked |
+| **New** | Recently added catalog items |
+| **Business analyst** | Catalog items designed for business analysis tasks |
+| **DevOps** | Catalog items designed for DevOps tasks |
+| **Development** | Catalog items focused on software development and coding |
+| **Elitea** | Platform-specific catalog items for ELITEA workflows |
+| **Epam** | Catalog items designed for EPAM workflows |
+| **Knowledge & documentation** | Catalog items specialized in creating and managing documentation and knowledge bases |
+| **Project management** | Catalog items for project planning, execution, and management |
+| **Quality assurance** | Catalog items for test planning, execution, and quality assurance |
+| **Other** | Miscellaneous catalog items that do not fit in specific categories |
 
 To filter catalog items by category:
 
@@ -205,9 +197,7 @@ To filter catalog items by category:
 2. The active category is highlighted.
 3. The visible cards update automatically based on the selected filters.
 
-![Catalog category filters panel on the right side of the page](../img/menus/catalog/catalog-filters.png)
-
----
+<img src="../img/menus/catalog/catalog_categories.png" width="250" alt="Category filter buttons in Catalog with the active category highlighted." />
 
 ## Modification Restrictions
 
@@ -226,7 +216,7 @@ For published agents used in chat, you can modify:
   | Capability | What it means |
   |------------|---------------|
   | **Image analysis** | The model can analyze and interpret images alongside text input |
-  | **Reasoning** | The model uses extended reasoning steps; exposes **Reasoning Effort** in Model settings instead of **Creativity** |
+  | **Reasoning** | The model uses extended reasoning steps; it exposes **Reasoning Effort** in Model settings instead of **Creativity** |
 
 - **Model settings:**
 
@@ -242,7 +232,7 @@ For published agents used in chat, you can modify:
 1. With the agent active in a conversation, select the *Settings* icon at the bottom of the chat.
 2. The **Model settings** dialog opens — adjust the parameters as needed.
 3. Select **Apply** to save your changes, or **Cancel** to discard them.
-4. Use **Reset to defaults** in the dialog to restore the published agent original conversation settings.
+4. Use **Reset to defaults** in the dialog to restore the published agent's original conversation settings.
 5. Changes apply only to this conversation — they do not affect the published agent.
 
 **What You Cannot Modify**
@@ -266,7 +256,7 @@ For published skills:
 - Published version content shown in Catalog.
 
 <Warning title="Important">
-Any modifications you make to a published agent conversation settings (LLM model, settings, variable values) apply **only to your current conversation**. They do not affect the original published catalog item or how other users experience it. To get a fully editable version, create your own agent or skill in the corresponding menu.
+Any modifications you make to a published agent's conversation settings (LLM model, settings, variable values) apply **only to your current conversation**. They do not affect the original published catalog item or how other users experience it. To get a fully editable version, create your own agent or skill in the corresponding menu.
 </Warning>
 
 <Info title="Restrictions for Published Skills">
@@ -417,7 +407,7 @@ When using published agents from Catalog, keep the following considerations in m
     1. **Start with Trending:** Browse trending agents to find proven, popular solutions.
     2. **Use specific keywords:** Search with task-specific terms (for example, "code review," "documentation").
     3. **Check descriptions:** Read full descriptions to understand capabilities and limitations.
-    4. **Review conversation starters:** Starters often reveal the agent core functionality.
+    4. **Review conversation starters:** Starters often reveal the agent's core functionality.
     5. **Test multiple agents:** Try different agents for the same task to compare approaches.
   </Accordion>
 

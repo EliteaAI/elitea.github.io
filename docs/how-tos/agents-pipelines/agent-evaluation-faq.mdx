@@ -1,0 +1,1155 @@
+---
+title: "Agent Evaluation FAQs"
+description: "Frequently asked questions about Agent Evaluation covering user workflows, technical implementation, AI checks, code validations, datasets, dimensions, and enhancement features."
+---
+
+## Table of Contents
+
+- [Agent Evaluation — User FAQ](#user-guide)
+  1. [How many AI checks happen for one test case?](#user-guide-1)
+  2. [Can one dimension use both AI and Human scoring?](#user-guide-2)
+  3. [What happens when I choose multiple evidence fields?](#user-guide-3)
+  4. [How do I use input in a Code check?](#user-guide-4)
+  5. [What happens if there are too many dimensions in one group?](#user-guide-5)
+  6. [How can I confirm that a large group was split?](#user-guide-6)
+  7. [What is the easiest way to test the split behavior?](#user-guide-7)
+  8. [Who can do what in Agent Evaluation?](#user-guide-8)
+  9. [Will a run fail because I added many AI checks?](#user-guide-9)
+  10. [Can I skip test cases in a borrowed dataset?](#user-guide-10)
+  11. [What happens when I remove a dimension from my suite?](#user-guide-11)
+  12. [What happens if the AI judge returns an unexpected format?](#user-guide-12)
+  13. [What does Enhance with AI do after a run?](#user-guide-13)
+  14. [Can I use Enhance with AI on a large suite?](#user-guide-14)
+  15. [Can a Code check give a numeric score?](#user-guide-15)
+  16. [How does a Code check hand back its answer?](#user-guide-16)
+- [Agent Evaluation — Technical FAQ](#technical-faq)
+  1. [How many times is the LLM called?](#technical-faq-1)
+  2. [What happens if I select both AI and Human?](#technical-faq-2)
+  3. [What if Eval Scope has multiple items selected?](#technical-faq-3)
+  4. [How do I evaluate input using Code validation?](#technical-faq-4)
+  5. [What prevents judge context-window overflow?](#technical-faq-5)
+  6. [How do I verify group splitting against a live stack?](#technical-faq-6)
+  7. [What is the minimal live setup to reproduce splitting?](#technical-faq-7)
+  8. [Which project role can do what?](#technical-faq-8)
+  9. [How does the judge-context-budget path work?](#technical-faq-9)
+  10. [How is raw judge text turned into structured scores?](#technical-faq-10)
+  11. [What does shared mean for a dataset or dimension?](#technical-faq-11)
+  12. [How are placeholders mapped in Generate dimensions with AI?](#technical-faq-12)
+  13. [How does a suite drop borrowed dataset cases?](#technical-faq-13)
+  14. [What is the dimension equivalent?](#technical-faq-14)
+  15. [Cookbook: adjusting the dataset attached to a suite](#technical-faq-15)
+  16. [How does Enhance with AI work on a finished run?](#technical-faq-16)
+  17. [Numeric Code-validation example](#technical-faq-17)
+  18. [What does the Code-validation harness check?](#technical-faq-18)
+
+---
+
+<a id="user-guide"></a>
+
+# Agent Evaluation — User FAQ
+
+<a id="user-guide-1"></a>
+
+## 1. How many AI checks happen for one test case?
+
+Usually, one AI check is made for each different group of information being reviewed. If several dimensions use the same information, they are checked together.
+
+<a id="user-guide-2"></a>
+
+## 2. Can one dimension use both AI and Human scoring?
+
+Yes, but as two separate items. One is scored automatically by AI, and the other is marked for human review.
+
+<a id="user-guide-3"></a>
+
+## 3. What happens when I choose multiple evidence fields like input and output?
+
+They are reviewed together in one check. Choosing more fields gives the reviewer more context, but it does not create extra checks.
+
+<a id="user-guide-4"></a>
+
+## 4. How do I use input in a Code check?
+
+Use a Code check when you want to score content with your own logic. The script should return a result that says whether the check passed or what score it received.
+
+<a id="user-guide-5"></a>
+
+## 5. What happens if there are too many dimensions in one group?
+
+The system automatically splits very large groups into smaller parts so the run can finish normally. If a
+single dimension's own review text (its evidence, or in rare cases its own scoring rubric) is too large on its
+own, the system shortens it instead of failing the check — you'll see a note on the result showing that it was
+shortened to fit.
+
+<a id="user-guide-6"></a>
+
+## 6. How can I confirm that a large group was split into multiple AI checks?
+
+Ask your support or admin team to review the run details. They can confirm whether the work was split into multiple checks.
+
+<a id="user-guide-7"></a>
+
+## 7. What is the easiest way to test the split behavior?
+
+Create a large test setup with many AI dimensions that use the same information group, then run it and review the results.
+
+<a id="user-guide-8"></a>
+
+## 8. Who can do what in Agent Evaluation, and why is "New code validation…" sometimes greyed out?
+
+Your project role decides what you can see and do:
+
+- **Viewers** cannot open or use Agent Evaluation at all.
+- **Editors** can create and manage dimensions, suites, datasets, and runs, and can view (but not create or
+  edit) code validations.
+- **Admins** can do everything editors can, plus create, edit, and delete code validations.
+
+If you're an editor and the **"New code validation…"** option looks greyed out after clicking **+Add**, that's
+expected — creating a code validation is restricted to admins because it involves running custom code. Ask a
+project admin to create it, or ask them to add you as an admin on the project if you need this regularly.
+
+Every other part of the feature — dimensions, suites, datasets, and runs — works the same way for both editors
+and admins.
+
+<a id="user-guide-9"></a>
+
+## 9. Will a run ever fail just because I added a lot of AI checks to one review group?
+
+No. The platform automatically manages this for you:
+
+- If a group of AI checks would be too large for the AI judge to review at once, it's automatically split into
+  several smaller reviews behind the scenes — you still get one result per check, you just don't see it split.
+- If one single check's review material is itself too large, that material is shortened before being sent,
+  rather than the run failing.
+- This all happens automatically — there's nothing to configure, and it costs nothing extra when your setup is
+  already small enough to not need it.
+
+<a id="user-guide-10"></a>
+
+## 10. Can I skip some test cases in a dataset that I borrowed from another agent?
+
+Yes. A dataset belongs to the agent that created it, so you can't edit its cases — but you can turn individual
+cases **off for your own suite**. Open the dataset from your suite, untick the cases you don't want, and save.
+Your next run simply skips them.
+
+- The dataset itself is never changed — nothing is deleted.
+- Other agents and other suites using the same dataset are not affected; each suite keeps its own list of
+  skipped cases.
+- Tick a case again at any time to bring it back.
+- If the dataset isn't yours, editing its cases is disabled and you'll see that up front — use the skip option
+  instead.
+- You can't skip _every_ case: a run needs at least one case, so the platform asks you to leave one on.
+
+<a id="user-guide-11"></a>
+
+## 11. What happens when I remove a dimension from my suite?
+
+Only the link between your suite and that dimension is removed. The dimension itself stays in the library and
+keeps working in every other suite that uses it — including its own weight and target settings there.
+
+Deleting the dimension **from the library** is a different action: that removes it everywhere. Already-finished
+runs keep their results either way, because each run stores a snapshot of what it measured.
+
+<a id="user-guide-12"></a>
+
+## 12. What happens if the AI judge doesn't answer in the expected format?
+
+The platform tries hard to make sense of the AI's answer even if it's messy, and if it still can't, the affected
+check is simply marked as an error instead of breaking the whole run.
+
+- If the AI wraps its score in extra explanation text (instead of just the plain answer), the platform will
+  still look for and pull out the actual score from inside that text.
+- If the AI's answer is missing a score for one of your checks, only that specific check is marked as an error —
+  every other check in the same run still gets its result normally.
+- If the AI gives a score that doesn't make sense for that check (for example, text where a number was expected),
+  that check is marked as an error too, but the AI's explanation is still saved so you can see what it said.
+- If a score is a valid number but outside the allowed range for that check, it's automatically adjusted to fit
+  within range rather than being rejected.
+
+**So:** a confusing or badly-formatted AI answer never crashes your run — worst case, you see a small number of
+checks marked "error" instead of a score, and everything else finishes normally.
+
+<a id="user-guide-13"></a>
+
+## 13. What does "Enhance with AI" do after a run, and can I trust what it suggests?
+
+It reads the gaps in a finished run and suggests two kinds of fix: changes to your agent's instructions, and
+changes to the _measurement_ itself when the real problem is an unclear rubric or a wrong expected answer. It only
+suggests — nothing is saved until you accept an item.
+
+- It analyses the instructions **that version of the agent had when the run happened**, not whatever you've edited
+  since. If you've changed the instructions in the meantime, accepting a suggestion tells you it no longer applies
+  instead of silently overwriting your newer text.
+- Accepted instruction changes go into a **new version** by default, so the run you're comparing against stays
+  intact and you can put the old and new side by side. For a published agent, a new version is the only option.
+- Suggestions are checked before you see them: if a suggestion quotes instruction text that isn't actually there,
+  or cites a check or test case that wasn't in the run, it's dropped rather than shown to you.
+- A run where nothing missed its target simply says so. It won't invent problems to look useful.
+
+<a id="user-guide-14"></a>
+
+## 14. Can I use "Enhance with AI" on a very large suite?
+
+Yes, but you may need to do it a few checks at a time.
+
+- The analysis looks at your five highest-impact failing checks and the three worst test cases for each. This is
+  ranked by how heavily a check is weighted, how badly it missed, and how often — so you get your biggest problems,
+  not a random sample.
+- The dialog tells you what it looked at, so you can always see when a suggestion came from a sample rather than
+  from everything.
+- If a run is too large to read all at once, you'll be told to pick specific checks instead of getting a partial
+  answer. Picking checks genuinely shrinks the work, so a large suite can be analysed a few checks at a time.
+- **Important:** when you narrow to specific checks, the counts you're shown describe your selection — not the
+  whole run. So "1 failing check" there means one _among the checks you picked_; there may be more elsewhere in
+  the run.
+
+**So:** the analysis would rather tell you it only looked at part of your run than quietly present a partial
+answer as a complete one.
+
+<a id="user-guide-15"></a>
+
+## 15. Can a Code check give a score instead of just pass/fail?
+
+Yes. A Code check can be set up either way:
+
+- **Pass/fail** — the script decides yes or no. For example, "does the reply repeat back the order number the
+  customer mentioned?"
+- **Numeric score** — the script decides a number instead, for cases where yes/no is too blunt. For example,
+  "what fraction of what the customer asked about actually got answered?" — a reply that covers everything
+  scores close to 1, a reply that ignores the question scores close to 0.
+
+A few things to know about numeric Code checks:
+
+- The score is checked against your target the same way a pass/fail check is (for example, "at least 0.3") —
+  you just get a number instead of a yes/no.
+- For the score to count toward the suite's overall headline number, the check needs a defined range (like
+  0 to 1, or 0 to 100). Without a range, the score still shows up and is still checked against its target, but
+  it doesn't contribute to the overall average.
+
+<a id="user-guide-16"></a>
+
+## 16. In a Code check, how does my script hand back its answer?
+
+By setting a variable called **`result`** — not by using a `return` statement. Your script is a short snippet,
+not a function, so at the end of it you just write something like:
+
+```python
+result = True          # for a pass/fail check
+result = 0.75          # for a numeric check
+```
+
+The platform reads whatever `result` ends up holding once your script finishes.
+
+- If your script forgets to set `result`, or sets it to something that doesn't match the check type (for example
+  text instead of a number), the check is marked as an error — it never crashes the run.
+- This includes descriptive text: setting `result` to something like `"Validation 1: tested. Validation 2:
+untested"` is always an error, for both pass/fail and numeric checks. It's never scanned for words like
+  "tested" or for numbers hidden inside it — `result` has to be a plain `True`/`False` or a plain number.
+- You can use `output` in your script, plus `input`, the expected answer, or structured data, if you picked those
+  when setting up the check (see Q4).
+
+**So:** think of it as filling in a blank named `result`, not writing a function that returns a value.
+
+---
+
+<a id="technical-faq"></a>
+
+# Agent Evaluation — FAQ
+
+<a id="technical-faq-1"></a>
+
+## 1. How many times is the LLM called when "AI" is the judge engine?
+
+**Once per unique evidence scope per test case — not once per dimension, and not once per case overall.**
+
+Dimensions bound with `engine=ai` are grouped by their `evidence_scope` (`utils/evaluation_run_orchestration.py:542-565`,
+`assemble_case_results`):
+
+```python
+ai_groups: dict = {}
+for b in bindings:
+    if effective_engine(b) != ENGINE_AI:
+        continue
+    ai_groups.setdefault(evidence_scope_key(b.get('evidence_scope')), []).append(b)
+
+for _key, group in ai_groups.items():
+    dims = _dimension_specs(group, snapshot)
+    scored = ai_scorer(evidence, dims) if ai_scorer else []
+```
+
+Each group triggers **exactly one** call to `evaluate_case` (`utils/evaluation_ai_judge.py`), which fires a single
+`run_llm_judge` request. The judge's system prompt lists _all_ dimensions in that group and asks for a score per
+dimension in one response (`build_judge_system_prompt` + `_parse_dimension_scores`).
+
+**Example — 1 test case, 3 dimensions, all engine=AI:**
+
+| Dimension | evidence_scope        |
+| --------- | --------------------- |
+| Relevance | `{input, output}`     |
+| Tone      | `{input, output}`     |
+| Coverage  | `{output, structure}` |
+
+- Relevance + Tone share the same scope → they land in one group → **1 LLM call** scores both.
+- Coverage has a different scope → its own group → **1 LLM call**.
+
+**Total: 2 LLM calls for this case**, not 3. If all 3 dimensions had shared the same scope, it would be 1 call
+scoring all 3 at once.
+
+---
+
+<a id="technical-faq-2"></a>
+
+## 2. What happens if I try to select both AI and Human for one dimension?
+
+**The data model does not allow it.** `EvalBindingBaseModel.engine` (`models/pd/evaluation.py:224,239-244`) is a
+single string, validated against `{ai, human, code}` — not a list:
+
+```python
+engine: str = EvalEngine.ai
+...
+def _validate_engine(cls, v: str) -> str:
+    if v not in _ENGINES:
+        raise ValueError(...)
+```
+
+A dimension's `allowed_engines` field is a list, but that only declares which engines the dimension _may_ be
+bound with — it does not let a single binding run through two engines at once.
+
+**To get both AI and Human scoring on the same dimension**, you must create **two separate bindings** for that
+dimension: one with `engine=ai`, one with `engine=human`. Each is evaluated independently:
+
+- The AI binding fires its own LLM call (grouped per rule #1) and produces an `ok`/`error` result row.
+- The Human binding **never blocks the run** — it always emits a `pending_human` result row
+  (`evaluation_run_orchestration.py:580-589`), regardless of what the AI binding did. The actual human score is
+  filled in later, out-of-band, via a separate annotation call (`EvalHumanScoreCreateModel`,
+  `models/pd/evaluation.py:370-378`) — it's not something the run itself waits on.
+
+**Result: 2 result rows per case** (1 from AI, 1 pending-human placeholder) — the run does not "merge" them into
+a single validation.
+
+---
+
+<a id="technical-faq-3"></a>
+
+## 3. What if Eval Scope has multiple items selected, e.g. `input + output`, or `input + instruction + output`?
+
+**Still one LLM call per group** — all selected evidence fields are concatenated into a single JSON payload
+inside one prompt, not fired as separate calls per field.
+
+`select_evidence` (`evaluation_run_orchestration.py:314-333`) builds one dict from every enabled scope flag:
+
+```python
+if scope.get('output', True):
+    evidence['output'] = case.get('output')
+if scope.get('input', True):
+    evidence['input'] = case.get('input')
+if scope.get('structure', False):
+    evidence['structure'] = case.get('structure')
+```
+
+This single `evidence` object — whether it has 1 key or 3 — is passed once to the judge via
+`build_case_payload` (`evaluation_ai_judge.py:78-94`) and appears as one JSON object in one prompt.
+
+**So:** selecting `input` only, `input + output`, or `input + instruction + output` all still result in
+**1 LLM call** per evidence-scope group — the only thing that changes is how much context the judge sees inside
+that one call, not how many calls are made.
+
+(Combined with #1: the number of calls is driven purely by how many _distinct_ scope combinations exist across
+your dimensions, not by how many fields are inside each combination.)
+
+---
+
+<a id="technical-faq-4"></a>
+
+## 4. How do I evaluate `input` using a Code validation?
+
+Code-validation dimensions (`engine=code`) use the exact same `evidence_scope` mechanism as AI dimensions to pick
+which fields the script receives. The dispatcher only forwards fields that are present in the resolved evidence
+(`evaluation_run_orchestration.py:861-885`):
+
+```python
+output=evidence.get('output'),
+expected=evidence.get('expected_output', _RESULT_SENTINEL) if 'expected_output' in evidence else _RESULT_SENTINEL,
+input=evidence.get('input', _RESULT_SENTINEL) if 'input' in evidence else _RESULT_SENTINEL,
+structure=evidence.get('structure', _RESULT_SENTINEL) if 'structure' in evidence else _RESULT_SENTINEL,
+```
+
+`build_validation_prelude` (`utils/code_validation.py:35-70`) injects each present field as a plain Python
+variable (`input = ...`, `output = ...`, etc.) directly ahead of your script, then evaluates your script's
+`result` as the final value.
+
+**Contract:** your script must assign a variable named `result`:
+
+- `bool` if the code-validation's `return_contract` is `bool` (pass/fail)
+- a number if `return_contract` is `number` (numeric score)
+
+There is no separate "message"/reason field in the contract — anything you `print()` is captured as `stdout` and
+shown alongside the verdict, but it does not affect pass/fail.
+
+**Minimal example — check that `input` is a non-empty question:**
+
+```python
+# return_contract: bool
+result = bool(input) and input.strip().endswith('?')
+```
+
+**Example scoring `input` length on a 0–1 scale:**
+
+```python
+# return_contract: number
+result = min(len(input) / 200, 1.0)
+```
+
+To make either of these actually run against `input`, make sure the binding's Eval Scope includes `input`
+(otherwise `input` will be `_RESULT_SENTINEL`/unavailable inside the script, per the dispatcher snippet above).
+
+---
+
+<a id="technical-faq-5"></a>
+
+## 5. What stops a suite with many dimensions on one Eval Scope from overflowing the judge's context window?
+
+**Nothing sends an unbounded prompt to the judge: an oversized `evidence_scope` group is auto-split into multiple
+smaller judge calls, and a single dimension whose own evidence is still too big gets that evidence truncated —
+the run always finishes with a scored (or clearly errored) row per dimension, never a context-window failure.**
+
+All AI dimensions sharing one Eval Scope are batched into a single judge call by
+`assemble_case_results` (`utils/evaluation_run_orchestration.py:595-621`). Before this call ever reaches the
+judge, `_score_ai_group_with_budget` (`utils/evaluation_run_orchestration.py:517-555`) chunks the group by a
+cheap count-only cap (`MAX_DIMENSIONS_PER_JUDGE_CALL = 40`), then — if a per-run token budget is set — further
+splits any chunk whose estimated size exceeds it:
+
+```python
+for i in range(0, len(dims), MAX_DIMENSIONS_PER_JUDGE_CALL):
+    chunk = dims[i:i + MAX_DIMENSIONS_PER_JUDGE_CALL]
+    if budget_tokens is not None and estimate_group_tokens(evidence, chunk, model_name) > budget_tokens:
+        batches = split_dimensions_for_budget(evidence, chunk, budget_tokens, model_name)
+    else:
+        batches = [chunk]
+    for batch in batches:
+        batch_evidence = evidence
+        if (budget_tokens is not None and len(batch) == 1
+                and estimate_group_tokens(evidence, batch, model_name) > budget_tokens):
+            batch_evidence = _truncate_evidence_for_budget(evidence, batch, budget_tokens, model_name)
+        results.extend(ai_scorer(batch_evidence, batch))
+```
+
+`split_dimensions_for_budget` (`utils/evaluation_ai_judge.py:185-211`) greedily bin-packs dimensions into the
+fewest batches that each fit the budget, re-estimating each candidate batch rather than summing per-dimension
+costs (prompt/payload overhead isn't linear). If a single dimension's own evidence still overflows on its own,
+`_truncate_evidence_for_budget` trims the largest evidence field first (`output`, then `input`, then
+`structure`/`expected_output`), halving it and appending `_TRUNCATED_MARK`, repeating up to 20 rounds. If
+evidence alone isn't enough — e.g. the dimension's own rubric (`definition`) is what's actually oversized, with
+tiny or empty evidence — it falls back to `_shrink_longest_definition`, which halves the longest `definition`
+text (only considers dimensions whose `definition` is over 200 chars) and marks it with the same
+`_TRUNCATED_MARK`. Either way the result is marked `evidence['_truncated_for_budget'] = True` and a warning is
+logged — so a truncation is visible in the persisted result's evidence, not silent. If nothing is left worth
+trimming (all fields already short) the loop gives up rather than looping forever on a budget it can never meet.
+
+Both the count-only cap and the token-budget path share one entry point, `_score_ai_group_with_budget`
+(`utils/evaluation_run_orchestration.py:517-568`): the common case (few dimensions, comfortably under budget)
+falls straight through to a single `ai_scorer(evidence, dims)` call with zero extra overhead — splitting only
+activates once a group actually risks overflow.
+
+The budget itself is resolved once per run, not per case: `execute_run` (`utils/evaluation_run_orchestration.py:1110-1130`)
+looks up the judge model's `context_window`/`max_output_tokens` and computes
+`budget_tokens = context_window - max_output_tokens - JUDGE_TOKEN_SAFETY_MARGIN` before the first case starts. A
+lookup failure falls back to `128_000`/`16_000` rather than blocking the run (E4 posture).
+
+**So:** adding more dimensions to one Eval Scope, or scoring cases with very large `output`/`structure`, costs
+extra judge calls — never a broken run.
+
+---
+
+<a id="technical-faq-6"></a>
+
+## 6. How do I verify, against a live stack, that an oversized group actually split into multiple judge calls?
+
+**`centry.audit_events` is not a reliable evidence source right now** — confirmed live on 2026-08-24 that the
+table has not received a single new row since 2026-08-10, because the audit-write INSERT references columns
+(`input_tokens`, `output_tokens`, `llm_cost`, `token_source`, `cost_source`) that don't exist on the live
+`audit_events` table (`(psycopg2.errors.UndefinedColumn) column "input_tokens" of relation "audit_events" does
+not exist`, visible in `pylon_main` logs on every write attempt). This is a pre-existing, unrelated schema-drift
+bug (also surfaced by `test_5712_audit_events_schema_migration.py`) — not something the judge-budget feature
+caused, but it means you cannot count real judge calls that way until it's fixed.
+
+**What does work, verified live:** the real judge dispatch happens in `pylon_indexer`, one HTTP hop away from
+`pylon_main`. Each judge call shows up as a `POST /llm/v1/chat/completions` line in `pylon_indexer`'s container
+log, immediately preceded by a `GET /model_group/info?model_group=<project>_<model>` lookup:
+
+```bash
+docker logs centry-pylon_indexer-1 --since "<run-start>Z" --until "<run-end>Z" \
+  | grep -c 'POST /llm/v1/chat/completions'
+```
+
+**Reproduced end-to-end on the live stack:** a suite with 41 AI dimensions bound to one identical
+`evidence_scope` (`{"input": true, "output": true}`), run against a 2-case dataset. Expected call count per
+`MAX_DIMENSIONS_PER_JUDGE_CALL = 40`: `2 cases × ceil(41 / 40) = 4` judge calls. The `pylon_indexer` log showed
+**exactly 4** `POST /llm/v1/chat/completions` calls for that run's time window — not 2 (which is what an
+unbounded/uncapped dispatch would have produced) — and `eval_result` for the run had all `82` rows
+(`41 dimensions × 2 cases`) at `status='ok'`, none missing. This is the cheapest scenario to reproduce because it
+only needs the count-only `MAX_DIMENSIONS_PER_JUDGE_CALL` cap, not a token-budget lookup or a huge payload.
+
+**Gotcha:** `docker logs --since/--until` needs an explicit `Z` (UTC) suffix on the timestamp
+(`--since "2026-08-24T09:41:00Z"`) — without it, the flag silently matches nothing rather than erroring.
+
+---
+
+<a id="technical-faq-7"></a>
+
+## 7. What's the minimal live setup to reproduce the `MAX_DIMENSIONS_PER_JUDGE_CALL` split myself?
+
+1. Create N > 40 AI dimensions (any scale) via `POST /eval_dimensions/prompt_lib/<project_id>`.
+2. Create a suite via `POST /eval_suites/prompt_lib/<project_id>` (`application_id` required; `dataset_id` can
+   point at any existing dataset with cases).
+3. Bind every one of the N dimensions to that suite via `POST /eval_bindings/prompt_lib/<project_id>/<suite_id>`,
+   each with `engine: "ai"` and the **same** `evidence_scope` object — note `evidence_scope: {}` is rejected
+   (`"evidence_scope must have at least one of structure/input/output set to true"`); use e.g.
+   `{"input": true, "output": true}` instead.
+4. Start a run via `POST /eval_runs/prompt_lib/<project_id>`
+   (`{"suite_id": ..., "trigger_type": "offline_batch", "dataset_id": ..., "application_version_id": ...}`) —
+   `application_version_id` must be passed explicitly unless a binding already pins one, otherwise the run
+   start 400s with `"no application_version_id could be resolved"`.
+5. Poll `eval_run.status` until `finished`, then count judge calls via `pylon_indexer` logs per FAQ #6.
+6. Clean up: `DELETE /eval_suite/prompt_lib/<project_id>/<suite_id>` cascades to its bindings; delete each
+   scratch dimension via `DELETE /eval_dimension/prompt_lib/<project_id>/<dimension_id>`. There is **no** DELETE
+   endpoint for runs — remove the scratch `eval_run` row (and its `eval_result` rows) directly via SQL if this
+   was done against a shared dev database.
+
+---
+
+<a id="technical-faq-8"></a>
+
+## 8. Which project role can do what in Agent Evaluation — and why is "New code validation…" sometimes greyed out?
+
+**Every Agent Evaluation permission is granted only to `admin` and `editor`; `viewer` gets none of them.** This is
+seeded at role-template creation (`_create_template_permissions`, `pylon_main/plugins/auth/module.py`) from
+`recommended_roles={c.ADMINISTRATION_MODE: {"admin": ..., "editor": ..., "viewer": ...}}` on each endpoint's
+`@register_openapi` decorator (`api/v2/eval_*.py`), and enforced per-request via `resolve_permissions` →
+`has_access()`.
+
+| Permission                                                                                                 | admin | editor | viewer |
+| ---------------------------------------------------------------------------------------------------------- | ----- | ------ | ------ |
+| `dimension.read`                                                                                           | ✅    | ✅     | ❌     |
+| `dimension.create`                                                                                         | ✅    | ✅     | ❌     |
+| `dimension.update`                                                                                         | ✅    | ✅     | ❌     |
+| `dimension.delete`                                                                                         | ✅    | ✅     | ❌     |
+| `code_validation.read`                                                                                     | ✅    | ✅     | ❌     |
+| `code_validation.create`                                                                                   | ✅    | ❌     | ❌     |
+| `code_validation.update`                                                                                   | ✅    | ❌     | ❌     |
+| `code_validation.delete`                                                                                   | ✅    | ❌     | ❌     |
+| `suite.read`                                                                                               | ✅    | ✅     | ❌     |
+| `suite.create`                                                                                             | ✅    | ✅     | ❌     |
+| `suite.update` (also covers binding create/update/delete — bindings have no separate permission namespace) | ✅    | ✅     | ❌     |
+| `suite.delete`                                                                                             | ✅    | ✅     | ❌     |
+| `dataset.read` / `.create` / `.update` / `.delete`                                                         | ✅    | ✅     | ❌     |
+| `run.read`                                                                                                 | ✅    | ✅     | ❌     |
+| `run.create` (also gates run cancel, `eval_run_cancel.py`)                                                 | ✅    | ✅     | ❌     |
+| `run.delete`                                                                                               | ✅    | ✅     | ❌     |
+| `human_score.read` / `.create`                                                                             | ✅    | ✅     | ❌     |
+
+**The one asymmetry:** `code_validation.*` is `admin`-only for create/update/delete (editors can still read
+existing code validations). Every other resource in the feature — dimensions, suites/bindings, datasets, runs,
+human scores — is `admin`+`editor`.
+
+**This is the root cause of the "New code validation…" menu item appearing greyed/disabled** in
+`AddValidationMenu.jsx`: it's gated behind `canCreateCodeValidation`, which checks
+`models.applications.evaluation.code_validation.create`. An `editor` on the project sees the option but it's
+disabled; a `viewer` doesn't get evaluation access at all. This is RBAC working as designed, not a feature flag
+or a bug — the fix (if editors should be allowed to author code validations) would be changing the
+`recommended_roles` on `eval_code_validations.py:59` / `eval_code_validation.py:60,89`, which requires a
+conscious product decision since code-validation scripts execute arbitrary code server-side.
+
+**Gap to be aware of when reading `EliteaUI/.../evaluation.constants.js::EVAL_PERMISSIONS`:** the frontend
+constant is missing UI-usable entries for `dimension.read`, `code_validation.read`, `suite.read`, and the real
+`run.delete` string (it aliases `runDelete` to `run.create` instead). These backend permissions exist and are
+enforced — they're just not separately named in the frontend constants object, so any new UI code gating on
+"can I read dimensions/suites/code validations" or "can I delete a run" should add the missing keys rather than
+assuming read/delete is always allowed alongside the create/update permissions that are already there.
+
+---
+
+<a id="technical-faq-9"></a>
+
+## 9. End-to-end: how does the judge-context-budget path actually work for one run? (PR #351)
+
+**Trigger → resolve → score → (maybe split/truncate) → persist, entirely inside `execute_run`; nothing about
+this is visible via API/schema — it's purely internal to the AI-judge dispatch path (no new endpoints, no new
+columns).**
+
+Walkthrough, in call order:
+
+1. **Once per run, not per case:** `execute_run` (`utils/evaluation_run_orchestration.py:1110-1130`) resolves the
+   judge model's `context_window`/`max_output_tokens` via
+   `pylon_context.rpc_manager.configurations_get_configuration_model(project_id, judge_model_name)`. A lookup
+   failure (RPC unavailable, model not found) falls back to `128_000`/`16_000` and logs a warning — it never
+   blocks the run (E4 posture). It then computes
+   `judge_budget_tokens = context_window - max_output_tokens - JUDGE_TOKEN_SAFETY_MARGIN` (margin = `2_000`
+   tokens, reserved because token estimates are approximate). Both `judge_budget_tokens` and `judge_model_name`
+   are threaded down through `orchestrate_run` → `run_one_case` → `assemble_case_results`, defaulting to `None`
+   everywhere so every pre-existing caller/test that doesn't pass them is unaffected.
+2. **Per evidence-scope group, per case:** `assemble_case_results` groups AI-engine bindings by
+   `evidence_scope` exactly as before (rule #1 above), then calls `_score_ai_group_with_budget` instead of
+   `ai_scorer` directly.
+3. **The fast path costs nothing:** if `judge_budget_tokens is None` (feature not wired up by a caller) _and_
+   the group has `<= MAX_DIMENSIONS_PER_JUDGE_CALL` (`40`) dimensions, `_score_ai_group_with_budget` falls
+   straight through to one `ai_scorer(evidence, dims)` call — identical to pre-PR-351 behavior.
+4. **Count-only chunking always applies:** regardless of token budget, the group is first sliced into chunks of
+   at most `40` dimensions (`MAX_DIMENSIONS_PER_JUDGE_CALL`) — a cheap belt-and-suspenders cap that catches a
+   pathologically dimension-heavy group even when every dimension's text is small.
+5. **Token-budget splitting, per chunk:** if `judge_budget_tokens` is set and
+   `estimate_group_tokens(evidence, chunk, model)` (in `utils/evaluation_ai_judge.py`, builds the real prompt +
+   payload text and measures it via `context_manager.utils.token_estimation.estimate_tokens`, falling back to
+   `len(text) // 4` if that plugin/RPC is unavailable) exceeds the budget, the chunk is greedily bin-packed by
+   `split_dimensions_for_budget` into the fewest sub-batches that each fit — re-estimating each candidate batch
+   rather than summing per-dimension costs, since prompt overhead isn't linear.
+6. **Single-dimension overflow:** if a resulting batch is exactly one dimension and it _still_ overflows on its
+   own, `_truncate_evidence_for_budget` shrinks it (see #5 above for the exact trim order and the
+   rubric-`definition` fallback) before dispatch.
+7. **Dispatch and merge:** every batch is sent through the same `ai_scorer(batch_evidence, batch_dims)` and all
+   results are concatenated — from the caller's perspective (`assemble_case_results`) the group still yields one
+   flat list of per-dimension result rows, exactly as if it had been a single call.
+
+**Verified live** (FAQ #6/#7): a suite with 41 AI dimensions on one `evidence_scope`, run against 2 cases,
+produced exactly 4 judge calls (`2 cases × ceil(41/40)`) and all 82 result rows at `status='ok'` — confirming
+step 4 (count-only cap) fires independently of the token-estimation path.
+
+**Test coverage added in PR #351:**
+
+- `tests/unit/utils/test_evaluation_ai_judge.py` — `split_dimensions_for_budget` (under/over budget, empty
+  input, single oversized dimension) and `_truncate_evidence_for_budget` (evidence trimming, definition
+  fallback, giving up gracefully, and that the shrunk result still reaches `evaluate_case` correctly).
+- `tests/unit/utils/test_evaluation_run_orchestration.py::test_ai_oversized_group_splits_into_multiple_judge_calls`
+  — exercises `assemble_case_results` directly with `judge_budget_tokens=200`.
+- `tests/integration/test_eval_judge_context_budget.py` — full `execute_run` harness with a fake ORM/session,
+  covering: under-budget stays one call; an oversized group splits but still scores every dimension; more than
+  `MAX_DIMENSIONS_PER_JUDGE_CALL` dimensions splits even with no token budget set; a single oversized dimension
+  gets its evidence truncated but is still scored.
+
+**For developers touching this path:** if you add a new caller of `assemble_case_results` / `run_one_case` /
+`orchestrate_run`, you don't need to do anything to get budget protection — just don't pass
+`judge_budget_tokens`/`judge_model_name` and you get the pre-PR-351 single-call behavior; pass them (as
+`execute_run` does) to opt into splitting/truncation. There is no new schema, API, or frontend surface from this
+PR — a UI/API consumer of a finished run cannot distinguish "this group was split into 3 judge calls" from "it
+was scored in 1", other than a `_truncated_for_budget` flag appearing in a persisted result's evidence if
+truncation ever kicked in.
+
+---
+
+<a id="technical-faq-10"></a>
+
+## 10. How is the judge's raw text turned into structured scores, and what happens if it replies with unstructured prose?
+
+**Three-tier JSON extraction (`_extract_json`, `utils/llm_judge.py:58-85`) followed by per-dimension validation
+(`_parse_dimension_scores`, `utils/evaluation_ai_judge.py:131-166`) — a judge that never emits usable JSON
+produces per-dimension `status='error'` rows, never a crash or a silently-dropped case.**
+
+`run_llm_judge` (`utils/llm_judge.py:105`) pulls the last assistant message out of the `predict_sio` envelope
+(`_extract_chat_response`, mirrors `models/pd/publish.py::_extract_chat_response` but kept as a local,
+import-light copy rather than a shared import) and hands the text to `_extract_json`, which tries, in order:
+
+1. `json.loads(text.strip())` — the whole reply is JSON, nothing else.
+2. A ` ```json ... ``` ` fenced block (`_JSON_FENCE_RE`).
+3. The first `{` to the last `}` in the text — this is what tolerates prose wrapped around the JSON object
+   (e.g. "Here's my evaluation:\n`{...}`\nLet me know if you have questions."). It's a naive outermost-brace slice,
+   not a balanced-brace scanner, so a stray brace elsewhere in the prose can make this step fail; that's fine —
+   it just falls through to the next return.
+
+If none of the three parse to a `dict`, `_extract_json` returns `None`, and `run_llm_judge` reports
+`{'status': 'ok', 'data': None, ...}` up to the caller.
+
+`_parse_dimension_scores` then does its own validation independent of the JSON parse succeeding:
+
+- If `data` isn't a dict or has no `scores` list, every dimension in the batch gets
+  `status='error', error='missing'` with rationale `"Judge returned no score for this dimension."`.
+- If the judge's JSON is well-formed but a dimension's entry is absent (matched by `dimension_id` first, then
+  case-insensitive `name`), that dimension alone gets the `'missing'` error — sibling dimensions in the same
+  batched call can still score `'ok'`.
+- If a dimension's `score` field is the wrong type for its `scale_type` (e.g. a string where a number/bool was
+  expected), `_coerce_and_clamp` returns `('non-numeric score', ...)` and that dimension gets
+  `status='error', error='non-numeric score'` — the judge's own `rationale` text (if any) is preserved.
+- Numeric scores that parse fine but fall outside the dimension's declared scale are **clamped**, not rejected
+  (`round(max(lo, min(hi, value)), 2)`).
+
+**So:** "unstructured" from the judge never means the run fails — it degrades to one or more `error`-status
+result rows (scoped as narrowly as a single dimension when only that dimension's entry is bad), same fail-safe
+posture as the timeout/`predict_exception` paths in `run_llm_judge` (`utils/llm_judge.py:156-184`).
+
+---
+
+<a id="technical-faq-11"></a>
+
+## 11. What does "shared" mean for a dataset vs. a dimension, and how do I tell if either is shared?
+
+**Datasets use an explicit `is_shared` boolean; dimensions have no such field — sharing is expressed entirely
+through the `tier` enum instead.**
+
+**Datasets** (`models/evaluation.py:284`, `EvalDataset.is_shared`, default `False`):
+
+- `is_shared=False` → only the owning agent (`dataset.agent_id`) can select it in a suite config.
+- `is_shared=True` → selectable from **any** agent's suite config in the project.
+- Only the owner can flip this flag — `update_dataset` (`utils/evaluation_dataset_utils.py:192-204`) requires
+  `require_owner=True` for `is_shared` changes.
+- **UI**: `DatasetFormDialog.jsx` shows a checkbox — "Project shared — selectable from any agent's suite config."
+  `DatasetListRow.jsx` shows a "Shared"/"Shared in" badge when `dataset.is_shared` is true.
+
+**Dimensions** (`models/evaluation.py:102-165`, `EvalDimension.tier` + nullable `agent_id`):
+
+- `tier=platform` or `tier=project` → visible/usable by every agent in the project (shared).
+- `tier=agent_adhoc` → private, scoped to one agent via `agent_id` (or, for legacy rows with `agent_id=None`,
+  visible everywhere as a fallback).
+- There is no `is_shared` column and no separate checkbox — the tier itself carries the shared/private meaning.
+- **UI**: `DimensionEditorDialog.jsx` has a Tier select — "Project library" (shared) vs. "This agent only"
+  (private) — instead of a badge/checkbox.
+
+**Caveat (from the code's own docstring in `evaluation_library_utils.py:118-132`):** the `agent_id` scoping on
+`agent_adhoc` dimensions is **UX decluttering only, not a security boundary** — `project`/`platform`-tier
+dimensions are visible to all project members regardless of `agent_id`; real access control happens at the
+project-permission-check level.
+
+**Quick check, API/DB:**
+
+- Dataset: read `is_shared`.
+- Dimension: read `tier` — `agent_adhoc` = private, anything else = shared.
+
+See Q13/Q14 for what a _borrowing_ suite can actually change in each case.
+
+---
+
+<a id="technical-faq-12"></a>
+
+## 12. How are placeholders mapped in the "Generate dimensions with AI" service prompt?
+
+**It's plain Python `str.format` — there is no custom placeholder engine, and exactly four keys are supplied.**
+
+**The lookup chain:**
+
+1. `api/v2/generate_eval_dimensions.py` declares `_SERVICE_PROMPT_KEY = "generate_eval_dimensions"`.
+2. `get_service_prompt(key)` (`utils/service_prompt_utils.py`) RPCs
+   `configurations_get_filtered_public(filter_fields={"type": "service_prompt"})`, matches on the record's
+   `data.key`, and returns `data.prompt`. On a miss it returns `""`, which the endpoint maps to
+   `500 "Service prompt 'generate_eval_dimensions' is not configured"`.
+3. That string is passed as `template` to `build_eval_dimensions_system_prompt`
+   (`utils/generate_application_utils.py:332-363`), which calls `template.format(...)`.
+
+**The four placeholders:**
+
+| Placeholder             | Value                                                                                                                                                                     |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `{application_name}`    | `fetch_application_instructions()['application_name']`                                                                                                                    |
+| `{instructions}`        | the agent's instructions for the resolved version, or literal `(no instructions set)` when empty                                                                          |
+| `{count_clause}`        | from `count_hint`: `"Propose at most N dimensions."`, else `"Propose 3-6 dimensions, using your judgment."`                                                               |
+| `{existing_dimensions}` | from `existing_dimension_names`: a do-not-repropose sentence listing up to `_MAX_EXISTING_DIMENSIONS` names, else `"The project's dimension library is currently empty."` |
+
+**The two clause placeholders are pre-rendered prose, not data.** The English sentences are hardcoded in Python
+(`generate_application_utils.py:339-352`), so a prompt editor can reposition or drop `{count_clause}` /
+`{existing_dimensions}` but cannot reword them. Only the `count_hint` request field (1-20) and the state of the
+dimension library change the text.
+
+**Where the name list comes from:** the endpoint calls `list_dimensions(project_id, include_platform=False,
+agent_id=req.application_id)` — both writable tiers, scoped to this agent, so `agent_adhoc` names owned by
+_other_ agents (which can't collide, since uniqueness is per `(name, agent_id)` for that tier) aren't leaked
+into the prompt as names to avoid.
+
+**Gotcha — literal braces must be doubled.** Because this is `str.format`, the JSON schema block in the default
+template is written `{{ "dimensions": [ {{ ... }} ] }}`
+(`configurations/models/pd/service_prompt_defaults.py:631-650`). A single `{` in a JSON example, or any
+`{placeholder}` outside the four keys above, raises `KeyError`/`IndexError`/`ValueError`, which is caught and
+re-raised as `ServicePromptTemplateError` → `500 "Service prompt 'generate_eval_dimensions' template is
+malformed"`. This is the main trap when editing the prompt through the admin console.
+
+**Default vs. live:** the seed default is `GENERATE_EVAL_DIMENSIONS_DEFAULT_PROMPT`
+(`configurations/models/pd/service_prompt_defaults.py:602`, registered in the key map at line 966). An edited
+copy stored in the Public project's `service_prompt` configurations takes precedence over it.
+
+---
+
+<a id="technical-faq-13"></a>
+
+## 13. A suite borrows a shared dataset it doesn't own — how does it drop cases from its own runs? (#6350)
+
+**Through a per-suite overlay table, not by editing the dataset.** Sharing grants read, never write
+(`can_edit_dataset`, `utils/evaluation_dataset_utils.py:238-245` — `is_shared` deliberately plays no part), so
+before this the UI offered add/remove on a borrowed dataset and the API answered with a bare 404.
+
+**The table** — `EvalSuiteCaseExclusion` (`models/evaluation.py:318`):
+
+- `UniqueConstraint('suite_id', 'case_id')` — the set is idempotent by construction.
+- Both FKs are `ondelete='CASCADE'`, so an exclusion can never outlive the suite or the case it names. Deleting a
+  case from the origin dataset silently cleans up every borrower's exclusion row.
+- New _table_, no new columns → `tenant_metadata.create_all()` picks it up in every tenant schema; no migration.
+
+**The endpoint** — `api/v2/eval_suite_case_exclusions.py`, `<int:project_id>/<int:suite_id>`:
+
+- `GET` → `{"case_ids": [...]}`, sorted.
+- `PUT` `{"case_ids": [...]}` → **replace**, not merge. An empty list clears the set (restore all).
+- `set_case_exclusions` (`utils/evaluation_suite_utils.py:391`) validates every id against
+  `EvalDatasetCase.dataset_id == suite.dataset_id` and raises `EvalCaseExclusionError` (400) on a foreign id —
+  accepting it would look like it worked while the run kept every case. An unknown suite is
+  `EvalSuiteNotFoundError` (404).
+
+**How a run applies it** — `create_batch_run` (`utils/evaluation_run_utils.py:199-203`):
+
+```python
+excluded = excluded_case_ids(s, suite_id) if ds_id == suite.dataset_id else set()
+if all_cases_excluded(dataset.cases, excluded):
+    raise EvalRunConfigError('every case of this suite\'s dataset is excluded; nothing to run')
+cases = [_case_dict(c) for c in effective_cases(dataset.cases, excluded)]
+```
+
+Three things to note:
+
+1. **An explicit `dataset_id` override skips the filter entirely.** Exclusions are authored against the suite's
+   _own_ dataset; applying them to a different case set would be a filter written for another dataset.
+2. `effective_cases` preserves `order_index` — filtering must not resequence a run.
+3. `all_cases_excluded` returns `False` for an already-empty dataset, so an empty run is never _blamed_ on
+   exclusions. An excluded-to-nothing dataset is a 400 rather than a frozen caseless run whose headline score
+   would be an unexplained null.
+
+**Read-side flags the UI consumes:**
+
+- `GET eval_dataset` → `can_edit` (so a borrower learns the rule up front instead of via a 404 on first save).
+- `GET eval_dataset_cases?suite_id=N` → per-case `excluded`. Without `suite_id` the view is suite-agnostic and
+  everything reads `excluded=false`; a borrower's opt-out must not leak into the plain dataset view. An unknown
+  `suite_id` is a **404** here too — it routes through the suite-validating `list_case_exclusions` precisely so a
+  typo can't render as "this suite excludes nothing".
+
+**The origin is never touched.** No case is deleted, and a second suite on the same shared dataset keeps its own
+(possibly empty) exclusion set.
+
+---
+
+<a id="technical-faq-14"></a>
+
+## 14. What's the dimension equivalent — and what happens when a dimension is removed from a suite?
+
+**`EvalBinding` _is_ the overlay; no exclusion table is needed.** A dataset is attached whole, so opting out of
+inherited cases needs a separate row. Dimensions are the inverse: a suite starts empty and each dimension is
+attached explicitly, so the attachment row already is the per-suite scope.
+
+**Attach** — `add_binding` (`utils/evaluation_suite_utils.py:254`) writes one `EvalBinding`
+(`models/evaluation.py:213`) and validates: the dimension exists and is visible to the suite's agent
+(`agent_adhoc` scoping), any `application_version_id` pin belongs to the suite's application (§16.3), and the
+requested `engine` is in the definition's `allowed_engines` (`EvalBindingEngineError`, 400). Platform-key
+bindings are normalized to `EvalEngine.code` at the source. `UniqueConstraint('suite_id', 'dimension_id')`
+(and the platform_key twin) makes a re-attach a 409 — scoring one criterion twice would silently double its
+weight in the headline.
+
+**Customize per suite** — every per-suite value lives on the binding, never on the definition: `engine`,
+`evidence_scope`, `weight`, `target`, `target_operator`, `order_index`. `update_binding` writes only binding
+columns, so the same dimension can be weight 3 / target ≥8 in one suite and weight 1 / target ≥5 in another.
+
+**Detach** — `delete_binding` is `s.delete(binding)` and nothing else. The `EvalDimension` definition is
+untouched and every other suite's binding for it is unaffected. This is the dimension analogue of a case
+exclusion, minus the overlay table.
+
+**Delete the definition** — a different, destructive operation. `delete_dimension`
+(`utils/evaluation_library_utils.py`) refuses on `tier=platform` (`EvalTierImmutableError`); otherwise both
+`EvalBinding.dimension_id` and `EvalResult.dimension_id` are `ondelete='CASCADE'`, so every suite's binding and
+every historical result row referencing it go with it. Editing a shared definition has a lighter version of the
+same reach: `update_dimension` validates the merged row and rejects an `allowed_engines` narrowing that would
+orphan a live binding (`EvalDimensionEngineBindingConflictError`); `tier` and `agent_id` are immutable
+post-create.
+
+**Finished runs are insulated either way.** `_load_suite_config` freezes the bindings _and_ the dimensions they
+reference into `EvalRun.snapshot`, so a completed report still renders after the definition is gone — only the
+joinable `EvalResult.dimension_id` rows disappear.
+
+|                     | Dataset cases                    | Dimensions                                         |
+| ------------------- | -------------------------------- | -------------------------------------------------- |
+| Attachment          | whole dataset, inherited         | one `EvalBinding` per item, opt-in                 |
+| Per-suite opt-out   | `EvalSuiteCaseExclusion` overlay | delete your own binding                            |
+| Per-suite tuning    | none — cases are shared verbatim | weight / target / engine / evidence on the binding |
+| Reaches the origin? | never                            | detach: no. `delete_dimension`: CASCADE everywhere |
+
+---
+
+<a id="technical-faq-15"></a>
+
+## 15. Cookbook: curl calls for adjusting the dataset attached to a suite
+
+All eval v2 endpoints live at `/api/v2/elitea_core/<endpoint>/prompt_lib/<project_id>/...`.
+
+```bash
+BASE=http://127.0.0.1/api/v2/elitea_core
+AUTH="Authorization: Bearer $ELITEA_TOKEN"      # or: -b "centry_auth_session=$SESSION"
+PROJECT=2 ; SUITE=21 ; AGENT=15
+```
+
+**Step 1 — which dataset does the suite use?**
+
+```bash
+curl -s -H "$AUTH" "$BASE/eval_suite/prompt_lib/$PROJECT/$SUITE"     # -> dataset_id
+DATASET=7
+```
+
+**Step 2 — list the cases, and find out whether you may edit them.** `suite_id` adds a per-case `excluded`
+flag; `can_edit` on the dataset read is the ownership answer (see Q13).
+
+```bash
+curl -s -H "$AUTH" "$BASE/eval_dataset_cases/prompt_lib/$PROJECT/$DATASET?suite_id=$SUITE&limit=200&offset=0"
+curl -s -H "$AUTH" "$BASE/eval_dataset/prompt_lib/$PROJECT/$DATASET?agent_id=$AGENT"   # -> can_edit
+```
+
+### A. `can_edit: false` — borrowed dataset: skip cases for this suite only
+
+```bash
+# read the current exclusion set
+curl -s -H "$AUTH" "$BASE/eval_suite_case_exclusions/prompt_lib/$PROJECT/$SUITE"
+
+# REPLACE the set (not a merge — send the full list of ids you want skipped)
+curl -s -X PUT -H "$AUTH" -H 'Content-Type: application/json' \
+  -d '{"case_ids": [49, 52]}' \
+  "$BASE/eval_suite_case_exclusions/prompt_lib/$PROJECT/$SUITE"
+
+# clear it — restore every case
+curl -s -X PUT -H "$AUTH" -H 'Content-Type: application/json' \
+  -d '{"case_ids": []}' \
+  "$BASE/eval_suite_case_exclusions/prompt_lib/$PROJECT/$SUITE"
+```
+
+Every id must belong to the suite's own dataset (else `400`); an unknown `suite_id` is `404`; excluding _all_
+cases is accepted here but makes the next run a `400` (`nothing to run`).
+
+### B. `can_edit: true` — your own dataset: edit the cases
+
+These change the dataset for **every** suite using it. `agent_id` must be the owning agent.
+
+```bash
+# add a case
+curl -s -X POST -H "$AUTH" -H 'Content-Type: application/json' \
+  -d '{"input": "What is 2+2?", "expected_output": "4", "variables": {}}' \
+  "$BASE/eval_dataset_cases/prompt_lib/$PROJECT/$DATASET?agent_id=$AGENT"
+
+# edit a case
+curl -s -X PUT -H "$AUTH" -H 'Content-Type: application/json' \
+  -d '{"expected_output": "four"}' \
+  "$BASE/eval_dataset_case/prompt_lib/$PROJECT/$DATASET/49?agent_id=$AGENT"
+
+# delete a case — also drops any suite's exclusion row for it, via the FK cascade
+curl -s -X DELETE -H "$AUTH" \
+  "$BASE/eval_dataset_case/prompt_lib/$PROJECT/$DATASET/49?agent_id=$AGENT"
+```
+
+### C. Attach a different dataset to the suite
+
+```bash
+curl -s -X PUT -H "$AUTH" -H 'Content-Type: application/json' \
+  -d '{"dataset_id": 9}' \
+  "$BASE/eval_suite/prompt_lib/$PROJECT/$SUITE"
+```
+
+Exclusions name case ids of the _old_ dataset, so clear them (`{"case_ids": []}`) after switching — and note that
+a run launched with an explicit `dataset_id` override ignores the exclusion set entirely (Q13).
+
+### Verify
+
+```bash
+curl -s -X POST -H "$AUTH" -H 'Content-Type: application/json' \
+  -d "{\"suite_id\": $SUITE, \"trigger_type\": \"offline_batch\"}" \
+  "$BASE/eval_runs/prompt_lib/$PROJECT"
+```
+
+`progress.total` on the created run should equal dataset cases minus exclusions.
+
+---
+
+<a id="technical-faq-16"></a>
+
+## 16. "Enhance with AI" on a finished run — which instructions does it diagnose, and can a big suite use it? (#6496)
+
+**It always diagnoses the instructions the run was _pinned_ to, never the agent's current draft; it refuses a run
+it cannot read in full rather than analysing a prefix of it; and a suite over that limit is still analysable one
+dimension at a time, because `dimension_ids` narrows the database read and not just the ranking.**
+
+### The version is the run's, not the agent's
+
+`fetch_evaluated_version` (`utils/enhancement_utils.py`) reads the run's `application_version_id`. Diagnosing text
+that was not under test is the easiest way to produce a confidently wrong proposal, so the response carries both
+`version_id` and `instructions_sha256`; the apply endpoints re-check that hash and reject a patch built against
+instructions that have since been edited. If that version has been deleted the endpoint returns **409** rather
+than falling back to the current draft.
+
+### Gap selection is server-side and deterministic
+
+`select_gaps` (`utils/enhancement_gap_selection.py`) is pure — no ORM — so the same run always produces the same
+prompt and a prompt regression is visible instead of looking like ordinary variance. It ranks bindings by
+`weight × mean_shortfall × miss_rate`, keeps the top `MAX_GAP_DIMENSIONS = 5`, and keeps each one's worst
+`MAX_CASES_PER_DIMENSION = 3` cases. Rows that were never really measured are excluded from the statistics:
+`status='error'` (judge or script failed — treating these as misses would have the AI rewrite instructions to fix
+infrastructure) and `status='pending_human'` with no annotation yet (unscored, not failed). A binding with no
+target configured produces no gap at all: without a target there is no defined notion of failure, and guessing
+one would make the AI argue against a standard the author never set.
+
+Filtering happens **before** ranking, so the cap is spent on what you asked about:
+
+```python
+collected = collect_binding_gaps(snapshot, results, human_scores)
+selected = filter_gaps_by_dimension(collected['gaps'], dimension_ids)
+ranked = rank_gaps(selected, max_dimensions, max_cases)
+```
+
+Filtering afterwards would drop a requested dimension that happened to rank sixth and answer "nothing to
+diagnose" about a dimension that did in fact miss its target.
+
+### Oversized runs are refused, not truncated
+
+`fetch_run_for_enhancement` counts result rows before reading them and raises `EvalRunTooLargeError` → **413**
+above `MAX_RESULT_ROWS = 20000`. A finished run is immutable, so the count is exact. Reading the first 20k and
+folding over those would put every failure past the cutoff outside the analysis while `coverage` still counted the
+whole snapshot — so a run whose only misses sit in the tail would come back "no dimension missed its target",
+which is the most damaging thing this endpoint could say.
+
+`dimension_ids` constrains the count and both reads, which is what makes that error's advice actionable:
+
+```python
+result_filters = [EvalResult.run_id == run_id]
+if wanted:
+    result_filters.append(EvalResult.dimension_id.in_(wanted))
+result_rows = s.query(func.count(EvalResult.id)).filter(*result_filters).scalar() or 0
+```
+
+A 60k-row suite is rejected as a whole but analysable dimension by dimension. Note that a scoped read excludes
+platform-key bindings (they have no `dimension_id`).
+
+### Reading `coverage` correctly
+
+Every count in `coverage` describes the rows that were actually analysed, so under a filter the totals are
+**scoped, not run-wide** — `coverage.scoped_to_dimension_ids` says so, and without it `gap_dimensions_total: 1`
+would read as "this run has one problem":
+
+```bash
+curl -s -X POST -H "$AUTH" -H 'Content-Type: application/json' \
+  -d '{"run_id": 91}' "$BASE/enhance_from_eval/prompt_lib/$PROJECT" | jq .coverage
+# gap_dimensions_total: 4, gap_dimensions_returned: 4, scoped_to_dimension_ids: null
+
+  -d '{"run_id": 91, "dimension_ids": [21]}'
+# gap_dimensions_total: 1, gap_dimensions_returned: 1, scoped_to_dimension_ids: [21]
+```
+
+`discarded_agent_fixes` / `discarded_eval_fixes` count items dropped by grounding (`ground_proposal`) because
+their patch anchor is absent from the analysed instructions or their citations name a dimension/case not in the
+run. A nonzero value is how a prompt regression becomes visible rather than reaching a one-click "accept" button
+and failing at 409 in front of a user who had already judged the item correct.
+
+### Nothing is persisted
+
+The endpoint returns a proposal only. Accepted items are saved through the existing endpoints — and applying to a
+**fork** is the default (the only option for a published or embedded version), so the run that produced the
+proposal stays reproducible against the exact text it scored, which is what makes an A/B comparison meaningful.
+The source version is never touched. Instructions are patched _before_ the clone is created, so a stale hash or a
+non-matching anchor leaves no orphan version behind. Two forks accepted at once can race the unique
+`(application_id, name)` constraint; that returns a retryable **409** ("retry the fork") rather than a 500 —
+nothing was written, and the patches are still valid against the same hash.
+
+### Error codes at a glance
+
+| Code | Meaning                                                                                                                                                                           |
+| ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 409  | Run not finished; or the pinned version was deleted; or (on apply) stale hash / anchor not matching exactly once / fork name race                                                 |
+| 413  | More result rows than can be analysed — narrow with `dimension_ids` or split the suite                                                                                            |
+| 422  | The model's output was unparseable or failed validation. Unbalanced brackets are reported distinctly as a truncation, because the fix is `max_tokens` (default 8192), not a retry |
+| 500  | The `enhance_agent_from_eval` service prompt is missing or its template is malformed                                                                                              |
+| 503  | Prediction pool saturated; `retry_after` says when to try again                                                                                                                   |
+
+---
+
+<a id="technical-faq-17"></a>
+
+## 17. Numeric code-validation example using both `input` and `output`
+
+Q4 above covers a numeric script scoring `input` alone. This is the same pattern extended to use **both**
+`input` and `output` in one script — e.g. "how much of what the user asked for actually shows up in the
+reply," scored as a fraction rather than pass/fail.
+
+**Dimension** (`return_contract: "number"`, `scale_type: "continuous"`, `scale_min: 0`, `scale_max: 1`):
+
+```python
+input_words = set(input.lower().split())
+output_words = set(output.lower().split())
+overlap = input_words & output_words
+result = round(len(overlap) / max(len(input_words), 1), 4)
+```
+
+**Binding:** `evidence_scope: {"input": true, "output": true}` (this is already the default — see Q4).
+
+**Verified against `utils/code_validation.py` directly** (`build_validation_prelude` → exec →
+`map_execution_result`, `return_contract='number'`):
+
+```python
+case_input = 'Please tell me the price, shipping date, and tracking number for my order.'
+
+# a reply that actually answers the ask
+output = 'The price is $42, the shipping date is Friday, and the tracking number is TX123.'
+# -> {'native_score': 0.38, 'passed': None, 'status': 'scored', 'error': None}
+
+# a generic non-answer
+output = 'Thanks for reaching out! Have a nice day.'
+# -> {'native_score': 0.08, 'passed': None, 'status': 'scored', 'error': None}
+```
+
+Note `passed` is always `None` for the `number` contract — pass/fail is not part of the numeric contract;
+whether 0.38 is "good enough" is decided by the binding's `target`/`target_operator` (e.g. `target: 0.3,
+target_operator: ">="`), evaluated on the **native** score, independently of aggregation (§20.5 in the design
+doc). To fold this into the suite's weighted headline, `scale_min`/`scale_max` must be set on the dimension —
+an unranged numeric result is target-checked only and excluded from the aggregate as weight-0 (§20.7).
+
+<a id="technical-faq-18"></a>
+
+## 18. For a code validation, what does the harness actually check — a variable or a `return`?
+
+**A variable, not a `return`.** A code-validation script is not a function — it's a plain script executed in
+the sandbox, and the harness reads whatever ends up assigned to a variable named **`result`**. There is no
+`return` statement anywhere in the contract.
+
+`build_validation_prelude` (`utils/code_validation.py`) assembles three parts around your script:
+
+```text
+[trusted prelude]   output = "...", input = "...", ...   # evidence injected as plain Python literals
+[your script]       result = ...                          # must assign this
+[trusted epilogue]  globals().get('result')
+```
+
+The epilogue deliberately uses `globals().get('result')` instead of evaluating `result` as the sandbox's last
+expression. That's because the sandbox (Pyodide) captures the value of the **last expression**, and a bare
+`result = True` is an _assignment_, which evaluates to `None` — evaluating `result` on the next line would
+work, but a script that never assigns it at all would raise `NameError` instead of failing cleanly.
+`globals().get('result')` sidesteps both: it surfaces the assigned value when present, and yields `None` (the
+contract's "missing result" signal) when the script forgot to assign it — never a crash.
+
+**What you can read**, injected ahead of your script as evidence-scope-gated variables (§19.4): `output`
+(always present), plus `input` / `expected` / `structure` when the binding's `evidence_scope` includes them.
+
+**What `result` must contain**, enforced by `_coerce_to_contract`:
+
+| `return_contract` | valid `result`       | rejected as an error verdict                                                        |
+| ----------------- | -------------------- | ----------------------------------------------------------------------------------- |
+| `"bool"`          | `True` / `False`     | anything not coercible to bool                                                      |
+| `"number"`        | finite `int`/`float` | `bool` (rejected even though `bool` is an `int` subclass), `NaN`/`inf`, non-numeric |
+
+A missing or uncoercible `result` always yields `status='error'` — never a crash, never a silent pass (§19.4).
+
+**Note: there is no string coercion at all**, for either contract. `result = "Validation 1: tested. Validation
+2: untested"` is an error verdict under both `"bool"` and `"number"` — it is not parsed for truthy words or
+embedded numbers. Only real `bool`/`int`/`float` values are accepted, per the table above. If you want to surface
+descriptive text like that, `print()` it to `stdout` for debugging visibility; `result` itself must stay a plain
+`True`/`False` or a plain number.
+
+**Examples:**
+
+```python
+# binary, output only
+result = "error" not in output.lower()
+
+# binary, input + output
+result = output.strip() != "" and input.strip() != ""
+
+# numeric, input only (Q4)
+result = min(len(input) / 200, 1.0)
+
+# numeric, input + output (Q17)
+input_words = set(input.lower().split())
+output_words = set(output.lower().split())
+overlap = input_words & output_words
+result = round(len(overlap) / max(len(input_words), 1), 4)
+```

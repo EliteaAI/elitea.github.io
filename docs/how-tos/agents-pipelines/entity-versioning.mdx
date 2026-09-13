@@ -1,9 +1,13 @@
 ---
-title: "Agent and Pipeline Versioning"
+title: "Entity Versioning"
 description: "Entity versioning (for agents and pipelines) in ELITEA allows you to create, manage, and track different iterations of your agents. This feature enables you to "
 ---
 
 ## Overview
+
+<Note>
+**Applies to Skills Too:** While this guide focuses on agent and pipeline versioning, **skill versioning works exactly the same way**. All patterns, naming conventions, version management operations, and best practices described here apply equally to skills.
+</Note>
 
 **Key Concepts**
 
@@ -46,7 +50,7 @@ When you want to preserve a specific configuration:
        * Use clear, descriptive names (e.g., "prod-v1", "beta-test")
 3. **Click Save**: The new version is created and becomes the current active version. The system automatically navigates to the newly created version, updates the version dropdown to show the new version, and updates the URL to reflect the new version ID. You can immediately continue editing the new version or switch to another version.
 
-     ![Creating a new version](../../img/how-tos/entity-management/entity-versioning/create-new-version.gif)
+     ![Creating a new version](../../img/how-tos/entity-management/entity-versioning/create-new-version.png)
 
 <Warning title="Warning">
 Version names must be unique within the agent. The system will prevent duplicate names.
@@ -54,20 +58,16 @@ Version names must be unique within the agent. The system will prevent duplicate
 
 ### Version Selection and Navigation
 
-**Using the Version Dropdown**:
+The version dropdown is located in the top toolbar. Click any version to switch and view its configuration. When you switch, the system loads the selected version's complete configuration, updates the URL to include the new version ID, updates all form fields to show the selected version's data, and updates the breadcrumb navigation. Any unsaved changes in the previous version are preserved (you'll see them if you switch back).
+  *  Each version displays:
+     - **Version name** (e.g., "v1.0", "base")
+     - **Creation metadata** in format: "Month DD, YYYY, HH:MM · by Author Name" (e.g., "Mar 15, 2024, 14:30 · by John Smith")
+     - **Visual indicators**: Pin icon for default version, publish icon for published versions
+  *  Includes a search field with placeholder to quickly find specific versions
 
-  *  Located in the top toolbar next to the agent name
-  *  Shows all available versions with creation dates and version information (version ID and name, creation date and time, author information in public projects, and default version indicator with pin icon)
-  *  Click any version to switch and view its configuration. When you switch, the system loads the selected version's complete configuration, updates the URL to include the new version ID, updates all form fields to show the selected version's data, and updates the breadcrumb navigation. Any unsaved changes in the previous version are preserved (you'll see them if you switch back).
-  *  Versions are sorted with default version first, then published versions, then draft versions by creation date (newest first), with "base" at the bottom:
+Versions are sorted by creation date (newest first), with "base" always appearing at the bottom:
 
-**Version Sorting Order:**
-
-1. **Default Version** (if set) appears at the top with a pin icon
-2. **Published Versions** sorted by creation date (newest first)
-3. **Draft Versions** sorted by creation date (newest first)
-
-     ![Select](../../img/how-tos/entity-management/entity-versioning/select-version.gif)
+     ![Version Selection](../../img/menus/agents/version-select.png)
 
 ### Editing and Saving Changes
 
@@ -109,7 +109,7 @@ There are two ways to set a version as default:
 4. Review the confirmation dialog explaining the impact
 5. Click **"Set as a default"** to confirm
 
-     ![ Default Version](../../img/how-tos/entity-management/entity-versioning/select-default-version-1.gif)
+     ![ Default Version](../../img/how-tos/entity-management/entity-versioning/select-default-version-1.png)
 
 **Option 2: Using the Three-Dot Menu**
 
@@ -119,14 +119,14 @@ There are two ways to set a version as default:
 4. Review the confirmation dialog explaining the impact
 5. Click **"Set as a default"** to confirm
 
-     ![ Default Version](../../img/how-tos/entity-management/entity-versioning/select-default-version-2.gif)
+     ![ Default Version](../../img/how-tos/entity-management/entity-versioning/select-default-version-2.png)
 
 
-The default version will now be marked with a pin icon (📌) in the version dropdown and will appear at the top of the version list.
+The default version will now be marked with a pin icon (📌) in the version dropdown.
 
 <Info title="Default Version Behavior">
 * **Automatic Selection**: The default version is automatically used in all new integrations
-* **Version Dropdown Priority**: Always appears at the top of the version list with a pin icon
+* **Visual Indicator**: Marked with a pin icon in the version dropdown (stays in its chronological position, not pinned to top)
 * **Deletion Protection**: Cannot be deleted until a different version is set as default
 * **Status Restriction**: Only Draft versions can be set as default (published versions cannot be set as default)
 * **Implicit Default**: If no default version is explicitly set, "base" serves as the implicit default
@@ -135,38 +135,38 @@ The default version will now be marked with a pin icon (📌) in the version dro
 
 ## Publishing Versions
 
+Publishing makes an agent version available in [Agent HUB](../../menus/agents-studio), where it can be discovered and used by all ELITEA users.
+
 <Info title="Agent-Only Feature">
-Publishing and unpublishing are only available for Agents. Pipelines do not have publish functionality.
+Publishing is available only for agents. Pipelines do not have publish functionality.
 </Info>
 
-**How to Publish**
+**Key Features:**
 
-1. **Select a Draft Version**: You can only publish versions with Draft status
-2. **Click "Publish"** button in the toolbar (requires publish permission)
-3. **Enter Version Name**: A dialog appears asking you to provide a name for the published version
-4. **System creates new version**  and submits it for review
-5. **Submit for Review**: The version goes to the moderation queue
+* **Guided Three-Step Wizard**: Publish through preparation, AI-powered validation, and submission steps
+* **AI-Powered Validation**: Automated validation identifies issues and improvement areas before publishing
+* **Category Selection**: Agents are organized by category for easy discovery in Agent HUB
+* **Publishing Terms**: Review what's included/excluded and best-practice requirements
+* **Permission Required**: You must have `models.applications.publish.post` permission
 
-     ![Publish](../../img/how-tos/entity-management/entity-versioning/publish-version.gif)
+**Quick Publishing Flow:**
 
-<Info title="Publishing Process">
-* **Permission Required**: You must have `applications.publish` permission
-* **Version Creation**: Publishing creates a new version with your specified name, then submits that version for moderation
-* **Moderation Review**: All published versions require moderator approval
-* **If Approved**: Version status changes to Published and becomes publicly available
-* **If Rejected**: You receive feedback and can resubmit after modifications
-</Info>
+1. Open the agent and select the version to publish
+2. Click the **three-dot menu (⋮)** and select **Publish**
+3. Complete the three-step wizard:
+   - **Preparation**: Enter version name, select category, agree to terms
+   - **Validation**: AI review checks configuration and provides feedback
+   - **Submission**: Review and submit for moderation
 
-**Unpublishing**
+     ![Publish Version](../../img/how-tos/entity-management/entity-versioning/publish-version.png)
 
-To remove a published version from public availability:
+**Unpublishing:**
 
-1. Select the published version
-2. Click "Unpublish" button in the toolbar
-3. Confirm the action
-4. Version status returns to Draft
+Published agents can be unpublished at any time through the three-dot menu. This immediately removes the agent from Agent HUB.
 
-     ![Publish](../../img/how-tos/entity-management/entity-versioning/unpublish-version.gif)
+<Note>
+For detailed publishing workflow, validation requirements, moderation process, and troubleshooting, see [Agent Publishing](./agent-publishing).
+</Note>
 
 ## Sharing Versions
 
@@ -183,7 +183,7 @@ The **Copy link** option generates a direct URL to the currently selected versio
 3. **Click "🔗 Share"** — the menu icon changes to a checkmark briefly and a toast notification confirms: *"The link has been copied to the clipboard."*
 4. **Paste and share** the copied URL with your colleagues.
 
-     ![Share](../../img/how-tos/entity-management/entity-versioning/share-version.gif)
+     ![Share](../../img/how-tos/entity-management/entity-versioning/share-version.png)
 
 
 <Info title="Copy Link Behavior">
@@ -206,7 +206,7 @@ The **Export** option downloads the currently selected version as a Markdown (`.
 4. **Share the file** via email, a Git repository, a shared drive, or any other channel.
 5. The recipient can **[import](./import-export)** the file into their own project.
 
-     ![Export](../../img/how-tos/entity-management/entity-versioning/export-version.gif)
+     ![Export](../../img/how-tos/entity-management/entity-versioning/export-version.png)
 
 
 <Info title="Export Behavior">
@@ -230,7 +230,7 @@ When you add an agent to a conversation:
 * You can switch to a different version at any time during the conversation using the version dropdown in the chat interface
 * Each conversation maintains its own version selection independently
 
-     ![Chat](../../img/how-tos/entity-management/entity-versioning/select-version-chat.gif)
+     ![Chat](../../img/how-tos/entity-management/entity-versioning/select-version-chat.png)
 
 **Version Selection in Nested Agents/Pipelines**
 
@@ -242,7 +242,7 @@ When adding an agent as a toolkit in another agent or pipeline:
 * The selected version is saved with the parent agent/pipeline configuration
 * Changing the default version in the source agent does **not** automatically update nested references - you must manually update the version selection in each parent agent/pipeline
 
-     ![Agent](../../img/how-tos/entity-management/entity-versioning/select-version-agent.gif)
+     ![Agent](../../img/how-tos/entity-management/entity-versioning/select-version-agent.png)
 
 <Tip title="Version Management in Nested Structures">
 When using agents as toolkits:
@@ -251,6 +251,64 @@ When using agents as toolkits:
 - Document which version is being used in nested structures
 - Update nested references manually when rolling out new versions
 - Test thoroughly after changing versions in nested agents
+</Tip>
+
+## Compare Versions
+
+The **Compare Versions** feature allows you to view side-by-side differences between two versions of an agent or skill and selectively adopt changes from one version to the other.
+
+### Access Compare Versions
+
+To compare two versions:
+
+1. Open any saved agent or skill with at least two versions.
+2. Select the **three-dot menu (⋮)** in the entity tab bar.
+3. Select **Compare Versions**.
+     ![Compare Versions](../../img/how-tos/entity-management/entity-versioning/compare-version.png)
+4. The Compare Versions dialog opens with the current version pre-selected under the **Base version**.
+5. From the **Compare with** dropdown, select the version you want to compare against.
+6. Select **Compare** to load both versions and enter the comparison wizard.
+    ![Compare Versions Select](../../img/menus/agents/compare-version-select.png)
+
+### How Compare Versions Works
+
+The wizard presents a step-by-step comparison across different configuration areas:
+
+**For Agents:**
+1. **Instructions**: View a diff of the instructions field showing added, removed, and unchanged text.
+     ![Compare Instructions](../../img/how-tos/entity-management/entity-versioning/compare-instr.png)
+2. **User Interaction**: Compare Welcome Message and Conversation Starters side-by-side.
+     ![Compare User Interaction](../../img/how-tos/entity-management/entity-versioning/compare-Interaction.png)
+3. **Tools & Skills**: See which toolkits, MCPs, agents, pipelines, and skills were added, removed, or kept the same between versions.
+     ![Compare Tools](../../img/how-tos/entity-management/entity-versioning/compare-tools.png)
+
+**For Skills:**
+1. **Instructions**: View a diff of the instructions field showing added, removed, and unchanged text.
+
+### Making Changes
+
+For each comparison step, you can:
+
+* **View differences**: See what changed between the two versions with visual highlighting.
+* **Adopt changes**: Copy changes from either version to the other by selecting the desired content.
+* **Save individually**: Each editable section (Instructions, Welcome Message, Conversation Starters) has its own **Save** button. Changes are applied immediately when you save.
+
+<Info title="Save Behavior">
+* Changes are saved to the specific version being edited (left or right).
+* You can save changes to one version without affecting the other.
+* Each field is saved independently — you can save Instructions without saving other sections.
+* Unsaved changes are preserved if you navigate between steps within the wizard.
+</Info>
+
+<Warning title="Unsaved Changes">
+If you have unsaved changes when closing the Compare Versions wizard or changing versions, you will be prompted to confirm discarding those changes. Once discarded, changes cannot be recovered.
+</Warning>
+
+<Tip title="When to Use Compare Versions">
+* **Merge parallel work**: When you have made changes in different versions and want to merge specific improvements without overwriting entire configurations.
+* **Review version differences**: Compare a production version with a development version to see exactly what changed.
+* **Selective adoption**: Adopt only specific changes (e.g., instructions) from one version to another without copying everything.
+* **Version history review**: Understand how an agent or skill evolved between two versions.
 </Tip>
 
 ## Deleting Versions
@@ -266,7 +324,7 @@ The deletion process depends on whether the version is being used by other agent
 3. Confirm deletion in the dialog
 4. The version is deleted and you're redirected to the default version (if set) or "base" version
 
-     ![Delete](../../img/how-tos/entity-management/entity-versioning/delete-version-not-use.gif)
+     ![Delete](../../img/how-tos/entity-management/entity-versioning/delete-version-not-use.png)
 
 **Option 2: Version IS in Use**
 
@@ -283,7 +341,7 @@ The deletion process depends on whether the version is being used by other agent
        * Show success message with count of updated references
 7. You're redirected to the default version (if set) or "base" version
 
-     ![Delete](../../img/how-tos/entity-management/entity-versioning/delete-version-in-use.gif)
+     ![Delete](../../img/how-tos/entity-management/entity-versioning/delete-version-in-use.png)
 
 
 <Info title="Deletion Restrictions">

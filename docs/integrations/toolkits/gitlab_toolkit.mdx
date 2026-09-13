@@ -117,9 +117,10 @@ Before creating a toolkit, you must first create GitLab credentials in ELITEA:
 
 Once your credentials are configured, create the GitLab toolkit:
 
-1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits](../../menus/toolkits)**.
-2. **Create New Toolkit:** Click the **`+ Create`** button.
+1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits & Indexes](../../menus/toolkits)**.
+2. **Create New Toolkit:** Click the **`+ Toolkit`** button.
 3. **Select GitLab:** Choose **GitLab** from the list of available toolkit types.
+    <img src="../../img/integrations/toolkits/gitlab/gitlab-toolkit-access.png" alt="GitLab Toolkit Access" />
 4. **Configure Toolkit Settings:**
 
     | **Field** | **Description** | **Example** |
@@ -136,51 +137,49 @@ Once your credentials are configured, create the GitLab toolkit:
        * **[Make Tools Available by MCP](../mcp/make-tools-available-by-mcp)** - (optional checkbox) Enable this option to make the selected tools accessible through external MCP clients
 6. **Save Toolkit:** Click **Save** to create the toolkit
    
-     <img src="../../img/integrations/toolkits/gitlab/gitlab-toolkit-create.gif" alt="Toolkit" />
+<video src="../../img/integrations/toolkits/gitlab/gitlab-toolkit-create.mp4" controls></video>
 
 #### Available Tools:
 
 The GitLab toolkit provides the following tools for interacting with GitLab repositories, organized by functional categories:
 
-| **Tool Category** | **Tool Name** | **Description** | **Primary Use Case** |
-|:-----------------:|---------------|-----------------|----------------------|
-| **Branch Management** | | | |
-| | **Create branch** | Creates a new branch from the active branch. Automatically sets the new branch as active after creation. Returns success message or handles conflicts if branch already exists | Set up new feature branches or bug fix branches for development work |
-| | **Delete branch** | Deletes a branch from the repository with proper validation and error handling | Remove obsolete or merged feature branches to maintain repository cleanliness |
-| | **List branches in repo** | Lists branches in the repository with optional limit parameter (default: 20) and wildcard filtering support (e.g., '*dev') | View all branches or find specific branches matching a pattern for branch management |
-| | **Set active branch** | Switches the active branch for subsequent operations. Validates branch existence before switching and provides helpful error messages with available branches | Switch context to work on a specific branch for file operations and merge requests |
-| **File Operations** | | | |
-| | **Append file** | Appends new content to the end of an existing file without overwriting existing content | Add log entries, update changelog files, or append data to existing files |
-| | **Create file** | Creates a new file in the GitLab repository at the specified path with provided contents and commits it to the specified branch | Add new configuration files, documentation, or source code to the repository |
-| | **Delete file** | Deletes a file from the repository with proper commit message and branch specification | Remove obsolete files, clean up temporary files, or maintain repository hygiene |
-| | **Edit file** | Edits an existing file with enhanced validation and error handling capabilities | Modify file contents with improved change tracking and validation |
-| | **Grep file** | Searches for patterns within files using grep-like functionality across the repository | Find specific code patterns, text occurrences, or search within file contents |
-| | **List files** | Lists files in the repository with optional path filter and branch specification. Supports filtering by directory path | Browse repository structure, explore directories, or locate specific file paths |
-| | **List folders** | Lists folders in the repository with optional path filter, recursive/non-recursive search control, and branch specification | Explore directory structure and organize file operations |
-| | **Read file** | Reads and returns the complete contents of a file from the repository at the specified branch | Retrieve file contents for review, analysis, or processing by the AI agent |
-| | **Read multiple files** | Reads and returns contents of multiple files in a single operation for improved efficiency | Retrieve multiple file contents simultaneously for batch processing or analysis |
-| | **Update file** | Updates an existing file using OLD/NEW marker format for content replacement. Validates changes and provides detailed error messages if markers are malformed | Modify existing file contents with explicit old-to-new content transformations |
-| **Issue Management** | | | |
-| | **Comment on issue** | Adds a comment to an existing GitLab issue with support for markdown formatting | Provide updates, feedback, or status changes on issues |
-| | **Get issue** | Retrieves complete details of a specific issue by number including the first 10 comments | Access detailed information about a particular issue for review or analysis |
-| | **Get issues** | Retrieves all open issues from the repository with their titles, descriptions, labels, and metadata | Track project tasks, bugs, and feature requests across the project |
-| **Merge Request Management** | | | |
-| | **Comment on pr** | Adds a general comment to a merge request for discussion or feedback | Provide overall feedback or discussion points on a merge request |
-| | **Create pr change comment** | Adds a comment to specific changes within a merge request at a particular file path and line number | Provide targeted feedback on code modifications during code review |
-| | **Create pull request** | Creates a merge request from the specified branch to the main branch using JSON data specification. Returns MR details including URL upon success | Initiate code review process for changes made by the agent or automation |
-| | **Get pr changes** | Retrieves the diff/changes from a merge request showing file modifications, additions, and deletions | Examine specific file changes and modifications included in a merge request |
-| **Version Control** | | | |
-| | **Get commits** | Retrieves a list of commits from the repository with optional filtering by SHA, path, date range, and author | Track project history, analyze code changes over time, and understand development activity |
-| **Indexing & Search** | | | |
-| | **Index data** | Loads GitLab repository data into PgVector for semantic search. Requires PgVector configuration and embedding model to create searchable code index | Enable AI-powered semantic search across repository code for intelligent code discovery |
-| | **List collections** | Lists all available indexed collections in the PgVector database to identify searchable datasets | View and manage indexed data collections to understand what code bases are searchable |
-| | **Remove index** | Removes previously created search indexes from PgVector to free resources or refresh data | Clean up outdated indexes or prepare for re-indexing with updated repository content |
-| | **Search index** | Performs semantic searches across indexed repository content using natural language queries | Find specific code patterns, implementations, or documentation using AI-powered search |
-| | **Stepback search index** | Performs advanced contextual searches with broader scope, using step-back prompting to generate better search queries | Execute sophisticated searches requiring broader context understanding and query refinement |
-| | **Stepback summary index** | Creates comprehensive summaries of indexed content using step-back prompting for more thorough analysis | Generate intelligent, context-aware summaries of repository code and documentation |
+| **Category** | **Tool Name** | **Description** |
+|:------------:|---------------|-----------------|
+| **Read** | | |
+| | **Get commits** | Retrieves a list of commits from the repository with optional filtering by SHA, path, date range, and author |
+| | **Get issue** | Retrieves complete details of a specific issue by number including the first 10 comments |
+| | **Get issues** | Retrieves all open issues from the repository with their titles, descriptions, labels, and metadata |
+| | **Get merge request** | Retrieves complete details of a specific merge request |
+| | **Get pr changes** | Retrieves the diff/changes from a merge request showing file modifications, additions, and deletions |
+| | **Grep file** | Searches for text/patterns within a specific file's content (like grep/ripgrep) |
+| | **List branches in repo** | Lists branches in the repository with optional limit parameter (default: 20) and wildcard filtering support |
+| | **List files** | Lists files in the repository with optional path filter and branch specification |
+| | **List folders** | Lists folders in the repository with optional path filter, recursive/non-recursive search control, and branch specification |
+| | **List indexes** | Lists all available indexed collections in the PgVector database |
+| | **List merge requests** | Retrieves a list of merge requests from the repository |
+| | **Read file** | Reads and returns the complete contents of a file from the repository at the specified branch |
+| | **Read multiple files** | Reads and returns contents of multiple files in a single operation |
+| | **Search index** | Performs semantic searches across indexed repository content using natural language queries |
+| | **Stepback search index** | Performs advanced contextual searches with broader scope using step-back prompting |
+| | **Stepback summary index** | Creates comprehensive summaries of indexed content using step-back prompting |
+| **Create & update** | | |
+| | **Append file** | Appends new content to the end of an existing file without overwriting existing content |
+| | **Comment on issue** | Adds a comment to an existing GitLab issue with support for markdown formatting |
+| | **Comment on pr** | Adds a general comment to a merge request for discussion or feedback |
+| | **Create branch** | Creates a new branch from the active branch. Automatically sets the new branch as active after creation |
+| | **Create file** | Creates a new file in the GitLab repository at the specified path with provided contents and commits it to the specified branch |
+| | **Create pr change comment** | Adds a comment to specific changes within a merge request at a particular file path and line number |
+| | **Create pull request** | Creates a merge request from the specified branch to the main branch using JSON data specification |
+| | **Index data** | Loads GitLab repository data into PgVector for semantic search |
+| | **Set active branch** | Switches the active branch for subsequent operations. Validates branch existence before switching |
+| | **Update file** | Updates an existing file using OLD/NEW marker format for content replacement |
+| **Delete** | | |
+| | **Delete branch** | Deletes a branch from the repository with proper validation and error handling |
+| | **Delete file** | Deletes a file from the repository with proper commit message and branch specification |
+| | **Remove index** | Removes previously created search indexes from PgVector |
 
 <Tip title="Vector Search Tools">
-The tools **Index data**, **List collections**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These enable advanced semantic search capabilities across your GitLab repository.
+The tools **Index data**, **List indexes**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These enable advanced semantic search capabilities across your GitLab repository.
 </Tip>
 
 #### Testing Toolkit Tools
@@ -217,39 +216,39 @@ Once your GitLab toolkit is created, you can use it in various ELITEA features:
 1. **Navigate to Agents:** Open the sidebar and select **[Agents](../../menus/agents)**.
 2. **Create or Edit Agent:** Click **`+ Create`** for a new agent or select an existing agent to edit.
 3. **Add GitLab Toolkit:** 
-     * In the **"TOOLKITS"** section of the agent configuration, click the **"+Toolkit"** icon
+     * In the **"TOOLS"** section of the agent configuration, click the **"+Toolkit"** icon
      * Select your GitLab toolkit from the dropdown menu
      * The toolkit will be added to your agent with the previously configured tools enabled
 
+    <img src="../../img/integrations/toolkits/gitlab/gitlab-agent-add.png" alt="GitLab Agent" />
+
 Your agent can now interact with GitLab using the configured toolkit and enabled tools.
-
-
-<img src="../../img/integrations/toolkits/gitlab/gitlab-agent-add.gif" alt="GitLab Agent" />
-
 
 #### **In Pipelines:**
 
 1. **Navigate to Pipelines:** Open the sidebar and select **[Pipelines](../../menus/pipelines)**.
 2. **Create or Edit Pipeline:** Either create a new pipeline or select an existing pipeline to edit.
 3. **Add GitLab Toolkit:** 
-     * In the **"TOOLKITS"** section of the pipeline configuration, click the **"+Toolkit"** icon
+     * In the **"TOOLS"** section of the pipeline configuration, click the **"+Toolkit"** icon
      * Select your GitLab toolkit from the dropdown menu
      * The toolkit will be added to your pipeline with the previously configured tools enabled
 
-<img src="../../img/integrations/toolkits/gitlab/gitlab-pipeline-add.gif" alt="GitLab Pipeline" />
+    <img src="../../img/integrations/toolkits/gitlab/gitlab-pipeline-add.png" alt="GitLab Pipeline" />
 
 
 #### **In Chat:**
 
 1. **Navigate to Chat:** Open the sidebar and select **[Chat](../../menus/chat)**.
-2. **Start New Conversation:** Click **+Create** or open an existing conversation.
-3. **Add Toolkit to Conversation:**
-     * In the chat Participants section, look for the **Toolkits** element
-     * Click to add a toolkit and select your GitLab toolkit from the available options
-     * The toolkit will be added to your conversation with all previously configured tools enabled
-4. **Use Toolkit in Chat:** You can now directly interact with your GitLab repositories by asking questions or requesting actions that will trigger the GitLab toolkit tools.
+2. **Start New Conversation:** Click **+ Conversation** or open an existing conversation.
+3. **Add GitLab Toolkit to Conversation:**
+   - Click the **`+`** icon in the chat input toolbar (tooltip: *Add files, agents, toolkits and more…*)
+   - Hover over **Toolkits** in the popup menu
+   - Search for your GitLab toolkit by name
+   - Enable the toolkit to add it to your conversation
+4. **Verify Toolkit Added:** The GitLab toolkit appears in the **PARTICIPANTS** panel on the right side under the **Toolkits** section.
+5. **Use Toolkit in Chat:** You can now directly interact with your GitLab repositories by asking questions or requesting actions that will trigger the GitLab toolkit tools.
 
-<img src="../../img/integrations/toolkits/gitlab/gitlab-chat-add.gif" alt="GitLab Chat" />
+    <img src="../../img/integrations/toolkits/gitlab/gitlab-chat-add.png" alt="GitLab Chat" />
 
 
 ## Instructions and Prompts for Using the GitLab Toolkit

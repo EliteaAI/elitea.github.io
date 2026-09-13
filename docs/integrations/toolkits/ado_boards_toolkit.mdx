@@ -92,11 +92,11 @@ Use **[Secrets](../../menus/settings/secrets)** for your PAT instead of entering
 
 ### Step 2: Create the Azure DevOps Boards Toolkit
 
-1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits](../../menus/toolkits)**.
-2. **Create New Toolkit:** Click the **`+ Create`** button.
+1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits & Indexes](../../menus/toolkits)**.
+2. **Create New Toolkit:** Click the **`+ Toolkit`** button.
 3. **Select Azure Boards:** Choose **Azure Boards (ADO Board)** from the available toolkit types.
 
-    <img src="../../img/integrations/toolkits/ado/ado-board-toolkit-access.gif" alt="Azure Boards Toolkit Access" />
+    <img src="../../img/integrations/toolkits/ado/ado-board-toolkit-access.png" alt="Azure Boards Toolkit Access" />
 
 4. **Configure Toolkit Settings:**
 
@@ -114,35 +114,35 @@ Use **[Secrets](../../menus/settings/secrets)** for your PAT instead of entering
     * **[Make Tools Available by MCP](../mcp/make-tools-available-by-mcp)** — (optional) Make selected tools accessible through external MCP clients.
 6. **Save Toolkit:** Click **Save**.
 
-     <img src="../../img/integrations/toolkits/ado/ado-board-toolkit-create.gif" alt="Create Boards Toolkit" />
+  <video src="../../img/integrations/toolkits/ado/ado-board-toolkit-create.mp4" controls></video>
 
 #### Available Boards Tools
 
-| **Tool Category** | **Tool Name** | **Description** | **Primary Use Case** |
-|:-----------------:|---------------|-----------------|----------------------|
-| **Work Item Search & Retrieval** | | | |
-| | **Search work items** | Search for work items using a WIQL query and dynamically fetch fields | Find tasks, bugs, or user stories matching criteria |
-| | **Get work item** | Get a single work item by ID | Retrieve detailed information about a specific work item |
-| | **Get comments** | Get comments for a work item by ID | Access discussion history, optionally with embedded image descriptions |
-| | **Get image by url** | Analyze an image attachment from an Azure DevOps work item attachment URL | Extract text and describe screenshots or other attached images |
-| | **Get work item type fields** | Get fields for a specific work item type | Retrieve field definitions and metadata |
-| **Work Item Management** | | | |
-| | **Create work item** | Creates new work items | Add new tasks, bugs, or features programmatically |
-| | **Update work item** | Updates existing work items | Modify work item status, fields, or properties |
-| | **Delete work item** | Deletes a work item by ID | Remove obsolete or incorrect work items |
-| | **Attach file to work item** | Upload a file from ELITEA artifacts and attach it to a work item | Add screenshots, documents, or Gherkin files to work items and optionally render them inline |
-| **Work Item Linking** | | | |
-| | **Link work items** | Add a relation to the source work item | Establish relationships between work items |
-| | **Get relation types** | Returns available relation types | Discover valid link types for work items |
-| | **Link work items to wiki page** | Links work items to a specific wiki page using ArtifactLink | Connect work items with wiki documentation |
-| | **Unlink work items from wiki page** | Removes ArtifactLink between work items and a wiki page | Remove work item associations from wiki pages |
-| **Indexing & Search** | | | |
-| | **Index data** | Loads Azure DevOps work item data to index for semantic search | Enable AI-powered semantic search across work items |
-| | **Search index** | Performs searches across indexed content | Find specific work item content across indexed data |
-| | **Stepback search index** | Performs advanced contextual searches with broader scope | Execute sophisticated searches with expanded context |
-| | **Stepback summary index** | Creates comprehensive summaries of indexed content | Generate intelligent summaries of work item information |
-| | **Remove index** | Removes previously created search indexes | Clean up and manage indexed content |
-| | **List indexes** | Lists available indexed indexes | View and manage indexed data |
+| **Category** | **Tool Name** | **Description** |
+|:------------:|---------------|-----------------|
+| **Read** | | |
+| | **Get comments** | Get comments for a work item by ID |
+| | **Get image by url** | Analyze an image attachment from an Azure DevOps work item attachment URL |
+| | **Get relation types** | Returns available relation types |
+| | **Get work item** | Get a single work item by ID |
+| | **Get work item type fields** | Get fields for a specific work item type |
+| | **List indexes** | Lists available indexed indexes |
+| | **Search index** | Performs searches across indexed content |
+| | **Search work items** | Search for work items using a WIQL query and dynamically fetch fields |
+| | **Search work items by text** | Search for work items using natural language text queries |
+| | **Stepback search index** | Performs advanced contextual searches with broader scope |
+| | **Stepback summary index** | Creates comprehensive summaries of indexed content |
+| **Create & update** | | |
+| | **Attach file to work item** | Upload a file from ELITEA artifacts and attach it to a work item |
+| | **Create work item** | Creates new work items |
+| | **Index data** | Loads Azure DevOps work item data to index for semantic search |
+| | **Link work items** | Add a relation to the source work item |
+| | **Link work items to wiki page** | Links work items to a specific wiki page using ArtifactLink |
+| | **Unlink work items from wiki page** | Removes ArtifactLink between work items and a wiki page |
+| | **Update work item** | Updates existing work items |
+| **Delete** | | |
+| | **Delete work item** | Deletes a work item by ID |
+| | **Remove index** | Removes previously created search indexes |
 
 <Info>
 **Vector Search Tools**
@@ -199,25 +199,31 @@ After configuring the toolkit, test individual tools from the Toolkit detail pag
 
 1. **Navigate to Agents:** Open the sidebar and select **[Agents](../../menus/agents)**.
 2. **Create or Edit Agent:** Create a new agent or select an existing one.
-3. **Add the Toolkit:** In the **TOOLKITS** section, click **"+Toolkit"** and select your ADO Boards toolkit.
+3. **Add the Toolkit:** In the **TOOLS** section, click **"+Toolkit"** and select your ADO Boards toolkit.
 
-<img src="../../img/integrations/toolkits/ado/ado-board-agent-add.gif" alt="Add to Agent" />
+<img src="../../img/integrations/toolkits/ado/ado-board-agent-add.png" alt="Add to Agent" />
 
 #### In Pipelines
 
 1. **Navigate to Pipelines:** Open the sidebar and select **[Pipelines](../../menus/pipelines)**.
 2. **Create or Edit Pipeline:** Create a new pipeline or select an existing one.
-3. **Add the Toolkit:** In the **TOOLKITS** section, click **"+Toolkit"** and select your ADO Boards toolkit.
+3. **Add the Toolkit:** In the **TOOLS** section, click **"+Toolkit"** and select your ADO Boards toolkit.
 
-<img src="../../img/integrations/toolkits/ado/ado-board-pipeline-add.gif" alt="Add to Pipeline" />
+<img src="../../img/integrations/toolkits/ado/ado-board-pipeline-add.png" alt="Add to Pipeline" />
 
 #### In Chat
 
 1. **Navigate to Chat:** Open the sidebar and select **[Chat](../../menus/chat)**.
-2. **Start New Conversation:** Click **+Create** or open an existing conversation.
-3. **Add the Toolkit:** In the **Participants** section, click to add a toolkit and select your ADO Boards toolkit.
+2. **Start New Conversation:** Click **+ Conversation** or open an existing conversation.
+3. **Add ADO Boards Toolkit to Conversation:**
+   - Click the **`+`** icon in the chat input toolbar (tooltip: *Add files, agents, toolkits and more…*)
+   - Hover over **Toolkits** in the popup menu
+   - Search for your ADO Boards toolkit by name
+   - Enable the toolkit to add it to your conversation
+4. **Verify Toolkit Added:** The ADO Boards toolkit appears in the **PARTICIPANTS** panel on the right side under the **Toolkits** section.
+5. **Use Toolkit in Chat:** You can now directly interact with your Azure Boards projects by asking questions or requesting actions that will trigger the ADO Boards toolkit tools.
 
-<img src="../../img/integrations/toolkits/ado/ado-board-chat-add.gif" alt="Add to Chat" />
+<img src="../../img/integrations/toolkits/ado/ado-board-chat-add.png" alt="Add to Chat" />
 
 <Info title="Example Chat Usage">
 - "Find all high-priority bugs assigned to me."
