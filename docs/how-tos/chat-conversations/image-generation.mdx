@@ -1,395 +1,304 @@
 ---
-title: "Generate Images in Chat"
-sidebarTitle: "Image Generation"
-description: "Create, view, and manage AI-generated images in conversations and agents using image-capable models and tools."
+title: "Image Creation"
+sidebarTitle: "Image Creation"
 ---
 
-## Overview
+**Image Creation** module allows generating images directly from chat: images appear inline as thumbnails in the conversation and can be viewed full-size or downloaded.
 
-Generated images appear inline as thumbnails in the conversation and can be viewed full-size or downloaded. Images are automatically saved to a dedicated folder within the **`attachment`** Artifact bucket for easy access and management.
+## Prerequisites
 
-To use image generation, you need:
-* An LLM model that supports image generation (e.g., GPT-5.2, GPT-5.1, DALL-E 3, DALL-E 2)
-* **Image creation** enabled in your chat or agent
-* An image generation model configured and selected in your project (**Settings** → **Project** → **AI Providers**)
+To generate images, you need:
+* An LLM model that supports image generation
+* **Image Creation** enabled in your chat or agent
+* An image generation model configured and selected in your project ([Settings > AI Providers](../../menus/settings/ai-providers))
 * Proper project configuration by your administrator
 
 <Note title="Not Seeing Image Creation?">
-If the **Image creation** module is not available, contact your administrator to enable image generation for your project.
+If the **Image Creation** module is not available, contact your administrator to enable image generation for your project.
 </Note>
 
----
+## How to Turn Image Creation On
 
-## Accessing Image Generation
+The default state of the **Image Creation** module — on or off — [is defined in the project settings](../../menus/settings/general#default-modules).
 
-Image generation is available in two primary locations:
+If **Image Creation** is turned off by default, you can turn it on for your current conversation or agent.
 
-### From Chat
-
-Enable image generation for ad-hoc conversations.
-
-1. Go to your chat.
-2. In the chat toolbar, select **+**.
-3. Select **Modules** → **Image creation** in the list.
-4. Toggle **Image creation** on to enable it.
-5. Use the model selector to choose a model with image generation capabilities (e.g., GPT-5.2, GPT-5.1, DALL-E 3).
-
-     <img src="../../img/how-tos/chat-conversations/internal-tools/image-generation/euch_on-in-chat.png" alt="Enable image creation in chat"/>
+### For a Conversation
 
 <Info title="Option Availability">
-This option is available only to projects with the configured image generation provider toolkit. Without this toolkit, the option is silently omitted from the list.
-Contact your administrator if you cannot see the option.
+To generate images, your project must have the configured image generation provider toolkit. Without it, the **Image Creation** module is silently omitted from the list. Contact your administrator if you do not see it in the Modules list.
 </Info>
 
----
+1. Go to the conversation.
+2. Select **+** in the chat input toolbar.
+3. Select **Modules** → **Image Creation** in the list.
+4. Toggle **Image Creation** on.
+5. Use the model selector to choose a model with image generation capabilities.
 
-### In Agent
+<img src="../../img/how-tos/chat-conversations/internal-tools/image-generation/euch_on-in-chat.png" alt="Enable image creation in chat"/>
 
-Configure image generation as a persistent capability for an agent.
+### For an Agent
 
-1. Open the agent you want to configure (or create and opena new agent).
-3. Scroll down to **TOOLS**.
-4. In **TOOLS**, find **Modules**.
-5. Find **Image creation**. If it is not immediately visible, select **Show all** to see the full list of modules.
-6. Toggle **Image creation** on.
-7. Use the model selector to choose a model with image generation capabilities (e.g., GPT-5.2, GPT-5.1, DALL-E 3).
-8. Select **Save**.
+1. Select **Agents**.
+2. Select the agent to configure, or create a new agent.
+3. In the **TOOLS** section, find **Modules**.
+4. Find **Image Creation**. Select **Show all** if you do not see it immediately.
+5. Toggle **Image Creation** on.
+6. Use the model selector to choose a model with image generation capabilities.
+7. Select **Save**.
 
-     <img src="../../img/how-tos/chat-conversations/internal-tools/image-generation/euch_for agent.png" alt="Enable image creation for agents" width="400" />
+All changes apply only to new conversations run by this agent. Existing conversations will not be affected.
 
-<Tip title="Consistent Image Generation Across Conversations">
-Enabling **Image creation** at the agent level means every new chat that uses this agent has image generation available by default, and you should not enable it manually every time.
-</Tip>
-
----
+<img src="../../img/how-tos/chat-conversations/internal-tools/image-generation/euch_for agent.png" alt="Enable image creation for agents" width="400" />
 
 ## How to Generate Images
 
-Once enabled, generating images is as simple as asking the AI assistant:
+<Note title="Technical Limitations">
+**Technical Limitations**
+
+* Available features depend on the specific image generation model.
+* Higher quality images take longer to generate.
+* Maximum image size varies by model.
+</Note>
 
 1. In the message input field, type a prompt describing the image you want to create.
 2. Press **Send** or hit `Enter`. ELITEA will automatically invoke the image generation tool.
 3. Generated image(s) will appear inline in the conversation.
 
-     <img src="../../img/how-tos/chat-conversations/internal-tools/image-generation/image-creation.gif" alt="Generate image" width="700" />
-
-<Info title="Technical Limitations">
-* **Image Count**: Maximum 10 images per generation request
-* **Model Dependency**: Available features depend on the specific image generation model
-* **Quality vs Speed**: Higher quality images take longer to generate
-* **Size Constraints**: Maximum image size varies by model configuration
+<Info title="Storage and Deletion">
+Generated images are automatically saved in **Artifacts** in the `attachments` bucket, inside a dedicated images folder. This folder is created automatically the first time you generate an image if it doesn't already exist.
 </Info>
 
-<Accordion title="Basic Image Generation">
-**Example Prompts:**
+For example, you can ask:
 
 * "Generate an image of a sunset over mountains"
 * "Create a diagram showing a microservices architecture"
 * "Generate an illustration of a friendly robot assistant"
 * "Make an image of a modern office workspace"
 
-The AI will automatically invoke the image generation tool and return the generated image(s) inline in the conversation.
-</Accordion>
+<img src="../../img/how-tos/chat-conversations/internal-tools/image-generation/image-creation.gif" alt="Generate image" width="700" />
 
-<Accordion title="Advanced Image Generation">
-You can customize images by including details in your prompt:
+In your prompts, you can specify:
 
-**Number of Images:**
+* number of images
+* image quality
+* image size
+* style
 
-* "Generate 3 variations of a logo design"
-* You can request up to 10 images per generation
+You can further refine a generated image through conversation, for example by saying "Make it brighter and add more natural light." Keep iterating until you are satisfied with the result.
 
-**Image Quality:**
+## How to View and Manage Images
 
-* "Generate a high-quality image of a product mockup"
-* Options: auto (default), low, medium, high
-* Quality setting depends on the underlying model capabilities
+You can preview, download, and delete generated images both from the chat and from **Artifacts**.
 
-**Image Size:**
+### In Chat
 
-* "Create a 1024x1024 image of a landscape"
-* Default: auto (model-dependent)
-* Common sizes: 256x256, 512x512, 1024x1024, 1024x1792, etc.
-* Available sizes depend on the specific image generation model
+To view the image in chat:
 
-**Style:**
+* Click the thumbnail to open the fullscreen modal.
+* Press `Escape` or click outside to close.
 
-* "Generate an image in a watercolor style"
-* Describe the artistic style you want
-</Accordion>
+<img src="../../img/how-tos/chat-conversations/internal-tools/image-generation/image-full-size.gif" alt="Full size image" width="600" />
 
-<Accordion title="Multi-Step Generation">
-You can refine images through conversation:
+To download the image in chat:
+* Hover over the generated image thumbnail.
+* Click the **Download** icon.
 
-1. **Initial Generation**: "Generate an image of a modern kitchen"
-2. **Review**: View the generated thumbnail
-3. **Refinement**: "Make it brighter and add more natural light"
-4. **Iteration**: Continue refining until satisfied
-</Accordion>
+Images are downloaded to your system **Downloads** folder.
 
----
-## Viewing and Managing Generated Images
+<img src="../../img/how-tos/chat-conversations/internal-tools/image-generation/image-download.gif" alt="Download image" width="600" />
 
-Generated images appear as thumbnails in the conversation. Hover over any image to access management options:
+To delete the image from the chat:
 
-**Fullscreen View:**
-
-* Click the thumbnail to open fullscreen modal
-* Press Escape or click outside to close
-
-     <img src="../../img/how-tos/chat-conversations/internal-tools/image-generation/image-full-size.gif" alt="Fuul size image" width="600" />
-
-**Download:**
-
-* Click the **Download icon** to save the image locally
-* Images are also accessible from **Artifacts → attachment** bucket, inside the folder
-* You can download images from **Artifacts** at any time
-
-     <img src="../../img/how-tos/chat-conversations/internal-tools/image-generation/image-download.gif" alt="Download image" width="600" />
-
-**Access from Artifacts:**
-
-* Navigate to **Artifacts** in the main menu
-* Open the **`attachment`** bucket
-* Navigate to the folder inside the bucket
-* All generated images are stored here with timestamps
-* Download, delete, or manage images from this centralized location
-
-     <img src="../../img/how-tos/chat-conversations/internal-tools/image-generation/image-generation-artifact.gif" alt="Artifact" width="600" />
-
-**Delete:**
-
-* Hover over the generated image thumbnail in the chat to reveal the action buttons overlay
-* Select **Delete** (trash icon, appears on hover)
-* A confirmation dialog opens showing the image filename
-* The dialog includes an **"Also delete from attachment storage"** checkbox (unchecked by default)
+* Hover over the generated image thumbnail.
+* Select **Delete**.
+* A confirmation dialog opens showing the image filename.
+* The dialog includes an **"Also delete from attachment storage"** checkbox (unchecked by default):
      * Leave it unchecked to remove the image only from the chat view
-     * Check it to delete the file from the **`attachment`** bucket in Artifacts
-* Select **Delete** to confirm deletion
+     * Check it to delete the file from the Artifacts as well.
+* Select **Delete**.
 
-     <img src="../../img/how-tos/chat-conversations/internal-tools/image-generation/image-delete.gif" alt="Fuul size image" width="600" />
+<img src="../../img/how-tos/chat-conversations/internal-tools/image-generation/image-delete.gif" alt="Delete image" width="600" />
 
+### In Artifacts
 
-<Info title="Storage and Deletion">
-Generated images are automatically saved in **Artifacts** in the **`attachment`** bucket, inside a dedicated images folder. This folder is created automatically the first time you generate an image if it doesn't already exist.
-</Info>
+To view the image in **Artifacts**:
 
----
+* Navigate to **Artifacts**.
+* Open the **`attachments`** bucket.
+* Navigate to the folder inside the bucket.
+* All generated images are stored here with their timestamps.
+
+<img src="../../img/how-tos/chat-conversations/internal-tools/image-generation/image-generation-artifact.gif" alt="Artifact" width="600" />
+
+To download the image from **Artifacts**, select the **Download** icon in the image's overflow menu.
+
+To delete the image from **Artifacts**:
+
+* Select an image in the bucket.
+* Select **Delete** in the image's overflow menu.
+* Confirm deletion in the opened window.
+
+In **Artifacts**, you can download and delete images in bulk.
 
 ## Usage Scenarios
 
-<Accordion title="Creating Technical Diagrams">
-**Use Case**: Generate architecture diagrams, flowcharts, or system designs
+<Accordion title="Technical diagrams">
+**Use case**: Generate architecture diagrams, flowcharts, or system designs
 
-**Example Prompts:**
-
-* "Create a diagram showing a three-tier web application architecture with load balancer, web servers, and database"
-* "Generate a flowchart for a user authentication process"
-* "Make a network diagram showing VPN connection between offices"
-
-**Best Practices:**
+**Best practices:**
 
 * Be specific about components and relationships
 * Mention diagram type (flowchart, sequence diagram, architecture diagram)
 * Specify colors or styles if needed
 * Request multiple variations to choose the best one
+
+**Prompt examples:**
+
+* "Create a diagram showing a three-tier web application architecture with load balancer, web servers, and database"
+* "Generate a flowchart for a user authentication process"
+* "Make a network diagram showing VPN connection between offices"
 </Accordion>
 
-<Accordion title="Generating Illustrations and Concept Art">
-**Use Case**: Create visual content for presentations, documentation, or creative projects
+<Accordion title="Illustrations and concept art">
+**Use case**: Create visual content for presentations, documentation, or creative projects
 
-**Example Prompts:**
-
-* "Generate an illustration of a team collaborating in a modern office"
-* "Create a hero image for a SaaS landing page showing productivity features"
-* "Make an icon set for a project management application"
-
-**Best Practices:**
+**Best practices:**
 
 * Describe the mood and style (modern, minimalist, vibrant, professional)
 * Specify color schemes when important
 * Include context about the intended use
 * Generate multiple options for comparison
+
+**Prompt examples:**
+
+* "Generate an illustration of a team collaborating in a modern office"
+* "Create a hero image for a SaaS landing page showing productivity features"
+* "Make an icon set for a project management application"
 </Accordion>
 
-<Accordion title="Design Mockups and Prototypes">
-**Use Case**: Quickly visualize UI/UX concepts or product designs
+<Accordion title="Design mockups and prototypes">
+**Use case**: Quickly visualize UI/UX concepts or product designs
 
-**Example Prompts:**
-
-* "Generate a mockup of a mobile app dashboard for fitness tracking"
-* "Create a landing page design for an AI-powered writing assistant"
-* "Make a product card design for an e-commerce website"
-
-**Best Practices:**
+**Best practices:**
 
 * Specify device type (mobile, tablet, desktop)
 * Mention key UI elements to include
 * Describe the color palette and brand style
 * Request specific layout patterns if needed
+
+**Prompt examples:**
+
+* "Generate a mockup of a mobile app dashboard for fitness tracking"
+* "Create a landing page design for an AI-powered writing assistant"
+* "Make a product card design for an e-commerce website"
 </Accordion>
 
-<Accordion title="Data Visualization">
-**Use Case**: Create charts, graphs, or infographics from described data
+<Accordion title="Data visualization">
+**Use case**: Create charts, graphs, or infographics from described data
 
-**Example Prompts:**
-
-* "Generate a bar chart comparing quarterly sales for 2024"
-* "Create an infographic showing the software development lifecycle"
-* "Make a pie chart showing market share distribution"
-
-**Best Practices:**
+**Best practices:**
 
 * Clearly describe the data and labels
 * Specify chart type (bar, line, pie, scatter)
 * Mention color preferences for different data series
 * Include title and axis labels in your description
+
+**Prompt examples:**
+
+* "Generate a bar chart comparing quarterly sales for 2024"
+* "Create an infographic showing the software development lifecycle"
+* "Make a pie chart showing market share distribution"
 </Accordion>
 
-<Accordion title="Educational and Training Content">
-**Use Case**: Generate visual aids for learning materials
+<Accordion title="Educational and training content">
+**Use case**: Generate visual aids for learning materials
 
-**Example Prompts:**
-
-* "Create an illustration explaining how photosynthesis works"
-* "Generate a diagram showing the layers of the OSI network model"
-* "Make an image demonstrating proper ergonomic sitting posture"
-
-**Best Practices:**
+**Best practices:**
 
 * Focus on clarity and simplicity
 * Request labels or annotations
 * Use clear, step-by-step descriptions
 * Consider your audience's technical level
+
+**Prompt examples:**
+
+* "Create an illustration explaining how photosynthesis works"
+* "Generate a diagram showing the layers of the OSI network model"
+* "Make an image demonstrating proper ergonomic sitting posture"
 </Accordion>
 
-<Accordion title="Marketing and Social Media Content">
-**Use Case**: Create branded visuals for marketing campaigns
+<Accordion title="Marketing and social media content">
+**Use case**: Create branded visuals for marketing campaigns
 
-**Example Prompts:**
-
-* "Generate a social media post image announcing a product launch"
-* "Create a banner image for an email newsletter about new features"
-* "Make a promotional image for a webinar on AI automation"
-
-**Best Practices:**
+**Best practices:**
 
 * Specify dimensions for the target platform
 * Include brand colors and style guidelines
 * Mention text placement areas if needed
 * Generate variations for A/B testing
-</Accordion>
 
----
+**Prompt examples:**
+
+* "Generate a social media post image announcing a product launch"
+* "Create a banner image for an email newsletter about new features"
+* "Make a promotional image for a webinar on AI automation"
+</Accordion>
 
 ## Best Practices
 
-### Crafting Effective Prompts
-
-<Accordion title="Be Specific and Descriptive">
-**Instead of:** "Generate a logo"
-
-**Try:** "Generate a modern, minimalist logo for a cloud storage company using blue and white colors, featuring a cloud icon"
-
-**Why:** Specific prompts yield more accurate results that match your vision.
+<Accordion title="Crafting Effective Prompts">
+* Be specific and descriptive to get more accurate results.
+* Include context and purpose to help AI understand your intended use and style.
+* Specify style and mood.
+* Ask for several variants to choose from.
 </Accordion>
 
-<Accordion title="Include Context and Purpose">
-**Instead of:** "Make an office image"
-
-**Try:** "Create an image of a modern open-plan office with collaborative workspaces for a tech startup presentation"
-
-**Why:** Context helps the AI understand the intended use and style.
+<Accordion title="Managing Generated Content">
+* Download images promptly with descriptive filenames.
+* Use browser download management or dedicated folders to stay organized.
+* Review initial generations critically and refine with feedback.
+* Keep a record of effective prompts and document style preferences that provide consistent results.
 </Accordion>
 
-<Accordion title="Specify Style and Mood">
-**Instead of:** "Generate a landscape"
-
-**Try:** "Generate a serene mountain landscape at sunset with warm orange and purple tones in a photorealistic style"
-
-**Why:** Style descriptions guide the aesthetic direction.
+<Accordion title="Performance Optimization">
+* Use faster models for quick iterations, and switch to high-quality models for final outputs.
+* Consider model capabilities for specific image types when choosing a model.
+* Generate multiple variations in one request when possible, but avoid requesting too many images at once.
+* Balance quantity with quality for better results.
 </Accordion>
-
-<Accordion title="Request Multiple Variations">
-**Instead of:** Single generation and hoping for the best
-
-**Try:** "Generate 3 different versions of a dashboard UI, each with a different color scheme"
-
-**Why:** Multiple variations provide options to choose from.
-</Accordion>
-
-### Managing Generated Content
-
-<Accordion title="Organize Your Images">
-* Download images promptly with descriptive filenames
-* Use browser download management or dedicated folders
-* Consider version numbers for iterative designs
-* Keep related images together for project work
-</Accordion>
-
-<Accordion title="Iterate and Refine">
-* Review initial generation critically
-* Provide feedback for refinement ("make it brighter", "add more detail")
-* Build on successful elements from previous generations
-* Save intermediate versions you might want to reference
-</Accordion>
-
-<Accordion title="Document Your Process">
-* Keep a record of effective prompts
-* Note which models work best for specific types of images
-* Document style preferences that yield consistent results
-* Share successful prompt patterns with your team
-</Accordion>
-
-### Performance Optimization
-
-<Accordion title="Model Selection">
-* Use faster models for quick iterations
-* Switch to high-quality models for final outputs
-* Consider model capabilities for specific image types
-* Monitor generation times and adjust accordingly
-</Accordion>
-
-<Accordion title="Batch Requests Wisely">
-* Generate multiple variations in one request when possible
-* Avoid requesting too many images at once (max 10)
-* Balance quantity with quality for better results
-</Accordion>
-
----
 
 ## Troubleshooting
 
-<Accordion title="Issue: Image Generation Not Available">
-**Possible Causes:**
+<Accordion title="I do not see the Image Creation module">
+**Possible causes:**
 
-* **Image creation** is not enabled
-* No image generation provider toolkit configured for the project — the **Image creation** option is filtered out of the popup entirely when this toolkit is absent
-* **Modules** are hidden from the chat toolbar because the project has no modules available
+* **Image Creation** is not enabled
+* No image generation provider toolkit is configured for the project
+* **Modules** are hidden because the project has no available modules
 * Network connectivity issues
 
 **Solutions:**
 
-1. Enable **Image creation** in **Modules**.
-2. If the **Image creation** option is not visible in the popup, ask your administrator to add an image generation integration.
-3. If **Modules** are missing from the chat toolbar entirely, contact your administrator to verify project configurations.
-4. Refresh the page and try again.
+1. Refresh the page and try again.
+2. Enable **Image Creation** in **Modules**.
+3. Contact your project administrator.
 </Accordion>
 
-<Accordion title="Issue: Image Generation Model is Not Configured">
-**Error Message:** "Image generation requested but no image generation model configured"
+<Accordion title="ELITEA cannot generate an image">
+**Possible cause:**
 
-**Cause:** The module is enabled, but the selected model lacks image generation capabilities.
+The selected model lacks image generation capabilities.
 
 **Solution:**
 
-1. Select a different model with image generation support
-2. Verify model configuration with your administrator
-3. Check integration settings for the image generation endpoint
+1. Select a different model.
+2. Verify model configuration with your project administrator.
+3. Check integration settings for the image generation endpoint.
 </Accordion>
 
-<Accordion title="Issue: Generated Images Not Displaying">
-**Possible Causes:**
+<Accordion title="I cannot preview the generated image">
+**Possible causes:**
 
 * Image data format error
 * Browser compatibility issues
@@ -398,69 +307,60 @@ Generated images are automatically saved in **Artifacts** in the **`attachment`*
 
 **Solutions:**
 
-1. Refresh the page and regenerate the image
-2. Try a different browser (Chrome, Firefox, Edge)
-3. Check browser console for errors
-4. Ensure stable network connection
+1. Refresh the page and regenerate the image.
+2. Try a different browser (Chrome, Firefox, Edge).
+3. Check the browser console for errors.
+4. Ensure that your network connection is stable.
 </Accordion>
 
-<Accordion title="Issue: Low-Quality Image Results">
-**Possible Causes:**
+<Accordion title="Image quality is too low">
+**Possible causes:**
 
-* Vague or ambiguous prompts
-* Quality parameter set too low
+* Vague or ambiguous prompt
 * Model limitations
 * Size constraints
 
 **Solutions:**
 
-1. **Refine your prompt**: Add more specific details and context
-2. **Request higher quality**: Explicitly ask for "high-quality" images
-3. **Try different models**: Some models excel at specific image types
-4. **Specify larger sizes**: Request specific dimensions (e.g., 1024x1024)
+1. **Refine your prompt**: Add more specific details and context.
+2. **Try different models**: Some models excel at specific image types.
+3. **Specify larger sizes**: Request specific dimensions (e.g., 1024x1024).
 </Accordion>
 
-<Accordion title="Issue: Download Fails">
-**Possible Causes:**
+<Accordion title="I cannot download the generated image">
+**Possible causes:**
 
-* Browser blocking downloads
+* Browser blocks downloads
 * Base64 conversion error
 * Network timeout
 * Insufficient browser storage
 
 **Solutions:**
 
-1. Check browser download permissions
-2. Try right-clicking the image and "Save Image As"
-3. Refresh and try download again
-4. Clear browser cache and retry
+1. Check browser download permissions.
+2. Right-click the image and select "Save Image As".
+3. Refresh the page and retry downloading.
+4. Clear browser cache and retry downloading.
 </Accordion>
 
-<Accordion title="Issue: Image Generation Takes Too Long">
-**Possible Causes:**
+<Accordion title="Image generation takes too long">
+**Possible causes:**
 
-* Complex prompts requiring more processing
-* High-quality/large size settings
+* Complex prompts require more processing
 * Server load or API rate limits
 * Network latency
 
 **Solutions:**
 
-1. Simplify your prompt for faster generation
-2. Use "auto" quality setting initially
-3. Generate one image at a time instead of multiple
-4. Wait for current operations to complete
-5. Try during off-peak hours if rate limited
+1. Simplify your prompt for faster generation.
+2. Generate one image at a time instead of bulk generation.
+3. Wait for current operations to complete.
+4. Try during off-peak hours if the rate is limited.
 </Accordion>
 
----
+<Info title="See also">
+See also:
 
-## Related Documentation
-
-<Info title="Additional Resources">
-* **[Artifact Toolkit](../../integrations/toolkits/artifact_toolkit)** - Managing files and images in Artifacts
-* **[Agent Configuration](../../menus/agents)** - Setting up agents with modules
-* **[Chat Functionality](./how-to-use-chat-functionality)** - General chat features and usage
-* **[Canvas in Conversation](./how-to-canvas)** - Creating and editing content in chat
-* **[Attach Images and Files](./attach-files)** - Working with file attachments
+* **[Artifacts](../../integrations/toolkits/artifact_toolkit)**
+* **[Agent Configuration](../../menus/agents)**
 </Info>
