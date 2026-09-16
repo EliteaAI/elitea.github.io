@@ -1,12 +1,12 @@
 ---
-title: "Agents & Pipeline Builder"
-sidebarTitle: "Agents & Pipeline Builder"
+title: "Agent & Pipeline Builder"
+sidebarTitle: "Agent & Pipeline Builder"
 description: "Create and update agents and pipelines directly from chat, while also calling tagged agents and MCP-enabled toolkits through ELITEA's built-in MCP server."
 ---
 
 ## Overview
 
-**Agents & Pipeline Builder** is a built-in Module that connects a conversation agent to ELITEA's own **Model Context Protocol (MCP) server**. Once enabled, the agent can create and update agents and pipelines directly from chat, while also discovering and calling other agents and toolkit operations that have been explicitly made available through MCP — all from within a single conversation, without the user needing to pre-wire every dependency upfront.
+**Agent & Pipeline Builder** is a built-in Module that connects a conversation agent to ELITEA's own **Model Context Protocol (MCP) server**. Once enabled, the agent can create and update agents and pipelines directly from chat, while also discovering and calling other agents and toolkit operations that have been explicitly made available through MCP — all from within a single conversation, without the user needing to pre-wire every dependency upfront.
 
 <CardGroup cols={2}>
   <Card title="Platform-Native MCP Access" icon="server">
@@ -26,15 +26,15 @@ description: "Create and update agents and pipelines directly from chat, while a
   </Card>
 </CardGroup>
 
-<Tip title="When to Use Agents & Pipeline Builder">
-Use Agents & Pipeline Builder when you want a **coordinator or meta-agent** to discover and delegate to other agents at runtime, create or update agents and pipelines directly from chat, and invoke toolkit operations dynamically based on what the conversation requires.
+<Tip title="When to Use Agent & Pipeline Builder">
+Use Agent & Pipeline Builder when you want a **coordinator or meta-agent** to discover and delegate to other agents at runtime, create or update agents and pipelines directly from chat, and invoke toolkit operations dynamically based on what the conversation requires.
 </Tip>
 
 ---
 
 ## Prerequisites
 
-- **MCP Enabled**: MCP features must be enabled on the platform. If the **Agents & Pipeline Builder** toggle does not appear in the Modules list, contact your Elitea administrator.
+- **MCP Enabled**: MCP features must be enabled on the platform. If the **Agent & Pipeline Builder** toggle does not appear in the Modules list, contact your Elitea administrator.
 - **Permission Level**: User role with conversation or agent edit access
 - **Default Availability**: The feature can be enabled by default for new conversations through the project-level **Agent & Pipeline Builder** setting.
 - **Agents tagged with `mcp`**: To appear as callable tools, agents must have the **`mcp`** tag applied. Agents without this tag are not listed, regardless of publish status.
@@ -45,7 +45,7 @@ Use Agents & Pipeline Builder when you want a **coordinator or meta-agent** to d
 
 ## How It Works
 
-When Agents & Pipeline Builder is enabled, the agent connects to ELITEA's built-in MCP server, which exposes callable resources and supports chat-driven builder workflows:
+When Agent & Pipeline Builder is enabled, the agent connects to ELITEA's built-in MCP server, which exposes callable resources and supports chat-driven builder workflows:
 
 | Category | What Is Exposed | Requirement |
 |----------|----------------|-------------|
@@ -67,40 +67,40 @@ Both agent and toolkit tool names are derived from the resource's display name: 
 
 ---
 
-## Enabling Agents & Pipeline Builder
+## Enabling Agent & Pipeline Builder
 
-You can enable Agents & Pipeline Builder in three ways: as a default setting for all new chats and agents, for a specific conversation, or in an individual agent configuration.
+You can enable Agent & Pipeline Builder in three ways: as a default setting for all new chats and agents, for a specific conversation, or in an individual agent configuration.
 
 <Note>
-If **Agents & Pipeline Builder** does not appear in the Modules list, the MCP feature may be disabled at the platform level. Contact your Elitea administrator.
+If **Agent & Pipeline Builder** does not appear in the Modules list, the MCP feature may be disabled at the platform level. Contact your Elitea administrator.
 </Note>
 
 <Tip>
-**Recommended:** Enable the **Ask User** module alongside Agents & Pipeline Builder for the best experience. When enabled, the conversation can ask structured clarifying questions with interactive options if your agent or pipeline creation request is missing information. Without Ask User, the conversation can only request information through normal chat responses.
+**Recommended:** Enable the **Ask User** module alongside Agent & Pipeline Builder for the best experience. When enabled, the conversation can ask structured clarifying questions with interactive options if your agent or pipeline creation request is missing information. Without Ask User, the conversation can only request information through normal chat responses.
 </Tip>
 
 ### In Project Settings
 
 1. Navigate to **Settings** in the main menu.
 2. Go to the **General** section.
-3. Find the **Agents & Pipeline Builder** row under default modules.
-4. Toggle **Chats** on to enable Agents & Pipeline Builder by default for all new conversations.
-5. Toggle **Agents** on to enable Agents & Pipeline Builder by default for all new agents.
+3. Find the **Agent & Pipeline Builder** row under default modules.
+4. Toggle **Chats** on to enable Agent & Pipeline Builder by default for all new conversations.
+5. Toggle **Agents** on to enable Agent & Pipeline Builder by default for all new agents.
 6. Click **Save**.
 
-     <img src="../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/enable-general.png" alt="Enable Agents & Pipeline Builder in Project Settings" width="350" />
+     <img src="../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/enable-general.png" alt="Enable Agent & Pipeline Builder in Project Settings" width="350" />
 
-New chats and agents in this project will have Agents & Pipeline Builder enabled based on your toggle settings.
+New chats and agents in this project will have Agent & Pipeline Builder enabled based on your toggle settings.
 
 ### In a Conversation
 
 1. Navigate to your conversation.
 2. Click the **`+`** icon in the chat input toolbar.
 3. Hover over **Modules** to open the flyout panel.
-4. Find **Agents & Pipeline Builder** in the list and toggle it on.
+4. Find **Agent & Pipeline Builder** in the list and toggle it on.
 5. A success notification appears: **"Modules configuration updated"**.
 
-     <img src="../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/agent&pipeline-builder-chat.png" alt="Enable Agents & Pipeline Builder in a Conversation" width="350" />
+     <img src="../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/agent&pipeline-builder-chat.png" alt="Enable Agent & Pipeline Builder in a Conversation" width="350" />
 
 Once enabled, the conversation has access to builder capabilities and all MCP-exposed tools. You can create or update agents and pipelines, and call available MCP tools as needed based on the conversation flow.
 
@@ -109,13 +109,13 @@ Once enabled, the conversation has access to builder capabilities and all MCP-ex
 1. Navigate to **Agents** in the main menu.
 2. Select the agent you want to configure or create a new agent.
 3. In the **TOOLS** section, locate the **MODULES** subsection.
-4. Find the **Agents & Pipeline Builder** toggle (click **Show all** if needed).
-5. Toggle **Agents & Pipeline Builder** on.
+4. Find the **Agent & Pipeline Builder** toggle (click **Show all** if needed).
+5. Toggle **Agent & Pipeline Builder** on.
 6. Click **Save**.
 
-     <img src="../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/agent&pipeline-builder-agent.png" alt="Enable Agents & Pipeline Builder in Agent Configuration" width="350" />
+     <img src="../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/agent&pipeline-builder-agent.png" alt="Enable Agent & Pipeline Builder in Agent Configuration" width="350" />
 
-New conversations with this agent will have Agents & Pipeline Builder enabled by default.
+New conversations with this agent will have Agent & Pipeline Builder enabled by default.
 
 ---
 
@@ -135,7 +135,7 @@ Agents that have the **`mcp` tag** applied are exposed as callable tools. Each s
 | **Output** | The agent's final text response |
 
 <Warning title="Tag Your Agents">
-Agents without the **`mcp`** tag do **not** appear as tools, even if they are published. Apply the `mcp` tag to an agent in its settings to make it callable via Agents & Pipeline Builder.
+Agents without the **`mcp`** tag do **not** appear as tools, even if they are published. Apply the `mcp` tag to an agent in its settings to make it callable via Agent & Pipeline Builder.
 </Warning>
 
 ### Toolkit Tools
@@ -150,13 +150,13 @@ Toolkits with **Available via MCP** turned on in their **MCP Options** section e
 
 ---
 
-## Using Agents & Pipeline Builder
+## Using Agent & Pipeline Builder
 
 Once enabled, the agent automatically has access to all discovered tools. No additional prompting or configuration is needed — the agent uses them based on the task requirements.
 
 ### Create an Agent or Pipeline from Chat
 
-You can use Agents & Pipeline Builder to create a new agent or pipeline directly from a conversation.
+You can use Agent & Pipeline Builder to create a new agent or pipeline directly from a conversation.
 
 **Step 1: Type Your Request in the Chat**
 
@@ -252,7 +252,7 @@ The more specific your request is, the better the generated agent or pipeline wi
 
 **Setup:**
 
-- Agents & Pipeline Builder: Enabled on the coordinator agent
+- Agent & Pipeline Builder: Enabled on the coordinator agent
 - `Reporting Agent` and `QA Agent` both have the **`mcp`** tag applied
 
 **User Request:**
@@ -276,7 +276,7 @@ The coordinator never needed hardcoded references to the child agents — adding
 
 **Setup:**
 
-- Agents & Pipeline Builder: Enabled
+- Agent & Pipeline Builder: Enabled
 - `Dev GitHub` toolkit — **Available via MCP** on; selected tools include `list_pull_requests`, `merge_pull_request`
 - `Project Jira` toolkit — **Available via MCP** on; selected tools include `search_issues`, `update_issue`
 
@@ -302,7 +302,7 @@ The coordinator never needed hardcoded references to the child agents — adding
 
 **Setup:**
 
-- Agents & Pipeline Builder: Enabled on the coordinator agent
+- Agent & Pipeline Builder: Enabled on the coordinator agent
 - `Test Runner Agent` — `mcp` tag applied; runs the test suite and returns results
 - `Failure Analysis Agent` — `mcp` tag applied; classifies failures as known regressions or new bugs
 - `QA Jira` toolkit — **Available via MCP** on; selected tools include `create_issue`
@@ -326,14 +326,14 @@ The coordinator never needed hardcoded references to the child agents — adding
 ## Best Practices
 
 <Accordion title="Enable Ask User Module">
-**Always enable the Ask User module alongside Agents & Pipeline Builder.** This is the recommended configuration for the best experience:
+**Always enable the Ask User module alongside Agent & Pipeline Builder.** This is the recommended configuration for the best experience:
 
 - **With Ask User enabled**: The conversation can ask structured clarifying questions (1-4 questions) with interactive single-select, multi-select, or free-text options when required information for agent or pipeline creation is missing. Questions display with progress indicators ("Question X of Y") and navigation controls.
 
 - **Without Ask User**: The conversation can only request missing information through normal chat responses, which is less structured and may require multiple back-and-forth exchanges.
 
 **How to enable both together:**
-- In Project Settings: Toggle both **Agents & Pipeline Builder** and **Ask User** under Default Modules
+- In Project Settings: Toggle both **Agent & Pipeline Builder** and **Ask User** under Default Modules
 - In Agent Configuration: Enable both modules in the MODULES section
 - In Conversations: Enable both from the Modules flyout panel
 </Accordion>
@@ -349,7 +349,7 @@ The coordinator never needed hardcoded references to the child agents — adding
 </Accordion>
 
 <Accordion title="Agent Tool Exposure">
-- Apply the **`mcp`** tag to agents you want callable via Agents & Pipeline Builder
+- Apply the **`mcp`** tag to agents you want callable via Agent & Pipeline Builder
 - Use descriptive agent names that will normalize clearly (avoid special characters)
 - Keep agent descriptions clear and focused so the calling agent understands when to use each tool
 - Ensure agent instructions are self-contained since called agents receive only the `task` parameter
@@ -357,7 +357,7 @@ The coordinator never needed hardcoded references to the child agents — adding
 </Accordion>
 
 <Accordion title="Toolkit Configuration">
-- Enable **Available via MCP** only for toolkits you want exposed via Agents & Pipeline Builder
+- Enable **Available via MCP** only for toolkits you want exposed via Agent & Pipeline Builder
 - Carefully select which tools within each toolkit should be exposed
 - Keep toolkit names descriptive and unique to avoid name collisions after normalization
 - Verify toolkit credentials are valid and not expired before relying on toolkit tools
@@ -365,8 +365,8 @@ The coordinator never needed hardcoded references to the child agents — adding
 </Accordion>
 
 <Accordion title="Module Configuration">
-- Enable Agents & Pipeline Builder by default in Project Settings if your team frequently creates agents or uses coordinator patterns
-- Enable Agents & Pipeline Builder for agents that need to delegate to other agents or use platform toolkits dynamically
+- Enable Agent & Pipeline Builder by default in Project Settings if your team frequently creates agents or uses coordinator patterns
+- Enable Agent & Pipeline Builder for agents that need to delegate to other agents or use platform toolkits dynamically
 - Consider enabling **Smart Tools Selection** when many agents and toolkits are available to reduce token usage
 - Review and organize created agents periodically to maintain project quality
 - Use appropriate permissions to control who can create and modify agents
@@ -384,7 +384,7 @@ The coordinator never needed hardcoded references to the child agents — adding
 
 ## Troubleshooting
 
-<Accordion title="Agents & Pipeline Builder toggle is not visible in the Modules list">
+<Accordion title="Agent & Pipeline Builder toggle is not visible in the Modules list">
 The toggle only appears when MCP features are enabled at the platform level. Contact your Elitea administrator and ask them to enable **MCP exposure** and **MCP in menu** in the platform configuration.
 </Accordion>
 
@@ -396,7 +396,7 @@ To expose an agent:
 2. Go to the agent's settings and add the **`mcp`** tag
 3. Save the agent
 
-The agent will now appear as a tool when Agents & Pipeline Builder is enabled.
+The agent will now appear as a tool when Agent & Pipeline Builder is enabled.
 </Accordion>
 
 <Accordion title="No toolkit tools appear after enabling">
@@ -441,7 +441,7 @@ If the issue persists, verify that the token belongs to the current user and has
 ## Related Features
 
 <Info title="Additional Resources">
-- [Ask User Module](../modules/ask-user) - Recommended module to use with Agents & Pipeline Builder for structured clarification questions
+- [Ask User Module](../modules/ask-user) - Recommended module to use with Agent & Pipeline Builder for structured clarification questions
 - [Elitea MCP Server (SSE)](../../integrations/mcp/mcp-server-sse) - Connect external MCP clients to ELITEA built-in MCP server
 - [Agent Configuration](../../menus/agents) - Creating and configuring agents
 - [Conversation Management](../../menus/chat) - Managing conversations and settings

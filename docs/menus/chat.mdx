@@ -234,24 +234,28 @@ For detailed information about attachments, including agent configuration and fi
 
 #### Modules
 
-Modules enhance your chats without requiring external integrations. 
+Modules enhance your chats without requiring external integrations:
 
-| Module | Description |
-|---|---|
-| [Image Creation](../how-tos/chat-conversations/image-generation) | Generate images from the chat. Requires an image generation model configured in your project. |
-| [Data Analysis](../how-tos/chat-conversations/data-analysis-internal-tool) | Perform Pandas-based data analysis on uploaded files (CSV, Excel, etc.) using natural language queries. Automatically processes data and generates charts with downloadable results. |
-| [Agent & Pipeline Builder](../how-tos/chat-conversations/agents-&-pipeline-builder) | Create and edit agents and pipelines directly from the chat. |
-| [Skill Builder](../how-tos/modules/skill-builder.mdx) | Create and edit skills directly from the chat. |
-| [Project Context Builder](../how-tos/modules/project-context-builder.mdx) | Create and edit your project context directly from the chat. |
-| [Ask User](../how-tos/modules/ask-user.mdx) | Allow agents to pause and ask you clarifying questions instead of guessing. |
-| [Planner](../how-tos/chat-conversations/planner-internal-tool) | Create, manage, and track tasks and action items directly within chats. Set priorities, due dates, and monitor task progress without switching to external task management tools. |
-| [Python Sandbox](../how-tos/chat-conversations/python-sandbox-internal-tool) | Execute Python code in a secure sandbox using Pyodide (Python compiled to WebAssembly). Useful for calculations, data processing, testing algorithms, and generating visualizations. |
-| [Swarm Mode](../how-tos/chat-conversations/swarm-mode-internal-tool) | Enable multi-agent collaboration by sharing the full conversation history and control between agents. |
-| [Smart Tools Selection](../how-tos/chat-conversations/smart-tools-selection-internal-tool) | Reduce token usage when working with many toolkits by using meta-tools instead of binding all tools directly. Recommended when your conversation uses 5 or more toolkits. |
+<CardGroup cols={3}>
+  <Card title="Image Creation" icon="image" href="../how-tos/chat-conversations/image-generation" />
+  <Card title="Data Analysis" icon="chart-bar" href="../how-tos/chat-conversations/data-analysis-internal-tool" />
+  <Card title="Agent & Pipeline Builder" icon="sitemap" href="../how-tos/chat-conversations/agents-&-pipeline-builder" />
+  <Card title="Skill Builder" icon="wand-magic-sparkles" href="../how-tos/modules/skill-builder" />
+  <Card title="Project Context Builder" icon="folder-tree" href="../how-tos/modules/project-context-builder" />
+  <Card title="Ask User" icon="circle-question" href="../how-tos/modules/ask-user" />
+  <Card title="Planner" icon="list-check" href="../how-tos/chat-conversations/planner-internal-tool" />
+  <Card title="Python Sandbox" icon="terminal" href="../how-tos/chat-conversations/python-sandbox-internal-tool" />
+  <Card title="Swarm Mode" icon="people-group" href="../how-tos/chat-conversations/swarm-mode-internal-tool" />
+  <Card title="Smart Tools Selection" icon="bolt" href="../how-tos/chat-conversations/smart-tools-selection-internal-tool" />
+</CardGroup>
 
-Default modules are configured by project administrators in [General Settings → Default Modules](./settings/general#default-modules).
+Default modules are configured by project administrators in **Settings**,  [General > Default Modules](./settings/general#default-modules).
 
 All team members can turn a module on or off for their own chats or agents at any time, regardless of the project default.
+
+<Info>
+For detailed information about modules, see [Modules Overview](../how-tos/modules/modules).
+</Info>
 
 #### Voice Capabilities
 

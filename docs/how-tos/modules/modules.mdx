@@ -16,7 +16,7 @@ ELITEA provides ten modules:
   <Card title="Data Analysis" icon="chart-bar" href="../chat-conversations/data-analysis-internal-tool">
     Performs Pandas-based data analysis on uploaded files (CSV, Excel, etc.) using natural language queries. Automatically processes data and generates charts with downloadable results.
   </Card>
-  <Card title="Agents & Pipeline Builder" icon="sitemap" href="../chat-conversations/agents-&-pipeline-builder">
+  <Card title="Agent & Pipeline Builder" icon="sitemap" href="../chat-conversations/agents-&-pipeline-builder">
     Creates and updates agents and pipelines from chat, and calls tagged agents and MCP-enabled toolkits.
   </Card>
   <Card title="Skill Builder" icon="wand-magic-sparkles" href="./skill-builder">
@@ -60,7 +60,7 @@ Some modules have additional prerequisites:
 | Module | Additional prerequisite |
 |--------|--------------------------|
 | **Image Creation** | <ul><li>An image generation provider toolkit must be configured for the project.</li><li>A model that supports image generation must be selected.</li></ul> |
-| **Agents & Pipeline Builder** | <ul><li>MCP features must be enabled on the platform.</li><li>Agents must carry the **`mcp`** tag to be callable as tools.</li></ul> |
+| **Agent & Pipeline Builder** | <ul><li>MCP features must be enabled on the platform.</li><li>Agents must carry the **`mcp`** tag to be callable as tools.</li></ul> |
 | **Skill Builder** | <ul><li>MCP features must be enabled on the platform.</li><li>The user must have skill management permissions.</li></ul> |
 | **Project Context Builder** | <ul><li>MCP features must be enabled on the platform.</li><li>The user must have project context edit permissions.</li></ul> |
 | **Data Analysis** | None. |
@@ -137,7 +137,7 @@ Most modules work independently, but you can combine some of them to get better 
 
 | Combination | Why |
 |-------------|-----|
-| **Ask User** + **Skill Builder**, **Project Context Builder**, or **Agents & Pipeline Builder** | Builders can pause and ask clarifying questions instead of guessing at missing details or requesting them through plain chat responses. |
+| **Ask User** + **Skill Builder**, **Project Context Builder**, or **Agent & Pipeline Builder** | Builders can pause and ask clarifying questions instead of guessing at missing details or requesting them through plain chat responses. |
 | **Python Sandbox** + **Data Analysis** | Data Analysis parses uploaded files and structures data, while Python Sandbox provides a code execution environment for custom logic beyond what Data Analysis covers alone. |
 | **Smart Tools Selection** with five or more toolkits configured | Smart Tools Selection loads tool schemas on demand instead of binding every tool upfront, which reduces token usage as the toolkit count grows.|
 | **Swarm Mode** + **Smart Tools Selection**, **Data Analysis**, or **Python Sandbox** | Peer agents in a swarm can each use these modules independently within the shared conversation. |
