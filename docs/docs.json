@@ -198,6 +198,7 @@
                 "group": "Modules",
                 "expanded": false,
                 "pages": [
+                  "how-tos/modules/modules",
                   "how-tos/chat-conversations/image-generation",
                   "how-tos/chat-conversations/data-analysis-internal-tool",
                   "how-tos/chat-conversations/agents-&-pipeline-builder",
