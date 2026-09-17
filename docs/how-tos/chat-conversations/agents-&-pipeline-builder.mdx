@@ -1,129 +1,88 @@
 ---
 title: "Agent & Pipeline Builder"
 sidebarTitle: "Agent & Pipeline Builder"
-description: "Create and update agents and pipelines directly from chat, while also calling tagged agents and MCP-enabled toolkits through ELITEA's built-in MCP server."
 ---
 
-## Overview
+**Agent & Pipeline Builder** module connects the chat to ELITEA's own Model Context Protocol (MCP) server. It allows:
+- creating and updating agents and pipelines directly from chat
+- calling other agents and toolkits that become available through MCP
 
-**Agent & Pipeline Builder** is a built-in Module that connects a conversation agent to ELITEA's own **Model Context Protocol (MCP) server**. Once enabled, the agent can create and update agents and pipelines directly from chat, while also discovering and calling other agents and toolkit operations that have been explicitly made available through MCP — all from within a single conversation, without the user needing to pre-wire every dependency upfront.
-
-<CardGroup cols={2}>
-  <Card title="Platform-Native MCP Access" icon="server">
-    Uses the same secure MCP server that external MCP clients use, but from inside a conversation — no separate connection needed.
-  </Card>
-  <Card title="Agent & Pipeline Creation" icon="sparkles">
-    Create and update agents and pipelines directly from chat when the conversation requires new automation or orchestration.
-  </Card>
-  <Card title="Agent Invocation" icon="robot">
-    Call other agents tagged with **mcp** as tools — pass a task, get back the agent's full response.
-  </Card>
-  <Card title="Toolkit Tool Execution" icon="toolbox">
-    Invoke individual tools from any toolkit with **Available via MCP** enabled — each selected tool becomes a direct callable.
-  </Card>
-  <Card title="No External Credentials" icon="shield-check">
-    Authentication is inherited from the current user session — no additional secrets or setup required.
-  </Card>
-</CardGroup>
-
-<Tip title="When to Use Agent & Pipeline Builder">
 Use Agent & Pipeline Builder when you want a **coordinator or meta-agent** to discover and delegate to other agents at runtime, create or update agents and pipelines directly from chat, and invoke toolkit operations dynamically based on what the conversation requires.
-</Tip>
 
----
+**Key Features:**
+
+- Uses the same secure MCP server as external MCP clients
+- Creates and updates agents and pipelines directly from chat
+- Calls other agents tagged with **mcp** as tools
+- Invokes individual tools from any toolkit with **Available via MCP** enabled
+- Inherits authentication from the current user session
 
 ## Prerequisites
 
-- **MCP Enabled**: MCP features must be enabled on the platform. If the **Agent & Pipeline Builder** toggle does not appear in the Modules list, contact your Elitea administrator.
-- **Permission Level**: User role with conversation or agent edit access
-- **Default Availability**: The feature can be enabled by default for new conversations through the project-level **Agent & Pipeline Builder** setting.
-- **Agents tagged with `mcp`**: To appear as callable tools, agents must have the **`mcp`** tag applied. Agents without this tag are not listed, regardless of publish status.
-- **MCP-Available Toolkits** *(optional)*: Toolkits with **Available via MCP** enabled in their settings, so their individual tools are callable.
-- **Elitea Personal Access Token** *(for internal MCP toolkits when required)*: Some internal MCP toolkit actions require a valid Elitea personal access token. If the token is missing or expired, renew or create one before retrying the action.
+To use **Agent & Pipeline Builder**, you need:
 
----
+- MCP features enabled on the platform
+- User role with conversation or agent edit access
 
-## How It Works
+To call agent and toolkit tools, you also need:
+
+- Agents have the **`mcp`** tag applied. Agents without this tag are not listed, regardless of publish status.
+- Toolkits with **Available via MCP** are enabled in their settings.
+- ELITEA personal access tokens are available for internal MCP toolkits, if required.
+
+<Note>
+If **Agent & Pipeline Builder** does not appear in the Modules list, contact your ELITEA administrator as the MCP feature may be disabled at the platform level.
+</Note>
+
+## How to Enable Agent & Pipeline Builder
+
+The default state of the **Agent & Pipeline Builder** module — on or off — [is defined in the project settings](../../menus/settings/general#default-modules).
+
+If **Agent & Pipeline Builder** is turned off by default, you can turn it on for your current conversation or agent.
+
+<Callout icon="lightbulb" color="#a855f7" title="Recommended">
+Enable the **Ask User** module alongside **Agent & Pipeline Builder** for the best experience. When enabled, the conversation can ask structured clarifying questions with interactive options if your agent or pipeline creation request is missing information. Without **Ask User**, the conversation can only request information through in-chat responses.
+</Callout>
+
+### For a Conversation
+
+1. Go to the conversation.
+2. Select **+** in the chat input toolbar.
+3. Select **Modules** → **Agent & Pipeline Builder** in the list.
+4. Toggle **Agent & Pipeline Builder** on.
+
+<img src="../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/agent&pipeline-builder-chat.png" alt="Enable Agent & Pipeline Builder in a Conversation" width="350" />
+
+Once enabled, the conversation has access to builder capabilities and all MCP-exposed tools. You can create or update agents and pipelines, and call available MCP tools as needed based on the conversation flow.
+
+### For an Agent
+
+1. Select **Agents**.
+2. Select the agent to configure, or create a new agent.
+3. In the **TOOLS** section, find **Modules**.
+4. Find **Agent & Pipeline Builder**. Select **Show all** if you do not see it immediately.
+5. Toggle **Agent & Pipeline Builder** on.
+6. Select **Save**.
+
+All changes apply only to new conversations run by this agent. Existing conversations will not be affected.
+
+<img src="../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/agent&pipeline-builder-agent.png" alt="Enable Agent & Pipeline Builder in Agent Configuration" width="350" />
+
+## How Agent & Pipeline Builder Works
 
 When Agent & Pipeline Builder is enabled, the agent connects to ELITEA's built-in MCP server, which exposes callable resources and supports chat-driven builder workflows:
 
-| Category | What Is Exposed | Requirement |
+| | | |
 |----------|----------------|-------------|
 | **Builder Actions** | Agent can create or update agents and pipelines directly from chat | Feature enabled and user has the required project permissions |
 | **Agents** | Agents appear as tools the AI can call with a `task` argument | Agent must have the **`mcp` tag** applied |
 | **Toolkit Tools** | Each selected tool within a toolkit becomes a standalone callable | Toolkit must have **Available via MCP** enabled in its MCP Options |
 
-**How a tool call works**
-
-1. The agent decides to call a resource — for example, `PR_Review_Agent` with `task: "Review PR #42"`
-2. The MCP server resolves the name and routes the call:
-   - **Agent call** → runs the full agent prediction pipeline and returns the agent's final reply
-   - **Toolkit tool call** → executes the tool with the provided arguments and returns the result as JSON
-3. The response is returned to the calling agent, which incorporates it into its reasoning
-
-<Info title="How Tool Names Are Generated">
-Both agent and toolkit tool names are derived from the resource's display name: any character that is not a letter, digit, underscore, or hyphen is replaced with `_`. For example, `"PR Review Agent"` → `PR_Review_Agent`, and `"My GitHub Toolkit"` with tool `create_issue` → `My_GitHub_Toolkit_create_issue`. Names that collide after normalisation — the second occurrence is silently skipped, so keep resource names distinct.
-</Info>
-
----
-
-## Enabling Agent & Pipeline Builder
-
-You can enable Agent & Pipeline Builder in three ways: as a default setting for all new chats and agents, for a specific conversation, or in an individual agent configuration.
-
-<Note>
-If **Agent & Pipeline Builder** does not appear in the Modules list, the MCP feature may be disabled at the platform level. Contact your Elitea administrator.
-</Note>
-
-<Tip>
-**Recommended:** Enable the **Ask User** module alongside Agent & Pipeline Builder for the best experience. When enabled, the conversation can ask structured clarifying questions with interactive options if your agent or pipeline creation request is missing information. Without Ask User, the conversation can only request information through normal chat responses.
-</Tip>
-
-### In Project Settings
-
-1. Navigate to **Settings** in the main menu.
-2. Go to the **General** section.
-3. Find the **Agent & Pipeline Builder** row under default modules.
-4. Toggle **Chats** on to enable Agent & Pipeline Builder by default for all new conversations.
-5. Toggle **Agents** on to enable Agent & Pipeline Builder by default for all new agents.
-6. Click **Save**.
-
-     <img src="../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/enable-general.png" alt="Enable Agent & Pipeline Builder in Project Settings" width="350" />
-
-New chats and agents in this project will have Agent & Pipeline Builder enabled based on your toggle settings.
-
-### In a Conversation
-
-1. Navigate to your conversation.
-2. Click the **`+`** icon in the chat input toolbar.
-3. Hover over **Modules** to open the flyout panel.
-4. Find **Agent & Pipeline Builder** in the list and toggle it on.
-5. A success notification appears: **"Modules configuration updated"**.
-
-     <img src="../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/agent&pipeline-builder-chat.png" alt="Enable Agent & Pipeline Builder in a Conversation" width="350" />
-
-Once enabled, the conversation has access to builder capabilities and all MCP-exposed tools. You can create or update agents and pipelines, and call available MCP tools as needed based on the conversation flow.
-
-### In Agent Configuration
-
-1. Navigate to **Agents** in the main menu.
-2. Select the agent you want to configure or create a new agent.
-3. In the **TOOLS** section, locate the **MODULES** subsection.
-4. Find the **Agent & Pipeline Builder** toggle (click **Show all** if needed).
-5. Toggle **Agent & Pipeline Builder** on.
-6. Click **Save**.
-
-     <img src="../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/agent&pipeline-builder-agent.png" alt="Enable Agent & Pipeline Builder in Agent Configuration" width="350" />
-
-New conversations with this agent will have Agent & Pipeline Builder enabled by default.
-
----
-
-## Available Tools at Runtime
+### Available Tools
 
 The exact tools the agent sees at runtime depend on your project's configuration.
 
-### Agent Tools
+**Agent Tools**
 
 Agents that have the **`mcp` tag** applied are exposed as callable tools. Each such agent produces one tool:
 
@@ -138,117 +97,116 @@ Agents that have the **`mcp` tag** applied are exposed as callable tools. Each s
 Agents without the **`mcp`** tag do **not** appear as tools, even if they are published. Apply the `mcp` tag to an agent in its settings to make it callable via Agent & Pipeline Builder.
 </Warning>
 
-### Toolkit Tools
+**Toolkit Tools**
 
 Toolkits with **Available via MCP** turned on in their **MCP Options** section expose their selected tools individually:
 
 | Property | Value |
 |----------|-------|
-| **Name** | `{toolkit_name}_{tool_name}` — both normalised with the same rule as above |
+| **Name** | `{toolkit_name}_{tool_name}` — both normalized with the same rule as above |
 | **Description** | `"Tool '{tool_name}' from toolkit type '{toolkit_type}'. Toolkit description: {description}"` |
 | **Input / Output** | Matches the toolkit's native tool schema exactly |
 
----
+### How Tool Calls Work
 
-## Using Agent & Pipeline Builder
+1. The agent decides to call a resource — for example, `PR_Review_Agent` with `task: "Review PR #42"`
+2. The MCP server resolves the name and routes the call:
+   - **Agent call** → runs the full agent prediction pipeline and returns the agent's final reply
+   - **Toolkit tool call** → executes the tool with the provided arguments and returns the result as JSON
+3. The response is returned to the calling agent, which incorporates it into its reasoning
+
+Both agent and toolkit tool names are derived from the resource's display name: any character that is not a letter, digit, underscore, or hyphen is replaced with `_`. For example, `"PR Review Agent"` → `PR_Review_Agent`, and `"My GitHub Toolkit"` with tool `create_issue` → `My_GitHub_Toolkit_create_issue`.
+
+If two names collide after normalization, the actual behavior of Agent & Pipeline Builder depends on where the collision happens:
+
+- **Two toolkit tools collide** on the same normalized name: neither is callable. Calling that name returns an error instead of running either tool.
+- **An agent and a toolkit tool collide** on the same normalized name: the call always resolves to the agent, regardless of which one appears first in the tool listing.
+
+Keep resource names distinct to avoid both cases.
+
+## How to Use Agent & Pipeline Builder
 
 Once enabled, the agent automatically has access to all discovered tools. No additional prompting or configuration is needed — the agent uses them based on the task requirements.
 
-### Create an Agent or Pipeline from Chat
+### Required Fields & Default Values
 
-You can use Agent & Pipeline Builder to create a new agent or pipeline directly from a conversation.
-
-**Step 1: Type Your Request in the Chat**
-
-Describe what agent or pipeline you want to create. Include key details such as the agent purpose, instructions, model preferences, and any specific behavior.
-
-**Examples:**
-
-For an agent:
-```
-Create an agent called "Code Reviewer" that reviews Python code for 
-PEP 8 compliance, security issues, and suggests improvements
-```
-
-For a pipeline:
-```
-Create a pipeline called "CI Pipeline" that runs code analysis, then 
-executes tests, and finally generates a report
-```
-
-**Step 2: Answer Clarifying Questions (If Needed)**
-
-If required information is missing, the conversation response depends on whether **Ask User** is enabled:
-
-- **Ask User enabled**: The conversation pauses and asks 1-4 focused questions using structured prompts with single-select, multi-select, or free-text options.
-  
-- **Ask User disabled**: The conversation requests missing information in a normal chat response or proceeds with reasonable defaults.
-
-![Answering Clarifying Questions Example](../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/answer-questions.png)
-
-**Step 3: Review Created Agent or Pipeline**
-
-- After successful creation, the agent or pipeline automatically opens in Canvas mode for review and editing. 
-- An agent chip also appears in the chat, which you can click later to reopen the agent.
-- The created agent is added to your project and can be accessed later via the **Agents** menu.
-
-![Agent or Pipeline Review Example](../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/agent-pipeline-review.png)
-
-<Note>
-Created agents or pipelines are not automatically added to the current conversation. You can enable them in the conversation if needed.
-</Note>
-
-<Tip title="Be Specific in Builder Requests">
-The more specific your request is, the better the generated agent or pipeline will be.
-
-**For Agents:**
-- Agent name (max 32 characters)
-- Clear description of the agent purpose
-- Detailed instructions for the agent behavior
-- Model preferences (model name, temperature)
-
-**For Pipelines:**
-- Pipeline name (max 32 characters)
-- Clear description of the pipeline workflow
-- Node structure and edge connections in YAML format
-- Node types (llm, tool, loop, router, indexer, hitl, loop_output)
-- Model preferences for LLM nodes
-</Tip>
-
-**Required Fields:**
+Required fields:
 - `name`: Agent name (1-32 characters)
 - `versions`: Exactly one version named "base"
 - `versions[0].agent_type`: Agent type (e.g., "openai" for classic agents, "pipeline" for pipelines)
 - `versions[0].instructions`: Agent instructions or pipeline YAML definition
 - `versions[0].llm_settings.model_name`: LLM model to use
 
-**Default Values:**
+Default values:
 - `owner_id`: Automatically set to current project ID
 - `project_id`: Automatically set to current project ID
 - `user_id`: Automatically set to current user ID
 - Default internal tools: Applied from project module settings
 
-### Example Interaction
+### Create an Agent or Pipeline from Chat
 
-**User:** *"List all open pull requests from the GitHub toolkit and ask the code review agent to review each one."*
+You can use Agent & Pipeline Builder to create a new agent or pipeline directly from chat.
 
-**Setup required:**
-- GitHub toolkit has **Available via MCP** enabled and `list_pull_requests` in its selected tools
-- The code review agent has the **`mcp`** tag applied
+<Accordion title="Step 1: Type Your Request in the Chat">
+Describe what agent or pipeline you want to create. Include key details such as the agent purpose, instructions, model preferences, and any specific behavior.
 
-**Behind the Scenes:**
+**Examples:**
 
-1. The agent calls `My_GitHub_Toolkit_list_pull_requests` (normalised from `"My GitHub Toolkit"` + `list_pull_requests`) to fetch open PRs
-2. For each PR, the agent calls `Code_Review_Agent` with a self-contained `task` that includes the PR title and diff inline
-3. The code review agent runs its full prediction pipeline and returns its findings as text
-4. The calling agent collects all reviews and presents a consolidated summary to the user
+For an agent:
 
----
+> Create an agent called "Code Reviewer" that reviews Python code for PEP 8 compliance, security issues, and suggests improvements
+
+For a pipeline:
+
+> Create a pipeline called "CI Pipeline" that runs code analysis, then executes tests, and finally generates a report
+
+</Accordion>
+
+<Accordion title="Step 2: Answer Clarifying Questions (If Needed)">
+If required information is missing, the conversation response depends on whether **Ask User** is enabled:
+
+- **Ask User enabled**: The conversation pauses and asks 1-4 focused questions using structured prompts with single-select, multi-select, or free-text options.
+- **Ask User disabled**: The conversation requests missing information in a normal chat response or proceeds with reasonable defaults.
+
+![Answering Clarifying Questions Example](../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/answer-questions.png)
+</Accordion>
+
+<Accordion title="Step 3: Review Created Agent or Pipeline">
+- After successful creation, the agent or pipeline automatically opens in Canvas mode for review and editing.
+- An agent chip also appears in the chat, which you can click later to reopen the agent.
+- The created agent is added to your project and can be accessed later via the **Agents** menu.
+
+![Agent or Pipeline Review Example](../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/agent-pipeline-review.png)
+</Accordion>
+
+<Note>
+Created agents or pipelines are not automatically added to the current conversation. You can enable them in the conversation if needed.
+</Note>
 
 ## Example Scenarios
 
+<Accordion title="Automated PR Reviewer">
+**Scenario:** A user wants every open pull request automatically reviewed by a dedicated code review agent, without manually pasting each diff into chat.
+
+**Setup:**
+
+- `My GitHub Toolkit` — **Available via MCP** on; selected tools include `list_pull_requests`
+- `Code Review Agent` — `mcp` tag applied
+
+**User Request:**
+
+> `List all open pull requests from the GitHub toolkit and ask the code review agent to review each one.`
+
+**Workflow:**
+
+1. Agent calls `My_GitHub_Toolkit_list_pull_requests` (normalized from `"My GitHub Toolkit"` + `list_pull_requests`) to fetch open PRs
+2. For each PR, calls `Code_Review_Agent` with a self-contained `task` that includes the PR title and diff inline
+3. The code review agent runs its full prediction pipeline and returns its findings as text
+4. The calling agent collects all reviews and presents a consolidated summary to the user
+</Accordion>
+
 <Accordion title="Dynamic Agent Coordinator">
-**Scenario:** A meta-agent that delegates tasks to specialised agents at runtime, without pre-wiring every dependency in the configuration.
+**Scenario:** A meta-agent that delegates tasks to specialized agents at runtime, without pre-wiring every dependency in the configuration.
 
 **Setup:**
 
@@ -257,7 +215,7 @@ The more specific your request is, the better the generated agent or pipeline wi
 
 **User Request:**
 
-> `Summarise the last sprint and send the report through the reporting agent, then run the regression tests using the QA agent.`
+> `Summarize the last sprint and send the report through the reporting agent, then run the regression tests using the QA agent.`
 
 **Workflow:**
 
@@ -280,7 +238,7 @@ The coordinator never needed hardcoded references to the child agents — adding
 - `Dev GitHub` toolkit — **Available via MCP** on; selected tools include `list_pull_requests`, `merge_pull_request`
 - `Project Jira` toolkit — **Available via MCP** on; selected tools include `search_issues`, `update_issue`
 
-**Exposed tool names** (after normalisation):
+**Exposed tool names** (after normalization):
 - `Dev_GitHub_list_pull_requests`, `Dev_GitHub_merge_pull_request`
 - `Project_Jira_search_issues`, `Project_Jira_update_issue`
 
@@ -309,19 +267,17 @@ The coordinator never needed hardcoded references to the child agents — adding
 
 **User Request:**
 
-> `Run today's regression suite, analyse any failures, and log new bugs.`
+> `Run today's regression suite, analyze any failures, and log new bugs.`
 
 **Workflow:**
 
 1. Coordinator calls `Test_Runner_Agent` with `task: "Run the full regression suite and return pass/fail per test case."`
 2. Agent receives structured results with failure details
 3. Coordinator calls `Failure_Analysis_Agent` with `task: "Classify the following failures as known regressions or new bugs: {failures_list}"`
-4. Analysis agent returns a categorised list
+4. Analysis agent returns a categorized list
 5. For each new bug, coordinator calls `QA_Jira_create_issue` with the failure details
 6. Coordinator sends a final summary: tests run, failures found, bugs filed
 </Accordion>
-
----
 
 ## Best Practices
 
@@ -343,7 +299,7 @@ The coordinator never needed hardcoded references to the child agents — adding
 - Use descriptive names (max 32 characters) that indicate the agent purpose
 - Include specific requirements, constraints, and expected behavior in instructions
 - Specify model preferences (model name, temperature) when you have specific needs
-- For pipelines: provide complete node structure and edge connections in YAML format
+- For pipelines: provide complete node structure and edge connections in YAML format, including node types (function, toolkit, mcp, tool, loop, loop_from_tool, indexer, code, state_modifier)
 - Test the created agent or pipeline immediately to verify it works as expected
 - Add relevant tags to improve discoverability across your project
 </Accordion>
@@ -380,12 +336,10 @@ The coordinator never needed hardcoded references to the child agents — adding
 - If agent creation fails, verify all required fields meet validation requirements
 </Accordion>
 
----
-
 ## Troubleshooting
 
 <Accordion title="Agent & Pipeline Builder toggle is not visible in the Modules list">
-The toggle only appears when MCP features are enabled at the platform level. Contact your Elitea administrator and ask them to enable **MCP exposure** and **MCP in menu** in the platform configuration.
+The toggle only appears when MCP features are enabled at the platform level. Contact your ELITEA administrator and ask them to enable **MCP exposure** and **MCP in menu** in the platform configuration.
 </Accordion>
 
 <Accordion title="No agent tools appear after enabling">
@@ -404,17 +358,17 @@ Toolkit tools are only exposed when the toolkit has **Available via MCP** enable
 </Accordion>
 
 <Accordion title="The agent calls the wrong tool or gets confused by similar tool names">
-Tool names are derived from display names: any character outside `[A-Za-z0-9_-]` is replaced with `_`. If two resources produce the same normalised name, only the first is exposed and the second is silently skipped.
+Tool names are derived from display names: any character outside `[A-Za-z0-9_-]` is replaced with `_`. If two toolkit tools produce the same normalized name, neither becomes callable under that name. If an agent and a toolkit tool collide, the agent always wins the call regardless of listing order.
 
-Make names clearly distinct. For example, `"GitHub - Frontend Repo"` and `"GitHub - Backend Repo"` normalise to different names, while `"GitHub (Frontend)"` and `"GitHub Frontend"` both become `GitHub_Frontend_` and may collide.
+Make names clearly distinct. For example, `"GitHub - Frontend Repo"` and `"GitHub - Backend Repo"` normalize to different names, while `"GitHub (Frontend)"` and `"GitHub Frontend"` both become `GitHub_Frontend_` and may collide.
 
-Rename conflicting agents or toolkits and verify the resulting normalised names are unique before relying on them.
+Rename conflicting agents or toolkits and verify the resulting normalized names are unique before relying on them.
 </Accordion>
 
 <Accordion title="Agent tool calls time out or return errors">
 Agent tool calls run the full agent prediction pipeline, which can take significant time for complex agents. If timeouts occur:
 - Ensure the target agent's LLM is healthy and its configuration is complete
-- Check if the target agent has its own toolkits that may be failing to initialise
+- Check if the target agent has its own toolkits that may be failing to initialize
 - Simplify the `task` argument — the called agent must be able to complete it independently
 </Accordion>
 
@@ -426,23 +380,20 @@ Toolkit tool execution uses the current user's session credentials. Verify:
 </Accordion>
 
 <Accordion title="Internal MCP toolkit actions ask for a personal access token">
-Some internal MCP toolkit actions require a valid Elitea personal access token.
+Some internal MCP toolkit actions require a valid ELITEA personal access token.
 
 If the token is missing or expired:
-- Create a new Elitea personal access token
+- Create a new ELITEA personal access token
 - Renew the existing token if it has expired
 - Retry the action after updating the token
 
 If the issue persists, verify that the token belongs to the current user and has access to the current project.
 </Accordion>
 
----
+<Info title="See also">
+See also:
 
-## Related Features
-
-<Info title="Additional Resources">
-- [Ask User Module](../modules/ask-user) - Recommended module to use with Agent & Pipeline Builder for structured clarification questions
-- [Elitea MCP Server (SSE)](../../integrations/mcp/mcp-server-sse) - Connect external MCP clients to ELITEA built-in MCP server
-- [Agent Configuration](../../menus/agents) - Creating and configuring agents
-- [Conversation Management](../../menus/chat) - Managing conversations and settings
+- [Ask User Module](../modules/ask-user)
+- [ELITEA MCP Server (SSE)](../../integrations/mcp/mcp-server-sse)
+- [Agent Configuration](../../menus/agents)
 </Info>
