@@ -1,521 +1,361 @@
 ---
 title: "Planner"
 sidebarTitle: "Planner"
-description: "Create, prioritize, and track tasks directly within chats using the Planner."
 ---
 
-## Overview
+**Planner** module gives agents a set of tools to create and track a step-by-step execution plan directly from chat: a titled, ordered checklist of steps that the agent updates as work progresses.
 
-**Use cases:**
+**Key features:**
 
-* Create action items from meeting discussions
-* Track multi-step project tasks and workflows
-* Set task priorities (High/Medium/Low) and due dates
-* Monitor task progress (Pending/In Progress/Completed)
-* Link tasks to conversation context for reference
-* Manage reminders for follow-up actions
-
----
+* Create an execution plan with a title and an ordered list of steps
+* Mark a step as in progress, then mark it completed
+* Track progress with completed / in-progress / pending counts
+* Resume an existing plan automatically when a conversation continues
+* Delete the current plan when it is no longer needed
 
 ## Prerequisites
 
-* **Permission Level**: User role with conversation edit access
-* **Conversation**: An active conversation or agent configuration
-* **Model**: An LLM model that supports tool invocation
-
-<Info title="Important">
-The Planner tool must be explicitly enabled via toggle switch before it can be used. It is disabled by default in both conversations and agents.
-</Info>
-
----
+- An LLM that supports tool invocation
+- User role with conversation edit access
+- An active conversation or agent configuration
+- **Planner** enabled in your chat or agent
 
 ## How to Enable Planner
 
-### In Chat
+The default state of the **Planner** module — on or off — [is defined in the project settings](../../menus/settings/general#default-modules).
 
-Enable the Planner tool for ad-hoc task management in chats.
+If **Planner** is turned off by default, you can turn it on for your current conversation or agent.
 
-1. Go to your chat.
-2. In the chat toolbar, select **+**.
+### For a Conversation
+
+1. Go to the conversation.
+2. Select `+` in the chat input toolbar.
 3. Select **Modules** → **Planner** in the list.
-5. Toggle **Planner** on to enable it.
+4. Toggle **Planner** on.
 
-<img src="../../img/how-tos/chat-conversations/internal-tools/planner/euch_planner_on_chat.png" alt="Enable planner in chat"/>
+<img src="../../img/how-tos/chat-conversations/internal-tools/planner/euch_planner_on_chat.png" alt="Enable Planner in a Conversation" width="350" />
 
-<Tip title="Quick Access">
-Modules configuration persists for the duration of your chat session. You can toggle the Planner on/off at any time.
-</Tip>
+Once enabled, the agent gains access to the planning tools and can create or update a plan when the conversation calls for step-by-step tracking.
 
----
+### For an Agent
 
-### For Agents
+1. Select **Agents**.
+2. Select the agent to configure, or create a new agent.
+3. In the **TOOLS** section, find **MODULES**.
+4. Find **Planner**. Select **Show all** if you do not see it immediately.
+5. Toggle **Planner** on.
+6. Select **Save**.
 
-Configure the Planner tool as part of an agent's default configuration.
+All changes apply only to new conversations run by this agent. Existing conversations will not be affected.
 
-1. Open the agent you want to configure (or create and opena new agent).
-3. Scroll down to **TOOLS**.
-4. In **TOOLS**, find **MODULES**.
-5. Find **Planner**. If it is not immediately visible, select **Show all** to see the full list of modules.
-6. Toggle **Planner** on.
-7. Select **Save**.
+## How Planner Works
 
-     <img src="../../img/how-tos/chat-conversations/internal-tools/planner/euch_planner-for-agent.png" alt="Enable planner for agents" width="400" />
+When **Planner** is enabled, the agent gains access to five tools for managing a single execution plan tied to the current conversation:
 
-<Info title="Agent vs Chat Settings">
-- **Agent Configuration**: Sets the default state for all new chats with that agent
-- **Chat Configuration**: Overrides the agent's default for that specific conversation
-- Changes to agent configuration do not affect existing conversations
-</Info>
+| Tool | Purpose | Key Parameters |
+|------|---------|----------------|
+| `update_plan` | Creates a new plan, or fully replaces the current one | `title`, `steps` |
+| `start_step` | Marks a step as in progress (clears any other in-progress step first) | `step_number` |
+| `complete_step` | Marks a step as completed | `step_number` |
+| `get_plan_status` | Returns the current plan and its progress | — |
+| `delete_plan` | Deletes the current plan | — |
 
----
+Each step has one of three statuses:
 
-## How to Use the Planner
+* `pending` — `☐` not yet started
+* `in_progress` — `▶` currently being worked on
+* `completed` — `☑` finished
 
-Once enabled, the Planner tool activates automatically when you express task-related intent in your conversation. It intelligently extracts task information from natural language, recognizing titles, priorities, due dates, and context.
+<Note>
+Only one step can be marked in progress at a time. Starting a new step automatically clears the in-progress status on any other step.
+</Note>
 
-<Info title="Conversations and Agents">
-The task creation and management workflows work identically whether you've enabled Planner in a conversation or configured it as part of an agent. The natural language interaction, task properties, and status management remain consistent across both usage modes.
-</Info>
+The agent decides when to use these tools based on the conversation — there is no special command syntax or trigger phrase required.
 
-### Creating Tasks
+## How to Use Planner
 
-Simply describe what you want to accomplish in natural language. The AI automatically extracts:
+Planner is best suited for multi-phase work where the sequence of steps matters (deployments, onboarding checklists, review workflows) rather than for tracking many independent to-do items.
 
-* **Task Title**: The action or description from your message
-* **Priority Level**: Keywords like "high", "medium", or "low"
-* **Due Dates**: Time references such as "Friday", "next week", or "tomorrow"
-* **Context**: Automatic link to the current conversation
+### Create a Plan
 
-**Example Task Creation:**
+Describe the multi-step work you want tracked, or ask the agent to create a plan directly:
 
-```
-You: "Create a deployment plan: run tests, build artifacts, backup database, 
-deploy to staging, smoke test"
+> Create a plan for our website deployment: run tests, build production bundle, upload to server, run smoke tests, update documentation
 
-You: "Generate a high-priority todo list to run all regression test cases by Friday"
+The agent calls `update_plan` and returns the plan as a table:
 
-You: "Make a todo list for API documentation: document endpoints, add request 
-examples, include response schemas, update version history"
-```
+<Card title="Example Output">
 
-<img src="../../img/how-tos/chat-conversations/internal-tools/planner/planner-create-plan.gif" alt="Agent Planner Configuration" width="700" />
+**📋 Website Deployment Process**
 
-### Task Properties
+*Progress: 0/5 completed, 0 in progress*
 
-Each task captures the following information:
+| # | Step |
+|---|------|
+| ☐ 1 | Run all unit tests |
+| ☐ 2 | Build production bundle |
+| ☐ 3 | Upload to server |
+| ☐ 4 | Run smoke tests |
+| ☐ 5 | Update documentation |
 
-| Property | Description | Options |
-|----------|-------------|---------|
-| **Title** | What needs to be done | Custom description |
-| **Priority** | Importance level | High / Medium / Low |
-| **Due Date** | Completion deadline | Specific date, relative date, or none |
-| **Status** | Current state | Pending / In Progress / Completed |
-| **Context** | Source conversation | Automatic link |
+</Card>
 
-**Setting Priority and Due Dates:**
+<Warning title="Creating a Plan Replaces the Current One">
+`update_plan` fully replaces any existing plan for the conversation — it does not merge new steps into the current plan. To add or change steps, ask the agent to recreate the plan with the full updated step list.
+</Warning>
 
-```
-You: "Add high priority task to review contracts by Friday"
-You: "Create medium priority task for updating user guide"
-You: "Remind me next week to follow up with client"
-```
+### Track Progress
 
-**Priority Levels:**
+Ask the agent to start or complete a step in natural language:
 
-* **High**: Urgent, time-sensitive tasks requiring immediate attention
-* **Medium**: Important tasks with moderate urgency
-* **Low**: Tasks that can be completed when time allows
+> Start working on step 1
 
-**Due Date Formats:**
+Started step 1: Run all unit tests
 
-* **Specific**: "by Friday", "on December 20th"
-* **Relative**: "tomorrow", "next week", "in 3 days"
-* **No deadline**: Tasks marked "Not set"
+<Card title="Example Output">
 
-### Managing Task Status
+**📋 Website Deployment Process**
 
-Update task progress through natural conversation. Tasks move through three states:
+*Progress: 0/5 completed, 1 in progress*
 
-1. **Pending** → Task created but not started
-2. **In Progress** → Currently being worked on
-3. **Completed** → Finished and verified
+| # | Step |
+|---|------|
+| ▶ 1 | Run all unit tests (in progress) |
+| ☐ 2 | Build production bundle |
+| ☐ 3 | Upload to server |
+| ☐ 4 | Run smoke tests |
+| ☐ 5 | Update documentation |
 
-**Example Status Updates:**
+</Card>
 
-```
-You: "Mark the client follow-up task as completed"
+> Mark step 1 as complete
 
-AI:
-✓ Task updated:
-• Title: Follow up with client about proposal
-• Priority: High
-• Due Date: Friday
-• Status: Completed ✓
-```
+Step 1 completed (1/5 done)
 
-```
-You: "Start working on the documentation task"
+<Card title="Example Output">
 
-AI:
-✓ Task updated to In Progress:
-• Title: Update documentation
-• Priority: Medium
-• Status: In Progress
-```
+**📋 Website Deployment Process**
 
-**Quick Status Queries:**
+*Progress: 1/5 completed, 0 in progress*
 
-* "Show me my current tasks"
-* "What's on my todo list?"
-* "What tasks are pending?"
-* "Show me high priority items"
+| # | Step |
+|---|------|
+| ☑ 1 | Run all unit tests ✓ |
+| ☐ 2 | Build production bundle |
+| ☐ 3 | Upload to server |
+| ☐ 4 | Run smoke tests |
+| ☐ 5 | Update documentation |
 
-### Multi-Step Plans
+</Card>
 
-Create comprehensive execution plans for complex workflows with automatic progress tracking:
+### Check Plan Status
+
+Ask for the current state of the plan at any time:
+
+> What's the status of my plan?
+
+The agent calls `get_plan_status` and returns the same table shown above, without changing anything.
+
+### Resume an Existing Plan
+
+When you return to a conversation that already has a plan, the agent automatically restores it and reports where it left off, for example:
 
 ```
-You: "Create a plan for our website deployment"
-
-AI:
-✓ Plan created:
-
-📋 Website Deployment Process
-   Progress: 0/5 steps completed
-   
-   ☐ 1. Run all unit tests
-   ☐ 2. Build production bundle
-   ☐ 3. Upload to server
-   ☐ 4. Run smoke tests
-   ☐ 5. Update documentation
+[Resuming plan 'Website Deployment Process' - 1/5 completed, 0 in progress]
 ```
 
-Update individual steps to track overall progress:
+The agent continues from the next pending or in-progress step rather than recreating the plan.
 
-```
-You: "Mark step 1 as complete"
+### Delete a Plan
 
-AI:
-✓ Step 1 completed (1/5 done)
+> Delete the current plan
 
-📋 Website Deployment Process
-   Progress: 1/5 steps completed
-   
-   ☑ 1. Run all unit tests ✓
-   ☐ 2. Build production bundle
-   ☐ 3. Upload to server
-   ☐ 4. Run smoke tests
-   ☐ 5. Update documentation
-```
+The agent calls `delete_plan` and confirms deletion. This is the only way to remove a plan — it is not deleted automatically when the conversation ends.
 
-### Task Scope and Storage
+## Plan Scope and Storage
 
-**Important Considerations:**
-
-* Tasks are stored in conversation metadata and scoped to individual conversations
-* Tasks persist throughout the conversation lifetime
-* Deleting a conversation removes all associated tasks
-* Clearing conversation history also deletes all planner tasks
-* No cross-conversation synchronization or external storage
-* Each task maintains a link to its source conversation for context
+* A plan is scoped to a single conversation; each conversation has at most one active plan
+* Plans are stored outside the conversation itself, in a database table when configured, or in a local file otherwise
+* Deleting a conversation or clearing its history does **not** automatically delete the associated plan; use `delete_plan` to remove it explicitly
+* There is no cross-conversation plan sharing or synchronization
+* Creating a new plan (`update_plan`) fully replaces any existing plan for that conversation
 
 <Info title="Token Usage">
-Task creation consumes tokens for structured output. Complex plans with many steps use more tokens—consider token limits for extensive task lists.
+The full plan text is included in the tool result every time a planning tool is called, so plans with many steps use more tokens per turn.
 </Info>
-
----
 
 ### Usage Scenarios
 
-<Accordion title="Meeting Action Items">
-**Use Case**: Capture and track action items from meeting discussions
+<Accordion title="Deployment Checklist">
+**Use Case**: Track the steps of a release from testing through documentation
 
-**Example:**
+> Create a plan for our mobile app launch: complete beta testing, fix critical bugs, prepare app store listings, submit for review, plan marketing campaign
 
-```
-You: "From our standup today, add three tasks: 
-review Q4 budget (high priority, due Monday), 
-schedule follow-up with marketing (medium priority), 
-and update project timeline"
+<Card title="Example Output">
 
-AI:
-📋 Tasks Created:
+**📋 Mobile App Launch Plan**
 
-Task 1:
-• Title: Review Q4 budget
-• Priority: High
-• Due Date: Monday
-• Status: Pending
+*Progress: 0/5 completed, 0 in progress*
 
-Task 2:
-• Title: Schedule follow-up with marketing
-• Priority: Medium
-• Due Date: Not set
-• Status: Pending
+| # | Step |
+|---|------|
+| ☐ 1 | Complete beta testing |
+| ☐ 2 | Fix critical bugs |
+| ☐ 3 | Prepare app store listings |
+| ☐ 4 | Submit for review |
+| ☐ 5 | Plan marketing campaign |
 
-Task 3:
-• Title: Update project timeline
-• Priority: Medium
-• Due Date: Not set
-• Status: Pending
+</Card>
 
-All tasks linked to current conversation.
-```
-</Accordion>
+> Start step 1, then mark it complete once beta testing wraps up
 
-<Accordion title="Project Planning">
-**Use Case**: Break down complex projects into manageable steps
+Step 1 completed (1/5 done)
 
-**Example:**
+<Card title="Example Output">
 
-```
-You: "Create a plan for launching our mobile app"
+**📋 Mobile App Launch Plan**
 
-AI:
-📋 Mobile App Launch Plan
-   Progress: 0/5 steps completed
-   
-   ☐ 1. Complete beta testing
-   ☐ 2. Fix critical bugs
-   ☐ 3. Prepare app store listings
-   ☐ 4. Submit for review
-   ☐ 5. Plan marketing campaign
-```
+*Progress: 1/5 completed, 0 in progress*
 
-**Tracking Progress:**
+| # | Step |
+|---|------|
+| ☑ 1 | Complete beta testing ✓ |
+| ☐ 2 | Fix critical bugs |
+| ☐ 3 | Prepare app store listings |
+| ☐ 4 | Submit for review |
+| ☐ 5 | Plan marketing campaign |
 
-```
-You: "Mark steps 1 and 2 complete"
-
-AI:
-✓ Steps completed (2/5 done)
-
-📋 Mobile App Launch Plan
-   Progress: 2/5 steps completed
-   
-   ☑ 1. Complete beta testing ✓
-   ☑ 2. Fix critical bugs ✓
-   ☐ 3. Prepare app store listings
-   ☐ 4. Submit for review
-   ☐ 5. Plan marketing campaign
-```
-</Accordion>
-
-<Accordion title="Follow-Up Reminders">
-**Use Case**: Set reminders for future actions
-
-**Example:**
-
-```
-You: "Remind me to update the documentation after we finish this feature"
-
-AI:
-📋 Task Created:
-• Title: Update documentation
-• Priority: Medium
-• Due Date: Not set
-• Status: Pending
-• Context: Linked to current conversation
-
-I'll help you remember to update the documentation once the feature is complete.
-```
-</Accordion>
-
-<Accordion title="Sprint Planning">
-**Use Case**: Organize sprint tasks and track velocity
-
-**Example:**
-
-```
-You: "Create sprint tasks: implement user authentication (high, 5 days), 
-add payment gateway (high, 3 days), update API documentation (low, 2 days)"
-
-AI:
-📋 Sprint Tasks Created:
-
-Task 1:
-• Title: Implement user authentication
-• Priority: High
-• Due Date: 5 days
-• Status: Pending
-
-Task 2:
-• Title: Add payment gateway
-• Priority: High
-• Due Date: 3 days
-• Status: Pending
-
-Task 3:
-• Title: Update API documentation
-• Priority: Low
-• Due Date: 2 days
-• Status: Pending
-```
+</Card>
 </Accordion>
 
 <Accordion title="Code Review Workflow">
 **Use Case**: Track code review process steps
 
-**Example:**
+> Create a plan for reviewing the authentication PR: check code style and linting, review security implementations, test authentication flows, approve and merge
 
-```
-You: "Create review plan for the authentication PR"
+<Card title="Example Output">
 
-AI:
-📋 Authentication PR Review
-   Progress: 0/4 steps completed
-   
-   ☐ 1. Check code style and linting
-   ☐ 2. Review security implementations
-   ☐ 3. Test authentication flows
-   ☐ 4. Approve and merge
-```
+**📋 Authentication PR Review**
+
+*Progress: 0/4 completed, 0 in progress*
+
+| # | Step |
+|---|------|
+| ☐ 1 | Check code style and linting |
+| ☐ 2 | Review security implementations |
+| ☐ 3 | Test authentication flows |
+| ☐ 4 | Approve and merge |
+
+</Card>
 </Accordion>
 
----
+<Accordion title="Onboarding Checklist">
+**Use Case**: Walk through a fixed sequence of setup steps
+
+> Create a plan for onboarding a new team member: set up accounts, assign a buddy, schedule intro meetings, share documentation, review first-week goals
+
+<Card title="Example Output">
+
+**📋 New Team Member Onboarding**
+
+*Progress: 0/5 completed, 0 in progress*
+
+| # | Step |
+|---|------|
+| ☐ 1 | Set up accounts |
+| ☐ 2 | Assign a buddy |
+| ☐ 3 | Schedule intro meetings |
+| ☐ 4 | Share documentation |
+| ☐ 5 | Review first-week goals |
+
+</Card>
+</Accordion>
 
 ## Best Practices
 
-**Task Creation**
+**Plan Creation**
 
-<Accordion title="Be Specific with Task Descriptions">
-**Instead of:** "Fix bug"
+<Accordion title="Write Clear, Self-Contained Step Descriptions">
+**Instead of:** "Fix it"
 
-**Try:** "Fix login authentication timeout bug affecting mobile users"
+**Try:** "Fix the login authentication timeout affecting mobile users"
 
-**Why:** Specific descriptions provide better context and make tasks easier to understand later.
+**Why:** Each step is shown on its own line with no additional context, so a vague description is hard to act on later.
 </Accordion>
 
-<Accordion title="Set Appropriate Priorities">
-**High Priority:**
-
-* Blocking issues preventing work
-* Time-sensitive deadlines
-* Critical bug fixes
-
-**Medium Priority:**
-
-* Important but not urgent
-* Regular project work
-* Scheduled improvements
-
-**Low Priority:**
-
-* Nice-to-have improvements
-* Non-urgent maintenance
-* Optional enhancements
+<Accordion title="Keep Plans to a Manageable Number of Steps">
+* Break large efforts into 5-8 steps when possible
+* Each step should be independently completable and verifiable
+* Very long plans increase the token cost of every planning tool call
 </Accordion>
 
-<Accordion title="Include Due Dates for Time-Sensitive Tasks">
-**Examples:**
-
-* "Add task to submit proposal by Friday 5 PM"
-* "Create high priority task due tomorrow to review contracts"
-* "Remind me next Monday to follow up with client"
+<Accordion title="Describe the Full Sequence Upfront">
+Provide all the steps you want tracked in your initial request when possible. This avoids an early `update_plan` call that would need to be replaced later once more steps become known.
 </Accordion>
 
-**Task Management**
+**Plan Management**
 
-<Accordion title="Update Status Regularly">
-Keep task status current to track progress accurately:
-
-* Mark tasks "In Progress" when you start working
-* Update to "Completed" when finished
-* Use status queries to review progress
+<Accordion title="Start a Step Before Completing It">
+Use `start_step` to mark what is currently being worked on, then `complete_step` when it is finished. This keeps the in-progress indicator (`▶`) accurate if you check status mid-task or resume the conversation later.
 </Accordion>
 
-<Accordion title="Break Complex Tasks into Steps">
-**Instead of:**
-
-* Single large task: "Deploy new version"
-
-**Try:**
-
-* Step-by-step plan with 5-8 manageable steps
-* Each step has clear completion criteria
-* Progress tracking shows overall status
+<Accordion title="Do Not Recreate a Plan That Already Exists">
+Before creating a new plan, ask the agent to check the current plan status. If steps are already completed, continue from the next pending step instead of calling `update_plan` again — recreating the plan replaces it entirely and resets all progress.
 </Accordion>
 
-<Accordion title="Review Tasks Regularly">
-**Daily Review:**
-
-* "Show me today's high priority tasks"
-* "What tasks are due this week?"
-
-**Weekly Planning:**
-
-* "Show all pending tasks"
-* "List tasks by priority"
+<Accordion title="Delete Plans You No Longer Need">
+Plans are not removed automatically when a conversation ends or its history is cleared. Explicitly ask the agent to delete the plan once the work is done.
 </Accordion>
 
 **Workflow Organization**
 
-<Accordion title="Use Planner for Multi-Step Processes">
-**Good use cases:**
+<Accordion title="Use Planner for Multi-Phase Work, Not Single To-Dos">
+**Good fit:** Deployments, onboarding sequences, review workflows, and other work where the sequence of steps matters.
 
-* Deployment workflows
-* Code review processes
-* Feature development phases
-* Testing procedures
-
-**Each step should be:**
-
-* Clearly defined
-* Independently completable
-* Verifiable when done
+**Not a good fit:** Independent, unrelated to-do items — Planner tracks one ordered plan per conversation, not a general task list.
 </Accordion>
 
-<Accordion title="Link Related Tasks in Conversation">
-Keep related tasks in the same conversation for context:
-
-* All tasks for one project
-* Steps for one feature
-* Action items from one meeting
+<Accordion title="One Plan per Conversation">
+Keep each conversation focused on a single plan. If you need to track unrelated work, start a new conversation rather than trying to fit multiple plans into one — Planner only tracks one active plan per conversation.
 </Accordion>
 
-<Accordion title="Clean Up Completed Tasks">
-Periodically ask to review and delete old completed tasks:
-
-* "Delete all completed tasks older than 30 days"
-* "Archive finished project tasks"
+<Accordion title="Review Plan Status Before Ending a Session">
+Ask for the plan status before wrapping up so you have a clear record of what was completed, in progress, and still pending — especially before a long pause between messages.
 </Accordion>
-
----
 
 ## Troubleshooting
 
-<Accordion title="Issue: Planner Not Responding to Task Commands">
+<Accordion title="Planner does not respond to planning requests">
 **Possible causes:**
 
 * Planner tool not enabled
-* Command phrasing not recognized
+* Request phrasing doesn't clearly describe multi-step work
 * Model doesn't support tool invocation
 
 **Solution:**
 
-1. Verify Planner toggle is ON in **Modules**
-2. Check that you're using clear task-related phrases
-3. Try explicit commands: "Create a task to...", "Add to my todo..."
-4. Ensure selected model supports tool invocation
-5. Refresh the page and try again
+1. Verify that **Planner** is enabled.
+2. Describe the work as a sequence of steps rather than a single request.
+3. Ensure selected model supports tool invocation.
+4. Refresh the page and try again.
 </Accordion>
 
-<Accordion title="Issue: Tasks Not Persisting">
+<Accordion title="Plan does not persist between messages">
 **Possible causes:**
 
 * Conversation not saved
 * Browser session expired
-* Network connection lost during task creation
+* Network connection lost while the plan was being created or updated
 
 **Solution:**
 
-1. Ensure conversation is properly saved (check conversation title)
-2. Verify network connection is stable
-3. Refresh the conversation and check if tasks reappear
-4. Create tasks again if lost
+1. Ensure conversation is properly saved (check conversation title).
+2. Verify network connection is stable.
+3. Ask the agent for the plan status to confirm whether it still exists.
+4. Recreate the plan if it was lost.
 </Accordion>
 
-<Accordion title="Issue: Cannot Enable Planner in Agent">
+<Accordion title="I cannot enable Planner in an agent">
 **Possible causes:**
 
 * Insufficient permissions
@@ -524,65 +364,50 @@ Periodically ask to review and delete old completed tasks:
 
 **Solution:**
 
-1. Ensure you have edit permissions for the agent
-2. Check for any error messages at the top of the form
-3. Ensure all required agent fields are filled
-4. Save the entire configuration form, not just the toggle
-5. Try creating a new agent version if issues persist
+1. Ensure you have edit permissions for the agent.
+2. Check for any error messages at the top of the form.
+3. Ensure all required agent fields are filled.
+4. Save the entire configuration form, not just the toggle.
+5. Try creating a new agent version if issues persist.
 </Accordion>
 
-<Accordion title="Issue: Planner Creates Wrong Task Details">
+<Accordion title="Creating a new plan removed my previous steps">
 **Possible causes:**
 
-* Ambiguous task description
-* Multiple tasks in one request
-* Priority or due date not clearly specified
+* `update_plan` was called again for the same conversation
 
 **Solution:**
 
-1. Use clear, specific task descriptions
-2. Create one task at a time for accuracy
-3. Explicitly state priority: "high priority", "low priority"
-4. Specify due dates clearly: "by Friday", "due next week"
-5. Review and update task details after creation if needed
+1. This is expected: `update_plan` always fully replaces the current plan, it does not merge in new steps.
+2. To extend an existing plan, ask the agent to recreate it with the complete list of steps, including the ones already in progress or completed.
+3. Check plan status before asking for a new plan if you want to confirm what exists first.
 </Accordion>
 
-<Accordion title="Issue: Modules configuration updated But Planner Still Not Working">
+<Accordion title="Planner still does not work after updating modules configuration">
 **Possible causes:**
 
-* Toggle enabled but task commands not recognized
+* Toggle enabled but the request isn't recognized as multi-step work
 * Model context reset required
 * Tool invocation blocked by settings
 
 **Solution:**
 
-1. Send a new message to refresh the conversation context
-2. Try explicit task creation: "Planner: create a task to test"
-3. Check model configuration supports tool use
-4. Disable and re-enable the Planner toggle
-5. Start a new conversation to reset state
+1. Send a new message to refresh the conversation context.
+2. Ask explicitly: `Create a plan with these steps: ...`.
+3. Check model configuration supports tool use.
+4. Disable and re-enable **Planner**.
+5. Start a new conversation.
 </Accordion>
 
-<Accordion title="Issue: Tasks Appear in Wrong Format">
+<Accordion title="Plan output appears in the wrong format">
 **Possible causes:**
 
-* Output formatting issues
-* Model interpretation variance
+* Model interpretation variance when relaying the tool result
 * Unexpected response structure
 
 **Solution:**
 
-1. This is typically cosmetic; task data is still captured
-2. Request task status to see proper formatting
-3. If persistent, report to administrator
-4. Try different phrasing for task creation
+1. This is typically cosmetic; the underlying plan data is still intact.
+2. Ask for plan status to see the table rendered again.
+3. If persistent, report to administrator.
 </Accordion>
-
----
-
-<Info title="Additional Resources">
-* **[Agent Configuration](../../menus/agents)** - Setting up agents with modules and tools
-* **[Chat Functionality](./how-to-use-chat-functionality)** - General chat features and usage
-* **[Python Sandbox](./python-sandbox-internal-tool)** - Python Sandbox overview
-* **[Conversation Management](../../menus/chat)** - Managing conversations and settings
-</Info>
