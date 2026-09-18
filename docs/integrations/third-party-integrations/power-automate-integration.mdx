@@ -67,20 +67,20 @@ Power Automate communicates with ELITEA through the following API endpoints:
 
 | Purpose | Method | Endpoint |
 |---------|--------|----------|
-| Create Conversation | POST | `{{API_URL}}chat/conversations/prompt_lib/{{ProjectID}}` |
-| Add Agent Participant | POST | `{{API_URL}}chat/participants/prompt_lib/{{ProjectID}}/{{ConversationID}}` |
-| Send Message | POST | `{{API_URL}}chat/messages/prompt_lib/{{ProjectID}}/{{ConversationUUID}}` |
-| Check Existing Conversation | GET | `{{API_URL}}chat/conversations/prompt_lib/{{ProjectID}}/?query={{name}}&limit=1&source=alita` |
-| Get Conversation Details | GET | `{{API_URL}}chat/conversation/prompt_lib/{{ProjectID}}/{{ConversationID}}` |
-| Configure Attachment Storage | PUT | `{{API_URL}}chat/attachment_storage/prompt_lib/{{ProjectID}}/{{ConversationID}}` |
-| Upload Attachment | POST | `{{API_URL}}chat/attachments/prompt_lib/{{ProjectID}}/{{ConversationID}}` |
+| Create Conversation | POST | `{{API_URL}}elitea_core/conversations/prompt_lib/{{ProjectID}}` |
+| Add Agent Participant | POST | `{{API_URL}}elitea_core/participants/prompt_lib/{{ProjectID}}/{{ConversationID}}` |
+| Send Message | POST | `{{API_URL}}elitea_core/messages/prompt_lib/{{ProjectID}}/{{ConversationUUID}}` |
+| Check Existing Conversation | GET | `{{API_URL}}elitea_core/conversations/prompt_lib/{{ProjectID}}/?query={{name}}&limit=1&source=alita` |
+| Get Conversation Details | GET | `{{API_URL}}elitea_core/conversation/prompt_lib/{{ProjectID}}/{{ConversationID}}` |
+| Update Conversation (set attachment storage) | PUT | `{{API_URL}}elitea_core/conversation/prompt_lib/{{ProjectID}}/{{ConversationID}}` |
+| Upload Attachment | POST | `{{API_URL}}elitea_core/attachments/prompt_lib/{{ProjectID}}/{{ConversationID}}` |
 
 ### Base URLs
 
 | Environment | URL |
 |-------------|-----|
-| Production (next) | `https://next.elitea.ai/api/v1/` |
-| Development | `https://dev.elitea.ai/api/v1/` |
+| Production (next) | `https://next.elitea.ai/api/v2/` |
+| Development | `https://dev.elitea.ai/api/v2/` |
 
 ### Authentication
 
@@ -104,9 +104,11 @@ This section covers flows that send data from Microsoft 365 to ELITEA agents.
 2. Create or select an existing agent for your automation
 3. Configure the agent with appropriate instructions for handling automated requests
 4. Note the following values:
-    - **Agent ID:** Visible in agent details
-    - **Agent Version ID:** Found in the version selector
-    - **Project ID:** Located in Settings → **[Configuration](../../menus/settings/ai-configuration)**
+    - **Agent ID** and **Agent Version ID:** Visible in the Information section of the agent details page
+
+       ![Agent Information](../../img/integrations/third-party-integrations/langfuse/agent-info.png)
+    - **Project ID:** Located in Settings → **[General](../../menus/settings/general)**
+    ![Project ID](../../img/integrations/third-party-integrations/langfuse/project-id.png)
 
 <Tip title="Agent Instructions for Automation">
 Include clear instructions in your agent about the expected input format and how to respond. For example:
@@ -187,7 +189,7 @@ Add the following **Initialize variable** actions in sequence:
 | Variable Name | Type | Example Value |
 |---------------|------|---------------|
 | ChatHistory | String | (empty) |
-| API_URL | String | `https://next.elitea.ai/api/v1/` |
+| API_URL | String | `https://next.elitea.ai/api/v2/` |
 | AGENT_ID | String | `62` |
 | AGENT_VERSION_ID | String | `93` |
 | PROJECT_ID | Integer | `630` |
@@ -370,7 +372,7 @@ Append to ChatHistory:
 
 ```
 HTTP GET:
-@{variables('API_URL')}chat/conversations/prompt_lib/@{variables('PROJECT_ID')}/?query=Teams: {{displayName}}&limit=1&source=alita
+@{variables('API_URL')}elitea_core/conversations/prompt_lib/@{variables('PROJECT_ID')}/?query=Teams: {{displayName}}&limit=1&source=alita
 ```
 
 **Condition: If conversation exists (total > 0):**
@@ -444,7 +446,7 @@ Method: GET
 **Upload to ELITEA:**
 
 ```json
-HTTP POST: @{variables('API_URL')}chat/attachments/prompt_lib/@{variables('PROJECT_ID')}/@{ConversationID}
+HTTP POST: @{variables('API_URL')}elitea_core/attachments/prompt_lib/@{variables('PROJECT_ID')}/@{ConversationID}
 Body: {
   "$content-type": "multipart/form-data",
   "$multipart": [
@@ -506,7 +508,7 @@ Include message context (reply/forward indicators) and chat history:
 **Send to Agent:**
 
 ```json
-HTTP POST: @{variables('API_URL')}chat/messages/prompt_lib/@{variables('PROJECT_ID')}/@{ConversationUUID}
+HTTP POST: @{variables('API_URL')}elitea_core/messages/prompt_lib/@{variables('PROJECT_ID')}/@{ConversationUUID}
 Body: {
   "participant_id": {{participant_id}},
   "user_input": "{{ComposeUserInput output}}",
@@ -880,17 +882,31 @@ Power Automate flows can upload attachments to ELITEA conversations for agent pr
 
 ### Step 1: Configure Attachment Storage
 
-Before uploading, configure the attachment storage for the conversation:
+Before uploading, the conversation needs a storage toolkit participant, and the conversation must be updated to point at it:
+
+**1. Add the storage toolkit as a participant:**
 
 ```
-HTTP PUT: @{variables('API_URL')}chat/attachment_storage/prompt_lib/@{variables('PROJECT_ID')}/@{ConversationID}
+HTTP POST: @{variables('API_URL')}elitea_core/participants/prompt_lib/@{variables('PROJECT_ID')}/@{ConversationID}
 Body: {
-  "toolkit_id": {{toolkit_id}}
+  "entity_name": "toolkit",
+  "entity_meta": {
+    "id": {{toolkit_id}}
+  }
+}
+```
+
+**2. Set the conversation's attachment participant:**
+
+```
+HTTP PUT: @{variables('API_URL')}elitea_core/conversation/prompt_lib/@{variables('PROJECT_ID')}/@{ConversationID}
+Body: {
+  "attachment_participant_id": {{participant_id}}
 }
 ```
 
 <Info title="Toolkit ID">
-The `toolkit_id` refers to a storage toolkit configured in your ELITEA project (e.g., Artifacts toolkit).
+The `toolkit_id` refers to a storage toolkit configured in your ELITEA project (e.g., Artifacts toolkit). `participant_id` is the ID returned when that toolkit was added as a participant in step 1.
 </Info>
 
 ### Step 2: Upload Attachment
@@ -898,7 +914,7 @@ The `toolkit_id` refers to a storage toolkit configured in your ELITEA project (
 **Power Automate Format:**
 
 ```json
-HTTP POST: @{variables('API_URL')}chat/attachments/prompt_lib/@{variables('PROJECT_ID')}/@{ConversationID}
+HTTP POST: @{variables('API_URL')}elitea_core/attachments/prompt_lib/@{variables('PROJECT_ID')}/@{ConversationID}
 Content-Type: multipart/form-data
 Body: {
   "$multipart": [
@@ -924,7 +940,7 @@ Body: {
 **curl Example:**
 
 ```bash
-curl -X POST "https://next.elitea.ai/api/v1/chat/attachments/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}" \
+curl -X POST "https://next.elitea.ai/api/v2/elitea_core/attachments/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}" \
   -H "Authorization: Bearer {{YOUR_PAT}}" \
   -F "file=@/path/to/document.pdf" \
   -F "overwrite_attachments=1"
@@ -933,7 +949,7 @@ curl -X POST "https://next.elitea.ai/api/v1/chat/attachments/prompt_lib/{{PROJEC
 **curl with Base64 Content (inline):**
 
 ```bash
-curl -X POST "https://next.elitea.ai/api/v1/chat/attachments/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}" \
+curl -X POST "https://next.elitea.ai/api/v2/elitea_core/attachments/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}" \
   -H "Authorization: Bearer {{YOUR_PAT}}" \
   -H "Content-Type: multipart/form-data" \
   -F "file=@-;filename=image.png;type=image/png" <<< "$(base64 -d <<< '{{BASE64_CONTENT}}')" \
@@ -943,7 +959,7 @@ curl -X POST "https://next.elitea.ai/api/v1/chat/attachments/prompt_lib/{{PROJEC
 **Postman Configuration:**
 
 1. **Method:** POST
-2. **URL:** `https://next.elitea.ai/api/v1/chat/attachments/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}`
+2. **URL:** `https://next.elitea.ai/api/v2/elitea_core/attachments/prompt_lib/{{PROJECT_ID}}/{{CONVERSATION_ID}}`
 3. **Headers:**
     - `Authorization`: `Bearer {{YOUR_PAT}}`
 4. **Body:** Select `form-data`
@@ -1037,7 +1053,7 @@ React on Teams message trigger
 │
 ├─ Initialize Variables:
 │   ├─ ChatHistory (String)
-│   ├─ API_URL: "https://next.elitea.ai/api/v1/"
+│   ├─ API_URL: "https://next.elitea.ai/api/v2/"
 │   ├─ AGENT_ID: "62"
 │   ├─ AGENT_VERSION_ID: "93"
 │   ├─ PROJECT_ID: 630
