@@ -1,155 +1,128 @@
 ---
 title: "Swarm Mode"
 sidebarTitle: "Swarm Mode"
-description: "Enable multiple agents to collaborate in a shared chat with handoffs and shared context."
 ---
 
-## Overview
+**Swarm Mode** module lets multiple specialized agents collaborate in a shared conversation, handing off control to each other.
 
-**Key Features:**
+**Key features:**
 
-- **Shared Conversation History:** All agents in the swarm access the same conversation context
-- **Dynamic Agent Handoff:** Agents can transfer control to specialized agents as needed
-- **Seamless Collaboration:** Child agents work together while maintaining conversation continuity
-- **Automatic Control Flow:** The parent agent coordinates work and receives control back after child agents complete tasks
-
-<Tip title="When to Use Swarm Mode">
-Enable Swarm Mode when your workflow requires multiple specialized agents to collaborate on complex tasks. For example, a QA coordinator agent that delegates test execution to different testing specialists, or a development manager that coordinates between coding, review, and deployment agents.
-</Tip>
-
----
+* Make your child agents work together while maintaining conversation continuity
+* Hand off control dynamically between the entry agent and specialized peer agents
+* Return control automatically to the entry agent once a peer agent completes its task
+* Treat pipelines added as toolkits as direct-invocation peers that run without an LLM wrapper
 
 ## Prerequisites
 
-- **Permission Level**: User role with agent edit access
-- **Child Agents**: At least one child agent configured in the parent agent's toolkits
-- **Use Case**: Tasks requiring specialized agents to collaborate and share context
+- User role with agent edit access
+- At least one child agent configured in the parent agent's toolkits
+- **Swarm Mode** enabled in your chat or agent
 
-<Warning title="Swarm-enabled agents cannot be used as child agents">
-When adding child agents to a parent, agents that already have Swarm Mode enabled are excluded from the agent picker. Nested swarms (a swarm-enabled agent as a child of another swarm agent) are not supported. To use an agent as a child, ensure Swarm Mode is disabled on that agent.
+<Warning title="Swarm-enabled agents cannot be added as a tool to any parent">
+Nested swarms (a swarm-enabled agent as a child of any other agent) are not supported. If an agent has Swarm Mode enabled, it cannot be added as a tool to any other agent or pipeline (including other swarm-enabled agents). To use an agent as a child agent or toolkit, disable Swarm Mode on that agent first.
 </Warning>
 
----
+## How to Enable Swarm Mode
 
-## How It Works
+The default state of the **Swarm Mode** module — on or off — [is defined in the project settings](../../menus/settings/general#default-modules).
+
+If **Swarm Mode** is turned off by default, you can turn it on for your current conversation or agent.
+
+### For a Conversation
+
+1. Go to the conversation.
+2. Select `+` in the chat input toolbar.
+3. Select **Modules** → **Swarm Mode** in the list.
+4. Toggle **Swarm Mode** on.
+
+<img src="../../img/how-tos/chat-conversations/internal-tools/swarm-mode/euch_swarm_on_chat.png" alt="Enable Swarm Mode in a Conversation" width="350" />
+
+Once enabled, Swarm Mode stays active for that conversation as long as at least one child agent is configured in the entry agent's toolkits.
+
+### For an Agent
+
+1. Select **Agents**.
+2. Select the agent to configure, or create a new agent.
+3. In the **TOOLS** section, find **MODULES**.
+4. Find **Swarm Mode**. Select **Show all** if you do not see it immediately.
+5. Toggle **Swarm Mode** on.
+6. Select **Save**.
+
+All changes apply only to new conversations run by this agent. Existing conversations will not be affected.
+
+<img src="../../img/how-tos/chat-conversations/internal-tools/swarm-mode/euch_swarm-for-agent.png" alt="Enable Swarm Mode in Agent Configuration" width="400" />
+
+<Callout icon="lightbulb" color="#a855f7" title="">
+Always add and configure your child agents before enabling Swarm Mode. The parent agent needs at least one child agent to create a functional swarm.
+</Callout>
+
+## How Swarm Mode Works
+
+Swarm Mode replaces a single agent handling every request with a set of peer agents that hand off control to each other within the same conversation.
 
 **Traditional Agent vs Swarm Mode**
 
 | Aspect | Traditional Agent | Swarm Mode |
 |--------|-------------------|------------|
 | **Agent Structure** | Single agent handles all tasks | Parent agent coordinates multiple specialist agents |
-| **Conversation Context** | Only the active agent sees the conversation | All agents share the full conversation history |
+| **Conversation Context** | Only the active agent sees the conversation | All agents share the full conversation history at the [routing level](#conversation-visibility-during-a-handoff) |
 | **Task Distribution** | Single agent attempts all tasks | Parent delegates tasks to specialized child agents |
 | **Control Flow** | Linear execution | Dynamic handoff between parent and child agents |
 | **Collaboration** | No inter-agent communication | Agents can transfer control and share results |
 
-**Agent Roles**
+### Limitations
+
+* Swarm Mode has no effect if no child agent is configured in the entry agent's toolkits; the agent behaves as a standard agent.
+* Only one handoff is processed per turn. If the entry agent emits multiple handoff tool calls in a single response, only the first is executed — any additional handoff calls in that response are discarded, not queued for later.
+* A peer agent's handoff `task` argument is its only input — it has no access to prior conversation history, other tool results, or other peers' outputs unless that data is inlined explicitly.
+
+### Agent Roles
 
 Swarm Mode creates a **flat peer-to-peer architecture**. There is no strict parent/child hierarchy — the entry agent is simply the default starting point that the user talks to; all other agents are peers with equal standing:
 
 | Role | Description | Responsibilities |
 |------|-------------|------------------|
 | **Entry Agent** | The agent the user addresses (default active agent) | - Receives user requests<br />- Determines which specialist to involve<br />- Delegates tasks to peer agents via handoff tools<br />- Can receive control back from any peer |
-| **Peer Agents** | Specialized agents | - Execute specific tasks using their tools<br />- Access full shared conversation history<br />- Hand control back to the entry agent when done<br />- Can also hand off to other peers |
+| **Peer Agents** | Specialized agents | - Execute specific tasks using their tools<br />- Access the full shared conversation history at the [routing level](#conversation-visibility-during-a-handoff)<br />- Hand control back to the entry agent when done<br />- Can also hand off to other peers |
 
-<Note>
 Pipelines added as toolkits to the swarm agent participate as **direct-invocation peers** — they run their full graph and return the result without an LLM wrapper, then hand control back automatically. Regular agents run as LLM-equipped peers.
-</Note>
 
-**Workflow**
+### Execution Flow
 
-When Swarm Mode is enabled and child agents are configured:
+When Swarm Mode is enabled and child agents are configured, ELITEA handles handoffs automatically:
 
-1. **User Request:** User sends a message to the conversation
-2. **Parent Analysis:** Parent agent analyzes the request and determines if a specialist is needed
+```mermaid
+flowchart LR
+    A[User Request] --> B[Entry Agent Analysis]
+    B --> C[Handoff to Peer Agent]
+    C --> D[Peer Executes Task]
+    D --> E[Return Control]
+    E --> F[Continue Coordination]
+```
+
+1. **User Request:** User sends a message to the conversation.
+2. **Entry Agent Analysis:** Entry agent analyzes the request and determines if a specialist is needed.
 3. **Handoff:** Entry agent uses a handoff tool (e.g., `transfer_to_test_agent`) to delegate to a peer agent. The handoff tool's `task` argument must be **completely self-contained** — the peer receives only this string and has no access to prior conversation history, other tool results, or other peers' outputs. Always inline all required data verbatim.
-4. **Specialist Work:** Peer agent executes the task using its specialized tools and knowledge
-5. **Return Control:** Peer agent uses `transfer_to_main_agent` to return control after completing the task
-6. **Continue Coordination:** Entry agent receives results and continues coordinating the overall workflow
-
-<Note>
-Only **one handoff can be processed per turn**. If the entry agent emits multiple handoff tool calls in a single response, they are executed in order (not concurrently).
-</Note>
+4. **Peer Executes Task:** Peer agent executes the task using its specialized tools and knowledge.
+5. **Return Control:** Peer agent uses `transfer_to_main_agent` to return control after completing the task.
+6. **Continue Coordination:** Entry agent receives results and continues coordinating the overall workflow.
 
 <Info title="What Happens Behind the Scenes">
 When Swarm Mode is enabled, the system automatically creates handoff tools for each peer agent. Every agent in the swarm receives a `transfer_to_[agent_name]` tool for every other peer — this is bidirectional and flat: any agent can hand off to any other. The entry agent and all peers share the same conversation state (SwarmState) via LangGraph's `langgraph-swarm` library, ensuring seamless collaboration.
 </Info>
 
+### Conversation Visibility
 
----
+A handoff to a peer happens in two steps with different visibility into the conversation:
 
-## How to Enable Swarm Mode 
+1. The peer's routing layer receives the full shared conversation history (SwarmState) and decides whether to answer directly or hand off again.
+2. When the peer executes the task itself, only the handoff's `task` string is passed to that execution — prior conversation history, other tool results, and other peers' outputs are not included unless inlined into `task`.
 
-### In Chat
+<Note title="Inline what the peer's task execution needs">
+Because step 2 only receives the `task` string, always inline the specific data a peer needs to complete its task — do not rely on it having access to earlier messages or other peers' results.
+</Note>
 
-Enable Swarm Mode for collaborative multi-agent chats.
-
-1. Go to your chat.
-2. In the chat toolbar, select **+**.
-3. Select **Modules** → **Swarm Mode** in the list.
-5. Toggle **Swarm Mode** on to enable it.
-
-<img src="../../img/how-tos/chat-conversations/internal-tools/swarm-mode/euch_swarm_on_chat.png" alt="Enable Swarm Mode in chat"/>
-
-<Info title="Configuration Persistence">
-The Swarm Mode setting persists for the duration of your chat session. You can toggle it on/off at any time. However, Swarm Mode requires child agents to be configured in the agent's toolkits to function.
-</Info>
-
----
-
-### For Agents
-
-Configure Swarm Mode as part of an agent's default configuration.
-
-1. Open the agent you want to configure (or create and opena new agent).
-3. Scroll down to **TOOLS**.
-4. In **TOOLS**, find **MODULES**.
-5. Find **Swarm Mode**. If it is not immediately visible, select **Show all** to see the full list of modules.
-6. Toggle **Swarm Mode** on.
-7. Select **Save**.
-
-     <img src="../../img/how-tos/chat-conversations/internal-tools/swarm-mode/euch_swarm-for-agent.png" alt="Enable Swarm Mode for agents" width="400" />
-
-<Tip title="Configure Child Agents First">
-Always add and configure your child agents before enabling Swarm Mode. The parent agent needs at least one child agent to create a functional swarm.
-</Tip>
-
----
-
-## How to Use Swarm Mode
-
-Once enabled and child agents are configured, Swarm Mode works transparently during conversations. The parent agent automatically coordinates with child agents based on the task requirements.
-
-### What Happens During Conversations
-
-1. **Automatic Handoff Detection:** The parent agent recognizes when a task requires a specialist's expertise
-2. **Context Sharing:** When handing off, the child agent receives the full conversation history
-3. **Specialized Execution:** The child agent uses its configured tools and knowledge to complete the task
-4. **Seamless Return:** After completion, control returns to the parent agent
-5. **Continuous Coordination:** The parent agent can delegate to different specialists as needed throughout the conversation
-
-<Info title="Example Interaction">
-**User:** *"Run the API tests and if any fail, create bug reports in Jira"*
-
-**Behind the Scenes:**
-
-1. Parent agent receives the request
-2. Parent uses `transfer_to_test_agent` to hand off to the testing specialist
-3. Test agent executes API tests using its TestRail toolkit
-4. Test agent identifies failed tests and uses `transfer_to_parent`
-5. Parent analyzes failures and uses `transfer_to_bug_tracker_agent`
-6. Bug tracker agent creates Jira tickets for each failure
-7. Bug tracker agent returns control with `transfer_to_parent`
-8. Parent summarizes the results to the user
-
-<Info title="Handoff Tools Are Automatic">
-You don't need to manually create handoff tools. When Swarm Mode is enabled, the system automatically generates `transfer_to_[agent_name]` tools for every peer combination. Each agent also receives a `transfer_to_main_agent` tool to hand control back to the entry agent.
-</Info>
-</Info>
-
----
-
-### Example Scenarios
+## Example Scenarios
 
 <Accordion title="QA Coordination Agent">
 **Scenario:** A QA team uses a coordinator agent to manage testing across multiple platforms and tools.
@@ -227,7 +200,32 @@ You don't need to manually create handoff tools. When Swarm Mode is enabled, the
 5. Coordinator assembles all components and presents final blog post package
 </Accordion>
 
----
+<Accordion title="Test Failures Routed to Bug Tracking">
+**Scenario:** A parent agent runs API tests and routes any failures straight to bug tracking, without the user relaying results manually between specialists.
+
+**Configuration:**
+
+- Parent Agent: Test Coordinator
+- Child Agents:
+  - Test Agent (TestRail toolkit)
+  - Bug Tracker Agent (Jira toolkit)
+- Swarm Mode: Enabled
+
+**User Request:**
+
+> `Run the API tests and if any fail, create bug reports in Jira`
+
+**Workflow:**
+
+1. Parent agent receives the request
+2. Parent uses `transfer_to_test_agent` to hand off to the testing specialist
+3. Test agent executes API tests using its TestRail toolkit
+4. Test agent identifies failed tests and uses `transfer_to_main_agent`
+5. Parent analyzes failures and uses `transfer_to_bug_tracker_agent`
+6. Bug tracker agent creates Jira tickets for each failure
+7. Bug tracker agent returns control with `transfer_to_main_agent`
+8. Parent summarizes the results to the user
+</Accordion>
 
 ## Best Practices
 
@@ -240,7 +238,7 @@ When delegating to a peer agent, the `task` argument in the handoff tool call is
 </Accordion>
 
 <Accordion title="Design specialized child agents with clear purposes">
-Each child agent should have a well-defined specialization and appropriate toolkits. Avoid creating generic agents—instead, create focused specialists (e.g., "GitHub Issues Agent" vs. "Development Agent"). This makes handoff decisions clearer and more effective.
+Each child agent should have a well-defined specialization and appropriate toolkits. Avoid creating generic agents — instead, create focused specialists (e.g., "GitHub Issues Agent" vs. "Development Agent"). This makes handoff decisions clearer and more effective.
 </Accordion>
 
 <Accordion title="Use descriptive agent names and descriptions">
@@ -260,7 +258,7 @@ Run test scenarios to verify that handoffs work smoothly, agents return control 
 </Accordion>
 
 <Accordion title="Combine with other modules">
-Swarm Mode works well with other modules like Smart Tools Selection (for token optimization), Data Analysis (for specialist data agents), and Python Sandbox (for code execution specialists).
+Swarm Mode works well with other modules like [Smart Tools Selection](./smart-tools-selection-internal-tool) (for token optimization), [Data Analysis](./data-analysis-internal-tool) (for specialist data agents), and [Python Sandbox](./python-sandbox-internal-tool) (for code execution specialists).
 </Accordion>
 
 <Accordion title="Monitor conversation flow and handoffs">
@@ -270,8 +268,6 @@ Review conversation logs to understand handoff patterns and optimize agent coord
 <Accordion title="Provide clear parent agent instructions">
 The parent agent's system prompt should include guidance on when to delegate tasks and how to coordinate the overall workflow. Clear instructions improve handoff decisions and overall effectiveness.
 </Accordion>
-
----
 
 ## Troubleshooting
 
@@ -294,14 +290,14 @@ The parent agent's system prompt should include guidance on when to delegate tas
 <Accordion title="Child agent not returning control to parent">
 **Possible causes:**
 
-* Child agent completing task but not using `transfer_to_parent`
+* Child agent completing task but not using `transfer_to_main_agent`
 * Child agent stuck in a loop or waiting for input
 * Conversation flow interrupted
 
 **Solution:**
 
-1. Check child agent's system prompt—it should know to return control when done
-2. Child agents automatically receive a `transfer_to_parent` handoff tool
+1. Check child agent's system prompt — it should know to return control when done
+2. Child agents automatically receive a `transfer_to_main_agent` handoff tool
 3. Review conversation logs to see where control flow stopped
 4. Restart the conversation if agents are stuck in an inconsistent state
 5. Ensure child agents have clear completion criteria
@@ -319,7 +315,7 @@ The parent agent's system prompt should include guidance on when to delegate tas
 1. Use descriptive agent names that clearly indicate specialization
 2. Enhance child agent descriptions to specify their exact capabilities
 3. Update parent agent's system prompt with clear delegation guidelines
-4. Review handoff tools—the parent sees tools like `transfer_to_[agent_name]` with the child's description
+4. Review handoff tools — the parent sees tools like `transfer_to_[agent_name]` with the child's description
 5. Test with specific scenarios and refine agent descriptions based on results
 </Accordion>
 
@@ -348,25 +344,16 @@ The parent agent's system prompt should include guidance on when to delegate tas
 
 **Solution:**
 
-1. Handoffs add processing time—this is expected behavior for coordination
+1. Handoffs add processing time — this is expected behavior for coordination
 2. Limit the number of child agents to 3-5 specialists
 3. Consider if all delegations are necessary—some tasks may not need specialists
 4. Use Smart Tools Selection with Swarm Mode to reduce token overhead
 5. For simple tasks that don't need collaboration, consider disabling Swarm Mode
 </Accordion>
 
----
-
-<Info title="Swarm Mode Requires Child Agents">
-Swarm Mode is designed for multi-agent collaboration. If no child agents are configured in the parent agent's toolkits, enabling Swarm Mode has no effect and the agent operates normally.
-</Info>
-
----
-
-<Info title="Additional Resources">
-* **[Agent Configuration](../../menus/agents)** - Creating and configuring agents
-* **[Smart Tools Selection](./smart-tools-selection-internal-tool)** - Optimize token usage with many toolkits
-* **[Chat Functionality](./how-to-use-chat-functionality)** - General chat features and usage
-* **[Conversation Management](../../menus/chat)** - Managing conversations and settings
-* **[Toolkits Overview](../../menus/toolkits)** - Understanding and configuring toolkits
+<Info title="See also">
+See also:
+- [Smart Tools Selection](./smart-tools-selection-internal-tool)
+- [Python Sandbox](./python-sandbox-internal-tool)
+- [Data Analysis](./data-analysis-internal-tool)
 </Info>
