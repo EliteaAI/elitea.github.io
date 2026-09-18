@@ -1,33 +1,68 @@
 ---
 title: "Python Sandbox"
 sidebarTitle: "Python Sandbox"
-description: "Run secure Python code in conversations with persistent session state and Pyodide-compatible libraries."
 ---
 
-## Overview
+**Python Sandbox** module lets you run secure Python code directly in conversations, with persistent session state and access to Pyodide-compatible libraries.
 
-**Key Features:**
+**Key features:**
 
-- **Secure Execution:** Code runs in an isolated WebAssembly environment with configurable permissions via Deno
-- **Rich Python Ecosystem:** Access to Pyodide-compatible packages including NumPy, Pandas, Matplotlib, SciPy, and more
-- **Stateful Sessions:** Variables, imports, and function definitions persist across code blocks within the same conversation
-- **Instant Results:** Execute calculations, data analysis, and visualizations without leaving the chat
-- **No Setup Required:** Works out-of-the-box once Deno is installed on the server—no Python installation needed
-
-<Tip title="When to Use Python Sandbox">
-Enable Python Sandbox when your workflows involve data analysis, calculations, algorithm testing, or any task that benefits from Python's extensive libraries. Perfect for QA engineers testing code, data analysts processing datasets, or developers prototyping solutions.
-</Tip>
-
----
+* Run Python code in an isolated WebAssembly environment with configurable permissions via Deno
+* Access Pyodide-compatible packages
+* Persist variables, imports, and function definitions across code blocks in the same conversation
+* Execute calculations, data analysis, and visualizations without leaving the chat
+* Skip setup entirely — runs out-of-the-box once Deno is installed on the server, no Python installation needed
 
 ## Prerequisites
 
-- **Permission Level**: User role with conversation or agent edit access
-- **Use Case**: Tasks involving Python code execution, data analysis, calculations, or algorithm validation
+- User role with conversation or agent edit access
+- **Python Sandbox** enabled in your chat or agent
 
----
+## How to Enable Python Sandbox
 
-## How It Works
+The default state of the **Python Sandbox** module — on or off — [is defined in the project settings](../../menus/settings/general#default-modules).
+
+If **Python Sandbox** is turned off by default, you can turn it on for your current conversation or agent.
+
+### For a Conversation
+
+1. Go to the conversation.
+2. Select `+` in the chat input toolbar.
+3. Select **Modules** → **Python Sandbox** in the list.
+4. Toggle **Python Sandbox** on.
+
+<img src="../../img/how-tos/chat-conversations/internal-tools/python-sandbox/euch_python_on_chat.png" alt="Enable Python Sandbox in a Conversation" width="350" />
+
+Once enabled, you can execute Python code directly in that conversation.
+
+### For an Agent
+
+1. Select **Agents**.
+2. Select the agent to configure, or create a new agent.
+3. In the **TOOLS** section, find **MODULES**.
+4. Find **Python Sandbox**. Select **Show all** if you do not see it immediately.
+5. Toggle **Python Sandbox** on.
+6. Select **Save**.
+
+All changes apply only to new conversations run by this agent. Existing conversations will not be affected.
+
+<img src="../../img/how-tos/chat-conversations/internal-tools/python-sandbox/euch_python-for-agent.png" alt="Enable Python Sandbox in Agent Configuration" width="400" />
+
+<Callout icon="lightbulb" color="#a855f7" title="">
+For agents designed for data analysis, testing, or development tasks, enabling **Python Sandbox** significantly enhances their problem-solving capabilities and allows them to provide executable solutions.
+</Callout>
+
+## How Python Sandbox Works
+
+With **Python Sandbox** enabled, you can:
+
+- Execute multi-line Python scripts
+- Use Pyodide-compatible packages (NumPy, Pandas, Matplotlib, SciPy, scikit-learn, etc.)
+- Perform complex calculations and data transformations
+- Generate visualizations and charts (via matplotlib)
+- Maintain variables and state between executions in the same conversation
+- Handle errors gracefully and provide debugging information
+- Install additional packages available in the Pyodide ecosystem
 
 **Traditional Approach vs Python Sandbox**
 
@@ -39,82 +74,59 @@ Enable Python Sandbox when your workflows involve data analysis, calculations, a
 | **Results** | Manual copy-paste of outputs | Automatic integration of results into chat |
 | **Security** | Depends on local environment | Isolated sandbox with restricted Deno permissions |
 
-**Execution Flow**
+### Execution Flow
 
-When Python Sandbox is enabled:
+When Python Sandbox is enabled, ELITEA handles code execution automatically:
 
-1. **Code Generation:** Assistant writes Python code to solve your request
-2. **Sandbox Invocation:** Code is sent to the Pyodide sandbox environment via Deno subprocess
-3. **Isolated Execution:** Code runs in WebAssembly with access to Pyodide packages
-4. **Result Capture:** Output (print statements, return values, errors) is captured
-5. **Response Integration:** Results are formatted and returned in the conversation
+```mermaid
+flowchart LR
+    A[Code Generation] --> B[Sandbox Invocation]
+    B --> C[Isolated Execution]
+    C --> D[Result Capture]
+    D --> E[Response Integration]
+```
 
-<Info title="What the Assistant Can Do">
-With Python Sandbox enabled, the assistant can:
+1. **Code Generation:** Assistant writes Python code to solve your request.
+2. **Sandbox Invocation:** Code is sent to the Pyodide sandbox environment via Deno subprocess.
+3. **Isolated Execution:** Code runs in WebAssembly with access to Pyodide packages.
+4. **Result Capture:** Output (print statements, return values, errors) is captured.
+5. **Response Integration:** Results are formatted and returned in the conversation.
 
-- Execute multi-line Python scripts
-- Use Pyodide-compatible packages (numpy, pandas, matplotlib, scipy, scikit-learn, etc.)
-- Perform complex calculations and data transformations
-- Generate visualizations and charts (via matplotlib)
-- Maintain variables and state between executions in the same conversation
-- Handle errors gracefully and provide debugging information
-- Install additional packages available in Pyodide ecosystem
-</Info>
+### Possible Use Cases
 
----
+<CardGroup cols={2}>
+  <Card title="Data Analysis and Processing" icon="chart-line">
+    - Process datasets and calculate statistics
+    - Transform data structures using NumPy and Pandas
+  </Card>
+  <Card title="Algorithm Testing and Validation" icon="flask">
+    - Test code snippets
+    - Validate algorithms with comprehensive test cases
+    - Prototype solutions before production implementation
+  </Card>
+  <Card title="Mathematical Computations" icon="square-root-variable">
+    - Perform complex calculations
+    - Solve equations
+    - Run numerical analysis and mathematical modeling
+  </Card>
+  <Card title="Quick Prototyping" icon="bolt">
+    - Iterate rapidly on solutions without leaving the conversation
+    - Skip local environment setup
+    - Get instant feedback during development
+  </Card>
+</CardGroup>
 
-## How to Enable Python Sandbox
 
-### In Chat
+### Heavy Computational Tasks
 
-Enable Python Sandbox for code execution in your chats.
+When performing heavy computational tasks, keep in mind these limitations:
 
-1. Go to your chat.
-2. In the chat toolbar, select **+**.
-3. Select **Modules** → **Python sandbox** in the list.
-5. Toggle **Python sandbox** on to enable it.
+* **Timeouts:** Very large datasets or computationally intensive operations may hit Deno timeout limits (default: 60 seconds). For production workloads with large-scale data processing, use dedicated Python environments.
+* **Package availability:** Some Python packages are not available in Pyodide. Check the [Pyodide packages list](https://pyodide.org/en/stable/usage/packages-in-pyodide.html) before relying on specific libraries. C-extension packages may not be supported.
+* **File system access:** Limited file I/O capabilities due to WebAssembly sandbox restrictions. For tasks requiring extensive file operations or system-level access, consider alternative approaches.
+* **Network operations:** Network access is configurable via Deno permissions but may be restricted depending on server configuration. External API calls and web scraping may not work as expected.
 
-<img src="../../img/how-tos/chat-conversations/internal-tools/python-sandbox/euch_python_on_chat.png" alt="Enable Python sandbox in chat"/>
-
-<Info title="Configuration Persistence">
-The Python Sandbox setting persists for the duration of your chat session. You can toggle it on/off at any time.
-</Info>
-
----
-
-### For Agents
-
-Configure Python Sandbox as part of an agent's default configuration.
-
-1. Open the agent you want to configure (or create and opena new agent).
-3. Scroll down to **TOOLS**.
-4. In **TOOLS**, find **MODULES**.
-5. Find **Python sandbox**. If it is not immediately visible, select **Show all** to see the full list of modules.
-6. Toggle **Python sandbox** on.
-7. Select **Save**.
-
-     <img src="../../img/how-tos/chat-conversations/internal-tools/python-sandbox/euch_python-for-agent.png" alt="Enable Python sandbox for agents" width="400" />
-
-<Tip title="Recommended for Data & Development Agents">
-For agents designed for data analysis, testing, or development tasks, enabling **Python sandbox** significantly enhances their problem-solving capabilities and allows them to provide executable solutions.
-</Tip>
-
----
-
-## How to Use Python Sandbox
-
-Once enabled, Python Sandbox works seamlessly during conversations. The assistant automatically uses it to execute code when needed to solve your requests.
-
-### What Happens Behind the Scenes
-
-1. **Code Generation:** The assistant writes Python code to address your request
-2. **Automatic Execution:** Code is executed in the Pyodide sandbox without manual intervention
-3. **Result Processing:** Output, errors, and visualizations are captured
-4. **Integrated Response:** Results are presented naturally in the conversation flow
-
----
-
-### Example Scenarios
+## Example Scenarios
 
 <Accordion title="Example Conversation">
 **User**: I'm writing a function to validate email addresses. Can you help me test it with various inputs to make sure it works correctly?
@@ -144,7 +156,7 @@ def validate_email(email):
 
 **Assistant**: I'll help you test your email validation function with a comprehensive set of test cases! Let me run various inputs through it to identify any edge cases.
 
-*[Tool Used: pyodide_sandbox]*
+A **Python Sandbox** badge appears in the chat. Selecting it opens the executed code and its output in separate panes:
 
 ```python
 
@@ -387,89 +399,41 @@ else:
 Python Sandbox brings mathematical concepts to life with executable code and instant verification.
 </Accordion>
 
----
-
 ## Best Practices
 
-<Accordion title="Leverage Pyodide's Package Ecosystem">
-Pyodide supports many popular Python packages including NumPy, Pandas, Matplotlib, SciPy, scikit-learn, and more. Check the [Pyodide packages list](https://pyodide.org/en/stable/usage/packages-in-pyodide.html) to see what's available. These packages are precompiled for WebAssembly and work seamlessly in the sandbox environment.
+<Accordion title="Leverage Pyodide's package ecosystem">
+Pyodide supports many popular Python packages including NumPy, Pandas, Matplotlib, SciPy and scikit-learn. These packages are precompiled for WebAssembly and work seamlessly in the sandbox environment.
+
+Check the [Pyodide packages list](https://pyodide.org/en/stable/usage/packages-in-pyodide.html) for available packages. 
 </Accordion>
 
-<Accordion title="Break Complex Tasks into Logical Steps">
-For better readability and debugging, ask the assistant to break complex analysis into logical steps. Each code block can build on previous results since the sandbox maintains state within a conversation. This makes it easier to understand the process and identify issues.
-</Accordion>
-
-<Accordion title="Use Python Sandbox for Prototyping and Testing">
-Perfect for quickly testing code snippets, validating algorithms, or prototyping data transformations before implementing in production. Get immediate feedback without setting up local environments or installing dependencies.
+<Accordion title="Break complex tasks into logical steps">
+Ask ELITEA to break complex analysis into logical steps. Each code block can build on previous results since the sandbox maintains state within a conversation. This makes it easier to understand the process and identify issues.
 </Accordion>
 
 <Accordion title="Combine with Data Analysis module">
-When working with conversation attachments (CSV, Excel files), enable both Python Sandbox and Data Analysis modules. Python Sandbox provides the execution environment, while Data Analysis can help with file parsing and data structure handling.
+When working with conversation attachments (CSV, Excel files), enable both Python Sandbox and [Data Analysis](./data-analysis-internal-tool) modules. Python Sandbox provides the execution environment, while Data Analysis can help with file parsing and data structure handling.
 </Accordion>
 
 <Accordion title="Combine with Swarm Mode for multi-agent workflows">
-Python Sandbox works seamlessly alongside **Swarm Mode**. In multi-agent setups, individual child agents can each have Python Sandbox enabled, allowing them to perform independent code execution tasks within the shared conversation context.
+Python Sandbox works seamlessly alongside [Swarm Mode](./swarm-mode-internal-tool). In multi-agent setups, individual child agents can each have Python Sandbox enabled, allowing them to perform independent code execution tasks within the shared conversation context.
 </Accordion>
 
-<Accordion title="Review Generated Code for Learning">
+<Accordion title="Review generated code for learning">
 While Python Sandbox is secure and isolated, reviewing the code the assistant plans to execute helps you understand the approach and learn from the implementation. This is especially valuable for educational use cases.
 </Accordion>
 
-<Accordion title="Provide Sample Data for Better Results">
+<Accordion title="Provide sample data for better results">
 When requesting data analysis or processing, include sample data in your message or describe the data format clearly. This helps the assistant generate more accurate and relevant code tailored to your specific use case.
 </Accordion>
 
-<Accordion title="Use Descriptive Requests for Clear Code">
+<Accordion title="Use descriptive requests for clear code">
 When asking the assistant to work with data structures or algorithms, use clear descriptions and specify expected behavior. This helps generate more readable and maintainable code with appropriate variable names and comments.
 </Accordion>
 
----
-
-##Performance Considerations
-
-<Check title="When Python Sandbox Excels">
-**Data Analysis and Processing**
-
-- Excellent for processing datasets, calculating statistics, and transforming data structures using NumPy and Pandas.
-
-**Algorithm Testing and Validation**
-
-- Perfect for testing code snippets, validating algorithms with comprehensive test cases, and prototyping solutions before production implementation.
-
-**Mathematical Computations**
-
-- Ideal for complex calculations, equation solving, numerical analysis, and mathematical modeling.
-
-**Quick Prototyping**
-
-- Enables rapid iteration on solutions without leaving the conversation or setting up local environments. Instant feedback loop for development.
-</Check>
-
-<Warning title="When to Consider Alternatives">
-**Heavy Computational Tasks**
-
-- Very large datasets or computationally intensive operations may hit Deno timeout limits (default: 60 seconds). For production workloads with large-scale data processing, use dedicated Python environments.
-
-**Package Limitations**
-
-- Some Python packages are not available in Pyodide. Check the [Pyodide packages list](https://pyodide.org/en/stable/usage/packages-in-pyodide.html) before relying on specific libraries. C-extension packages may not be supported.
-
-**File System Access**
-
-- Limited file I/O capabilities due to WebAssembly sandbox restrictions. For tasks requiring extensive file operations or system-level access, consider alternative approaches.
-
-**Network Operations**
-
-- Network access is configurable via Deno permissions but may be restricted depending on server configuration. External API calls and web scraping may not work as expected.
-</Warning>
-
----
-
----
-
 ## Troubleshooting
 
-<Accordion title="Python Sandbox Not Executing Code">
+<Accordion title="Python Sandbox does not execute code">
 **Possible Causes:**
 
 * Python Sandbox not enabled in chat or agent configuration
@@ -478,7 +442,7 @@ When asking the assistant to work with data structures or algorithms, use clear 
 
 **Solution:**
 
-1. Verify Python Sandbox is enabled in **Modules** for the chat or agent
+1. Verify Python Sandbox is enabled in MODULES for the chat or agent
 2. Check that the success notification appeared when enabling the tool
 3. Contact system administrator to verify Deno installation on the server
 4. Try disabling and re-enabling Python Sandbox to reset the connection
@@ -486,10 +450,10 @@ When asking the assistant to work with data structures or algorithms, use clear 
 6. Check server logs for Deno-related errors
 </Accordion>
 
-<Accordion title="Package Import Errors">
+<Accordion title="Package import fails">
 **Possible Causes:**
 
-* Package not available in Pyodide ecosystem
+* Package not available in the Pyodide ecosystem
 * Package not preloaded in the sandbox environment
 * Typo in package name
 
@@ -498,13 +462,13 @@ When asking the assistant to work with data structures or algorithms, use clear 
 1. Verify the package is listed in the [Pyodide packages list](https://pyodide.org/en/stable/usage/packages-in-pyodide.html)
 2. Use alternative packages that are Pyodide-compatible
 3. Check the error message for suggestions on alternative packages
-4. For pure Python packages, some may need to be loaded dynamically
+4. Some pure Python packages may need to be loaded dynamically
 </Accordion>
 
-<Accordion title="Code Execution Timeout">
+<Accordion title="Code execution times out">
 **Possible Causes:**
 
-* Long-running computations exceeding timeout limit
+* Long-running computations exceeding the timeout limit
 * Infinite loops in the code
 * Large dataset processing taking too long
 
@@ -514,52 +478,45 @@ When asking the assistant to work with data structures or algorithms, use clear 
 2. Optimize algorithms to reduce time complexity
 3. Use iterative processing for large datasets
 4. Review code for potential infinite loops or performance bottlenecks
-5. Consider using local Python environment for heavy computations
+5. Consider using a local Python environment for heavy computations
 </Accordion>
 
-<Accordion title="Stateful Session Not Preserving Variables">
+<Accordion title="Session does not preserve variables between executions">
 **Possible Causes:**
 
 * Conversation reset or page refresh
 * Backend session expiration
-* Error in previous code execution corrupted session state
+* An error in a previous code execution corrupted the session state
 
 **Solution:**
 
 1. Re-run initialization code to redefine variables and imports
 2. Avoid page refreshes during stateful work sessions
-3. Check for errors in previous executions that may have corrupted state
+3. Check for errors in previous executions that may have corrupted the state
 4. Use explicit variable definitions in each code block for critical values
-5. Start a new conversation if session state is corrupted
+5. Start a new conversation if the session state is corrupted
 </Accordion>
 
-<Accordion title="Network Request Failures">
+<Accordion title="Network requests fail">
 **Possible Causes:**
 
 * Network access not allowed by Deno permissions
-* Firewall blocking outbound connections from sandbox
-* Using `requests` library instead of `httpx.AsyncClient`
+* Firewall blocking outbound connections from the sandbox
+* Using the `requests` library instead of `httpx.AsyncClient`
 
 **Solution:**
 
-1. Ensure network access is configured in sandbox settings (`allow_net=True`)
+1. Ensure network access is configured in the sandbox settings (`allow_net=True`)
 2. Use `httpx.AsyncClient` for HTTP requests instead of the `requests` library
-3. Contact administrator to check Deno network permission configuration
-4. Check if specific domains need to be whitelisted in Deno settings
+3. Contact the administrator to check the Deno network permission configuration
+4. Check if specific domains need to be whitelisted in the Deno settings
 </Accordion>
 
----
-
-<Info title="Related Resources">
-- [Pyodide Documentation](https://pyodide.org/en/stable/) - Learn about Python in WebAssembly
-- [Pyodide Packages](https://pyodide.org/en/stable/usage/packages-in-pyodide.html) - Available Python packages and compatibility
-- [Deno Documentation](https://docs.deno.com/) - Deno runtime and security model
-- [Data Analysis](./data-analysis-internal-tool) - Complementary tool for working with uploaded CSV/Excel files
-- [Swarm Mode](./swarm-mode-internal-tool) - Multi-agent collaboration for complex workflows
-- [Smart Tools Selection](./smart-tools-selection-internal-tool) - Intelligent toolkit selection and management
-- [Planner](./planner-internal-tool) - Task planning and execution coordination
-- [Agent Configuration](../../menus/agents) - Complete guide to configuring agents and toolkits
-- [Conversation Management](../../menus/chat) - Managing conversations and settings
-- [Toolkits Overview](../../menus/toolkits) - Understanding toolkits and tools
+<Info title="See also">
+See also:
+- [Pyodide Documentation](https://pyodide.org/en/stable/)
+- [Pyodide Packages](https://pyodide.org/en/stable/usage/packages-in-pyodide.html)
+- [Deno Documentation](https://docs.deno.com/)
+- [Data Analysis](./data-analysis-internal-tool)
+- [Swarm Mode](./swarm-mode-internal-tool)
 </Info>
-
