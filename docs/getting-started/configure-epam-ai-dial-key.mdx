@@ -84,9 +84,27 @@ After creating the DIAL credential, add the LLM models that your key can access.
 <Warning>
 **AI DIAL and Reasoning Models**
 
-When you create an OpenAI or Anthropic LLM model and use AI DIAL as the selected AI Credentials provider, keep **Supports Reasoning** turned off.
+When you create an OpenAI LLM model and use AI DIAL as the selected AI Credentials provider, keep **Supports Reasoning** turned off.
+</Warning>
 
-OpenAI and Anthropic model configurations that use AI DIAL credentials must have **Supports Reasoning** turned off.
+<Info>
+**Anthropic Models on AI DIAL**
+
+When you create an Anthropic (Claude) LLM model and use AI DIAL as the selected AI Credentials provider, enable both **Supports Reasoning** and **OpenAI Compatible** for the model to work correctly.
+
+<img src="../img/getting-started/configure-epam-ai-dial-key/anthropic-configs.png" alt="Anthropic LLM Configs" width="450" />
+
+</Info>
+
+<Warning>
+**Error After Updating an Existing LLM Model**
+
+If you receive an error (for example `400`, `401` or `403`) when using an LLM model with AI DIAL credentials after updating an existing LLM model:
+
+1. Delete the LLM model you updated.
+2. Create a new LLM model with a **Display Name** different from the deleted one, using the same configuration.
+
+Avoid editing the same LLM model configuration multiple times, as repeated edits may cause this issue.
 </Warning>
 
 ---
