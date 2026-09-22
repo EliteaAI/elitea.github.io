@@ -269,7 +269,8 @@ POST {{BASE_URL}}elitea_core/predict/prompt_lib/{{PROJECT_ID}}/{{AGENT_VERSION_I
 {
   "user_input": "Your message or data here",
   "chat_history": [],
-  "async_mode": false
+  "async_mode": false,
+  "return_chat_history": true
 }
 ```
 
@@ -278,6 +279,7 @@ POST {{BASE_URL}}elitea_core/predict/prompt_lib/{{PROJECT_ID}}/{{AGENT_VERSION_I
 | `user_input` | string | The message or data to send to the agent |
 | `chat_history` | array | (Optional) Previous conversation context |
 | `async_mode` | boolean | (Optional) `true` for async execution, `false` for sync |
+| `return_chat_history` | boolean | (Optional) `true` to include the full chat history in the response, `false` to omit it (default) |
 
 ### Synchronous Mode (Default)
 
@@ -291,7 +293,8 @@ curl -X POST "https://next.elitea.ai/api/v2/elitea_core/predict/prompt_lib/{{PRO
   -H "Content-Type: application/json" \
   -d '{
     "user_input": "PROJ-123",
-    "chat_history": []
+    "chat_history": [],
+    "return_chat_history": true
   }'
 ```
 
@@ -308,7 +311,8 @@ curl -X POST "https://next.elitea.ai/api/v2/elitea_core/predict/prompt_lib/{{PRO
   -d '{
     "user_input": "Review PR #456 and provide detailed feedback",
     "chat_history": [],
-    "async_mode": true
+    "async_mode": true,
+    "return_chat_history": true
   }'
 ```
 
