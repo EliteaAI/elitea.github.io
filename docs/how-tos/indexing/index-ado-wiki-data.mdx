@@ -1,38 +1,26 @@
 ---
 title: "Index ADO Wiki Data"
-description: "Indexing tools are available in the Next environment (Release 1.7.0) and replace legacy Datasources/Datasets. For context, see Release Notes 1.7.0 and the Index"
+description: "Learn how to index Azure DevOps Wiki data in ELITEA for semantic search, context-aware chat and knowledge extraction."
 ---
-
-<Warning title="Availability">
-Indexing tools are available in the [Next environment](https://next.elitea.ai) (Release 1.7.0) and replace legacy Datasources/Datasets. For context, see [Release Notes 1.7.0](../../release-notes/archived/rn13#indexing-dedicated-toolkit-indexes-tab) and the [Indexing Overview](./indexing-overview).
-</Warning>
-
 
 ## Overview
 
-ADO Wiki indexing allows you to create searchable indexes from your Azure DevOps wiki content:
+ADO Wiki indexing turns your Azure DevOps wiki content into a searchable knowledge base inside ELITEA. You can index wiki pages—including project wikis and code wikis—with their hierarchical path structure, optionally describe embedded images with an LLM and optionally index referenced attachments as their own searchable documents.
 
-- **Wiki Pages**: Documentation, procedures, knowledge articles, and technical specifications
-- **Project Wikis**: Organization-specific wikis with project documentation and standards
-- **Code Wikis**: Repository-linked wikis containing development documentation and guides
-- **Page Hierarchies**: Nested page structures, categories, and topic organization
-- **Page Metadata**: Creation dates, modification history, author information, and page properties
-
-**What you can do with indexed ADO Wiki data:**
-
-- **Semantic Search**: Find documentation and procedures across projects using natural language queries
-- **Context-Aware Chat**: Get AI-generated answers from your wiki content with citations to specific pages
-- **Cross-Project Discovery**: Search across multiple ADO wikis and project documentation
-- **Knowledge Management**: Transform scattered documentation into searchable organizational knowledge
-- **Documentation Analysis**: Analyze documentation patterns, gaps, and content quality for improvement
-
-**Common use cases:**
-
-- Finding existing documentation before creating new content to avoid duplication
-- Onboarding new team members by allowing them to ask questions about processes and standards
-- Analyzing documentation coverage gaps and identifying areas needing additional content
-- Support teams searching for troubleshooting guides and standard operating procedures
-- Project managers extracting insights from team documentation for reporting and process improvement
+<CardGroup cols={2}>
+  <Card title="Knowledge Search" icon="magnifying-glass">
+    Find documentation, procedures and technical guidance across wiki pages using natural-language queries.
+  </Card>
+  <Card title="Context-Aware Chat" icon="comments">
+    Get AI-generated answers from your wiki content with citations to specific pages.
+  </Card>
+  <Card title="Faster Onboarding" icon="user-plus">
+    Help new team members learn processes and standards from existing wiki documentation.
+  </Card>
+  <Card title="Documentation Audits" icon="clipboard-check">
+    Identify gaps, overlap and outdated information in your wiki documentation.
+  </Card>
+</CardGroup>
 
 ---
 
@@ -40,440 +28,322 @@ ADO Wiki indexing allows you to create searchable indexes from your Azure DevOps
 
 Before indexing ADO Wiki data, ensure you have:
 
-1. **ADO Credential**: An Azure DevOps personal access token with [authentication credentials](../credentials-toolkits/how-to-use-credentials#ado-azure-devops-credential-setup) configured in ELITEA
-2. **Vector Storage**: PgVector selected in Settings → [AI Configuration](../../menus/settings/ai-configuration)
-3. **Embedding Model**: Selected in AI Configuration (defaults available) → [AI Configuration](../../menus/settings/ai-configuration)
-4. **ADO Wiki Toolkit**: Configured with your Azure DevOps organization details and credentials
+1. **ADO Credential**: An Azure DevOps personal access token configured as an [ADO credential](../credentials-toolkits/how-to-use-credentials#ado-azure-devops-credential-setup) in ELITEA
+2. **Vector Storage**: PgVector selected in Settings → [AI Providers](../../menus/settings/ai-configuration)
+3. **Embedding Model**: Selected in Settings → [AI Providers](../../menus/settings/ai-configuration)
+4. **[ADO Wiki Toolkit](../../integrations/toolkits/ado_wiki_toolkit.mdx)**: Configured with your Azure DevOps project details and credential, with the **Index Data** tool enabled
 
-### Required Permissions
+<Warning title="Requirements">
+The **Indexes** section requires:
+- PgVector and an Embedding Model configured at the project level
+- The **Index Data** tool enabled in your toolkit configuration
 
-Your ADO credential needs appropriate permissions based on what you want to index:
+Complete both project-level setup and toolkit configuration to access indexing functionality.
+</Warning>
 
-**For Content Access:**
+**Required Permissions**
 
-- Read access to Azure DevOps projects and wikis
-- Permission to view the specific wikis you want to index
-
-**For Comprehensive Indexing:**
-
-- Access to view wiki page content and metadata
-- Permission to view both project wikis and code wikis (based on your requirements)
-- Access to specific projects containing the wikis you want to index
-
-**Authentication Method:**
-
-- **ADO Personal Access Token**: Token generated in Azure DevOps with appropriate wiki read permissions
+<Card icon="shield-check">
+**Your ADO personal access token must have**
+- **Wiki → Read** scope to index wiki content. Use **Wiki → Read & write** instead if the toolkit also modifies pages.
+- Access to the specific project and wikis you want to index.
+</Card>
 
 ---
 
-## Step-by-Step: Creating an ADO Credential
+## Set Up the ADO Wiki Toolkit
 
-1. **Generate ADO Personal Access Token** in your Azure DevOps account (User Settings → Personal Access Tokens → New Token)
-2. **Create Credential in ELITEA**: Navigate to **Credentials** → **+ Create** → **ADO** → enter details and save
+1. **Generate a Personal Access Token** in your Azure DevOps account (User Settings → Personal Access Tokens → **+ New Token**) with **Wiki** scope
+2. **Create a Credential in ELITEA**: Go to **Credentials** → **+ Create** → **Ado**, enter the Organization Url and Token, then save
+3. **Create the Toolkit**: Go to **Toolkits & Indexes** → **+ Create** → **Azure Wiki (ADO Wiki)**
+4. **Enable Required Tools**: Select `Index Data`, `List Indexes`, `Search Index`, `Stepback Search Index`, `Stepback Summary Index` and `Remove Index`
+
+
+<Warning title="Required Tool">
+The **Index Data** tool must be enabled for the **Indexes** section to appear on the toolkit detail page.
+</Warning>
+
+**Tool Overview**
+
+| Tool | Purpose |
+|------|---------|
+| **Index Data** | Creates or refreshes a searchable index from ADO wiki pages. |
+| **List Indexes** | Lists the indexes available for this toolkit. |
+| **Search Index** | Performs semantic search across indexed content. |
+| **Stepback Search Index** | Rewrites or simplifies the query before searching, using conversation context. |
+| **Stepback Summary Index** | Performs a stepback search and generates a summarized answer. |
+| **Remove Index** | Deletes an existing index. |
 
 <Info title="Detailed Instructions">
-For complete credential setup steps including personal access token generation and security best practices, see:
+For complete credential and toolkit setup details, see:
 
-- [Create a Credential](../../getting-started/create-credential)
 - [ADO Credential Setup](../credentials-toolkits/how-to-use-credentials#ado-azure-devops-credential-setup)
 - [ADO Wiki Toolkit Integration Guide](../../integrations/toolkits/ado_wiki_toolkit)
 </Info>
 
 ---
 
-## Step-by-Step: Configure ADO Wiki Toolkit
+## Index ADO Wiki Data
 
-1. **Create Toolkit**: Navigate to **Toolkits** → **+ Create** → **ADO Wiki**
-2. **Configure Settings**: Set ADO organization URL, project, and assign your ADO credential
-3. **Enable Tools**: Select `Index Data`, `List Collections`, `Search Index`, `Stepback Search Index`, `Stepback Summary Index`, and `Remove Index` tools
-4. **Save Configuration**
+The following sections describe how to create, verify, reindex, schedule and delete an ADO Wiki index.
 
-### Tool Overview:
-   - **Index Data**: Creates searchable indexes from ADO wiki pages and documentation
-   - **List Collections**: Lists all available collections/indexes to verify what's been indexed
-   - **Search Index**: Performs semantic search across indexed content using natural language queries
-   - **Stepback Search Index**: Advanced search that breaks down complex questions into simpler parts for better results
-   - **Stepback Summary Index**: Generates summaries and insights from search results across indexed content
-   - **Remove Index**: Deletes existing collections/indexes when you need to clean up or start fresh
+### Access the Interface
 
-### Configuration Settings:
+1. Go to **Toolkits & Indexes** in the main navigation.
+2. Select your configured ADO Wiki toolkit to open its detail page.
+3. The toolkit detail page shows a two-panel layout: the left panel has the toolkit configuration form, and the right panel has the **Indexes** section listing indexes for this toolkit.
 
-| Setting | Description | Example Value |
-|---------|-------------|---------------|
-| **Organization URL** | Azure DevOps organization URL | `https://dev.azure.com/yourorg/` |
-| **Project** | Azure DevOps project name | `MyProject` |
-| **Token** | ADO personal access token for authentication | Select from Secrets or enter directly |
+    ![Indexes Section](../../img/how-tos/indexing/ado-wiki/ado-wiki-indexes.png)
 
-<Info title="ADO URL Format">
-Use the complete Azure DevOps organization URL including `https://` and your organization name (e.g., `https://dev.azure.com/yourorg/`).
-</Info>
-
-<Info title="Detailed Instructions">
-For complete toolkit configuration including URL setup and authentication options, see:
-
-- [Toolkits Menu](../../menus/toolkits)
-- [ADO Wiki Toolkit Integration Guide](../../integrations/toolkits/ado_wiki_toolkit)
-</Info>
-
----
-
-## Step-by-Step: Index ADO Wiki Data
-
-<Info title="Primary Interface">
-All indexing operations are performed via the **Indexes Tab Interface**. This dedicated interface provides comprehensive index management with visual status indicators, real-time progress monitoring, and integrated search capabilities.
-</Info>
-
-<Warning title="Requirements">
-Before proceeding, ensure your project has PgVector and Embedding Model configured in Settings → AI Configuration, and your ADO Wiki toolkit has the **Index Data** tool enabled.
+<Warning title="Indexing Section Availability">
+If the **Index Data** tool is not enabled, the **Indexes** section displays **"Indexing is not available for now"**. Enable **Index Data** in the toolkit configuration before using indexing features.
 </Warning>
 
-### Step 1: Access the Interface
+### Create a New Index
 
-1. **Navigate to Toolkits**: Go to **Toolkits** in the main navigation
-2. **Select Your ADO Wiki Toolkit**: Choose your configured ADO Wiki toolkit from the list
-3. **Open Indexes Tab**: Click on the **Indexes** tab in the toolkit detail view
+1. In the **Indexes** section, select **+ Index**.
+2. A dedicated **Create Index** page opens with the **Index Data** configuration form.
+3. Enter the required and optional values for your ADO Wiki index.
 
-If the tab is disabled or not visible, verify that:
-- PgVector and Embedding Model are configured in Settings → AI Configuration
-- The **Index Data** tool is enabled in your toolkit configuration
+    ![Index Data Form](../../img/how-tos/indexing/indexes/index-data.png)
 
-### Step 2: Create a New Index
+**ADO Wiki Index Parameters**
 
-1. **Click Create New Index**: In the Indexes sidebar, click the **+ Create New Index** button
-2. **New Index Form**: The center panel displays the new index creation form
+| Parameter | Required | Default | Validation | Description |
+|-----------|----------|---------|------------|-------------|
+| **Index Name** | Yes | None | 1-32 characters | Unique name for the index (used as the collection identifier). Read-only once the index is created. |
+| **Clean Index** | No | `FALSE` | boolean | Rebuild the index by re-processing every page from the source instead of skipping unchanged ones. Previously indexed pages the source no longer returns may remain searchable. |
+| **Progress Step** | No | `10` | 0-100 | Step size for progress reporting during indexing. |
+| **Chunking Tool** | No | `markdown` | `markdown` or empty | Chunking method applied to page content. |
+| **Chunking Config** | No | `{}` | JSON object | Configuration for the chunking tool. |
+| **Wiki Identifier** | No | None | string | Wiki to index, for example `ProjectAlpha.wiki`. If omitted, the toolkit's **Default Wiki Identifier** is used; when a default is configured, this field's helper text shows it (`Default wiki: <value>`). If neither is provided, indexing fails with an error. Applied the same way for manual index creation, manual reindexing and scheduled reindexing. |
+| **Path Contains** | No | None | string | Case-insensitive substring filter matched against the full wiki page path. Hyphens and spaces are treated as equivalent (`Feature-Analysis` matches `Feature Analysis`), and matching a parent folder name also includes its descendant pages. Leave empty to index all pages. |
+| **Process Images** | No | `FALSE` | boolean | Replace inline image markdown in page content with LLM-generated image descriptions so image content becomes searchable text. Only affects images embedded in page content, not attachments. |
+| **Image Description Prompt** | No | None | string | Custom prompt used when generating image descriptions (shared by Process Images and Include Attachments). |
+| **Include Attachments** | No | `FALSE` | boolean | Index files referenced under `/.attachments/` in page content as their own dependent documents. Include/Skip Extensions (below) filter only these attachments—wiki pages themselves are never filtered by extension. |
+| **Include Extensions** | No | `[]` | array of extensions | Attachment file extensions to include. If empty, all attachments are processed except those in Skip Extensions. |
+| **Skip Extensions** | No | `[]` | array of extensions | Attachment file extensions to exclude. |
+| **Workers** | No | `1` (serial) | 1-10 | Maximum number of attachments/images processed concurrently. |
 
-### Step 3: Configure Index Parameters
+    ![New Index Page](../../img/how-tos/indexing/ado-wiki/ado-wiki-configs.png)
 
-Fill in the required and optional parameters for your ADO Wiki indexing:
+<Tip>
+**Toolkit-Specific Settings**
 
-| Parameter | Required | Description | Example Value |
-|-----------|----------|-------------|---------------|
-| Index Name | ✓ | Suffix for collection name (max 7 chars) | `docs` or `wiki` |
-| Clean Index | ✗ | Remove existing index data before re-indexing | ✓ (checked) or ✗ (unchecked) |
-| Progress Step (0 - 100) | ✗ | Step size for progress reporting during indexing | `10` (default) |
-| Chunking Config | ✗ | Configuration settings for content chunking | `{"chunk_size": 4000, "chunk_overlap": 200}` |
-| Chunking Tool | ✗ | Method for splitting content into chunks | `markdown` (default) |
-| wiki_identifier | ✓ | Wiki identifier to index, e.g., 'ABCProject.wiki' | `ProjectName.wiki` or `RepoName.wiki` |
-| title_contains | ✗ | Optional filter to include only pages with titles containing exact this string | `API` or leave empty |
+Index parameters vary by toolkit type. For a full comparison across all supported toolkits, see [Indexing Tools](./indexing-tools).
+</Tip>
 
-**Understanding the Parameters:**
+The **Index** button remains disabled until all required fields are valid.
 
-- **Index Name**: This will be used as the collection suffix for your indexed data. Keep it short and descriptive.
-- **wiki_identifier**: The identifier of the wiki you want to index (e.g., `MyProject.wiki` for project wikis or `MyRepo.wiki` for code wikis)
-- **title_contains**: Use this to filter and index only pages whose titles contain a specific string (case-sensitive exact match)
-- **Clean Index**: Enable this to remove existing indexed data for this collection before re-indexing
-- **Chunking Tool**: Set to `markdown` for optimal wiki content processing
+4. Select **Index** to start indexing.
+5. The page navigates to the dedicated index detail page, which opens on the **Activity** tab and shows live progress updates.
+     ![Index Activity](../../img/how-tos/indexing/ado-wiki/indexing-process.png)
+6. When indexing completes, the index enters **Completed** or **Partially Indexed** state and becomes available for search, scheduling, reindexing and history review.
+     ![Index Activity](../../img/how-tos/indexing/ado-wiki/index-complete.png)
 
-### Step 4: Start Indexing
 
-1. **Form Validation**: The **Index** button remains inactive until all required fields are filled
-2. **Review Configuration**: Verify all parameters are correct
-3. **Click Index Button**: Start the indexing process
-4. **Monitor Progress**: Watch real-time updates with visual indicators:
-      - 🔄 **In Progress**: Indexing is currently running
-      - ✅ **Completed**: All items indexed successfully
-      - ⚠️ **Partially Indexed**: Indexing finished but some files were skipped (unsupported extension, empty content, or errors). The index is fully usable for search and scheduling — review the skipped-file breakdown in the chat panel.
-      - ❌ **Failed**: Indexing encountered an error
 
-      ![Indexes](../../img/how-tos/indexing/ado-wiki/ado-wiki-indexex.png)
+### Verify Index Creation
 
-<Info title="Alternative: Test Settings Method">
-For quick testing and validation, you can also use the **Test Settings** panel on the right side of the toolkit detail page. Select a model, choose the **Index Data** tool from the dropdown, configure parameters, and click **Run Tool**. However, the Indexes Tab Interface is the recommended approach for comprehensive index management.
-</Info>
+Once indexing completes:
 
-### Step 5: Verify Index Creation
+- The **Configuration** tab shows the saved index parameters (all editable except **Index Name**).
+- The **General** section shows the created date and the **Files indexed** / **Files skipped** counts.
 
-After indexing completes, verify the index was created successfully:
+    ![Indexes General Section](../../img/how-tos/indexing/indexes/indexes-general-section.png)
 
-1. **Check Index Status**: Visual indicators show completion status
-2. **Review Index Details**: Click on the created index to see metadata and document count
-3. **Test Search**: Use the **Run** tab to test search functionality with sample queries
+- The **Indexes** section shows an index card with the index name, created date, file counts and status icon. Hover over a card to reveal quick actions: **Open**, **Reindex**, **Delete**.
 
----
+    ![Indexes Card](../../img/how-tos/indexing/indexes/indexes-card.png)
 
-## Real-Life Example: Indexing Development Team Documentation
+### Reindex an Index
 
-**Scenario**: You have a development team wiki in Azure DevOps containing project documentation, API guides, and troubleshooting information. You want to make this documentation searchable for your team.
+Use **Reindex** on the index detail page to refresh the index with the latest wiki content.
 
-### Using Indexes Tab Interface (Recommended):
+1. Open the **Configuration** tab and adjust any fields if needed (all fields are editable except **Index Name**).
+2. Select **Reindex** (shown as **Save & Reindex** if changes are pending) and confirm.
 
-1. **Navigate to Toolkits** → Select your ADO Wiki toolkit
-2. **Click the Indexes tab**
-3. **Click + Create New Index** button
-4. **Configure parameters:**
-     - **Index Name**: `docs`
-     - **wiki_identifier**: `WebApp.wiki`
-     - **Clean Index**: ✓ (checked for fresh start)
-     - **Progress Step**: `10`
-     - **title_contains**: (leave empty to index all pages)
-     - **Chunking Tool**: `markdown`
-     - **Chunking Config**: `{"chunk_size": 4000, "chunk_overlap": 200}`
-5. **Click Index** button and monitor progress
-6. **Wait for ✅ Completed** status
-7. **Verify** using Run tab → Search Index tool with a test query
+<Note>
+**ADO Wiki Reindex Behavior**
 
-**Result**: Your team can now ask natural language questions about your documentation and get instant answers with citations to specific wiki pages.
+- Pages are deduplicated by hashing the raw page markdown, so re-running indexing does not re-embed unchanged pages—including when only **Process Images** output would differ, since that hash is computed before image descriptions are generated.
+- If you change **Include Attachments**, **Include Extensions** or **Skip Extensions** between runs, affected pages are automatically reprocessed even though their page content hash is unchanged, because the toolkit also compares the expected set of attachment documents for each page.
+- If an attachment fails to download after retries, its parent page is automatically marked for reprocessing on the next reindex, so the failed attachment is retried rather than silently skipped forever.
+- Pages removed from the source wiki are not automatically removed from the index during reindexing.
+</Note>
 
-**After indexing, you can search for:**
+### Schedule Reindexing
 
-- **API documentation**: *"Find all REST API endpoints for user authentication"*
-- **Development procedures**: *"What are the deployment steps for the payment service?"*
-- **Architecture information**: *"Show me the microservices communication patterns"*
-- **Troubleshooting guides**: *"How do we debug database connection issues?"*
-- **Setup instructions**: *"What are the local development environment requirements?"*
+Use the **Schedule** section on the index detail page to automate reindexing on a cron schedule. Scheduling is available only for indexes in **Completed** or **Partially Indexed** state.
+
+<Note>
+Scheduled reindexing applies the **Wiki Identifier** fallback the same way as a manual reindex: if the field is left empty, each scheduled run resolves it from the toolkit's current **Default Wiki Identifier** at run time, with no need to specify it in the schedule itself. If you update the **Default Wiki Identifier** on the toolkit later, subsequent scheduled runs pick up the new value automatically.
+</Note>
+
+For cron expression syntax, credential selection and schedule management, see [Schedule Indexing](./schedule-indexing).
+
+### Delete an Index
+
+Open the index, select **Delete**, and enter the index name to confirm. Deleting an index permanently removes its indexed data, run history, and schedule configuration. The **Delete** action is only available when the **Remove Index** tool is enabled for the toolkit.
 
 ---
 
-## Search and Chat with Indexed Data
+## Use Search Tools
 
-Once your ADO Wiki data is indexed, you can search and interact with your documentation using the **Run** tab or by adding the toolkit to conversations and agents.
+Once your ADO Wiki index is **Completed** or **Partially Indexed**, open its index detail page and select **Search** to run any of the search tools enabled for the toolkit:
 
-### Using the Run Tab (Quick Testing)
+| Tool | Description |
+|------|-------------|
+| **Search Index** | Basic semantic search across indexed content. |
+| **Stepback Search Index** | Advanced search that rewrites the query using conversation context. |
+| **Stepback Summary Index** | Stepback search with an AI-generated summary answer. |
 
-In your ADO Wiki toolkit:
+For the full parameter reference for each search tool, see [Indexing Tools](./indexing-tools).
 
-1. **Click the Run tab** (next to Indexes tab)
-2. **Select search tools** from the dropdown:
-     - **Search Index**: Perform semantic search with natural language queries  
-     - **Stepback Search Index**: Complex multi-part questions
-     - **Stepback Summary Index**: Generate summaries from search results
-3. **Enter your query** and click Run Tool
-4. **Review results** with citations and relevance scores
+    ![Select Search Tool](../../img/how-tos/indexing/indexes/search-tool-select.png)
 
-![Search](../../img/how-tos/indexing/ado-wiki/ado-wiki-search.png)
+---
 
-### Using Toolkit in Conversations and Agents
+## Use Indexed Data in Conversations & Agents
 
 Your ADO Wiki toolkit can be used in two main contexts:
 
 1. **In Conversations**: Add the toolkit as a participant to ask questions and search your indexed wiki data
 2. **In Agents**: Include the toolkit when creating AI agents to give them access to your documentation
 
-**How to use:**
+**Real-Life Example: Index Development Team Documentation**
 
-- **Start a New Conversation or Create an Agent**
-- **Add Toolkit as Participant**: Select your ADO Wiki toolkit from the available toolkits
-- **Ask Natural Language Questions**: The toolkit will automatically search your indexed data and provide relevant answers with citations
+**Scenario**: You have a development team wiki in Azure DevOps containing project documentation, API guides and troubleshooting information. You want to make this documentation searchable for your team.
 
-### Using Indexed ADO Wiki Data in Conversations
+**Step 1: Create the index**
 
-Let's walk through a complete example of querying indexed documentation:
+1. Navigate to **Toolkits & Indexes** → select your ADO Wiki toolkit
+2. In the **Indexes** section, select **+ Index**
+3. Configure parameters:
+     - **Index Name**: `docs`
+     - **Wiki Identifier**: `WebApp.wiki` (or leave empty to use the toolkit's default wiki)
+     - **Clean Index**: ✓ (checked to rebuild the index from the source)
+     - **Path Contains**: (leave empty to index all pages)
+     - **Chunking Tool**: `markdown`
+4. Select **Index** and monitor progress on the Activity tab
+5. Wait for **Completed** status
 
-**Step 1: Add toolkit to a conversation and start asking questions:**
 
-   - Navigate to **Chat** → **+ Create**
-   - In the participants section click + to add Toolkit
-   - Select your ADO Wiki toolkit from the available toolkits list
+**Step 2: Add the toolkit to a conversation**
 
- ![ADO Wiki Index Configuration](../../img/how-tos/indexing/ado-wiki/ado-wiki-add-chat.png)
+- Navigate to **Chat** → **+ Create**
+- In the participants section, add your ADO Wiki toolkit
 
+    ![Add Toolkit to Chat](../../img/how-tos/indexing/ado-wiki/ado-wiki-add-chat.png)
 
-**Step 2: Start comprehensive analysis with your indexed documentation**
+**Step 3: Ask questions**
 
-  * **User Request:** "Find all documentation related to microservices deployment and provide a summary of the deployment process from our wiki collection."
-   
-  * **ADO Wiki Toolkit:** "Based on your indexed wiki pages, here's a comprehensive summary of microservices deployment:
+  * **User Request:** "Find all documentation related to microservices deployment and provide a summary of the deployment process from our wiki."
+
+  * **ADO Wiki Toolkit:** "Based on your indexed wiki pages, here is a comprehensive summary of microservices deployment:
 
     **Deployment Documentation Found:**
 
     1. **CI/CD Pipeline Setup**: Complete guide for automated deployment workflows
-    2. **Environment Configuration**: Development, staging, and production environment setup
+    2. **Environment Configuration**: Development, staging and production environment setup
     3. **Container Deployment**: Docker containerization and Kubernetes deployment procedures
-    4. **Database Migration**: Scripts and procedures for database schema updates
-    5. **Service Discovery**: Configuration for service registration and discovery mechanisms
-    
+
     **Deployment Process Summary:**
 
-    **Pre-Deployment:**
-
-      - Code review and merge to main branch
-      - Automated testing pipeline execution
-      - Security scanning and quality gates validation
-    
-    **Deployment Stages:**
-
-      - **Development**: Automatic deployment on code commit
-      - **Staging**: Manual approval with integration testing
-      - **Production**: Blue-green deployment with rollback capabilities
-    
-    **Post-Deployment:**
-
-      - Health checks and monitoring validation
-      - Performance metrics verification
-      - Service mesh configuration updates
-
-    **Key Configuration Files:**
-
-      - `docker-compose.yml`: Container orchestration
-      - `deployment.yaml`: Kubernetes deployment manifests
-      - `pipeline.yml`: CI/CD pipeline configuration
-
-    **Rollback Procedures:**
-
-      - Automated rollback triggers on health check failures
-      - Manual rollback commands for emergency situations
-      - Database rollback scripts for schema changes
+    - **Pre-Deployment**: Code review, automated testing, security scanning
+    - **Development**: Automatic deployment on code commit
+    - **Staging**: Manual approval with integration testing
+    - **Production**: Blue-green deployment with rollback capabilities
 
     [Citations: Deployment Guide v2.1, Container Best Practices, Production Runbook]"
 
-    ![ADO Wiki Index Configuration](../../img/how-tos/indexing/ado-wiki/ado-wiki-chat-search.png)
-
-### Advanced Search Examples
-
-**Searching for specific technical information:**
+**Advanced search example:**
 
   * **User:** "What are the authentication mechanisms used across our microservices?"
-  
-  * **ADO Wiki Toolkit:** "According to the indexed documentation, your microservices use a multi-layered authentication approach:
 
-    **Authentication Methods:**
+  * **ADO Wiki Toolkit:** "According to the indexed documentation, your microservices use a multi-layered authentication approach:
 
     1. **JWT Tokens**: Primary authentication for API calls
     2. **OAuth 2.0**: Third-party service integration
     3. **Service-to-Service**: Mutual TLS authentication
-    4. **API Keys**: External partner integration
-
-    **Implementation Details:**
-
-    - Token expiration: 1 hour for user tokens, 24 hours for service tokens
-    - Refresh token rotation: Enabled for enhanced security
-    - Certificate management: Automated renewal via cert-manager
 
     [Citations: Authentication Architecture, API Security Guide, Service Mesh Configuration]"
 
-    ![ADO Wiki Index Configuration](../../img/how-tos/indexing/ado-wiki/ado-wiki-chat-search1.png)
 
-**Finding troubleshooting information:**
-
-  * **User Request:** "How do we handle database connection timeouts in the order service?"
-  
-  * **ADO Wiki Toolkit:** "Based on the troubleshooting documentation for the order service:
-
-    **Database Connection Timeout Resolution:**
-
-    **Immediate Actions:**
-
-    1. Check connection pool utilization in monitoring dashboard
-    2. Verify database server health and resource usage
-    3. Review recent deployment changes that might affect connections
-
-    **Configuration Adjustments:**
-
-    - Connection timeout: Increase from 30s to 60s if needed
-    - Pool size: Adjust based on load patterns (current: min=5, max=20)
-    - Retry logic: Exponential backoff with 3 retry attempts
-
-    **Monitoring and Alerts:**
-
-    - Connection pool metrics in Grafana dashboard
-    - Alert thresholds: >80% pool utilization
-    - Log aggregation in ELK stack for pattern analysis
-
-    [Citations: Order Service Troubleshooting Guide, Database Configuration, Monitoring Setup]"
-
----
-
-## Managing Your ADO Wiki Indexes
-
-### Updating Indexed Content
-
-When your wiki content changes significantly:
-
-1. **Re-run Index Data tool** with the same parameters to update existing indexes
-2. **Use Clean Index option** to completely refresh the collection with current content
-3. **Monitor indexing progress** through the progress step reporting
-
-
-### Best Practices
-
-**Collection Organization:**
-
-- Use descriptive collection suffixes that reflect content types
-- Create separate collections for different teams or purposes
-- Consider wiki scope when planning collection structure
-
-**Content Filtering:**
-
-- Use `Title Contains` parameter for focused indexing
-- Index frequently updated content separately for easier maintenance
-- Consider page hierarchy when organizing collections
-
-**Performance Optimization:**
-
-- Index during low-usage periods for large wikis
-- Use appropriate chunking settings for your content types
-- Monitor vector storage usage and clean up unused collections
 
 ---
 
 ## Troubleshooting
 
-### Common Issues
+<Accordion title="Indexes Section Not Visible">
 
-**Indexing Failures:**
+- Verify PgVector and an Embedding Model are configured in Settings → [AI Providers](../../menus/settings/ai-configuration).
+- Ensure the **Index Data** tool is enabled in your ADO Wiki toolkit configuration.
+- Refresh the page and try again.
 
-- Review wiki content for formatting issues that might cause parsing errors
-- Check for very large pages that might exceed processing limits
-- Verify vector storage configuration and available space
-- Ensure the wiki_identifier format is correct (`ProjectName.wiki` for project wikis)
-- Check that the wiki exists and contains pages
+</Accordion>
 
-**Connection Issues:**
+<Accordion title="Wiki Identifier Not Provided Error">
 
-- Verify ADO personal access token has wiki read permissions
-- Check organization URL format and project name accuracy in toolkit configuration
-- Ensure token hasn't expired and has appropriate permissions
-- Confirm you have access to the specified project and wiki
+**Problem:** Indexing fails with an error such as *"Wiki identifier must be provided either as a parameter or configured as default in toolkit settings."*
 
+**Cause:** The **Wiki Identifier** field was left empty and no **Default Wiki Identifier** is set in the toolkit configuration.
 
-### Poor Search Results
+**Resolution:**
+- Set the **Wiki Identifier** field on the index, or
+- Open the toolkit configuration and set **Default Wiki Identifier** to your wiki name (for example, `ProjectAlpha.wiki`)
 
-**Problem**: Search queries return irrelevant or no results
+</Accordion>
 
-**Solutions:**
+<Accordion title="Connection or Authentication Failures">
 
-  - Try more specific, detailed search queries related to your documentation content
-  - Adjust the **Cut Off** score parameter in search tools (lower for more results, higher for precision)
-  - Use **Stepback Search Index** tool for complex documentation questions
-  - Verify the **Index Name** (collection suffix) targets the right dataset
-  - Check if indexing completed successfully using **List Collections** tool in the Run tab
+- Verify the ADO personal access token has **Wiki: Read** (or **Read & write**) scope and has not expired.
+- Check the **Project** field and the credential's **Organization Url** for typos.
+- Confirm you have access to the specified project and wiki.
 
-### Interface Issues
+</Accordion>
 
-**Problem**: Indexes tab not loading or responding
+<Accordion title="Index Creation Failed or Stuck In Progress">
 
-**Solutions:**
+- Verify the wiki exists and contains pages matching your **Path Contains** filter (if set).
+- Check for very large pages or a large number of attachments that might extend processing time.
+- Verify PgVector and the embedding model are reachable.
 
-  - Refresh the page and try accessing the Indexes tab again
-  - Verify your ADO Wiki toolkit is properly configured with valid credentials
-  - Check that PgVector and Embedding Model are configured in Settings → AI Configuration
-  - Ensure the **Index Data** tool is enabled in your toolkit configuration
-  - Check browser console for any JavaScript errors
-  - Use Test Settings as an alternative if interface issues persist
+</Accordion>
 
-### Getting Help
+<Accordion title="Attachments Not Searchable">
 
-For additional support with ADO Wiki indexing:
+- Verify **Include Attachments** was enabled when the index was created or last reindexed.
+- Check **Include Extensions** / **Skip Extensions**—an attachment excluded by either filter is not indexed.
+- Attachment downloads are retried automatically; a persistently failing attachment marks its parent page for reprocessing on the next reindex rather than failing silently.
 
-1. **Check Vector Storage**: Verify PgVector is properly configured and accessible
-2. **Review Toolkit Configuration**: Ensure all required fields are properly set
-3. **Test with Small Dataset**: Start with a limited wiki or filtered content
-4. **Contact Support**: Reach out to ELITEA support with specific error messages and configuration details
+</Accordion>
+
+<Accordion title="No Search Results Returned">
+
+- Verify the index status is **Completed** or **Partially Indexed**.
+- Lower the **Cut Off** score (for example, from `0.5` to `0.35`).
+- Increase **Search Top**.
+- Try **Stepback Search Index** for complex, multi-part questions.
+- Confirm the **Index Name** used in the search tool matches the index you created.
+
+</Accordion>
+
+<Accordion title="Vector Database or Embedding Model Errors">
+
+- Ensure PgVector is configured correctly in Settings → AI Providers.
+- Verify an embedding model is selected and available.
+- Confirm the vector database is reachable.
+
+</Accordion>
 
 ---
 
-<Info title="Related Documentation">
-For additional information and detailed setup instructions, see:  
+<Info>
+**Related Documentation**
+- **[Indexing Overview](./indexing-overview)**—Complete guide to indexing in ELITEA and its capabilities
+- **[Indexing Tools](./indexing-tools)**—Detailed reference for all indexing tools and parameters
+- **[Create & Use Indexes](./using-indexes-tab-interface)**—Full walkthrough of the Indexes interface, reindexing, history and search
 
-- **[Indexing Overview](./indexing-overview)** - *Complete guide to ELITEA's indexing system and capabilities*
-- **[Indexing Tools](./indexing-tools)** - *Detailed reference for all indexing tools and parameters*
-- **[ADO Wiki Toolkit Guide](../../integrations/toolkits/ado_wiki_toolkit)** - *Comprehensive guide to the ADO Wiki Toolkit and its capabilities*
-- **[How to Use Credentials](../credentials-toolkits/how-to-use-credentials#ado-azure-devops-credential-setup)** - *ADO credential setup and management*    
-- **[AI Configuration](../../menus/settings/ai-configuration)** - *Set up vector storage and embedding models for indexing*
-- **[Toolkits Menu](../../menus/toolkits)** - *General toolkit configuration and management*
-- **[Chat Menu](../../menus/chat)** - *Create conversations and add toolkits as participants*
-- **[Agents Menu](../../menus/agents)** - *Create AI agents with access to your indexed ADO Wiki data*
+
 </Info>
-
----
-
