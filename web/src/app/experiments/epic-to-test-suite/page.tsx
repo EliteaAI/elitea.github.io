@@ -5,14 +5,9 @@ import { motion, LayoutGroup } from 'framer-motion'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
 import ThemeToggle from '@/components/ThemeToggle'
-import ReactFlow, { 
-  Background, 
-  Controls, 
-  Node, 
-  Edge,
-  Position
-} from 'reactflow'
-import 'reactflow/dist/style.css'
+import { ReactFlow, Background, Controls, Position } from '@xyflow/react'
+import type { Node, Edge } from '@xyflow/react'
+import '@xyflow/react/dist/style.css'
 
 export default function EpicToTestSuitePage() {
   const [theme, setTheme] = useState<'crystal' | 'obsidian'>('crystal')
