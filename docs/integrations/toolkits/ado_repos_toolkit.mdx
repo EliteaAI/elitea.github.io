@@ -156,7 +156,7 @@ Once your credentials are configured, create the Azure Repos toolkit:
     | **Project** | Your Azure DevOps project name | `ProjectAlpha` |
     | **PgVector Configuration** | Select the PgVector configuration for embedding storage | `elitea-pgvector` |
     | **Embedding Model** | Select the embedding model to use | `amazon.titan-embed-text-v2:0` |
-    | **Repository Id** | Enter your repository ID (required - see note below on how to obtain it) | `a1b2c3d4-e5f6-7890-abcd-ef1234567890` |
+    | **Repositories** | One or more repository IDs or names in the project, separated by commas. Optional — leave empty to let tools target any repository in the project | `my-service, my-service-tests` |
     | **Base branch** | Set the default branch | `main` |
     | **Active branch** | Set the active working branch | `main` |
 
@@ -167,23 +167,25 @@ Once your credentials are configured, create the Azure Repos toolkit:
 <video controls>
   <source src="../../img/integrations/toolkits/adorepos/ado-repo-toolkit-create.mp4" type="video/mp4"/>
 </video>
+ 
 
-<Info title="How to Get Repository ID">
-To find your Repository ID, run this curl command in your terminal:
+<Note>
+**Configuring One or More Repositories**
 
-```bash
-curl -u {PAT}: https://dev.azure.com/{organization}/{project}/_apis/git/repositories?api-version=7.1-preview.1
-```
+Most tools (all except **List repositories** and the vector-search tools) take an optional or required per-call **`repository_id`** (name or ID), depending on how many repositories are configured:
 
-Replace `{PAT}`, `{organization}`, and `{project}` with your actual values. Look for the `"id"` field in the JSON response.
+| Repositories configured | `repository_id` | Behavior |
+|---|---|---|
+| **One** (default) | Optional | Defaults to that repository. |
+| **Several** | Optional, restricted to the list | Defaults to the *first* one; others must be named explicitly. |
+| **None** | **Required** | Any repository in the project can be targeted. |
 
-**Example:**
-```bash
-curl -u mytoken: https://dev.azure.com/MyOrg/MyProject/_apis/git/repositories?api-version=7.1-preview.1
-```
-</Info>
+**Branch resolution:** validated at save time for one repository; deferred and cached per repository, with automatic fallback, for several or none. Legacy toolkits saved with a single repository string keep working unchanged.
 
-#### Available Repos Tools
+Use the **List repositories** tool at any time to discover the repositories a toolkit can access, along with their IDs and default branches — useful when no repository is configured, or when you prefer IDs over names in the **Repositories** field.
+</Note>
+
+#### Available Tools
 
 | **Category** | **Tool Name** | **Description** |
 |:------------:|---------------|-----------------|
@@ -196,6 +198,7 @@ curl -u mytoken: https://dev.azure.com/MyOrg/MyProject/_apis/git/repositories?ap
 | | **List indexes** | Lists available indexed indexes |
 | | **List open pull requests** | Retrieves list of open pull requests |
 | | **List pull request files** | Lists files changed in a pull request |
+| | **List repositories** | Lists the repositories this toolkit can access, with each one's default branch |
 | | **Read file** | Reads content of a specific file |
 | | **Search code** | Search code across the repository using keywords |
 | | **Search index** | Searches indexed repository data |
@@ -323,6 +326,12 @@ To effectively instruct your ELITEA Agent to use the Azure Repos toolkit, you ne
 ### Instruction Creation for Agents
 
 When crafting instructions for the Azure Repos toolkit, especially for OpenAI-based Agents, clarity and precision are paramount. Break down complex tasks into a sequence of simple, actionable steps. Explicitly define all parameters required for each tool and guide the Agent on how to obtain or determine the values for these parameters. OpenAI Agents respond best to instructions that are:
+
+<Info>
+**Targeting a Repository When Several Are Configured**
+
+If the toolkit has more than one repository configured (or none), tell the Agent which repository to use by including `repository_id` in your tool instructions. For example: *"Tool: Use the 'read_file' tool. Parameters: repository_id: 'backend-api', file_path: 'README.md'."*
+</Info>
 
 *   **Direct and Action-Oriented:** Employ strong action verbs and clear commands to initiate actions. For example, "Use the 'read_file' tool...", "Create a branch named...", "List all open pull requests...".
 
@@ -512,6 +521,44 @@ The following work items are linked to PR #247:
 ```
 </Accordion>
 
+<Accordion title="Repository Discovery - List Repositories">
+**User Request:**
+```
+What repositories can this toolkit access?
+```
+
+**Agent Actions:**
+1. Uses `list_repositories` tool
+
+**Agent Response:**
+```
+Here are the repositories this toolkit can access:
+
+1. frontend-app (default branch: main)
+2. backend-api (default branch: develop)
+```
+</Accordion>
+
+<Accordion title="Multi-Repository - Targeting a Specific Repository">
+**User Request:**
+```
+Show me the content of the README.md file in the 'backend-api' repository.
+```
+
+**Agent Actions:**
+1. Uses `read_file` tool with parameters:
+   - file_path: "README.md"
+   - repository_id: "backend-api"
+
+**Agent Response:**
+```
+Here's the content of README.md from backend-api:
+
+# Backend API
+...
+```
+</Accordion>
+
 ---
 
 ## Troubleshooting
@@ -556,8 +603,21 @@ The following work items are linked to PR #247:
 **Troubleshooting Steps:**
 
 1. **Verify Project Name:** Carefully verify that you have entered the correct Azure DevOps Project name in the credential configuration. Pay close attention to capitalization, spelling, and spacing. Even minor typos can cause errors.
-2. **Check Repository ID Format:** Ensure that you are using the correct Repository ID (UUID format) in the toolkit configuration. Use the provided curl command or alternative methods (see "How to Get Repository ID" in FAQ) to retrieve the exact repository ID.
+2. **Check Repository Value:** Ensure that the repository name or ID you are using exactly matches an entry in the toolkit's **Repositories** field (or, if that field is empty, an actual repository in the project). Use the **List repositories** tool to confirm valid values.
 3. **Verify Branch Names:** Ensure branch names are spelled correctly and exist in the repository. Branch names in Git are case-sensitive. Use `list_branches_in_repo` to verify available branches.
+</Accordion>
+
+<Accordion title="Repository Parameter Errors in Multi-Repository Toolkits">
+**Problem:** Agent execution fails with an error such as *"Parameter 'repository_id' is required: this toolkit is not configured with any repository"* or *"Repository 'X' is not available in this toolkit. Configured repositories: ..."*
+
+**Cause:**
+- The toolkit's **Repositories** field is empty, so `repository_id` must be supplied on every tool call — but the Agent (or your instructions) didn't provide one.
+- The toolkit's **Repositories** field lists specific repositories, and the Agent tried to target one that isn't in that list.
+
+**Resolution:**
+1. If the toolkit has no configured repositories, instruct the Agent to call **List repositories** first to discover valid IDs/names, then pass one explicitly as `repository_id` on subsequent tool calls.
+2. If the toolkit has configured repositories, verify the `repository_id` value matches one of them exactly (both names and IDs are accepted, but the value must match a configured entry).
+3. To make an additional repository available, edit the toolkit and add it to the **Repositories** field, separated by a comma.
 </Accordion>
 
 <Accordion title="Repository ID Retrieval Issues">
@@ -565,13 +625,8 @@ The following work items are linked to PR #247:
 
 **Troubleshooting Steps:**
 
-1. **Verify curl Command Format:** Double-check that you've correctly replaced `{PAT}`, `{organization}`, and `{project}` placeholders in the curl command with your actual values.
-2. **Authentication in curl:** Ensure the PAT is formatted correctly in the curl command: `curl -u {PAT}:` (note the colon after PAT).
-3. **Use Alternative Methods:** Try the Azure DevOps UI method:
-    - Navigate to your repository in Azure DevOps
-    - Click the "Clone" button
-    - Look for the repository ID in the URL or clone dialog
-4. **Browser Method:** Visit `https://dev.azure.com/{Org}/{Project}/_apis/git/repositories?api-version=7.1` in your browser, authenticate, and find the repository ID in the JSON response.
+1. **Verify curl Command Format:** Double-check that you've correctly replaced `{PAT}`, `{organization}`, and `{project}` placeholders, and that the PAT is formatted correctly: `curl -u {PAT}:` (note the colon after PAT).
+2. **Use the Repository Name Instead:** The **Repositories** field also accepts repository names directly, so an ID is not strictly required.
 </Accordion>
 
 <Accordion title="Toolkit Configuration Issues">
@@ -579,7 +634,7 @@ The following work items are linked to PR #247:
 
 **Troubleshooting Steps:**
 
-1. **Verify Repository ID Format:** Ensure the repository ID is a valid UUID format (e.g., `a1b2c3d4-e5f6-7890-abcd-ef1234567890`).
+1. **Verify Repository Value(s):**.
 2. **Check Branch Names:** Verify that the base branch and active branch names match actual branches in your repository (commonly `main` or `master`).
 3. **Credential Selection:** Ensure you have selected the correct credential from the dropdown in the toolkit configuration.
 4. **Refresh Configuration:** After updating credential details, refresh or recreate the toolkit to ensure it picks up the latest configuration.
@@ -670,27 +725,18 @@ The minimum required scopes depend on the specific Azure Repos tools your ELITEA
 **Always adhere to the principle of least privilege and grant only the scopes that are strictly necessary for your Agent's intended functionalities.**
 </Accordion>
 
-<Accordion title="What is the correct format for the Repository ID in the Azure Repos toolkit configuration?">
-The Repository ID must be a **UUID (Universally Unique Identifier)** in the format: `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`
+<Accordion title="What format does the Repositories field expect, and can I enter more than one?">
+The **Repositories** field accepts either the repository **name** or its **ID**, and you can enter **one, several (comma-separated), or none**.
 
-**Example:** `a1b2c3d4-e5f6-7890-abcd-ef1234567890`
+**Example (single):** `my-service`
 
-**How to obtain the Repository ID:**
+**Example (multiple):** `my-service, my-service-tests`
 
-**Method 1 - curl command:**
-```bash
-curl -u {PAT}: https://dev.azure.com/{organization}/{project}/_apis/git/repositories?api-version=7.1-preview.1
-```
 
-**Method 2 - Azure DevOps UI:**
-1. Navigate to your repository in Azure DevOps
-2. Click "Clone" button
-3. Look for the repository ID in the clone URL or dialog
+</Accordion>
 
-**Method 3 - Browser:**
-Visit `https://dev.azure.com/{Org}/{Project}/_apis/git/repositories?api-version=7.1` and find the `"id"` field in the JSON response.
-
-**Important:** Do NOT use the repository name - you must use the UUID format ID.
+<Accordion title="Can a single Azure Repos toolkit work with more than one repository?">
+**Yes.** Enter multiple repository names or IDs, separated by commas, in the **Repositories** field.
 </Accordion>
 
 <Accordion title="How do I switch from the old Agent-based configuration to the new Credentials + Toolkit workflow?">
