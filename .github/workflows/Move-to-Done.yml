@@ -2,6 +2,11 @@ name: Move Issues to Done
 on:
   workflow_dispatch:  # Manual trigger
 
+permissions:
+  contents: read
+  issues: write
+  projects: write
+
 jobs:
   move-to-done:
     runs-on: ubuntu-latest
