@@ -218,24 +218,32 @@ jobs:
       - name: Take action based on project state
         if: steps.check-assignee.outputs.match == 'true' && steps.get-project-state.outputs.has_project == 'true'
         id: check-status
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_HTML_URL: ${{ github.event.issue.html_url }}
+          ASSIGNEE_LOGIN: ${{ github.event.assignee.login }}
+          PROJECT_NAME: ${{ steps.get-project-state.outputs.project_name }}
+          PROJECT_STATUS: ${{ steps.get-project-state.outputs.project_status }}
+          ISSUE_TYPE: ${{ steps.get-issue-type.outputs.issue_type }}
+          IS_BUG_TYPE: ${{ steps.get-issue-type.outputs.is_bug }}
         run: |
           echo "=== Issue Details ==="
-          echo "Title: ${{ github.event.issue.title }}"
-          echo "URL: ${{ github.event.issue.html_url }}"
-          echo "Assignee: ${{ github.event.assignee.login }}"
-          echo "Project: ${{ steps.get-project-state.outputs.project_name }}"
-          echo "Status/Column: ${{ steps.get-project-state.outputs.project_status }}"
-          echo "Issue Type: ${{ steps.get-issue-type.outputs.issue_type }}"
+          echo "Title: $ISSUE_TITLE"
+          echo "URL: $ISSUE_HTML_URL"
+          echo "Assignee: $ASSIGNEE_LOGIN"
+          echo "Project: $PROJECT_NAME"
+          echo "Status/Column: $PROJECT_STATUS"
+          echo "Issue Type: $ISSUE_TYPE"
           echo ""
 
-          STATUS="${{ steps.get-project-state.outputs.project_status }}"
-          ISSUE_URL="${{ github.event.issue.html_url }}"
+          STATUS="$PROJECT_STATUS"
+          ISSUE_URL="$ISSUE_HTML_URL"
 
           # Set output for issue URL
           echo "issue_url=$ISSUE_URL" >> $GITHUB_OUTPUT
 
           # Get issue type from previous step
-          IS_BUG="${{ steps.get-issue-type.outputs.is_bug }}"
+          IS_BUG="$IS_BUG_TYPE"
           echo "is_bug=$IS_BUG" >> $GITHUB_OUTPUT
           echo "Is Bug type: $IS_BUG"
 
