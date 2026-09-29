@@ -1,0 +1,221 @@
+---
+title: "Release Notes - 2.0.7"
+---
+
+ELITEA 2.0.7 helps you get more done with less setup. This release introduces **Auto** model selection, chat templates, Outlook and Microsoft Teams toolkits, custom themes, AI-assisted fixes for evaluation results and more control over who can access your conversations. It also gives you cost and usage analytics for individual runs, makes agent evaluation easier to set up and makes indexing more reliable.
+
+* **Release version**: 2.0.7
+* **Released on**: October 11, 2026
+* **Access**: [ELITEA Platform](https://next.elitea.ai)
+
+## New Features
+
+### Auto Model and Reasoning-Effort Selection
+
+You can now let ELITEA pick the model and reasoning effort for each request by selecting **Auto** in the model picker of Chats and Agents.
+
+* Select **Auto** in the model picker. A model or reasoning effort you choose yourself always takes priority.
+* Get a model and effort matched to the task from the models available in your project, with cost taken into account.
+* Keep the same model and effort throughout a run, including tool calls and resumed runs. Each new message can be routed again.
+* Use **Auto** in Agents that call other Agents. Each Agent set to **Auto** is routed on its own, and Agents with a fixed model keep it.
+* Set **Auto** as the default for new Chats and Agents. Existing ones keep their current selection.
+* Expect **Auto** to be off by default. Platform Admins turn it on for the platform and set a project default, and projects can only narrow it.
+* Note that Pipelines and Pipeline LLM nodes still use concrete models only.
+
+**Benefits:** Lower cost per completed task without choosing a model for every request, and full control to override it.
+
+Details: [Chat](../menus/chat), [Agents](../menus/agents).
+
+### Chat Templates
+
+You can now save up to five chat templates in **Settings → General → Chat Configuration**, so new chats start with the participants you need.
+
+* Create, rename and delete up to five templates per project.
+* Mark one template as the default. It is applied to every new chat in the project, and existing chats are not affected by template changes.
+* Add Agents, Pipelines, Toolkits, MCPs and, in team projects, Users as participants of a template.
+* See participants that are no longer available flagged in the template. They are skipped when a chat is created.
+* Expect a single pre-configured participant to become the active participant in new chats.
+* Confirm before deleting a template or discarding unsaved changes. To delete the default template, first set another one as default.
+* Find **Mid-turn input** in the same section, now without the Beta label. It still applies to the whole project.
+
+**Benefits:** Ready-to-use starting setups for new chats with less manual work.
+
+Details: [General Settings](../menus/settings/general).
+
+### Outlook and Microsoft Teams Toolkits
+
+You can now connect Agents and Pipelines to your Outlook mailbox and Microsoft Teams with two new toolkits that sign in with your Microsoft account.
+
+**Outlook toolkit**
+* List, get and search messages, folders and threads, and find new or unread messages.
+* Send mail, reply to messages and mark them as read or unread.
+* Move and delete messages.
+
+**Microsoft Teams toolkit**
+* List teams, channels and chats, and read chat messages.
+* Search across chats and channels.
+* Send chat messages. A 1:1 or group chat is created automatically if it doesn't exist.
+* Send channel posts and replies, including @mentions.
+
+**Note:** You can't edit a sent message in Outlook, or edit or delete a sent message in Teams. Reading channel messages in Teams is not supported because it needs tenant admin consent.
+
+**Benefits:** Agents can read, search and act on email and Teams conversations within the permissions of the signed-in user.
+
+Details: [Toolkits](../menus/toolkits).
+
+### Custom Themes
+
+You can now choose a custom theme that matches your organization's branding, in addition to the **Dark** and **Light** themes.
+
+* Select a custom theme in your appearance settings and see it applied across ELITEA.
+* Rely on Platform Admins to customize fonts, logos and colors, separately for dark and light modes.
+* Get a warning when a text and background color combination is hard to read.
+* Save a customization as a preset, export it to a JSON file, import it or delete it to reuse a theme in other environments.
+
+**Benefits:** An interface that fits your brand, set up once by admins and easy for everyone to choose.
+
+Details: [Settings](../menus/settings).
+
+### Multiple Repositories in the Azure DevOps Repos Toolkit
+
+You can now set up the Azure DevOps (ADO) Repos toolkit with several repositories, or none, so one toolkit can work across multiple repositories.
+
+* Add zero, one or several repositories in the toolkit configuration. The **Repositories** field is now optional.
+* With one repository, tools use it automatically, as before.
+* With none or several, specify the repository in each tool call so the Agent targets the right one.
+* Keep using existing toolkits without any changes.
+
+**Benefits:** One toolkit for many repositories instead of one toolkit per repository.
+
+Details: [Azure Repos Toolkit](../integrations/toolkits/ado_repos_toolkit).
+
+### Personal Secrets in Pipeline Code Nodes
+
+You can now let a Code node in a shared project read the secrets of the user who runs the pipeline, so everyone uses their own credentials.
+
+* Use the new `get_private_project_secret(secret_name)` function next to `unsecret()`, which still returns the shared project secret.
+* Get the secret from the personal project of the person running the pipeline. User A's run reads User A's secret, and User B's run reads User B's.
+* Turn on **Allow external access** for a secret in your personal project to make it available to Code nodes in other projects. Secrets are not shared by default.
+* Expect clear errors if the user has no personal project or the secret is not shared or doesn't exist. The function never falls back to a shared secret with the same name.
+* Let users with the Viewer role use it to run shared Agents and Pipelines with their own credentials.
+
+**Benefits:** Secure per-user credentials in shared pipelines, without exposing anyone's private secrets.
+
+Details: [Execution Nodes](../how-tos/pipelines/nodes/execution-nodes), [Pipeline Runs](../how-tos/pipelines/pipeline-runs).
+
+### Enhance with AI for Evaluation Runs
+
+You can now turn a finished evaluation run that missed its targets into concrete fixes with the new **Enhance with AI** button in the run results.
+
+* Select **Enhance with AI** in the results header of a finished run. ELITEA analyzes the results right away, with no prompt to write.
+* Review the diagnosis in **Analysis**, then go through the steps that have suggestions: **Agent Instructions**, **Dimensions** and **Dataset Cases**.
+* See the current and suggested instructions side by side, and clear the checkbox of any edit you don't want. The preview updates immediately.
+* Review suggested fixes to dimensions and expected outputs. Coverage gaps are shown as notes pointing to the dataset editor.
+* Choose **Save** to update the evaluated version, or **Save as Version** to create a new one and leave the evaluated version untouched.
+* Note that fixes to dimensions and datasets are saved immediately and are not versioned.
+* Expect suggestions that can't be applied to be discarded, and a clear message when nothing is suggested or generation fails.
+
+**Benefits:** A faster path from a missed target to a fix, based on the evidence from your run.
+
+Details: [Agent Evaluation](../how-tos/agents-pipelines/agent-evaluation), [Agent Evaluation FAQs](../how-tos/agents-pipelines/agent-evaluation-faq).
+
+### Restrict Access to Public Conversations
+
+You can now turn a public conversation in a team project back into one with limited access using the new **Restrict access** action. Only the creator of the conversation can use it.
+
+* Select **Restrict access** in the menu of a public conversation you created, and choose who keeps access. **Make public** remains available for restricted conversations.
+* Review the current human and AI participants, remove any except yourself and add other project members.
+* Expect a warning if the conversation has external share links, because restricting access doesn't revoke them.
+* Confirm only when at least one participant remains. Project members you don't keep lose access.
+* Rely on the creator-only rule being enforced on the server as well, including for direct API requests.
+* Keep the previous access and retry if the change fails.
+
+**Benefits:** An easy way to correct an accidental or temporary public sharing, without recreating the conversation.
+
+Details: [Chat](../menus/chat).
+
+## Changed Features
+
+### Usage & Analytics Enhancements
+
+You can now rely on consistent Usage and Analytics numbers, see analytics for individual runs and get earlier budget warnings.
+
+* Expect Usage and Analytics to show the same costs and tokens, recorded by ELITEA itself. Budgets are enforced without depending on LiteLLM.
+* Get budget warnings at 80%, 90% and 95%. Each one appears again even if you dismissed the previous one. Platform Admins choose whether users can dismiss them with **Allow users to dismiss budget warnings**.
+* See the real budget message in Chat when a project budget blocks a request, instead of "Unknown error". It stays in the conversation after a refresh.
+* Select **Analytics** in the three-dot menu of an Agent or Pipeline in Run History to see the **Costs**, **Tokens**, **Tools** and **Health** of that run, with refresh and Excel export.
+* Select **Analytics** for an evaluation result in Results History to see the cost, tokens, tools and health of that run, including LLM-as-judge scoring.
+* Use the date presets **Today**, **Last 7d**, **Last 30d** and **Last 90d**, which cover complete days up to the end of today. Use **Custom** for exact times or a rolling 24 hours.
+* Filter active users by role and see active and AI-active user counts per week for a date range.
+* Update Usage data with the new **Refresh data** icon next to **Export to Excel**, without losing your tab, filters or pagination.
+* Find **Cost Budgets**, **Mid-Turn Input** and **Next-Input Suggestions** in the Admin portal without the Beta label.
+
+**Benefits:** Trustworthy cost and token numbers, clearer budget alerts and visibility into what each run costs.
+
+Details: [Usage](../menus/settings/usage), [Analytics](../menus/settings/analytics).
+
+### Agent Evaluation Enhancements
+
+You can now set up evaluation suites and dimensions more easily and move between suites faster.
+
+* Create a suite in a short dialog that asks only for a name and description, then continue in the suite's edit form. Nothing is autosaved before the suite exists.
+* Select the dimensions to create from **Create Dimension with AI** using checkboxes or **Select all**, with the total count shown. Your selection is kept when you open a dimension and return.
+* Recognize each generated dimension by its evaluator, target and importance tags. An arrow icon shows that the card opens its details.
+* Edit a generated dimension and save it with **Save and back to list**. Missing or invalid fields are highlighted, with an alert at the top of the dialog.
+* Get generated dimensions with valid values from the start: a standard scale, an importance of Low, Medium, High or Critical and a target value. **Custom** options remain available for manual editing.
+* Select **Evaluation (Beta)** in the breadcrumbs to open a list of the Agent's suites and switch to another one.
+
+**Benefits:** Faster, less error-prone evaluation setup with ready-to-use AI-generated dimensions.
+
+Details: [Agent Evaluation](../how-tos/agents-pipelines/agent-evaluation), [Agent Evaluation FAQs](../how-tos/agents-pipelines/agent-evaluation-faq).
+
+### Indexing Reliability and Scheduling Improvements
+
+You can now rely on indexing that reports accurate progress and results, and manage scheduled indexes more easily.
+
+* Spot scheduled indexes with an icon in the toolkit's index list, without opening each one.
+* Get the toolkit's current credential pre-selected when you schedule an index.
+* Keep a run going when one document fails. The document is skipped and named in the report, your work is kept and the run ends as **Partially indexed**. Only a run where nothing was indexed is reported as failed.
+* See how much a running index has processed so far, for example "920 chunks so far", and get a stalled run flagged within minutes instead of hours.
+* Expect a fully built, searchable index to be reported as completed, never as failed.
+* Manage the index and pipeline schedules in one place, **Configuration → Runtime** in the Admin portal. **System → Schedules** shows them as locked with a link, and an invalid schedule is rejected with a clear message.
+
+**Benefits:** Less time lost on large indexing runs, clearer index status and one place to manage schedules.
+
+Details: [Toolkits](../menus/toolkits), [Indexing Overview](../how-tos/indexing/indexing-overview).
+
+### Scroll Indicator for the Project List
+
+You can now see when the Project list has more projects than fit on the screen.
+
+* See a scroll indicator whenever the list overflows. It isn't shown when all projects fit.
+* Expect the top indicator to disappear at the top of the list and the bottom one at the end.
+
+**Benefits:** No more missing projects hidden below the visible part of the list.
+
+Details: [Menus Overview](../menus/overview).
+
+## Fixed Issues
+
+* [#6702](https://github.com/EliteaAI/elitea_issues/issues/6702) The Agent page no longer crashes when the creator's account has been deleted.
+* [#6697](https://github.com/EliteaAI/elitea_issues/issues/6697) The context budget shows token counts for the history, system prompt and tools, and explains why summarization isn't triggered.
+* [#6688](https://github.com/EliteaAI/elitea_issues/issues/6688) Remote MCP toolkits connect to servers with legacy SSE endpoints and redirects, with clearer errors for retired endpoints.
+* [#6654](https://github.com/EliteaAI/elitea_issues/issues/6654) Refreshing the page while a chat response is generating no longer causes an error.
+* [#6637](https://github.com/EliteaAI/elitea_issues/issues/6637) SharePoint toolkit credentials can be saved after logging in with a delegated credential, without a page refresh.
+* [#6636](https://github.com/EliteaAI/elitea_issues/issues/6636) Pipelines ask for SharePoint authentication instead of running a same-named tool from another toolkit.
+* [#6627](https://github.com/EliteaAI/elitea_issues/issues/6627) The Agent header icon updates immediately after you select a new icon.
+* [#6620](https://github.com/EliteaAI/elitea_issues/issues/6620) A successful reindexing no longer shows the previous failed status after a page refresh.
+* [#6538](https://github.com/EliteaAI/elitea_issues/issues/6538) Total Cost on the Costs section matches the sum of its individual cost components.
+* [#6406](https://github.com/EliteaAI/elitea_issues/issues/6406) The Remote MCP authorization popup shows the toolkit name instead of the server URL.
+* [#6354](https://github.com/EliteaAI/elitea_issues/issues/6354) Cost estimation works correctly on the indexer, which has no database access.
+* [#6274](https://github.com/EliteaAI/elitea_issues/issues/6274) MCP tool parameter names such as `fname[]` are sanitized, so Claude Code no longer fails with a 400 error.
+* [#6273](https://github.com/EliteaAI/elitea_issues/issues/6273) Connected toolkits appear in the cloud MCP tools list, not only Agents tagged for MCP.
+* [#5915](https://github.com/EliteaAI/elitea_issues/issues/5915) Summarization is triggered when tool calls in a single turn exceed the model's context window.
+
+## Known Issues
+
+* [#3151](https://github.com/EliteaAI/elitea_issues/issues/3151) PPT files fail to be read or indexed from Artifacts or SharePoint.
+* [#2719](https://github.com/EliteaAI/elitea_issues/issues/2719) The MCP client disconnects on macOS even though the tray shows "connected".
+* [#1567](https://github.com/EliteaAI/elitea_issues/issues/1567) MCP-tagged resources run the latest version only.
+* [#6467](https://github.com/EliteaAI/elitea_issues/issues/6467) The first click on **Stop** while messages are queued shows an Agent configuration error and hides the **Stop** button, and queued messages keep running.
+* [#6457](https://github.com/EliteaAI/elitea_issues/issues/6457) New messages can be processed before earlier queued messages, so responses may come back out of order or duplicated.

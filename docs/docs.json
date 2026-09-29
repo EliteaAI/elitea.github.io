@@ -294,10 +294,7 @@
               {
                 "group": "Agent Evaluation",
                 "expanded": false,
-                "pages": [
-                  "how-tos/agents-pipelines/agent-evaluation",                  
-                  "how-tos/agents-pipelines/agent-evaluation-faq"
-                ]
+                "pages": ["how-tos/agents-pipelines/agent-evaluation", "how-tos/agents-pipelines/agent-evaluation-faq"]
               },
               {
                 "group": "Start Building Pipelines",
@@ -528,18 +525,19 @@
           {
             "group": "Latest Release",
             "icon": "tag",
-            "pages": ["release-notes/rn-2-0-6"]
+            "pages": ["release-notes/rn-2-0-7"]
           },
           {
             "group": "Recent Releases",
             "icon": "clock-rotate-left",
-            "pages": ["release-notes/archived/rn-2-0-5", "release-notes/archived/rn-2-0-4"]
+            "pages": ["release-notes/archived/rn-2-0-6", "release-notes/archived/rn-2-0-5"]
           },
           {
             "group": "Older Releases",
             "icon": "archive",
             "expanded": false,
             "pages": [
+              "release-notes/archived/rn-2-0-4",
               "release-notes/archived/rn-2-0-3",
               "release-notes/archived/rn-2-0-2",
               "release-notes/archived/rn-2-0-1",
