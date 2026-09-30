@@ -109,7 +109,7 @@ The dropdown lists all LLM models available in your project.
 
 Each model in the list can carry a small capability label — an icon shown next to its name indicating that it supports **image analysis** or **reasoning**:
 
-<img src="../img/menus/chat/chat_model-labels.png" width="200" alt="A model name in the selector with an image analysis or reasoning capability icon." />
+<img src="../img/menus/chat/chat_model-labels.png" width="300" alt="A model name in the selector with an image analysis or reasoning capability icon." />
 
 | Label | Meaning |
 |-------|---------|
@@ -225,8 +225,8 @@ Every file you attach is automatically uploaded to the default `attachments` buc
 | Chat Type | Attachment availability |
 |---------|------------------------|
 | **Direct LLM / model chat** | Always enabled — the **Attach Files** item is active whenever no agent or pipeline is selected. |
-| **Agent-based chat** | Only enabled if the agent has **Allow Attachments** toggled on in **Modules**. If not enabled, **Attach Files** is grayed out with the tooltip: *"Attachments aren't available for the selected agent or pipeline."* |
-| **Pipeline-based chat** | Same rule as agents — requires `attachments` in the pipeline's **Modules**. |
+| **Agent-based chat** | Only enabled if the agent has **Attachments** toggled on in **MODULES**. If not enabled, **Attach Files** is grayed out with the tooltip: *"Attachments aren't available for the selected agent or pipeline."* |
+| **Pipeline-based chat** | Same rule as agents — requires `attachments` in the pipeline's **MODULES**. |
 
 <Info>
 For detailed information about attachments, including agent configuration and file management, see [Attach Files](../how-tos/chat-conversations/attach-files).
@@ -275,6 +275,10 @@ For detailed information about voice capabilities, see [Voice Capabilities](../h
 
 In the CHATS sidebar, you can view all your conversations, organized by time period or in folders. You can also create new conversations, rename or delete existing ones, and manage folders.
 
+Public conversations have the users icon to distinguish them from your private ones.
+
+<img src="../img/menus/chat/chat_public-icon.png" width="250" alt="The green users icon that marks a public conversation in the CHATS sidebar." />
+
 #### Conversations and Folders Organization
 
 By default, conversations are organized by time period:
@@ -309,7 +313,8 @@ In the **CHATS** sidebar, you can perform these actions from the conversation's 
 * **Playback**: Simulate the conversation without any engagement with models — a read-only replay with forward/backward navigation. Well suited for demos and for stepping through a conversation turn by turn using the on-screen controls or the keyboard arrows (left/right).
 * **[Duplicate](../how-tos/chat-conversations/how-to-use-chat-functionality#create-duplicate)**: Create a new conversation with the same privacy setting and participants as the original (participants added automatically by an agent are not copied). Messages and history are not copied.
 * **Make Public** *(Team projects only)*: Turn a private conversation into a public one, visible and interactable by all project members.
-* **Share** *(Team projects only)*: Copy a link to the conversation for other project members who already have access.
+* **Restrict Access** *(Team projects only)*: Turn a public conversation back to private, available only to the conversation's author and project members directly specified by the conversation's author.
+* **Share** *(Team and Public projects only)*: Copy a link to the conversation for other project members who already have access.
 * **[Share Externally](../how-tos/chat-conversations/how-to-use-chat-functionality#share-conversations-with-external-users)**: Generate a secure, read-only link so people outside ELITEA can view the conversation.
 * **Manage Links**: View, copy or revoke existing external share links. Shown only once at least one link has been created for the conversation.
 * **Pin/Unpin**: Pin the conversation to the top of the list, or unpin it. Available to anyone who can see the conversation; a conversation already inside a folder cannot be pinned.
@@ -323,6 +328,7 @@ In the **CHATS** sidebar, you can perform these actions from the conversation's 
 
 Unlike conversation actions, all **folder actions are restricted to the folder's creator** and, in team projects, also require the corresponding folder permission:
 
+* **New Chat**: Create a new conversation already assigned to the folder.
 * **Rename**: Select **Rename** in the folder contextual menu, update the folder name and click the **✔** button to save your changes.
 * **Pin/Unpin**: Select **Pin on top** in the folder contextual menu to keep the folder at the top of the **CHATS** sidebar for quicker access. Select **Unpin** to remove it from the top.
 * **Delete Folder**: Permanently remove the folder. Deleting a folder will not delete the conversations inside it — they will be moved back to the main **CHATS** list.
@@ -333,9 +339,9 @@ Unlike conversation actions, all **folder actions are restricted to the folder's
 
 The **PARTICIPANTS** panel lists everyone and everything taking part in the current conversation — agents, pipelines, toolkits and MCPs, as well as users in team projects.
 
-#### Participants
+#### AI Participants
 
-Participants are additional resources you can add to a conversation to extend its capabilities:
+AI Participants are additional resources you can add to a conversation to extend its capabilities:
 
 <CardGroup cols={3}>
   <Card title="Agents" icon="robot">
@@ -367,7 +373,7 @@ For detailed information about working with participants, see [Working with Part
 
 #### Users
 
-In team projects, you can invite specific members of your team to collaborate in the conversation. These users are invited from the **+** button in the message input toolbar and are listed in the **PARTICIPANTS** panel as Users:
+In team projects, you can invite specific members of your team to collaborate in the conversation. These users are invited from the **+** button in the message input toolbar and are listed in the **PARTICIPANTS** panel as **Users**:
 
 <img src="../img/menus/chat/chat_participants_users.png" width="250" alt="The PARTICIPANTS panel showing users invited to a team project conversation." />
 
@@ -432,22 +438,20 @@ Visibility and access rules for conversations and folders depend on your project
 
 In a private project, only you can see, access and manage any conversations and folders:
 * **Visibility**: Only you (the creator) can see and access any conversations and folders.
-* **Participants**: You can add agents, pipelines, toolkits and MCPs as AI assistants.
+* **AI participants**: You can add agents, pipelines, toolkits and MCPs as AI participants.
 * **Users**: You cannot add other users as participants.
 
 **Team Project**
 
-Team projects support shared collaboration with configurable visibility per conversation and folder.
+Team projects support shared collaboration with configurable conversation visibility.
 
 * **Folders**: All folders in the project are visible to all team members.
 * **Conversations**: A conversation is only visible to you if you are added to it as a participant (= conversation member).
 * **Public Conversations**: Conversations can be marked as public — visible and interactable by all project members.
-* **Moving Conversations**: Members can use **Move To** or **Back to the list** to organize conversations across folders.
 * **Folder Permissions**: You cannot delete folders created by other users.
-* **Public Folders**: Public folders and their contents are visible to all project members.
 
 <Warning>
-Making a conversation or folder **public is irreversible** — it cannot be converted back to private.
+Making a conversation **public is reversible** — you can convert it back to private, when necessary.
 </Warning>
 
 In both private and team projects, you can [share a conversation with users outside ELITEA](../how-tos/chat-conversations/how-to-use-chat-functionality#share-conversations-with-external-users) through a secure, read-only link.
