@@ -42,9 +42,9 @@ Each conversation is an independent dialogue session. You can refer to earlier m
 
 There are three ways to create a new chat:
 
-* [By the **Create** button in the left sidebar](../how-tos/chat-conversations/how-to-use-chat-functionality#create-sidebar) — the quickest way to start a new conversation.
-* [From a folder](../how-tos/chat-conversations/how-to-use-chat-functionality#create-folder) — create a chat directly inside a folder.
-* [By duplicating a conversation](../how-tos/chat-conversations/how-to-use-chat-functionality#create-duplicate) — reuse an existing conversation's participants and settings.
+* [By the **Create** button in the left sidebar](../how-tos/chat/config-mnmt#create-sidebar) — the quickest way to start a new conversation.
+* [From a folder](../how-tos/chat/config-mnmt#create-folder) — create a chat directly inside a folder.
+* [By duplicating a conversation](../how-tos/chat/config-mnmt#create-duplicate) — reuse an existing conversation's participants and settings.
 
 ## Chat Structure
 
@@ -99,15 +99,15 @@ If your ELITEA administrator has [turned on mid-turn input for your project](./s
 
 </Note>
 
-#### Models & Model Settings
+#### Model Selector & Settings
 
-In chat, you select the LLM model that responds to your messages using the **model selector dropdown** at the bottom of the chat.
+You can use the **model selector dropdown** at the bottom of the chat to select the LLM that will respond to your messages.
 
 <img src="../img/menus/chat/chat_model-selector.png" width="350" alt="The model selector dropdown at the bottom of the chat." />
 
-The dropdown lists all LLM models available in your project.
+The dropdown lists all LLMs available in your project as well as the **Auto** option that allows ELITEA to select the model automatically.
 
-Each model in the list can carry a small capability label — an icon shown next to its name indicating that it supports **image analysis** or **reasoning**:
+Each model in the list can carry a capability label — an icon shown next to its name indicating that it supports **image analysis** or **reasoning**:
 
 <img src="../img/menus/chat/chat_model-labels.png" width="300" alt="A model name in the selector with an image analysis or reasoning capability icon." />
 
@@ -118,71 +118,11 @@ Each model in the list can carry a small capability label — an icon shown next
 
 Once you select a model, its name is displayed on the selector button.
 
-**Model Settings**
+Next to the model selector, you can see the **Settings** (⚙️) icon where you can fine-tune the response generation.
 
-Next to the model selector, you can see the **Settings** (⚙️) icon where you can fine-tune the response generation. Settings vary by model type:
-
-<Tabs>
-  <Tab title="Reasoning Models">
-    Reasoning controls the depth of logical thinking and problem-solving.
-
-    | Level | Behavior |
-    |-------|----------|
-    | **Low** | Fast, surface-level reasoning with concise answers and minimal steps |
-    | **Medium** | Balanced reasoning with clear explanations and moderate multi-step thinking *(default)* |
-    | **High** | Deep, thorough reasoning with detailed step-by-step analysis (may be slower) |
-
-    <img src="../img/menus/chat/chat_model-sets_reasoning.png" width="300" alt="The reasoning level setting in model settings for a reasoning model." />
-  </Tab>
-  <Tab title="Standard Models">
-    Creativity controls the randomness of the responses.
-    Lower values produce focused, deterministic outputs; higher values produce more varied and creative responses.
-
-    | Level | Behavior |
-    |-------|----------|
-    | **1** | Highly focused and deterministic outputs |
-    | **2** | Mostly focused with slight variation |
-    | **3** | Balanced between focus and creativity *(default)* |
-    | **4** | More varied and creative responses |
-    | **5** | Maximum creativity and diversity |
-
-    <img src="../img/menus/chat/chat_model-sets_standard.png" width="300" alt="The creativity level setting in model settings for a standard model." />
-  </Tab>
-</Tabs>
-
-**Max Completion Tokens** *(All Models)*
-
-Limits the maximum length of AI responses measured in tokens. A token is roughly 4 characters of text.
-
-|  |  |
-|--------|-------------|
-| **Default** | No limits are imposed by ELITEA. Native model and provider limits apply. |
-| **Custom** | You can set the token limit manually. An error is shown if the value exceeds the model's maximum output tokens. |
-
-**Steps Limit** *(Conversations only)*
-
-Controls the maximum number of execution steps (tool calls) the AI can take before the loop is forcefully stopped. This prevents runaway agent executions that could consume excessive resources.
-
-* **Default**: 25 steps
-* **Range**: 0 – 999
-
-<Note>
-**Steps Limit** is shown in model settings only in chat. It is not available on the **Agents** or **Pipelines** pages, where step limits are configured at the agent/pipeline level.
-</Note>
-
-Every time the AI invokes a tool or performs an internal reasoning step, the counter increments by one. The value is passed as a top-level `step_limit` field in the conversation payload — it is separate from the `llm_settings` block.
-
-When the limit is reached, the execution loop ends and the AI returns whatever results it has collected so far.
-
-When the steps limit is exceeded, the AI stops executing further tool calls and returns partial results. No error is displayed to the user by default — the response simply stops at the last completed step.
-
-<Callout icon="lightbulb" color="#a855f7" title="Choosing a Steps Limit">
-**Tips for working with step limits:**
-
-- Set a **lower value** (e.g. 5–10) for simple question-answering tasks where you want fast, predictable responses.
-- Set a **higher value** (e.g. 50–100) for complex, multi-step research or automation tasks that require chaining many tool calls.
-- If a conversation ends abruptly with incomplete results, check whether the steps limit was reached and increase it accordingly.
-</Callout>
+<Info>
+For detailed information about model settings, see [Select and Set up Models](../how-tos/chat/config-mnmt#select-and-set-up-models).
+</Info>
 
 #### Attachments
 
@@ -302,7 +242,7 @@ This automatic time-based sorting helps you quickly locate recent conversations.
 * Within a folder, conversations are sorted by their creation date.
 * You cannot pin conversations inside a folder but you can pin the folder itself.
 * You can move conversations between folders or back to the main list at any time.
-* You can [move a conversation to a folder](../how-tos/chat-conversations/how-to-use-chat-functionality#move-chats-to-folders) from its overflow menu or by simply dragging and dropping it into the desired folder.
+* You can [move a conversation to a folder](../how-tos/chat/config-mnmt#move-chats-to-folders) from its overflow menu or by simply dragging and dropping it into the desired folder.
 
 #### Conversations and Folders Actions
 
@@ -311,11 +251,11 @@ In the **CHATS** sidebar, you can perform these actions from the conversation's 
 * **Rename**: Change the conversation's name. Available only to the conversation's creator.
 * **Move To**: Move the conversation into a folder, or back to the main list. If no folder exists, you can create one by clicking **+ New Folder**. Not available while the conversation is pinned.
 * **Playback**: Simulate the conversation without any engagement with models — a read-only replay with forward/backward navigation. Well suited for demos and for stepping through a conversation turn by turn using the on-screen controls or the keyboard arrows (left/right).
-* **[Duplicate](../how-tos/chat-conversations/how-to-use-chat-functionality#create-duplicate)**: Create a new conversation with the same privacy setting and participants as the original (participants added automatically by an agent are not copied). Messages and history are not copied.
+* **[Duplicate](../how-tos/chat/config-mnmt#create-duplicate)**: Create a new conversation with the same privacy setting and participants as the original (participants added automatically by an agent are not copied). Messages and history are not copied.
 * **Make Public** *(Team projects only)*: Turn a private conversation into a public one, visible and interactable by all project members.
 * **Restrict Access** *(Team projects only)*: Turn a public conversation back to private, available only to the conversation's author and project members directly specified by the conversation's author.
 * **Share** *(Team and Public projects only)*: Copy a link to the conversation for other project members who already have access.
-* **[Share Externally](../how-tos/chat-conversations/how-to-use-chat-functionality#share-conversations-with-external-users)**: Generate a secure, read-only link so people outside ELITEA can view the conversation.
+* **[Share Externally](../how-tos/chat/config-mnmt#share-conversations-with-external-users)**: Generate a secure, read-only link so people outside ELITEA can view the conversation.
 * **Manage Links**: View, copy or revoke existing external share links. Shown only once at least one link has been created for the conversation.
 * **Pin/Unpin**: Pin the conversation to the top of the list, or unpin it. Available to anyone who can see the conversation; a conversation already inside a folder cannot be pinned.
 * **Delete**: Permanently remove the conversation. Available only to the conversation's creator.
@@ -454,7 +394,7 @@ Team projects support shared collaboration with configurable conversation visibi
 Making a conversation **public is reversible** — you can convert it back to private, when necessary.
 </Warning>
 
-In both private and team projects, you can [share a conversation with users outside ELITEA](../how-tos/chat-conversations/how-to-use-chat-functionality#share-conversations-with-external-users) through a secure, read-only link.
+In both private and team projects, you can [share a conversation with users outside ELITEA](../how-tos/chat/config-mnmt#share-conversations-with-external-users) through a secure, read-only link.
 
 ## Chat Responses and Outputs
 
@@ -477,7 +417,7 @@ Your answers are sent directly back to the conversation or agent to resume its r
 </Note>
 
 <Info>
-For detailed information, see [Ask User](../how-tos/modules/ask-user.mdx).
+For detailed information, see [Ask User](../how-tos/modules/ask-user).
 </Info>
 
 ### Follow-up Suggestions
