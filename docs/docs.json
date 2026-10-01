@@ -449,7 +449,11 @@
                 "group": "Office",
                 "icon": "briefcase",
                 "expanded": false,
-                "pages": ["integrations/toolkits/powerpoint_toolkit", "integrations/toolkits/sharepoint_toolkit"]
+                "pages": [
+                  "integrations/toolkits/powerpoint_toolkit", 
+                  "integrations/toolkits/sharepoint_toolkit",
+                  "integrations/toolkits/outlook_toolkit"
+                ]
               },
               {
                 "group": "Project Management",
