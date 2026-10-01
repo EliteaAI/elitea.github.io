@@ -4,13 +4,13 @@ title: "Chat"
 
 **Chat** is the central hub where all ELITEA capabilities come together. It provides a conversational interface where you can interact with AI models, agents, pipelines, skills, modules, toolkits and MCP servers — all in one place, using natural language.
 
-<img src="../img/menus/chat/chat.png" alt="The Chat page with an ongoing conversation." />
+<img src="../img/menus/chat/chat.png" alt="The Chat page with an ongoing chat." />
 
-Each conversation is an independent dialogue session. You can refer to earlier messages within the same conversation, but context is not shared between separate conversations. All conversations are securely stored on the ELITEA server and are accessible from any device via the **Chat** menu.
+Each chat is an independent dialogue session. You can refer to earlier messages within the same chat, but context is not shared between separate chats. All chats are securely stored on the ELITEA server and are accessible from any device via the **Chat** menu.
 
 <CardGroup cols={3}>
   <Card title="Private and Shared Chats" icon="users">
-    Keep your conversations private, add team members, or share them with non-ELITEA users.
+    Keep your chats private, add team members, or share them with non-ELITEA users.
   </Card>
   <Card title="Enhanced Interactions" icon="comments">
     Expand chat functionality by modules and interact with added participants — users, agents, pipelines, toolkits and MCPs.
@@ -27,11 +27,11 @@ Each conversation is an independent dialogue session. You can refer to earlier m
   <Card title="Voice Capabilities" icon="microphone">
     Communicate with LLMs using voice input, text-to-speech, and hands-free speaking mode.
   </Card>
-  <Card title="Managing Conversations" icon="sliders">
-    Save, pin and organize your conversations into folders.
+  <Card title="Managing Chats" icon="sliders">
+    Save, pin and organize your chats into folders.
   </Card>
   <Card title="Context Budget" icon="gauge">
-    Track token usage as the conversation grows.
+    Track token usage as the chat grows.
   </Card>
   <Card title="Playback" icon="circle-play">
     Playback or stop the conversation by simulating it without any engagement with models.
@@ -44,28 +44,28 @@ There are three ways to create a new chat:
 
 * [By the **Create** button in the left sidebar](../how-tos/chat/config-mnmt#create-sidebar) — the quickest way to start a new conversation.
 * [From a folder](../how-tos/chat/config-mnmt#create-folder) — create a chat directly inside a folder.
-* [By duplicating a conversation](../how-tos/chat/config-mnmt#create-duplicate) — reuse an existing conversation's participants and settings.
+* [By duplicating a chat](../how-tos/chat/config-mnmt#create-duplicate) — reuse an existing chat's participants and settings.
 
 ## Chat Structure
 
-In ELITEA, all conversations are located in the dedicated **Chat** page that includes the **CHATS** sidebar on the left, the **PARTICIPANTS** panel and **Context Budget** widget on the right, and the main chat area in the center.
+In ELITEA, all chats are located in the dedicated **Chat** page that includes the **CHATS** sidebar on the left, the **PARTICIPANTS** panel and **Context Budget** widget on the right, and the main chat area in the center.
 
 <img src="../img/menus/chat/chat_page-structure.png" alt="The Chat page with the CHATS sidebar, PARTICIPANTS panel, Context Budget widget, and main chat area labeled." />
 
 |Element | Description |
 |---|---|
-| **CHATS** sidebar | Lists your conversations, organized by time period or in folders. |
-| Main chat area | Displays the conversation header, message history, and message input toolbar for the active conversation. |
-| **PARTICIPANTS** panel | Shows the participants added to the current conversation — agents, pipelines, toolkits, MCPs and users. |
-| **Context Budget** widget | Tracks token usage as the conversation grows. |
+| **CHATS** sidebar | Lists your chats, organized by time period or in folders. |
+| Main chat area | Displays the chat header, message history, and message input toolbar for the active chat. |
+| **PARTICIPANTS** panel | Shows the participants added to the current chat — agents, pipelines, toolkits, MCPs and users. |
+| **Context Budget** widget | Tracks token usage as the chat grows. |
 
 ### Main Chat Area
 
-The main chat area contains the conversation header, message history, and message input toolbar.
+The main chat area contains the chat header, message history, and message input toolbar.
 
 The message input toolbar is located at the bottom of the chat area. It includes the input field and associated controls:
 
-<img src="../img/menus/chat/chat_input-toolbar.png" alt="Chat Structure" />
+<img src="../img/menus/chat/chat_input-toolbar.png" alt="The message input toolbar at the bottom of the chat area, with the input field and associated controls." />
 
 <table>
   <colgroup>
@@ -79,10 +79,10 @@ The message input toolbar is located at the bottom of the chat area. It includes
   <tbody>
     <tr><td>1</td><td><strong>Message input field</strong></td><td>Enter your message here.</td></tr>
     <tr><td>2</td><td><strong><code>+</code></strong></td><td>Attach files, turn on modules, add participants (agents, pipelines, toolkits, MCPs, users) or invite users.</td></tr>
-    <tr><td>3</td><td><strong>Model selector</strong></td><td>Choose which LLM model responds in this conversation.</td></tr>
+    <tr><td>3</td><td><strong>Model selector</strong></td><td>Choose which LLM model responds in this chat.</td></tr>
     <tr><td>4</td><td><strong>Model settings</strong></td><td>Configure the parameters of the selected model.</td></tr>
     <tr><td>5</td><td><strong>Voice input</strong></td><td>Dictate your message using the microphone.</td></tr>
-    <tr><td>6</td><td><strong>Speaking mode</strong></td><td>Turn on hands-free Speaking Mode for a fully spoken conversation.</td></tr>
+    <tr><td>6</td><td><strong>Speaking mode</strong></td><td>Turn on hands-free Speaking Mode for a fully spoken chat.</td></tr>
   </tbody>
 </table>
 
@@ -121,7 +121,7 @@ Once you select a model, its name is displayed on the selector button.
 Next to the model selector, you can see the **Settings** (⚙️) icon where you can fine-tune the response generation.
 
 <Info>
-For detailed information about model settings, see [Select and Set up Models](../how-tos/chat/config-mnmt#select-and-set-up-models).
+For detailed information about model settings, see [Select and Set up Models](../how-tos/chat/config-mnmt#configure-models).
 </Info>
 
 #### Attachments
@@ -140,7 +140,7 @@ You can attach files and images directly to chats for AI-powered analysis. This 
   </Card>
 </CardGroup>
 
-You can attach files to a conversation by clicking the **`+`** icon in the chat input toolbar and selecting **Attach Files**. You can also drag-and-drop files directly onto the chat input area or paste files from your clipboard.
+You can attach files to a chat by clicking the **`+`** icon in the chat input toolbar and selecting **Attach Files**. You can also drag-and-drop files directly onto the chat input area or paste files from your clipboard.
 
 You can also enable attachments for [agents](./agents) and [pipelines](./pipelines).
 
@@ -203,7 +203,7 @@ ELITEA lets you interact with chat using your voice instead of (or alongside) ty
 
 - **Voice Input** — dictate your messages using the microphone; the transcript is inserted directly into the chat input.
 - **Text-to-Speech** — have the AI's responses read aloud, with playback controls and voice settings you can customize.
-- **Speaking Mode** — hold a fully hands-free, spoken conversation: ELITEA listens, sends, plays back the reply, and listens again automatically.
+- **Speaking Mode** — hold a fully hands-free, spoken chat: ELITEA listens, sends, plays back the reply, and listens again automatically.
 
 Voice capabilities rely on speech recognition (ASR) and text-to-speech (TTS) models configured for your project, falling back to your browser's built-in voice support when none is set up.
 
@@ -213,75 +213,75 @@ For detailed information about voice capabilities, see [Voice Capabilities](../h
 
 ### CHATS Sidebar
 
-In the CHATS sidebar, you can view all your conversations, organized by time period or in folders. You can also create new conversations, rename or delete existing ones, and manage folders.
+In the CHATS sidebar, you can view all your chats, organized by time period or in folders. You can also create new chats, rename or delete existing ones, and manage folders.
 
-Public conversations have the users icon to distinguish them from your private ones.
+Public chats have the users icon to distinguish them from your private ones.
 
-<img src="../img/menus/chat/chat_public-icon.png" width="250" alt="The green users icon that marks a public conversation in the CHATS sidebar." />
+<img src="../img/menus/chat/chat_public-icon.png" width="250" alt="The green users icon that marks a public chat in the CHATS sidebar." />
 
-#### Conversations and Folders Organization
+#### Chats and Folders Organization
 
-By default, conversations are organized by time period:
+By default, chats are organized by time period:
 
 | Period | Description |
 |--------|-------------|
-| **Today** | Conversations created or active today appear at the top. |
-| **Yesterday** | Conversations from the previous day are grouped together. |
-| **This Week** | Conversations from the current week are grouped together. |
-| **Older** | All conversations older than this week are grouped under this section. |
+| **Today** | Chats created or active today appear at the top. |
+| **Yesterday** | Chats from the previous day are grouped together. |
+| **This Week** | Chats from the current week are grouped together. |
+| **Older** | All chats older than this week are grouped under this section. |
 
-This automatic time-based sorting helps you quickly locate recent conversations.
+This automatic time-based sorting helps you quickly locate recent chats.
 
-<img src="../img/menus/chat/chat_chats-sidebar.png" width="250" alt="The CHATS sidebar with conversations grouped into Today, Yesterday, This Week, and Older." />
+<img src="../img/menus/chat/chat_chats-sidebar.png" width="250" alt="The CHATS sidebar with chats grouped into Today, Yesterday, This Week, and Older." />
 
-**Pinned conversations** will always appear at the very top, regardless of their creation date.
+**Pinned chats** will always appear at the very top, regardless of their creation date.
 
-**Folders** allow you to organize conversations into custom groups. You can create folders, rename them, and move conversations into them for better organization:
+**Folders** allow you to organize chats into custom groups. You can create folders, rename them, and move chats into them for better organization:
 
 * Folders are displayed in the CHATS sidebar above the time-based sections.
-* Within a folder, conversations are sorted by their creation date.
-* You cannot pin conversations inside a folder but you can pin the folder itself.
-* You can move conversations between folders or back to the main list at any time.
-* You can [move a conversation to a folder](../how-tos/chat/config-mnmt#move-chats-to-folders) from its overflow menu or by simply dragging and dropping it into the desired folder.
+* Within a folder, chats are sorted by their creation date.
+* You cannot pin chats inside a folder but you can pin the folder itself.
+* You can move chats between folders or back to the main list at any time.
+* You can [move a chat to a folder](../how-tos/chat/config-mnmt#move-chats-to-folders) from its overflow menu or by simply dragging and dropping it into the desired folder.
 
-#### Conversations and Folders Actions
+#### Chats and Folders Actions
 
-In the **CHATS** sidebar, you can perform these actions from the conversation's overflow menu:
+In the **CHATS** sidebar, you can perform these actions from the chat's overflow menu:
 
-* **Rename**: Change the conversation's name. Available only to the conversation's creator.
-* **Move To**: Move the conversation into a folder, or back to the main list. If no folder exists, you can create one by clicking **+ New Folder**. Not available while the conversation is pinned.
-* **Playback**: Simulate the conversation without any engagement with models — a read-only replay with forward/backward navigation. Well suited for demos and for stepping through a conversation turn by turn using the on-screen controls or the keyboard arrows (left/right).
-* **[Duplicate](../how-tos/chat/config-mnmt#create-duplicate)**: Create a new conversation with the same privacy setting and participants as the original (participants added automatically by an agent are not copied). Messages and history are not copied.
-* **Make Public** *(Team projects only)*: Turn a private conversation into a public one, visible and interactable by all project members.
-* **Restrict Access** *(Team projects only)*: Turn a public conversation back to private, available only to the conversation's author and project members directly specified by the conversation's author.
-* **Share** *(Team and Public projects only)*: Copy a link to the conversation for other project members who already have access.
-* **[Share Externally](../how-tos/chat/config-mnmt#share-conversations-with-external-users)**: Generate a secure, read-only link so people outside ELITEA can view the conversation.
-* **Manage Links**: View, copy or revoke existing external share links. Shown only once at least one link has been created for the conversation.
-* **Pin/Unpin**: Pin the conversation to the top of the list, or unpin it. Available to anyone who can see the conversation; a conversation already inside a folder cannot be pinned.
-* **Delete**: Permanently remove the conversation. Available only to the conversation's creator.
+* **Rename**: Change the chat's name. Available only to the chat's creator.
+* **Move To**: Move the chat into a folder, or back to the main list. If no folder exists, you can create one by clicking **+ New Folder**. Not available while the chat is pinned.
+* **Playback**: Simulate the chat without any engagement with models — a read-only replay with forward/backward navigation. Well suited for demos and for stepping through the chat turn by turn using the on-screen controls or the keyboard arrows (left/right).
+* **[Duplicate](../how-tos/chat/config-mnmt#create-duplicate)**: Create a new chat with the same privacy setting and participants as the original (participants added automatically by an agent are not copied). Messages and history are not copied.
+* **Make Public** *(Team projects only)*: Turn a private chat into a public one, visible and interactable by all project members.
+* **Restrict Access** *(Team projects only)*: Turn a public chat back to private, available only to the chat's creator and project members directly specified by the chat's creator.
+* **Share** *(Team and Public projects only)*: Copy a link to the chat for other project members who already have access.
+* **[Share Externally](../how-tos/chat/config-mnmt#share-chats-with-external-users)**: Generate a secure, read-only link so people outside ELITEA can view the chat.
+* **Manage Links**: View, copy or revoke existing external share links. Shown only once at least one link has been created for the chat.
+* **Pin/Unpin**: Pin the chat to the top of the list, or unpin it. Available to anyone who can see the chat; a chat already inside a folder cannot be pinned.
+* **Delete**: Permanently remove the chat. Available only to the chat's creator.
 
 <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-  <img src="../img/menus/chat/chat_actions_chat.png" alt="Conversation actions menu" style={{ width: "32%" }} />
-  <img src="../img/menus/chat/chat_actions_chat-in-folder.png" alt="Conversation actions menu for a conversation inside a folder" style={{ width: "32%" }} />
-  <img src="../img/menus/chat/chat_actions_chat_public-project.png" alt="Conversation actions menu in a team project" style={{ width: "32%" }} />
+  <img src="../img/menus/chat/chat_actions_chat.png" alt="Chat actions menu" style={{ width: "32%" }} />
+  <img src="../img/menus/chat/chat_actions_chat-in-folder.png" alt="Chat actions menu for a chat inside a folder" style={{ width: "32%" }} />
+  <img src="../img/menus/chat/chat_actions_chat_public-project.png" alt="Chat actions menu in a team project" style={{ width: "32%" }} />
 </div>
 
-Unlike conversation actions, all **folder actions are restricted to the folder's creator** and, in team projects, also require the corresponding folder permission:
+Unlike chat actions, all **folder actions are restricted to the folder's creator** and, in team projects, also require the corresponding folder permission:
 
-* **New Chat**: Create a new conversation already assigned to the folder.
+* **New Chat**: Create a new chat already assigned to the folder.
 * **Rename**: Select **Rename** in the folder contextual menu, update the folder name and click the **✔** button to save your changes.
 * **Pin/Unpin**: Select **Pin on top** in the folder contextual menu to keep the folder at the top of the **CHATS** sidebar for quicker access. Select **Unpin** to remove it from the top.
-* **Delete Folder**: Permanently remove the folder. Deleting a folder will not delete the conversations inside it — they will be moved back to the main **CHATS** list.
+* **Delete Folder**: Permanently remove the folder. Deleting a folder will not delete the chats inside it — they will be moved back to the main **CHATS** list.
 
 <img src="../img/menus/chat/chat_actions_folder.png" width="250" alt="The folder contextual menu with Rename, Pin on top, and Delete Folder options." />
 
 ### PARTICIPANTS Panel
 
-The **PARTICIPANTS** panel lists everyone and everything taking part in the current conversation — agents, pipelines, toolkits and MCPs, as well as users in team projects.
+The **PARTICIPANTS** panel lists everyone and everything taking part in the current chat — agents, pipelines, toolkits and MCPs, as well as users in team projects.
 
 #### AI Participants
 
-AI Participants are additional resources you can add to a conversation to extend its capabilities:
+AI Participants are additional resources you can add to a chat to extend its capabilities:
 
 <CardGroup cols={3}>
   <Card title="Agents" icon="robot">
@@ -294,16 +294,16 @@ AI Participants are additional resources you can add to a conversation to extend
     Collections of tools and integrations (e.g., GitHub, Jira, Confluence) that extend chat capabilities.
   </Card>
   <Card title="MCPs" icon="server">
-    Pre-built or custom remote Model Context Protocol servers that expose additional tools to the conversation (e.g., Playwright, Figma).
+    Pre-built or custom remote Model Context Protocol servers that expose additional tools to the chat (e.g., Playwright, Figma).
   </Card>
 </CardGroup>
 
-You can add any combination of agents, pipelines, toolkits and MCPs to a conversation. ELITEA supports these actions on participants:
+You can add any combination of agents, pipelines, toolkits and MCPs to a chat. ELITEA supports these actions on participants:
 
 * **Add**: Add a participant using the **`+`** button in the message input toolbar or the `#` mention in the chat input field.
 * **Edit or view settings**: Hover over a participant's card and select **Edit** on a toolkit's, pipeline's or agent's card to open it in the editor, or to view its settings if you do not have edit permission.
 * **Log out**: For a connected remote MCP participant, select the log-out icon on its card to disconnect your account.
-* **Remove**: Hover over a participant's card and select the remove icon to remove it from the conversation.
+* **Remove**: Hover over a participant's card and select the remove icon to remove it from the chat.
 
 You can also collapse the panel to an icon-only view using the arrow button in the panel header.
 
@@ -313,34 +313,34 @@ For detailed information about working with participants, see [Working with Part
 
 #### Users
 
-In team projects, you can invite specific members of your team to collaborate in the conversation. These users are invited from the **+** button in the message input toolbar and are listed in the **PARTICIPANTS** panel as **Users**:
+In team projects, you can invite specific members of your team to collaborate in the chat. These users are invited from the **+** button in the message input toolbar and are listed in the **PARTICIPANTS** panel as **Users**:
 
-<img src="../img/menus/chat/chat_participants_users.png" width="250" alt="The PARTICIPANTS panel showing users invited to a team project conversation." />
+<img src="../img/menus/chat/chat_participants_users.png" width="250" alt="The PARTICIPANTS panel showing users invited to a team project chat." />
 
 <Note>
-Users can only be invited to a conversation in team projects. Private projects have no other members, so this section does not apply there.
+Users can only be invited to a chat in team projects. Private projects have no other members, so this section does not apply there.
 </Note>
 
-Unlike Agents, Pipelines, Toolkits and MCPs, Users are not added to a conversation — they already have access through project membership. You can invite users for quicker and easier mentioning.
+Unlike Agents, Pipelines, Toolkits and MCPs, Users are not added to a chat — they already have access through project membership. You can invite users for quicker and easier mentioning.
 
-Once a user is added to the conversation, you can mention them by hovering over their card and selecting **Mention**, or by typing `@` followed by their name in the chat input. This inserts an `@username` mention and addresses that user directly.
+Once a user is added to the chat, you can mention them by hovering over their card and selecting **Mention**, or by typing `@` followed by their name in the chat input. This inserts an `@username` mention and addresses that user directly.
 
 #### Context Budget
 
-The **Context Budget** widget displays real-time token usage metrics and allows you to configure how the system manages conversation context as it approaches model token limits.
+The **Context Budget** widget displays real-time token usage metrics and allows you to configure how the system manages chat context as it approaches model token limits.
 
 **Key Features**
 
-* **Real-time Token Tracking**: Monitor token consumption as you add messages to the conversation
+* **Real-time Token Tracking**: Monitor token consumption as you add messages to the chat
 * **Automatic Context Management**: System automatically prunes old messages or generates summaries when approaching token limits
 * **Manual Optimization**: Manually trigger context optimization when usage exceeds 100%
 * **Configurable Strategies**: Choose between different pruning strategies (oldest_first, importance_based)
 * **Message Preservation**: Configure how many recent messages are always protected from pruning
-* **Summarization**: Enable automatic summarization of older messages to reduce token usage while preserving conversation context
+* **Summarization**: Enable automatic summarization of older messages to reduce token usage while preserving the chat context
 
 **Location and Views**
 
-The widget appears in the bottom-left area of the **PARTICIPANTS** panel after you send the first message in a conversation.
+The widget appears in the bottom-left area of the **PARTICIPANTS** panel after you send the first message in a chat.
 
 <img src="../img/how-tos/chat-conversations/context-management/chat-context-budget.gif" alt="Chat Context Budget" width="600" />
 
@@ -370,31 +370,31 @@ In the **Context Budget** widget, you can configure:
 For detailed information about Context Budget configuration and usage, see [Context Management Guide](../how-tos/chat-conversations/context-management).
 </Info>
 
-## Conversation & Folder Visibility
+## Chat & Folder Visibility
 
-Visibility and access rules for conversations and folders depend on your project type — private or team.
+Visibility and access rules for chats and folders depend on your project type — private or team.
 
 **Private Project**
 
-In a private project, only you can see, access and manage any conversations and folders:
-* **Visibility**: Only you (the creator) can see and access any conversations and folders.
+In a private project, only you can see, access and manage any chats and folders:
+* **Visibility**: Only you (the creator) can see and access any chats and folders.
 * **AI participants**: You can add agents, pipelines, toolkits and MCPs as AI participants.
 * **Users**: You cannot add other users as participants.
 
 **Team Project**
 
-Team projects support shared collaboration with configurable conversation visibility.
+Team projects support shared collaboration with configurable chat visibility.
 
 * **Folders**: All folders in the project are visible to all team members.
-* **Conversations**: A conversation is only visible to you if you are added to it as a participant (= conversation member).
-* **Public Conversations**: Conversations can be marked as public — visible and interactable by all project members.
-* **Folder Permissions**: You cannot delete folders created by other users.
+* **Chats**: A chat is only visible to you if you are added to it as a participant (= user).
+* **Public chats**: Chats can be marked as public — visible and interactable by all project members.
+* **Folder permissions**: You cannot delete folders created by other users.
 
 <Warning>
-Making a conversation **public is reversible** — you can convert it back to private, when necessary.
+Making a chat **public is reversible** — you can convert it back to private, when necessary.
 </Warning>
 
-In both private and team projects, you can [share a conversation with users outside ELITEA](../how-tos/chat/config-mnmt#share-conversations-with-external-users) through a secure, read-only link.
+In both private and team projects, you can [share a chat with users outside ELITEA](../how-tos/chat/config-mnmt#share-chats-with-external-users) through a secure, read-only link.
 
 ## Chat Responses and Outputs
 
@@ -402,18 +402,18 @@ Beyond plain text responses, ELITEA can ask you clarifying questions, suggest fo
 
 ### Clarifying Questions
 
-When you turn on the **Ask User** module for your conversation in chat or an agent, LLM can pause and ask you one or more clarifying questions instead of guessing. These clarifying questions are shown as a card in the chat:
+When you turn on the **Ask User** module for your chat in chat or an agent, LLM can pause and ask you one or more clarifying questions instead of guessing. These clarifying questions are shown as a card in the chat:
 
 * Each question appears one at a time, with a stepper showing your position (e.g. `1/4`) and arrows to move between questions.
 * You can select one of the provided options, or use the free-text field to enter your own answer.
 * Select **Continue** to submit your answer and move to the next question, or **Skip** to leave a question unanswered.
 
-Your answers are sent directly back to the conversation or agent to resume its run, not as a new chat message.
+Your answers are sent directly back to the chat or agent to resume its run, not as a new chat message.
 
 <img src="../img/menus/chat/chat_clarify.png" alt="A clarifying question card in the chat with answer options and a free-text field." />
 
 <Note>
-**Ask User** must be turned on for the conversation or agent you work with. You can check whether it is enabled by default for your project in **Settings** > **General**.
+**Ask User** must be turned on for the chat or agent you work with. You can check whether it is enabled by default for your project in **Settings** > **General**.
 </Note>
 
 <Info>
@@ -434,7 +434,7 @@ Follow-up suggestions are controlled by your ELITEA administrator and are only g
 
 ### Conversation Starters
 
-When you add a participant to a conversation, the configured conversation starter for that participant will be automatically displayed in the chat. This will provide you with the immediate context and guide you on how to interact with each participant.
+When you add a participant to a chat, the configured conversation starter for that participant will be automatically displayed in the chat. This will provide you with the immediate context and guide you on how to interact with each participant.
 
 <img src="../img/menus/chat/conversation-starter.gif" alt="Conversation Starter" />
 
@@ -475,8 +475,8 @@ MCPs do not have a separate chip type — a generated MCP is a Toolkit definitio
 
 ## Troubleshooting
 
-<Accordion title="Conversation Not Loading">
-Check your network connection and refresh the page. If the issue persists, verify you have access permissions to the conversation.
+<Accordion title="Chat Not Loading">
+Check your network connection and refresh the page. If the issue persists, verify you have access permissions to the chat.
 </Accordion>
 
 <Accordion title="Cannot Add Participants">
@@ -484,7 +484,7 @@ Ensure you have the necessary permissions. For team projects, verify that the pa
 </Accordion>
 
 <Accordion title="Attachments Not Working">
-Verify that attachments are enabled for the conversation and linked to an Artifact Toolkit. Check that your file format is supported and within size limits.
+Verify that attachments are enabled for the chat and linked to an Artifact Toolkit. Check that your file format is supported and within size limits.
 </Accordion>
 
 <Accordion title="Modules Not Appearing">
@@ -503,8 +503,8 @@ Ensure the `context_manager` secret is set to `true` in **Settings** > **Secrets
 Verify that the generated content is in a supported format (code, table, or Mermaid diagram). Check that you're interacting with a compatible participant (agent, pipeline, or LLM model).
 </Accordion>
 
-<Accordion title="Shared Conversation Link Not Working">
-Ensure the recipient has access to the team project and appropriate permissions. Verify the conversation hasn't been deleted or made private.
+<Accordion title="Shared Chat Link Not Working">
+Ensure the recipient has access to the team project and appropriate permissions. Verify the chat hasn't been deleted or made private.
 </Accordion>
 
 <Accordion title="Voice Input Not Working">
@@ -520,6 +520,7 @@ For further assistance, contact your platform administrator.
 <Info title="See Also">
 See also:
 
+* [Chat Configuration & Management](../how-tos/chat/config-mnmt)
 * [Sensitive Action Authorization Guardrail](../how-tos/chat-conversations/sensitive-action-authorization-guardrail)
 * [How to Create and Edit Agents from Canvas](../how-tos/chat-conversations/how-to-create-and-edit-agents-from-canvas)
 * [How to Create and Edit Pipelines from Canvas](../how-tos/chat-conversations/how-to-create-and-edit-pipelines-from-canvas)
