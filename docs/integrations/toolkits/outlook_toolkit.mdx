@@ -199,22 +199,32 @@ Once your credentials are configured, create the Outlook toolkit:
 
 #### Available Tools:
 
-The Outlook toolkit provides 12 tools for interacting with email messages, folders, and conversation threads:
+The Outlook toolkit provides 12 tools for interacting with email messages, folders, and conversation threads. In the toolkit configuration form, tools are grouped by the effect they have on your mailbox:
 
-| **Tool Name** | **Description** |
-|---------------|-----------------|
-| **List messages** | List email messages from a mail folder (inbox, sentitems, drafts, etc.) |
-| **Get message** | Get a specific email message by its ID with full details |
-| **Send mail** | Send a new email message. Returns `message_id` and `conversation_id` of the sent message; store them to later detect replies with `get_thread_messages` |
-| **Reply to message** | Reply to an email message. Returns `message_id` and `conversation_id` of the sent reply |
-| **Mark as read** | Mark an email as read or unread |
-| **List folders** | List all mail folders in the mailbox |
-| **Move message** | Move an email to a different folder |
-| **Delete message** | Delete an email message |
-| **Search messages** | Search for email messages using a KQL query (`from:`, `to:`, `subject:`, `body:`, `received:`, ...) |
-| **Check new messages** | Quickly check whether new or unread emails are present, optionally only from given senders or sent to given distribution lists. Returns `has_new`, counts, a few latest messages, and a watermark / `latest_message_id` to pass as `since` / `after_message_id` next time |
-| **Find new messages** | Find emails from given people and/or sent to given distribution lists and identify which are new (received after `since` / `after_message_id`, or unread when neither is given). Each message has `is_new` and `matched_by`; the result has a watermark / `latest_message_id` for the next call |
-| **Get thread messages** | Get all messages of an email thread (conversation) across folders, oldest first, and identify new messages in it (after `since` / `after_message_id`, or unread). Reports `new_replies_count` (new messages not sent by the mailbox owner) |
+| **Category** | **Tool Name** | **Description** |
+|---|---|---|
+| **Read** | **Check new messages** | Quickly check whether new or unread emails are present, optionally only from given senders or sent to given distribution lists. Returns `has_new`, counts, a few latest messages, and a watermark / `latest_message_id` to pass as `since` / `after_message_id` next time. The latest messages are brief (id, from, subject, time); use `latest_limit` to change how many (default 5) |
+| | **Find new messages** | Find emails from given people and/or sent to given distribution lists and identify which are new (received after `since` / `after_message_id`, or unread when neither is given). Each message has `is_new` and `matched_by`; the result has a watermark / `latest_message_id` for the next call. Previews and recipient lists are capped the same way as **List messages** (`preview_chars`, `max_recipients`, `include_ids`) |
+| | **Get message** | Get a specific email message by its ID. The body is plain text and capped at 8000 characters by default (`body_truncated` / `body_total_chars` flag when it was cut); use `body_format='html'`, `max_body_chars` (0 = no limit), or `max_recipients` to adjust |
+| | **Get thread messages** | Get all messages of an email thread (conversation) across folders, oldest first, and identify new messages in it (after `since` / `after_message_id`, or unread). Reports `new_replies_count` (new messages not sent by the mailbox owner). With `include_body`, each body is capped at 2000 characters by default (`max_body_chars`) |
+| | **List folders** | List all mail folders in the mailbox |
+| | **List messages** | List email messages from a mail folder (inbox, sentitems, drafts, etc.). Compact by default: a 200-character preview and up to 5 To/Cc recipients per message (`to_more` / `cc_more` give the rest); use `include_preview`, `preview_chars`, `max_recipients`, or `include_ids` to adjust |
+| | **Search messages** | Search for email messages using a KQL query (`from:`, `to:`, `subject:`, `body:`, `received:`, ...). Output is compact the same way as **List messages** (capped preview and recipients) |
+| **Create & update** | **Mark as read** | Mark an email as read or unread |
+| | **Move message** | Move an email to a different folder |
+| | **Reply to message** | Reply to an email message. Returns `message_id` and `conversation_id` of the sent reply |
+| | **Send mail** | Send a new email message. Returns `message_id` and `conversation_id` of the sent message; store them to later detect replies with `get_thread_messages` |
+| **Delete** | **Delete message** | Delete an email message |
+
+<Tip title="Tool Groups">
+In the **Tools** section of the toolkit form, each group (**Read**, **Create & update**, **Delete**) has its own select-all checkbox and a count badge, and the search box filters across all groups at once. **Read** tools only retrieve data; **Create & update** and **Delete** tools change your mailbox. The Outlook toolkit defines no **Execute** tools.
+</Tip>
+
+<Note>
+**Compact output by default**
+
+As of the current toolkit version, `list_messages`, `search_messages`, `find_new_messages` and `get_thread_messages` return a short body preview (200 characters) and at most 5 To/Cc recipients per message by default — `to_more` / `cc_more` report how many were left out, and `conversationId` is hidden unless `include_ids=True`. `get_message` returns a plain-text body capped at 8000 characters by default instead of full HTML. This keeps responses small for agents by default; pass the relevant `*_chars` / `max_recipients` / `include_ids` / `body_format` parameter on the tool call when the full detail is actually needed (e.g. a mass-mail recipient audit, or quoting a long message in full).
+</Note>
 
 <Note>
 **Watermark-based "new message" tracking**
@@ -658,6 +668,10 @@ Yes! Once you create an Outlook credential, you can reuse it across multiple Out
 
 <Accordion title="How does the toolkit distinguish new messages from ones I've already seen?">
 `check_new_messages`, `find_new_messages`, and `get_thread_messages` return a watermark value (a timestamp or the latest message ID). Pass that value back in on the next call as `since` or `after_message_id` to only surface messages received after the previous check. If neither is provided, these tools fall back to unread-status instead.
+</Accordion>
+
+<Accordion title="Why am I only seeing 5 recipients, a short preview, or a short body?">
+This is the toolkit's compact-by-default behavior. `list_messages`, `search_messages` and `find_new_messages` cap body previews at 200 characters and To/Cc recipients at 5 each (`to_more` / `cc_more` show how many more exist); `get_message` caps the body at 8000 plain-text characters by default; `get_thread_messages` caps each body at 2000 characters with `include_body`. Pass `preview_chars`, `max_recipients`, `max_body_chars` (0 = no limit), or `body_format='html'` on the relevant tool call to get more.
 </Accordion>
 
 <Accordion title="What are some best practices for using the Outlook toolkit effectively?">
