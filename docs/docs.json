@@ -447,9 +447,10 @@
                 "icon": "briefcase",
                 "expanded": false,
                 "pages": [
+                  "integrations/toolkits/outlook_toolkit",
                   "integrations/toolkits/powerpoint_toolkit", 
                   "integrations/toolkits/sharepoint_toolkit",
-                  "integrations/toolkits/outlook_toolkit"
+                  "integrations/toolkits/teams_toolkit"
                 ]
               },
               {
@@ -644,6 +645,10 @@
     ]
   },
   "redirects": [
+    {
+      "source": "/release-notes//rn-2-0-6",
+      "destination": "/release-notes/archived/rn-2-0-6"
+    },
     {
       "source": "/release-notes/rn_current",
       "destination": "/release-notes/rn-2-0-4"
