@@ -215,23 +215,33 @@ Once your credentials are configured, create the Teams toolkit:
 
 #### Available Tools:
 
-The Teams toolkit provides 7 tools for discovering teams, channels and chats, reading and searching messages, and sending chat or channel messages:
+The Teams toolkit provides 7 tools for discovering teams, channels and chats, reading and searching messages, and sending chat or channel messages. In the toolkit configuration form, tools are grouped by the effect they have on your Teams account:
 
-| **Tool Name** | **Description** |
-|---------------|-----------------|
-| **List teams** | List Microsoft Teams teams the signed-in user is a member of (id, displayName) |
-| **List channels** | List the channels of a team (id, displayName, membershipType). Returns 50 by default; use `name_contains` and `limit` to narrow |
-| **List chats** | List the signed-in user's Teams chats (1:1, group and meeting chats), most recently active first, with member count, a short members list, last message preview and unread status. Filter by type, topic or member |
-| **Find chat messages** | Read messages of one Teams chat (by chat ID, group chat topic, or a person's email for the 1:1 chat), optionally only from given people or containing text. Returns messages oldest first with `is_new` and `matched_by`, plus a watermark / `latest_message_id` to pass as `since` / `after_message_id` next time |
-| **Search teams messages** | Search Teams messages across all of the signed-in user's chats and channels using KQL, optionally only from given people and after a date. Returns `chatId` (read with Find chat messages) or `teamId` / `channelId` per hit |
-| **Send chat message** | Send a Teams chat message to an existing chat, or to people by email: one person uses the 1:1 chat, several people use the group chat with exactly those members (created if needed). Returns `message_id` and `chat_id` |
-| **Send channel message** | Post a message to a Teams channel, or reply to a post with `reply_to_message_id`. Returns `message_id` and `thread_id` |
+| **Category** | **Tool Name** | **Description** |
+|---|---|---|
+| **Read** | **Find chat messages** | Read messages of one Teams chat (by chat ID, group chat topic, or a person's email for the 1:1 chat), optionally only from given people or containing text. Returns messages oldest first with `is_new` and `matched_by`, plus a watermark / `latest_message_id` to pass as `since` / `after_message_id` next time |
+| | **List channels** | List the channels of a team (id, displayName, membershipType). Returns 50 by default; use `name_contains` and `limit` to narrow |
+| | **List chats** | List the signed-in user's Teams chats (1:1, group and meeting chats), most recently active first, with member count, a short members list, last message preview and unread status. Filter by type, topic or member |
+| | **List teams** | List Microsoft Teams teams the signed-in user is a member of (id, displayName) |
+| | **Search teams messages** | Search Teams messages across all of the signed-in user's chats and channels using KQL, optionally only from given people and after a date. Returns `chatId` (read with Find chat messages) or `teamId` / `channelId` per hit |
+| **Create & update** | **Send channel message** | Post a message to a Teams channel, or reply to a post with `reply_to_message_id`. Returns `message_id` and `thread_id`. Write `@[email]` inside `message` to place a real @mention where it should appear; `mentions` tags people at the start instead |
+| | **Send chat message** | Send a Teams chat message to an existing chat, or to people by email: one person uses the 1:1 chat, several people use the group chat with exactly those members (created if needed). Returns `message_id` and `chat_id`. Same `@[email]` inline-mention syntax as **Send channel message** |
+
+<Tip title="Tool Groups">
+In the **Tools** section of the toolkit form, each group (**Read**, **Create & update**) has its own select-all checkbox and a count badge, and the search box filters across both groups at once. **Read** tools only retrieve data; **Create & update** tools send messages. The Teams toolkit defines no **Delete** or **Execute** tools.
+</Tip>
 
 <Note>
 **Channel messages can be sent and replied to, but not read**
 
 **Send channel message** can post to and reply within a channel, but there is no tool to read existing channel messages — only **Search teams messages** can surface a channel message, as a search hit. This mirrors the Microsoft Graph permission model: reading channel content directly requires an admin-consented application permission that this toolkit does not request.
 </Note>
+
+<Tip title="Mentions and Importance">
+**Mentioning people:** write `@[email]` directly inside `message` to place a real, notifying @mention exactly where it should appear — e.g. `message="Thanks @[anna@contoso.com], please review by 3pm"` posts "Thanks **@Anna Kowalski**, please review by 3pm". A plain `@name` (no brackets) is just text and notifies no one. People listed in `mentions` but not placed inline are tagged at the start of the message instead; nobody is tagged twice if they appear both inline and in `mentions`. For **Send chat message**, `recipients` only chooses which chat the message goes to — it does not @mention anyone by itself.
+
+**Message importance:** the optional `importance` parameter (`normal` / `high` / `urgent`) controls the priority label. `high` adds a red "Important" label. `urgent` additionally re-notifies each chat recipient every 2 minutes for 20 minutes (a chat-specific behavior; channel posts may not re-notify the same way). Use `high`/`urgent` only when the content is genuinely time-critical.
+</Tip>
 
 <Tip title="KQL Search Syntax">
 **Search teams messages** uses Microsoft's KQL (Keyword Query Language), e.g. `release AND deploy`, `IsMentioned:true`, `hasAttachment:true`. KQL date granularity (`since`) is a day; results are additionally filtered to the exact time you passed.
@@ -391,8 +401,9 @@ You are a Teams collaboration assistant. Help the user keep track of chats and p
 - **Tool**: send_chat_message
 - **Parameters**:
     - chat or recipients: existing chat ID/topic, or the email(s) of the people to message
-    - message: the text to send (confirm with the user before sending)
-    - mentions: (optional) people to @mention
+    - message: the text to send (confirm with the user before sending); write @[email] inside it to place an inline @mention where it belongs, e.g. "Thanks @[anna@contoso.com], please review"
+    - mentions: (optional) people to @mention at the start of the message, for anyone not already placed inline
+    - importance: (optional) 'high' or 'urgent' only when the user asks for it or the message is time-critical
 - **Process**:
     1. Confirm the drafted message with the user before sending
     2. Send and report back the new message_id and chat_id (and whether a new chat was created)
@@ -402,9 +413,10 @@ You are a Teams collaboration assistant. Help the user keep track of chats and p
 - **Parameters**:
     - team: team ID or display name (from list_teams)
     - channel: channel ID or display name (from list_channels)
-    - message: the text to post
+    - message: the text to post; same @[email] inline-mention syntax as send_chat_message
     - reply_to_message_id: (optional) set only when replying to an existing post
-    - mentions: (optional) people to @mention
+    - mentions: (optional) people to @mention at the start, for anyone not already placed inline
+    - importance: (optional) 'high' only when the content is genuinely important
 - **Process**:
     1. Confirm the drafted post with the user before sending
     2. Send and report back the new message_id and thread_id
@@ -510,14 +522,31 @@ Agent Response: [Agent uses send_chat_message tool with recipients=["john@exampl
 ```
 User: "Post the sprint summary in the Engineering channel of the Platform team, and mention Sarah."
 
-Agent Response: [Agent uses send_channel_message tool with team="Platform", channel="Engineering", mentions=["sarah@partner.com"]]
+Agent Response: [Agent uses send_channel_message tool with team="Platform", channel="Engineering", message="Sprint summary attached.", mentions=["sarah@partner.com"]]
 
 ✅ **Posted to Channel!**
 
 - **Team**: Platform
 - **Channel**: Engineering
+- **Posted**: "@Sarah Connor Sprint summary attached."
 - **Message ID**: 1696262400000
 - **Thread ID**: 1696262400000
+```
+</Accordion>
+
+<Accordion title="Sending - Inline Mention and Importance">
+**Chat Example:**
+```
+User: "Tell Anna in our chat that the build is green and mark it urgent."
+
+Agent Response: [Agent uses send_chat_message tool with chat="anna@contoso.com", message="Thanks @[anna@contoso.com], the build is green.", importance="urgent"]
+
+✅ **Message Sent!**
+
+- **Posted**: "Thanks @Anna Kowalski, the build is green."
+- **Importance**: urgent (Anna will be re-notified every 2 minutes for 20 minutes)
+- **Message ID**: 1696262400001
+- **Chat ID**: 19:abcdef...@unq.gbl.spaces
 ```
 </Accordion>
 
@@ -662,7 +691,15 @@ Yes! Once you create a Teams credential, you can reuse it across multiple Teams 
 </Accordion>
 
 <Accordion title="How do I send a message to multiple people, or start a group chat?">
-Use **send_chat_message** with the `recipients` parameter set to a list of email addresses instead of `chat`. If you provide exactly one recipient, ELITEA uses (or creates) your 1:1 chat with that person. If you provide more than one, ELITEA finds an existing group chat with exactly those members, or creates a new one — set `topic` to name the new group chat.
+Use **send_chat_message** with the `recipients` parameter set to a list of email addresses instead of `chat`. If you provide exactly one recipient, ELITEA uses (or creates) your 1:1 chat with that person. If you provide more than one, ELITEA finds an existing group chat with exactly those members, or creates a new one — set `topic` to name the new group chat. Note that `recipients` only chooses which chat the message goes to; it does not @mention anyone by itself.
+</Accordion>
+
+<Accordion title="How do I @mention someone in the middle of a message instead of at the start?">
+Write `@[email]` directly inside the `message` text of **send_chat_message** / **send_channel_message**, at the exact spot the mention should appear — e.g. `message="Thanks @[anna@contoso.com], please review by 3pm"` posts as "Thanks **@Anna Kowalski**, please review by 3pm". People you list in `mentions` but don't place inline are instead tagged at the start of the message. The same person is never tagged twice even if listed in both. A plain `@name` without brackets is just literal text — it does **not** notify anyone.
+</Accordion>
+
+<Accordion title="What does the importance parameter actually do?">
+`importance` (on **send_chat_message** / **send_channel_message**) accepts `normal` (default), `high`, or `urgent`. `high` adds a red "Important" label to the message. `urgent` additionally re-notifies each chat recipient every 2 minutes for 20 minutes until they read it — this re-notification behavior is specific to chats; channel posts may not repeat the same way. Use `high`/`urgent` sparingly, only when the user asks for it or the content is genuinely time-critical.
 </Accordion>
 
 <Accordion title="How does the toolkit distinguish new messages from ones I've already seen?">
