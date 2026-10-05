@@ -37,7 +37,6 @@ description: "Quick reference for selecting pipeline components."
 | **[Toolkit](./nodes/execution-nodes#toolkit-node)** | Execution | Direct ELITEA toolkit call | ✘ | ✔️ | Explicit parameters, fast |
 | **[MCP](./nodes/execution-nodes#mcp-node)** | Execution | Model Context Protocol tools | ✘ | ✔️ | Remote MCP servers |
 | **[Code](./nodes/execution-nodes#code-node)** | Execution | Python logic | ✘ | ✘ | Full programming control |
-| **[Custom](./nodes/execution-nodes#custom-node)** | Execution | Advanced config | Varies | Varies | Maximum flexibility |
 | **[Router](./nodes/control-flow-nodes#router-node)** | Control Flow | Template routing | ✘ | ✘ | Multiple paths |
 | **[Decision](./nodes/control-flow-nodes#decision-node)** | Control Flow | AI routing | ✔️ | ✘ | LLM decision making |
 | **[HITL](./nodes/control-flow-nodes#human-in-the-loop-node)** | Control Flow | Human approval checkpoint | ✘ | ✘ | Approve / Edit / Reject actions |
@@ -86,14 +85,14 @@ description: |
 
 ## Execution Nodes Comparison
 
-| Feature | Toolkit | MCP | Code | Custom |
-|---------|---------|-----|------|--------|
-| **Tool Selection** | Manual | Manual | N/A | Manual |
-| **Parameters** | Explicit mapping | Explicit mapping | Python code | JSON config |
-| **Use LLM** | ✘ | ✘ | ✘ | Depends |
-| **Flexibility** | Medium | Medium | Very High | Very High |
-| **Performance** | Fast | Fast | Fast | Fast |
-| **Best For** | ELITEA toolkit calls | MCP server tools | Custom logic | Advanced integrations |
+| Feature | Toolkit | MCP | Code |
+|---------|---------|-----|------|
+| **Tool Selection** | Manual | Manual | N/A |
+| **Parameters** | Explicit mapping | Explicit mapping | Python code |
+| **Use LLM** | ✘ | ✘ | ✘ |
+| **Flexibility** | Medium | Medium | Very High |
+| **Performance** | Fast | Fast | Fast |
+| **Best For** | ELITEA toolkit calls | MCP server tools | Custom logic |
 
 **When to Use:**
 
@@ -102,7 +101,6 @@ description: |
 | Create Jira ticket with known fields | Toolkit |
 | Connect to GitHub MCP server | MCP |
 | Calculate discount with business rules | Code |
-| Execute custom MCP or Agent | Custom |
 | Call API with fixed endpoint | Toolkit or Code |
 | Access filesystem via MCP | MCP |
 | Data transformation/processing | Code |
@@ -233,7 +231,7 @@ decision:
 
 * **Beginner:** LLM (simple), Toolkit (clear params), Router (basic), State Modifier (simple), Printer
 * **Intermediate:** Agent, MCP, Decision
-* **Advanced:** Code, Custom
+* **Advanced:** Code
 
 ### Quick Selection
 
@@ -248,7 +246,6 @@ decision:
 | Custom calculation | Code |
 | Execute MCP tool | MCP |
 | Execute agent | Agent |
-| Advanced integration | Custom |
 
 ---
 

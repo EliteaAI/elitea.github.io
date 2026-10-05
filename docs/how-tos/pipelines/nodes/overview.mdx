@@ -149,7 +149,7 @@ Each node type has additional parameters covered in the individual node type gui
 
 ## Node Categories
 
-ELITEA Pipelines provide **11 different node types** organized into **4 functional categories**. Understanding these categories helps you quickly identify the right node for your needs.
+ELITEA Pipelines provide **10 different node types** organized into **4 functional categories**. Understanding these categories helps you quickly identify the right node for your needs.
 
 ### Interaction Nodes
 
@@ -203,12 +203,6 @@ ELITEA Pipelines provide **11 different node types** organized into **4 function
       * Process data, perform calculations
       * Integrate with external APIs
       * Return structured results
-
-4. **Custom Node** - Advanced manual JSON configuration
-      * Make manual and advanced configurations
-      * Use any available toolkit (Agents, Pipelines, Toolkits, MCPs)
-      * Full control via JSON-based configuration
-      * For advanced users with specific requirements
 
     !!! tip "Use Cases"
         * Call external services or APIs
@@ -600,6 +594,12 @@ The **Pipeline** (Subgraph) node is deprecated and will be removed in an upcomin
 **Migration:** Use the **Agent** node to delegate tasks to specialized AI agents, effectively replacing nested pipeline functionality.
 
 **Migration Guide:** [Pipeline Node Migration](../../../migration/v2.0.1/pipeline-node-migration)
+</Accordion>
+
+<Accordion title="Custom Node">
+The **Custom** node is deprecated and hidden from the node picker. Existing Custom nodes keep working as-is — there is no removal deadline and no dedicated migration guide, since there's no single replacement.
+
+**Migration:** For new nodes, select the specific node type that matches what you need instead (**Toolkit**, **MCP**, **LLM**, **Code**, etc.).
 </Accordion>
 
 ---

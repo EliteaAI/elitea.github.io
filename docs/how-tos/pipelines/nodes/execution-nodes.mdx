@@ -8,7 +8,6 @@ description: "Execution Nodes enable your pipeline to perform actions, call exte
 * **[Toolkit Node](#toolkit-node)** - Execute ELITEA toolkit functions with direct parameter mapping
 * **[MCP Node](#mcp-node)** - Execute Model Context Protocol (MCP) server tools
 * **[Code Node](#code-node)** - Execute custom Python code in a secure sandbox
-* **[Custom Node](#custom-node)** - Advanced manual JSON configuration for complex integrations
 
 ---
 
@@ -45,13 +44,17 @@ Both keys are cleared at the start of every turn, so a previous turn's failure c
 
 | Field | Values | Use It For |
 |-------|--------|------------|
-| **status** | `success` \| `error` \| `truncated` \| `blocked` | The one field to branch on |
+| **status** | `success` \| `error` \| `truncated` | The one field to branch on |
 | **error_class** | `infrastructure` \| `input` \| `tool_internal` \| `policy` \| `null` | What kind of failure occurred |
 | **retriable** | `true` \| `false` | `true` only for infrastructure failures — retrying identical input could work |
 | **message** | Prose | The same human/LLM-facing text as before (capped at 4000 characters) |
 | **tool_name**, **toolkit_type** | String \| `null` | Which tool failed |
 | **exception_type** | Class name \| `null` | For example, `ReadTimeout`, `ValueError` — never a traceback |
 | **message_truncated**, **message_original_size** | Present only when the message was capped | Detect and inspect truncated messages |
+
+<Note title="Blocking a sensitive tool does not produce a tool outcome">
+If a user blocks a sensitive tool call on a Toolkit or MCP node, the pipeline simply stops with a descriptive message — it does not populate `last_tool_outcome` or `tool_outcomes`.
+</Note>
 
 **Example: Routing on Tool Outcome**
 
@@ -259,51 +262,6 @@ Each MCP Node can select only **one MCP server** and **one tool**. For multiple 
 * **Use Structured Output** - Enable when extracting specific data from MCP tool results
 * **Test MCP Tools** - Use the MCP test panel to verify tool functionality before using in pipelines
 * **Monitor Timeouts** - Configure appropriate timeout values for MCP server connections
-
----
-
-## Custom Node
-
-The Custom Node enables advanced manual JSON configuration for complex integrations. It provides full control via JSON-based configuration, allowing users to configure any available toolkit (Agents, Pipelines, Toolkits, MCPs) with custom parameters.
-
-<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/custom-node-add.gif" alt="MCP Node Interface" />
-
-**Purpose**
-
-Use the Custom Node for:
-
-* **Advanced manual configurations** not available through standard node UI
-* **Complex toolkit integrations** requiring custom JSON parameters
-* **Experimental features** or beta toolkit capabilities
-* **Full parameter control** for power users
-* **Custom agent/pipeline/toolkit configurations** with specific requirements
-
-<Warning title="Advanced Users Only">
-Custom Node requires deep knowledge of toolkit JSON schemas and configuration parameters. Use standard nodes (Toolkit, MCP, LLM, Agent) unless you have specific advanced requirements.
-</Warning>
-
-**Parameters**
-
-Configuration is done entirely through JSON in the Custom Node editor. Refer to individual toolkit documentation for required JSON structure and parameters.
-
-**Example YAML Configuration**
-
-```yaml
-nodes:
-  - id: Custom 1
-    type: custom
-    input:
-      - input
-    output:
-      - messages
-    config:
-      # Custom JSON configuration here
-      toolkit_type: "advanced_toolkit"
-      parameters:
-        custom_param1: "value1"
-        custom_param2: true
-    transition: END
-```
 
 ---
 
@@ -836,7 +794,8 @@ When available, `alita_client` is automatically injected into the Code Node sand
 - `alita_client.get_list_of_apps()` - List all available applications
 - `alita_client.get_app_version_details(application_id, application_version_id)` - Get specific app version
 - `alita_client.get_integration_details(integration_id, format_for_model=False)` - Get integration configuration
-- `alita_client.unsecret(secret_name)` - Retrieve secret value
+- `alita_client.unsecret(secret_name)` - Retrieve a secret value from the pipeline's current project (shared across every user who runs it)
+- `alita_client.get_private_project_secret(secret_name, default=None)` - Retrieve a secret from the **executing user's own Private project** instead — see [Private Project Secrets](#private-project-secrets) below
 - `alita_client.fetch_available_configurations()` - List available configurations
 - `alita_client.all_models_and_integrations()` - List AI models and integrations
 
@@ -865,13 +824,71 @@ bucket.list()
 alita_client.create_artifact('my-bucket', 'data.json', '{"key": "value"}')
 data = alita_client.download_artifact('my-bucket', 'data.json')
 
-# Access secrets
+# Access secrets (shared project — same value for every user)
 api_key = alita_client.unsecret('my-api-key')
+
+# Access a per-user secret from the executing user's own Private project
+user_token = alita_client.get_private_project_secret('my-api-key', default=None)
 
 # Get application details
 app = alita_client.get_app_details(application_id=123)
 ```
 </Tip>
+
+### Private Project Secrets
+
+In a shared (team) project, `alita_client.unsecret(secret_name)` always reads the secret stored in that shared project — every user who triggers the pipeline gets the same value. Use `alita_client.get_private_project_secret(secret_name, default=None)` instead when each user running the Code Node should supply their **own** credential: User A and User B calling the same node with the same `secret_name` resolve two different values, each read from their own **Private** project.
+
+<Note>
+**The secret owner must opt in**
+
+There is deliberately no fallback to a same-named secret in the shared project. For `get_private_project_secret` to succeed, the secret must exist in the executing user's own Private project secrets, and that user must turn on the per-secret **Share with other projects** toggle (**[Secrets](../../../menus/settings/secrets)**, visible only while viewing your own Private project's Secrets table). The toggle is unavailable for platform-managed (default) secrets.
+   
+   ![Shared Secret](../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/shared-secret.png)
+
+</Note>
+
+**Signature:** `alita_client.get_private_project_secret(secret_name: str, default: Any = <unset>)`
+
+* Called with no `default`, a failed lookup **raises** an exception (see table below).
+* Called with an explicit `default` (including `default=None`), a failed lookup **returns that default** instead of raising — useful when the secret is optional for some users.
+
+| Exception | Raised when |
+|-----------|-------------|
+| `NoPersonalProject` | The executing run has no resolvable user — e.g., a schedule or webhook trigger with no user to resolve. Unattended runs cannot use this function. |
+| `PrivateSecretNotShared` | Either the secret exists but **Share with other projects** is off, or no secret with that name exists at all in the user's Private project. The platform intentionally returns the same error for both cases, so a failed lookup can't be used to probe which secret names a user holds. |
+| `PrivateSecretNotFound` | No secret with that name exists in the executing user's Private project. |
+| `PrivateSecretError` (base class) | Any other refusal — e.g., an invalid secret name, or the requested name is one of the platform's reserved/default secrets. |
+
+<Warning title="Error message wording">
+The exception raised for `PrivateSecretNotShared` currently reads *"...enable 'Allow external access' on it"* — the control is actually labeled **Share with other projects** in the Secrets table. If you see this error, look for that toggle rather than the "Allow external access" wording.
+</Warning>
+
+**Example: per-user credential in a shared pipeline**
+
+```python
+# Running in a shared/team project's Code Node.
+# Each user who triggers this pipeline supplies their own value for 'personal_api_token'
+# in their own Private project's Secrets, with "Share with other projects" turned on.
+try:
+    token = alita_client.get_private_project_secret('personal_api_token')
+except Exception as e:
+    # NoPersonalProject, PrivateSecretNotShared, PrivateSecretNotFound, or PrivateSecretError
+    token = None
+
+if token is None:
+    {"status": "skipped", "reason": "no personal token available for this user"}
+else:
+    # Use token for a per-user authenticated call
+    {"status": "success"}
+```
+
+Or suppress the error entirely with a default:
+
+```python
+token = alita_client.get_private_project_secret('personal_api_token', default=None)
+{"has_token": token is not None}
+```
 
 <Warning title="Structured Output Behavior">
 When `structured_output: true`, the Code Node expects a dictionary return where keys correspond to state variable names:
@@ -1069,6 +1086,17 @@ return {"result": 42, "status": "success"}
 3. If your code uses top-level `await`, run the saved file directly as generated; the wrapper added by ELITEA already makes it executable in standard Python
 </Accordion>
 
+<Accordion title="Error: NoPersonalProject / PrivateSecretNotShared / PrivateSecretNotFound">
+**Cause:** `alita_client.get_private_project_secret(secret_name)` failed to resolve a secret from the executing user's Private project.
+
+**Solution:**
+
+1. **`NoPersonalProject`** - The pipeline run has no resolvable user (e.g., it was triggered by a schedule or webhook, not a signed-in user). This function cannot be used in unattended runs; use `alita_client.unsecret()` with a shared-project secret instead, or pass a `default` to tolerate missing values.
+2. **`PrivateSecretNotShared`** - Either the secret isn't marked shared, or it doesn't exist at all for that user. Have the user create the secret in their own **[Secrets](../../../menus/settings/secrets)** (Private project) and turn on **Share with other projects** on that row.
+3. **`PrivateSecretNotFound`** - No secret with that name exists in the user's Private project; double-check the exact `secret_name` spelling.
+4. To avoid raising for any of these cases, call with an explicit `default`, e.g. `alita_client.get_private_project_secret(secret_name, default=None)`.
+</Accordion>
+
 <Accordion title="Error: httpx or network requests failing">
 **Cause:** Using `requests` library (not Pyodide compatible) or network disabled
 
@@ -1086,19 +1114,19 @@ async with httpx.AsyncClient() as client:
 
 ## Execution Nodes Comparison
 
-| Feature | Toolkit Node | MCP Node | Code Node | Custom Node |
-|---------|--------------|----------|-----------|-------------|
-| **Purpose** | Execute ELITEA toolkit functions | Execute MCP server tools | Execute custom Python code | Advanced JSON configuration |
-| **Toolkit Types** | ELITEA Toolkits | MCP Servers | N/A (Python sandbox) | Any (Toolkits, MCPs, Agents, Pipelines) |
-| **Tool Selection** | Manual (user selects) | Manual (user selects) | N/A | Manual JSON config |
-| **Parameter Mapping** | Explicit Input Mapping | Explicit Input Mapping | State via `alita_state` | Custom JSON |
-| **LLM Usage** | No LLM | No LLM | No LLM | Depends on config |
-| **Configuration** | UI-based parameter mapping | UI-based parameter mapping | Python code editor | JSON editor |
-| **Structured Output** | Supported | Supported | Supported | Depends on config |
-| **Flexibility** | Medium (predefined tools) | Medium (MCP tools) | Very High (full Python) | Very High (full JSON control) |
-| **Complexity** | Medium | Medium | High (requires Python) | Very High (requires JSON expertise) |
-| **Performance** | Fast (direct execution) | Fast (direct execution) | Fast (compiled sandbox) | Varies |
-| **Best For** | ELITEA toolkit calls | MCP server integrations | Custom logic, calculations | Advanced custom integrations |
+| Feature | Toolkit Node | MCP Node | Code Node |
+|---------|--------------|----------|-----------|
+| **Purpose** | Execute ELITEA toolkit functions | Execute MCP server tools | Execute custom Python code |
+| **Toolkit Types** | ELITEA Toolkits | MCP Servers | N/A (Python sandbox) |
+| **Tool Selection** | Manual (user selects) | Manual (user selects) | N/A |
+| **Parameter Mapping** | Explicit Input Mapping | Explicit Input Mapping | State via `alita_state` |
+| **LLM Usage** | No LLM | No LLM | No LLM |
+| **Configuration** | UI-based parameter mapping | UI-based parameter mapping | Python code editor |
+| **Structured Output** | Supported | Supported | Supported |
+| **Flexibility** | Medium (predefined tools) | Medium (MCP tools) | Very High (full Python) |
+| **Complexity** | Medium | Medium | High (requires Python) |
+| **Performance** | Fast (direct execution) | Fast (direct execution) | Fast (compiled sandbox) |
+| **Best For** | ELITEA toolkit calls | MCP server integrations | Custom logic, calculations |
 
 ### When to Use Each Node
 
@@ -1136,18 +1164,6 @@ async with httpx.AsyncClient() as client:
 * Have logic too complex for standard nodes
 
 **Example**: Calculate tiered discounts based on customer segment, order value, and first-order status.
-</Accordion>
-
-<Accordion title="Custom Node">
-**Choose Custom Node when you**:
-
-* Have advanced configuration requirements not supported by standard nodes
-* Need full JSON control over toolkit configuration
-* Work with experimental or beta toolkit features
-* Require complex parameter structures
-* Are a power user with specific custom needs
-
-**Example**: Configure an advanced toolkit with custom JSON parameters not exposed in standard UI.
 </Accordion>
 
 ---
@@ -1197,6 +1213,12 @@ The **Tool** node is deprecated and will be removed in an upcoming release.
 6. Test pipeline execution
 
 **Migration Guide:** [Tool Node Migration](../../../migration/v2.0.1/tool-node-migration)
+</Accordion>
+
+<Accordion title="Custom Node">
+The **Custom** node is deprecated and hidden from the node picker. Existing Custom nodes keep working as-is — there is no removal deadline and no dedicated migration guide, since there's no single replacement.
+
+**Migration:** For new nodes, select the specific node type that matches what you need instead (**Toolkit**, **MCP**, **LLM**, **Code**, etc.).
 </Accordion>
 
 ---
