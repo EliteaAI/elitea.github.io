@@ -148,16 +148,18 @@ Before creating a toolkit, you must first create GitHub credentials in ELITEA:
 1. **Navigate to Credentials Menu:** Open the sidebar and select **[Credentials](../../menus/credentials)**.
 2. **Create New Credential:** Click the **`+ Create`** button.
 3. **Select GitHub:** Choose **GitHub** as the credential type.
+     ![Github credential](../../img/integrations/toolkits/github/github-cred-navigate.png)
+
 4. **Configure Credential Details:**
      * **Display Name:** Enter a descriptive name (e.g., "GitHub - Development Team Access")
-     * **Base URL:**
-         - GitHub.com: leave empty to use the default `https://api.github.com`.
-         - GitHub Enterprise Server: set your REST v3 endpoint, for example `https://<your-ghes-domain>/api/v3`.
-     * **Authentication Method:** Choose your preferred authentication method:
-         * **Anonymous:** No authentication required (limited to public repositories and rate-limited)
+     * **Base URL:** Required; pre-filled with `https://api.github.com`.
+         - GitHub.com: leave the pre-filled value as-is.
+         - GitHub Enterprise Server: replace it with your REST v3 endpoint, for example `https://<your-ghes-domain>/api/v3`.
+     * **Authentication:** The form shows three tabs — **Token**, **Password**, and **App private key** — fill in exactly one:
          * **Token:** Enter your GitHub Personal Access Token (recommended)
          * **Password:** Enter your GitHub username and password (not recommended)
-         * **App Private Key:** Enter GitHub App ID and private key for app-based authentication
+         * **App private key:** Enter the GitHub App ID and private key for app-based authentication
+         * **Anonymous access:** Leave the fields in all three tabs blank (limited to public repositories and subject to GitHub's unauthenticated rate limits)
 5. **Test Connection:** Click **Test Connection** to verify that your credentials are valid and ELITEA can successfully connect to GitHub
 6. **Save Credential:** Click **Save** to create the credential. After saving, your GitHub credential will be added to the credentials dashboard and will be ready to use in toolkit configurations. You can view, edit, or delete it from the **Credentials** menu at any time.
 
@@ -173,7 +175,7 @@ The Base URL configuration depends on your GitHub environment:
 
 **Configuration:**
 
-- **GitHub.com**: Leave Base URL empty (uses default `https://api.github.com`)
+- **GitHub.com**: Keep the pre-filled Base URL value (`https://api.github.com`)
 - **GitHub Enterprise Server**: Enter your REST v3 endpoint (e.g., `https://ghe.company.com/api/v3`)
 
 **Important**: For GHES, ensure your server's SSL certificate is trusted by your environment to avoid connection errors.
@@ -191,6 +193,10 @@ Once your credentials are configured, create the GitHub toolkit:
 1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits](../../menus/toolkits)**.
 2. **Create New Toolkit:** Click the **`+ Create`** button.
 3. **Select GitHub:** Choose **GitHub** from the list of available toolkit types.
+
+     ![Github Toolkit](../../img/integrations/toolkits/github/github-toolkit-navigate.png)
+
+
 4. **Configure Basic Information:**
      * **Toolkit Name:** Enter a descriptive name for your toolkit (required). Example: "GitHub - ProjectAlita Repository"
      * **Description:** Provide an optional description to explain the toolkit's purpose. Example: "Toolkit for managing ProjectAlita repository - handles code reviews, issue tracking, and automated deployments"
@@ -207,72 +213,72 @@ Once your credentials are configured, create the GitHub toolkit:
        * **[Make Tools Available by MCP](../mcp/make-tools-available-by-mcp)** - (optional checkbox) Enable this option to make the selected tools accessible through the external MCP clients to use the toolkit's capabilities
 9. **Save Toolkit:** Click **Save** to create the toolkit.
 
-![GitHub Toolkit](../../img/integrations/toolkits/github/github-toolkit-create.gif)
+![GitHub Toolkit](../../img/integrations/toolkits/github/github-toolkit-configs.png)
 
 #### Available Tools:
 
-The GitHub toolkit provides the following tools for interacting with GitHub repositories and managing development workflows, organized by functional categories:
+The GitHub toolkit provides 44 tools for interacting with GitHub repositories and managing development workflows. In the toolkit configuration form, tools are grouped by the effect they have on your repository:
 
-| **Tool Category** | **Tool Name** | **Description** | **Primary Use Case** |
-|:-----------------:|---------------|-----------------|----------------------|
-| **Issue Management** | | | |
-| | **Get issues** | Retrieves a list of issues from the repository | View all issues for project management and task tracking |
-| | **Get issue** | Retrieves details of a specific issue by number | Access detailed information about a particular issue |
-| | **Search issues** | Searches for issues based on keywords and criteria | Find issues related to specific topics, bugs, or features |
-| | **Create issue** | Creates a new issue in the repository | Automate bug reporting and task creation |
-| | **Update issue** | Updates an existing issue's properties | Modify issue status, labels, assignees, and other attributes |
-| | **Comment on issue** | Adds a comment to an existing issue | Provide automated updates and feedback on issues |
-| **Pull Request Management** | | | |
-| | **List open pull requests** | Lists all currently open pull requests | Monitor pending code changes and review requests |
-| | **Get pull request** | Retrieves details of a specific pull request | Access comprehensive information about a PR |
-| | **List pull request diffs** | Lists files changed in a pull request | Review code changes and assess impact of modifications |
-| | **Create pull request** | Creates a new pull request | Automate the code review and integration process |
-| **File Operations** | | | |
-| | **Create file** | Creates a new file in the repository | Generate code files, documentation, or configuration files |
-| | **Read file** | Reads the content of a specific file | Access file content for analysis or processing |
-| | **Read file chunk** | Reads a specific chunk or section of a file | Access portions of large files efficiently |
-| | **Read multiple files** | Reads content from multiple files in one operation | Batch read multiple files for comparison or analysis |
-| | **Edit file** | Edits an existing file in the repository | Make modifications to existing file content |
-| | **Update file** | Updates the content of an existing file | Modify code, documentation, or configuration files |
-| | **Delete file** | Deletes a file from the repository | Remove obsolete or unnecessary files |
-| | **List files in main branch** | Lists all files in the main branch | Browse repository structure and discover files |
-| | **List files in bot branch** | Lists files in the active working branch | View files in the current development branch |
-| | **Get files from directory** | Retrieves files from a specific directory | Access files within particular folder structures |
-| | **Grep file** | Searches for patterns within a specific file | Find specific text patterns or code snippets in files |
-| | **Search code** | Searches for code across the entire repository | Locate code patterns, functions, or implementations |
-| **Branch Management** | | | |
-| | **List branches in repo** | Lists all branches in the repository | Manage and overview repository branching structure |
-| | **Set active branch** | Sets the active working branch for operations | Control which branch file operations target |
-| | **Create branch** | Creates a new branch from a base branch | Set up new development branches for features or fixes |
-| | **Delete branch** | Deletes a branch from the repository | Remove obsolete or merged branches |
-| **Version Control** | | | |
+
+| **Category** | **Tool Name** | **Description** | **Primary Use Case** |
+|:---:|---|---|---|
+| **Read** | **Get commit changes** | Gets detailed changes for a specific commit | Review what was modified in a particular commit |
 | | **Get commits** | Retrieves commit history and information | Analyze repository history and track changes |
-| | **Get commit changes** | Gets detailed changes for a specific commit | Review what was modified in a particular commit |
 | | **Get commits diff** | Compares changes between two commits | Analyze differences between code versions |
-| | **Apply git patch** | Applies a git patch to the repository | Automate code changes using patch format |
-| | **Apply git patch from file** | Applies a git patch from an artifact file | Apply pre-generated patches from stored files |
-| **Workflow Automation** | | | |
-| | **Trigger workflow** | Triggers a GitHub Actions workflow | Automate CI/CD and other repository workflows |
-| | **Get workflow status** | Retrieves the status of a workflow run | Monitor automated workflow execution |
+| | **Get files from directory** | Retrieves files from a specific directory | Access files within particular folder structures |
+| | **Get issue** | Retrieves details of a specific issue by number, including its comment thread (up to 30 comments per call, with pagination for longer threads) | Access detailed information about a particular issue, including discussion, clarifications, and reproduction steps left in comments |
+| | **Get issues** | Retrieves a list of issues from the repository | View all issues for project management and task tracking |
+| | **Get me** | Retrieves authenticated user information | Get details about the current GitHub user or app |
+| | **Get pull request** | Retrieves details of a specific pull request | Access comprehensive information about a PR |
 | | **Get workflow logs** | Gets logs from a workflow execution | Debug and analyze workflow performance |
-| **Project Management** | | | |
-| | **Create issue on project** | Creates an issue within a GitHub project board | Manage project-specific issue creation with custom fields |
-| | **Update issue on project** | Updates an issue within a GitHub project board | Modify project-specific issue properties and custom fields |
+| | **Get workflow status** | Retrieves the status of a workflow run | Monitor automated workflow execution |
+| | **Grep file** | Searches for patterns within a specific file | Find specific text patterns or code snippets in files |
+| | **List branches in repo** | Lists all branches in the repository | Manage and overview repository branching structure |
+| | **List files in bot branch** | Lists files in the active working branch | View files in the current development branch |
+| | **List files in main branch** | Lists all files in the main branch | Browse repository structure and discover files |
+| | **List indexes** | Lists available indexes in the repository | View and manage indexed data collections |
+| | **List open pull requests** | Lists all currently open pull requests | Monitor pending code changes and review requests |
 | | **List project issues** | Lists all issues in a GitHub project | View project-specific issue collections with custom fields |
-| | **Search project issues** | Searches for issues within a GitHub project | Find specific issues within project contexts |
-| **Indexing & Search** | | | |
-| | **Index data** | Creates searchable indexes of GitHub repository content | Enable advanced search and discovery across repository files |
-| | **List collections** | Lists available indexed collections in the repository | View and manage indexed data collections |
-| | **Remove index** | Removes previously created search indexes | Clean up and manage indexed repository data |
+| | **List pull request diffs** | Lists files changed in a pull request | Review code changes and assess impact of modifications |
+| | **Read file** | Reads the content of a specific file | Access file content for analysis or processing |
+| | **Read multiple files** | Reads content from multiple files in one operation | Batch read multiple files for comparison or analysis |
+| | **Search code** | Searches for code across the entire repository | Locate code patterns, functions, or implementations |
 | | **Search index** | Performs searches across indexed repository content | Find specific code, comments, or content across the repository |
+| | **Search issues** | Searches for issues based on keywords and criteria | Find issues related to specific topics, bugs, or features |
+| | **Search project issues** | Searches for issues within a GitHub project | Find specific issues within project contexts |
 | | **Stepback search index** | Performs advanced contextual searches with broader scope | Execute sophisticated searches with expanded context |
 | | **Stepback summary index** | Creates comprehensive summaries of indexed repository content | Generate intelligent summaries of code and repository information |
-| **Advanced Operations** | | | |
-| | **Get me** | Retrieves authenticated user information | Get details about the current GitHub user or app |
-| | **Generic github api call** | Makes custom calls to the GitHub API | Access any GitHub API endpoint not covered by specific tools |
+| **Create & update** | **Apply git patch** | Applies a git patch to the repository | Automate code changes using patch format |
+| | **Apply git patch from file** | Applies a git patch from an artifact file | Apply pre-generated patches from stored files |
+| | **Comment on issue** | Adds a comment to an existing issue | Provide automated updates and feedback on issues |
+| | **Create branch** | Creates a new branch from a base branch | Set up new development branches for features or fixes |
+| | **Create file** | Creates a new file in the repository | Generate code files, documentation, or configuration files |
+| | **Create issue** | Creates a new issue in the repository | Automate bug reporting and task creation |
+| | **Create issue on project** | Creates an issue within a GitHub project board | Manage project-specific issue creation with custom fields |
+| | **Create pull request** | Creates a new pull request | Automate the code review and integration process |
+| | **Index data** | Creates searchable indexes of GitHub repository content | Enable advanced search and discovery across repository files |
+| | **Set active branch** | Sets the active working branch for operations | Control which branch file operations target |
+| | **Update file** | Updates the content of an existing file | Modify code, documentation, or configuration files |
+| | **Update issue** | Updates an existing issue's properties | Modify issue status, labels, assignees, and other attributes |
+| | **Update issue on project** | Updates an issue within a GitHub project board | Modify project-specific issue properties and custom fields |
+| **Delete** | **Delete branch** | Deletes a branch from the repository | Remove obsolete or merged branches |
+| | **Delete file** | Deletes a file from the repository | Remove obsolete or unnecessary files |
+| | **Remove index** | Removes previously created search indexes | Clean up and manage indexed repository data |
+| **Execute** | **Generic github api call** | Makes custom calls to the GitHub API | Access any GitHub API endpoint not covered by specific tools |
+| | **Trigger workflow** | Triggers a GitHub Actions workflow | Automate CI/CD and other repository workflows |
 
-<Tip title="Vector Search Tools">
-The tools **Index data**, **List collections**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These enable advanced semantic search capabilities across your GitHub repositories.
+<Note>
+**Get issue includes the comment thread**
+
+**Get issue** returns the issue's fields (number, title, body, state, labels, assignees, etc.) plus `comments_total` and a `comments` list — each comment with its `body`, `user`, `created_at`, and `url`. Up to 30 comments are returned per call, and fewer if their combined size would exceed the tool's result-size limit (the issue's own description counts against that limit first).
+
+If more comments remain than fit in one call, the response includes a `comments_note` telling the agent which `comments_offset` to pass on the next **Get issue** call to continue reading further into the thread. If no `comments_offset` is given, reading starts from the first comment.
+</Note>
+
+<Tip>
+**Vector Search Tools**
+
+The tools **Index data**, **List indexes**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These enable advanced semantic search capabilities across your GitHub repositories.
 </Tip>
 
 #### Testing Toolkit Tools
@@ -313,7 +319,7 @@ Now you can add the configured GitHub toolkit to your agents, pipelines, or use 
 
 Your agent can now interact with GitHub using the configured toolkit and enabled tools.
 
-![GitHub to Agent](../../img/integrations/toolkits/github/github-agent-add.gif)
+![GitHub to Agent](../../img/integrations/toolkits/github/github-agent-add.png)
 
 ---
 #### In Pipelines:
@@ -325,7 +331,7 @@ Your agent can now interact with GitHub using the configured toolkit and enabled
      * Select your configured GitHub toolkit from the dropdown list
      * The toolkit will be added to your pipeline with the previously configured tools enabled
 
-     ![GitHub to Pipeline](../../img/integrations/toolkits/github/github-pipeline-add.gif)
+     ![GitHub to Pipeline](../../img/integrations/toolkits/github/github-pipeline-add.png)
 
 ---
 #### In Chat:
@@ -346,7 +352,7 @@ Your agent can now interact with GitHub using the configured toolkit and enabled
 - Create a pull request to merge the 'feature-login' branch into 'develop' with the title 'Add user login functionality'."
 </Info>
 
-![GitHub to Chat](../../img/integrations/toolkits/github/github-conversation-add.gif)
+![GitHub to Chat](../../img/integrations/toolkits/github/github-conversation-add.png)
 
 ---
 
@@ -422,6 +428,27 @@ Agent Response: I'll create a GitHub issue for the password reset bug you've ide
 - **URL**: https://github.com/yourorg/yourrepo/issues/47
 
 The development team will be notified and can begin investigating this issue.
+```
+</Accordion>
+
+<Accordion title="Issue Management - Get Issue with Comments">
+**Chat Example:**
+```
+User: "What's the latest discussion on issue #47? Any workarounds mentioned?"
+
+Agent Response: Let me pull up issue #47 along with its comment thread.
+
+[Agent uses get_issue tool with issue_number=47]
+
+📄 **Issue #47**: "Bug: Password reset not working in login system"
+- **State**: Open
+- **Labels**: bug, login, high-priority
+- **Comments** (3 of 3 total):
+  1. **@sarah-engineer** (2 days ago): "Can reproduce on Chrome and Firefox, not on Safari."
+  2. **@johndev** (1 day ago): "Looks like the reset token expires before the email is opened — bumping TTL to 30 minutes as a workaround."
+  3. **@Sshchornyi** (6 hours ago): "Workaround confirmed working in staging. Will backport to the hotfix branch."
+
+**Summary**: The team identified a token-expiry workaround and confirmed it in staging; a hotfix backport is planned.
 ```
 </Accordion>
 
@@ -756,10 +783,10 @@ The minimum required scopes depend on the specific GitHub tools your ELITEA Agen
 
 - `workflow` - Trigger and manage GitHub Actions workflows
 
-**Project Management** (`create_issue_on_project`, `update_issue_on_project`):
+**Project Management** (`create_issue_on_project`, `update_issue_on_project`, `list_project_issues`, `search_project_issues`):
 
-- `project` - Required for GitHub Projects (Classic) operations
-- **Note:** These operations require OAuth App tokens, not regular Personal Access Tokens
+- `project` - Enable this scope on your Personal Access Token (classic) to read and write GitHub Projects (the current Projects experience built on GitHub's `ProjectV2` API — not the retired "Projects (Classic)" feature)
+- A regular Personal Access Token (classic) with the `project` scope enabled is sufficient; no OAuth App is required
 
 **Always adhere to the principle of least privilege and grant only the scopes that are strictly necessary for your Agent's intended functionalities.** Refer to the [GitHub token scopes documentation](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps) for detailed descriptions.
 </Accordion>
@@ -836,31 +863,16 @@ This promotes better credential management, reduces duplication, and simplifies 
 **Note:** The `public_repo` scope only works with public repositories. For private repositories, you must use the full `repo` scope.
 </Accordion>
 
-<Accordion title="What's the difference between Personal Access Token (Classic) and GitHub OAuth App authentication?">
-Both authentication methods are supported but serve different purposes:
+<Accordion title="Do I need a GitHub OAuth App to use the Project Management tools (create_issue_on_project, etc.)?">
+**No.** The Project Management tools (`create_issue_on_project`, `update_issue_on_project`, `list_project_issues`, `search_project_issues`) work against GitHub's current Projects experience (built on GitHub's GraphQL `ProjectV2` API) — not the retired "Projects (Classic)" feature. They only need a regular **Personal Access Token (Classic)** with the **`project`** scope enabled; no OAuth App registration or authorization flow is required.
 
-**Personal Access Token (Classic) - Recommended for most use cases:**
+**To enable project access on your token:**
 
-- Easy to generate from GitHub Settings
-- Works for all standard repository operations
-- User-specific permissions and rate limits
-- Best for individual users and standard integrations
+1. Go to GitHub **Settings → Developer settings → Personal access tokens → Tokens (classic)**
+2. Edit (or generate) your token and check the **`project`** scope
+3. Update the token value in your ELITEA GitHub credential
 
-**GitHub OAuth App - Required for specific operations:**
-
-- **Required** for GitHub Projects (Classic) operations (`create_issue_on_project`, `update_issue_on_project`)
-- Requires OAuth App setup in GitHub Developer Settings
-- Provides `project` scope access that PATs don't support
-- More complex setup requiring authorization flow
-
-**To use OAuth App authentication:**
-
-1. Create OAuth App in GitHub Settings → Developer Settings → OAuth Apps
-2. Use `gh` CLI to login with `project` scope: `gh auth login --scopes "project"`
-3. Get token: `gh auth token`
-4. Use this token in your ELITEA GitHub credential
-
-**Most users should use Personal Access Tokens unless specifically working with GitHub Projects (Classic).**
+If a Project Management tool fails with a permissions error, ELITEA surfaces this exact fix in the error message it returns.
 </Accordion>
 
 <Accordion title="Can I use the same toolkit across different workspaces (Private vs. Team Projects)?">
