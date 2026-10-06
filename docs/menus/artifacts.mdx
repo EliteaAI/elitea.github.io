@@ -41,6 +41,7 @@ The Artifacts menu is accessible from the main platform navigation. Upon enterin
     * Displays files and folders for the selected bucket or folder.
     * Shows breadcrumb navigation at the top when navigating into folders.
     * File table columns: Name, Type, Size, Last update, Actions.
+    * The **Actions** column shows a **View/Edit file** icon (eye symbol) plus a three-dot (⋮) menu with **Download**, **Rename**, and **Delete** for each file.
     * Supports drag-and-drop file upload directly into the table area.
     * Includes a search bar, upload button, download button, and delete button in the toolbar.
     * Bucket info tooltip shows the retention policy and file count.
@@ -49,7 +50,7 @@ The Artifacts menu is accessible from the main platform navigation. Upon enterin
 
 ## Artifact Functionality
 
-**Buckets Sidebar & Tree Structure**
+**Buckets Sidebar**
 
 * **Sidebar:** The sidebar on the left lists all artifact buckets for the project. The sidebar is collapsible, allowing users to show or hide it as needed for a more flexible workspace.
 * **Tree Structure:** Buckets are displayed in a hierarchical tree view:
@@ -134,7 +135,7 @@ If a bucket with the same name already exists in the selected storage, an error 
 
 <img src="../img/menus/artifacts/buckets-search.gif" alt="Animation showing bucket search filtering results in real time." />
 
-### Edit & Delete Buckets
+### Manage Buckets
 
 **Pin a Bucket:**
 
@@ -147,13 +148,13 @@ If a bucket with the same name already exists in the selected storage, an error 
 **Edit a Bucket:**
 
 1. **Access edit mode:** In the bucket list, select the three dots icon next to the bucket you want to modify. A context menu with an **Edit** icon appears. Select **Edit**.
+     <img src="../img/menus/artifacts/edit-bucket.png" alt="Animation showing how to edit a bucket retention policy." />
 2. **Modify retention policy:** The **Edit Bucket** dialog opens, displaying the current retention policy. Modify the **Period Type** and **Value** as needed to set a retention period. Note that you cannot change the bucket name in edit mode.
 3. **Permission-based access:** Edit functionality is available based on user permissions (bucket owner, or users with the `artifacts.buckets.update` permission).
 4. **Save or discard changes:**
     * Select **Save** to apply the retention policy to the bucket.
     * Select **Cancel** to discard the changes and revert to the original retention policy.
 
-<img src="../img/menus/artifacts/bucket-edit.gif" alt="Animation showing how to edit a bucket retention policy." />
 
 **Delete a Bucket:**
 
@@ -171,7 +172,7 @@ Deleting a bucket is a permanent action. All files and folders within the bucket
 **Auto-selection After Deletion:** When a bucket is deleted, if it was the selected bucket, the system automatically selects the next available bucket to maintain workflow continuity.
 </Warning>
 
-### Manage Bucket Access
+#### Manage Bucket Access
 
 ELITEA includes a dedicated bucket access exceptions interface for managing per-user access to individual artifact buckets. This feature is available in team and public projects. It is not available in personal or private projects.
 
@@ -305,7 +306,7 @@ The following features are available when you select a bucket and view its files
     * **Type**—File type.
     * **Size**—File size.
     * **Last update**—Last modification date and time in format "dd-MM-yyyy, hh:mm a".
-    * **Actions**—View/Edit file, Download, Delete buttons for files.
+    * **Actions**—a **View/Edit file** icon (eye symbol), plus a three-dot (⋮) menu with **Download**, **Rename**, and **Delete** for files.
 * **Folder Navigation:**
     * **Breadcrumb Navigation:** When inside a folder, breadcrumbs appear at the top of the file table showing the current path.
         * Format: `[bucket name] > [folder1] > [folder2]` (with arrow separators).
@@ -435,29 +436,36 @@ Artifact file editing is single-user (last save wins). If multiple users edit th
 
 For detailed information about file editing features, controls, and workflows, see **[File Editing in Canvas](../how-tos/chat-conversations/file-editing-canvas)**.
 
+### Rename a File
+
+Select the three-dot (⋮) menu on a file's row — or in the file preview header — and select **Rename**. Only the base file name can be edited; the extension and folder location stay fixed. The name cannot be empty, match the current name, or contain a slash (`/`).
+
+<img src="../img/menus/artifacts/rename-file.png" alt="Animation showing single and multiple file download from a bucket." />
+
+
 ### Download Files from a Bucket
 
 * **Download progress:** The system provides feedback during the download process.
-* **Single file download:** Go to the file list and locate the **Download** icon (download arrow icon) on the right side of the file entry. Select this icon to download the file to your local computer.
+* **Single file download:** Go to the file list and select the three-dot (⋮) menu on the file's row, then select **Download** to download the file to your local computer.
 * **Multiple file download:** Select multiple files using the checkboxes, then select the **Download files** button in the toolbar to download all selected files as a ZIP archive.
 
 <Info title="Multiple File Downloads">
 When downloading multiple files, all selected files are automatically packaged into a single ZIP file for convenient download.
 </Info>
 
-<img src="../img/menus/artifacts/file-download.gif" alt="Animation showing single and multiple file download from a bucket." />
+<img src="../img/menus/artifacts/file-download.png" alt="Animation showing single and multiple file download from a bucket." />
 
 ### Delete Files from a Bucket
 
 * **Access file list:** Go to the file list of the bucket containing the files you want to delete.
-* **Single file deletion:** Select the **Delete** icon (trash can) on the right side of the file entry to delete individual files.
+* **Single file deletion:** Select the three-dot (⋮) menu on the file's row, then select **Delete** to delete individual files.
 * **Multiple file deletion:** To delete multiple files at once:
     * Select the checkboxes next to each file you want to delete in the file list.
     * Once one or more files are selected, a **Delete** icon becomes active in the toolbar above the file list. Select this icon to delete all selected files.
 * **Permission requirements:** Delete functionality requires appropriate permissions (`artifacts.delete` or bucket ownership).
 * **Confirmation:** You may be prompted to confirm the file deletion before it is permanently removed.
 
-<img src="../img/menus/artifacts/file-delete.gif" alt="Animation showing how to delete files from a bucket." />
+<img src="../img/menus/artifacts/file-delete.png" alt="Animation showing how to delete files from a bucket." />
 
 <Info title="Folder Deletion Behavior">
 When you delete all files from a folder, the folder is automatically deleted. Empty folders are not supported in the Artifacts system.
@@ -492,6 +500,15 @@ You can find answers to common questions or solutions to known issues in the bro
 * Invalid bucket name format—The name must start with a letter and contain only letters, numbers, and hyphens (max 56 characters).
 * Insufficient permissions—Ensure you have the `artifacts.buckets.create` permission.
 * Invalid retention policy—Ensure the retention value is a positive integer and a period type is selected.
+</Accordion>
+
+<Accordion title="Cannot rename a file, or the Rename option is missing">
+**Possible causes:**
+
+* Insufficient permissions—Ensure you have the `artifacts.edit` permission (not required in your Private workspace).
+* Renaming a folder or bucket—Only files can be renamed; folders and buckets do not have a rename option (buckets can only have their retention policy edited).
+* Previewing from Chat—The **Rename** option is hidden when a file is opened from a Chat conversation's preview; rename it from the Artifacts page instead.
+* Invalid new name—The name cannot be empty, cannot be the same as the current name, and cannot contain a slash (`/`).
 </Accordion>
 
 <Accordion title="Cannot delete files or buckets">
@@ -569,7 +586,13 @@ Select a file and select the preview icon (eye symbol) to open it in Canvas Mode
 </Accordion>
 
 <Accordion title="Who can access artifact files?">
-Access is controlled by project membership and specific permissions. Users need appropriate permissions for different actions: `artifacts.create` for uploading, `artifacts.buckets.update` for editing buckets, `artifacts.delete` for deleting files, etc. Bucket owners have full control over their buckets.
+Access is controlled by project membership and specific permissions. Users need appropriate permissions for different actions: `artifacts.create` for uploading, `artifacts.edit` for renaming files, `artifacts.buckets.update` for editing buckets, `artifacts.delete` for deleting files, etc. In your Private workspace, these actions are always available regardless of permissions. Bucket owners have full control over their buckets.
+</Accordion>
+
+<Accordion title="Can I rename a file or a bucket?">
+**Files:** Yes — select the three-dot (⋮) menu on a file's row (in the file table or in the file preview) and select **Rename** to change its base name. The extension and folder location stay the same.
+
+**Buckets:** No. The bucket three-dot menu's **Edit** option only lets you change the bucket's retention policy — bucket names cannot be changed after creation.
 </Accordion>
 
 <Accordion title="Can I use multiple storage configurations?">
