@@ -39,50 +39,6 @@ All your conversations are securely stored on the ELITEA server, making them acc
 
 ## Attaching Files and Images
 
-Attach files and images directly to chat conversations for AI-powered analysis. This feature enables multimodal interactions where AI can process visual content, documents, and data files alongside text-based queries.
 
-Every file you attach is automatically uploaded to the default `attachments` bucket — no manual Artifact Toolkit configuration is required. Files are accessible from the **Artifacts** section.
-
-* **Images** are sent directly to the LLM for real-time vision analysis.
-* **Non-image files** (documents, code, data) are indexed into a vector database and retrieved via semantic search.
-
-**Attachment Limits:**
-
-| Limit | Value |
-|-------|-------|
-| Max files per message | 10 |
-| Max total size | 150 MB |
-| Max size per file | 150 MB |
-| Max image attachments | 10 |
-
-**How to Attach Files:**
-
-1. In the chat input toolbar, click the **`+`** icon.
-2. Click **Attach Files**.
-3. The native file browser opens — select one or more files.
-4. Selected files appear as chips above the input field. To remove a file, click the **×** on its chip.
-5. Type your message and press **Send**.
-
-     ![Attachments](../../img/how-tos/chat-conversations/attachments/enable-attachment-chat.gif)
-
-You can also attach files by:
-- **Drag and drop** — drag files directly onto the chat input area.
-- **Paste** — paste files or images from your clipboard with **Ctrl+V** / **Cmd+V**.
-
-**Availability by Chat Type:**
-
-| Context | Attachment availability |
-|---------|------------------------|
-| **Direct LLM / model chat** | Always enabled — **Attach Files** is active whenever no agent or pipeline is selected. |
-| **Agent-based chat** | Only enabled if the agent has **Allow Attachments** toggled on in **Modules**. If not enabled, **Attach Files** is grayed out with the tooltip: *"Attachments aren't available for the selected agent or pipeline."* |
-| **Pipeline-based chat** | Same rule as agents — requires `attachments` in **Modules**. |
-
-<Tip title="Enable attachments for an agent">
-To enable attachments for an agent,
-1. Open the agent.
-2. Find **Modules**.
-3. Toggle **Allow Attachments** on.
-4. Select **Save**.
-</Tip>
 
 For detailed information about attachments, including agent configuration and file management, see [Attach Files](./attach-files).
