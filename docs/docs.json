@@ -171,23 +171,28 @@
         "icon": "book-open",
         "groups": [
           {
-            "group": "Chat & Conversations",
+            "group": "Chats",
             "icon": "comments",
             "pages": [
               {
                 "group": "Chat Basics",
                 "expanded": true,
                 "pages": [
-                  "how-tos/chat-conversations/how-to-use-chat-functionality",
-                  "how-tos/chat-conversations/attach-files",
-                  "how-tos/chat-conversations/how-to-canvas",
-                  "how-tos/chat-conversations/file-editing-canvas"
+                  "how-tos/chat/config-mnmt",
+                  "how-tos/chat/participants",
+                  "how-tos/chat/attachments",
+                  "how-tos/chat/responses",
+                  "how-tos/chat/ctxt-mnmt",
+                  "how-tos/chat/voice",
+                  "how-tos/chat/action-auth"
                 ]
               },
               {
-                "group": "Create from Canvas",
+                "group": "Canvas",
                 "expanded": false,
                 "pages": [
+                  "how-tos/chat-conversations/how-to-canvas",
+                  "how-tos/chat-conversations/file-editing-canvas",
                   "how-tos/chat-conversations/how-to-create-and-edit-agents-from-canvas",
                   "how-tos/chat-conversations/how-to-create-and-edit-pipelines-from-canvas",
                   "how-tos/chat-conversations/how-to-create-and-edit-toolkits-from-canvas",
@@ -209,16 +214,6 @@
                   "how-tos/chat-conversations/python-sandbox-internal-tool",
                   "how-tos/chat-conversations/swarm-mode-internal-tool",
                   "how-tos/chat-conversations/smart-tools-selection-internal-tool"
-                ]
-              },
-              {
-                "group": "Collaboration & Access",
-                "expanded": false,
-                "pages": [
-                  "how-tos/chat-conversations/add-teammates-to-conversation",
-                  "how-tos/chat-conversations/use-public-items-from-chat",
-                  "how-tos/chat-conversations/context-management",
-                  "how-tos/chat-conversations/sensitive-action-authorization-guardrail"
                 ]
               }
             ]
