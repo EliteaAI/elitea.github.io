@@ -118,9 +118,7 @@ AI participants — Agents, Pipelines, Toolkits, MCPs — are the core component
 
 ### Add Existing AI Participants
 
-You can add various AI participants to enhance your conversations.
-
-**Method 1: Using the + Button**
+You can add various AI participants to enhance your conversations:
 
 1. In the chat input toolbar, select the **`+`** icon (tooltip: *Add files, agents, toolkits and more…*).
 2. A popup menu opens. Hover over the category you want:
@@ -132,16 +130,17 @@ You can add various AI participants to enhance your conversations.
 4. The added participant appears in the **PARTICIPANTS** panel on the right side of the screen.
 5. For **Agents** and **Pipelines**: selecting the participant in the panel activates it. An **AgentEditorPanel** strip appears above the input area showing the participant name, version selector, variables and a settings button.
 
-<img src="../../img/menus/chat/add-participants-section.gif" alt="Add participants" />
+For agents and pipelines, you can also use symbols,
 
-**Method 2: Using the # Symbol**
+- **`#`** opens a **Search results** dropdown of available agents and pipelines.
+- **`&`** opens the same dropdown restricted to private agents and pipelines only (public ones are excluded).
 
-1. In the chat input box, type `#` to open a **Search results** dropdown of available participants.
-2. Continue typing to filter by name (e.g., `#Jira` will show all Jira-related participants).
-3. Select a participant from the filtered list — the dropdown searches across **Agents**, **Pipelines**, **Toolkits** and **MCPs**.
+To add an existing agent or pipeline to your chat:
+
+1. In the chat input box, type `#` or `&`.
+2. Continue typing to filter by name (e.g., `#Jira` will show matching results).
+3. Select a participant from the filtered list.
 4. The selected participant appears in the **PARTICIPANTS** panel.
-
-<img src="../../img/menus/chat/add-participants-search.gif" alt="Add participants" />
 
 ### Create New AI Participants
 
@@ -164,7 +163,7 @@ If a toolkit in your Chat uses shared credentials that are not yet configured in
 <img src="../../img/menus/chat/credentials-warning-chat.gif" alt="Credential setup required banner in Chat toolkit canvas editor" />
 </Note>
 
-### Use Participants in a Chat
+### Use AI Participants in a Chat
 
 Once added, participants are ready to process your messages:
 
@@ -172,6 +171,20 @@ Once added, participants are ready to process your messages:
 2. **Select Active Participant(s)**: 
        - **Click**: Click the participant's name/icon in the **Participants** list to make it active for your next message.
 3. **Send Message/Command**: Type your message or a simple command (like "Go", "Execute", "Run it") and press **Send**. The active participant(s) will process your input.
+
+#### Mention Skills
+
+You can direct the active agent to use one of its own skills by typing `~` in the chat input.
+
+1. Make an **Agent** the active participant — skill mentions are only available while an agent is active, and only list the skills attached to that agent's current version.
+2. In the chat input box, type `~` to open the skills dropdown.
+3. Continue typing to filter by skill name.
+4. Use the arrow keys to highlight a skill and press **Enter**, or click a skill from the list, to select it.
+5. The mention is committed to the input as `~{SkillName}` with a highlight and a trailing space so you can continue typing your message.
+
+<Note>
+If the active agent has no skills attached, or no agents are active, typing `~` does not open a dropdown.
+</Note>
 
 #### Mention Toolkits and Tools
 
@@ -250,6 +263,7 @@ You can configure and edit participants (Agents, Pipelines, Toolkits, and MCPs) 
     </Info>
   </Tab>
 </Tabs>
+---
 
 **Applying Changes:**
 

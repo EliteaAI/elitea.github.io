@@ -20,7 +20,7 @@ In **General**, you can see five sections:
 	<Card title="Default Modules" icon="grid-2">
 		Select what modules will be turned on for chats and agents by default.
 	</Card>
-	<Card title="Chat" icon="comments">
+	<Card title="Chat Configuration" icon="comments">
 		Specify default chat settings.
 	</Card>
 	<Card title="Back Up & Restore" icon="box-archive">
@@ -28,15 +28,13 @@ In **General**, you can see five sections:
 	</Card>
 </CardGroup>
 
-<Note>
 Your rights to view and edit **General** settings depend on your role and permissions.
 
 - **General** is a part of the project settings section.
-- **Default Modules** are shown only to users who can view project context settings. 
+- Module toggles within **Default Modules** are shown only to users who can view project context settings. 
 - To edit the project icon and select default modules, you need permissions for editing the project context settings.
-- **Chat** is shown only if the mid-turn input is turned on for the project and you have permission to view project context settings.
+- **Mid-turn input** is shown only if the mid-turn input is turned on for the project and you have permission to view project context settings.
 - **Back Up & Restore** is shown only to users who have permission to download or restore project backups.
-</Note>
 
 ## Project Details
 
@@ -67,7 +65,7 @@ For custom icons, ELITEA accepts these file types: `bmp`, `gif`, `ico`, `jpeg`, 
 
 <img src="../../img/menus/settings/project/general/gen_gen_change-icon.png" alt="Change project icon" />
 
-If you reset the icon to the default one, ELITEA removes your custom project icon.
+If you reset the icon to the default one, ELITEA removes your custom project icon. The file itself is not deleted, and you can select it later.
 
 ## AI Configurations
 
@@ -136,15 +134,37 @@ The template uses a placeholder personal token value instead of a real token.
 
 To change a module setting for chats or agents, select or clear its corresponding toggle.
 
-## Chat
+## Chat Configuration
 
-In **Chat**, you can specify default chat settings.
+In **Chat Configuration**, you can specify default chat settings.
 
-<img src="../../img/menus/settings/project/general/gen_chat.png" alt="Mid-turn Input setting" />
+<img src="../../img/menus/settings/project/general/gen_chat-config.png" alt="Chat Configuration section showing chat templates, the mid-turn input and auto model selection settings" />
 
-<Note>If you do not have permission to edit project context settings, ELITEA shows **Chat** as read-only.</Note>
+<Note>If you do not have permission to edit project context settings, ELITEA shows **Chat Configuration** as read-only.</Note>
 
-With **Mid-turn Input (Beta)** turned on, you can send a message to an agent while it is still working, to steer the rest of the run.
+In **Chat templates**, you can see, create and manage your project's templates for new chats — saved, reusable sets of chat participants that you can apply to any new chat you create. The default template — with its specified participants — is applied automatically to every new chat in the project unless you choose a non-default one.
+
+<Info>
+For detailed information, see [Work with Chat Templates](../../how-tos/chat/config-mnmt#work-with-chat-templates).
+</Info>
+
+With **Mid-turn input** turned on, you can send a message to an agent while it is still working, to steer the rest of the run.
+
+<Info>
+For detailed information about the effect this setting has on your chat interactions, see [Send a Message While the Agent Is Working](../../how-tos/chat/responses#send-a-message-while-the-agent-is-working).
+</Info>
+
+With **Auto model selection**, you control whether project members can pick **Auto** in the model selector dropdown for chats and standard agents in this project — letting ELITEA automatically choose the model for each message based on the task and current availability.
+
+| Option | Description |
+|--------|-------------|
+| **Use platform default** *(default)*| Follows the platform-wide setting chosen by your ELITEA administrator, instead of overriding it for this project. |
+| **Enabled** | **Auto** is available in the model selector for chats and standard agents in this project. |
+| **Disabled** | **Auto** is not available in the model selector for chats and standard agents in this project. |
+
+<Info>
+For detailed information, see [Select a Model](../../how-tos/chat/config-mnmt#select-a-model) and [Auto](../../how-tos/chat/config-mnmt#auto-settings).
+</Info>
 
 ## Back Up & Restore
 
@@ -176,11 +196,13 @@ Your backup will include agents, pipelines, toolkits, MCP servers and skills. EL
 	</Card>
 </CardGroup>
 
+<Info>
+For detailed information, see [Back Up & Restore Project Data](../../how-tos/entity-management/backup.mdx).
+</Info>
 
 <Info title="See Also">
 See also:
 - [Project Context](./project-context.mdx)
 - [AI Configuration](./ai-configuration.mdx)
 - [Chat](../chat.mdx)
-- [Back Up & Restore Project Data](../../how-tos/entity-management/backup.mdx)
 </Info>
