@@ -84,7 +84,7 @@ The model selector dropdown includes:
 * **Auto** allows ELITEA to automatically choose the model for each message based on the task and current availability, instead of you selecting one manually.
 
 <Note>
-**Auto** only appears in the dropdown if your project administrator has enabled it for the project in [Settings > General > CHAT CONFIGURATION](../../menus/settings/general#chat).
+**Auto** only appears in the dropdown if your project administrator has enabled it for the project in [Settings > General > Chat Configuration](../../menus/settings/general#chat-configuration).
 </Note>
 
 To select the necessary LLM, find it in the model selector dropdown.
@@ -262,6 +262,92 @@ For new — not duplicated — chats, ELITEA generates their name automatically 
 
 You can manually rename any chat at any time afterwards.
 
+### Work with Chat Templates
+
+A chat template is a saved, reusable set of chat participants — agents, pipelines, toolkits, MCP servers, or users — that you can apply to new chats without adding each participant manually.
+
+ELITEA allows setting one chat template as default:
+
+* A **default** template is applied automatically when you start a new chat.
+* Any **non-default** template is not applied automatically and is not offered as a manual choice when creating a chat; it remains a saved configuration until you mark it as the project's default.
+
+<Note>
+Creating or editing the default template does not affect any existing chats.
+</Note>
+
+Chat templates are created and managed in [Settings > General > Chat Configuration](../../menus/settings/general#chat-configuration):
+
+<img src="../../img/menus/settings/project/general/gen_chat-temps.png" alt="The chat templates list in Settings > General > Chat Configuration." />
+
+You can create, edit or delete chat templates only if you have **permission** to edit the project's configuration settings. Project members without this permission can view the existing templates, and the default template (if set) is applied to every new chat they create.
+
+Each template appears in the list as a card showing:
+
+* Its **name**.
+* A **Default** label, if it is marked as the project's default template.
+* Number of participants — both AI participants and users — added to the template.
+* Icons for its participants, grouped by type — agents, pipelines, toolkits, MCP servers, then users.
+
+On hover, you can see two action icons:
+
+* An **edit** icon to open the template (shown as a **view** icon instead if you do not have permission to edit configuration settings).
+* A **delete** icon to remove the template, shown only if you have permission to edit configuration settings.
+
+<img src="../../img/menus/settings/project/general/gen_chat-temps_card.png" alt="A chat template card showing its name, Default badge, participant icons, and action icons." />
+
+**Rules and limitations**
+
+* You can create up to **5 templates** per project.
+* A template **name is required**, must be 64 characters or fewer, and must be unique within the project (matching is case-insensitive).
+* Only one template per project can be marked *default* at a time.
+* If a template has exactly one participant, that participant automatically becomes the active participant in chats created from it, and your messages go directly to it.
+* Chat templates specify participants only — they do not specify the model, visibility, or any other chat setting.
+
+#### Create a Chat Template
+
+To create a chat template:
+
+1. Go to **Settings > General > Chat Configuration**.
+2. Select **+ Template**.
+
+   <Note>
+   **+ Template** is disabled if the project already has 5 templates.
+   </Note>
+
+3. Enter a unique **name** for the template.
+4. (optional) Select **Set as default**.
+5. Add participants from the **Agents**, **Pipelines**, **Toolkits**, **MCPs**, and **Users** tabs.
+6. Select **Save**.
+
+<Note>
+The **Users** tab is available only in team projects. In private projects, the tab is hidden because they have no users to add.
+</Note>
+
+<video src="../../img/menus/settings/project/general/gen_chat-temps_create.mp4" controls alt="Creating a new chat template in Settings > General > Chat Configuration."></video>
+
+#### Edit a Chat Template
+
+To edit a chat template:
+
+1. In **Settings > General > Chat Configuration**, find the template you want to change.
+2. Select **Edit** (appears on hover).
+3. Update its name, default status, or participants.
+4. Select **Save**.
+
+<Note>
+If you do not have permission to edit the project's configuration settings, templates open in a read-only view instead, without the **Save** option.
+</Note>
+
+#### Delete a Chat Template
+
+1. In **Settings > General > Chat Configuration**, find the template you want to remove.
+2. Select **Delete** (appears on hover).
+3. Confirm the deletion.
+
+<Note>
+Deleting a template does not affect chats that were already created from it — they keep their participants. Deleting the default template leaves the project without a default template until you mark another one.
+</Note>
+
 ### Organize Chats
 
 You can add your chats to folders for better organization and easier management:
@@ -418,6 +504,8 @@ After a link expires or is revoked, recipients see a message that the link is no
 * Use **Auto** when you want ELITEA to pick the best available model per message; select a specific model when you need consistent behavior or a particular capability.
 * Organize related chats into folders, and pin the ones you use most often for quicker access.
 * Set an expiration and password on external share links for anything containing sensitive information, and revoke links you no longer need.
+* Mark the participant set your project uses most often as the default chat template, so new chats start ready to use without manual setup.
+* Review your chat templates when the agents, pipelines, or toolkits they reference are changed or removed, since a template keeps a stale reference silently.
 
 ## Troubleshooting
 
@@ -445,9 +533,27 @@ After a link expires or is revoked, recipients see a message that the link is no
 **Solution:** Ask the chat's creator to create a new share link.
 </Accordion>
 
+<Accordion title="I cannot create, edit, or delete a chat template">
+**Cause:** The project already has 5 templates, or you do not have permission to edit the project's configuration settings.
+
+**Solution:** Delete a template you no longer need to free up a slot, or ask a project administrator to manage templates for you.
+</Accordion>
+
+<Accordion title="I do not see the MCPs tab when adding template participants">
+**Cause:** MCP exposure is not enabled at the platform level.
+
+**Solution:** Ask your platform administrator to enable MCP exposure. Until then, you cannot add MCP servers as template participants, though any already added before remain in the template.
+</Accordion>
+
+<Accordion title="My new chat does not start with the participants I expected">
+**Cause:** No template is marked as default, the default template was deleted, or you had already selected different participants before the default template could apply.
+
+**Solution:** Check [Settings > General > Chat Configuration](../../menus/settings/general#chat-configuration) for a default template, and ask your project administrator to mark one if none is set.
+</Accordion>
+
 <Info title="See Also">
 See also:
 
 * [Chat](../../menus/chat)
-* [Settings > General > Chat Configuration](../../menus/settings/general#chat)
+* [Settings > General > Chat Configuration](../../menus/settings/general#chat-configuration)
 </Info>
