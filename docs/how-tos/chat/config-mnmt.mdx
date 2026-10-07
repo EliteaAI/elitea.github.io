@@ -84,7 +84,9 @@ The model selector dropdown includes:
 * **Auto** allows ELITEA to automatically choose the model for each message based on the task and current availability, instead of you selecting one manually.
 
 <Note>
-**Auto** only appears in the dropdown if your project administrator has enabled it for the project in [Settings > General > Chat Configuration](../../menus/settings/general#chat-configuration).
+**Auto** only appears in the dropdown if your project administrator has configured it for the project in [Settings > General > Chat Configuration](../../menus/settings/general#chat-configuration).
+
+Pipelines always use an explicitly selected model — **Auto** is not available for them, regardless of this setting.
 </Note>
 
 To select the necessary LLM, find it in the model selector dropdown.
@@ -113,7 +115,7 @@ You can set the selected model up in the **Model settings** window that opens by
 
     | Level | Behavior |
     |-------|----------|
-    | **1** | Highly focused and deterministic outputs |
+    | **** | Highly focused and deterministic outputs |
     | **2** | Mostly focused with slight variation |
     | **3** | Balanced between focus and creativity *(default)* |
     | **4** | More varied and creative responses |
@@ -147,7 +149,7 @@ Every time the AI invokes a tool or performs an internal reasoning step, the cou
 
 When the limit is reached, the execution loop ends and the AI returns whatever results it has collected so far.
 
-When the steps limit is exceeded, the AI stops executing further tool calls and returns partial results. No error is displayed to the user by default — the response simply stops at the last completed step.
+When the steps limit is exceeded, the AI stops executing further tool calls and returns the error message.
 
 <Callout icon="lightbulb" color="#a855f7" title="Choosing a Steps Limit">
 **Tips for working with step limits:**
@@ -353,7 +355,7 @@ Deleting a template does not affect chats that were already created from it — 
 You can add your chats to folders for better organization and easier management:
 
 * In private projects, only you can see folders and their content.
-* In a team project, all folders are visible to all project members but chats in these folders are visible only if they are public or if you are added to them as a participant. All project members can move their chats into or from the project folders but cannot delete the folders created by project members.
+* In a team project, you can see a folder if you created it, or if it contains at least one chat you have access to — because it is public or because you are a participant. All project members can move their chats into or from folders they can see, but cannot delete folders created by other project members.
 
 #### Create Folders
 
@@ -413,7 +415,7 @@ To rename a chat or folder:
 
 ### Delete Chats and Folders
 
-Only a chat's creator can delete it. Folders can be deleted by anyone who can see them.
+Chats and folders can be deleted only by their creators.
 
 To delete a chat or folder:
 
@@ -467,7 +469,7 @@ You can share a chat with people outside your project or outside ELITEA through 
 
 ELITEA copies the link to your clipboard and displays it in the dialog.
 
-<video src="../../img/how-tos/chat-conversations/share-external.mp4" controls alt="Video demonstrating how to share a conversation externally."></video>
+<video src="../../img/how-tos/chat-conversations/chats/config-mnmt/share-external.mp4" controls alt="Video demonstrating how to share a conversation externally."></video>
 
 <Warning>
 Anyone with the link can view the shared content. Do not share links for chats that contain sensitive information.
@@ -480,23 +482,25 @@ Anyone with the link can view the shared content. Do not share links for chats t
 3. In the **Manage Links** dialog, review each link: its scope, expiration, password status and view count.
 4. Select **Copy** to copy a link again, or select **Revoke** to disable it immediately.
 
-<img src="../../img/how-tos/chat-conversations/share_manage-links.png" alt="The Manage Links dialog listing active share links with copy and revoke options." />
+<img src="../../img/how-tos/chat-conversations/chats/config-mnmt/share_manage-links.png" width="450" alt="The Manage Links dialog listing active share links with copy and revoke options." />
+
+Only the chat's creator can create, manage or revoke share links. Revoking a link blocks access immediately and cannot be undone — create a new link if you need to share the chat again.
 
 <Note>
-Only the chat's creator can create, manage or revoke share links. Revoking a link blocks access immediately and cannot be undone — create a new link if you need to share the chat again.
+[Restricting access](#restrict-access-to-chats) does not revoke external share links.
 </Note>
 
 **What Recipients See**
 
 Recipients open the link in a browser. If the link has a password, ELITEA prompts for it before showing the chat. The shared view is read-only: recipients can see the shared messages and attachments, but cannot reply, edit or add participants.
 
-<img src="../../img/how-tos/chat-conversations/share_open-link.png" alt="A shared chat opened in a browser by a recipient without an ELITEA account." />
+<img src="../../img/how-tos/chat-conversations/chats/config-mnmt/share_open-link.png" width="300" alt="A shared chat opened in a browser by a recipient without an ELITEA account." />
 
 After 10 failed password attempts, ELITEA locks the link for 15 minutes before allowing another attempt.
 
 After a link expires or is revoked, recipients see a message that the link is no longer available.
 
-<img src="../../img/how-tos/chat-conversations/share_no-link.png" alt="A message shown to a recipient when a share link has expired or been revoked." />
+<img src="../../img/how-tos/chat-conversations/chats/config-mnmt/share_no-link.png" width="400" alt="A message shown to a recipient when a share link has expired or been revoked." />
 
 ## Best Practices
 
@@ -504,8 +508,7 @@ After a link expires or is revoked, recipients see a message that the link is no
 * Use **Auto** when you want ELITEA to pick the best available model per message; select a specific model when you need consistent behavior or a particular capability.
 * Organize related chats into folders, and pin the ones you use most often for quicker access.
 * Set an expiration and password on external share links for anything containing sensitive information, and revoke links you no longer need.
-* Mark the participant set your project uses most often as the default chat template, so new chats start ready to use without manual setup.
-* Review your chat templates when the agents, pipelines, or toolkits they reference are changed or removed, since a template keeps a stale reference silently.
+* Use chat templates to save the participant sets you reuse most often.
 
 ## Troubleshooting
 
@@ -539,16 +542,16 @@ After a link expires or is revoked, recipients see a message that the link is no
 **Solution:** Delete a template you no longer need to free up a slot, or ask a project administrator to manage templates for you.
 </Accordion>
 
-<Accordion title="I do not see the MCPs tab when adding template participants">
-**Cause:** MCP exposure is not enabled at the platform level.
-
-**Solution:** Ask your platform administrator to enable MCP exposure. Until then, you cannot add MCP servers as template participants, though any already added before remain in the template.
-</Accordion>
-
 <Accordion title="My new chat does not start with the participants I expected">
 **Cause:** No template is marked as default, the default template was deleted, or you had already selected different participants before the default template could apply.
 
 **Solution:** Check [Settings > General > Chat Configuration](../../menus/settings/general#chat-configuration) for a default template, and ask your project administrator to mark one if none is set.
+</Accordion>
+
+<Accordion title="I do not see the MCPs tab when adding template participants">
+**Cause:** MCP exposure is not enabled at the platform level.
+
+**Solution:** Ask your platform administrator to enable MCP exposure. Until then, you cannot add MCP servers as template participants, though any already added before remain in the template.
 </Accordion>
 
 <Info title="See Also">
