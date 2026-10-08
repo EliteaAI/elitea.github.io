@@ -2,11 +2,21 @@
 title: "Usage"
 ---
 
+{/*PAGE ACCURACY CONFIRMED for 2.0.7*/}
+
 In **Usage**, you can review the current month's usage of platform-shared models, track budget consumption, and export usage data.
 
 To open **Usage**, in **Settings**, select **Usage**.
 
-<img src="../../img/menus/settings/project/usage/settings-usage.png" alt="Usage" />
+<img src="../../img/menus/settings/project/usage/usage.png" alt="Usage" />
+
+**Usage** includes these elements:
+
+- **Page header** displays the page title, along with **Refresh** and **Export to Excel** buttons on the right.
+- **Refresh button** manually refreshes the usage data for the active tab.
+- **Export to Excel button** downloads the current usage data as an Excel file.
+- **Tabs**: Two tabs to switch between **Whole project** and **My usage** views. Hidden in private projects, since there is only one scope to view.
+- **Content area**: The main scrollable panel that renders the usage summary, KPI cards, charts, and tables for the active tab.
 
 ## Usage Tabs
 
@@ -22,7 +32,7 @@ In **Usage**, you work with two tabs:
 </CardGroup>
 
 <Info title="Tab switcher visibility">
-In a personal project, ELITEA treats the project budget as your own budget (so you see no switcher). In a team project, you can switch between the whole-project view and your personal usage view.
+In a private project, ELITEA treats the project budget as your own budget (so you see no switcher). In a team project, you can switch between the whole-project view and your personal usage view.
 </Info>
 
 In both **Whole project** and **My usage**, you can review usage data, including:
@@ -37,7 +47,7 @@ In both **Whole project** and **My usage**, you can review usage data, including
 
 At the top of the page, ELITEA shows an information banner.
 
-- In a personal project, the banner explains that requests made without selecting a team project are charged to the private project.
+- In a private project, the banner explains that requests made without selecting a team project are charged to the private project.
 - In all scopes, the banner explains that only requests to platform-managed shared models count toward this budget.
 
 If usage figures are still being collected for the current period, ELITEA shows an informational message that usage may lag live activity.
@@ -72,9 +82,7 @@ If the budget is near its limit, ELITEA shows a warning message. If the budget i
 
 ### KPI Cards
 
-Depending on your permissions, the page can show these KPI cards:
-
-<img src="../../img/menus/settings/project/usage/usage-kpi.png" alt="Usage Summary" />
+<img src="../../img/menus/settings/project/usage/usage_kpi.png" alt="Usage Summary" />
 
 | KPI | Description |
 | --- | --- |
@@ -82,6 +90,8 @@ Depending on your permissions, the page can show these KPI cards:
 | **LIMIT** | Effective limit for the current scope |
 | **TOKENS** | Total prompt and completion tokens |
 | **CALLS** | Requests to shared models |
+
+Hover over the **i** icon in the **TOKENS** card to see a breakdown into input, output, cache read, and cache write tokens.
 
 If you cannot see cost amounts, ELITEA hides the **SPENT** card and shows a simplified **LIMIT** value.
 
@@ -91,7 +101,7 @@ In **Daily Usage**, you can review usage for each day in the current billing per
 
 <img src="../../img/menus/settings/project/usage/daily-usage.png" alt="Daily Usage" />
 
-The chart title and subtitle stay the same, but the panel changes depending on whether you can see cost amounts:
+The panel changes depending on whether you can see cost amounts:
 
 - If you can see amounts, the chart shows *Cost per day this period*.
 - If you cannot see amounts, the chart shows *Calls per day this period*.
@@ -122,9 +132,11 @@ If no model usage is recorded for the current period, ELITEA shows *No model usa
 
 ## Members
 
-In **Members**, authorized users can review per-member usage against each member's own limit in the current project.
+In **Members**, project administrators can review per-member usage against each member's own limit in the current project. Other members see an error message instead of the member breakdown.
 
-<img src="../../img/menus/settings/project/usage/usage-members.png" alt="Members" />
+<img src="../../img/menus/settings/project/usage/usage_members.png" alt="Members" />
+
+The table includes a row for each project member, plus a pinned **System / unattributed** row for spend that cannot be tied to a specific member.
 
 | Column | Description |
 | --- | --- |
@@ -135,16 +147,19 @@ In **Members**, authorized users can review per-member usage against each member
 
 The **Used** value is highlighted when the member is near or over the warning threshold.
 
+If ELITEA cannot read the member spend records, it shows a warning that the list reflects current members only, and that spend for members who have left the project is missing.
+
 <Note>
-**Members** are shown only when all of these conditions are true:
-- The selected project is not a personal project.
+**Members** are shown only when both of these conditions are true:
+- The selected project is not a private project.
 - The current tab is **Whole project**.
-- Member rows are available for the project.
+
+If no member usage is recorded yet for the project, ELITEA shows an empty state instead.
 </Note>
 
-**Members** includes a search field that filters members by name or email.
+**Members** includes a search field that filters members by name or email. If the search returns no matches, ELITEA shows the empty-state message.
 
-If the search returns no matches, ELITEA shows *No members found*.
+The table is paginated, showing 10 members per page by default (can be changed by the dropdown).
 
 ## Export Usage Data
 
@@ -155,9 +170,9 @@ To export usage data:
 1. In **Settings** > **Usage**, select the export button in the page header.
 2. Wait for ELITEA to prepare the export.
 
-<img src="../../img/menus/settings/project/usage/export-usage.png" alt="Export Usage" />
+<img src="../../img/menus/settings/project/usage/usage_export.png" alt="Export Usage" />
 
-ELITEA disables export while usage data is still loading. In team projects, ELITEA also waits for the member usage data before exporting.
+ELITEA disables export while usage data is still loading. On the **Whole project** tab, exporting also fetches the full member list — regardless of any active search filter or page — before building the file.
 
 If export fails, ELITEA returns the message, *Unable to export usage data. Please try again*.
 
@@ -168,5 +183,7 @@ If export fails, ELITEA returns the message, *Unable to export usage data. Pleas
 - Models configured with your own provider credentials are billed by that provider and are not included here.
 
 <Info title="See Also">
+See also:
+
 - [Analytics](./analytics.mdx)
 </Info>
