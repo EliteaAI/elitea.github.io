@@ -1,7 +1,11 @@
 ---
-title: "Context Management"
-sidebarTitle: "Context Management"
+title: "Managing Context and Budgets"
+sidebarTitle: "Context & Budget Management"
 ---
+
+This page covers two related aspects of chat resource management: **Context Management**, which tracks and controls token usage within a conversation, and **Budget Management**, which tracks and alerts on your project's cost budget.
+
+## Context Management
 
 The Context Budget widget displays real-time token usage metrics across Chat conversations, Agent runs, Pipeline executions, and Application configurations, providing immediate visibility into context consumption and management status.
 
@@ -14,13 +18,11 @@ To use context management, you need:
 * LLM model configured with context management support
 </Info>
 
----
-
-## Accessing Context Management
+### Accessing Context Management
 
 Context management is available in multiple locations within ELITEA:
 
-### From Chat Conversations
+#### From Chat Conversations
 
 Monitor and control context during active conversations:
 
@@ -33,9 +35,7 @@ Monitor and control context during active conversations:
 
      <img src="../../img/how-tos/chat-conversations/context-management/chat-context-budget.gif" alt="Chat Context Budget" width="600" />
 
----
-
-### In Agent Runs
+#### In Agent Runs
 
 Track context usage during agent execution:
 
@@ -47,9 +47,7 @@ Track context usage during agent execution:
 
      <img src="../../img/how-tos/chat-conversations/context-management/agent-context-budget.gif" alt="Chat Context Budget" width="600" />
 
----
-
-### In Pipeline Executions
+#### In Pipeline Executions
 
 Monitor context during pipeline chat panels:
 
@@ -61,9 +59,8 @@ Monitor context during pipeline chat panels:
 6. Observe automatic context management as the pipeline runs
 
      <img src="../../img/how-tos/chat-conversations/context-management/pipeline-context-budget.gif" alt="Pipelinet" width="600" />
----
 
-## Understanding the Context Budget Widget
+### Understanding the Context Budget Widget
 
 The Context Budget widget provides three view modes that display progressively more detailed information.
 
@@ -77,10 +74,6 @@ The Context Budget widget provides three view modes that display progressively m
 usage status
       * Green: Normal usage (0-100%)
       * Orange: High usage (more than 100%)
-
-
-
----
 
 **Compact View**
 
@@ -98,7 +91,6 @@ The compact view adds token usage, message, and summary tracking:
     **Agents** and **Pipelines**
 
        <img src="../../img/how-tos/chat-conversations/context-management/compact-view-agent.png" alt="Compact View" width="250" />
----
 
 **Expanded View**
 
@@ -114,17 +106,13 @@ The full view displays comprehensive context management details organized in col
 
 For detailed information about each parameter, see the [Configuration Parameters](#configuration-parameters) section below.
 
-
-
 **Context Management Toggle**
 
 * At the top of the expanded view, there is a toggle switch to enable or disable Context Management entirely. When disabled, all automatic context management features (pruning and summarization) are turned off.
 
      <img src="../../img/how-tos/chat-conversations/context-management/context-managment-off.png" alt="Context Management Toggle" width="300" />
 
----
-
-## How Context Management Works
+### How Context Management Works
 
 **Automatic Token Tracking**
 
@@ -143,10 +131,9 @@ When the model reaches its output token limit before finishing a response, a pro
 <img src="../../img/how-tos/chat-conversations/context-management/token-limit-message.png" alt="Token Limit" width="700" />
 </Warning>
 
----
-## Configuration Parameters
+### Configuration Parameters
 
-### Overview Metrics
+#### Overview Metrics
 
 * The expanded view displays three real-time usage metrics:
 
@@ -158,7 +145,7 @@ When the model reaches its output token limit before finishing a response, a pro
     | **Messages** | Total number of messages in conversation | "7" |
     | **Summaries** | Number of generated summaries | "0" |
 
-### Context Strategy & Token Management
+#### Context Strategy & Token Management
 
 * Configure token limits and message preservation to control how context is managed:
 
@@ -169,9 +156,7 @@ When the model reaches its output token limit before finishing a response, a pro
     | **Max Context Tokens** | Maximum number of tokens to keep in conversation context | 64,000 tokens | 1,000 - 10,000,000 | Defines the upper limit before pruning or summarization occurs |
     | **Preserve Recent Messages** | Number of most recent messages to always keep in context | 5 messages | 1 - 99 | Ensures the most recent messages are protected during context optimization |
 
----
-
-### Summarization
+#### Summarization
 
 * Configure automatic summarization to compress older messages and preserve conversation continuity:
 
@@ -186,7 +171,7 @@ When the model reaches its output token limit before finishing a response, a pro
     !!! info
         **Target Summary Tokens must always be less than Max Context Tokens.** The UI enforces this rule and will prevent saving if the value equals or exceeds Max Context Tokens.
 
-#### How Summarization Works
+##### How Summarization Works
 
 * When the context approaches the token limit:
 
@@ -197,9 +182,7 @@ When the model reaches its output token limit before finishing a response, a pro
 5. **Token Reduction**: Context token count reduced while preserving conversation continuity
 6. **Summary Storage**: Summary tracked (total summaries limited by summaries_limit_count)
 
----
-
-### User Instructions
+#### User Instructions
 
 * Configure system message preservation, default persona, and custom instructions for the assistant:
 
@@ -211,9 +194,7 @@ When the model reaches its output token limit before finishing a response, a pro
     | **Default Persona** | Default assistant persona for model chat (without agent selected) | Generic | Generic, QA, Nerdy, Quirky, Cynical | Sets the assistant's default behavioral style when no agent is selected |
     | **User instructions** | Custom instructions for the assistant | — | Free text (multiline) | Defines custom behavior guidelines for the AI assistant |
 
----
-
-## Usage Scenarios
+### Usage Scenarios
 
 <Accordion title="Long-Running Conversations">
 **Use Case**: Maintain coherent conversations that exceed model token limits
@@ -289,9 +270,7 @@ When the model reaches its output token limit before finishing a response, a pro
 * Balanced context across pipeline stages
 </Accordion>
 
----
-
-## Best Practices
+### Best Practices
 
 **Monitoring Context Usage**
 
@@ -313,9 +292,6 @@ When the model reaches its output token limit before finishing a response, a pro
 * Attachments and images can significantly increase token usage
 * Summary messages reduce overall token count while preserving information
 </Accordion>
-
-
----
 
 **Optimizing Conversations**
 
@@ -341,10 +317,7 @@ When the model reaches its output token limit before finishing a response, a pro
 * Adjust based on how much detail you need preserved in summaries
 </Accordion>
 
-
----
-
-## Troubleshooting
+### Troubleshooting
 
 <Accordion title="Context Budget Widget Not Visible">
 **Symptoms:**
@@ -496,3 +469,34 @@ When the model reaches its output token limit before finishing a response, a pro
    - May need to adjust backend processing limits
    - Could configure more aggressive pruning
 </Accordion>
+
+## Budget Management
+
+Unlike the token-based Context Budget above, these alerts track spend against your project's cost budget — the same budget shown in **Settings** > **Usage**.
+
+### Cost Budget Warnings
+
+As your project's cost budget — or your own share of it in a team project — approaches its limit, ELITEA shows a warning banner above the chat input, with three severity levels:
+
+| Level | Appears at |
+| --- | --- |
+| Warning | 80% used |
+| Elevated | 90% used |
+| Critical | 95% used (last warning before requests are blocked) |
+
+The banner names the budget that's affected: *"You have used X% of your budget."* (project budget, with a **View usage** link) or *"You have used X% of your budget in this project."* (your own share, with a **View my usage** link). If both are close to their limit, ELITEA shows the one that affects you specifically — your own budget takes priority.
+
+You can dismiss a warning for the rest of the current billing period, but only up to the level you dismissed — crossing into the next level brings the banner back, and it also returns automatically at the start of the next billing period.
+
+<Note>
+A Platform Admin can turn off dismissing entirely through the **Allow users to dismiss budget warnings** platform setting. When disabled, the banner stays until the budget resets.
+</Note>
+
+### Blocked Requests
+
+If a request is blocked because the project's cost budget — or your own share of it — is fully used, ELITEA shows a plain-language message in the chat instead of a generic "Unknown error":
+
+- *"This project's budget has been reached. AI requests are unavailable until the budget resets or a project admin increases the limit."* (project budget, with a **View whole project usage** link)
+- *"Your budget for this project has been reached. Your AI requests are unavailable until the budget resets or a project admin increases your limit."* (your own budget, with a **View my usage** link)
+
+This message is saved as part of the conversation, so it is still shown if you refresh the page.
