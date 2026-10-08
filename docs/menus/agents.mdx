@@ -33,7 +33,7 @@ Creating an agent involves three key components:
 
 1. **Instructions**: Define the agent's behavior, goals, and decision-making logic through custom instructions.
 2. **Toolkits & Integrations**: Connect external services (GitHub, Jira, Slack, etc.) and modules (Attachments, Image creation, Data Analysis, Planner, Python sandbox, Swarm Mode, Smart Tools Selection) to extend capabilities.
-3. **AI Model Configuration**: Select and configure the appropriate language model (GPT-4o, GPT-5.1, etc.) with optimal settings for your use case.
+3. **AI Model Configuration**: Select and configure the appropriate language model (GPT-4o, GPT-5.1, Auto, etc.) with optimal settings for your use case.
 
 Once configured, the agent uses advanced natural language processing to interpret instructions, interact with connected tools, and autonomously execute tasks while adapting to changing conditions.
 
@@ -310,7 +310,7 @@ Toolkits are integrations with external or ELITEA internal services that enhance
 
 ![Agents toolkits](../img/menus/agents/agent-add-toolkit.gif)
 
-<Note title="Note">
+<Note>
 Your changes are saved automatically when you add or remove resources.
 </Note>
 
@@ -541,10 +541,18 @@ To execute the agent and get the output:
 Before sending a message, you can choose which AI model processes the agent and optionally adjust its parameters.
 
 1. Select the **model chip** in the chat input bar to open the model selector dropdown.
-2. Choose the desired model from the list (for example, `gpt-4o`, `gpt-5.1`).
+2. Choose the desired model from the list (for example, `gpt-4o`, `gpt-5.1`), or select **Auto** at the top of the list to let ELITEA pick a model for each message automatically.
 3. Select the **Model Settings** icon (⚙️) next to the model chip to adjust generation parameters.
 
    ![Agents model settings](../img/menus/agents/agent-model-select.png)
+
+<Info>
+**Auto Model Selection**
+
+**Auto** sends each message to the model that fits it best, based on the task and current availability—shown in the dropdown with the hint "Based on your task and real-time usage." Choose a specific model instead if you need consistent, repeatable results.
+
+Auto only appears in the model selector when a project administrator has turned it on for the project in **Settings** > **Project General** > **Chat Configuration** > **Auto model selection** (options: **Use platform default**, **Enabled**, **Disabled**). If it is disabled at the project or platform level, the option does not appear.
+</Info>
 
 <Tabs>
   <Tab title="Reasoning Models (e.g. GPT-5.1)">
@@ -941,7 +949,10 @@ In team projects, regular users can view only their own runs in the **Run Histor
 **Access Run History:**
 
 1. Open any saved agent.
-2. In the right panel (embedded chat area), select the **clock icon** (🕐) in the top bar. The tooltip reads *"View run history"*.
+2. In the right panel (embedded chat area), select the **Run History** in the top bar. 
+
+    ![Run History](../../img/menus/agents/run-history-button.png)
+
 3. The agent page is replaced by the two-panel Run History display. Select the **✕ (Close)** button in the top-left to return.
 
 **What Run History shows:**
@@ -962,17 +973,55 @@ The Run History panel uses a two-panel layout:
   | **Date** | Timestamp of the run in `dd-MM-yyyy, hh:mm a` format |
   | **Version** | Agent version used for the run |
   | **Duration** | Total execution time of the run |
-  Select a row to load the conversation replay in the right panel.
-  Each row also has a **three-dot menu (⋮)** with the following actions:
-  | Action | Description |
-  | --- | --- |
-  | **Share link** | Copies a direct URL to this run to the clipboard |
-  | **Delete** | Permanently removes this run record (with confirmation prompt) |
-  | **Restore conversation** | Pre-populates the embedded test chat with the selected run's message history. Note: restores chat history only—agent configuration, instructions, and tool settings are **not** reverted. |
-  The list supports infinite scroll—additional runs load automatically as you scroll down.
+
+  Select a row to load the conversation replay in the right panel. The list supports infinite scroll—additional runs load automatically as you scroll down.
 - **Right panel**—full conversation replay of the selected run.
 
-![History tab](../img/menus/agents/agent-history-tab.gif)
+Each row also has a **three-dot menu (⋮)** with the following actions:
+
+| Action | Description |
+| --- | --- |
+| **Share link** | Copies a direct URL to this run to the clipboard |
+| **Delete** | Permanently removes this run record (with confirmation prompt) |
+| **Restore chat** | Pre-populates the embedded test chat with the selected run's message history. Restores chat history only—agent configuration, behavior, and tool settings are **not** reverted and may have changed since the run. |
+| **Analytics** | Opens a dedicated analytics page scoped to this run (see below). Shown only for runs recent enough to carry usage-tracking data. |
+
+![History tab](../img/menus/agents/agent-history-tab.png)
+
+### Run Analytics
+
+Selecting **Analytics** from a run's three-dot menu opens a dedicated page scoped to that single run only—no other runs or ordinary chats are mixed in. The header shows the run date and the agent version used. Use **Refresh data** to reload the figures, or **Export to Excel** (one worksheet per tab) to download them.
+
+<Tabs>
+  <Tab title="Costs">
+  Estimated cost cards (total, input, output, cache read/write) plus Cost by User and Cost by Model tables.
+  <img src="../img/menus/agents/analytics-costs-tab.png" alt="Run Analytics - Costs" />
+  </Tab>
+  <Tab title="Tokens">
+  Token count cards (total, input, output, cache read/write) plus Token Usage by User and Token Usage by Model tables.
+  <img src="../img/menus/agents/analytics-tokens-tab.png" alt="Run Analytics - Tokens" />
+  </Tab>
+  <Tab title="Tools">
+  A Tool Details table (calls, users, average latency, errors) with search and pagination.
+  <img src="../img/menus/agents/analytics-tools-tab.png" alt="Run Analytics - Tools" />
+  </Tab>
+  <Tab title="Health">
+  A Health by Event Type table (total, errors, error rate, average latency).
+  <img src="../img/menus/agents/analytics-health-tab.png" alt="Run Analytics - Health" />
+  </Tab>
+</Tabs>
+
+<Info>
+**Export to Excel**
+
+Downloads one worksheet per tab—Costs, Tokens, Tools, and Health—covering every row for this run, not just the rows visible on the current table page. Each worksheet also includes the project, agent, version, and run date for reference.
+</Info>
+
+<Info>
+**Availability**
+
+The **Analytics** menu item only appears for runs recent enough to carry usage-tracking data—older runs do not show it.
+</Info>
 
 <Info>
 For detailed instructions on using the History panel, see the [**Agents and Pipelines History guide**](../how-tos/agents-pipelines/agents-pipelines-history).
