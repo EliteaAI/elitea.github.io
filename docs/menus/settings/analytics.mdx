@@ -2,17 +2,19 @@
 title: "Analytics"
 ---
 
+{/*PAGE ACCURACY CONFIRMED for 2.0.7*/}
+
 **Analytics** provides detailed, real-time visibility into how your team uses the platform.
 
 Analytics data is always **scoped to the currently selected project** and is refreshed from the API with results cached for up to 5 minutes.
 
 <Info title="Project Member Requirement">
-**Analytics** is available to **all project members** — no special permissions are required beyond membership in the project. You must be added as a member of the project to view its analytics data.
+**Analytics** access requires the `models.monitoring.tracing.view` permission, which is granted by default to every project role (*admin*, *editor*, *viewer*). In practice, this means every project member can view **Analytics** unless your project uses custom roles that remove this permission. You must be added as a member of the project to view its analytics data.
 </Info>
 
 To access **Analytics** settings, select **Settings** > **Analytics**.
 
-![Analytics](../../img/menus/settings/project/analytics/analytics.png)
+<img src="../../img/menus/settings/project/analytics/analytics.png" alt="Analytics" />
 
 **Analytics** includes these elements:
 
@@ -71,7 +73,7 @@ Use four preset buttons to set the date range with a single click:
 
 | Preset | Date Range |
 |--------|-----------|
-| **Today** | From midnight today (local time) through now — not a rolling 24-hour window |
+| **Today** | From midnight to 23:59 today, including the entire final minute |
 | **Last 7d** | Previous 7 days |
 | **Last 30d** | Previous 30 days |
 | **Last 90d** | Previous 90 days |
@@ -95,7 +97,7 @@ The page loads with **Today** pre-selected. Re-selecting a preset button instant
 
 **Overview** displays project-wide KPI cards and summary charts for the selected date range.
 
-![Analytics](../../img/menus/settings/project/analytics/analytics.png)
+<img src="../../img/menus/settings/project/analytics/analytics.png" alt="Analytics" />
 
 ### KPI Cards
 
@@ -107,7 +109,7 @@ KPI cards show the most important metrics for the selected date range.
 | --- | --- | --- |
 | **TEAM** | Active members (X) out of all users ever seen in the project (Y). | X = distinct users with ≥ 1 event in range; Y = distinct users all-time. |
 | **AI ACTIVE** | Users with at least one LLM, tool, or agent event in the period. Includes an **adoption rate badge** (e.g. `↑ 72%`) = `AI ACTIVE / TEAM × 100%`. | Distinct users where `event_type` in (`llm`, `tool`) or `entity_type` = `application`. |
-| **LLM CALLS** | Total number of Large Language Model invocations (prompts sent to AI models). | Count of events where `event_type = "llm"`. |
+| **LLM CALLS** | Total number of Large Language Model invocations (prompts sent to AI models). Embedding model requests are counted as LLM calls too. | Count of events where `event_type = "llm"`. |
 | **TOOL RUNS** | Total number of tool executions triggered by agents or users. | Count of events where `event_type = "tool"`. |
 | **CHAT MSG** | Total user messages sent in the chat interface. | Count of events where `action = "SIO chat_predict"`. |
 | **AGENT & PIPELINE RUNS** | Total interactions with agents and pipelines. | Count of events where `entity_type = "application"`. |
@@ -140,7 +142,7 @@ Clicking a row navigates you directly to the user's detail view in **Users**.
 
 ### Automated Activity
 
-A table breaking down runs that were not triggered directly by a person — scheduled pipelines, webhook triggers, and index runs. These are included in the tab's raw totals, but not counted as user activity for **TEAM**, **AI ACTIVE**, the adoption rate, or the **Top 5 AI Adopters** leaderboard.
+A table breaking down runs that were not triggered directly by a person — scheduled pipelines, webhook triggers, and index runs. These are included in the tab's raw totals, but not counted as user activity for **TEAM**, **AI ACTIVE**, the adoption rate, the **Top 5 AI Adopters** leaderboard, or the **Users** and **Activity** tabs.
 
 <img src="../../img/menus/settings/project/analytics/analytics_overview_auto-activity.png" alt="Automated Activity" />
 
@@ -288,7 +290,7 @@ Cache read and cache write tokens are tracked separately for models that support
 
 Five KPI cards appear at the top of **Tokens**.
 
-![Tokens KPI Cards](../../img/menus/settings/project/analytics/analytics-tokens-kpi.png)
+<img src="../../img/menus/settings/project/analytics/analytics-tokens-kpi.png" alt="Tokens KPI Cards" />
 
 | KPI | Description |
 | --- | --- |
@@ -308,7 +310,7 @@ A multi-bar chart showing  daily total, input, and output token usage for LLM re
 - **Cache Read Tokens** (fourth bar): cached tokens read per day
 - **Cache Write Tokens** (fifth bar): tokens written to cache per day
 
-![Daily Token Usage](../../img/menus/settings/project/analytics/analytics-tokens-daily.png)
+<img src="../../img/menus/settings/project/analytics/analytics-tokens-daily.png" alt="Daily Token Usage" />
 
 If no token data is available for the selected date range, ELITEA shows **No token usage is available for the selected date range.**
 
@@ -370,7 +372,7 @@ If no agent or pipeline token data is available for the selected date range, ELI
 
 A bar chart showing the **top 20 agents** ranked by total event count. Each bar is color-coded and labeled with the agent name.
 
-     ![Most Active Agents](../../img/menus/settings/project/analytics/active-agents.png)
+<img src="../../img/menus/settings/project/analytics/active-agents.png" alt="Most Active Agents" />
 
 ### Activity
 
@@ -514,7 +516,7 @@ A paginated, searchable table listing all users active in the project during the
 | **Cache Read Cost** | Estimated cost of cache read tokens |
 | **Cache Write Cost** | Estimated cost of cache write tokens |
 
-Use the search box to filter by email address. Page size options: 10, 20, or 50.
+Use the search box to filter by email address. Page size options: 10, 20, or 50. Rows are sorted alphabetically by user email; the sort order cannot be changed.
 
 ### User Details View
 
@@ -573,7 +575,7 @@ An area chart with two series:
 
 You can use the controls above the chart to adjust the view:
 
-- **Role**: restricts the trend to members holding one or more selected project roles — *admin*, *editor*, *viewer*. Leave it empty to include everyone. Not shown for personal projects.
+- **Role**: restricts the trend to members holding one or more selected project roles — basic (*admin*, *editor*, *viewer*) or custom. Leave it empty to include everyone. Not shown for personal projects.
 - **Granularity**: switches the bucket size between **Day**, **Week**, and **Month**. Weeks start on Monday and months on the 1st; a partial bucket at either end of the date range is shown as-is rather than padded out.
 
 <Note>
@@ -596,7 +598,11 @@ This table only appears when there is at least one period of data to show.
 
 **Health** provides system reliability metrics, helping you identify error patterns and latency issues.
 
-<img src="../../img/menus/settings/project/analytics/euch_health.png" alt="Health" />
+<img src="../../img/menus/settings/project/analytics/analytics_health.png" alt="Health Tab" />
+
+<Note>
+If no health data is available for the selected date range, ELITEA shows an empty-state message instead of **Health**'s content.
+</Note>
 
 ### Requests vs Errors
 
@@ -606,6 +612,8 @@ A dual-series area chart showing:
 - **Errors** (red): events that resulted in an error per day.
 
 Spikes in the red area indicate periods with elevated error rates.
+
+This chart only appears when there is at least one day of data to show.
 
 ### Health by Event Type
 
@@ -638,7 +646,7 @@ High latency on `llm` events is normal (model inference takes time). Elevated la
 
 **Guide** is a built-in metric glossary embedded directly in **Analytics**.
 
-It explains every KPI, chart, and table column with:
+It explains general concepts as well as every KPI, chart, and table column and can include:
 - **Description**: What the metric represents in plain language.
 - **Calculation**: The exact formula used to compute the value.
 - **Data source**: Which event types or platform actions contribute to the metric.
@@ -649,11 +657,10 @@ It explains every KPI, chart, and table column with:
 
 | Limitation | Details |
 |------------|---------|
-| **Data freshness** | API responses are cached for **5 minutes**. Switching tabs or adjusting the date range within that window may serve cached data. |
+| **Data freshness** | API responses are cached for **5 minutes** per combination of filters. Switching tabs and back, or returning to an exact previously-used date range, within that window may serve cached data instead of a fresh request. Changing to a new date range always triggers a fresh request. |
 | **Overview and Health data shared** | **Overview** and **Health** use the same underlying API call. Switching between them does not trigger a new request while cached data is still fresh. |
 | **Agent / Tool / User tabs are independent** | Each tab fetches data separately with server-side pagination. Navigation within a tab (pagination, search) triggers new API requests. |
-| **Top charts limited to 20 items** | **Most Active Agents** and **Most Popular Tools** charts always show the top 20 items only. Use the paginated table below each chart to browse additional entries. |
-| **Trace-ID correlation** | Tool-to-agent associations (in detail views) are resolved by matching `trace_id` values. This is only available when trace IDs are correctly propagated by the SDK. |
+| **Top charts reflect the table's current view** | **Most Active Agents** and **Most Popular Tools** charts show the first 20 rows of whatever the table below is currently displaying. Searching, sorting, or paging the table changes what the chart shows. |
 | **Project-only scope** | There is no cross-project or portfolio-level view within Analytics. |
 | **Costs are estimates** | **Costs** and **Tokens** use a local model-price table, so provider invoices may differ. |
 | **Costs and Tokens use separate requests** | **Costs** and **Tokens** load data from a dedicated cost analytics endpoint. |
@@ -671,9 +678,9 @@ It explains every KPI, chart, and table column with:
 </Accordion>
 
 <Accordion title="Identifying Underused or Overloaded Agents">
-1. Open the **Agents** tab.
+1. Open the **Agents & Pipelines** tab.
 2. Use the **Most Active Agents** bar chart to quickly see which agents receive the most traffic.
-3. In the **Agent Activity** table, sort mentally by the **Events** column (highest first by default) to find heavily used agents.
+3. In the **Activity** table, sort mentally by the **Runs** column (highest first by default) to find heavily used agents.
 4. Click any agent to open its detail view and check **Avg Latency** and **Error Rate**. A high error rate (> 5%) highlights agents that may need debugging or configuration review.
 5. Agents with zero events in the selected period may be deprecated or not yet discovered by your team.
 </Accordion>
@@ -691,7 +698,7 @@ It explains every KPI, chart, and table column with:
 2. Use the search box to filter by the user's email address.
 3. Click the user's row to open their detail view.
 4. Review the **Daily Activity** area chart to see on which days they were most active and which event types dominate.
-5. The **Models Used**, **Tools Used**, and **Agents Used** lists show exactly which platform resources this user engaged with — useful for onboarding support or license reviews.
+5. The **Models Used**, **Tools Used**, and **Agents & Pipelines Used** lists show exactly which platform resources this user engaged with — useful for onboarding support or license reviews.
 </Accordion>
 
 <Accordion title="Investigating an Error Spike">
@@ -756,5 +763,5 @@ Whenever you modify agent prompts or system instructions, use the **Tokens** tab
 </Accordion>
 
 <Accordion title="Monitor Per-User Token Consumption for Fair Usage Policies">
-If your organization has fair usage policies or user quotas, use the **Token Usage by User** table in the **Tokens** tab to monitor individual consumption. Sort by **TOTAL TOKENS** to identify outliers. Click through to the **Users** tab for detailed daily activity patterns. High token users may be running inefficient workflows, testing extensively, or legitimately processing large volumes. Combine token data with the **Costs** tab to understand the financial impact per user, helping inform capacity planning and budget allocation decisions.
+If your organization has fair usage policies or user quotas, use the **Token Usage by User** table in the **Tokens** tab to monitor individual consumption. The table is sorted by **TOTAL TOKENS** (highest first), so outliers appear at the top. Click through to the **Users** tab for detailed daily activity patterns. High token users may be running inefficient workflows, testing extensively, or legitimately processing large volumes. Combine token data with the **Costs** tab to understand the financial impact per user, helping inform capacity planning and budget allocation decisions.
 </Accordion>
