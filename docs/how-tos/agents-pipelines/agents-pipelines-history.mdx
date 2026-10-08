@@ -35,28 +35,18 @@ In team projects, regular users can view only their own runs in the **Run Histor
 
 ## Accessing Run History
 
-### For Agents
-
-1. Navigate to the **Agents** menu in the left sidebar
-2. Click on the agent you want to review
-3. In the agent page, look at the **right panel** (embedded chat area)
-4. Click the **clock icon** (🕐) in the top bar of the right panel. The tooltip reads *"View run history"*
+1. Navigate to the **Agents** or **Pipelines** menu in the left sidebar.
+2. Click on the agent or pipeline you want to review.
+3. In the agent/pipeline page, look at the **right panel** (embedded chat area).
+4. Click the **Run History** button (clock icon) in the top bar of the right panel. The tooltip reads *"View run history"*.
 5. The page is replaced by the **Run History** panel. Click the **✕ (Close)** button in the top-left to return.
 
-     <img src="../../img/how-tos/agents-pipelines/agents-pipelines-history/agent-history.gif" alt="Agent History" />
+     <img src="../../img/how-tos/agents-pipelines/agents-pipelines-history/run-history-button.png" alt="Run History Button" />
 
-### For Pipelines
+<Tip>
+**Right Panel Must Be Visible**
 
-1. Navigate to the **Pipelines** menu in the left sidebar
-2. Click on the pipeline you want to review
-3. In the pipeline page, look at the **right panel** (embedded chat area)
-4. Click the **clock icon** (🕐) in the top bar of the right panel. The tooltip reads *"View run history"*
-5. The page is replaced by the **Run History** panel. Click the **✕ (Close)** button in the top-left to return.
-
-     <img src="../../img/how-tos/agents-pipelines/agents-pipelines-history/pipeline-history.gif" alt="Pipeline History" />
-
-<Tip title="Right panel must be visible">
-The clock icon appears in the top bar of the embedded chat panel on the right side of the agent/pipeline page. If the right panel is collapsed, expand it first using the collapse toggle button.
+The **Run History** button appears in the top bar of the embedded chat panel on the right side of the agent/pipeline page. If the right panel is collapsed, expand it first using the collapse toggle button.
 </Tip>
 
 ## Understanding the Run History View
@@ -65,7 +55,7 @@ The Run History panel replaces the current page view and has a **two-panel layou
 
      <img src="../../img/how-tos/agents-pipelines/agents-pipelines-history/history-tab-view.png" alt="Hystory Tab View" />
 
-### Left Panel: Run History List
+**Left Panel: Run History List**
 
 The left panel displays all historical runs in a sortable list with the following columns:
 
@@ -85,7 +75,7 @@ All column headers are clickable to sort the list ascending or descending by tha
 - **Default order**: Newest runs appear first (sorted by Date descending)
 - **Three-dot menu (⋮)**: Each row has a context menu with [actions](#run-actions) available on hover
 
-### Right Panel: Chat Replay
+**Right Panel: Chat Replay**
 
 The right panel shows the complete conversation for the selected run:
 
@@ -94,21 +84,28 @@ The right panel shows the complete conversation for the selected run:
 - **Formatting**: Messages retain their original formatting, including code blocks and lists
 - **Read-only**: This is a replay view—you cannot modify or continue the conversation
 
-<Info title="Empty State">
+<Info>
+**Empty State**
+
 When no run is selected, the right panel remains empty. Select a run from the left panel to view its conversation.
 </Info>
 
-### Run Actions
+**Run Actions**
 
 Each run row has a **three-dot menu (⋮)** that appears on hover, containing the following actions:
+
+     <img src="../../img/how-tos/agents-pipelines/agents-pipelines-history/history-actions.png" alt="Hystory Tab View" />
 
 | Action | Description |
 |--------|-------------|
 | **Share link** | Copies a direct URL to this specific run to the clipboard. Opening the link automatically navigates to the Run History panel and selects that run. |
-| **Delete** | Permanently removes this run record. A confirmation dialog titled "Remove run" appears before deletion. |
-| **Restore conversation** | Pre-populates the embedded test chat with the selected run's message history. **Note:** restores chat history only — agent/pipeline configuration, instructions, and tool settings are **not** reverted. |
+| **Delete** | Permanently removes this run record. A confirmation dialog titled "Remove run?" appears before deletion. |
+| **Restore chat** | Pre-populates the embedded test chat with the selected run's message history. **Note:** restores chat history only — agent/pipeline configuration, behavior, and settings are **not** reverted and may have changed since the run. |
+| **Analytics** | Opens a dedicated analytics page scoped to this run. Shown only for runs recent enough to carry usage-tracking data—see [Run Analytics](#run-analytics). |
 
-<Warning title="Permanent Deletion">
+<Warning>
+**Permanent Deletion**
+
 Deleting a run is permanent and cannot be undone. Confirm carefully before removing any run record.
 </Warning>
 
@@ -116,7 +113,7 @@ Deleting a run is permanent and cannot be undone. Confirm carefully before remov
 
 ### Viewing a Past Run
 
-1. Access Run History as described in [Accessing Run History](#accessing-run-history)
+1. Access Run History
 2. Browse the list of runs in the left panel
 3. Click on the run you want to review
 4. The complete conversation for that run appears in the right panel
@@ -124,6 +121,44 @@ Deleting a run is permanent and cannot be undone. Confirm carefully before remov
 6. Click **✕ (Close)** when done to return to the agent/pipeline page
 
      <img src="../../img/how-tos/agents-pipelines/agents-pipelines-history/view-run.gif" alt="View-run" />
+
+### Run Analytics
+
+Selecting **Analytics** from a run's three-dot menu opens a dedicated page scoped to that single run only—no other runs or ordinary chats are mixed in. The header shows the run date and the agent/pipeline version used. Use **Refresh data** to reload the figures, or **Export to Excel** to download them.
+     <img src="../../img/how-tos/agents-pipelines/agents-pipelines-history/run-analytics.png" alt="Deleting a Run" />
+
+
+<Tabs>
+  <Tab title="Costs">
+  Opens by default. Five cards—**Total Cost**, **Input Token Cost**, **Output Token Cost**, **Cache Read Cost**, and **Cache Write Cost**—summarize spend for the run, with a note that costs are estimated from a local model-price table and may differ from your provider's invoice. Below the cards, **Cost by User** and **Cost by Model** tables break the same figures down by who ran the request or which model served it, with a **Share** column showing each row's percentage of the run's total cost.
+  <img src="../../img/how-tos/agents-pipelines/agents-pipelines-history/analytics-costs-tab.png" alt="Run Analytics - Costs" />
+  </Tab>
+  <Tab title="Tokens">
+  Five cards—**Total Tokens**, **Input Tokens**, **Output Tokens**, **Cache Read**, and **Cache Write**—summarize token consumption for the run. **Token Usage by User** and **Token Usage by Model** tables break the same counts down by user or model, each with a **Share** column showing that row's percentage of the run's total tokens.
+  <img src="../../img/how-tos/agents-pipelines/agents-pipelines-history/analytics-tokens-tab.png" alt="Run Analytics - Tokens" />
+  </Tab>
+  <Tab title="Tools">
+  A **Tool Details** table lists every tool called during the run, with its name, number of calls, number of distinct users, average latency, and error count. Use the search field to filter by tool name, and the pagination control to page through results (10, 20, or 50 rows at a time).
+  <img src="../../img/how-tos/agents-pipelines/agents-pipelines-history/analytics-tools-tab.png" alt="Run Analytics - Tools" />
+  </Tab>
+  <Tab title="Health">
+  A **Health by Event Type** table groups the run's technical events by type, showing the total count, number of errors, error rate, and average latency for each. If the run has no recorded health events, the table reports that no health data is available.
+  <img src="../../img/how-tos/agents-pipelines/agents-pipelines-history/analytics-health-tab.png" alt="Run Analytics - Health" />
+  </Tab>
+</Tabs>
+
+<Info>
+**Export to Excel**
+
+Downloads one worksheet per tab—Costs, Tokens, Tools, and Health—covering every row for this run, not just the rows visible on the current table page. Each worksheet also includes the project, agent/pipeline, version, and run date for reference.
+</Info>
+
+<Note>
+**Availability**
+
+**Analytics** is not available for previous runs—usage-tracking data is only recorded for runs created after release 2.0.7. The menu item does not appear for any run older than that.
+</Note>
+
 
 ### Finding a Specific Run
 
@@ -134,7 +169,9 @@ Since runs are sorted by date (newest first) by default, you can:
 - **Specific version**: Click the **Version** column header to sort alphabetically by version name
 - **By duration**: Click the **Duration** column header to sort by execution time
 
-<Tip title="Load More Runs">
+<Tip>
+**Load More Runs**
+
 If you have many historical runs, scroll to the bottom of the list to automatically load more entries.
 </Tip>
 
@@ -165,7 +202,7 @@ To share a specific run with team members or save it for later reference:
 4. A success toast appears confirming the link was copied to your clipboard
 5. Share the link — when opened it navigates directly to the Run History panel with that run selected
 
-     <img src="../../img/how-tos/agents-pipelines/agents-pipelines-history/copy-run-agent.gif" alt="Copy Run Link" />
+     <img src="../../img/how-tos/agents-pipelines/agents-pipelines-history/copy-run.png" alt="Copy Run Link" />
 
 ### Deleting a Run
 
@@ -174,33 +211,36 @@ If you need to remove a specific run from history:
 1. Hover over the run you want to delete in the left panel
 2. Click the **⋮ (three-dot menu)** icon that appears
 3. Select **Delete**
-4. Confirm the deletion in the **"Remove run"** dialog
+4. Confirm the deletion in the **"Remove run?"** dialog
 5. The run is permanently removed from history
 
-     <img src="../../img/how-tos/agents-pipelines/agents-pipelines-history/remove-run.gif" alt="Deleting a Run" />
+     <img src="../../img/how-tos/agents-pipelines/agents-pipelines-history/run-delete.png" alt="Deleting a Run" />
 
-<Warning title="Permanent Deletion">
+<Warning>
+**Permanent Deletion**
+
 Deleting a run from history is permanent and cannot be undone. Make sure you want to remove the record before confirming.
 </Warning>
 
-### Restoring a Conversation
+### Restoring a Chat
 
-The **Restore conversation** action pre-populates the embedded test chat (right panel of the agent/pipeline page) with the message history from a selected run. This lets you quickly resume or replay an earlier conversation without manually re-entering the same inputs.
+The **Restore chat** action pre-populates the embedded test chat (right panel of the agent/pipeline page) with the message history from a selected run. This lets you quickly resume or replay an earlier conversation without manually re-entering the same inputs.
 
 To restore a past conversation:
 
 1. Open the Run History panel by clicking the **clock icon** (🕐) in the right panel top bar
 2. Find the run whose conversation you want to restore
 3. Hover over that run row and click the **⋮ (three-dot menu)** icon
-4. Select **Restore conversation**
-5. Click **✕ (Close)** to return to the agent/pipeline page
-6. The embedded chat on the right now shows the restored message history — continue the conversation from there
+4. Select **Restore chat**
+5.  The embedded chat on the right now shows the restored message history — continue the conversation from there
 
-     ![Restoring a Conversation](../../img/how-tos/agents-pipelines/agents-pipelines-history/restore-conversation.gif)
+     ![Restoring a Conversation](../../img/how-tos/agents-pipelines/agents-pipelines-history/restore-chat.png)
 
-<Warning title="What is restored">
-* **Restore conversation restores chat history only.** The agent/pipeline's configuration, instructions, model settings, and tool settings are **not** reverted to their state at the time of the original run. If the agent/pipeline has changed since that run, the restored chat will continue with the current configuration.
-* The **Restore conversation** option is available for **Agents** and **Pipelines** only. It does not appear in the history panels for Toolkits or MCPs.
+<Warning>
+**What Is Restored**
+
+* **Restore chat restores chat history only.** The agent's or pipeline's configuration, behavior, and settings are **not** reverted to their state at the time of the original run, and may have changed since then.
+* The **Restore chat** option is available for **Agents** and **Pipelines** only. It does not appear in the history panels for Toolkits or MCPs.
 </Warning>
 
 ## Common Use Cases
@@ -229,7 +269,8 @@ To restore a past conversation:
 2. Review the Duration column across multiple runs
 3. Click the **Duration** column header to sort by execution time
 4. Select the longest-running runs to see what operations were performed
-5. Optimize the pipeline based on the longest-running operations
+5. For a slow run recent enough to have usage data, open **Analytics** from its three-dot menu to review tool call counts, latency, and token usage on the **Tools** and **Tokens** tabs
+6. Optimize the pipeline based on the longest-running operations
 </Accordion>
 
 <Accordion title="Version Comparison">
@@ -312,6 +353,16 @@ To restore a past conversation:
 - **Scroll position**: Try scrolling back up slightly, then scroll down again to trigger loading
 </Accordion>
 
+<Accordion title="Analytics Option Missing or Shows No Data">
+**Problem**: The **Analytics** item does not appear in a run's three-dot menu, or the Analytics page shows "No analytics data is available for this run."
+
+**Solutions**:
+
+- **Check run age**: Analytics requires usage-tracking data that is only recorded for runs recent enough to carry it. Older runs never show the menu item.
+- **Check the conversation**: Analytics is only offered for runs that have a conversation to analyze.
+- **Refresh**: On the Analytics page, select **Refresh data** to re-fetch the figures.
+</Accordion>
+
 <Accordion title="Duration Shows Unusual Values">
 **Problem**: The duration column shows unexpected values like very short or very long times.
 
@@ -356,7 +407,9 @@ To restore a past conversation:
 </Accordion>
 
 
-<Info title="Related Resources">
+<Info>
+**Related Resources**
+
 - [Agents Menu](../../menus/agents) - Learn about managing agents
 - [Pipelines Menu](../../menus/pipelines) - Learn about managing pipelines
 - [Entity Versioning](./entity-versioning) - Understanding version management
