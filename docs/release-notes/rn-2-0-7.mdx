@@ -22,7 +22,9 @@ You can now let ELITEA choose the model and reasoning effort for each request by
 
 **Benefits:** Lower cost per completed task.
 
-Details: [Chat Configuration & Management](../how-tos/chat/config-mnmt), [Agents](../menus/agents).
+Details: [General Settings](../menus/settings/general#chat-configuration), [Select a Model](../how-tos/chat/config-mnmt#select-a-model), [Auto](../how-tos/chat/config-mnmt#auto-settings).
+
+<img src="../img/release-notes/rn_2.0.7_1_auto.png" alt="Auto model selection in the model selector dropdown" />
 
 ### Chat Templates
 
@@ -36,7 +38,9 @@ You can now save up to five chat templates in **Settings → General → Chat Co
 
 **Benefits:** Less manual work when creating new chats.
 
-Details: [General Settings](../menus/settings/general).
+Details: [General Settings](../menus/settings/general#chat-configuration), [Work with Chat Templates](../how-tos/chat/config-mnmt#work-with-chat-templates).
+
+<img src="../../img/menus/settings/project/general/gen_chat-temps.png" alt="The chat templates list in Settings > General > Chat Configuration." />
 
 ### Outlook and Microsoft Teams Toolkits
 
@@ -61,6 +65,8 @@ You can't edit a sent message in Outlook, or edit or delete a sent message in Te
 
 Details: [Outlook Toolkit](../integrations/toolkits/outlook_toolkit), [Microsoft Teams Toolkit](../integrations/toolkits/teams_toolkit).
 
+<img src="../img/release-notes/rn_2.0.7_3_outlook-teams.png" alt="Outlook and Microsoft Teams toolkits" />
+
 ### Project Theme
 
 You can now select the project theme that matches your organization's branding.
@@ -72,6 +78,8 @@ You can now select the project theme that matches your organization's branding.
 **Benefits:** Branded look for ELITEA.
 
 Details: [Preferences](../menus/settings/preferences#general).
+
+<img src="../../img/menus/settings/personal/preferences/personal_general.png" width="300" alt="General preferences" />
 
 ### Multiple Repositories in ADO Repos Toolkit
 
@@ -93,12 +101,14 @@ You can now let a Code node in a shared project read the secrets of the user who
 * Use the new `get_private_project_secret(secret_name)` function.
 * Get the secret from the personal project of the person running the pipeline.
 * Secrets are not shared by default: allow external access for a secret in your private project to make it available to Code nodes in other projects.
-* Users with the Viewer role can run shared Agents and Pipelines with their own credentials.
+* Users with the *viewer* role can run shared Agents and Pipelines with their own credentials.
 * You will get an error if you have no personal project or the secret is not shared or does not exist. The function never falls back to a shared secret with the same name.
 
 **Benefits:** Secure per-user credentials in shared pipelines.
 
-Details: [Execution Nodes](../how-tos/pipelines/nodes/execution-nodes), [Pipeline Runs](../how-tos/pipelines/pipeline-runs).
+Details: [Private Project Secrets](../how-tos/pipelines/nodes/execution-nodes#private-project-secrets).
+
+![Shared Secret](../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/shared-secret.png)
 
 ### Enhance with AI for Evaluation Runs
 
@@ -111,7 +121,9 @@ You can now fix your agent evaluation runs with the new **Enhance with AI** feat
 
 **Benefits:** A faster path from a missed target to a fix, based on the evidence from your run.
 
-Details: [Agent Evaluation](../how-tos/agents-pipelines/agent-evaluation), [Agent Evaluation FAQs](../how-tos/agents-pipelines/agent-evaluation-faq).
+Details: [Enhance with AI](../how-tos/agents-pipelines/agent-evaluation#enhance-with-ai), [Agent Evaluation FAQs](../how-tos/agents-pipelines/agent-evaluation-faq).
+
+<img src="../../img/how-tos/agents-pipelines/agent-evaluation/enhance-ai-instr.png" alt="Result Actions"/>
 
 ### Restrict Access to Public Chats
 
@@ -123,7 +135,9 @@ You can now restrict access to public chats.
 
 **Benefits:** Quick recovery from accidental or temporary public sharing.
 
-Details: [Chat Configuration & Management](../how-tos/chat/config-mnmt).
+Details: [Restrict Access to Chats](../how-tos/chat/config-mnmt#restrict-access-to-chats).
+
+<img src="../../img/how-tos/chat-conversations/chats/config-mnmt/chat_restrict-access.png" width="400" alt="The Restrict access dialog with dropdown lists to select which AI participants and users keep access." />
 
 ## Changed Features
 
@@ -131,7 +145,6 @@ Details: [Chat Configuration & Management](../how-tos/chat/config-mnmt).
 
 You can now see analytics for individual runs and get earlier budget warnings.
 
-* **Usage** and **Analytics** show costs and tokens recorded by ELITEA. Budgets are enforced without depending on LiteLLM.
 * Get budget warnings at 80%, 90% and 95%.
 * ELITEA will send a budget message in Chat when a project budget blocks a request. It stays in the conversation after a refresh.
 * You can see the analytics, including costs, tokens, tools and health, for individual Agent runs (including agent evaluations) and Pipeline runs.
@@ -140,7 +153,7 @@ You can now see analytics for individual runs and get earlier budget warnings.
 
 **Benefits:** Clearer budget alerts and better run cost visibility.
 
-Details: [Usage](../menus/settings/usage), [Analytics](../menus/settings/analytics).
+Details: [Usage](../menus/settings/usage), [Analytics](../menus/settings/analytics), [Budget Management](../how-tos/chat/ctxt-bdgt#budget-management), [Run Analytics (Agents & Pipelines)](../how-tos/agents-pipelines/agents-pipelines-history#run-analytics), [Run Analytics (Evaluations)](../how-tos/agents-pipelines/agent-evaluation#run-analytics).
 
 ### Agent Evaluation Enhancements
 
@@ -153,7 +166,7 @@ You can now set up evaluation suites and dimensions more easily and move between
 
 **Benefits:** Faster evaluation setup with ready-to-use AI-generated dimensions.
 
-Details: [Agent Evaluation](../how-tos/agents-pipelines/agent-evaluation), [Agent Evaluation FAQs](../how-tos/agents-pipelines/agent-evaluation-faq).
+Details: [Suites](../how-tos/agents-pipelines/agent-evaluation#suites), [Agent Evaluation](../how-tos/agents-pipelines/agent-evaluation), [Agent Evaluation FAQs](../how-tos/agents-pipelines/agent-evaluation-faq).
 
 ### Indexing Reporting and Scheduling Improvements
 
@@ -167,7 +180,7 @@ ELITEA provides new reporting and scheduling features for indexes.
 
 **Benefits:** Clearer index statuses and one place to manage schedules.
 
-Details: [Toolkits](../menus/toolkits), [Indexing Overview](../how-tos/indexing/indexing-overview).
+Details: [Create a New Index](../how-tos/indexing/using-indexes-tab-interface#create-a-new-index), [Configure Cron Expression](../how-tos/indexing/schedule-indexing#configure-cron-expression), [Schedule Card](../how-tos/indexing/schedule-indexing#schedule-card).
 
 ## Fixed Issues
 
