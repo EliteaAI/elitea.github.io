@@ -1,68 +1,115 @@
 ---
 title: "Smart Tools Selection"
 sidebarTitle: "Smart Tools Selection"
-description: "Reduce token usage in chats and agents by loading toolkit schemas and tools on demand."
 ---
 
-## Overview
+**Smart Tools Selection** module reduces token usage by loading toolkit schemas and tools on demand.
 
-**Key Features:**
+**Key features:**
 
-- **Token Optimization:** Reduces token usage by up to 90% when using many toolkits
-- **Meta-Tool Architecture:** Uses intelligent proxy tools (`get_tool_schema` and `invoke_tool`) to access all functionality
-- **Dynamic Tool Loading:** Tools are loaded on-demand rather than pre-bound to the LLM
-- **Transparent Operation:** Works seamlessly without changing user experience
-- **Toolkit Organization:** Maintains toolkit structure for efficient tool discovery and invocation
+* Reduce token usage
+* Access all toolkit functionality through two meta-tools
+* Load tool schemas on demand instead of pre-binding every tool to the LLM
+* Keep the same final tool results as direct binding
+* Preserve toolkit organization for efficient tool discovery and invocation
 
-<Tip title="When to Use Smart Tools Selection">
-Enable Smart Tools Selection when you have configured **5 or more toolkits** in an agent or conversation. The token savings become significant as toolkit count increases, with maximum benefit when using 20+ toolkits.
-</Tip>
-
----
+<Callout icon="lightbulb" color="#a855f7" title="">
+Enable **Smart Tools Selection** once an agent or conversation has **5 or more toolkits** configured. Note that it only takes effect once there are **20 or more** eligible tools in total — below that, every tool stays bound directly no matter what the toggle says. Above that, token savings grow as tool count rises further.
+</Callout>
 
 ## Prerequisites
 
-- **Permission Level**: User role with conversation or agent edit access
-- **Toolkit Configuration**: At least one toolkit configured (benefit increases with more toolkits)
-- **Use Case**: Recommended when using 5+ toolkits
+- User role with conversation or agent edit access
+- At least 20 eligible toolkit tools configured in total
+- **Smart Tools Selection** enabled in your chat or agent
 
----
+## How to Enable Smart Tools Selection
 
-## How It Works
+The default state of the **Smart Tools Selection** module — on or off — [is defined in the project settings](../../menus/settings/general#default-modules).
 
-**Traditional Approach vs Smart Tools Selection**
+If **Smart Tools Selection** is turned off by default, you can turn it on for your current conversation or agent.
 
-| Aspect | Traditional Approach | Smart Tools Selection (Lazy Loading) |
-|--------|---------------------|--------------------------------------|
-| **Tool Binding** | All tools from all configured toolkits bound directly to LLM | Only 2 meta-tools bound: `get_tool_schema` and `invoke_tool` |
-| **Schema Transmission** | Each tool's full schema sent in every request | Compressed toolkit index included in system prompt |
-| **Tool Loading** | All tools pre-loaded upfront | Tools loaded on-demand when needed |
-| **Example (50 toolkits)** | 50 toolkits × 10 tools avg = 500 tool definitions | 2 meta-tools + compressed index |
-| **Estimated Token Usage** | ~150,000 tokens per request | ~2,600 tokens per request |
-| **Token Savings** | Baseline | **~97% reduction** |
+### For a Conversation
+
+1. Go to the conversation.
+2. Select `+` in the chat input toolbar.
+3. Select **Modules** → **Smart Tools Selection** in the list.
+4. Toggle **Smart Tools Selection** on.
+
+<img src="../../img/how-tos/chat-conversations/internal-tools/smart-tools-selection/euch_sts_on_chat.png" alt="Enable Smart Tools Selection in a Conversation" width="350" />
+
+Once enabled, the setting persists for that conversation; you can toggle it off at any time.
+
+### For an Agent
+
+1. Select **Agents**.
+2. Select the agent to configure, or create a new agent.
+3. In the **TOOLS** section, find **MODULES**.
+4. Find **Smart Tools Selection**. Select **Show all** if you do not see it immediately.
+5. Toggle **Smart Tools Selection** on.
+6. Select **Save**.
+
+All changes apply only to new conversations run by this agent. Existing conversations will not be affected.
+
+<img src="../../img/how-tos/chat-conversations/internal-tools/smart-tools-selection/euch_sts-for-agent.png" alt="Enable Smart Tools Selection in Agent Configuration" width="400" />
+
+## How Smart Tools Selection Works
+
+With **Smart Tools Selection** enabled:
+
+- Only two meta-tools are bound to the LLM: `get_tool_schema` and `invoke_tool`
+- Every configured toolkit's tools remain reachable through `invoke_tool`, without being bound directly
+- The assistant retrieves a tool's parameter schema on demand via `get_tool_schema`, right before calling it
+- A compressed toolkit index (toolkit names, tool lists, instance descriptions) is included in the system prompt instead of full tool schemas
+- Toolkit structure is preserved, so tools stay organized and easy to discover
+
+**Smart Tools Selection** behavior depends on the exact module:
+
+* **Planner** — always bound directly to the model, never routed through `get_tool_schema`/`invoke_tool`. Enabling Smart Tools Selection brings no benefit here.
+* **Image Creation** — implemented as a direct model/provider call, not a tool bound to the LLM at all, so it's unaffected either way.
+* **Swarm Mode** — forces every peer agent's tools to bind directly for that peer, which disables lazy loading for the whole toolset while Swarm Mode is active.
+* **Python Sandbox**, **Data Analysis**, **Ask User** — no exemption. These are ordinary toolkit tools and get swept into the lazy-tools registry like any other tool once the 20-tool threshold is met.
 
 **Meta-Tools**
 
-Smart Tools Selection provides two meta-tools that enable access to all configured toolkits:
-
 | Meta-Tool | Purpose | Functionality |
-|-----------|---------|---------------|
-| **`get_tool_schema(toolkit, tool)`** | Schema Retrieval | Retrieves the parameter schema for a specific tool before invocation<br />• Returns tool description and required/optional parameters<br />• Enables the assistant to understand how to use any tool |
-| **`invoke_tool(toolkit, tool, arguments)`** | Tool Execution | Executes any tool from any configured toolkit<br />• Accepts toolkit name, tool name, and JSON arguments<br />• Returns tool execution results |
+|-----------|---------|----------------|
+| **`get_tool_schema(toolkit, tool)`** | Schema retrieval | Returns a tool's description and required/optional parameters before it is invoked |
+| **`invoke_tool(toolkit, tool, arguments)`** | Tool execution | Executes a tool from any configured toolkit and returns the result |
 
-<Info title="Workflow Example">
-When a user requests: *"Create a GitHub issue for the bug report"*
+**Traditional Approach vs Smart Tools Selection**
 
-1. **Toolkit Discovery:** Assistant reviews the toolkit index and identifies the GitHub toolkit
-2. **Schema Retrieval:** Assistant calls `get_tool_schema(toolkit="github", tool="create_issue")`
-3. **Schema Response:** System returns parameter requirements (title, body, repository, etc.)
-4. **Tool Invocation:** Assistant calls `invoke_tool(toolkit="github", tool="create_issue", arguments={"title": "Bug Report", "body": "...", "repository": "myrepo"})`
-5. **Result:** Issue is created and confirmation is returned to the user
-</Info>
+| Aspect | Traditional Approach | Smart Tools Selection |
+|--------|---------------------|------------------------|
+| **Tool Binding** | Every tool from every toolkit bound directly to the LLM | Only 2 meta-tools bound: `get_tool_schema` and `invoke_tool` |
+| **Schema Transmission** | Each tool's full schema sent in every request | Compressed toolkit index included in the system prompt |
+| **Tool Loading** | All tools pre-loaded upfront | Tools loaded on demand when needed |
+| **Example (50 toolkits)** | 50 toolkits × 10 tools avg = 500 tool definitions bound to the model | 2 meta-tools + one compact index entry per toolkit type |
+
+*Actual token savings depend on toolkit count, average tools per toolkit, and schema size — measure your own usage rather than relying on a fixed estimate.*
+
+### Execution Flow
+
+When Smart Tools Selection is enabled, ELITEA handles tool access automatically:
+
+```mermaid
+flowchart LR
+    A[Toolkit Index Generated] --> B[Meta-Tools Bound]
+    B --> C[Schema Requested]
+    C --> D[Tool Invoked]
+    D --> E[Result Returned]
+```
+
+1. **Toolkit Index Generation:** The system generates a compressed index of all available toolkits and their tools.
+2. **Meta-Tool Binding:** Only `get_tool_schema` and `invoke_tool` are bound to the LLM, instead of every individual tool.
+3. **Schema Retrieval:** When a tool is needed, the assistant calls `get_tool_schema` to learn its parameters.
+4. **Tool Invocation:** The assistant calls `invoke_tool` with the toolkit name, tool name, and arguments.
+5. **Result Return:** The tool's result is returned to the conversation like any other tool call. `invoke_tool` calls are not shown as a separate action chip, but `get_tool_schema` lookups appear as visible steps in the assistant's action trace.
 
 <Info title="What the Assistant Sees">
 When Smart Tools Selection is enabled, a compressed toolkit index is included in the system prompt:
 
+<Accordion title="System Prompt">
 ```
 # Available Tools
 
@@ -70,88 +117,63 @@ You have 2 meta-tools to access all functionality:
 - get_tool_schema(toolkit, tool) - Get parameter schema for a tool BEFORE calling it
 - invoke_tool(toolkit, tool, arguments) - Execute a tool
 
-IMPORTANT: Each toolkit name targets a DIFFERENT repository/instance.
-Use the EXACT toolkit name to work with that specific instance.
+IMPORTANT: Each toolkit name (e.g., 'sdk', 'docs', 'core') targets a DIFFERENT repository.
+Use the EXACT toolkit name to work with that specific repo. The toolkit name IS the repo selector.
 
 SCHEMA EFFICIENCY: Toolkits of the same type share identical schemas.
-Get schema once per tool, then reuse for other instances.
+Get schema once per tool (e.g., get_tool_schema('sdk', 'search_code')), then reuse that knowledge
+for other toolkits of same type - just change the toolkit name in invoke_tool.
 
-## github (45 tools)
-  Tools: create_issue, close_issue, list_issues, create_pr, merge_pr, ...
-  
-  Instances:
-  - frontend_repo: GitHub toolkit for frontend repository
-  - backend_repo: GitHub toolkit for backend repository
+Example: invoke_tool(toolkit="frontend_repo", tool="create_issue", arguments={...})
 
-## jira (28 tools)
-  Tools: create_ticket, update_ticket, search_tickets, ...
-  
-  Instances:
-  - project_jira: Jira toolkit for main project
+## Type: github
+  Toolkit names (use one of these exactly):
+    - "backend_repo": GitHub toolkit for backend repository
+    - "frontend_repo": GitHub toolkit for frontend repository
+  Tools (45): close_issue, create_issue, create_pr, list_issues, merge_pr, ...
 
-[... additional toolkits ...]
+## Type: jira
+  Toolkit name: "project_jira"
+  Description: Jira toolkit for main project
+  Tools (28): create_ticket, search_tickets, update_ticket, ...
+
+Total: 3 toolkits, 118 tools
 ```
+</Accordion>
 
-This compact format allows the assistant to access hundreds of tools while using minimal tokens.
+This compact format lets the assistant access hundreds of tools while using minimal tokens. The `Tools (N)` count per type is deduplicated across instances of the same type, but the final `Total` counts tools per toolkit instance — so two GitHub instances with 45 identical tool names each contribute 45+45 to the total, not 45.
 </Info>
 
----
+### Possible Use Cases
 
-## How to Enable Smart Tools Selection
+<CardGroup cols={2}>
+  <Card title="Many Configured Toolkits" icon="layer-group">
+    - Token savings scale with toolkit and tool count
+    - No effect below 20 eligible tools total
+  </Card>
+  <Card title="Cross-Platform Integration" icon="diagram-project">
+    - Agents orchestrating work across GitHub, Jira, Confluence, Slack, etc.
+    - Each additional platform increases the value of on-demand loading
+  </Card>
+  <Card title="Multi-Instance Toolkits" icon="clone">
+    - Agents managing multiple instances of the same service (e.g., several GitHub repositories)
+    - Reduced token overhead while keeping access to every instance
+  </Card>
+  <Card title="Token-Constrained Conversations" icon="coins">
+    - Conversations that would otherwise approach context limits with many bound tools
+    - Frees up context for actual conversation content
+  </Card>
+</CardGroup>
 
-### In Chats
+### Limitations
 
-Enable Smart Tools Selection for token-optimized chats.
+* **Hard 20-tool floor:** Smart Tools Selection is silently disabled whenever the eligible tool count (excluding always-bound tools like Planner's) is below 20 — even with the toggle on, every tool remains directly bound with no warning shown.
+* **Latency:** Meta-tool invocations add roughly 1-2 seconds per tool call. For latency-critical, single-toolkit operations, direct binding may be preferred.
+* **Highly repetitive tool usage:** When a conversation repeatedly uses the same 2-3 tools, direct binding keeps schemas in context without repeated lookups.
+* **Keyword-based pre-selection can bypass meta-tools:** A separate toolkit pre-selection step can bind a toolkit's tools directly based on keywords in the request, independent of the 20-tool floor — those tools are bound directly for that turn rather than routed through `get_tool_schema`/`invoke_tool`.
+* **Sub-agents and pipelines are always bound:** Child agents and pipelines added as tools are always bound directly to the model and are never routed through the meta-tools, regardless of toolkit or tool count.
 
-1. Go to your chat.
-2. In the chat toolbar, select **+**.
-3. Select **Modules** → **Smart Tools Selection** in the list.
-5. Toggle **Smart Tools Selection** on to enable it.
-
-<img src="../../img/how-tos/chat-conversations/internal-tools/smart-tools-selection/euch_sts_on_chat.png" alt="Enable Smart Tools Selection in chat"/>
-
-<Info title="Configuration Persistence">
-The Smart Tools Selection setting persists for the conversation. You can toggle it on/off at any time during the conversation.
-</Info>
-
----
-
-### For Agents
-
-Configure Smart Tools Selection as part of an agent's default configuration.
-
-1. Open the agent you want to configure (or create and opena new agent).
-3. Scroll down to **TOOLS**.
-4. In **TOOLS**, find **MODULES**.
-5. Find **Smart Tools Selection**. If it is not immediately visible, select **Show all** to see the full list of modules.
-6. Toggle **Smart Tools Selection** on.
-7. Select **Save**.
-
-     <img src="../../img/how-tos/chat-conversations/internal-tools/smart-tools-selection/euch_sts-for-agent.png" alt="Enable Smart Tools Selection for agents" width="400" />
-
-<Tip title="Recommended for Multi-Toolkit Agents">
-For agents configured with many toolkits (e.g., development agents with GitHub, Jira, Confluence, Slack, etc.), enabling Smart Tools Selection significantly reduces costs and improves response times.
-</Tip>
-
----
-
-## How to Use Smart Tools Selection
-
-Once enabled, Smart Tools Selection works transparently in the background. The assistant automatically uses meta-tools to access toolkit functionality without any changes to how you interact with the conversation.
-
-### What Happens Behind the Scenes
-
-1. **Toolkit Index Generation:** The system generates a compressed index of all available toolkits and their tools
-2. **Meta-Tool Binding:** Only `get_tool_schema` and `invoke_tool` are bound to the LLM instead of all individual tools
-3. **On-Demand Loading:** When the assistant needs a tool, it:
-      - Checks the toolkit index to find the appropriate toolkit
-      - Calls `get_tool_schema` to understand the tool's parameters
-      - Calls `invoke_tool` to execute the tool with proper arguments
-4. **Transparent Results:** Tool results are returned normally, maintaining the same user experience
-
----
-
-### Example Scenarios
+## Example Scenarios
 
 <Accordion title="QA Testing Coordinator">
 **Scenario:** A QA engineer uses an agent to manage test cases across multiple test management systems and coordinate with development teams.
@@ -165,11 +187,11 @@ Once enabled, Smart Tools Selection works transparently in the background. The a
 - Artifact storage (test results)
 - **Total: 6 toolkits, ~85 tools**
 
-**User Request Example:**
+**User Request:**
 
 > `Find all failed test cases from yesterday's regression suite in TestRail, check if there are existing bugs in Xray for these failures, and create GitHub issues for any new defects`
 
-Smart Tools Selection allows the agent to seamlessly query TestRail, cross-reference with Xray, and create GitHub issues—all while keeping token usage minimal despite having access to multiple test management platforms.
+Smart Tools Selection allows the agent to seamlessly query TestRail, cross-reference with Xray, and create GitHub issues — all while keeping token usage minimal despite having access to multiple test management platforms.
 </Accordion>
 
 <Accordion title="Multi-Client Services Agency">
@@ -183,18 +205,11 @@ Smart Tools Selection allows the agent to seamlessly query TestRail, cross-refer
 - 1 Slack workspace (internal communication)
 - **Total: 12 toolkits, ~160 tools**
 
-**Without Smart Tools Selection:**
+**Without Smart Tools Selection:** all 160 tools bound directly to the model — costly for per-client conversations.
 
-- All 160 tools bound = ~48,000 tokens
-- Costly for per-client conversations
+**With Smart Tools Selection:** only 2 meta-tools plus the compact toolkit index are bound — a large drop in bound-tool overhead. *(Illustrative example; actual savings depend on your toolkit index size and vary by configuration.)*
 
-**With Smart Tools Selection:**
-
-- 2 meta-tools + index
-- ~4,000 tokens per request
-- **92% token reduction**
-
-**User Request Example:**
+**User Request:**
 
 > `Check the status of Client A's payment feature PR, update Client B's sprint board with completed stories, and document the deployment process in our internal wiki`
 
@@ -212,66 +227,14 @@ The agent can work across multiple client repositories and projects efficiently,
 - Artifact storage (documentation assets)
 - **Total: 7 toolkits, ~95 tools**
 
-**User Request Example:**
+**User Request:**
 
-  > `Search all documentation sources for references to the old API endpoint, update them with the new endpoint, and create a migration guide in the product documentation space`
+> `Search all documentation sources for references to the old API endpoint, update them with the new endpoint, and create a migration guide in the product documentation space`
 
 Smart Tools Selection enables efficient cross-platform documentation searches and updates without the overhead of binding nearly 100 documentation-related tools.
 </Accordion>
 
----
-
-### Performance Considerations
-
-<Check title="When Smart Tools Selection Excels">
-**Many Configured Toolkits**
-
-- Maximum benefit when agents have numerous toolkits configured. Token savings scale linearly with toolkit count—the more toolkits, the greater the savings.
-
-**Cross-Platform Integration Agents**
-
-- Ideal for agents that orchestrate work across multiple systems (e.g., GitHub + Jira + Confluence + Slack). Each additional platform increases the value of lazy loading.
-
-**Multi-Repository or Multi-Project Agents**
-
-- Agents managing multiple instances of the same service (e.g., 10 different GitHub repositories, multiple Jira projects) benefit from reduced token overhead while maintaining access to all instances.
-</Check>
-
-<Warning title="When to Consider Alternatives">
-**Single or Few Toolkits**
-
-- For agents using only 1-3 toolkits with limited tools, traditional direct binding may be simpler and equally efficient.
-
-**Latency-Critical Operations**
-
-- Meta-tool invocations add 1-2 seconds per tool call. For time-sensitive single-toolkit operations, direct binding may be preferred.
-
-**Highly Repetitive Tool Usage**
-
-- When a conversation repeatedly uses the same 2-3 tools, direct binding keeps schemas in context without repeated lookups.
-</Warning>
-
----
-### Token Savings Calculator
-
-Use the following guidelines to estimate token savings:
-
-| Toolkit Count | Tools (avg) | Traditional Tokens | Smart Tools Tokens | Savings | % Saved |
-|---------------|-------------|--------------------|--------------------|---------|---------|
-| 5 toolkits    | 50 tools    | 15,000             | 2,200              | 12,800  | 85%     |
-| 10 toolkits   | 100 tools   | 30,000             | 2,800              | 27,200  | 91%     |
-| 20 toolkits   | 200 tools   | 60,000             | 3,500              | 56,500  | 94%     |
-| 50 toolkits   | 500 tools   | 150,000            | 5,000              | 145,000 | 97%     |
-
-*Estimates based on average of 300 tokens per tool definition and 100 tokens per toolkit in index*
-
----
-
 ## Best Practices
-
-<Accordion title="Enable for agents with 5+ toolkits">
-Smart Tools Selection provides measurable benefits starting at 5 configured toolkits, with increasing returns as toolkit count grows. Below 5 toolkits, evaluate whether the optimization is needed.
-</Accordion>
 
 <Accordion title="Use descriptive toolkit names for multi-instance configurations">
 When configuring multiple instances of the same toolkit type (e.g., GitHub for different repos), use clear, semantic names that the assistant can understand: `github_frontend`, `github_backend`, `github_docs` rather than generic names.
@@ -282,26 +245,20 @@ Toolkits of the same type share identical schemas. The assistant calls `get_tool
 </Accordion>
 
 <Accordion title="Monitor and validate token savings">
-Use your LLM provider's token monitoring dashboard to verify actual savings. Smart Tools Selection typically shows 80-95% reduction in token usage for multi-toolkit agents. Compare usage before and after enabling.
+Use your LLM provider's token monitoring dashboard to verify actual savings. Compare usage before and after enabling.
 </Accordion>
 
 <Accordion title="Test before deploying to production">
 For new multi-toolkit agents, test both configurations: run the agent with Smart Tools Selection disabled to establish a baseline, then enable it to measure performance and token savings in your specific use case.
 </Accordion>
 
-<Accordion title="Combine with other modules">
-Planning, Python Sandbox, Data Analysis, and other middleware tools work seamlessly with Smart Tools Selection. These tools are "always-bind" (bypass meta-tools) for immediate availability.
-</Accordion>
-
 <Accordion title="Configure only necessary toolkits">
-Smart Tools Selection optimizes token usage but doesn't replace thoughtful toolkit selection. Only configure toolkits that the agent actually needs—unused toolkits still add to the index size.
+Smart Tools Selection optimizes token usage but doesn't replace thoughtful toolkit selection. Only configure toolkits that the agent actually needs — unused toolkits still add to the index size.
 </Accordion>
 
 <Accordion title="Consider latency requirements">
 Meta-tool calls add minimal overhead (1-2 seconds per tool invocation). For latency-sensitive applications using few toolkits, evaluate whether the token savings justify the additional response time.
 </Accordion>
-
----
 
 ## Troubleshooting
 
@@ -328,10 +285,10 @@ Meta-tool calls add minimal overhead (1-2 seconds per tool invocation). For late
 
 **Solution:**
 
-1. This is expected behavior - Smart Tools Selection trades minimal latency for significant token savings
-2. For latency-critical single-toolkit use cases, consider disabling Smart Tools Selection
-3. Latency overhead is typically 1-2 seconds per tool invocation
-4. The assistant caches schema knowledge within a conversation, reducing repeat lookups
+1. This is expected behavior — Smart Tools Selection trades minimal latency for significant token savings.
+2. For latency-critical single-toolkit use cases, consider disabling Smart Tools Selection.
+3. Latency overhead is typically 1-2 seconds per tool invocation.
+4. There is no built-in caching of schema results — each `get_tool_schema` call is a fresh lookup, so repeated calls for the same tool are expected.
 </Accordion>
 
 <Accordion title="Tool not found errors">
@@ -340,13 +297,15 @@ Meta-tool calls add minimal overhead (1-2 seconds per tool invocation). For late
 * Incorrect toolkit name in invocation
 * Tool not available in specified toolkit
 * Toolkit index not properly synchronized
+* Tool blocked by security policy
 
 **Solution:**
 
-1. The assistant receives detailed error messages with available toolkits and tools
-2. Error responses include suggestions for correct toolkit/tool names
-3. The assistant can self-correct by using the provided information
-4. If errors persist, verify toolkit configuration in agent settings
+1. The assistant receives detailed error messages with available toolkits and tools.
+2. Error responses include suggestions for correct toolkit/tool names.
+3. The assistant can self-correct by using the provided information.
+4. If the error text says the tool "is blocked by security policy," the tool is intentionally disabled — check with your administrator rather than treating it as a naming or configuration issue.
+5. If errors persist otherwise, verify toolkit configuration in agent settings.
 </Accordion>
 
 <Accordion title="Higher token usage than expected">
@@ -358,10 +317,10 @@ Meta-tool calls add minimal overhead (1-2 seconds per tool invocation). For late
 
 **Solution:**
 
-1. Verify you have 5+ toolkits configured for meaningful savings
-2. Review conversation to ensure meta-tools are being used
-3. Consider disabling for single-toolkit use cases
-4. Token savings are most significant in the system prompt, not conversation history
+1. Verify you have 5+ toolkits configured for meaningful savings.
+2. Review the conversation to ensure meta-tools are being used.
+3. Consider disabling Smart Tools Selection for single-toolkit use cases.
+4. Token savings are most significant in the system prompt, not conversation history.
 </Accordion>
 
 <Accordion title="Schema errors or missing parameters">
@@ -373,41 +332,8 @@ Meta-tool calls add minimal overhead (1-2 seconds per tool invocation). For late
 
 **Solution:**
 
-1. Error messages include detailed parameter requirements and examples
-2. The assistant receives schema information before invocation
-3. Verify toolkit configuration includes proper tool metadata
-4. If specific tools fail consistently, report to system administrators
+1. Error messages include detailed parameter requirements and examples.
+2. The assistant receives schema information before invocation.
+3. Verify toolkit configuration includes proper tool metadata.
+4. If specific tools fail consistently, report to system administrators.
 </Accordion>
-
-<Accordion title="Modules are not visible in the chat toolbar">
-**Possible causes:**
-
-* No module has passed the availability filter for the current project
-* Image Generation is the only tool configured, but its required provider toolkit is not set up
-
-**Solution:**
-
-1. Modules are hidden entirely when no tools are available for the project
-2. Verify that at least one applicable toolkit or provider is configured in the project settings
-3. Contact your project administrator to confirm the project has the necessary toolkit providers enabled
-</Accordion>
-
----
-
-<Info title="Compatibility with Other Modules">
-Smart Tools Selection works seamlessly with other moduless. Middleware tools like **Planning**, **Python Sandbox**, **Data Analysis**, **Swarm Mode**, and **Image Generation** are always bound directly (not through meta-tools) for immediate availability and optimal performance.
-</Info>
-
----
-
-<Info title="Additional Resources">
-* **[Agent Configuration](../../menus/agents)** - Setting up agents with tools
-* **[Chat Functionality](./how-to-use-chat-functionality)** - General chat features and usage
-* **[Python Sandbox](./python-sandbox-internal-tool)** - Python Sandbox overview and usage
-* **[Data Analysis](./data-analysis-internal-tool)** - Data Analysis tool
-* **[Image Generation](./image-generation)** - Generate images in conversations
-* **[Attachments in Conversations](./attach-files)** - Upload and attach files for AI analysis
-* **[Conversation Management](../../menus/chat)** - Managing conversations and settings
-* **[Toolkits Overview](../../menus/toolkits)** - Understanding and configuring toolkits
-</Info>
-

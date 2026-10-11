@@ -189,7 +189,7 @@ Displays editable **Index Data** tool configuration fields. The `index_name` fie
 
 **Index Cards**
 
-**Displays:** Collection name, created date, file counts (Indexed / total), skipped file count and status icon for in-progress, failed or stopped states.
+**Displays:** Collection name (with a schedule clock icon next to it when a schedule is configured), created date, file counts (Indexed / total), skipped file count and status icon for in-progress, failed or stopped states.
 
 **Interactions:** Click card to open index detail page. Hover to expose quick action buttons: Open, Reindex, Delete.
 
@@ -251,6 +251,12 @@ During reindexing, the system compares incoming content with existing index data
 The existing index remains searchable during reindexing. If reindexing fails due to network issues, expired authentication or service unavailability, the previous working index stays available for search operations. The system replaces the index only after successful completion of the reindexing operation.
 </Note>
 
+<Info>
+**Resuming After an Interruption**
+
+If a run is interrupted specifically by the embedding provider's API quota being exhausted, a later **Reindex** can reuse the chunks already embedded before the interruption instead of re-embedding them — the run's results report a note such as *"Resumed the interrupted run: N chunks were reused instead of being embedded again."* This applies to that quota-exhaustion case only. Manually stopping a run with the **Stop** button does not resume from the stopped position — a subsequent **Reindex** reprocesses the dataset from the beginning (unchanged files are still skipped per the comparison behavior described above).
+</Info>
+
 **After first reindex:**
 
 The **General** section displays an additional reindex summary:
@@ -299,6 +305,8 @@ To configure automated reindexing, use the **Schedule** section on the index pag
 **Schedule Requirements**
 
 Scheduling is available only for indexes in **Completed** or **Partially Indexed** state. Indexes in **Failed** or **Stopped** state cannot be scheduled.
+
+Schedules also have an expiration deadline — once passed, the schedule is automatically turned off. Turn it back on to run it for another period.
 </Info>
 
 <Tip>
@@ -630,6 +638,14 @@ The **Cut Off** parameter has the most significant impact on search quality. Sta
 - **0.4-0.5**: Broader results, useful for exploratory searches.
 - **0.2-0.3**: Very inclusive, may include less relevant results.
 </Tip>
+</Accordion>
+
+<Accordion title="Reindex starts over instead of resuming after Stop">
+**Expected behavior:**
+
+- Manually stopping a run with the **Stop** button, or an interruption such as a system restart, does not currently preserve a resumable position. The next **Reindex** reprocesses the dataset from the beginning (unchanged files are still skipped per the standard reindex comparison, so previously-indexed, unmodified content is not re-embedded).
+- The one exception is a run interrupted specifically by the embedding provider's API quota being exhausted — a later Reindex can reuse the chunks already embedded before that interruption.
+- If this causes long indexing times on large datasets, consider narrowing the index scope (filters, whitelist/blacklist patterns) so a run completes without needing to be stopped.
 </Accordion>
 
 <Accordion title="Large Dataset Handling">

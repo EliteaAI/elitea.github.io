@@ -2,32 +2,34 @@
 title: "Analytics"
 ---
 
+{/*PAGE ACCURACY CONFIRMED for 2.0.7*/}
+
 **Analytics** provides detailed, real-time visibility into how your team uses the platform.
 
 Analytics data is always **scoped to the currently selected project** and is refreshed from the API with results cached for up to 5 minutes.
 
 <Info title="Project Member Requirement">
-**Analytics** is available to **all project members** — no special permissions are required beyond membership in the project. You must be added as a member of the project to view its analytics data.
+**Analytics** access requires the `models.monitoring.tracing.view` permission, which is granted by default to every project role (*admin*, *editor*, *viewer*). In practice, this means every project member can view **Analytics** unless your project uses custom roles that remove this permission. You must be added as a member of the project to view its analytics data.
 </Info>
 
 To access **Analytics** settings, select **Settings** > **Analytics**.
 
-![Analytics](../../img/menus/settings/project/analytics/analytics.png)
+<img src="../../img/menus/settings/project/analytics/analytics.png" alt="Analytics" />
 
 **Analytics** includes these elements:
 
 - **Page header** displays the name of the current project, along with **Refresh** and **Export to Excel** buttons on the right.
 - **Refresh button** manually refreshes analytics data, updating the currently active tab with the latest data from the API.
-- **Export to Excel button** downloads a comprehensive Excel workbook containing all analytics data (Overview, Costs, Tokens, Agents & Pipelines, Tools, Users, and Health) for the selected date range. The export includes metadata about the project, date range, and timezone.
-- **Date filter bar** contains the four quick-preset buttons (**Last 24h**, **Last 7d**, **Last 30d**, **Last 90d**) on the left and the **From / To** datetime pickers on the right.
-- **Tabs**: Eight tabs to switch between different analytics views (Overview, Costs, Tokens, Agents & Pipelines, Tools, Users, Health, and Guide).
+- **Export to Excel button** downloads a comprehensive Excel workbook containing all analytics data (Overview, Costs, Tokens, Agents & Pipelines, Tools, Users, Activity, and Health) for the selected date range. The export includes metadata about the project, date range, and timezone.
+- **Date filter bar** contains the four quick-preset buttons (**Today**, **Last 7d**, **Last 30d**, **Last 90d**) on the left and the **From / To** datetime pickers on the right.
+- **Tabs**: Nine tabs to switch between different analytics views (Overview, Costs, Tokens, Agents & Pipelines, Tools, Users, Activity, Health, and Guide).
 - **Content area**: The main scrollable panel that renders KPI cards, charts, and tables for the active tab.
 
 <Info title="Project Scope">
 All metrics and charts show data only for the **currently selected project**. To view analytics for a different project, switch projects using the project switcher before opening Analytics.
 </Info>
 
-In **Analytics**, you can see eight tabs:
+In **Analytics**, you can see nine tabs:
 
 <CardGroup cols={3}>
 	<Card title="Overview" icon="chart-line" href="#overview">
@@ -48,6 +50,9 @@ In **Analytics**, you can see eight tabs:
 	<Card title="Users" icon="users" href="#users">
 		Per-user activity, AI adoption, model usage, tool usage, and agent usage.
 	</Card>
+	<Card title="Activity" icon="chart-area" href="#activity">
+		Active user trends by role, with adjustable time granularity.
+	</Card>
 	<Card title="Health" icon="heart-pulse" href="#health">
 		Request volume, error rates, and latency by event type.
 	</Card>
@@ -55,7 +60,6 @@ In **Analytics**, you can see eight tabs:
 		Guides to metrics, charts, calculations, and data sources.
 	</Card>
 </CardGroup>
-
 
 ## Date Range Controls
 
@@ -65,12 +69,12 @@ You can control the time window applied to all tabs using the filter bar at the 
 
 Use four preset buttons to set the date range with a single click:
 
-![Quick Presets](../../img/menus/settings/project/analytics/date-Presets.png)
+<img src="../../img/menus/settings/project/analytics/date-presets.png" alt="Quick Presets" />
 
 | Preset | Date Range |
 |--------|-----------|
-| **Last 24h** | Previous 24 hours |
-| **Last 7d** | Previous 7 days (default on page load) |
+| **Today** | From midnight to 23:59 today, including the entire final minute |
+| **Last 7d** | Previous 7 days |
 | **Last 30d** | Previous 30 days |
 | **Last 90d** | Previous 90 days |
 
@@ -83,15 +87,17 @@ Use the **From** and **To** datetime pickers for precise time windows:
 
 <img src="../../img/menus/settings/project/analytics/euch_date.png" width="400" alt="Custom date" />
 
-Both pickers support entering a specific date and time (24-hour format). The pickers include **Clear** and **Ok** action buttons. After adjusting the custom pickers, the active preset button is automatically deselected.
+Both pickers support entering a specific date and time (24-hour format). The pickers include **Clear** and **Apply** action buttons. After adjusting the custom pickers, the active preset button is automatically deselected.
 
 <Info title="Default Range">
-The page loads with **Last 7d** pre-selected. Re-selecting a preset button instantly refreshes all tab data for that window without any additional action.
+The page loads with **Today** pre-selected. Re-selecting a preset button instantly refreshes all tab data for that window without any additional action.
 </Info>
 
 ## Overview
 
 **Overview** displays project-wide KPI cards and summary charts for the selected date range.
+
+<img src="../../img/menus/settings/project/analytics/analytics.png" alt="Analytics" />
 
 ### KPI Cards
 
@@ -103,7 +109,7 @@ KPI cards show the most important metrics for the selected date range.
 | --- | --- | --- |
 | **TEAM** | Active members (X) out of all users ever seen in the project (Y). | X = distinct users with ≥ 1 event in range; Y = distinct users all-time. |
 | **AI ACTIVE** | Users with at least one LLM, tool, or agent event in the period. Includes an **adoption rate badge** (e.g. `↑ 72%`) = `AI ACTIVE / TEAM × 100%`. | Distinct users where `event_type` in (`llm`, `tool`) or `entity_type` = `application`. |
-| **LLM CALLS** | Total number of Large Language Model invocations (prompts sent to AI models). | Count of events where `event_type = "llm"`. |
+| **LLM CALLS** | Total number of Large Language Model invocations (prompts sent to AI models). Embedding model requests are counted as LLM calls too. | Count of events where `event_type = "llm"`. |
 | **TOOL RUNS** | Total number of tool executions triggered by agents or users. | Count of events where `event_type = "tool"`. |
 | **CHAT MSG** | Total user messages sent in the chat interface. | Count of events where `action = "SIO chat_predict"`. |
 | **AGENT & PIPELINE RUNS** | Total interactions with agents and pipelines. | Count of events where `entity_type = "application"`. |
@@ -132,10 +138,39 @@ A leaderboard table that shows five users with the most combined AI events (LLM 
 - Per-type breakdown: `N LLM · N Tool · N Agent`.
 - Total AI events score.
 
-<img src="../../img/menus/settings/project/analytics/top5-ai-adopters.png" alt="Top 5 AI Adopters" />
-
 Clicking a row navigates you directly to the user's detail view in **Users**.
 
+### Automated Activity
+
+A table breaking down runs that were not triggered directly by a person — scheduled pipelines, webhook triggers, and index runs. These are included in the tab's raw totals, but not counted as user activity for **TEAM**, **AI ACTIVE**, the adoption rate, the **Top 5 AI Adopters** leaderboard, or the **Users** and **Activity** tabs.
+
+<img src="../../img/menus/settings/project/analytics/analytics_overview_auto-activity.png" alt="Automated Activity" />
+
+| Column | Description |
+|--------|-------------|
+| **Trigger Source** | Scheduled Pipelines, Webhook Triggers, or Index Runs (color-coded) |
+| **Runs** | Number of automated runs from that source |
+| **LLM Calls** | LLM invocations made during those runs |
+| **Tool Runs** | Tool executions made during those runs |
+| **Cost** | Estimated LLM cost attributed to those runs |
+
+A **Total** row is shown when more than one trigger source has activity. This table is hidden entirely if there is no automated activity in the selected date range.
+
+### Model Usage Breakdown
+
+A ranked table of AI models used in the selected date range.
+
+<img src="../../img/menus/settings/project/analytics/analytics_overview_model-usage.png" alt="Model Usage Breakdown" />
+
+| Column | Description |
+|--------|-------------|
+| **#** | Rank by call/run volume |
+| **Model** | Model display name (color-coded) |
+| **Calls/Runs** | Number of LLM calls or runs made with that model |
+| **Users** | Distinct users who used that model (hidden for Personal Projects) |
+| **Share** | That model's percentage of total calls, with a proportional bar |
+
+This table is hidden entirely if no model usage is recorded for the selected date range.
 
 ## Costs
 
@@ -145,29 +180,33 @@ Clicking a row navigates you directly to the user's detail view in **Users**.
 ELITEA calculates cost values from a local model-price table. Actual provider invoices may differ.
 </Info>
 
+<img src="../../img/menus/settings/project/analytics/analytics_costs.png" alt="Costs" />
+
 ### KPI Cards
 
-Five KPI cards appear at the top of the Costs tab:
+Six KPI cards appear at the top of **Costs**:
+
+<img src="../../img/menus/settings/project/analytics/analytics_costs_kpi.png" alt="KPI Cards" />
 
 | KPI | Description |
 | --- | --- |
-| **TOTAL COST** | Estimated total LLM cost for the selected date range, including input, output, cache read, and cache write costs |
-| **TOTAL TOKENS** | Total input and output tokens combined |
-| **INPUT TOKENS** | Total prompt tokens |
-| **OUTPUT TOKENS** | Total completion tokens |
-
-<img src="../../img/menus/settings/project/analytics/euch_cost-kpi.png" alt="KPI Cards" />
+| **TOTAL COST** | Estimated total LLM cost for the selected date range |
+| **INPUT TOKEN COST** | Estimated cost of input (prompt) tokens |
+| **OUTPUT TOKEN COST** | Estimated cost of output (completion) tokens |
+| **CACHE READ COST** | Estimated cost of cached-token reads |
+| **CACHE WRITE COST** | Estimated cost of cache writes |
+| **EVALUATION COST** | Estimated cost attributed to evaluation runs. Shows the percentage of total cost it represents when that figure is available. |
 
 ### Daily Cost Trend
 
-Shows estimated daily cost as a bar chart.
+A grouped bar chart showing estimated daily cost, broken down into five series: **Total Cost**, **Input Token Cost**, **Output Token Cost**, **Cache Read Cost**, and **Cache Write Cost**.
 
 - The X axis shows the date.
 - The Y axis shows estimated cost.
 
 If no daily cost data is available for the selected date range, ELITEA shows **No data**.
 
-<img src="../../img/menus/settings/project/analytics/euch_cost-daily.png" alt="Daily Cost Trend" />
+<img src="../../img/menus/settings/project/analytics/analytics_costs_daily-trend.png" alt="Daily Cost Trend" />
 
 ### Cost by User
 
@@ -176,12 +215,14 @@ Ranks users by estimated total cost.
 | Column | Description |
 | --- | --- |
 | **User** | User email |
-| **Cost** | Estimated total cost attributed to that user |
+| **Total Cost** | Estimated total cost attributed to that user |
+| **Input Token Cost** | Estimated cost of that user's input tokens |
+| **Output Token Cost** | Estimated cost of that user's output tokens |
+| **Cache Read Cost** | Estimated cost of that user's cached-token reads |
+| **Cache Write Cost** | Estimated cost of that user's cache writes |
 | **Share** | Percentage of the total user cost represented by that user |
 
 If no user cost data is available for the selected date range, ELITEA shows an empty-state message.
-
-<img src="../../img/menus/settings/project/analytics/euch_cost-user.png" alt="Cost by User" />
 
 ### Cost by Model
 
@@ -190,36 +231,56 @@ Ranks models by estimated total cost.
 | Column | Description |
 | --- | --- |
 | **Model** | Model display name or model identifier |
-| **Cost** | Estimated total cost for that model |
-| **Calls** | Number of LLM calls made with that model |
-| **Avg Cost / Call** | Estimated average cost per call for that model |
+| **Total Cost** | Estimated total cost for that model |
+| **Input Token Cost** | Estimated cost of that model's input tokens |
+| **Output Token Cost** | Estimated cost of that model's output tokens |
+| **Cache Read Cost** | Estimated cost of that model's cached-token reads |
+| **Cache Write Cost** | Estimated cost of that model's cache writes |
 | **Share** | Percentage of the total model cost represented by that model |
 
 If no model cost data is available for the selected date range, ELITEA shows an empty-state message.
 
-<img src="../../img/menus/settings/project/analytics/euch_cost-model.png" alt="Cost by Model" />
-
 ### Cost by Agent & Pipeline
 
-Ranks agents and pipelines by estimated total cost.
+Ranks agents and pipelines by estimated total cost. Evaluation runs are excluded here and shown separately in **Cost by Evaluation**.
 
 | Column | Description |
 | --- | --- |
 | **Agent / Pipeline** | Agent or pipeline name |
-| **Cost** | Estimated total cost attributed to that agent or pipeline |
-| **Calls** | Number of LLM calls attributed to that agent or pipeline |
-| **Avg Cost / Call** | Estimated average cost per call |
+| **Type** | Whether the row is an Agent or a Pipeline |
+| **Total Cost** | Estimated total cost attributed to that agent or pipeline |
+| **Input Token Cost** | Estimated cost of that agent's or pipeline's input tokens |
+| **Output Token Cost** | Estimated cost of that agent's or pipeline's output tokens |
+| **Cache Read Cost** | Estimated cost of that agent's or pipeline's cached-token reads |
+| **Cache Write Cost** | Estimated cost of that agent's or pipeline's cache writes |
 | **Share** | Percentage of the total agent and pipeline cost represented by that row |
 
 If no agent or pipeline cost data is available for the selected date range, ELITEA shows an empty-state message.
 
-<img src="../../img/menus/settings/project/analytics/euch_cost-agent.png" alt="Cost by Agent & Pipeline" />
+### Cost by Evaluation
+
+Ranks evaluation runs by estimated cost, grouped by the evaluated agent or pipeline version. This cost is already included in the **EVALUATION COST** KPI card and in **Total Cost**, not additional to it.
+
+| Column | Description |
+| --- | --- |
+| **Agent / Pipeline** | Name of the evaluated agent or pipeline |
+| **Type** | Whether the evaluated entity is an Agent or a Pipeline |
+| **Version** | Version of the agent or pipeline that was evaluated |
+| **Runs** | Number of evaluation runs for that version |
+| **Total Cost** | Estimated total cost of those evaluation runs, including judge calls |
+| **Input Token Cost** | Estimated cost of input tokens for those evaluation runs |
+| **Output Token Cost** | Estimated cost of output tokens for those evaluation runs |
+| **Cache Read Cost** | Estimated cost of cached-token reads for those evaluation runs |
+| **Cache Write Cost** | Estimated cost of cache writes for those evaluation runs |
+| **Share** | Percentage of the total evaluation cost represented by that row |
+
+If no evaluation cost data is available for the selected date range, ELITEA shows an empty-state message.
 
 ## Tokens
 
 **Tokens** provides detailed token usage analytics for the selected date range, including cache token tracking.
 
-![Tokens Tab](../../img/menus/settings/project/analytics/analytics-tokens-tab.png)
+<img src="../../img/menus/settings/project/analytics/analytics_tokens.png" alt="Tokens Tab" />
 
 <Info title="Cache Tokens">
 Cache read and cache write tokens are tracked separately for models that support prompt caching (e.g., Claude models). Cache tokens help reduce costs by reusing previously processed prompts.
@@ -227,7 +288,9 @@ Cache read and cache write tokens are tracked separately for models that support
 
 ### KPI Cards
 
-Five KPI cards appear at the top of the Tokens tab:
+Five KPI cards appear at the top of **Tokens**.
+
+<img src="../../img/menus/settings/project/analytics/analytics-tokens-kpi.png" alt="Tokens KPI Cards" />
 
 | KPI | Description |
 | --- | --- |
@@ -236,8 +299,6 @@ Five KPI cards appear at the top of the Tokens tab:
 | **OUTPUT TOKENS** | Tokens generated by AI models in their responses to your prompts. Higher output token counts may indicate verbose responses. You can reduce output tokens by setting max_tokens limits or instructing models to provide more concise answers. |
 | **CACHE READ** | Tokens served from the provider's prompt cache instead of being processed fresh. Cache hits can reduce costs by 50-90% for supported models (e.g., Claude with prompt caching). A high cache read count indicates effective prompt reuse and cost optimization. Only available for models that support prompt caching. |
 | **CACHE WRITE** | Tokens written to the provider's prompt cache for potential reuse in future requests. These tokens are stored once and can then be read multiple times at a reduced cost. High cache write values indicate new or frequently changing prompts. Structure prompts with static content at the beginning to maximize cache effectiveness. |
-
-![Tokens KPI Cards](../../img/menus/settings/project/analytics/analytics-tokens-kpi.png)
 
 ### Daily Token Usage
 
@@ -249,7 +310,7 @@ A multi-bar chart showing  daily total, input, and output token usage for LLM re
 - **Cache Read Tokens** (fourth bar): cached tokens read per day
 - **Cache Write Tokens** (fifth bar): tokens written to cache per day
 
-![Daily Token Usage](../../img/menus/settings/project/analytics/analytics-tokens-daily.png)
+<img src="../../img/menus/settings/project/analytics/analytics-tokens-daily.png" alt="Daily Token Usage" />
 
 If no token data is available for the selected date range, ELITEA shows **No token usage is available for the selected date range.**
 
@@ -267,8 +328,6 @@ Shows token usage attributed to each project user during the selected date range
 | **CACHE WRITE** | Cache write tokens attributed to that user |
 | **SHARE** | Percentage of the total project token usage represented by that user |
 
-![Token Usage by User](../../img/menus/settings/project/analytics/analytics-token-usage-user.png)
-
 If no user token data is available for the selected date range, ELITEA shows an empty-state message.
 
 ### Token Usage by Model
@@ -284,8 +343,6 @@ Shows token usage for each AI model used in the selected date range.
 | **CACHE READ** | Cache read tokens for that model |
 | **CACHE WRITE** | Cache write tokens for that model |
 | **SHARE** | Percentage of the total project token usage represented by that model |
-
-![Token Usage by Model](../../img/menus/settings/project/analytics/analytics-token-usage-model.png)
 
 If no model token data is available for the selected date range, ELITEA shows an empty-state message.
 
@@ -305,63 +362,83 @@ Shows token usage attributed to Agents and Pipelines during the selected date ra
 
 If no agent or pipeline token data is available for the selected date range, ELITEA shows an empty-state message.
 
-![Token Usage by Agent](../../img/menus/settings/project/analytics/analytics-token-usage-agent.png)
-
 ## Agents & Pipelines
 
-**Agents & Pipelines** show how individual agents (applications) are used within the project.
+**Agents & Pipelines** show how individual agents and pipelines are used within the project.
 
-<video src="../../img/menus/settings/project/analytics/analytics-agent-tab.mp4" controls></video>
+<img src="../../img/menus/settings/project/analytics/analytics_agents-pipelines.png" alt="Agents & Pipelines Tab" />
 
 ### Most Active Agents
 
 A bar chart showing the **top 20 agents** ranked by total event count. Each bar is color-coded and labeled with the agent name.
 
-     ![Most Active Agents](../../img/menus/settings/project/analytics/active-agents.png)
+<img src="../../img/menus/settings/project/analytics/active-agents.png" alt="Most Active Agents" />
 
-### Chat Messages
-
-An area chart showing the number of user messages (`SIO chat_predict` events) sent per day. Useful for tracking chat engagement trends independent of agent-specific metrics.
-
-     ![Chat Messages](../../img/menus/settings/project/analytics/chat-messages.png)
-
-### Agent Activity
+### Activity
 
 A paginated, searchable table listing all agents and pipelines in the project:
 
-     | Column | Description |
-     |--------|-------------|
-	| **Agent / Pipeline** | Agent or pipeline name (clickable to open **Agent Detail View**) |
-     | **Runs** | Total runs for this agent or pipeline |
-     | **Cost** | Estimated LLM cost attributed to this agent or pipeline |
-     | **Total Tokens** | Total input and output tokens combined |
-     | **Input Tokens** | Total input tokens attributed to this agent or pipeline |
-	| **Output Tokens** | Total output tokens attributed to this agent or pipeline |
-     | **Avg Latency** | Mean execution time (displayed as `Xms` or `X.Xs`) |
-     | **Errors** | Error count (highlighted in red when > 0) |	
+| Column | Description |
+|--------|-------------|
+| **Agent / Pipeline** | Agent or pipeline name (clickable to open **Agent Details**) |
+| **Runs** | Total runs for this agent or pipeline |
+| **Users** | Distinct users who ran this agent or pipeline (hidden for Personal Projects) |
+| **Total Cost** | Estimated total LLM cost attributed to this agent or pipeline |
+| **Input Token Cost** | Estimated cost of input tokens for this agent or pipeline |
+| **Output Token Cost** | Estimated cost of output tokens for this agent or pipeline |
+| **Total Tokens** | Total input and output tokens combined |
+| **Input Tokens** | Total prompt tokens attributed to this agent or pipeline |
+| **Output Tokens** | Total completion tokens attributed to this agent or pipeline |
+| **Cache Read Tokens** | Tokens served from the provider prompt cache |
+| **Cache Write Tokens** | Tokens written to the provider prompt cache |
+| **Cache Read Cost** | Estimated cost of cache read tokens |
+| **Cache Write Cost** | Estimated cost of cache write tokens |
+| **Avg Latency** | Mean execution time (displayed as `Xms` or `X.Xs`) |
+| **Errors** | Error count (highlighted in red when > 0) |
 
 Use the search box (top-right of the table) to filter agents and pipelines by name. Page size can be set to 10, 20, or 50 rows per page.
 
-### Agent Details
+### Agent & Pipeline Details View
 
-Click any agent row to open a drill-down view showing:
+Click any agent or pipeline row to open a drill-down view for that entity.
 
-- **Header**: Agent name with a back arrow to return to the full list.
-- **KPI Cards**: Total Events, Unique Users, Avg Latency, Errors, Error Rate, Total Tokens, Input Tokens, Output Tokens, Total Cost, and Avg Cost / Call.
-- **Runs by Day**: Area chart showing events and errors per day for this agent.
-- **Users**: Lists each user who interacted with the agent or pipeline, with per-user events, average latency, and errors.
-- **Tools**: Lists each tool called by this agent or pipeline, with call count.
+<img src="../../img/menus/settings/project/analytics/analytics_agents-pipelines_details.png" alt="Agent & Pipeline Detail View" />
 
-<img src="../../img/menus/settings/project/analytics/euch_ap-agent-view.png" alt="Cost by Model" />
+**Details** include:
 
-To return to the Agents list, click the **back arrow** in the header.
+* **Header**: entity name with a back arrow to return to the full list.
+* **KPI Cards**
+* **Runs by Day**: an area chart with two series — **Runs** and **Errors** — plotted per day for this agent or pipeline. Hidden if there is no daily usage data.
+* **Users**: lists each user who ran this agent or pipeline, with per-user **Runs**, **Avg Latency** (the mean duration of that user's runs with this agent or pipeline), and **Errors**. Shows "No runs recorded" if empty.
+* **Tools**: lists each tool called by this agent or pipeline, with its **Calls** count. Shows "No tool data" if empty.
 
+**KPI Cards**:
+
+| KPI | Description |
+| --- | --- |
+| **TOTAL RUNS** | Total runs for this agent or pipeline |
+| **UNIQUE USERS** | Distinct users who ran this agent or pipeline |
+| **TOTAL COST** | Estimated total LLM cost |
+| **INPUT TOKEN COST** | Estimated cost of input tokens |
+| **OUTPUT TOKEN COST** | Estimated cost of output tokens |
+| **TOTAL TOKENS** | Total input and output tokens combined |
+| **INPUT TOKENS** | Total prompt tokens |
+| **OUTPUT TOKENS** | Total completion tokens |
+| **CACHE READ TOKENS** | Tokens served from the provider prompt cache |
+| **CACHE WRITE TOKENS** | Tokens written to the provider prompt cache |
+| **EVALUATION TOKENS** | Tokens used across this entity's evaluation runs, with the run count shown below the value. Shown only if the entity has evaluation runs. |
+| **CACHE READ COST** | Estimated cost of cache read tokens |
+| **CACHE WRITE COST** | Estimated cost of cache write tokens |
+| **AVG LATENCY** | Mean execution time (displayed as `Xms` or `X.Xs`) |
+| **ERRORS** | Error count (highlighted in red when > 0) |
+
+To return to the Agents & Pipelines list, click the **back arrow** in the header.
 
 ## Tools
 
 **Tools** show usage patterns for individual tools executed by agents or users.
 
-<video src="../../img/menus/settings/project/analytics/analytics-tools-tab.mp4" controls></video>
+<img src="../../img/menus/settings/project/analytics/analytics_tools.png" alt="Tools Tab" />
 
 ### Most Popular Tools
 
@@ -385,21 +462,35 @@ Use the search box to filter tools by name. Page size options: 10, 20, or 50.
 
 ### Tool Details View
 
-Click any tool row to open a drill-down view:
+Click any tool row to open a drill-down view for that tool.
 
-- **KPI Cards**: Total Calls, Unique Users, Avg Latency, Errors, Error Rate.
-- **Daily Usage Chart**: Area chart showing calls and errors per day for this tool.
-- **Users table**: Users who called this tool, with per-user calls, average latency, and errors.
-- **Agents table**: Agents that used this tool, with call count (resolved by correlating trace IDs).
+<img src="../../img/menus/settings/project/analytics/analytics_tools_details.png" alt="Tool Detail View" />
 
-     ![Tool Detail View](../../img/menus/settings/project/analytics/analytics-tools-details.png)
+**Details** include:
 
-To return to the Tools list, click the **back arrow**.
+* **Header**: tool name with a back arrow to return to the full list.
+* **KPI Cards**
+* **Daily Usage**: an area chart with two series — **Calls** and **Errors** — plotted per day for this tool. Hidden if there is no daily usage data.
+* **Users**: lists each user who called this tool, with per-user **Calls**, **Avg Latency** (the mean duration of that user's calls to this tool), and **Errors**. Shows "No user data" if empty.
+* **Agents & Pipelines**: lists each agent or pipeline that called this tool, with its **Calls** count. Shows "No agent data" if empty.
 
+**KPI Cards**:
+
+| KPI | Description |
+| --- | --- |
+| **TOTAL CALLS** | Total number of times this tool was called |
+| **UNIQUE USERS** | Distinct users who called this tool |
+| **AVG LATENCY** | Mean execution time (displayed as `Xms` or `X.Xs`) |
+| **ERRORS** | Error count (highlighted in red when > 0) |
+| **ERROR RATE** | Percentage of calls to this tool that resulted in an error (highlighted in red when > 5%) |
+
+To return to the Tools list, click the **back arrow** in the header.
 
 ## Users
 
 **Users** provides per-person analysis of platform activity.
+
+<img src="../../img/menus/settings/project/analytics/analytics_users.png" alt="User Activity" />
 
 ### User Activity
 
@@ -415,31 +506,103 @@ A paginated, searchable table listing all users active in the project during the
 | **Chat Msg** | Chat message count |
 | **Errors** | Error count (red when > 0) |
 | **Total Tokens** | Total input and output tokens combined |
+| **Input Tokens** | Total prompt tokens |
+| **Output Tokens** | Total completion tokens |
 | **Total Cost** | Estimated LLM cost attributed to that user |
+| **Input Token Cost** | Estimated cost of input tokens |
+| **Output Token Cost** | Estimated cost of output tokens |
+| **Cache Read Tokens** | Tokens served from the provider prompt cache |
+| **Cache Write Tokens** | Tokens written to the provider prompt cache |
+| **Cache Read Cost** | Estimated cost of cache read tokens |
+| **Cache Write Cost** | Estimated cost of cache write tokens |
 
-Use the search box to filter by email address. Page size options: 10, 20, or 50.
+Use the search box to filter by email address. Page size options: 10, 20, or 50. Rows are sorted alphabetically by user email; the sort order cannot be changed.
 
-### User Details
+### User Details View
 
-Click any user row to open a drill-down view:
+Click any user row to open a drill-down view for that user.
 
-- **Header**: User email with a back arrow.
-- **KPI Cards**: Active Days, LLM Calls, Tool Calls, Agent & Pipeline Runs, Chat Msg, Errors, Total Tokens, Input Tokens, Output Tokens, and Total Cost.
-- **Daily Activity Chart**: Area chart with four series — LLM, Tool, Chat Msg, and Agent — showing how this user's activity is distributed over time.
-- **Models Used** list: AI models this user queried, with call counts.
-- **Tools Used** list: Tools this user triggered, with call counts.
-- **Agents & Pipelines Used** list: Agents and pipelines this user interacted with, with run counts.
+<img src="../../img/menus/settings/project/analytics/analytics_users_details.png" alt="User Detail View" />
+
+**Details** include:
+
+* **Header**: user email with a back arrow to return to the full list.
+* **KPI Cards**
+* **Daily Activity**: an area chart with four series — **LLM**, **Tool**, **Chat Msg**, and **Agent** — plotted per day for this user. Hidden if there is no daily activity data.
+* **Models Used**: lists each AI model this user queried, with its **Calls** count. Shows "No model usage" if empty.
+* **Tools Used**: lists each tool this user triggered, with its **Calls** count. Shows "No tool usage" if empty.
+* **Agents & Pipelines Used**: lists each agent or pipeline this user interacted with, with its **Runs** count. Shows "No agent or pipeline activity" if empty.
+
+**KPI Cards**:
+
+| KPI | Description |
+| --- | --- |
+| **ACTIVE DAYS** | Number of calendar days this user had at least one tracked activity |
+| **LLM CALLS** | Number of LLM requests this user sent |
+| **TOOL CALLS** | Number of tool runs triggered by this user, including sub-agents and sub-pipelines |
+| **AGENT & PIPELINE RUNS** | Number of Agent and Pipeline runs initiated by this user |
+| **CHAT MSG** | Number of messages this user sent through Chat, Agent, and Pipeline chat interfaces |
+| **ERRORS** | Error count (highlighted in red when > 0) |
+| **TOTAL TOKENS** | Combined input and output tokens used by this user's requests |
+| **INPUT TOKENS** | Tokens sent to AI models by this user's requests |
+| **OUTPUT TOKENS** | Tokens generated by AI models in response to this user's requests |
+| **CACHE READ TOKENS** | Tokens served from the provider prompt cache for this user's requests |
+| **CACHE WRITE TOKENS** | Tokens written to the provider prompt cache for this user's requests |
+| **CACHE READ COST** | Estimated cost of cache read tokens for this user's requests |
+| **CACHE WRITE COST** | Estimated cost of cache write tokens for this user's requests |
+| **TOTAL COST** | Estimated total cost of this user's requests |
+| **INPUT TOKEN COST** | Estimated cost of input tokens for this user's requests |
+| **OUTPUT TOKEN COST** | Estimated cost of output tokens for this user's requests |
+
+To return to the Users list, click the **back arrow** in the header.
 
 <Tip title="Cross-Tab Navigation">
 Clicking a user in the **Top 5 AI Adopters** leaderboard on the Overview tab navigates directly to that user's detail view in the Users tab. A back arrow returns you to the Overview.
 </Tip>
 
+## Activity
+
+**Activity** shows how many distinct people are active on the project over time, and how many of them are actually using AI rather than just browsing.
+
+<img src="../../img/menus/settings/project/analytics/activity.png" alt="Activity Tab" />
+
+### Active Users Trend
+
+An area chart with two series:
+
+- **Active Users**: everyone with any recorded event in the period. Not shown for Personal Projects, which have a single member.
+- **AI Active Users**: the subset of Active Users who triggered at least one LLM or tool call in the period.
+
+You can use the controls above the chart to adjust the view:
+
+- **Role**: restricts the trend to members holding one or more selected project roles — basic (*admin*, *editor*, *viewer*) or custom. Leave it empty to include everyone. Not shown for personal projects.
+- **Granularity**: switches the bucket size between **Day**, **Week**, and **Month**. Weeks start on Monday and months on the 1st; a partial bucket at either end of the date range is shown as-is rather than padded out.
+
+<Note>
+If no activity matches the selected date range and filters, ELITEA shows an empty-state message instead of the chart.
+</Note>
+
+### Activity by Period
+
+A table listing the same data as the chart, one row per period:
+
+| Column | Description |
+|--------|-------------|
+| **Period** | The day, week, or month this row covers, based on the selected granularity |
+| **Active Users** | Distinct active users in that period (hidden for Personal Projects) |
+| **AI Active Users** | Distinct users who used AI in that period |
+
+This table only appears when there is at least one period of data to show.
 
 ## Health
 
 **Health** provides system reliability metrics, helping you identify error patterns and latency issues.
 
-<img src="../../img/menus/settings/project/analytics/euch_health.png" alt="Health" />
+<img src="../../img/menus/settings/project/analytics/analytics_health.png" alt="Health Tab" />
+
+<Note>
+If no health data is available for the selected date range, ELITEA shows an empty-state message instead of **Health**'s content.
+</Note>
 
 ### Requests vs Errors
 
@@ -449,6 +612,8 @@ A dual-series area chart showing:
 - **Errors** (red): events that resulted in an error per day.
 
 Spikes in the red area indicate periods with elevated error rates.
+
+This chart only appears when there is at least one day of data to show.
 
 ### Health by Event Type
 
@@ -477,28 +642,26 @@ A breakdown table showing reliability per event type:
 High latency on `llm` events is normal (model inference takes time). Elevated latency on `api` or `rpc` calls may indicate infrastructure or configuration issues worth investigating.
 </Info>
 
-
 ## Guide
 
 **Guide** is a built-in metric glossary embedded directly in **Analytics**.
 
-It explains every KPI, chart, and table column with:
+It explains general concepts as well as every KPI, chart, and table column and can include:
 - **Description**: What the metric represents in plain language.
 - **Calculation**: The exact formula used to compute the value.
 - **Data source**: Which event types or platform actions contribute to the metric.
 
-**Guide** covers all seven tabs in *Analytics*: Study all metric definitions in **Guide** before drawing conclusions from the data.
+**Guide** covers all eight tabs in *Analytics*: Study all metric definitions in **Guide** before drawing conclusions from the data.
 
 ## Limitations
 
 | Limitation | Details |
 |------------|---------|
-| **Data freshness** | API responses are cached for **5 minutes**. Switching tabs or adjusting the date range within that window may serve cached data. |
+| **Data freshness** | API responses are cached for **5 minutes** per combination of filters. Switching tabs and back, or returning to an exact previously-used date range, within that window may serve cached data instead of a fresh request. Changing to a new date range always triggers a fresh request. |
 | **Overview and Health data shared** | **Overview** and **Health** use the same underlying API call. Switching between them does not trigger a new request while cached data is still fresh. |
 | **Agent / Tool / User tabs are independent** | Each tab fetches data separately with server-side pagination. Navigation within a tab (pagination, search) triggers new API requests. |
-| **Top charts limited to 20 items** | **Most Active Agents** and **Most Popular Tools** charts always show the top 20 items only. Use the paginated table below each chart to browse additional entries. |
-| **Trace-ID correlation** | Tool-to-agent associations (in detail views) are resolved by matching `trace_id` values. This is only available when trace IDs are correctly propagated by the SDK. |
-| **Project-only scope** | There is no cross-project or portfolio-level view within Analytics. For cross-project analysis, use the **Monitoring** section in Settings. |
+| **Top charts reflect the table's current view** | **Most Active Agents** and **Most Popular Tools** charts show the first 20 rows of whatever the table below is currently displaying. Searching, sorting, or paging the table changes what the chart shows. |
+| **Project-only scope** | There is no cross-project or portfolio-level view within Analytics. |
 | **Costs are estimates** | **Costs** and **Tokens** use a local model-price table, so provider invoices may differ. |
 | **Costs and Tokens use separate requests** | **Costs** and **Tokens** load data from a dedicated cost analytics endpoint. |
 | **Cache token support** | Cache read and cache write tokens are only available for models that support prompt caching (e.g., Claude models with Anthropic's prompt caching feature). |
@@ -515,9 +678,9 @@ It explains every KPI, chart, and table column with:
 </Accordion>
 
 <Accordion title="Identifying Underused or Overloaded Agents">
-1. Open the **Agents** tab.
+1. Open the **Agents & Pipelines** tab.
 2. Use the **Most Active Agents** bar chart to quickly see which agents receive the most traffic.
-3. In the **Agent Activity** table, sort mentally by the **Events** column (highest first by default) to find heavily used agents.
+3. In the **Activity** table, sort mentally by the **Runs** column (highest first by default) to find heavily used agents.
 4. Click any agent to open its detail view and check **Avg Latency** and **Error Rate**. A high error rate (> 5%) highlights agents that may need debugging or configuration review.
 5. Agents with zero events in the selected period may be deprecated or not yet discovered by your team.
 </Accordion>
@@ -535,7 +698,7 @@ It explains every KPI, chart, and table column with:
 2. Use the search box to filter by the user's email address.
 3. Click the user's row to open their detail view.
 4. Review the **Daily Activity** area chart to see on which days they were most active and which event types dominate.
-5. The **Models Used**, **Tools Used**, and **Agents Used** lists show exactly which platform resources this user engaged with — useful for onboarding support or license reviews.
+5. The **Models Used**, **Tools Used**, and **Agents & Pipelines Used** lists show exactly which platform resources this user engaged with — useful for onboarding support or license reviews.
 </Accordion>
 
 <Accordion title="Investigating an Error Spike">
@@ -600,5 +763,5 @@ Whenever you modify agent prompts or system instructions, use the **Tokens** tab
 </Accordion>
 
 <Accordion title="Monitor Per-User Token Consumption for Fair Usage Policies">
-If your organization has fair usage policies or user quotas, use the **Token Usage by User** table in the **Tokens** tab to monitor individual consumption. Sort by **TOTAL TOKENS** to identify outliers. Click through to the **Users** tab for detailed daily activity patterns. High token users may be running inefficient workflows, testing extensively, or legitimately processing large volumes. Combine token data with the **Costs** tab to understand the financial impact per user, helping inform capacity planning and budget allocation decisions.
+If your organization has fair usage policies or user quotas, use the **Token Usage by User** table in the **Tokens** tab to monitor individual consumption. The table is sorted by **TOTAL TOKENS** (highest first), so outliers appear at the top. Click through to the **Users** tab for detailed daily activity patterns. High token users may be running inefficient workflows, testing extensively, or legitimately processing large volumes. Combine token data with the **Costs** tab to understand the financial impact per user, helping inform capacity planning and budget allocation decisions.
 </Accordion>

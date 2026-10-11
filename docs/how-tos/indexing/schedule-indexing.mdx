@@ -43,7 +43,7 @@ Before configuring scheduled indexing, ensure the following requirements are met
 
 ### Access Index Actions
 
-1. Open the toolkit detail page to view the **Indexes** section in the right panel.
+1. Open the toolkit detail page to view the **Indexes** section in the right panel. A clock icon next to an index's name indicates it already has a schedule configured.
 2. Select an existing index card to open its dedicated index page.
        <img src="../../img/how-tos/indexing/indexes/index-section.png" alt="Indexes section in the toolkit configuration page." />
 
@@ -81,11 +81,17 @@ When first configured, the schedule defaults to `0 0 * * 6` (Every Saturday at m
 3. **Configure Credentials** (if required):
       - Some toolkits require credentials for scheduled indexing.
       - If required, a **credentials dropdown** appears below the cron configuration.
-      - Select an existing credential configuration or create a new one.
+      - **Pre-selection**: The credential currently configured for the toolkit is pre-selected automatically, so in most cases there is nothing to pick. Otherwise, select an existing credential configuration or create a new one.
       - **Available credentials are filtered by project type**:
           - If you are in a **Private Project**, only private project credentials are shown.
           - If you are in a **Team Project**, only team project credentials are shown.
       <img src="../../img/how-tos/indexing/schedule-indexing/schedule-creds.png" alt="Credentials dropdown in the Schedule Settings modal." width="500" />
+
+<Info>
+**Toolkit Uses a Personal Credential in a Team Project**
+
+If the toolkit's configured credential is a private (personal) credential but you are scheduling in a Team Project, it cannot be pre-selected — team schedules require a project credential. The modal shows the hint **"This toolkit uses a personal credential; schedules in a team project need a project credential."** and you must select a project credential manually.
+</Info>
 4. **Save Changes**: Select **Save** to store the cron expression and credentials.
 
        <video src="../../img/how-tos/indexing/indexes/scheduling-index.mp4" controls></video>
@@ -108,6 +114,7 @@ When a schedule exists, the schedule card displays the following information and
 - The human-readable schedule summary.
 - The next scheduled run date.
 - The selected credentials, when credentials are required.
+- **Expires:** the date the schedule will automatically turn off unless renewed (shown as **Expired:** once that date has passed).
 
 **Actions available for the schedule:**
 
@@ -116,6 +123,13 @@ When a schedule exists, the schedule card displays the following information and
 - Turn the schedule on or off.
 
 <img src="../../img/how-tos/indexing/indexes/indexes-schedule-section.png" alt="Schedule card on the index page showing schedule summary, next run date, and available actions." width="500" />
+
+
+<Note>
+A clock icon next to the index's name in the **Indexes** section of the toolkit detail page indicates a schedule is configured, so you can spot scheduled indexes without opening each one.
+
+<img src="../../img/how-tos/indexing/schedule-indexing/schedule-icon.png" alt="Clock icon next to an index name in the Indexes section indicating a configured schedule." width="500" />
+</Note>
 
 ### Schedule Notifications
 
@@ -137,6 +151,13 @@ You receive notifications for all indexing operations (initial indexing, manual 
 - **Note**: This applies to both initial indexing failures and reindexing failures.
 - **Action**: Select the notification to view the index and check error details in the History page.
 
+**Expiration warnings and notices:**
+
+- Sent once at **7 days** and once at **24 hours** before the schedule's expiration date: *"Scheduled indexing for '{index}' will be switched off in less than 7 days / 24 hours ({date}). Reschedule it to keep it running."*
+- Sent once when the schedule actually expires and is switched off: *"Scheduled indexing for '{index}' reached its expiration date ({date}) and has been switched off. Turn the schedule back on to run it for another period."*
+
+       <img src="../../img/how-tos/indexing/schedule-indexing/expiration-notification.png" alt="Notifications panel." width="400" />
+
 **Notification details:**
 
 - Notifications appear in the notifications panel (bell icon in top navigation).
@@ -145,6 +166,33 @@ You receive notifications for all indexing operations (initial indexing, manual 
 - Scheduled operations are clearly marked with "by schedule" text.
 
 <img src="../../img/how-tos/indexing/schedule-indexing/schedule-notifications.png" alt="Notifications panel showing a successful scheduled reindexing notification." width="500" />
+
+### Schedule Expiration
+
+Every schedule has an expiration date, calculated automatically from its cadence when the schedule is created or renewed:
+
+<img src="../../img/how-tos/indexing/schedule-indexing/schedule-expiration.png" alt="Notifications panel showing a successful scheduled reindexing notification." width="500" />
+
+| Cadence | Expiration window |
+|---------|-------------------|
+| More frequent than monthly (for example, daily, weekly) | **90 days** |
+| Monthly or less frequent | **180 days**, or **6× the schedule's average interval** — whichever is longer |
+
+<Info title="Why Longer Schedules Get More Time">
+The 6× rule exists so a quarterly schedule is not retired after only two runs. A quarterly schedule (roughly every 90 days), for example, gets 6 × 90 = 540 days rather than the 180-day floor.
+</Info>
+
+**When a schedule expires:**
+
+- It is automatically turned off (not deleted) — the cron expression, timezone, and credentials remain configured.
+- The schedule card shows **"Expired: {date}"** with a banner: **"Schedule expired and was turned off."**
+- Turn the schedule back on to resume it — this also resets the expiration date to a fresh full window.
+
+       <img src="../../img/how-tos/indexing/schedule-indexing/schedule-expired.png" alt="Notifications panel showing a successful scheduled reindexing notification." width="500" />
+
+<Note>
+Schedules created before this feature was introduced are priced starting from the first time the system checks them, not retroactively from their original creation date — so no existing schedule is unexpectedly disabled.
+</Note>
 
 ---
 
@@ -229,6 +277,14 @@ To temporarily pause scheduled reindexing without removing the schedule configur
 4. To resume scheduled reindexing, turn the toggle back on.
 
 <img src="../../img/how-tos/indexing/indexes/indexes-schedule-section.png" alt="Schedule card with the Schedule toggle turned off and the Schedule is turned off banner visible." width="500" />
+
+**Renew an expired schedule**
+
+To resume a schedule that was automatically turned off after reaching its [expiration date](#schedule-expiration):
+
+1. Open the index page and locate the schedule card showing **"Expired: {date}"** and the **"Schedule expired and was turned off."** banner.
+2. Turn the **Schedule** toggle back on.
+3. The schedule resumes with its existing cron expression and credentials, and its expiration date resets to a fresh full window.
 
 ---
 
@@ -444,6 +500,20 @@ Your team can ask questions about the codebase and documentation using the most 
 **Prevention**: Review your personal access tokens regularly and generate new ones before existing tokens expire to avoid disruption to scheduled operations.
 </Accordion>
 
+<Accordion title="Schedule Turned Off Automatically (Expired)">
+**Symptom**: A schedule that was working stops running on its own, the toggle shows off, and the card displays "Expired: {date}."
+
+**Cause**: Every schedule has an [expiration date](#schedule-expiration) based on its cadence (90 days for frequent schedules, 180 days or 6× the interval for infrequent ones). This is expected behavior, not an error.
+
+**Solution:**
+
+1. Open the index page and find the schedule card.
+2. Turn the **Schedule** toggle back on.
+3. The schedule resumes with the same cron expression and credentials, and a fresh expiration window starts.
+
+**Prevention**: Watch for the expiration warning notifications sent 7 days and 24 hours before the deadline, and renew the schedule before it expires if you want uninterrupted execution.
+</Accordion>
+
 ---
 
 ## Limitations
@@ -451,6 +521,8 @@ Your team can ask questions about the codebase and documentation using the most 
 | Limitation | Description |
 |------------|-------------|
 | **Minimum frequency** | Schedules cannot execute more frequently than once per day. |
+| **Automatic expiration** | Every schedule expires after 90-180+ days (depending on cadence) and must be manually renewed. |
+| **No cross-index expired-schedule list** | There is no single page listing all expired schedules across indexes or projects — check each index's schedule card individually. |
 | **User-specific schedules** | Schedules are per user; there is no shared or global schedule for all users. |
 | **Single schedule per user per index** | Each user can only configure one schedule per index. |
 | **Credentials stored per schedule** | If credentials are required, they are stored with the schedule and used for all scheduled runs. |

@@ -58,6 +58,14 @@ This opens the **Evaluation** workspace for that agent, where you manage Suites,
 Inside the Evaluation workspace, click the documentation icon to open the [Agent Evaluation FAQ](./agent-evaluation-faq) for quick answers to common questions.
 </Tip>
 
+<Note>
+**Breadcrumb Navigation**
+
+On every evaluation page, the **Evaluation (Beta)** breadcrumb opens a dropdown of the agent's suites instead of navigating away—pick one to jump straight to it, no back button needed.
+<img src="../../img/how-tos/agents-pipelines/agent-evaluation/eval-breadcrumb.png" alt="Suite General" width="450" />
+
+</Note>
+
 ## Suites
 
 A **Suite** is what you actually run: it pairs one **agent version**, one **Dataset** and one or more **Dimensions** (via per-suite bindings), plus a **Judge Model** used for any AI-scored dimensions.
@@ -70,19 +78,26 @@ A dimension **binding** carries suite-specific settings—such as weight, target
 
 The first time you open **Evaluate (Beta)** for an agent, no suites exist yet—the **Suites** panel shows an empty state prompting you to create one, because you need a suite before you can run an evaluation.
 
-1. In the Evaluation workspace, click **New Suite** (or via the **+** button once other suites already exist).
+1. In the Evaluation workspace, click **New Suite**.
      <img src="../../img/how-tos/agents-pipelines/agent-evaluation/new-suite-button.png" alt="New Suite Button" width="350" />
-2. Under **General**, fill in the following fields:
+2. In the **Create Suite** dialog, enter a **Suite Name** (required) and an optional **Description**, then click **Save**.
+
+     <img src="../../img/how-tos/agents-pipelines/agent-evaluation/create-suite.png" alt="Suite General" width="450" />
+
+3. Saving creates the suite and opens it for configuration. Under **General**, set the remaining fields:
 
      | Field | Description |
      | --- | --- |
-     | **Name** | The display name of the suite. |
-     | **Description** | Optional notes about what this suite evaluates. |
-     | **Judge Model** | The LLM used to score any AI-evaluated dimensions in this suite. |
-     | **Version** | The agent version this suite evaluates. Locked to the suite once set. If you need to evaluate a different version, change it here. |
-     <img src="../../img/how-tos/agents-pipelines/agent-evaluation/suite-general.png" alt="Suite General" width="350" />
+     | **Judge Model** | The LLM used to score any AI-evaluated dimensions in this suite. Defaults to **Auto** until you choose one. |
+     | **Version** | The agent version this suite evaluates. Disabled while an evaluation run is in progress—otherwise you can change it at any time. |
 
-3. Click **Save** to create the suite.
+     <img src="../../img/how-tos/agents-pipelines/agent-evaluation/suite-configs.png" alt="Suite General" width="350" />
+
+4. Click **Save** to store these changes. Use **Discard** to drop unsaved edits in this section.
+
+<Note>
+A new suite starts with no dataset and no dimensions attached. Attach them from the **Dataset** and **Dimensions** sections of the same page (see below)—the **Evaluate** button stays disabled until a version, a dataset with at least one active case, and at least one dimension are all set.
+</Note>
 
 ## Datasets
 
@@ -119,6 +134,12 @@ A **Case** is a single test within a dataset: an input (and, optionally, an expe
 
 Every dimension bound to the suite scores each case independently, and a run breaks down results per case. Adding, editing or excluding a case changes what the suite evaluates and directly affects its overall score the next time it runs.
 
+<Warning>
+**Case Limit**
+
+A dataset can hold at most **10 cases**. Adding a case (manually, via import or from a chat/run) once a dataset is at the limit is rejected. A dataset that already exceeded 10 cases before this limit was introduced keeps its existing cases but cannot add more until some are removed.
+</Warning>
+
 ### Add a Test Case
 
 With the dataset selected, click **+ Case** to open the add-case menu. Then choose one of the three methods below.
@@ -146,8 +167,10 @@ Adds many test cases at once from a file, useful when you already maintain test 
 
      <img src="../../img/how-tos/agents-pipelines/agent-evaluation/case-import.png" alt="Case Import" width="400"/>
 
-<Note title="Import Validation">
-The platform checks a `.json` file for valid JSON syntax before upload. It rejects a malformed file outright and imports no cases from it. Once uploaded, the platform validates each case individually: it adds valid cases to the dataset and skips invalid ones, listing each skipped case in the result banner with the reason for rejection. This way, the rest of the file still imports even when one row is invalid.
+<Note>
+**Import Validation**
+
+The platform checks a `.json` file for valid JSON syntax before upload. It rejects a malformed file outright and imports no cases from it. Once uploaded, the platform validates each case individually: it adds valid cases to the dataset and skips invalid ones, listing each skipped case in the result banner with the reason for rejection. This way, the rest of the file still imports even when one row is invalid. An import that would push the dataset over the 10-case limit is rejected in full (all-or-nothing)—reduce the file or split it into multiple datasets.
 </Note>
 
 **Create a Case Manually**
@@ -239,8 +262,6 @@ You can return to the prompt step or the candidate list at any point before crea
 
 Use a completed suite to measure agent performance and review its results.
 
-### Run the Suite
-
 1. Open the suite you want to run.
 2. Confirm that a dataset is attached under the **Dataset** section of the suite.
 3. Confirm that at least one dimension is added under the **Dimensions** section of the suite.
@@ -257,7 +278,7 @@ Use a completed suite to measure agent performance and review its results.
 When multiple dimensions share the same evaluation target, the platform automatically batches them into a single AI judge call per test case, rather than one call per dimension. The platform also splits or truncates oversized evidence or oversized batches automatically, behind the scenes. This works without configuration, and the run always completes successfully.
 </Info>
 
-## Review Results
+### Review Results
 
 The **Results** panel shows the outcome of the most recent run for the selected suite:
 
@@ -269,21 +290,61 @@ The summary cards show the following information:
 | --- | --- |
 | **Total Score** | The overall score of the suite for this run. |
 | **Cases** | The total number of cases included in the run. |
-| **Met** | Cases where the target for every dimension was met. |
+| **Met all targets** | Cases where the target for every dimension was met. |
 | **Missed** | Cases where the target for at least one dimension was missed. |
 | **Errors** | Cases where at least one dimension failed to produce a score. |
 
 * **Dimension table**—for each dimension: its Scale, Average score, Target and whether the target was Met.
 * **Case list**—every case in the dataset, expandable to show its per-dimension results. Each dimension card shows its state (score and whether the target was met, an error, or—for Human-scored dimensions—pending) along with the rationale from the judge, your own comments or an "Awaiting human evaluation" note.
 
+<Note>
+A dimension that reads evidence against an **Expected Output** (reference-based scoring) produces no score at all for a case that has no Expected Output set—it is silently skipped rather than marked as an error. If a dimension card shows no result for some cases, check whether those cases have an Expected Output defined.
+</Note>
+
+When human-scored dimensions are still awaiting review, a banner above the case list reads: *"Awaiting human evaluation — N result(s) still need a score. Totals update as each one is saved."*
+
 From the Results panel toolbar you can:
 
 <img src="../../img/how-tos/agents-pipelines/agent-evaluation/result-actions.png" alt="Result Actions"/>
 
+* **Enhance with AI**—analyze this run and generate suggested fixes to the agent's instructions, scoring dimensions and dataset cases.
 * **Export to Excel**—download the full results as a spreadsheet.
 * **Clear the results**—remove the results for the current run (with a confirmation prompt).
 * **Results History**—open the full run history for this agent in a separate panel.
 
+
+### Enhance with AI
+
+Once a run has results, use **Enhance with AI** to get AI-generated suggestions for closing the gap between what the agent produced and what the suite expected—without manually re-reading every missed case yourself.
+
+<Note>
+**Permission Required**
+
+Enhance with AI requires permission to update agent versions.
+</Note>
+
+1. In the Results panel toolbar, click **Enhance with AI**
+2. The platform analyzes the run and walks you through a few steps. **Analysis** always appears; the rest only appear if that run's proposal actually has something to suggest there, so a run with only instruction fixes shows just **Analysis** and **Agent Instructions**:
+     * **Analysis**—coverage statistics, a written diagnosis of why the run missed its targets, and a note on what the following steps contain. If nothing needs changing, this step says so instead ("No changes suggested—the agent and the evaluation look consistent for this run.") and the wizard ends here.
+           <img src="../../img/how-tos/agents-pipelines/agent-evaluation/enhance-ai-analysis.png" alt="Result Actions"/>
+     * **Agent Instructions**—shown only when the proposal includes instruction edits. A side-by-side diff of the agent's current instructions against the proposed rewrite, with each individual suggested edit listed below as a checkbox you can accept or reject one at a time.
+           
+           <img src="../../img/how-tos/agents-pipelines/agent-evaluation/enhance-ai-instr.png" alt="Result Actions"/>
+
+     * **Dimensions**—shown only when the proposal includes dimension fixes. Suggested rubric (Evaluation Instructions) or target changes for dimensions this run scored.
+     * **Dataset Cases**—shown only when the proposal includes dataset fixes. Suggested Expected Output corrections for cases in the attached dataset.
+3. Uncheck any individual suggestion you do not want applied; the Instructions diff updates live as you do.
+4. Click **Save**, or **Save as new version** (shown only when at least one instruction edit is accepted):
+     * **Save**—applies the accepted instruction edits directly to the agent version the suite is bound to, and applies the accepted dimension and dataset-case fixes immediately.
+     * **Save as new version**—forks a new agent version containing only the accepted instruction edits, leaving the suite's current version untouched. The accepted dimension and dataset-case fixes are still applied immediately either way.
+
+<Note>
+Dimension and dataset-case fixes are **not versioned**. Accepting one updates the shared dimension or dataset case directly, affecting every suite that uses it—regardless of whether you choose **Save** or **Save as new version** for the instruction edits.
+</Note>
+
+<Info title="Conflicting Edits">
+If the agent's instructions changed after the proposal was generated (for example, someone else edited them), an affected instruction edit shows: *"This update no longer matches the current instructions and cannot be applied."* Uncheck it to continue, or close and reopen Enhance with AI to generate a fresh proposal.
+</Info>
 
 ## Score a Human Dimension
 
@@ -300,12 +361,39 @@ Human-scored dimensions let a run continue without waiting. The cases appear as 
 1. From the Results panel, click the **Results History** icon (or navigate to it directly from the Evaluation workspace).
 2. The run history table lists every run for the agent, showing its Date, Suite, agent Version and Score. A badge highlights the score change compared to the previous scored run for the same suite.
 3. Select a run to view its full results in the panel beside the table.
-4. Use the row actions menu to **Share**, **Export to Excel** or **Delete** a run (deleting requires the appropriate permission).
+4. Use the row actions menu to **Share**, **Export to Excel**, open **Analytics** or **Delete** a run (deleting requires the appropriate permission).
 
 <img src="../../img/how-tos/agents-pipelines/agent-evaluation/result-history.png" alt="Result History"/>
 
 <Note>
 Deleting a dimension from the library removes it everywhere it is used going forward, but finished runs keep a frozen snapshot of the dimensions as they were scored at the time. Historical results stay exactly as they were.
+</Note>
+
+### Run Analytics
+
+**Analytics** opens a dedicated page for that run, covering both test-case execution and LLM-as-judge scoring for that run only—no other evaluations or ordinary chats are mixed in. The header shows the run's suite, run date and the agent version that was evaluated. **Costs** opens by default; use **Refresh data** or **Export to Excel** (one worksheet per tab) from the page toolbar.
+
+<Tabs>
+  <Tab title="Costs">
+  Estimated cost cards (total, input, output, cache read/write) plus Cost by User and Cost by Model tables.
+  <img src="../../img/how-tos/agents-pipelines/agent-evaluation/eval-analytics-costs.png" alt="Run Analytics - Costs" />
+  </Tab>
+  <Tab title="Tokens">
+  Token count cards (total, input, output, cache read/write) plus Token Usage by User and Token Usage by Model tables.
+  <img src="../../img/how-tos/agents-pipelines/agent-evaluation/eval-analytics-tokens.png" alt="Run Analytics - Tokens" />
+  </Tab>
+  <Tab title="Tools">
+  A Tool Details table (calls, users, average latency, errors) with search and pagination.
+  <img src="../../img/how-tos/agents-pipelines/agent-evaluation/eval-analytics-tools.png" alt="Run Analytics - Tools" />
+  </Tab>
+  <Tab title="Health">
+  A Health by Event Type table (total, errors, error rate, average latency).
+  <img src="../../img/how-tos/agents-pipelines/agent-evaluation/eval-analytics-health.png" alt="Run Analytics - Health" />
+  </Tab>
+</Tabs>
+
+<Note>
+Analytics is only available for runs recent enough to carry the tracking data it needs—older runs don't show the menu item.
 </Note>
 
 ## Troubleshoot Evaluation Issues
@@ -326,12 +414,24 @@ Only Admins can create or edit Code-based dimensions. Editors have view-only acc
 A suite must keep at least one active case from its attached dataset. Include a different case before excluding the one you want removed.
 </Accordion>
 
+<Accordion title="Resolve a Dataset Case Limit Error">
+A dataset can hold at most 10 cases. Adding one more—manually, via import, or from a chat/run—is rejected with a message naming the dataset's current count and the limit. Remove an existing case first, or (for an import or promoted conversation) split the cases across multiple datasets instead of one.
+</Accordion>
+
 <Accordion title="Resolve Rejected Imported Cases">
 The platform rejects a `.json` file entirely when it is not valid JSON, and imports no cases from it. Otherwise, it validates each case on its own. Check the reasons listed next to the rejected count in the import result banner, fix those rows in your source file and re-import. Cases that already passed validation stay in the dataset unchanged.
 </Accordion>
 
 <Accordion title="Run a Suite">
 Before you can evaluate a suite, it needs a **Dataset** attached and at least one **Dimension** added. Open the suite and check both the **Dataset** and **Dimensions** sections. For instructions, see the Run the Suite section.
+</Accordion>
+
+<Accordion title="Enhance with AI Finds Nothing to Suggest">
+This means the analysis found the agent's behavior and the evaluation setup already consistent for that run—there is nothing to fix. This is expected when the run scored well, or when prior fixes already addressed the gaps.
+</Accordion>
+
+<Accordion title="Enhance with AI Edit Cannot Be Applied">
+An instruction edit that no longer matches the agent's current instructions (because they changed after the proposal was generated) cannot be applied. Uncheck that edit, or close the dialog and reopen **Enhance with AI** to generate a fresh proposal against the current instructions.
 </Accordion>
 
 ---

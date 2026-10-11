@@ -1,143 +1,114 @@
 ---
 title: "Data Analysis"
 sidebarTitle: "Data Analysis"
-description: "Analyze uploaded tabular files in chats and agents with the Data Analysis module using natural language."
 ---
 
-<Warning title="Migration Required: Pandas Toolkit Deprecated">
-Starting with release 2.0.0 B2, the legacy **Pandas** toolkit has been deprecated and replaced by the **Data Analysis** module. Existing Pandas toolkits are disabled and no longer functional.
+**Data Analysis** module allows analyzing uploaded data directly from chat: files are processed with Pandas using natural language queries, and results appear as summaries, tables, or downloadable charts.
 
-**Action Required:** Users must migrate to the Data Analysis module available in chat conversations and agents. See the [Pandas Toolkit Migration Guide](../../migration/v2.0.1/pandas-toolkit-migration) for step-by-step migration instructions.
-</Warning>
-
-**Data Analysis** module provides powerful Pandas-based data analysis capabilities directly within ELITEA chats. This module enables seamless data processing and analysis without separate configurations, making it easy to work with uploaded files using natural language queries.
+<span id="supported-file-formats">**Supported file formats:**</span> CSV, TXT, Excel (XLSX/XLS), Parquet, JSON, XML, HDF5, Feather, and Pickle.
 
 **Key Features:**
 
-- **Direct Integration:** Available in chats and agents
-- **Natural Language Processing:** Use plain English to request data analysis operations
-- **File-Based Analysis:** Works with files uploaded directly to conversations (CSV, Excel, and other tabular formats)
-- **Automated Processing:** Intelligent file format detection and data analysis
-- **Chart Generation:** Automatic creation of visualizations with downloadable results
-
----
+- Intelligent file format detection and data analysis
+- Available in chats and agents
+- Requests are formulated in natural language
+- Files are uploaded directly to your conversations
+- Creates downloadable visualizations of the analysis results
 
 ## Prerequisites
 
-- **Permission Level**: User role with chat edit access
-- **Chat**: An active chat or agent configuration
+To request data analysis, you need:
 
-<Info title="Important">
-The Data Analysis module must be explicitly enabled it can be used in a chat. It is hidden from the regular toolkit menu and exposed only through the **Modules** configuration.
-</Info>
-
----
+- User role with chat edit access
+- An active chat or agent configuration
+- **Data Analysis** enabled in your chat or agent
 
 ## How to Enable Data Analysis
 
-### In Chat
+The default state of the **Data Analysis** module — on or off — [is defined in the project settings](../../menus/settings/general#default-modules).
 
-Enable the Data Analysis module for ad-hoc data analysis in conversations.
+If **Data Analysis** is turned off by default, you can turn it on for your current conversation or agent.
 
-1. Go to your chat.
-2. In the chat toolbar, select **+**.
+### For a Conversation
+
+1. Go to the conversation.
+2. Select **+** in the chat input toolbar.
 3. Select **Modules** → **Data Analysis** in the list.
-4. Toggle **Data Analysis** on to enable it.
+4. Toggle **Data Analysis** on.
 
 <img src="../../img/how-tos/chat-conversations/internal-tools/data-analysis/euch_da_on_chat.png" alt="Enable Data Analysis in chat"/>
 
-<Tip title="Quick Access">
-The module configuration persists for the duration of your chat session. You can toggle Data Analysis on/off at any time.
-</Tip>
+### For an Agent
 
----
-
-### For Agents
-
-You can configure Data Analysis as part of an agent's default configuration.
-
-1. Open the agent you want to configure (or create and opena new agent).
-2. Scroll down to **TOOLS**.
-3. In **TOOLS**, find **MODULES**.
-4. Find **Data Analysis**. If it is not immediately visible, select **Show all** to see the full list of modules.
+1. Select **Agents**.
+2. Select the agent to configure, or create a new agent.
+3. In the **TOOLS** section, find **Modules**.
+4. Find **Data Analysis**. Select **Show all** if you do not see it immediately.
 5. Toggle **Data Analysis** on.
 6. Select **Save**.
-7. New conversations created with this agent will have Data Analysis enabled by default.
 
-     <img src="../../img/how-tos/chat-conversations/internal-tools/data-analysis/euch_da-for-agent.png" alt="Enable Data Analysis for agents" width="400" />
+All changes apply only to new conversations run by this agent. Existing conversations will not be affected.
 
-<Info title="Agent vs Chat Settings">
-- **Agent Configuration**: Sets the default state for all new chats with that agent
-- **Chat Configuration**: Overrides the agent's default for that specific chat session
-- Changes to agent configuration do not affect existing chats
-</Info>
----
+<img src="../../img/how-tos/chat-conversations/internal-tools/data-analysis/euch_da-for-agent.png" alt="Enable Data Analysis for agents" width="400" />
 
 ## How to Use Data Analysis
 
-Once enabled, the Data Analysis module allows you to perform comprehensive data analysis directly in chat using natural language commands. Simply upload your data files and request analysis operations in plain English.
+To process your data with **Data Analysis**, simply upload your data files and request analysis operations in natural language:
 
-### How It Works
-
-1. **Upload Data:** Upload CSV, Excel, or other data files to your chat
-2. **Request Analysis:** Ask the assistant to perform analysis using natural language
-3. **Get Results:** Receive summaries, transformations, charts, and downloadable files
+1. Upload data files to your chat.
+2. Ask the AI assistant in natural language to perform analysis.
+3. Get the analysis results: summaries, transformations, charts, and downloadable files.
 
 **Available Operations**
 
-- **Data Summaries:** Descriptive statistics, data profiling, and overview reports
+- **Data Summary:** Descriptive statistics, data profiling, and overview reports
 - **Data Filtering:** Row and column filtering based on conditions
 - **Transformations:** Data cleaning, column operations, and restructuring
 - **Aggregation:** Grouping, totals, averages, and statistical calculations
 - **Visualization:** Automatic chart generation (bar charts, line graphs, histograms, etc.)
 - **Export:** Save transformed data as downloadable files
 
-<Info title="Important Notes">
+Charts and exported files are saved to your chat. The AI assistant will provide links to view or download these files. Charts are saved as PNG files with auto-generated UUID filenames.
+
+<Callout icon="lightbulb" color="#a855f7" title="Important Notes">
 - Always upload your data file to the chat before requesting analysis
+- Maximum size for uploaded files: 150MB
 - For very large datasets (>100MB) or complex custom operations, consider using the Python Sandbox instead
-</Info>
+</Callout>
 
----
+**Example Workflows**
 
-### Example Workflows
+These examples show typical workflows for using **Data Analysis**.
 
-
-These examples show typical workflows using the Data Analysis module.
-
-Example 1 — Natural language data summary
-
+<Accordion title="Get natural language data summary">
 1. Open the chat and click **+**.
-2. Check that the Data Analysis module is enabled.
+2. Check that **Data Analysis** is enabled.
 3. Upload a small sample file (CSV) and ask the assistant to return a summary.
 4. Ask the assistant:
 
-```
-Please show summary statistics for `sales_data.csv` and the top 5 rows.
-```
+> Please show summary statistics for `sales_data.csv` and the top 5 rows.
 
-What happens: the assistant indexes the uploaded data first, then performs the requested analysis on the indexed data.
+The AI assistant reads the uploaded data first, then performs the requested analysis.
 
 <img src="../../img/how-tos/chat-conversations/internal-tools/data-analysis/data-analysis-example-chat.gif" alt="Example 1" width="700" />
+</Accordion>
 
+<Accordion title="Summarize bug reports and highlight hotspots">
+1. Check that **Data Analysis** is enabled.
+2. Upload your `.xlsx` file.
+3. Ask the assistant:
 
+> Summarize Sprint 1 bug reports in `bug_reports.csv`: total count, trend over time, top 3 modules by number of reports, and recommended priorities for fixes.
 
-Example 2 — Summarize bug reports and highlight hotspots
-
-1. Check that the Data Analysis module is enabled and upload `bug_reports.xlsx`.
-2. Ask the assistant:
-
-```
-Summarize Sprint 1 bug reports in `bug_reports.csv`: total count, trend over time, top 3 modules by number of reports, and recommended priorities for fixes.
-```
-
-What happens: the assistant indexes the uploaded data first, then performs the requested analysis. If a chart is helpful (for example a histogram of sales or a time series), the assistant will generate one or more charts and save each chart as an image file in chat.
+The AI assistant reads the uploaded data, then performs the requested analysis. If a chart is helpful (for example a histogram of sales or a time series), the assistant will generate one or more charts and save each chart as an image file in chat.
 
 <img src="../../img/how-tos/chat-conversations/internal-tools/data-analysis/data-analysis-example-2.gif" alt="Example 2" width="700" />
 
 **Generated files**
 
 <img src="../../img/how-tos/chat-conversations/internal-tools/data-analysis/data-analysis-create-artifact.gif" alt="Generated analysis files" width="700" />
----
+</Accordion>
+
 
 ## Best Practices
 
@@ -145,28 +116,24 @@ What happens: the assistant indexes the uploaded data first, then performs the r
 Upload moderately sized files for interactive analysis. Very large datasets may cause timeouts or higher latency. Consider using Python Sandbox for datasets larger than 100MB.
 </Accordion>
 
-<Accordion title="Prefer common file formats">
-Use widely supported formats like CSV, Excel for best compatibility. These formats work reliably across different systems.
-</Accordion>
-
-<Accordion title="Be explicit about outputs">
-When you need a specific output (for example: a downloadable CSV of filtered rows, an aggregated table, or a PNG chart), state it clearly in your request: "Save filtered rows as CSV" or "Generate a time-series chart and export as PNG".
-</Accordion>
-
-<Accordion title="Expect saved files for charts and exports">
-Charts and exported files are saved to your chat. The assistant will provide links to view or download these files. Charts are saved as PNG files with auto-generated UUID filenames.
-</Accordion>
-
-<Accordion title="Small iterative steps">
-Break complex analyses into smaller steps (load → inspect → filter → aggregate → visualize). This reduces errors and makes results easier to validate.
+<Accordion title="Use descriptive queries">
+Provide clear, specific analysis requests. Instead of "analyze this data", try "Calculate monthly sales totals and create a bar chart showing top 5 products by revenue".
 </Accordion>
 
 <Accordion title="Be precise with column names and formats">
 Refer to column names exactly as they appear in your dataset and provide example values when helpful (for dates, currencies, or categories).
 </Accordion>
 
+<Accordion title="Be explicit about outputs">
+When you need a specific output (for example, a downloadable CSV of filtered rows, an aggregated table, or a PNG chart), state it clearly in your request: "Save filtered rows as CSV" or "Generate a time-series chart and export as PNG".
+</Accordion>
+
+<Accordion title="Work in small iterative steps">
+Break complex analyses into smaller steps (load → inspect → filter → aggregate → visualize). This reduces errors and makes results easier to validate.
+</Accordion>
+
 <Accordion title="Prefer reproducible transformations">
-If you expect to re-run the same workflow, ask the assistant to "save transformed data" and include the intended filename. This makes it easy to re-open or share results later.
+If you expect to re-run the same workflow, ask the assistant to save the processed data and include the intended filename. This makes it easy to re-open or share results later.
 </Accordion>
 
 <Accordion title="Use Python Sandbox for custom code">
@@ -174,34 +141,31 @@ For advanced custom logic, very large datasets, or specialized operations, enabl
 </Accordion>
 
 <Accordion title="Watch output size">
-Requests that ask for extensive detailed outputs may be truncated. Prefer summaries or downloadable files for large results.
+Requests that ask for extensive detailed outputs may be truncated. Use summaries or downloadable files for large results.
 </Accordion>
 
 <Accordion title="Validate sensitive data handling">
-Avoid uploading highly sensitive data if you are unsure about retention policies. When in doubt, remove or anonymize personal information before uploading.
+Avoid uploading sensitive data. Remove or anonymize personal information before uploading.
 </Accordion>
 
 <Accordion title="Handle encoding issues">
-For CSV files with special characters, ensure UTF-8 encoding. UTF-8 files work most reliably.
+For CSV files with special characters, ensure UTF-8 encoding.
 </Accordion>
-
-<Accordion title="Use descriptive queries">
-Provide clear, specific analysis requests. Instead of "analyze this data", try "Calculate monthly sales totals and create a bar chart showing top 5 products by revenue".
-</Accordion>
-
 
 ## Troubleshooting
 
-<Accordion title="Data Analysis requires file access">
+<Accordion title="I do not see the Data Analysis module">
 **Possible causes:**
 
-* Data Analysis module not enabled in chat
-* Chat configuration issue
+* **Data Analysis** is not enabled
+* **Modules** are hidden because the project has no available modules
+* Network connectivity issues
 
-**Solution:**
+**Solutions:**
 
-1. Enable Data Analysis in **Modules** for the chat
-2. Refresh the chat and re-enable the tool if needed
+* Refresh the page and try again.
+* Enable **Data Analysis** in **Modules**.
+* Contact your project administrator.
 </Accordion>
 
 <Accordion title="File format not recognized or read errors">
@@ -214,10 +178,10 @@ Provide clear, specific analysis requests. Instead of "analyze this data", try "
 
 **Solution:**
 
-1. Ensure file is in a supported format (CSV, Excel, Parquet, or other common tabular formats)
-2. Check file integrity and try re-uploading a clean version
-3. Convert file to UTF-8 encoding if needed
-4. For large files, consider using Python Sandbox instead
+* Ensure file has [a supported format](#supported-file-formats).
+* Check file integrity and try re-uploading a clean version.
+* Convert file to UTF-8 encoding if needed.
+* For large files, consider using Python Sandbox instead.
 </Accordion>
 
 <Accordion title="No Data Analysis option in UI">
@@ -230,11 +194,11 @@ Provide clear, specific analysis requests. Instead of "analyze this data", try "
 
 **Solution:**
 
-1. Confirm you have chat edit access permissions.
-2. Check that **Modules** are visible — the icon is hidden entirely when no modules are available for the project.
-3. Check that Data Analysis appears in the list.
-4. Refresh the page and try accessing the popup again.
-5. If the icon is missing, contact your project administrator to confirm modules are enabled for the project.
+* Confirm you have chat edit access permissions.
+* Check that **Modules** are visible — the icon is hidden entirely when no modules are available for the project.
+* Check that Data Analysis appears in the list.
+* Refresh the page and try accessing the popup again.
+* If the icon is missing, contact your project administrator to confirm modules are enabled for the project.
 </Accordion>
 
 <Accordion title="Data Analysis requests timeout or fail">
@@ -246,11 +210,11 @@ Provide clear, specific analysis requests. Instead of "analyze this data", try "
 
 **Solution:**
 
-1. Reduce dataset size or use smaller sample files for testing
-2. Break complex requests into smaller iterative steps
-3. Prefer aggregated summaries over detailed outputs
-4. Check network connection and retry the request
-5. For very large data, consider enabling Python Sandbox instead
+* Reduce dataset size or use smaller sample files for testing.
+* Break complex requests into smaller iterative steps.
+* Prefer aggregated summaries over detailed outputs.
+* Check network connection and retry the request.
+* For very large data, consider enabling Python Sandbox instead.
 </Accordion>
 
 <Accordion title="Charts or exported files not generated">
@@ -262,11 +226,11 @@ Provide clear, specific analysis requests. Instead of "analyze this data", try "
 
 **Solution:**
 
-1. Verify data is suitable for the requested chart type
-2. Check that file saving is working
-3. Use valid filenames without special characters
-4. Try simpler chart types first
-5. Request download links explicitly in your prompt
+* Verify data is suitable for the requested chart type.
+* Check that file saving is working.
+* Use valid filenames without special characters.
+* Try simpler chart types first.
+* Request download links explicitly in your prompt.
 </Accordion>
 
 <Accordion title="Code generation fails or produces errors">
@@ -278,11 +242,11 @@ Provide clear, specific analysis requests. Instead of "analyze this data", try "
 
 **Solution:**
 
-1. Use clear, specific analysis requests with exact column names
-2. Break complex queries into simpler steps
-3. Provide example values for date formats, categories, etc.
-4. Try rephrasing the query if it fails
-5. Check for error messages and adjust accordingly
+* Use clear, specific analysis requests with exact column names.
+* Break complex queries into simpler steps.
+* Provide example values for date formats, categories, etc.
+* Try rephrasing the query if it fails.
+* Check for error messages and adjust accordingly.
 </Accordion>
 
 <Accordion title="Memory or performance issues">
@@ -295,19 +259,17 @@ Provide clear, specific analysis requests. Instead of "analyze this data", try "
 
 **Solution:**
 
-1. Use smaller sample datasets for initial testing
-2. Consider using Python Sandbox for memory-intensive operations
-3. Close other conversations to free up resources
-4. Optimize queries to use less memory
-5. Monitor system resource usage
+* Use smaller sample datasets for initial testing.
+* Consider using Python Sandbox for memory-intensive operations.
+* Close other conversations to free up resources.
+* Optimize queries to use less memory.
+* Monitor system resource usage.
 </Accordion>
 
----
+<Info title="See also">
+See also:
 
-<Info title="Additional Resources">
-* **[Pandas Toolkit Migration Guide](../../migration/v2.0.1/pandas-toolkit-migration)** - Complete migration guide from legacy Pandas toolkit
-* **[Agent Configuration](../../menus/agents)** - Setting up agents with tools
-* **[Chat Functionality](./how-to-use-chat-functionality)** - General chat features and usage
-* **[Python Sandbox](./python-sandbox-internal-tool)** - Python Sandbox overview
-* **[Conversation Management](../../menus/chat)** - Managing conversations and settings
+* **[Pandas Toolkit Migration Guide](../../migration/v2.0.1/pandas-toolkit-migration)**
+* **[Agent Configuration](../../menus/agents)**
+* **[Python Sandbox](./python-sandbox-internal-tool)**
 </Info>
