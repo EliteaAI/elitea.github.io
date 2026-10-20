@@ -4,7 +4,7 @@ sidebarTitle: "EPAM MCP Servers"
 accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.7*/}
 ---
 
-**EPAM MCP Servers** are ready-to-use MCP server connections for EPAM internal services and tools. Unlike custom Remote MCP servers that require you to supply a server URL and credentials manually, EPAM MCP Servers are pre-configured by your ELITEA environment: connection settings (server URL, OAuth credentials) are automatically supplied at runtime so you can get started with just a few clicks.
+**EPAM MCP Servers** are ready-to-use MCP server connections for EPAM internal services and tools. Unlike remote MCP servers that require you to supply a server URL and credentials manually, EPAM MCP Servers are pre-configured by your ELITEA environment: connection settings (server URL, OAuth credentials) are automatically supplied at runtime so you can get started with just a few clicks.
 
 ## Available EPAM MCP Servers and Their Tools
 
@@ -48,14 +48,14 @@ ELITEA supports most EPAM pre-built MCP servers:
   <Card title="EPAM OneHub" icon="circle-nodes" href="#epam-onehub">
     Single access point for searching users, projects and skills as part of the OneHub platform.
   </Card>
-  <Card title="EPAM OneHub Play" icon="play" href="#epam-onehub-play">
+  <Card title="EPAM OneHub Play" icon="window" href="#epam-onehub-play">
     Create, manage and share lightweight web apps built with Copilot Builder or uploaded as projects.
   </Card>
   <Card title="EPAM People Central" icon="users" href="#epam-people-central">
     Streamline HR and people management tasks relating to staffing, performance, retention and recognition.
   </Card>
   <Card title="EPAM Presales" icon="handshake" href="#epam-presales">
-    Prepare client-facing proposals with templates, tools and consulting resources.
+    Search EPAM presales content, including case studies, projects, opportunities and solutions.
   </Card>
   <Card title="EPAM Query" icon="terminal" href="#epam-query">
     Centralized knowledge platform to find answers, search documentation and retrieve content from EPAM documents.
@@ -69,14 +69,14 @@ ELITEA supports most EPAM pre-built MCP servers:
   <Card title="EPAM Talk" icon="comments" href="#epam-talk">
     Manage one-on-one talks and performance expectations for employees.
   </Card>
-  <Card title="EPAM Telescope" icon="telescope" href="#epam-telescope">
-    Streamline employee-related functionalities and enhance transparency within EPAM.
+  <Card title="EPAM Telescope" icon="calendar" href="#epam-telescope">
+    Check a person's or project's availability calendar, custom calendar and vacations.
   </Card>
   <Card title="EPAM Time" icon="clock" href="#epam-time">
-    Manage and report project work, leave, overtime and presence.
+    Review employee and project calendar days, time reporting issues and leave requests.
   </Card>
   <Card title="EPAM VideoPortal" icon="video" href="#epam-videoportal">
-    Host and access video content for learning, onboarding, community and compliance.
+    Search and browse videos, channels and playlists, and load video metadata and transcripts.
   </Card>
   <Card title="We Are Community" icon="people-group" href="#we-are-community">
     Connect with EPAM's professional and social communities and events.
@@ -351,8 +351,9 @@ Provides access to OneHub Notebooks for data science and analytical workloads.
 
 </Accordion>
 
-<Accordion title="EPAM OneHub">
+<Accordion title="EPAM OneHub Core">
 
+{/*
 Provides a single access point for searching for information on users, projects and skills. It is used as part of the OneHub platform.
 
 | Tool | Description |
@@ -364,6 +365,26 @@ Provides a single access point for searching for information on users, projects 
 | `Gql_OneHub_Skills` | Get all possible values for person skills (primary and key skills). |
 | `Gql_OneHub_User` | Search for a single user/person details. |
 | `Gql_OneHub_Users` | Search for multiple users/persons summary information including total count, paginated results and next page availability. |
+*/}
+
+Provides access to integrated organizational knowledge by connecting employee expertise, project data and case studies. Empowers users to quickly find relevant information for resource management, project insights and decision support within EPAM.
+
+| Tool | Description |
+|------|-------------|
+| `current_user_id` | Get current user externalId that can be used in other tools to load information about the user. |
+| `load_case_studies` | Load project case studies. |
+| `load_employees_expertise` | Load employees expertise profiles including expert domains, certificates, client experience, deliverables, key contributions, VCN roles, work history, education and skills. |
+| `load_employees_profile` | Load employees organizational profiles. |
+| `load_presales` | Load presales. |
+| `load_project_employees` | Load employees working on a project and their roles and positions. |
+| `load_projects` | Load projects organizational profiles. |
+| `load_projects_details` | Load projects details profiles including scope of work, activities, challenges and accomplishments. |
+| `search_case_studies` | Search project case studies. |
+| `search_employees` | Search employees profiles. |
+| `search_employees_name` | Search employees identifiers by employee name. |
+| `search_presales` | Search presales. |
+| `search_projects` | Search projects profiles. |
+| `search_qna` | Search questions asked by employees in the 'WFT Project Managers' email group. |
 
 </Accordion>
 
@@ -401,11 +422,32 @@ Provides data-driven tools and processes documentation to streamline HR and peop
 
 <Accordion title="EPAM Presales">
 
-_Placeholder: add a short description of what the Presales EPAM MCP server does._
+Search EPAM presales content, including case studies, projects, opportunities and solutions.
 
 | Tool | Description |
 |------|-------------|
-| `tool_name` | _Placeholder: add tool description._ |
+| `analyst` | Search Analyst Relations materials and reports from Gartner, Forrester and IDC. |
+| `casestudies` | Search client-facing case studies. |
+| `export_search_results` | Export the results from a Presales Portal search URL. |
+| `get_document_details` | Get a document's content, metadata and contacts by document ID. |
+| `get_document_download_urls` | Get temporary download links for a document's original file and thumbnail. |
+| `get_document_structure` | Get summaries of a presentation's extracted slides by document ID. |
+| `get_opportunity_details` | Resolve a Presales Portal, Dynamics CRM, OneCRM or SharePoint URL to its matching opportunity's CRM account and engagement details. |
+| `get_similar_documents` | Find documents similar to a document identified by document ID. |
+| `industries` | List EPAM industries with their taxonomy paths and EDIDs. |
+| `offering_slides` | Search pitch deck slides for client conversations about an offering, product, blueprint or point of view. |
+| `offerings` | Search verified offerings, products, blueprints and accelerators in the EPAM Growth Marketplace. |
+| `opportunities` | Search EPAM CRM opportunities, optionally filtered by industry. |
+| `policy` | Search the Ethics & Compliance Library for EPAM policies, certifications and regulations. |
+| `projects` | Search EPAM project information and AI-generated summaries, optionally filtered by industry. |
+| `qna` | Search client questions and answers from the past four years. |
+| `salesbuddy` | Search validated FAQs from prior RFIs and RFPs about EPAM. |
+| `slides` | Search slides from EPAM presentations and RFx responses created within the past two years. |
+| `solutions` | Search EPAM SolutionsHub for software and service solutions. |
+| `story_slides` | Search client-ready sales presentation slides about EPAM capabilities. |
+| `toolbox_slides` | Search reusable EPAM Presales Toolbox slides, including proposal building blocks and brand templates. |
+| `websites` | Search public EPAM websites, including epam.com. |
+| `whoami` | Get the current user's display name and internal Microsoft Entra ID. |
 
 </Accordion>
 
@@ -415,10 +457,12 @@ The Query MCP server acts as a centralized knowledge platform for EPAM. It enabl
 
 | Tool | Description |
 |------|-------------|
-| `query_ask` | Answers any question the user may ask. Use with higher priority than a web search. |
+| `query_ask` | Answer a short question using available documentation, with links to the matched documents. |
+| `query_ask_pub` | Answer a short question using the entire publicly available EPAM documentation, with links to the matched documents. |
 | `query_getTexts` | Gets the text content of documents by their document IDs. |
 | `query_ping` | Method for connectivity healthcheck. |
 | `query_search` | Search for documents according to a text query and an optional set of filters. |
+| `query_search_pub` | Search for documents in the entire publicly available EPAM documentation. |
 | `query_whoami` | Answers questions like "who am I" based on the user's authorization token. |
 
 </Accordion>
@@ -454,34 +498,52 @@ Provides detailed information and performs operations related to employees, appl
 
 | Tool | Description |
 |------|-------------|
+| `bulk-add-applicants-to-pool` | Add multiple applicants to a pool as hiring links in a specified status. |
+| `bulk-add-applicants-to-requisition` | Add multiple applicants to a requisition as hiring links in a specified status. |
 | `change-proposal-state` | Perform a state transition for a proposal. Check `availableTransitions` on the proposal before calling. |
 | `create-position` | Create a position in Staffing Desk on a Project or Opportunity. Modifies data. |
 | `create-proposal` | Propose a candidate to an open position. Always call `get-proposal-conflicts` first. |
 | `edit-position` | Edit an existing position in Staffing Desk. Modifies data. |
+| `get-api-epam-com-dictionary` | Look up records of an api.epam.com dictionary backing a custom field. |
 | `get-applicant-by-id` | Get a single applicant's info by their ID. |
 | `get-applicant-proposals` | Get proposals made for a specific applicant. |
 | `get-applicant-skills` | Get skills an applicant has, including spoken languages. |
+| `get-applicant-sources` | Get the list of applicant sources. |
 | `get-available-billing-types` | Get billing types available for position creation. |
+| `get-available-position-validation-statuses` | Get the demand-validation statuses you can currently assign to a position. |
 | `get-container-by-id` | Get a container (Project or Opportunity) by ID. |
+| `get-current-date` | Get the current date. |
 | `get-current-user` | Get info about the current user. |
+| `get-custom-dictionary` | Get the allowed records of a Staffing Desk custom dictionary. |
+| `get-custom-field-definition` | Get a Staffing Desk custom field's definition by ID. |
 | `get-employee-by-id` | Get a single employee's info by their ID. |
 | `get-employee-proposals` | Get proposals made for a specific employee. |
 | `get-employee-skills` | Get skills an employee has, including spoken languages. |
 | `get-job-functions` | Get list of Job Functions available for search or creation of entities in Staffing Desk. |
 | `get-no-go-location-reasons` | Get the list of reasons for marking a location as no-go on a position. |
+| `get-pool` | Get detailed information about a pool by its ID. |
 | `get-position` | Get detailed information about a position by its ID. |
+| `get-position-allowed-custom-fields` | Get the custom field definitions allowed on a position for a given project. |
 | `get-position-monthly-workload` | Get monthly workload of a position for a specified period. |
 | `get-position-proposals` | Get proposals made for a specific position. |
+| `get-position-roles` | Get the list of roles for position creation or filtering. |
+| `get-position-validation-issues` | Get the demand-validation issues detected on a position. |
 | `get-position-weekly-workload` | Get weekly workload of a position for a specified period. |
 | `get-proposal-conflicts` | Check restriction rules, proposal conflicts and matching scores before proposing a candidate. Always call before `create-proposal`. |
 | `get-proposal-decline-reasons` | Get the list of reasons for declining a proposal. |
 | `get-proposal-transitions` | Get the list of available state transitions for a proposal. Call before `change-proposal-state`. |
 | `get-reasons-for-office-only` | Get options for the Reasons for Office Only field for a Position or Container. |
 | `get-reasons-for-opening` | Get reasons for opening a position. |
+| `get-reasons-for-partial-office` | Get options for the Reasons for Partial Office field for a Position or Container. |
+| `get-requisition` | Get detailed information about a requisition by its ID. |
+| `get-spoken-languages` | Get the list of spoken languages that can be required on a position. |
 | `get-staffing-channels` | Get possible options for Staffing Channels for a position. |
 | `get-staffing-desk-url` | Get the URL of the Staffing Desk environment this server works with. |
 | `get-support-email` | Get the support email for submitting issues, requests or feedback on Staffing Desk. |
+| `get-timezone-info` | Get information about a time zone by its ID. |
 | `get-work-from-office-required` | Get possible options for the 'Work from office required' field on a position. |
+| `preselect-applicant-for-pool` | Preselect an applicant for a pool, creating a hiring link. |
+| `preselect-applicant-for-requisition` | Preselect an applicant for a requisition, creating a hiring link. |
 | `search-applicant-locations` | Search applicant locations by name, type or parent ID. |
 | `search-applicants-by-name` | Search applicants by fuzzy query. Returns short info sorted by similarity. |
 | `search-containers` | Search containers (Projects or Opportunities) by various parameters. |
@@ -489,9 +551,15 @@ Provides detailed information and performs operations related to employees, appl
 | `search-employees` | Search employees for staffing purposes by various criteria. At least one filter required. |
 | `search-employees-by-name` | Search employees by fuzzy query. Returns short info sorted by similarity. |
 | `search-locations` | Search locations by various filters. |
+| `search-pools` | Search pools in Staffing Desk by various criteria. At least one filter required. |
 | `search-positions` | Search positions in Staffing Desk by various criteria. At least one filter required. |
+| `search-recruiters` | Search for recruiters available for hiring links. |
+| `search-requisitions` | Search requisitions in Staffing Desk by various criteria. At least one filter required. |
+| `search-skill-specs` | Search skill specializations by name. |
 | `search-skills` | Search skills. |
 | `search-titles` | Get list of job titles. |
+| `update-position-validation-issue` | Resolve, ignore or revert a demand-validation issue on a position. |
+| `update-position-validation-status` | Change the demand-validation status of a position. |
 
 </Accordion>
 
@@ -510,31 +578,48 @@ Interact with EPAM Talk to manage one-on-one talks and performance expectations.
 
 <Accordion title="EPAM Telescope">
 
-_Placeholder: add a short description of what the Telescope EPAM MCP server does._
+Check a person's or project's availability calendar, custom calendar and vacations.
 
 | Tool | Description |
 |------|-------------|
-| `tool_name` | _Placeholder: add tool description._ |
+| `get_person_availability_calendar` | Get a person's profile (name, title, primary skill, location, time zone, weekend days, projects and streams) plus their availability calendar: public holidays, vacations, anniversaries and birthdays. |
+| `get_person_custom_calendar` | Get a person's calendar events, such as vacations and public holidays. |
+| `get_project_vacations` | Get a project's calendar events, such as vacations and public holidays. |
 
 </Accordion>
 
 <Accordion title="EPAM Time">
 
-_Placeholder: add a short description of what the Time EPAM MCP server does._
+Interact with EPAM Time to review employee and project calendar days, time reporting issues and leave requests.
 
 | Tool | Description |
 |------|-------------|
-| `tool_name` | _Placeholder: add tool description._ |
+| `get_employees_calendar_days` | Get an employee's calendar days for a period: working days, holidays, days off and vacation details. |
+| `get_employees_time_reporting_issues` | Get time reporting issue statistics for one or more employees and a period, including reporting gaps and over-reporting. |
+| `get_project_positions_time_reporting_issues` | Get time reporting issue statistics for one or more projects' positions and a period, including reporting gaps and over-reporting. |
+| `get_requested_leaves` | Get leave request data for one or more employees or projects and a period. |
 
 </Accordion>
 
 <Accordion title="EPAM VideoPortal">
 
-_Placeholder: add a short description of what the VideoPortal EPAM MCP server does._
+Read-only access to EPAM Video Portal: search videos, channels and playlists; browse channel content and personal lists; load video metadata and transcripts.
 
 | Tool | Description |
 |------|-------------|
-| `tool_name` | _Placeholder: add tool description._ |
+| `list_channel_playlists` | Get the playlists for a channel. |
+| `list_channel_subscribers` | Get the subscribers for a channel. |
+| `list_channel_videos` | Get the videos for a channel. |
+| `list_latest_public_videos` | Get the latest public videos on the portal. |
+| `list_my_videos` | Get the videos owned by the current user. |
+| `list_subscription_videos` | Get the videos from the channels the current user is subscribed to. |
+| `list_watch_later_videos` | Get the videos in the current user's Watch Later list. |
+| `load_playlist_videos` | Get the videos in a playlist, by its slug or URL. |
+| `load_video` | Get a video's metadata and transcript, by its slug or URL. |
+| `search_channels` | Search channels by keyword or topic. |
+| `search_playlists` | Search playlists by keyword or topic. |
+| `search_portal` | Search videos, channels and playlists together, by keyword or topic. |
+| `search_videos` | Search videos by keyword or topic. |
 
 </Accordion>
 
@@ -547,7 +632,7 @@ Interact with We Are Community to browse, join and manage EPAM communities and e
 | `getCommunityFilters` | Get the valid filter values (location, format, language, level) for community lists. |
 | `getEventFilters` | Get the valid filter values (location, format, language, level) for event lists. |
 | `getManagedCommunitiesList` | Get a paginated list of communities the current user manages. |
-| `getManagedCommunitiesRanking` | Get the top communities the current user manages. Communities are ranked by participants, event count or member count. |
+| `getManagedCommunitiesRanking` | Get the top communities ranked by participants, event count or member count. Requires the super user role. |
 | `getManagedCommunityById` | Get full details for a managed community. |
 | `getManagedCommunityEventCount` | Count approved events linked to a managed community. |
 | `getManagedCommunityMemberCount` | Get a managed community's member count, or membership joins/leaves over a date range. |
@@ -583,35 +668,31 @@ The setup and creation flow is the same for all EPAM MCP servers. Follow the ste
 <Steps>
 
 <Step title="Open the Toolkits panel and select the EPAM MCP type">
-
-1. Navigate to your ELITEA project and open the **Toolkits** panel from the left sidebar
-2. Click **+ Create** to open the toolkit creation dialog
-3. Select the **MCP** category
+1. Navigate to your ELITEA project and open the **Toolkits** panel from the left sidebar.
+2. Click **+ Create** to open the toolkit creation dialog.
+3. Select the **MCP** category.
 4. Choose the EPAM MCP you want to connect:
 
      <img src="../../img/integrations/mcp/epam-mcp/epam-mcps_connect_list.png" alt="EPAM MCP Connect List" />
-
 </Step>
 
 <Step title="Authorize">
 An **MCP Authorization** pop-up will appear showing the server URL and an optional **Scope** field:
 
+1. Select **Authorize** in the pop-up.
+2. In the EPAM OAuth sign-in window, approve the requested permissions.
+
+The sign-in window closes and ELITEA retrieves the list of available tools from the MCP server.
+
 <img src="../../img/integrations/mcp/epam-mcp/epam-mcps_connect_auth.png" alt="EPAM MCP Authorization" />
-
-Select **Authorize** in the pop-up. This opens the EPAM OAuth sign-in window:
-
-1. Approve the requested permissions
-2. The sign-in window closes and ELITEA retrieves the list of available tools from the MCP server
 
 <Warning title="Authorization expires after 59 minutes">
 EPAM MCP access tokens expire after 59-minutes. Long-running operations or scheduled tasks may lose access and require re-authorization. For uninterrupted access, plan tasks accordingly and be prepared to re-authenticate when prompted.
 </Warning>
-
 </Step>
 
 <Step title="Enter a name and description">
 The toolkit configuration form opens with two fields to fill in:
-
 - **Toolkit name** *(required)* — enter a name to identify this toolkit in your project
 - **Description** *(optional)* — add a short description to help your team understand what this toolkit is for
 
@@ -659,18 +740,17 @@ The **Results** panel shows the request and response for each run.
   <source src="../../img/integrations/mcp/epam-mcp/epam-mcps_test_tools.mp4" type="video/mp4"/>
 </video>
 
-<Tip title="Key benefits of testing toolkit tools:">
-* Verify that EPAM OAuth authorization is configured correctly
-* Test tools and their parameters and see actual responses from the EPAM MCP server
-* Debug the tool behavior and understand output formats before integrating with agents
-> For detailed instructions on how to use the Test Settings panel, see **[How to Test Toolkit Tools](../../how-tos/credentials-toolkits/how-to-test-toolkit-tools)**.
-</Tip>
+**Best practices**
+
+* Verify that EPAM OAuth authorization is configured correctly.
+* Test tools and their parameters and see actual responses from the EPAM MCP server.
+* Debug the tool behavior and understand output formats before integrating with agents.
+
+<Info>
+For detailed instructions on how to use the Test Settings panel, see **[How to Test Toolkit Tools](../../how-tos/credentials-toolkits/how-to-test-toolkit-tools)**.
+</Info>
 
 ### Use EPAM MCP Servers in Chat
-
-<Warning title="Add EPAM MCPs as a Toolkit">
-Add EPAM MCP servers as a **Toolkit**. Do not add them as an MCP participant.
-</Warning>
 
 <Info>
 EPAM MCP servers are added to chats as **Toolkits**, not as *MCPs*.
@@ -717,20 +797,15 @@ The agent can call EPAM MCP tools when it answers user queries.
 ## Related Documentation
 
 <CardGroup cols={2}>
-  <Card title="Remote MCP Servers" icon="cloud" href="/integrations/mcp/create-and-use-remote-mcp">
-    Connect any third-party HTTP-based MCP server with bearer tokens or OAuth.
-  </Card>
-  <Card title="Create and Use Stdio MCP" icon="terminal" href="/integrations/mcp/create-and-use-server-stdio">
-    Run local MCP servers as processes for development tools.
-  </Card>
-  <Card title="Create and Edit Agents (Canvas)" icon="robot" href="/how-tos/chat-conversations/how-to-create-and-edit-agents-from-canvas">
-    Configure agents and add MCP toolkits in the canvas editor.
-  </Card>
-  <Card title="MCP Client (ELITEA as MCP Client)" icon="plug" href="/integrations/mcp/create-and-use-client-stdio">
-    Learn how ELITEA acts as an MCP client to consume external MCP tool servers.
-  </Card>
   <Card title="EPAM MCP Hub" icon="server" href="https://mcp.epam.com/">
-    Browse all available EPAM MCP servers, their tools and descriptions on the EPAM MCP Hub.
+    Browse all available EPAM MCP servers, their tools and descriptions.
   </Card>
 </CardGroup>
 
+<Info title="See Also">
+See also:
+- [Remote MCP Servers](/integrations/mcp/create-and-use-remote-mcp)
+- [Create and Use Stdio MCP](/integrations/mcp/create-and-use-server-stdio)
+- [Create and Edit Agents (Canvas)](/how-tos/chat-conversations/how-to-create-and-edit-agents-from-canvas)
+- [MCP Client (ELITEA as MCP Client)](/integrations/mcp/create-and-use-client-stdio)
+</Info>
