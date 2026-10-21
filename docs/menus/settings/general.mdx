@@ -2,13 +2,13 @@
 title: "General"
 ---
 
-In **General** settings, you can review project-level information, copy connection details for AI integrations, specify default chat settings, select default modules for chats and agents and back up or restore the project data.
+In **General** settings, you can review project-level information, copy connection details for AI integrations, specify default chat settings, select default modules for chats and agents, review the toolkit used for web search and back up or restore the project data.
 
 To access **General** settings, select **Settings** > **General**.
 
 <img src="../../img/menus/settings/project/general/settings_general.png" alt="General settings" />
 
-In **General**, you can see five sections:
+In **General**, you can see six sections:
 
 <CardGroup cols={3}>
 	<Card title="General" icon="briefcase">
@@ -19,6 +19,9 @@ In **General**, you can see five sections:
 	</Card>
 	<Card title="Default Modules" icon="grid-2">
 		Select what modules will be turned on for chats and agents by default.
+	</Card>
+	<Card title="Web Search" icon="magnifying-glass">
+		Review the toolkit used for the **Web Search** module.
 	</Card>
 	<Card title="Chat Configuration" icon="comments">
 		Specify default chat settings.
@@ -32,7 +35,8 @@ Your rights to view and edit **General** settings depend on your role and permis
 
 - **General** is a part of the project settings section.
 - Module toggles within **Default Modules** are shown only to users who can view project context settings. 
-- To edit the project icon and select default modules, you need permissions for editing the project context settings.
+- **Web Search** is shown only to users who can view project context settings.
+- To edit the project icon, select default modules and change the web search toolkit, you need permissions for editing the project context settings.
 - **Mid-turn input** is shown only if the mid-turn input is turned on for the project and you have permission to view project context settings.
 - **Back Up & Restore** is shown only to users who have permission to download or restore project backups.
 
@@ -122,6 +126,7 @@ The template uses a placeholder personal token value instead of a real token.
 | Module | Purpose |
 | --- | --- |
 | Image Creation | Generate images from the chat. |
+| Web Search | Allow the Internet search from the chat. |
 | Data Analysis | Perform Pandas-based data analysis on uploaded files. |
 | Agent & Pipeline Builder | Create and edit agents and pipelines from the chat. |
 | Skill Builder | Create and edit skills from the chat. |
@@ -133,6 +138,30 @@ The template uses a placeholder personal token value instead of a real token.
 | Smart Tools Selection | Reduce token usage when working with many toolkits by using meta-tools instead of binding all tools directly. |
 
 To change a module setting for chats or agents, select or clear its corresponding toggle.
+
+## Web Search
+
+**Web Search** shows which toolkit handles the **Web Search** module in this project.
+
+<Note>If no web-search toolkits are available, or Web Search is disabled by the project or the platform, ELITEA shows a message explaining why.</Note>
+
+What you see and can change depends on whether this is the public project or another project.
+
+**Public Project**
+
+In the public project, users with permission to update configurations can select the toolkit that every project uses for the **Web Search** module, or select **None (Web Search off)** to turn it off. If you do not have permission to update configurations, ELITEA shows the selector as read-only.
+
+<img src="../../img/menus/settings/project/general/gen_web-search_public.png" alt="Web Search section in the public project, with a toolkit selector" />
+
+Only a platform administrator can create a toolkit for this purpose. To include the toolkit in selection, the administrator must mark it as **Shared with all projects**:
+
+<img src="../../img/menus/settings/project/general/gen_web-search_shared.png" alt="Shared with all projects switch in the toolkit edit form" />
+
+**Non-Public Projects**
+
+In any other project, **Web Search** shows the name of the platform toolkit in effect, without a selector. Project members cannot change this toolkit.
+
+<img src="../../img/menus/settings/project/general/gen_web-search_non-public.png" alt="Web Search section in a non-public project, showing the platform toolkit in effect" />
 
 ## Chat Configuration
 
