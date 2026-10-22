@@ -267,7 +267,7 @@ You can manually rename any chat at any time afterwards.
 
 ### Work with Chat Templates
 
-A chat template is a saved, reusable set of chat participants — agents, pipelines, toolkits, MCP servers, or users — that you can apply to new chats without adding each participant manually.
+A chat template is a saved, reusable set of chat participants — agents, pipelines, toolkits, MCP servers, skills or users — that you can apply to new chats without adding each participant manually.
 
 ELITEA allows setting one chat template as default:
 
@@ -284,12 +284,14 @@ Chat templates are created and managed in [Settings > General > Chat Configurati
 
 You can create, edit or delete chat templates only if you have **permission** to edit the project's configuration settings. Project members without this permission can view the existing templates, and the default template (if set) is applied to every new chat they create.
 
+ELITEA lists templates with the default template first, then the rest in the order you created them.
+
 Each template appears in the list as a card showing:
 
 * Its **name**.
 * A **Default** label, if it is marked as the project's default template.
 * Number of participants — both AI participants and users — added to the template.
-* Icons for its participants, grouped by type — agents, pipelines, toolkits, MCP servers, then users.
+* Icons for its participants, grouped by type — agents, pipelines, toolkits, MCP servers, skills, then users.
 
 On hover, you can see two action icons:
 
@@ -300,11 +302,13 @@ On hover, you can see two action icons:
 
 **Rules and limitations**
 
-* You can create up to **5 templates** per project.
-* A template **name is required**, must be 64 characters or fewer, and must be unique within the project (matching is case-insensitive).
+* You can create up to **five templates** per project.
+* A template **name is required**, must be 64 characters or fewer and must be unique within the project (matching is case-insensitive).
 * Only one template per project can be marked *default* at a time.
-* If a template has exactly one participant, that participant automatically becomes the active participant in chats created from it, and your messages go directly to it.
+* If a template has exactly one participant, that participant automatically becomes the active participant in chats created from the template, and your messages go directly to that participant.
 * Chat templates specify participants only — they do not specify the model, visibility, or any other chat setting.
+* If a participant in a template is later deleted or renamed elsewhere in ELITEA, the template updates automatically — removing a deleted participant or showing its new name — without additional notification.
+* If an agent, pipeline, toolkit, MCP server, skill or user added to a chat template no longer exists, ELITEA tells you in the new chat that it skipped that participant.
 
 #### Create a Chat Template
 
@@ -314,12 +318,12 @@ To create a chat template:
 2. Select **+ Template**.
 
    <Note>
-   **+ Template** is disabled if the project already has 5 templates.
+   **+ Template** is disabled if the project already has five templates.
    </Note>
 
 3. Enter a unique **name** for the template.
 4. (optional) Select **Set as default**.
-5. Add participants from the **Agents**, **Pipelines**, **Toolkits**, **MCPs**, and **Users** tabs.
+5. Add participants from the **Agents**, **Pipelines**, **Toolkits**, **MCPs**, **Skills** and **Users** tabs.
 6. Select **Save**.
 
 <Note>
@@ -334,7 +338,7 @@ To edit a chat template:
 
 1. In **Settings > General > Chat Configuration**, find the template you want to change.
 2. Select **Edit** (appears on hover).
-3. Update its name, default status, or participants.
+3. Update its name, default status or participants.
 4. Select **Save**.
 
 <Note>
