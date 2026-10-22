@@ -1,14 +1,15 @@
 ---
 title: "General"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
-In **General** settings, you can review project-level information, copy connection details for AI integrations, specify default chat settings, select default modules for chats and agents and back up or restore the project data.
+In **General** settings, you can review project-level information, copy connection details for AI integrations, specify default chat settings, select default modules for chats and agents, review the toolkit used for web search and back up or restore the project data.
 
 To access **General** settings, select **Settings** > **General**.
 
-<img src="../../img/menus/settings/project/general/settings_general.png" alt="General settings" />
+<img src="../../img/menus/settings/project/general/settings_general.png" alt="General settings page." />
 
-In **General**, you can see five sections:
+In **General**, you can see six sections:
 
 <CardGroup cols={3}>
 	<Card title="General" icon="briefcase">
@@ -19,6 +20,9 @@ In **General**, you can see five sections:
 	</Card>
 	<Card title="Default Modules" icon="grid-2">
 		Select what modules will be turned on for chats and agents by default.
+	</Card>
+	<Card title="Web Search" icon="magnifying-glass">
+		Review the toolkit used for the **Web Search** module.
 	</Card>
 	<Card title="Chat Configuration" icon="comments">
 		Specify default chat settings.
@@ -31,8 +35,9 @@ In **General**, you can see five sections:
 Your rights to view and edit **General** settings depend on your role and permissions.
 
 - **General** is a part of the project settings section.
-- Module toggles within **Default Modules** are shown only to users who can view project context settings. 
-- To edit the project icon and select default modules, you need permissions for editing the project context settings.
+- Module toggles within **Default Modules** are shown only to users who can view project context settings.
+- **Web Search** is shown only to users who can view project context settings.
+- To edit the project icon, select default modules and change the web search toolkit, you need permissions for editing the project context settings.
 - **Mid-turn input** is shown only if the mid-turn input is turned on for the project and you have permission to view project context settings.
 - **Back Up & Restore** is shown only to users who have permission to download or restore project backups.
 
@@ -46,7 +51,7 @@ In **General**, you can see current project identity details.
 
 <Note>For the public project, ELITEA hides the teammate count.</Note>
 
-<img src="../../img/menus/settings/project/general/gen_gen_project-details.png" width="300" alt="Project details" />
+<img src="../../img/menus/settings/project/general/gen_gen_project-details.png" width="300" alt="Project Details section in General settings." />
 
 If you have permission to edit project context settings, you can set the project icon.
 
@@ -61,9 +66,9 @@ To change the project icon:
 
 For custom icons, ELITEA accepts these file types: `bmp`, `gif`, `ico`, `jpeg`, `jpg`, `png`, `tiff` and `webp`.
 
-**The image must be smaller than 500 KB.**
+**The image must be smaller than 500&nbsp;KB.**
 
-<img src="../../img/menus/settings/project/general/gen_gen_change-icon.png" alt="Change project icon" />
+<img src="../../img/menus/settings/project/general/gen_gen_change-icon.png" alt="Dialog for changing the project icon." />
 
 If you reset the icon to the default one, ELITEA removes your custom project icon. The file itself is not deleted, and you can select it later.
 
@@ -71,7 +76,7 @@ If you reset the icon to the default one, ELITEA removes your custom project ico
 
 In **AI Configurations**, you can view and copy project connection details to use them for connecting external OpenAI-compatible clients or SDKs to this project.
 
-<img src="../../img/menus/settings/project/general/gen_gen_ai-configurations.png" alt="AI Configurations" />
+<img src="../../img/menus/settings/project/general/gen_gen_ai-configurations.png" alt="AI Configurations section in General settings." />
 
 It has two tabs, **Basic** and **OpenAI Template**.
 
@@ -81,20 +86,20 @@ The **Basic** tab shows the current project configuration values for OpenAI-comp
 
 | Value | Description |
 | --- | --- |
-| `OpenAI-BaseURL` | The API endpoint URL for OpenAI-compatible services (formatted as `{server_url}/llm/v1`) |
-| `Server URL` | The base server URL for the current instance |
-| `OpenAI-Project` | The project identifier used in the OpenAI-compatible configurations when a model project is available |
-| `Project ID` | The unique identifier of the current project |
+| `OpenAI-BaseURL` | API endpoint URL for OpenAI-compatible services (formatted as `{server_url}/llm/v1`) |
+| `Server URL` | Base server URL for the current instance |
+| `OpenAI-Project` | Project identifier used in the OpenAI-compatible configurations when a model project is available |
+| `Project ID` | Unique identifier of the current project |
 
-To copy the displayed configuration details to the clipboard, select **Copy**:
+To copy the displayed configuration details to the clipboard, select the **Copy to clipboard** action icon:
 
-<img src="../../img/menus/settings/project/general/gen_gen_copy-ai-configurations.png" alt="Basic AI configurations" />
+<img src="../../img/menus/settings/project/general/gen_gen_copy-ai-configurations.png" alt="Copy action icon in the Basic tab of AI Configurations." />
 
 ### OpenAI Template
 
 The **OpenAI Template** tab shows a code example that uses the current project model configuration.
 
-<img src="../../img/menus/settings/project/general/gen_gen_template.png" alt="OpenAI Template" />
+<img src="../../img/menus/settings/project/general/gen_gen_template.png" alt="OpenAI Template tab in AI Configurations." />
 
 In this tab, you can:
     
@@ -113,7 +118,7 @@ The template uses a placeholder personal token value instead of a real token.
 **Default Modules** settings apply to the whole project. Team members cannot change these defaults, but they can turn a module on or off for their own chats or agents.
 </Note>
 
-<img src="../../img/menus/settings/project/general/gen_default-modules.png" alt="Default Modules" />
+<img src="../../img/menus/settings/project/general/gen_default-modules.png" alt="Default Modules section in General settings." />
 
 <Note>If you do not have permission to edit project context settings, ELITEA shows **Default Modules** as read-only.</Note>
 
@@ -122,6 +127,7 @@ The template uses a placeholder personal token value instead of a real token.
 | Module | Purpose |
 | --- | --- |
 | Image Creation | Generate images from the chat. |
+| Web Search | Allow internet search from the chat. |
 | Data Analysis | Perform Pandas-based data analysis on uploaded files. |
 | Agent & Pipeline Builder | Create and edit agents and pipelines from the chat. |
 | Skill Builder | Create and edit skills from the chat. |
@@ -134,27 +140,61 @@ The template uses a placeholder personal token value instead of a real token.
 
 To change a module setting for chats or agents, select or clear its corresponding toggle.
 
+## Web Search
+
+**Web Search** shows which toolkit handles the **Web Search** module in this project.
+
+<Note>If no web-search toolkits are available, or Web Search is disabled by the project or the platform, ELITEA shows a message explaining why.</Note>
+
+What you see and can change depends on whether this is the public project or another project.
+
+**Public Project**
+
+In the public project, users with permission to update configurations can select the toolkit that every project uses for the **Web Search** module, or select **None (Web Search off)** to turn it off. If you do not have permission to update configurations, ELITEA shows the selector as read-only.
+
+<img src="../../img/menus/settings/project/general/gen_web-search_public.png" alt="Toolkit selector for Web Search in the public project." />
+
+Only a platform administrator can create a toolkit for this purpose. To include the toolkit in selection, the administrator must mark it as **Shared with all projects**:
+
+<img src="../../img/menus/settings/project/general/gen_web-search_shared.png" alt="Shared with all projects switch in the toolkit edit form." />
+
+**Non-Public Projects**
+
+In any other project, **Web Search** shows the name of the platform toolkit in effect, without a selector. Project members cannot change this toolkit.
+
+<img src="../../img/menus/settings/project/general/gen_web-search_non-public.png" alt="Web Search section in a non-public project, showing the platform toolkit in effect." />
+
 ## Chat Configuration
 
 In **Chat Configuration**, you can specify default chat settings.
 
-<img src="../../img/menus/settings/project/general/gen_chat-config.png" alt="Chat Configuration section showing chat templates, the mid-turn input and auto model selection settings" />
+<img src="../../img/menus/settings/project/general/gen_chat-config.png" alt="Chat Configuration section in General settings." />
 
-<Note>If you do not have permission to edit project context settings, ELITEA shows **Chat Configuration** as read-only.</Note>
+**Chat Templates**
 
 In **Chat templates**, you can see, create and manage your project's templates for new chats — saved, reusable sets of chat participants that you can apply to any new chat you create. The default template — with its specified participants — is applied automatically to every new chat in the project unless you choose a non-default one.
+
+<img src="../../img/menus/settings/project/general/gen_chat-config_no-temps.png" alt="Chat templates card in Chat Configuration." />
 
 <Info>
 For detailed information, see [Work with Chat Templates](../../how-tos/chat/config-mnmt#work-with-chat-templates).
 </Info>
 
+**Mid-Turn Input**
+
 With **Mid-turn input** turned on, you can send a message to an agent while it is still working, to steer the rest of the run.
+
+<img src="../../img/menus/settings/project/general/gen_chat-config_mid-turn-input.png" alt="Mid-turn input setting in Chat Configuration." />
 
 <Info>
 For detailed information about the effect this setting has on your chat interactions, see [Send a Message While the Agent Is Working](../../how-tos/chat/responses#send-a-message-while-the-agent-is-working).
 </Info>
 
+**Auto Model Selection**
+
 With **Auto model selection**, you control whether project members can pick **Auto** in the model selector dropdown for chats and standard agents in this project — letting ELITEA automatically choose the model for each message based on the task and current availability.
+
+<img src="../../img/menus/settings/project/general/gen_chat-config_auto.png" alt="Auto model selection setting in Chat Configuration." />
 
 | Option | Description |
 |--------|-------------|
@@ -166,29 +206,53 @@ With **Auto model selection**, you control whether project members can pick **Au
 For detailed information, see [Select a Model](../../how-tos/chat/config-mnmt#select-a-model) and [Auto](../../how-tos/chat/config-mnmt#auto-settings).
 </Info>
 
+With the **Classifier** dropdown, you select the model used to answer **Auto** requests. The classifier only reads the task and routes it — it never writes the answer. That is why:
+
+- ELITEA uses low-tier models as a classifier to save costs and decrease latency.
+- Only models flagged as low-tier appear in the list. If none are flagged, ELITEA lists all chat models instead.
+- **Use default** applies the project's **Low-tier model**, set in **AI Providers** > **LLMs**.
+
+This dropdown is always shown, even when **Auto model selection** is set to **Use platform default** or **Disabled**.
+
+**Context Window for New Chats**
+
+With **Context window for new chats**, you set the default context window mode for chats created in this project:
+
+- With **Balanced** *(default)*, ELITEA uses up to 272,000&nbsp;tokens, within the model's limits.
+- With **Full**, ELITEA uses the model's full context window. Larger requests may cost more.
+
+<img src="../../img/menus/settings/project/general/gen_chat-config_ctxt-win.png" alt="Context window for new chats setting in Chat Configuration." />
+
+<Info>
+For detailed information, see [Context Management](../../how-tos/chat/ctxt-bdgt#context-management).
+</Info>
+
 ## Back Up & Restore
 
-In **Back Up & Restore**, you can download your project data as an encrypted SQL file or restore them from this backup file, if needed.
+In **Back Up & Restore**, you can download your project data as an encrypted file or restore it from this backup file, if needed.
 
 <Callout icon="lightbulb" color="#a855f7" title="When to Back Up Your Project">
 Consider creating a backup before making large changes to your project.
 </Callout>
 
-It has two actions, **Create a Backup** and **Restore from the Backup**.
+It has two actions, **Create a Backup** and **Restore from the Backup**, each visible only to users with the corresponding permissions.
 
-<img src="../../img/menus/settings/project/general/gen_backup.png" alt="Back Up & Restore settings" />
+<img src="../../img/menus/settings/project/general/gen_backup.png" alt="Back Up & Restore section in General settings." />
 
-<Note>If you do not have permission to download or restore project backups, ELITEA hides **Back Up & Restore**.</Note>
+<Note>For private projects, the project owner can always restore the backup.</Note>
 
-Your backup will include agents, pipelines, toolkits, MCP servers and skills. ELITEA excludes credentials, tokens and other secrets from the backup file, so they will not be restored with other project data.
+Your backup will include agents, pipelines, toolkits, MCP servers and skills. You can also specify whether the backup should include chats, with or without their attachments. Credentials, tokens and other secrets are always excluded from the backup file, so they will not be restored with other project data.
 
-<CardGroup cols={2}>
+<CardGroup cols={3}>
 	<Card title="Included in the backup file" icon="check" color="#22c55e">
 		- Agents
 		- Skills
 		- Pipelines
 		- Toolkits
 		- MCP servers
+	</Card>
+	<Card title="Optional" icon="circle-half-stroke" color="#eab308">
+		- Chats
 	</Card>
 	<Card title="Excluded from the backup file" icon="circle-exclamation" color="#ef4444">
 		- Credentials
@@ -200,9 +264,9 @@ Your backup will include agents, pipelines, toolkits, MCP servers and skills. EL
 For detailed information, see [Back Up & Restore Project Data](../../how-tos/entity-management/backup.mdx).
 </Info>
 
-<Info title="See Also">
+<Callout icon="book" color="#C9B896" title="See Also">
 See also:
 - [Project Context](./project-context.mdx)
 - [AI Configuration](./ai-configuration.mdx)
 - [Chat](../chat.mdx)
-</Info>
+</Callout>
