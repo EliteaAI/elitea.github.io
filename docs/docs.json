@@ -492,7 +492,8 @@
                   "integrations/toolkits/postman_toolkit",
                   "integrations/toolkits/salesforce_toolkit",
                   "integrations/toolkits/servicenow_toolkit",
-                  "integrations/toolkits/syngen_toolkit"
+                  "integrations/toolkits/syngen_toolkit",
+                  "integrations/toolkits/tavily_toolkit"
                 ]
               }
             ]
