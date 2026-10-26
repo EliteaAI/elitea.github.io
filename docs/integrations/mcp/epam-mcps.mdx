@@ -45,7 +45,7 @@ ELITEA supports most EPAM pre-built MCP servers:
   <Card title="EPAM Notebooks" icon="book-open" href="#epam-notebooks">
     Access OneHub Notebooks for data science and analytical workloads.
   </Card>
-  <Card title="EPAM OneHub" icon="circle-nodes" href="#epam-onehub">
+  <Card title="EPAM OneHub Core" icon="circle-nodes" href="#epam-onehub-core">
     Single access point for searching users, projects and skills as part of the OneHub platform.
   </Card>
   <Card title="EPAM OneHub Play" icon="window" href="#epam-onehub-play">
@@ -65,6 +65,9 @@ ELITEA supports most EPAM pre-built MCP servers:
   </Card>
   <Card title="EPAM Staffing" icon="briefcase" href="#epam-staffing">
     Access and operate on employees, applicants, positions, projects, requisitions, skills and staffing processes.
+  </Card>
+  <Card title="EPAM Talent Hub" icon="chart-pie" href="#epam-talent-hub">
+    Review organizational units, team rosters, dashboard metrics and employee performance insights.
   </Card>
   <Card title="EPAM Talk" icon="comments" href="#epam-talk">
     Manage one-on-one talks and performance expectations for employees.
@@ -563,6 +566,36 @@ Provides detailed information and performs operations related to employees, appl
 
 </Accordion>
 
+<Accordion title="EPAM Talent Hub">
+
+Provides data-driven tools and process guidance for Talent Hub operations, helping managers and employees navigate organizational units, role-based access, dashboard metrics, team structure and unit-level insights.
+
+| Tool | Description |
+|------|-------------|
+| `getActionCategories` | Get all enabled action categories, with their linked actions. |
+| `getActionCategoryById` | Get a category catalog entry by ID, with its linked actions. |
+| `getCurrentUser` | Get identity information for the current user. |
+| `getCustomRoles` | Get all custom roles, sorted by name. |
+| `getEmployee` | Get minimal identity information for an employee by profile ID. |
+| `getEmployeeBusinessImpact` | Get utilization, margin and staffability indicators for an employee. |
+| `getEmployeeCheckInAttrition` | Get the attrition assessment from an employee's most recent check-in talk. |
+| `getEmployeeCheckInPartnerEvaluation` | Get the growth potential and performance data from an employee's most recent check-in talk. |
+| `getEmployeeCheckInPrevious` | Get an employee's latest Performance check-in talk, with company metrics as they stood before that talk. |
+| `getEmployeePerformanceHistoryV2` | Get an employee's individual performance metric changes over the last 12 months. |
+| `getEmployeeProjects` | Get an employee's current project assignments, with impact, risk, performance and workload data. |
+| `getEmployeeReportingLine` | Get an employee's direct-manager chain. |
+| `getRoleAssignments` | Get all assignments for a role type, optionally filtered by employee. |
+| `getSignalEventById` | Get a signal event, including all affected people. |
+| `getSignalEvents` | Get the signal events for the current manager, filtered by role. |
+| `getTalentPartnersForEmployee` | Get the talent partners assigned to an employee. |
+| `getTeamMembersPagedForUnits` | Get a page of team roster rows with assessment fields, for one or more units. |
+| `getUnitsGroupedByNetwork` | Get the current user's managed unit hierarchies, grouped by network. |
+| `getUnitsMetrics` | Get dashboard widget metrics for one or more organizational units. |
+| `listAnalyticsReports` | List all enabled analytics reports. |
+| `searchEmployeesByName` | Search for employees by name, within your accessible people network. |
+
+</Accordion>
+
 <Accordion title="EPAM Talk">
 
 Interact with EPAM Talk to manage one-on-one talks and performance expectations.
@@ -730,15 +763,17 @@ EPAM MCP servers are tested the same way as any other toolkit.
 To test an EPAM MCP tool:
 
 1. On the toolkit detail page, select **Test**.
+
+    <img src="../../img/integrations/mcp/epam-mcp/epam-mcps_test_bttn.png" alt="EPAM MCP Test Tools" />
+
 2. In the **Test Settings** panel, select **Select Tool**, and search for the tool you want to test.
 3. Select a model, and complete the parameter fields for the tool.
+
+    <img src="../../img/integrations/mcp/epam-mcp/epam-mcps_test_win.png" alt="EPAM MCP Test Tools" />
+
 4. Select **Run Test**.
 
 The **Results** panel shows the request and response for each run.
-
-<video controls>
-  <source src="../../img/integrations/mcp/epam-mcp/epam-mcps_test_tools.mp4" type="video/mp4"/>
-</video>
 
 **Best practices**
 
@@ -766,7 +801,7 @@ To add an EPAM MCP toolkit to a chat:
 The toolkit is added to the conversation, with its configured tools enabled.
 
 <video controls>
-  <source src="../../img/integrations/mcp/epam-mcp/epam-mcps_use_chat.mp4" type="video/mp4"/>
+  <source src="../../img/integrations/mcp/epam-mcp/chat.mp4" type="video/mp4"/>
 </video>
 
 To use the toolkit, ask a question or request an action that calls one of its tools. If OAuth authorization is required, a pop-up opens: complete the sign-in, and the response continues.
@@ -789,7 +824,7 @@ To add an EPAM MCP toolkit to an Agent:
 The toolkit is added to the agent, with its configured tools enabled.
 
 <video controls>
-  <source src="../../img/integrations/mcp/epam-mcp/epam-mcps_use_agent.mp4" type="video/mp4"/>
+  <source src="../../img/integrations/mcp/epam-mcp/agent.mp4" type="video/mp4"/>
 </video>
 
 The agent can call EPAM MCP tools when it answers user queries.
