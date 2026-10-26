@@ -1,18 +1,16 @@
 ---
 title: "Skills"
-description: "Skills are reusable, Markdown-based instruction sets that you attach to agents, giving them focused, named capabilities that can be invoked on demand during a conversation."
+description: "Skills are reusable, Markdown-based instruction sets that give an agent a focused, named capability, and can also run on their own — directly, through the API, or as a chat participant."
 ---
 
 ## Overview
-
-A **Skill** is a focused, reusable instruction set that gives an agent a named capability — written once in Markdown and shared across as many agents as you need. Instead of duplicating instructions or hardwiring behavior into every agent separately, you define the logic in a Skill, attach it where needed, and invoke it on demand during any conversation.
 
 <CardGroup cols={3}>
   <Card title="Reusable" icon="arrow-rotate-right">
     Write once, attach to many agents. Updates to a Skill apply everywhere it is used.
   </Card>
   <Card title="On-Demand" icon="bolt">
-    Invoke any attached Skill mid-conversation by typing `~skill-name` in the chat composer.
+    Invoke any attached Skill mid-conversation by typing `~skill-name`, or run a Skill on its own from its Run panel, the API, or as a chat participant.
   </Card>
   <Card title="Versioned" icon="code-branch">
     Maintain multiple named versions alongside the always-present `base`, so you can iterate without breaking existing agents.
@@ -27,6 +25,13 @@ A **Skill** is a focused, reusable instruction set that gives an agent a named c
 | Persona or tone guidance | A "formal-communication" Skill injected when the agent sends external messages |
 | Domain-specific procedures | A step-by-step QA checklist or release-note writing guide |
 | Modular agent construction | Build a large agent from small, independently tested Skills |
+| Standalone capability | Running a Skill directly — without an agent — from its own Run panel, the API, or as a chat participant |
+
+<Note>
+**Skills Have No Toolkit Access On Their Own**
+
+When a Skill runs by itself — from its Run panel, the API, or as a chat participant — it runs as a pure instruction-and-model turn, with no toolkits, MCPs, or other tools attached. An agent that attaches the Skill can still use its own toolkits alongside the Skill's instructions.
+</Note>
 
 ---
 
@@ -155,9 +160,9 @@ You can also create and update Skills directly from chat using the **Skill Build
 
 ### From the Skills Page
 
-1. Select the **`+` (Create)** button in the top section of the left sidebar, or go to the Skills page and select **Create** in the empty state if no Skills exist yet.
+1. Select the **`+ Skill`** button in the top section of the left sidebar, or go to the Skills page and select **Create** in the empty state if no Skills exist yet.
   - Alternatively, use the global **`+` Create** button in the sidebar and select **Skill** from the dropdown.
-  The **New Skill** form opens with two accordion sections: **General** and **Instructions**.
+  The **New Skill** form opens with three accordion sections: **General**, **Instructions**, and **Run settings**.
 
        ![Create Skill](../img/menus/skills/skills-create.png)
 2. In the **General** section, complete the following fields. Then, in the **Instructions** section, enter your skill instructions in the Markdown or CodeMirror editor.
@@ -175,10 +180,16 @@ You can also create and update Skills directly from chat using the **Skill Build
   </Note>
 
   In the **Instructions** section:
-  - Use the toggle button group in the section header to switch between **Edit mode** and **Preview mode**.
-  - A character counter at the bottom of the editor shows the remaining characters. The maximum is **5000 characters**.
+  - Use the toggle button group in the section header to switch between **Edit mode** and **Preview mode**. New and freshly opened Skill editors default to **Preview mode**, rendering the Markdown instead of showing raw text.
+  - A character counter at the bottom of the editor shows the remaining characters. The maximum is configured by your platform administrator (default **50,000 characters**) and is enforced consistently in the manual editor, the AI Edit dialog, and AI-generated drafts. Lowering this limit never truncates instructions you already saved — it only blocks new growth beyond the limit.
    
      ![Skill Parameters](../img/menus/skills/skills-parameters.png)
+
+  <Note>
+  **YAML Frontmatter**
+
+  In Edit mode, you can start your instructions with a YAML frontmatter block specifying `name:` and `description:`. These values stay in sync with the Skill's **Name** and **Description** fields in the General section. Only a block that parses as valid YAML is treated as frontmatter — otherwise the full text is treated as instructions. The character counter counts only the instructions body, excluding any frontmatter block.
+  </Note>
 
    **Example instructions:**
    ```
@@ -195,9 +206,16 @@ You can also create and update Skills directly from chat using the **Skill Build
    2. **Issues** — bulleted list with file and line references.
    3. **Suggestions** — concrete fix for each issue.
    ```
+
+   In the **Run settings** section, optionally turn off **Include project context** — when disabled, the project context is left out of the Skill's system prompt when it runs on its own (directly, through the API, or as a chat participant).
+
+   <Note>
+   The Skill's **Model** is not set here. It is chosen later, from the model selector in the Run chat's input toolbar once the Skill is saved — see [Run a Skill from the Editor](#run-a-skill-from-the-editor). Run settings have no effect when an agent attaches this Skill — attaching agents use their own model and settings instead.
+   </Note>
+
 3. Select **Save** in the tab bar at the top of the page.
 
-After you select **Save**, the Skill configuration page opens. It shows the Skill name in the tab bar and the **General** and **Instructions \*** sections in the left panel. The right panel contains a test chat panel where you can interact with the Skill directly to verify its behavior.
+After you select **Save**, the Skill configuration page opens. 
 
 <video controls width="100%" aria-label="Full skill creation flow from form to saved Skill.">
   <source src="../img/menus/skills/skill-create-full.mp4" type="video/mp4" />
@@ -235,9 +253,9 @@ Instead of filling in the form manually, select **Generate with AI** in the **Ge
 3. Review and edit the draft in the dialog.
 4. Select **Approve** to apply it to the form, then select **Save**.
 
- <video controls width="100%" aria-label="Full skill creation flow from form to saved Skill.">
-  <source src="../img/menus/skills/skills-build-ai.mp4" type="video/mp4" />
-</video>
+    <video controls width="100%" aria-label="Full skill creation flow from form to saved Skill.">
+     <source src="../img/menus/skills/skills-build-ai.mp4" type="video/mp4" />
+    </video>
 
 ### Edit a Skill with AI
 
@@ -256,64 +274,33 @@ You can also refine an existing Skill with **Edit with AI**.
 
 ---
 
-## Test a Skill
+## Run and Test a Skill
 
-After you save a Skill, the right panel of the Skill editor contains a test chat panel. This stateless, ephemeral chat lets you interact with the Skill directly without creating a saved conversation. Use it to verify instructions before you attach the Skill to any agent.
+A Skill can be run on its own — without being attached to any agent — directly from its editor, through the Run API, or as a chat participant. The Skill editor's right panel gives you two different chat experiences depending on whether the version has unsaved changes.
 
 <Note>
-**Test conversations**
+**Run Settings Apply Only When the Skill Runs on Its Own**
 
-Test conversations are ephemeral. They are not saved and disappear when you leave the page or clear the chat.
+The model and settings configured for a Skill's Run chat are used only when this Skill runs on its own — from its Run panel, the API, or as a chat participant. Agents that attach this Skill use their own model and settings instead.
 </Note>
 
-### Select the LLM Model & Settings
+Each Skill version also has a **Run settings** accordion with an **Include project context** toggle — turn it off to leave the project context out of the Skill's system prompt when it runs on its own.
 
-Before sending a message, you can choose which AI model processes the Skill and optionally fine-tune its parameters.
+### Run a Skill from the Editor
 
-1. Select the **model chip** in the chat input bar to open the model selector dropdown.
-2. Choose the model from the list, for example `gpt-4o` or `gpt-5.1`.
-3. Select the **Model Settings** icon next to the model chip to adjust generation parameters.
+1. Open the Skill and save any pending changes, so the editor shows the persistent **Run** chat instead of the ephemeral Test chat.
+2. Select the **model chip** in the Run chat's input toolbar to choose the AI model this Skill runs with, the same control used in an agent's embedded chat. Select the **Model Settings** icon next to it to adjust generation parameters (for example reasoning effort or temperature).
+   - The selected model and its parameters save directly to the Skill version, and are included when you [export](#export-a-skill) or [publish](../how-tos/agents-pipelines/skill-publishing) that version.
+   - **Auto** is also available in the model chip, the same way it is in Agent chats — with **Auto** selected, ELITEA chooses the model for each run automatically.
+3. Send a message in the chat panel the same way you would in an agent chat.
+4. Use **Clear the chat** to start a new run, the same control used in agent chats.
+5. Select **View run history** to open the Skill's [Run History](#view-skill-run-history).
 
-   ![Model Settings](../img/menus/skills/skills-model-select.png)
-<Tabs>
-  <Tab title="Reasoning Models (e.g. GPT-5.1)">
-    | Parameter | Description |
-    |-----------|-------------|
-    | **Reasoning** | Controls the depth of logical thinking and problem-solving. |
-
-    | Level | Behavior |
-    |-------|----------|
-    | **Low** | Fast, surface-level reasoning with concise answers and minimal steps |
-    | **Medium** | Balanced reasoning with clear explanations and moderate multi-step thinking *(default)* |
-    | **High** | Deep, thorough reasoning with detailed step-by-step analysis (may be slower) |
-    ![Reasoning Model Settings](../img/menus/skills/model-settings-reasoning.gif)
-  </Tab>
-  <Tab title="Standard Models (e.g. GPT-4o)">
-    | Parameter | Description |
-    |-----------|-------------|
-    | **Creativity** | Controls response randomness. Lower values produce focused, deterministic outputs; higher values produce more varied and creative responses. |
-
-    | Level | Behavior |
-    |-------|----------|
-    | **1** | Highly focused and deterministic outputs |
-    | **2** | Mostly focused with slight variation |
-    | **3** | Balanced between focus and creativity *(default)* |
-    | **4** | More varied and creative responses |
-    | **5** | Maximum creativity and diversity |
-    ![Standard Model Settings](../img/menus/skills/model-settings-standard.gif)
-  </Tab>
-</Tabs>
-
-**Max Completion Tokens** *(All Models)*
-
-| Option | Description |
-|--------|-------------|
-| **Auto** | System sets the token limit automatically *(default)* |
-| **Custom** | Manually enter a specific token limit for responses |
+Skills published to **ELITEA Catalog** can also be run directly from there with a one-click **Run** button, without opening the Skill editor.
 
 ### Use Voice Capabilities
 
-The Skill test chat panel supports the same voice features as the agent chat interface.
+The Skill Run and Test chat panels support the same voice features as the agent chat interface.
 
 <CardGroup cols={3}>
   <Card title="Voice Input" icon="microphone">
@@ -352,8 +339,44 @@ When a text-to-speech (TTS) model is configured in **Settings** > **AI Configura
 **Speaking Mode** is a continuous, hands-free voice loop. Leave the input field empty, then select the **voicewave** icon shown in place of the Send button to activate it. ELITEA records your speech, sends your prompt after three seconds of silence, plays back the response, and then starts listening again. Select **✕** in the voicewave pill to exit.
 
 ![Speaking Mode](../img/menus/skills/skills-voice.png)
+
 ---
 
+## View Skill Run History
+
+Each Skill has its own **Run History** page, reached by selecting **View run history** from the Skill's Run panel (or the equivalent action for a Catalog Skill).
+
+![Run history](../img/menus/skills/run-history.png)
+
+
+The Run History page uses the same list layout as [Agents and Pipelines History](../how-tos/agents-pipelines/agents-pipelines-history): a list of past runs with **Date**, **Version**, and **Duration** columns, and a row-level menu to restore a run's conversation or open its analytics. Runs created from a chat participant appear in this same list but cannot be deleted from it, unlike the Skill's own standalone runs.
+
+### Per-Run Analytics
+
+Selecting the analytics action on a run opens a dedicated analytics view scoped to that single run, reusing the same four-tab layout used for agent and pipeline run analytics:
+
+<Tabs>
+  <Tab title="Costs">
+  Cost totals for the run, broken down the same way as agent run analytics.
+  ![Costs](../img/menus/skills/analytics-costs.png)
+  </Tab>
+  <Tab title="Tokens">
+  Token totals for the run, broken down the same way as agent run analytics.
+  ![Tokens](../img/menus/skills/analytics-tokens.png)
+  </Tab>
+  <Tab title="Health">
+  Shows failed calls for the run when any occurred, otherwise a per-event-type health breakdown.
+  ![Health](../img/menus/skills/analytics-health.png)
+  </Tab>
+</Tabs>
+
+The header shows the run's date, version, and model. Use **Refresh** to reload the figures, or **Export to Excel** to download them.
+
+<Note>
+Per-run analytics for a Skill is not available for shared/read-only chats.
+</Note>
+
+---
 
 ## Create & Manage Versions
 
@@ -429,7 +452,7 @@ The fork action uses the Skill fork export payload and creates a copy in your se
 
 ---
 
-## Publish a Skill
+### Publish a Skill
 
 Skills can be published to **ELITEA Catalog** and later unpublished.
 
@@ -445,6 +468,21 @@ The publish flow validates the Skill version, then publishes it to ELITEA Catalo
 To remove a published Skill, open the same menu and select **Unpublish**.
 
 For the full flow, see [Skill Publishing](../how-tos/agents-pipelines/skill-publishing).
+
+### Delete a Skill
+
+<Warning>
+**Delete warning**
+
+Deleting a Skill removes it from all agents it is attached to, and from every chat where it was added as a participant. This action cannot be undone.
+</Warning>
+
+1. Open the **⋮ menu** in the editor tab bar.
+2. Under the **SKILL** section, select **Delete skill**.
+3. Enter the Skill name to confirm, then select **Delete**.
+
+   ![Delete Skill](../img/menus/skills/skills-delete.png)
+
 
 ---
 
@@ -470,27 +508,26 @@ For the full flow, see **[ELITEA Catalog](./agents-studio)**
 
 ---
 
-## Attach a Skill to an Agent
+## Use Skill in Agent
 
 Skills are attached at the **agent version** level, not to the agent as a whole. You must save the agent before Skills can be attached.
 
 <Info>
 **Skill limit**
 
-A maximum of **5 Skills** can be attached to a single agent version. The counter in the Skills section shows how many are currently attached (e.g., `2/5 skills added`).
+The maximum number of Skills attachable to a single agent version is configured by your platform administrator and returned by the API — the fallback value if the API does not specify one is **50** (previously a fixed **5**). The counter in the Skills section always shows how many are currently attached against this limit (e.g., `2/50 skills added`). Lowering the limit never removes Skills already attached — it only blocks new attaches.
 </Info>
 
 1. In **Agents**, open the agent you want to configure.
 2. In the agent configuration form, scroll to the **Skills** accordion section (below the Instructions and Toolkits sections).
 3. Select the **`+ Skill`** button to open the skill picker dropdown.
-   - The button is disabled and shows a tooltip if the agent has not been saved yet (`Save the agent first, then add skills`) or if the 5-Skill limit has been reached (`Maximum number of skills reached`).
-4. Search for the Skill by name in the **Search skills…** field, or browse the list.
+   - The button is disabled and shows a tooltip if the agent has not been saved yet (`Save the agent first, then add skills`) or if the Skill limit has been reached (`Maximum number of skills reached`).
+4. Search for the Skill by name in the **Search skills…** field, or browse the list. The dropdown loads additional Skills as you scroll past the first page, so it can list every candidate Skill even when the project has many of them.
 5. Click a Skill to attach it. It attaches immediately using the Skill's `base` version.
    - Skills already attached to the agent version are excluded from the list to prevent duplicates.
 
-   <video controls width="100%" aria-label="Attach a Skill to an Agent.">
-     <source src="../img/menus/skills/skills-add-agent.mp4" type="video/mp4" />
-   </video>   
+    ![Skills agent](../img/menus/skills/skills-add-agent.png)
+   
 
 To create a new Skill from the agent editor:
 
@@ -506,9 +543,15 @@ If no Skills are attached to the agent, the mention list in chat shows:
 
 > *No skills attached to this agent*
 
+<Note>
+**Searching Attached Skills**
+
+Once an agent version has more than 8 attached Skills, a **Search attached skills** box appears above the list of attached Skill cards, so you can filter down to the one you need. With 8 or fewer attached, no search box is shown.
+</Note>
+
 ---
 
-### Change the Attached Version
+**Change the Attached Version**
 
 Each attached Skill card shows the currently active version name below the Skill's name. To change which version the agent uses:
 
@@ -517,39 +560,77 @@ Each attached Skill card shows the currently active version name below the Skill
 3. Select the version you want. The attachment is updated automatically. The old version is detached and the new version is attached.
 4. The selected version is highlighted with a check mark.
 
-    ![Change Attached Version](../img/menus/skills/skills-agent-version.gif)
+    ![Change Attached Version](../img/menus/skills/skills-agent-version.png)
 
 ---
 
 
 ## Use Skills in Chat
 
-When an agent has one or more Skills attached, users can invoke a Skill explicitly during a chat conversation by typing `~` (tilde) followed by the Skill name in the chat composer.
+Independently of any agent, you can add a Skill directly to a chat as a participant — the same way you would add an agent, pipeline, toolkit, or MCP — so it runs on its own, without an agent in between.
 
-1. In a chat conversation with an agent that has Skills attached, type `~` in the message input.
-2. A **Mention skill** dropdown appears above the input, listing all Skills attached to that agent.
-   - If no Skills are attached, the dropdown shows: *"No skills attached to this agent"*.
+### Add a Skill to the Conversation
+
+1. In the chat input toolbar, select the **`+`** button.
+2. Select the **Skills** category from the menu.
+3. Search for the Skill by name (placeholder: *"Search skills..."*), or browse **your project's Skills** and **Catalog Skills** separately.
+4. Select a Skill to add it to the chat as a participant.
+   - Select **Create Skill** at the bottom of the list to create a brand-new Skill inline from the chat, without leaving the conversation.
+   
+   ![Skills Chat](../img/menus/skills/skill-add-chat.png)
+
+
+Once added, the Skill appears in the chat input as its own participant chip, with:
+
+- A **Switch Skill** button to swap in a different Skill without leaving the chat.
+- A **version selector**, if the Skill has more than one version, to pick which version responds.
+- A **Skill settings** (gear) button that opens the Skill editor inline, if you have permission to edit Skills.
+- A **Switch to a model** option, letting you swap the Skill participant for a plain AI model mid-conversation.
+
+   ![Skills Chat](../img/menus/skills/skill-chat.png)
+
+
+If the Skill or its pinned version is later removed, the chip shows a warning:
+
+<Note>
+**Lifecycle Sync**
+
+If a Skill participant is deleted, or unpublished from the public catalog, it is automatically removed as a participant from every chat that had it added. Renaming a Skill or changing its icon refreshes those details across every chat where it is a participant.
+</Note>
+
+### Mention a Skill in Chat
+
+Once a Skill is attached to an agent, or added to the chat as a participant, you can invoke it explicitly by typing `~` (tilde) followed by the Skill name in the chat composer.
+
+1. In a chat conversation, type `~` in the message input.
+2. A **Mention skill** dropdown appears above the input. The suggestions are grouped by where the Skill comes from:
+   - **Attached to agent** — Skills attached to the active agent's current version.
+   - **Skills in this chat** — Skills added to this conversation as chat participants.
+   - If neither group has any Skills, the dropdown shows an empty-state message appropriate to the context (for example *"No skills attached to this agent"*).
 3. Type additional characters to filter the list, or use the arrow keys to highlight a Skill.
 4. Press **Enter** or select the Skill name to insert it as a mention token in your message.
-5. Send the message. The agent receives and executes that Skill's instructions for this turn.
+5. Send the message. The responding agent or model receives and executes that Skill's instructions for this turn.
 
    ![Skill Mention](../img/menus/skills/skills-agent-mention.gif)
 
+<Note>
+**Mentioning vs. Adding**
+
+Mentioning a Skill that is already attached to the agent or already a participant in the chat does not add a new participant — it just references that Skill for the current message. To add a Skill to the conversation itself, use the **`+`** button described above.
+</Note>
+
+### Skills in Chat Templates
+
+[Chat templates](../how-tos/chat/config-mnmt#work-with-chat-templates) can include Skills as participants alongside Agents, Pipelines, Toolkits, MCPs, and Users.
+
+1. Go to **Settings > General > Chat Configuration** and open or create a chat template.
+2. In the participant picker, select the **Skills** tab.
+3. Search for and select one or more Skills to add as template participants. Catalog Skills are marked with a **Catalog** badge.
+4. Select **Save**.
+
+Every chat created from that template starts with its Skill participants already attached, the same way Agent or Pipeline participants are.
+
 ---
-
-## Delete a Skill
-
-<Warning>
-**Delete warning**
-
-Deleting a Skill removes it from all agents it is attached to. This action cannot be undone.
-</Warning>
-
-1. Open the **⋮ menu** in the editor tab bar.
-2. Under the **SKILL** section, select **Delete skill**.
-3. Enter the Skill name to confirm, then select **Delete**.
-
-   ![Delete Skill](../img/menus/skills/skills-delete.gif)
 
 ---
 
@@ -566,7 +647,7 @@ Deleting a Skill removes it from all agents it is attached to. This action canno
     - **Description** is non-empty.
     - **Instructions** are non-empty.
     - At least one field has been changed since the last save.
-    - None of the three fields exceed their character limits.
+    - None of the three fields exceed their character limits (the Instructions limit is configured by your platform administrator; the default is 50,000 characters).
 
     Check the character counters next to each field and the validation error messages below the inputs.
   </Accordion>
@@ -574,7 +655,7 @@ Deleting a Skill removes it from all agents it is attached to. This action canno
   <Accordion title="The + Skill Button in the Agent Editor Is Disabled">
     Two conditions disable the button:
     - **Agent not yet saved** — save the agent first. The tooltip reads *"Save the agent first, then add skills"*.
-    - **Limit reached** — the agent version already has 5 Skills attached. Remove one before adding another. The tooltip reads *"Maximum number of skills reached"*.
+    - **Limit reached** — the agent version already has the maximum number of Skills attached (configured by your platform administrator, default 50). Remove one before adding another. The tooltip reads *"Maximum number of skills reached"*.
   </Accordion>
 
   <Accordion title="A Skill Card Shows a Warning Banner">
@@ -582,7 +663,18 @@ Deleting a Skill removes it from all agents it is attached to. This action canno
   </Accordion>
 
   <Accordion title="The Mention Skill Dropdown Does Not Appear When I Type ~ in Chat">
-    The `~` trigger only shows the dropdown if the agent in the current conversation has at least one Skill attached. Check the agent's **Skills** section in the agent editor. If no Skills are listed, attach one and save the agent, then start a new conversation.
+    The `~` trigger only shows the dropdown if the current chat has at least one Skill available — either attached to the active agent, or added to the chat as a participant. Check the agent's **Skills** section in the agent editor, or add a Skill to the chat using the **`+`** button, then try again.
+  </Accordion>
+
+  <Accordion title="A Chat Skill Participant Shows an Unavailable Warning">
+    - *"This skill is no longer available. Switch to a model or remove it from the chat."* means the Skill itself was deleted or unpublished.
+    - *"This skill version is no longer available. Select another version or switch to a model."* means only the pinned version is gone.
+
+    Select a different version from the version selector, switch the participant to a plain model, or remove it from the chat.
+  </Accordion>
+
+  <Accordion title="The Run Chat Still Shows the Ephemeral Test Chat Instead of a Persistent Run">
+    The Skill editor falls back to the ephemeral Test chat whenever the current version has unsaved draft changes, or you do not have permission to run the Skill. Save your changes first to switch to the persistent Run chat.
   </Accordion>
 
   <Accordion title="Save As Version Fails with 'A Version with That Name Already Exists'">
@@ -603,6 +695,10 @@ Deleting a Skill removes it from all agents it is attached to. This action canno
 
 - **[Skill Builder](../how-tos/modules/skill-builder)** — Create and update Skills directly from chat
 - **[Agents](./agents)** — Configure agents and attach Skills, Toolkits, and MCPs
+- **[Chat](./chat)** and **[Chat Configuration & Management](../how-tos/chat/config-mnmt)** — Add Skills as chat participants and chat template participants
+- **[Agents and Pipelines History](../how-tos/agents-pipelines/agents-pipelines-history)** — Run history and run analytics layout shared with Skills
+- **[Analytics](./settings/analytics)** — Project-wide usage dashboard, including the Skills tab
+- **[Skill Publishing](../how-tos/agents-pipelines/skill-publishing)** — Publish a Skill version to ELITEA Catalog
 - **[Project Context](./settings/project-context)** — Define shared background context injected into every AI interaction
 - **[Entity Versioning](../how-tos/agents-pipelines/entity-versioning)** — Version management patterns for agents, pipelines, and Skills
 - **[Export and Import](../how-tos/agents-pipelines/import-export)** — Exporting and importing Elitea entities

@@ -79,9 +79,10 @@ When **Skill Builder** is enabled, the agent connects to the ELITEA MCP server a
 | **List skills** | Search and filter skills in the project | `query`, `tags`, `author_id`, `statuses`, `limit`, `offset` |
 | **Create skill** | Create a new skill with initial version | `name`, `description`, `versions` (with initial version data) |
 | **Get skill details** | Retrieve full skill metadata and version config | `skill_id`, optional `version_id` |
-| **Update skill** | Modify skill metadata or version content | `skill_id`, optional `version_id`, update payload |
+| **Update skill** | Modify skill metadata, version content, or a version's Run settings (the model used when the skill runs on its own) | `skill_id`, optional `version_id`, update payload (including `version.run_settings`) |
 | **Create version** | Add a new version to an existing skill | `skill_id`, `name`, `instructions`, `tags`, `meta` |
 | **Link/unlink skill** | Attach or detach skill from agent version | `skill_id`, `skill_version_id`, `has_relation` |
+| **Run skill** | Run a skill's default or specified version on its own, without an agent | `skill_id`, optional `version_id`, `user_input` |
 | **Delete skill** | Remove a skill and all its versions | `skill_id` |
 | **Delete version** | Remove a specific skill version | `skill_id`, `version_id` |
 
@@ -121,10 +122,11 @@ With **Skill Builder**, you can manage skills directly from chat by describing w
 
 | Action | Description |
 |--------|-------------|
-| **Update an Existing Skill** | Describe the changes you want to make to an existing skill. The agent modifies the skill metadata (name, description, tags, meta) or version content (instructions, tags, meta) while preserving existing functionality. |
+| **Update an Existing Skill** | Describe the changes you want to make to an existing skill. The agent modifies the skill metadata (name, description, tags, meta), version content (instructions, tags, meta), or a version's Run settings (the model used when the skill runs on its own) while preserving existing functionality. |
 | **Create a New Version** | Request a new version of an existing skill by specifying the version name and changes. The agent creates the new version while keeping the original version intact. |
 | **List and Search Skills** | Ask to search for skills in your project. The agent searches by name, description, tags, or other criteria and returns matching skills with their details. |
 | **Link Skills to Agents** | Request to link a skill to an agent. The agent attaches the skill version to the specified agent, making it available when the agent runs. |
+| **Run a Skill** | Ask to run a skill with some input. The agent runs the skill's default (or specified) version on its own, without involving an agent, and returns its answer. |
 
 <Note>
 Published or embedded skill versions cannot be updated. Create a new version instead.
