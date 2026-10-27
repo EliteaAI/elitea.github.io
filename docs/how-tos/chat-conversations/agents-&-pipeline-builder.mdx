@@ -1,6 +1,7 @@
 ---
 title: "Agent & Pipeline Builder"
 sidebarTitle: "Agent & Pipeline Builder"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
 **Agent & Pipeline Builder** module connects the chat to ELITEA's own Model Context Protocol (MCP) server. It allows:
@@ -116,6 +117,8 @@ Toolkits with **Available via MCP** turned on in their **MCP Options** section e
    - **Toolkit tool call** → executes the tool with the provided arguments and returns the result as JSON
 3. The response is returned to the calling agent, which incorporates it into its reasoning
 
+**Naming**
+
 Both agent and toolkit tool names are derived from the resource's display name: any character that is not a letter, digit, underscore, or hyphen is replaced with `_`. For example, `"PR Review Agent"` → `PR_Review_Agent`, and `"My GitHub Toolkit"` with tool `create_issue` → `My_GitHub_Toolkit_create_issue`.
 
 If two names collide after normalization, the actual behavior of Agent & Pipeline Builder depends on where the collision happens:
@@ -124,6 +127,19 @@ If two names collide after normalization, the actual behavior of Agent & Pipelin
 - **An agent and a toolkit tool collide** on the same normalized name: the call always resolves to the agent, regardless of which one appears first in the tool listing.
 
 Keep resource names distinct to avoid both cases.
+
+**Nesting**
+
+ELITEA allows at most 3 levels of nesting for agents and sub-agents. An agent that would exceed this limit is skipped rather than exposed as a callable tool.
+
+```mermaid
+%%{init: {"flowchart": {"htmlLabels": true}, "themeVariables": {"fontSize": "12px"}} }%%
+flowchart TD
+    A["Level 1 — Top agent"] --> B["Level 2 — Sub-agent"]
+    B --> C["Level 3 — Sub-sub-agent"]
+    C -.-> D["Level 4 exceeds the limit — Agent is skipped, not exposed as a tool"]
+    style D fill:#e5e7eb,stroke:#9ca3af,stroke-width:1px,stroke-dasharray:4 3,color:#9ca3af
+```
 
 ## How to Use Agent & Pipeline Builder
 
@@ -389,9 +405,9 @@ If the token is missing or expired:
 If the issue persists, verify that the token belongs to the current user and has access to the current project.
 </Accordion>
 
-<Info title="See also">
+<Callout icon="book" color="#C9B896" title="See Also">
 See also:
 - [Ask User Module](../modules/ask-user)
 - [ELITEA MCP Server (SSE)](../../integrations/mcp/mcp-server-sse)
 - [Agent Configuration](../../menus/agents)
-</Info>
+</Callout>
