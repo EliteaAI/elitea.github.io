@@ -1,5 +1,6 @@
 ---
 title: "Ask User"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
 **Ask User** module allows agents to pause execution and request clarification from users through structured questions instead of proceeding with assumptions.
@@ -9,7 +10,7 @@ When enabled, agents can present questions with selectable options and optional 
 **Key features:**
 
 * Pause agent execution to ask clarifying questions
-* Present open, single-select and multi-select questions with 2-4 options
+* Present open, single-select and multi-select questions with several options
 * Allow free-text input for open answers
 * Display questions in stepwise navigation with progress indicators
 
@@ -111,7 +112,6 @@ Navigation buttons:
 ### Limitations
 
 - **Interactive sessions only**: Auto-skips in non-interactive or API runs.
-- **Question limit**: Agents can ask 1-4 questions per pause.
 - **Navigation gating**: Must answer current question before proceeding to the nextone.
 - **No nested pauses**: Agent cannot pause again while a clarifying question is pending.
 
@@ -142,9 +142,9 @@ To answer the questions:
 - Provide complete information upfront in your request to minimize clarification rounds
 </Accordion>
 
-<Info title="See also">
+<Callout icon="book" color="#C9B896" title="See Also">
 See also:
 - [Agent & Pipeline Builder](../chat-conversations/agents-&-pipeline-builder)
 - [Skill Builder](../modules/skill-builder)
 - [Project Context Builder](../modules/project-context-builder)
-</Info>
+</Callout>
