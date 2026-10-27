@@ -1,6 +1,7 @@
 ---
 title: "Planner"
 sidebarTitle: "Planner"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
 **Planner** module gives agents a set of tools to create and track a step-by-step execution plan directly from chat: a titled, ordered checklist of steps that the agent updates as work progresses.
@@ -175,7 +176,7 @@ The agent calls `delete_plan` and confirms deletion. This is the only way to rem
 ## Plan Scope and Storage
 
 * A plan is scoped to a single chat; each chat has at most one active plan
-* Plans are stored outside the chat itself, in a database table when configured, or in a local file otherwise
+* Plans are stored outside the chat itself, in a local file
 * Deleting a chat or clearing its history does **not** automatically delete the associated plan; use `delete_plan` to remove it explicitly
 * There is no cross-chat plan sharing or synchronization
 * Creating a new plan (`update_plan`) fully replaces any existing plan for that chat
@@ -284,7 +285,7 @@ Step 1 completed (1/5 done)
 </Accordion>
 
 <Accordion title="Keep Plans to a Manageable Number of Steps">
-* Break large efforts into 5-8 steps when possible
+* Break large efforts into 3-7 steps when possible
 * Each step should be independently completable and verifiable
 * Very long plans increase the token cost of every planning tool call
 </Accordion>
