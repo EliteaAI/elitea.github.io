@@ -71,6 +71,9 @@ When **Skill Builder** is enabled, the agent connects to the ELITEA MCP server a
 - **Version names**: Must be unique within each skill, "base" is reserved.
 - **Published versions**: Cannot be updated after publishing.
 - **Permissions required**: User must have appropriate skill management permissions.
+- **Skills per agent**: An agent version can have at most 50 skills attached. Attaching more than this is rejected.
+- **Skills invoked per turn**: An agent can invoke at most five skills in a single message turn.
+- **Instructions length**: Skill instructions must be shorter than 50,000 characters.
 
 ### Available Tools
 
@@ -165,8 +168,32 @@ Published or embedded skill versions cannot be updated. Create a new version ins
 - If skill creation fails, verify all required fields meet validation requirements (name format, character limits)
 </Accordion>
 
-<Info title="See also">
+## Troubleshooting
+
+<Accordion title="Deleting a skill version fails with 'in use'">
+**Possible causes:**
+
+* The skill version is still attached to one or more agents
+
+**Solution:**
+
+1. Detach the skill from all agents that use it.
+2. Delete the version.
+</Accordion>
+
+<Accordion title="Cannot delete a published skill or version">
+**Possible causes:**
+
+* The skill, or the version being deleted, is published
+
+**Solution:**
+
+1. Unpublish the skill or version first.
+2. Delete it.
+</Accordion>
+
+<Callout icon="book" color="#C9B896" title="See Also">
 See also:
 - [Ask User](../modules/ask-user)
 - [Skills](../../menus/skills)
-</Info>
+</Callout>
