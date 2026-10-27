@@ -1,6 +1,7 @@
 ---
 title: "Data Analysis"
 sidebarTitle: "Data Analysis"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
 **Data Analysis** module allows analyzing uploaded data directly from chat: files are processed with Pandas using natural language queries, and results appear as summaries, tables, or downloadable charts.
@@ -69,6 +70,10 @@ To process your data with **Data Analysis**, simply upload your data files and r
 - **Export:** Save transformed data as downloadable files
 
 Charts and exported files are saved to your chat. The AI assistant will provide links to view or download these files. Charts are saved as PNG files with auto-generated UUID filenames.
+
+<Note>
+**Data Analysis** runs generated code in a restricted sandbox without file-system, network, or system-level access. Requests that need these operations are not supported.
+</Note>
 
 <Callout icon="lightbulb" color="#a855f7" title="Important Notes">
 - Always upload your data file to the chat before requesting analysis
@@ -206,6 +211,7 @@ For CSV files with special characters, ensure UTF-8 encoding.
 
 * Very large datasets causing processing delays
 * Complex analysis requests
+* The AI assistant retried code generation multiple times after earlier attempts failed
 * Network connectivity issues
 
 **Solution:**
@@ -213,6 +219,7 @@ For CSV files with special characters, ensure UTF-8 encoding.
 * Reduce dataset size or use smaller sample files for testing.
 * Break complex requests into smaller iterative steps.
 * Prefer aggregated summaries over detailed outputs.
+* If a request fails outright after repeated attempts, simplify it — complex requests are more likely to exhaust the retry attempts.
 * Check network connection and retry the request.
 * For very large data, consider enabling Python Sandbox instead.
 </Accordion>
@@ -239,12 +246,14 @@ For CSV files with special characters, ensure UTF-8 encoding.
 * Ambiguous or overly complex queries
 * Column names with special characters
 * Data type mismatches
+* Request requires a restricted operation (file, network, or system access) not permitted in the sandboxed execution environment
 
 **Solution:**
 
 * Use clear, specific analysis requests with exact column names.
 * Break complex queries into simpler steps.
 * Provide example values for date formats, categories, etc.
+* Avoid requests that need file-system, network, or system-level access — **Data Analysis** runs in a restricted sandbox that blocks these operations by design.
 * Try rephrasing the query if it fails.
 * Check for error messages and adjust accordingly.
 </Accordion>
@@ -266,10 +275,9 @@ For CSV files with special characters, ensure UTF-8 encoding.
 * Monitor system resource usage.
 </Accordion>
 
-<Info title="See also">
+<Callout icon="book" color="#C9B896" title="See Also">
 See also:
-
-* **[Pandas Toolkit Migration Guide](../../migration/v2.0.1/pandas-toolkit-migration)**
-* **[Agent Configuration](../../menus/agents)**
-* **[Python Sandbox](./python-sandbox-internal-tool)**
-</Info>
+- [Pandas Toolkit Migration Guide](../../migration/v2.0.1/pandas-toolkit-migration)
+- [Agent Configuration](../../menus/agents)
+- [Python Sandbox](./python-sandbox-internal-tool)
+</Callout>
