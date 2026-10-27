@@ -1,6 +1,7 @@
 ---
 title: "Python Sandbox"
 sidebarTitle: "Python Sandbox"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
 **Python Sandbox** module lets you run secure Python code directly in chats, with persistent session state and access to Pyodide-compatible libraries.
@@ -120,10 +121,12 @@ flowchart LR
 
 When performing heavy computational tasks, keep in mind these limitations:
 
-* **Timeouts:** Very large datasets or computationally intensive operations may hit Deno timeout limits (default: 60 seconds). For production workloads with large-scale data processing, use dedicated Python environments.
+* **Timeouts:** Very large datasets or computationally intensive operations may hit Deno timeout limits (default: 55 s). For production workloads with large-scale data processing, use dedicated Python environments.
 * **Package availability:** Some Python packages are not available in Pyodide. Check the [Pyodide packages list](https://pyodide.org/en/stable/usage/packages-in-pyodide.html) before relying on specific libraries. C-extension packages may not be supported.
 * **File system access:** Limited file I/O capabilities due to WebAssembly sandbox restrictions. For tasks requiring extensive file operations or system-level access, consider alternative approaches.
 * **Network operations:** Network access is configurable via Deno permissions but may be restricted depending on server configuration. External API calls and web scraping may not work as expected.
+* **Memory:** Each sandbox execution has a fixed WebAssembly memory cap (default 512 MB). Code that exceeds it fails.
+* **Concurrency:** The server limits how many sandboxes can run at once. Under heavy concurrent load, new executions may be refused until capacity frees up.
 
 ## Example Scenarios
 
@@ -480,6 +483,18 @@ When asking the assistant to work with data structures or algorithms, use clear 
 5. Consider using a local Python environment for heavy computations
 </Accordion>
 
+<Accordion title="Sandbox is busy or out of memory">
+**Possible Causes:**
+
+* Too many concurrent sandbox executions on the server
+* Code consuming more memory than the sandbox's memory limit allows
+
+**Solution:**
+
+1. Retry the request after a short wait if the sandbox is busy.
+2. Reduce the size of data held in memory at once, or break the computation into smaller steps, if memory is the issue.
+</Accordion>
+
 <Accordion title="Session does not preserve variables between executions">
 **Possible Causes:**
 
@@ -511,11 +526,11 @@ When asking the assistant to work with data structures or algorithms, use clear 
 4. Check if specific domains need to be whitelisted in the Deno settings
 </Accordion>
 
-<Info title="See also">
+<Callout icon="book" color="#C9B896" title="See Also">
 See also:
 - [Pyodide Documentation](https://pyodide.org/en/stable/)
 - [Pyodide Packages](https://pyodide.org/en/stable/usage/packages-in-pyodide.html)
 - [Deno Documentation](https://docs.deno.com/)
 - [Data Analysis](./data-analysis-internal-tool)
 - [Swarm Mode](./swarm-mode-internal-tool)
-</Info>
+</Callout>
