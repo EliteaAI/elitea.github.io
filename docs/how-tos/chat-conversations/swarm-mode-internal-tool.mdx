@@ -1,6 +1,7 @@
 ---
 title: "Swarm Mode"
 sidebarTitle: "Swarm Mode"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
 **Swarm Mode** module lets multiple specialized agents collaborate in a shared chat, handing off control to each other.
@@ -75,6 +76,7 @@ Swarm Mode replaces a single agent handling every request with a set of peer age
 * Swarm Mode has no effect if no child agent is configured in the entry agent's toolkits; the agent behaves as a standard agent.
 * Only one handoff is processed per turn. If the entry agent emits multiple handoff tool calls in a single response, only the first is executed — any additional handoff calls in that response are discarded, not queued for later.
 * A peer agent's handoff `task` argument is its only input — it has no access to prior chat history, other tool results, or other peers' outputs unless that data is inlined explicitly.
+* If a peer agent is deleted or removed from the swarm between turns, it silently disappears from the next turn's handoff options (no message or error is displayed).
 
 ### Agent Roles
 
@@ -107,9 +109,9 @@ flowchart LR
 5. **Return Control:** Peer agent uses `transfer_to_main_agent` to return control after completing the task.
 6. **Continue Coordination:** Entry agent receives results and continues coordinating the overall workflow.
 
-<Info title="What Happens Behind the Scenes">
 When Swarm Mode is enabled, the system automatically creates handoff tools for each peer agent. Every agent in the swarm receives a `transfer_to_[agent_name]` tool for every other peer — this is bidirectional and flat: any agent can hand off to any other. The entry agent and all peers share the same chat state (SwarmState) via LangGraph's `langgraph-swarm` library, ensuring seamless collaboration.
-</Info>
+
+If a peer agent's task execution fails, the failure is caught and returned to the entry agent as part of the handoff result, rather than crashing the conversation turn. The entry agent can then decide how to proceed — retry, try a different peer, or report the failure to the user.
 
 ### Chat Visibility
 
@@ -351,9 +353,9 @@ The parent agent's system prompt should include guidance on when to delegate tas
 5. For simple tasks that don't need collaboration, consider disabling Swarm Mode
 </Accordion>
 
-<Info title="See also">
+<Callout icon="book" color="#C9B896" title="See Also">
 See also:
 - [Smart Tools Selection](./smart-tools-selection-internal-tool)
 - [Python Sandbox](./python-sandbox-internal-tool)
 - [Data Analysis](./data-analysis-internal-tool)
-</Info>
+</Callout>
