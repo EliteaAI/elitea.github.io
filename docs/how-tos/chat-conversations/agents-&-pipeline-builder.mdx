@@ -134,10 +134,10 @@ ELITEA allows at most 3 levels of nesting for agents and sub-agents. An agent th
 
 ```mermaid
 %%{init: {"flowchart": {"htmlLabels": true}, "themeVariables": {"fontSize": "12px"}} }%%
-flowchart TD
-    A["Level 1 — Top agent"] --> B["Level 2 — Sub-agent"]
-    B --> C["Level 3 — Sub-sub-agent"]
-    C -.-> D["Level 4 exceeds the limit — Agent is skipped, not exposed as a tool"]
+flowchart LR
+    A["Level 1 —<br/>Top agent"] --> B["Level 2 —<br/>Sub-agent"]
+    B --> C["Level 3 —<br/>Sub-sub-agent"]
+    C -.-> D["Level 4 exceeds the limit —<br/>Agent is skipped, not exposed as a tool"]
     style D fill:#e5e7eb,stroke:#9ca3af,stroke-width:1px,stroke-dasharray:4 3,color:#9ca3af
 ```
 
