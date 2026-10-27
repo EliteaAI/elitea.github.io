@@ -1,5 +1,6 @@
 ---
 title: "Project Context Builder"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
 **Project Context Builder** module connects the chat to ELITEA's own Model Context Protocol (MCP) server to create, update, and manage the project context directly from it.
@@ -70,7 +71,7 @@ When **Project Context Builder** is enabled, the agent connects to the ELITEA MC
 |------|---------|----------------|
 | `Get project context` | Returns the project context content and enabled state | `project_id` |
 | `Create or update project context` | Creates if missing or updates existing context | `content`, `enabled`, `activation_description` (optional) |
-| `Delete project context` | Deletes the project context configuration | `project_id` |
+| `Delete project context` | Deletes the project context configuration. Returns an error if no context exists yet. | `project_id` |
 
 ## How to Use Project Context Builder
 
@@ -145,9 +146,23 @@ With **Project Context Builder**, you can manage project context directly from c
 - Be specific when updating context. Describe exactly what should change
 </Accordion>
 
-<Info title="See also">
+## Troubleshooting
+
+<Accordion title="Deleting project context fails with 'not found'">
+**Possible causes:**
+
+* Project context was never created for this project
+* Project context was already deleted
+
+**Solution:**
+
+1. Check the current context first with **Get project context**.
+2. If none exists, there is nothing to delete.
+</Accordion>
+
+<Callout icon="book" color="#C9B896" title="See Also">
 See also:
 - [Project Context](../../menus/settings/project-context)
 - [Agents](../../menus/agents)
 - [Ask User](../modules/ask-user)
-</Info>
+</Callout>
