@@ -7,10 +7,6 @@ accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.7*/}
 
 Analytics data is always **scoped to the currently selected project** and is refreshed from the API with results cached for up to 5 minutes.
 
-<Info title="Project Member Requirement">
-**Analytics** access requires the `models.monitoring.tracing.view` permission, which is granted by default to every project role (*admin*, *editor*, *viewer*). In practice, this means every project member can view **Analytics** unless your project uses custom roles that remove this permission. You must be added as a member of the project to view its analytics data.
-</Info>
-
 To access **Analytics** settings, select **Settings** > **Analytics**.
 
 <img src="../../img/menus/settings/project/analytics/analytics.png" alt="Analytics" />
@@ -19,16 +15,16 @@ To access **Analytics** settings, select **Settings** > **Analytics**.
 
 - **Page header** displays the name of the current project, along with **Refresh** and **Export to Excel** buttons on the right.
 - **Refresh button** manually refreshes analytics data, updating the currently active tab with the latest data from the API.
-- **Export to Excel button** downloads a comprehensive Excel workbook containing all analytics data (Overview, Costs, Tokens, Agents & Pipelines, Tools, Users, Activity, and Health) for the selected date range. The export includes metadata about the project, date range, and timezone.
+- **Export to Excel button** downloads a comprehensive Excel workbook containing all analytics data (Overview, Costs, Tokens, Agents & Pipelines, Tools, Users, Activity, Health, Chats, and Skills) for the selected date range. The export includes metadata about the project, date range, and timezone.
 - **Date filter bar** contains the four quick-preset buttons (**Today**, **Last 7d**, **Last 30d**, **Last 90d**) on the left and the **From / To** datetime pickers on the right.
-- **Tabs**: Nine tabs to switch between different analytics views (Overview, Costs, Tokens, Agents & Pipelines, Tools, Users, Activity, Health, and Guide).
+- **Tabs**: 11 tabs to switch between different analytics views.
 - **Content area**: The main scrollable panel that renders KPI cards, charts, and tables for the active tab.
 
 <Info title="Project Scope">
 All metrics and charts show data only for the **currently selected project**. To view analytics for a different project, switch projects using the project switcher before opening Analytics.
 </Info>
 
-In **Analytics**, you can see nine tabs:
+In **Analytics**, you can see these tabs:
 
 <CardGroup cols={3}>
 	<Card title="Overview" icon="chart-line" href="#overview">
@@ -55,10 +51,22 @@ In **Analytics**, you can see nine tabs:
 	<Card title="Health" icon="heart-pulse" href="#health">
 		Request volume, error rates, and latency by event type.
 	</Card>
+	<Card title="Chats" icon="comments" href="#chats">
+		Chat usage and activity trends.
+	</Card>
+	<Card title="Skills" icon="wand-magic-sparkles" href="#skills">
+		Skill usage and activity trends.
+	</Card>
 	<Card title="Guide" icon="book-open" href="#guide">
 		Guides to metrics, charts, calculations, and data sources.
 	</Card>
 </CardGroup>
+
+**Permissions**
+
+- Viewing **Analytics**, and every tab except **Skills**, requires the `models.monitoring.tracing.view` permission, granted by default to every default project role (*admin*, *editor*, *viewer*).
+- You must be a member of the project to view its analytics data. In projects with custom roles, you may need to be assigned a role that includes the `models.monitoring.tracing.view` permission.
+- The **Skills** tab additionally requires skill-list permissions. Users without these permissions will not see the **Skills** tab.
 
 ## Date Range Controls
 
@@ -432,6 +440,129 @@ Click any agent or pipeline row to open a drill-down view for that entity.
 | **ERRORS** | Error count (highlighted in red when > 0) |
 
 To return to the Agents & Pipelines list, click the **back arrow** in the header.
+
+## Chats
+
+**Chats** shows token usage and estimated cost of conversations on the project's **Chats** page for the selected date range. It counts every model and tool call made in a chat — whether the reply came directly from a model, from an Agent or Pipeline added to the chat, or from a skill participant. Agent & Pipeline Run History runs, index runs, and Support Bot conversations are **not** included.
+
+<Note>
+Usage of an Agent or Pipeline inside a chat is also included in that Agent's or Pipeline's own numbers on the **Agents & Pipelines** tab. The two tabs overlap and should not be added together.
+</Note>
+
+### KPI Cards
+
+Nine KPI cards appear at the top of **Chats** (eight for Personal Projects — **CHAT USERS** is hidden):
+
+| KPI | Description |
+| --- | --- |
+| **ACTIVE CHATS** | Number of chats with at least one AI response during the selected date range |
+| **TOTAL CHAT COST** | Estimated total cost of all model calls made in chats, including input, output, cache read, and cache write costs |
+| **TOTAL CHAT TOKENS** | Combined input, output, cache read, and cache write tokens used in chats |
+| **AI RESPONSES** | Number of AI replies generated in chats. Regenerating or continuing a reply counts as an additional response. |
+| **AVG COST / CHAT** | Estimated average cost per chat |
+| **AVG COST / RESPONSE** | Estimated average cost per AI response |
+| **CHAT USERS** | Distinct project members who received at least one AI response in a chat (hidden for Personal Projects) |
+| **SHARE OF PROJECT COST** | Total chat cost as a percentage of the project's total estimated cost in the same date range |
+| **ERRORS** | Responses in which at least one model or tool call failed (highlighted in red when > 0) |
+
+### Top Chats
+
+A bar chart ranking the top 10 chats by a selectable metric:
+
+- **Cost** (default), **Tokens**, or **Responses** — switch metrics using the buttons above the chart.
+- The X axis shows the chat name (or "Private chat" if unnamed). The Y axis shows the selected metric's value.
+
+Clicking a bar opens the **Chat Detail View** for that chat. If no data is available for the selected date range, ELITEA shows **No data for this period**.
+
+### Cost by Participant
+
+A table splitting chat usage by participant type:
+
+| Column | Description |
+| --- | --- |
+| **Type** | Participant type: Direct model, Agents, Pipelines, or Skills |
+| **Responses** | Responses from that participant type |
+| **Tokens** | Total tokens for that participant type |
+| **Cost** | Estimated cost for that participant type |
+
+If no participant data is available for the selected date range, ELITEA shows **No participant data**.
+
+### Daily Chat Usage
+
+A multi-series area chart showing daily **Cost**, **Tokens**, and **Responses** across chats for the selected date range. If no daily data is available, ELITEA shows **No daily data for this period**.
+
+### Chat Activity
+
+A searchable table listing chats with recorded activity during the selected date range:
+
+| Column | Description |
+|--------|-------------|
+| **Chat** | Chat name (or "Private chat" if unnamed), clickable to open the **Chat Detail View**. Shows a **Deleted** label if the chat was deleted, and an **Open chat** link if the chat can still be opened. |
+| **Owner** | Chat owner (hidden for Personal Projects) |
+| **Participants** | Icons for the chat's participants (model, agent, pipeline, skill), with an overflow indicator if there are more than three |
+| **Responses** | Number of AI responses in the chat |
+| **Users** | Distinct users who received a response in the chat (hidden for Personal Projects) |
+| **Total Cost** | Estimated total cost for the chat |
+| **Input Token Cost** | Estimated cost of input tokens |
+| **Output Token Cost** | Estimated cost of output tokens |
+| **Total Tokens** | Combined input, output, cache read, and cache write tokens |
+| **Input Tokens** | Prompt tokens |
+| **Output Tokens** | Completion tokens |
+| **Cache Read Tokens** | Cache read tokens |
+| **Cache Write Tokens** | Cache write tokens |
+| **Cache Read Cost** | Estimated cost of cache read tokens |
+| **Cache Write Cost** | Estimated cost of cache write tokens |
+| **Avg Cost / Response** | Estimated average cost per AI response in the chat |
+| **Models** | Models used in the chat |
+| **Avg Latency** | Mean response time (displayed as `Xms` or `X.Xs`) |
+| **Errors** | Error count (highlighted in red when > 0) |
+| **Last Activity** | Date and time of the most recent activity in the chat |
+
+Use the search box to filter chats by name. The table initially shows only the top 10 chats by **Total Cost**. Select **Show all chats** to switch to the full, paginated list (page size: 20, 50, or 100 rows). If no chat usage is available for the selected date range, ELITEA shows **No chat usage in this period**.
+
+### Chat Detail View
+
+Click any chat — from the **Top Chats** chart or the **Chat Activity** table — to open a drill-down view for that chat.
+
+**Details** include:
+
+* **Header**: chat name with a back arrow to return to the full list, the chat owner's email (Team Projects only), an **Open chat** link if the chat can still be opened, and an **Export** button to download the chat's analytics as an Excel file.
+* **KPI Cards**
+* **Usage by Day**: an area chart with **Cost**, **Tokens**, and **Responses** series, plotted per day for this chat. Hidden if there is no daily usage data.
+* **Participants**: breakdown by participant type, with **Responses**, **Tokens**, **Cost**, and **Errors**.
+* **Models**: models used in this chat, with **LLM Calls**, **Responses**, **Tokens**, and **Cost**.
+* **Users**: users who participated in this chat, with **Responses**, **Tokens**, and **Cost** (Team Projects only).
+* **Tools**: tools called during this chat, with **Calls** and **Errors**.
+* **Recent Responses**: the latest AI responses in the chat, with **Started**, **User** (Team Projects only), **Participant**, **Model(s)**, **Total Tokens**, **Cost**, and **Status**. Select a response's start time to open its Run Analytics page, when available.
+
+**KPI Cards**:
+
+| KPI | Description |
+| --- | --- |
+| **AI RESPONSES** | Number of AI responses in this chat |
+| **UNIQUE USERS** | Distinct users who received a response in this chat (hidden for Personal Projects) |
+| **TOTAL COST** | Estimated total cost for this chat |
+| **INPUT TOKEN COST** | Estimated cost of input tokens |
+| **OUTPUT TOKEN COST** | Estimated cost of output tokens |
+| **CACHE READ COST** | Estimated cost of cache read tokens |
+| **CACHE WRITE COST** | Estimated cost of cache write tokens |
+| **TOTAL TOKENS** | Combined input, output, cache read, and cache write tokens |
+| **INPUT TOKENS** | Prompt tokens |
+| **OUTPUT TOKENS** | Completion tokens |
+| **CACHE READ TOKENS** | Cache read tokens |
+| **CACHE WRITE TOKENS** | Cache write tokens |
+| **LLM CALLS** | Number of model calls in this chat |
+| **TOOL CALLS** | Number of tool calls in this chat |
+| **AVG COST / RESPONSE** | Estimated average cost per AI response in this chat |
+| **AVG LATENCY** | Mean response time (displayed as `Xms` or `X.Xs`) |
+| **ERRORS** | Error count (highlighted in red when > 0) |
+| **FIRST ACTIVITY** | Date and time of the first recorded activity, if available |
+| **LAST ACTIVITY** | Date and time of the most recent activity, if available |
+| **ALL-TIME COST** | Running total cost since this chat started tracking usage — the same value as **Approx. cost** in the chat's Context management panel. Shown only if available; covers the chat's entire history, not just the selected date range. |
+
+If no data is available for this chat in the selected date range, ELITEA shows **No data is available for this chat in the selected date range**.
+
+To return to the Chats list, click the **back arrow** in the header.
 
 ## Tools
 
