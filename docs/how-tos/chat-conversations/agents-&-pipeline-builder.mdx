@@ -1,13 +1,14 @@
 ---
 title: "Agent & Pipeline Builder"
 sidebarTitle: "Agent & Pipeline Builder"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
 **Agent & Pipeline Builder** module connects the chat to ELITEA's own Model Context Protocol (MCP) server. It allows:
 - creating and updating agents and pipelines directly from chat
 - calling other agents and toolkits that become available through MCP
 
-Use Agent & Pipeline Builder when you want a **coordinator or meta-agent** to discover and delegate to other agents at runtime, create or update agents and pipelines directly from chat, and invoke toolkit operations dynamically based on what the conversation requires.
+Use Agent & Pipeline Builder when you want a **coordinator or meta-agent** to discover and delegate to other agents at runtime, create or update agents and pipelines directly from chat, and invoke toolkit operations dynamically based on what the chat requires.
 
 **Key Features:**
 
@@ -22,7 +23,7 @@ Use Agent & Pipeline Builder when you want a **coordinator or meta-agent** to di
 To use **Agent & Pipeline Builder**, you need:
 
 - MCP features enabled on the platform
-- User role with conversation or agent edit access
+- User role with chat or agent edit access
 - **Agent & Pipeline Builder** enabled in your chat or agent
 
 To call agent and toolkit tools, you also need:
@@ -39,22 +40,22 @@ If **Agent & Pipeline Builder** does not appear in the Modules list, contact you
 
 The default state of the **Agent & Pipeline Builder** module — on or off — [is defined in the project settings](../../menus/settings/general#default-modules).
 
-If **Agent & Pipeline Builder** is turned off by default, you can turn it on for your current conversation or agent.
+If **Agent & Pipeline Builder** is turned off by default, you can turn it on for your current chat or agent.
 
 <Callout icon="lightbulb" color="#a855f7" title="Recommended">
-Enable the **Ask User** module alongside **Agent & Pipeline Builder** for the best experience. When enabled, the conversation can ask structured clarifying questions with interactive options if your agent or pipeline creation request is missing information. Without **Ask User**, the conversation can only request information through in-chat responses.
+Enable the **Ask User** module alongside **Agent & Pipeline Builder** for the best experience. When enabled, the chat can ask structured clarifying questions with interactive options if your agent or pipeline creation request is missing information. Without **Ask User**, the chat can only request information through in-chat responses.
 </Callout>
 
-### For a Conversation
+### For a Chat
 
-1. Go to the conversation.
+1. Go to the chat.
 2. Select `+` in the chat input toolbar.
 3. Select **Modules** → **Agent & Pipeline Builder** in the list.
 4. Toggle **Agent & Pipeline Builder** on.
 
-<img src="../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/agent&pipeline-builder-chat.png" alt="Enable Agent & Pipeline Builder in a Conversation" width="350" />
+<img src="../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/agent&pipeline-builder-chat.png" alt="Enable Agent & Pipeline Builder in a Chat" width="350" />
 
-Once enabled, the conversation has access to builder capabilities and all MCP-exposed tools. You can create or update agents and pipelines, and call available MCP tools as needed based on the conversation flow.
+Once enabled, the chat has access to builder capabilities and all MCP-exposed tools. You can create or update agents and pipelines, and call available MCP tools as needed based on the conversation flow.
 
 ### For an Agent
 
@@ -65,7 +66,7 @@ Once enabled, the conversation has access to builder capabilities and all MCP-ex
 5. Toggle **Agent & Pipeline Builder** on.
 6. Select **Save**.
 
-All changes apply only to new conversations run by this agent. Existing conversations will not be affected.
+All changes apply only to new chats run by this agent. Existing chats will not be affected.
 
 <img src="../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/agent&pipeline-builder-agent.png" alt="Enable Agent & Pipeline Builder in Agent Configuration" width="350" />
 
@@ -116,6 +117,8 @@ Toolkits with **Available via MCP** turned on in their **MCP Options** section e
    - **Toolkit tool call** → executes the tool with the provided arguments and returns the result as JSON
 3. The response is returned to the calling agent, which incorporates it into its reasoning
 
+**Naming**
+
 Both agent and toolkit tool names are derived from the resource's display name: any character that is not a letter, digit, underscore, or hyphen is replaced with `_`. For example, `"PR Review Agent"` → `PR_Review_Agent`, and `"My GitHub Toolkit"` with tool `create_issue` → `My_GitHub_Toolkit_create_issue`.
 
 If two names collide after normalization, the actual behavior of Agent & Pipeline Builder depends on where the collision happens:
@@ -124,6 +127,19 @@ If two names collide after normalization, the actual behavior of Agent & Pipelin
 - **An agent and a toolkit tool collide** on the same normalized name: the call always resolves to the agent, regardless of which one appears first in the tool listing.
 
 Keep resource names distinct to avoid both cases.
+
+**Nesting**
+
+ELITEA allows at most 3 levels of nesting for agents and sub-agents. An agent that would exceed this limit is skipped rather than exposed as a callable tool.
+
+```mermaid
+%%{init: {"flowchart": {"htmlLabels": true}, "themeVariables": {"fontSize": "12px"}} }%%
+flowchart LR
+    A["Level 1 —<br/>Top agent"] --> B["Level 2 —<br/>Sub-agent"]
+    B --> C["Level 3 —<br/>Sub-sub-agent"]
+    C -.-> D["Level 4 exceeds the limit —<br/>Agent is skipped, not exposed as a tool"]
+    style D fill:#e5e7eb,stroke:#9ca3af,stroke-width:1px,stroke-dasharray:4 3,color:#9ca3af
+```
 
 ## How to Use Agent & Pipeline Builder
 
@@ -162,10 +178,10 @@ For a pipeline:
 </Accordion>
 
 <Accordion title="Step 2: Answer Clarifying Questions (If Needed)">
-If required information is missing, the conversation response depends on whether **Ask User** is enabled:
+If required information is missing, the chat response depends on whether **Ask User** is enabled:
 
-- **Ask User enabled**: The conversation pauses and asks 1-4 focused questions using structured prompts with single-select, multi-select, or free-text options.
-- **Ask User disabled**: The conversation requests missing information in a normal chat response or proceeds with reasonable defaults.
+- **Ask User enabled**: The conversation pauses, and the AI assistant asks 1-4 focused questions using structured prompts with single-select, multi-select, or free-text options.
+- **Ask User disabled**: The chat requests missing information in a normal chat response or proceeds with reasonable defaults.
 
 ![Answering Clarifying Questions Example](../../img/how-tos/chat-conversations/internal-tools/agent-&-pipeline-builder/answer-questions.png)
 </Accordion>
@@ -179,7 +195,7 @@ If required information is missing, the conversation response depends on whether
 </Accordion>
 
 <Note>
-Created agents or pipelines are not automatically added to the current conversation. You can enable them in the conversation if needed.
+Created agents or pipelines are not automatically added to the current chat. You can enable them in the chat if needed.
 </Note>
 
 ## Example Scenarios
@@ -283,14 +299,14 @@ The coordinator never needed hardcoded references to the child agents — adding
 <Accordion title="Enable Ask User Module">
 **Always enable the Ask User module alongside Agent & Pipeline Builder.** This is the recommended configuration for the best experience:
 
-- **With Ask User enabled**: The conversation can ask structured clarifying questions (1-4 questions) with interactive single-select, multi-select, or free-text options when required information for agent or pipeline creation is missing. Questions display with progress indicators ("Question X of Y") and navigation controls.
+- **With Ask User enabled**: The chat can ask structured clarifying questions (1-4 questions) with interactive single-select, multi-select, or free-text options when required information for agent or pipeline creation is missing. Questions display with progress indicators ("Question X of Y") and navigation controls.
 
-- **Without Ask User**: The conversation can only request missing information through normal chat responses, which is less structured and may require multiple back-and-forth exchanges.
+- **Without Ask User**: The chat can only request missing information through normal chat responses, which is less structured and may require multiple back-and-forth exchanges.
 
 **How to enable both together:**
 - In Project Settings: Toggle both **Agent & Pipeline Builder** and **Ask User** under Default Modules
 - In Agent Configuration: Enable both modules in the MODULES section
-- In Conversations: Enable both from the Modules flyout panel
+- In Chats: Enable both from the Modules flyout panel
 </Accordion>
 
 <Accordion title="Agent & Pipeline Creation">
@@ -389,9 +405,9 @@ If the token is missing or expired:
 If the issue persists, verify that the token belongs to the current user and has access to the current project.
 </Accordion>
 
-<Info title="See also">
+<Callout icon="book" color="#C9B896" title="See Also">
 See also:
 - [Ask User Module](../modules/ask-user)
 - [ELITEA MCP Server (SSE)](../../integrations/mcp/mcp-server-sse)
 - [Agent Configuration](../../menus/agents)
-</Info>
+</Callout>

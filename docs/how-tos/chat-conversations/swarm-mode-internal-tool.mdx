@@ -1,9 +1,10 @@
 ---
 title: "Swarm Mode"
 sidebarTitle: "Swarm Mode"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
-**Swarm Mode** module lets multiple specialized agents collaborate in a shared conversation, handing off control to each other.
+**Swarm Mode** module lets multiple specialized agents collaborate in a shared chat, handing off control to each other.
 
 **Key features:**
 
@@ -26,18 +27,18 @@ Nested swarms (a swarm-enabled agent as a child of any other agent) are not supp
 
 The default state of the **Swarm Mode** module — on or off — [is defined in the project settings](../../menus/settings/general#default-modules).
 
-If **Swarm Mode** is turned off by default, you can turn it on for your current conversation or agent.
+If **Swarm Mode** is turned off by default, you can turn it on for your current chat or agent.
 
-### For a Conversation
+### For a Chat
 
-1. Go to the conversation.
+1. Go to the chat.
 2. Select `+` in the chat input toolbar.
 3. Select **Modules** → **Swarm Mode** in the list.
 4. Toggle **Swarm Mode** on.
 
-<img src="../../img/how-tos/chat-conversations/internal-tools/swarm-mode/euch_swarm_on_chat.png" alt="Enable Swarm Mode in a Conversation" width="350" />
+<img src="../../img/how-tos/chat-conversations/internal-tools/swarm-mode/euch_swarm_on_chat.png" alt="Enable Swarm Mode in a Chat" width="350" />
 
-Once enabled, Swarm Mode stays active for that conversation as long as at least one child agent is configured in the entry agent's toolkits.
+Once enabled, Swarm Mode stays active for that chat as long as at least one child agent is configured in the entry agent's toolkits.
 
 ### For an Agent
 
@@ -48,7 +49,7 @@ Once enabled, Swarm Mode stays active for that conversation as long as at least 
 5. Toggle **Swarm Mode** on.
 6. Select **Save**.
 
-All changes apply only to new conversations run by this agent. Existing conversations will not be affected.
+All changes apply only to new chats run by this agent. Existing chats will not be affected.
 
 <img src="../../img/how-tos/chat-conversations/internal-tools/swarm-mode/euch_swarm-for-agent.png" alt="Enable Swarm Mode in Agent Configuration" width="400" />
 
@@ -58,14 +59,14 @@ Always add and configure your child agents before enabling Swarm Mode. The paren
 
 ## How Swarm Mode Works
 
-Swarm Mode replaces a single agent handling every request with a set of peer agents that hand off control to each other within the same conversation.
+Swarm Mode replaces a single agent handling every request with a set of peer agents that hand off control to each other within the same chat.
 
 **Traditional Agent vs Swarm Mode**
 
 | Aspect | Traditional Agent | Swarm Mode |
 |--------|-------------------|------------|
 | **Agent Structure** | Single agent handles all tasks | Parent agent coordinates multiple specialist agents |
-| **Conversation Context** | Only the active agent sees the conversation | All agents share the full conversation history at the [routing level](#conversation-visibility-during-a-handoff) |
+| **Chat Context** | Only the active agent sees the chat | All agents share the full chat history at the [routing level](#conversation-visibility-during-a-handoff) |
 | **Task Distribution** | Single agent attempts all tasks | Parent delegates tasks to specialized child agents |
 | **Control Flow** | Linear execution | Dynamic handoff between parent and child agents |
 | **Collaboration** | No inter-agent communication | Agents can transfer control and share results |
@@ -74,7 +75,8 @@ Swarm Mode replaces a single agent handling every request with a set of peer age
 
 * Swarm Mode has no effect if no child agent is configured in the entry agent's toolkits; the agent behaves as a standard agent.
 * Only one handoff is processed per turn. If the entry agent emits multiple handoff tool calls in a single response, only the first is executed — any additional handoff calls in that response are discarded, not queued for later.
-* A peer agent's handoff `task` argument is its only input — it has no access to prior conversation history, other tool results, or other peers' outputs unless that data is inlined explicitly.
+* A peer agent's handoff `task` argument is its only input — it has no access to prior chat history, other tool results, or other peers' outputs unless that data is inlined explicitly.
+* If a peer agent is deleted or removed from the swarm between turns, it silently disappears from the next turn's handoff options (no message or error is displayed).
 
 ### Agent Roles
 
@@ -83,7 +85,7 @@ Swarm Mode creates a **flat peer-to-peer architecture**. There is no strict pare
 | Role | Description | Responsibilities |
 |------|-------------|------------------|
 | **Entry Agent** | The agent the user addresses (default active agent) | - Receives user requests<br />- Determines which specialist to involve<br />- Delegates tasks to peer agents via handoff tools<br />- Can receive control back from any peer |
-| **Peer Agents** | Specialized agents | - Execute specific tasks using their tools<br />- Access the full shared conversation history at the [routing level](#conversation-visibility-during-a-handoff)<br />- Hand control back to the entry agent when done<br />- Can also hand off to other peers |
+| **Peer Agents** | Specialized agents | - Execute specific tasks using their tools<br />- Access the full shared chat history at the [routing level](#conversation-visibility-during-a-handoff)<br />- Hand control back to the entry agent when done<br />- Can also hand off to other peers |
 
 Pipelines added as toolkits to the swarm agent participate as **direct-invocation peers** — they run their full graph and return the result without an LLM wrapper, then hand control back automatically. Regular agents run as LLM-equipped peers.
 
@@ -100,23 +102,23 @@ flowchart LR
     E --> F[Continue Coordination]
 ```
 
-1. **User Request:** User sends a message to the conversation.
+1. **User Request:** User sends a message to the chat.
 2. **Entry Agent Analysis:** Entry agent analyzes the request and determines if a specialist is needed.
-3. **Handoff:** Entry agent uses a handoff tool (e.g., `transfer_to_test_agent`) to delegate to a peer agent. The handoff tool's `task` argument must be **completely self-contained** — the peer receives only this string and has no access to prior conversation history, other tool results, or other peers' outputs. Always inline all required data verbatim.
+3. **Handoff:** Entry agent uses a handoff tool (e.g., `transfer_to_test_agent`) to delegate to a peer agent. The handoff tool's `task` argument must be **completely self-contained** — the peer receives only this string and has no access to prior chat history, other tool results, or other peers' outputs. Always inline all required data verbatim.
 4. **Peer Executes Task:** Peer agent executes the task using its specialized tools and knowledge.
 5. **Return Control:** Peer agent uses `transfer_to_main_agent` to return control after completing the task.
 6. **Continue Coordination:** Entry agent receives results and continues coordinating the overall workflow.
 
-<Info title="What Happens Behind the Scenes">
-When Swarm Mode is enabled, the system automatically creates handoff tools for each peer agent. Every agent in the swarm receives a `transfer_to_[agent_name]` tool for every other peer — this is bidirectional and flat: any agent can hand off to any other. The entry agent and all peers share the same conversation state (SwarmState) via LangGraph's `langgraph-swarm` library, ensuring seamless collaboration.
-</Info>
+When Swarm Mode is enabled, the system automatically creates handoff tools for each peer agent. Every agent in the swarm receives a `transfer_to_[agent_name]` tool for every other peer — this is bidirectional and flat: any agent can hand off to any other. The entry agent and all peers share the same chat state (SwarmState) via LangGraph's `langgraph-swarm` library, ensuring seamless collaboration.
 
-### Conversation Visibility
+If a peer agent's task execution fails, the failure is caught and returned to the entry agent as part of the handoff result, rather than crashing the conversation turn. The entry agent can then decide how to proceed — retry, try a different peer, or report the failure to the user.
 
-A handoff to a peer happens in two steps with different visibility into the conversation:
+### Chat Visibility
 
-1. The peer's routing layer receives the full shared conversation history (SwarmState) and decides whether to answer directly or hand off again.
-2. When the peer executes the task itself, only the handoff's `task` string is passed to that execution — prior conversation history, other tool results, and other peers' outputs are not included unless inlined into `task`.
+A handoff to a peer happens in two steps with different visibility into the chat:
+
+1. The peer's routing layer receives the full shared chat history (SwarmState) and decides whether to answer directly or hand off again.
+2. When the peer executes the task itself, only the handoff's `task` string is passed to that execution — prior chat history, other tool results, and other peers' outputs are not included unless inlined into `task`.
 
 <Note title="Inline what the peer's task execution needs">
 Because step 2 only receives the `task` string, always inline the specific data a peer needs to complete its task — do not rely on it having access to earlier messages or other peers' results.
@@ -262,7 +264,7 @@ Swarm Mode works well with other modules like [Smart Tools Selection](./smart-to
 </Accordion>
 
 <Accordion title="Monitor conversation flow and handoffs">
-Review conversation logs to understand handoff patterns and optimize agent coordination. If certain agents are rarely called or frequently called for wrong tasks, adjust agent descriptions and parent instructions.
+Review chat logs to understand handoff patterns and optimize agent coordination. If certain agents are rarely called or frequently called for wrong tasks, adjust agent descriptions and parent instructions.
 </Accordion>
 
 <Accordion title="Provide clear parent agent instructions">
@@ -298,8 +300,8 @@ The parent agent's system prompt should include guidance on when to delegate tas
 
 1. Check child agent's system prompt — it should know to return control when done
 2. Child agents automatically receive a `transfer_to_main_agent` handoff tool
-3. Review conversation logs to see where control flow stopped
-4. Restart the conversation if agents are stuck in an inconsistent state
+3. Review chat logs to see where control flow stopped
+4. Restart the chat if agents are stuck in an inconsistent state
 5. Ensure child agents have clear completion criteria
 </Accordion>
 
@@ -319,20 +321,20 @@ The parent agent's system prompt should include guidance on when to delegate tas
 5. Test with specific scenarios and refine agent descriptions based on results
 </Accordion>
 
-<Accordion title="Conversation history not shared correctly">
+<Accordion title="Chat history not shared correctly">
 **Possible causes:**
 
 * Swarm Mode not properly enabled
 * Technical issue with shared state
-* Conversation interrupted and restarted
+* Chat interrupted and restarted
 
 **Solution:**
 
 1. Verify Swarm Mode toggle is enabled in Modules
 2. Check that the success notification appeared when enabling
-3. All agents in a swarm automatically share conversation history via SwarmState
+3. All agents in a swarm automatically share chat history via SwarmState
 4. If issues persist, try disabling and re-enabling Swarm Mode
-5. Start a new conversation to reset the swarm state
+5. Start a new chat to reset the swarm state
 </Accordion>
 
 <Accordion title="Performance slower than expected">
@@ -351,9 +353,9 @@ The parent agent's system prompt should include guidance on when to delegate tas
 5. For simple tasks that don't need collaboration, consider disabling Swarm Mode
 </Accordion>
 
-<Info title="See also">
+<Callout icon="book" color="#C9B896" title="See Also">
 See also:
 - [Smart Tools Selection](./smart-tools-selection-internal-tool)
 - [Python Sandbox](./python-sandbox-internal-tool)
 - [Data Analysis](./data-analysis-internal-tool)
-</Info>
+</Callout>

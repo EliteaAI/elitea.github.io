@@ -1,5 +1,6 @@
 ---
 title: "Skill Builder"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
 **Skill Builder** module connects the chat to ELITEA's own Model Context Protocol (MCP) server to create, update, and manage skills directly from it.
@@ -24,22 +25,22 @@ title: "Skill Builder"
 
 The default state of the **Skill Builder** module — on or off — [is defined in the project settings](../../menus/settings/general#default-modules).
 
-If **Skill Builder** is turned off by default, you can turn it on for your current conversation or agent.
+If **Skill Builder** is turned off by default, you can turn it on for your current chat or agent.
 
 <Callout icon="lightbulb" color="#a855f7" title="Recommended">
 Enable the **Ask User** module alongside **Skill Builder** for the best experience. When enabled, the agent can ask structured clarifying questions with interactive options if your skill creation request is missing information. Without **Ask User**, the agent can only request information through normal chat responses.
 </Callout>
 
-### For a Conversation
+### For a Chat
 
-1. Go to the conversation.
+1. Go to the chat.
 2. Select `+` in the chat input toolbar.
 3. Select **Modules** → **Skill Builder** in the list.
 4. Toggle **Skill Builder** on.
 
 <img src="../../img/how-tos/chat-conversations/internal-tools/skill-builder/enable-skill-builder-chat.png" alt="Enable Skill Builder in Chat" width="350" />
 
-Once enabled, the agent has access to skill management tools for that conversation.
+Once enabled, the agent has access to skill management tools for that chat.
 
 ### For an Agent
 
@@ -50,7 +51,7 @@ Once enabled, the agent has access to skill management tools for that conversati
 5. Toggle **Skill Builder** on.
 6. Select **Save**.
 
-All changes apply only to new conversations run by this agent. Existing conversations will not be affected.
+All changes apply only to new chats run by this agent. Existing chats will not be affected.
 
 <img src="../../img/how-tos/chat-conversations/internal-tools/skill-builder/enable-skill-builder-agent.png" alt="Enable Skill Builder in Agent Configuration" width="350" />
 
@@ -71,6 +72,9 @@ When **Skill Builder** is enabled, the agent connects to the ELITEA MCP server a
 - **Version names**: Must be unique within each skill, "base" is reserved.
 - **Published versions**: Cannot be updated after publishing.
 - **Permissions required**: User must have appropriate skill management permissions.
+- **Skills per agent**: An agent version can have at most 50 skills attached. Attaching more than this is rejected.
+- **Skills invoked per turn**: An agent can invoke at most five skills in a single message turn.
+- **Instructions length**: Skill instructions must be shorter than 50,000 characters.
 
 ### Available Tools
 
@@ -88,7 +92,7 @@ When **Skill Builder** is enabled, the agent connects to the ELITEA MCP server a
 
 ## How to Use Skill Builder
 
-**Skill Builder** can only access and modify skills in the project where the conversation is running. Skills from other projects are not accessible.
+**Skill Builder** can only access and modify skills in the project where the chat is running. Skills from other projects are not accessible.
 
 ### Create a New Skill from Chat
 
@@ -167,8 +171,32 @@ Published or embedded skill versions cannot be updated. Create a new version ins
 - If skill creation fails, verify all required fields meet validation requirements (name format, character limits)
 </Accordion>
 
-<Info title="See also">
+## Troubleshooting
+
+<Accordion title="Deleting a skill version fails with 'in use'">
+**Possible causes:**
+
+* The skill version is still attached to one or more agents
+
+**Solution:**
+
+1. Detach the skill from all agents that use it.
+2. Delete the version.
+</Accordion>
+
+<Accordion title="Cannot delete a published skill or version">
+**Possible causes:**
+
+* The skill, or the version being deleted, is published
+
+**Solution:**
+
+1. Unpublish the skill or version first.
+2. Delete it.
+</Accordion>
+
+<Callout icon="book" color="#C9B896" title="See Also">
 See also:
 - [Ask User](../modules/ask-user)
 - [Skills](../../menus/skills)
-</Info>
+</Callout>

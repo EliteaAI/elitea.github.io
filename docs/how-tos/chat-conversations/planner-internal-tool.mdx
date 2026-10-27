@@ -1,6 +1,7 @@
 ---
 title: "Planner"
 sidebarTitle: "Planner"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
 **Planner** module gives agents a set of tools to create and track a step-by-step execution plan directly from chat: a titled, ordered checklist of steps that the agent updates as work progresses.
@@ -16,24 +17,24 @@ sidebarTitle: "Planner"
 ## Prerequisites
 
 - An LLM that supports tool invocation
-- User role with conversation edit access
-- An active conversation or agent configuration
+- User role with chat edit access
+- An active chat or agent configuration
 - **Planner** enabled in your chat or agent
 
 ## How to Enable Planner
 
 The default state of the **Planner** module — on or off — [is defined in the project settings](../../menus/settings/general#default-modules).
 
-If **Planner** is turned off by default, you can turn it on for your current conversation or agent.
+If **Planner** is turned off by default, you can turn it on for your current chat or agent.
 
-### For a Conversation
+### For a Chat
 
-1. Go to the conversation.
+1. Go to the chat.
 2. Select `+` in the chat input toolbar.
 3. Select **Modules** → **Planner** in the list.
 4. Toggle **Planner** on.
 
-<img src="../../img/how-tos/chat-conversations/internal-tools/planner/euch_planner_on_chat.png" alt="Enable Planner in a Conversation" width="350" />
+<img src="../../img/how-tos/chat-conversations/internal-tools/planner/euch_planner_on_chat.png" alt="Enable Planner in a Chat" width="350" />
 
 Once enabled, the agent gains access to the planning tools and can create or update a plan when the conversation calls for step-by-step tracking.
 
@@ -46,11 +47,11 @@ Once enabled, the agent gains access to the planning tools and can create or upd
 5. Toggle **Planner** on.
 6. Select **Save**.
 
-All changes apply only to new conversations run by this agent. Existing conversations will not be affected.
+All changes apply only to new chats run by this agent. Existing chats will not be affected.
 
 ## How Planner Works
 
-When **Planner** is enabled, the agent gains access to five tools for managing a single execution plan tied to the current conversation:
+When **Planner** is enabled, the agent gains access to five tools for managing a single execution plan tied to the current chat:
 
 | Tool | Purpose | Key Parameters |
 |------|---------|----------------|
@@ -101,7 +102,7 @@ The agent calls `update_plan` and returns the plan as a table:
 </Card>
 
 <Warning title="Creating a Plan Replaces the Current One">
-`update_plan` fully replaces any existing plan for the conversation — it does not merge new steps into the current plan. To add or change steps, ask the agent to recreate the plan with the full updated step list.
+`update_plan` fully replaces any existing plan for the chat — it does not merge new steps into the current plan. To add or change steps, ask the agent to recreate the plan with the full updated step list.
 </Warning>
 
 ### Track Progress
@@ -158,7 +159,7 @@ The agent calls `get_plan_status` and returns the same table shown above, withou
 
 ### Resume an Existing Plan
 
-When you return to a conversation that already has a plan, the agent automatically restores it and reports where it left off, for example:
+When you return to a chat that already has a plan, the agent automatically restores it and reports where it left off, for example:
 
 ```
 [Resuming plan 'Website Deployment Process' - 1/5 completed, 0 in progress]
@@ -174,11 +175,11 @@ The agent calls `delete_plan` and confirms deletion. This is the only way to rem
 
 ## Plan Scope and Storage
 
-* A plan is scoped to a single conversation; each conversation has at most one active plan
-* Plans are stored outside the conversation itself, in a database table when configured, or in a local file otherwise
-* Deleting a conversation or clearing its history does **not** automatically delete the associated plan; use `delete_plan` to remove it explicitly
-* There is no cross-conversation plan sharing or synchronization
-* Creating a new plan (`update_plan`) fully replaces any existing plan for that conversation
+* A plan is scoped to a single chat; each chat has at most one active plan
+* Plans are stored outside the chat itself, in a local file
+* Deleting a chat or clearing its history does **not** automatically delete the associated plan; use `delete_plan` to remove it explicitly
+* There is no cross-chat plan sharing or synchronization
+* Creating a new plan (`update_plan`) fully replaces any existing plan for that chat
 
 <Info title="Token Usage">
 The full plan text is included in the tool result every time a planning tool is called, so plans with many steps use more tokens per turn.
@@ -284,7 +285,7 @@ Step 1 completed (1/5 done)
 </Accordion>
 
 <Accordion title="Keep Plans to a Manageable Number of Steps">
-* Break large efforts into 5-8 steps when possible
+* Break large efforts into 3-7 steps when possible
 * Each step should be independently completable and verifiable
 * Very long plans increase the token cost of every planning tool call
 </Accordion>
@@ -304,7 +305,7 @@ Before creating a new plan, ask the agent to check the current plan status. If s
 </Accordion>
 
 <Accordion title="Delete Plans You No Longer Need">
-Plans are not removed automatically when a conversation ends or its history is cleared. Explicitly ask the agent to delete the plan once the work is done.
+Plans are not removed automatically when a conversation ends or chat history is cleared. Explicitly ask the agent to delete the plan once the work is done.
 </Accordion>
 
 **Workflow Organization**
@@ -312,11 +313,11 @@ Plans are not removed automatically when a conversation ends or its history is c
 <Accordion title="Use Planner for Multi-Phase Work, Not Single To-Dos">
 **Good fit:** Deployments, onboarding sequences, review workflows, and other work where the sequence of steps matters.
 
-**Not a good fit:** Independent, unrelated to-do items — Planner tracks one ordered plan per conversation, not a general task list.
+**Not a good fit:** Independent, unrelated to-do items — Planner tracks one ordered plan per chat, not a general task list.
 </Accordion>
 
-<Accordion title="One Plan per Conversation">
-Keep each conversation focused on a single plan. If you need to track unrelated work, start a new conversation rather than trying to fit multiple plans into one — Planner only tracks one active plan per conversation.
+<Accordion title="One Plan per Chat">
+Keep each chat focused on a single plan. If you need to track unrelated work, start a new chat rather than trying to fit multiple plans into one — Planner only tracks one active plan per chat.
 </Accordion>
 
 <Accordion title="Review Plan Status Before Ending a Session">
@@ -343,13 +344,13 @@ Ask for the plan status before wrapping up so you have a clear record of what wa
 <Accordion title="Plan does not persist between messages">
 **Possible causes:**
 
-* Conversation not saved
+* Chat not saved
 * Browser session expired
 * Network connection lost while the plan was being created or updated
 
 **Solution:**
 
-1. Ensure conversation is properly saved (check conversation title).
+1. Ensure chat is properly saved (check chat title).
 2. Verify network connection is stable.
 3. Ask the agent for the plan status to confirm whether it still exists.
 4. Recreate the plan if it was lost.
@@ -374,7 +375,7 @@ Ask for the plan status before wrapping up so you have a clear record of what wa
 <Accordion title="Creating a new plan removed my previous steps">
 **Possible causes:**
 
-* `update_plan` was called again for the same conversation
+* `update_plan` was called again for the same chat
 
 **Solution:**
 
@@ -392,11 +393,11 @@ Ask for the plan status before wrapping up so you have a clear record of what wa
 
 **Solution:**
 
-1. Send a new message to refresh the conversation context.
+1. Send a new message to refresh the chat context.
 2. Ask explicitly: `Create a plan with these steps: ...`.
 3. Check model configuration supports tool use.
 4. Disable and re-enable **Planner**.
-5. Start a new conversation.
+5. Start a new chat.
 </Accordion>
 
 <Accordion title="Plan output appears in the wrong format">

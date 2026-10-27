@@ -1,24 +1,28 @@
 ---
 title: "Modules"
 sidebarTitle: "Modules Overview"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
-A module is a built-in capability that extends what a conversation or agent can do beyond standard chat and toolkit actions. Each module adds a specific function, such as generating images, analyzing uploaded data, running Python code, or asking clarifying questions.
+A module is a built-in capability that extends what a chat or agent can do beyond standard chat and toolkit actions. Each module adds a specific function, such as generating images, analyzing uploaded data, running Python code, or asking clarifying questions.
 
 <Note title="Not Available for Pipelines">
-Modules are available only to conversations and agents. Pipelines do not have a **MODULES** section and cannot use modules.
+Modules are available only to chats and agents. Pipelines do not have a **MODULES** section and cannot use modules.
 </Note>
 
 Modules exist so that advanced capabilities stay optional. You — or your project administrator for team projects — can turn on only the modules currently required, which keeps chats and agents focused and avoids unnecessary token usage.
 
-ELITEA provides ten modules:
+ELITEA provides eleven modules:
 
-<CardGroup cols={2}>
+<CardGroup cols={3}>
   <Card title="Image Creation" icon="image" href="../chat-conversations/image-generation">
     Generates, views, and manages AI-generated images using an image-capable model.
   </Card>
+  <Card title="Web Search" icon="globe" href="./web-search">
+    Allows the LLM to search the Internet, read web pages, and cite its sources.
+  </Card>
   <Card title="Data Analysis" icon="chart-bar" href="../chat-conversations/data-analysis-internal-tool">
-    Performs Pandas-based data analysis on uploaded files (CSV, Excel, etc.) using natural language queries. Automatically processes data and generates charts with downloadable results.
+    Performs Pandas-based data analysis on uploaded files using natural language queries.
   </Card>
   <Card title="Agent & Pipeline Builder" icon="sitemap" href="../chat-conversations/agents-&-pipeline-builder">
     Creates and updates agents and pipelines from chat, and calls tagged agents and MCP-enabled toolkits.
@@ -39,7 +43,7 @@ ELITEA provides ten modules:
     Executes Python code in an isolated environment using Pyodide.
   </Card>
   <Card title="Swarm Mode" icon="people-group" href="../chat-conversations/swarm-mode-internal-tool">
-    Enables multi-agent collaboration by sharing the full conversation history and control between agents.
+    Enables multi-agent collaboration by sharing the full chat history and control between agents.
   </Card>
   <Card title="Smart Tools Selection" icon="bolt" href="../chat-conversations/smart-tools-selection-internal-tool">
     Loads toolkit schemas and tools on demand to reduce token usage when many toolkits are configured.
@@ -56,13 +60,14 @@ The **Modules** icon in the chat toolbar is hidden when no module is available f
 
 ## Prerequisites
 
-To be able to turn modules on or off, team members require a user role with conversation or agent edit access.
+To be able to turn modules on or off, team members require a user role with chat or agent edit access.
 
 Some modules have additional prerequisites:
 
 | Module | Additional prerequisite |
 |--------|--------------------------|
-| **Image Creation** | <ul><li>An image generation provider toolkit must be configured for the project.</li><li>A model that supports image generation must be selected.</li></ul> |
+| **Image Creation** | <ul><li>An image generation provider toolkit must be configured for the project.</li></ul> |
+| **Web Search** | <ul><li>A web-search toolkit must be configured and enabled at the platform level.</li></ul> |
 | **Agent & Pipeline Builder** | <ul><li>MCP features must be enabled on the platform.</li><li>Agents must carry the **`mcp`** tag to be callable as tools.</li></ul> |
 | **Skill Builder** | <ul><li>MCP features must be enabled on the platform.</li><li>The user must have skill management permissions.</li></ul> |
 | **Project Context Builder** | <ul><li>MCP features must be enabled on the platform.</li><li>The user must have project context edit permissions.</li></ul> |
@@ -75,34 +80,34 @@ Some modules have additional prerequisites:
 
 ## Default Behavior
 
-All ELITEA modules are turned off by default, both for new conversations and for new agents.
+All ELITEA modules are turned off by default, both for new chats and for new agents.
 
 Project administrators — or you in your private project — can turn modules on in [Settings > General](../../menus/settings/general). In this case, these modules are turned on for all new chats and agents.
 
-Default settings are overridden if you turn the module on explicitly for your project, conversation or agent.
+Default settings are overridden if you turn the module on explicitly for your project, chat or agent.
 
 ## How to Turn Modules On & Off
 
-You can turn modules on or off in three places: in the project settings as a project-wide default and for a current conversation or agent.
+You can turn modules on or off in three places: in the project settings as a project-wide default and for a current chat or agent.
 
 ### In Project Settings
 
-To set the default state of a module for all new conversations and agents in a project:
+To set the default state of a module for all new chats and agents in a project:
 
 1. Select **Settings > General**.
 2. Go to **General > Default Modules**.
 3. Find the required module among the available ones.
-4. Toggle **Chats** on to turn the module on by default for all new conversations.
+4. Toggle **Chats** on to turn the module on by default for all new chats.
 5. Toggle **Agents** on to turn the module on by default for all new agents.
 6. Select **Save**.
 
-All changes apply only to new conversations and agents. Existing conversations or agents will not be affected.
+All changes apply only to new chats and agents. Existing chats or agents will not be affected.
 
 <img src="../../img/menus/settings/project/general/gen_default-modules.png" alt="Default Modules section in Project Settings > General" />
 
-### For a Conversation
+### For a Chat
 
-1. Go to the conversation.
+1. Go to the chat.
 2. Select **+** in the chat input toolbar.
 3. Hover over **Modules** to open the list of modules.
 4. Find the module in the list and toggle it on.
@@ -116,7 +121,7 @@ Modules are hidden from the **Modules** list until their prerequisites are met.
 
 ### For an Agent
 
-To configure modules for an agent and any new conversations run by this agent:
+To configure modules for an agent and any new chats run by this agent:
 
 1. Select **Agents**.
 2. Select the agent to configure, or create a new agent.
@@ -125,7 +130,7 @@ To configure modules for an agent and any new conversations run by this agent:
 5. Toggle the module on.
 6. Select **Save**.
 
-All changes apply only to new conversations run by this agent. Existing conversations or agents will not be affected.
+All changes apply only to new chats run by this agent. Existing chats or agents will not be affected.
 
 <Warning title="Swarm Mode Cannot Nest">
 An agent that already has Swarm Mode turned on cannot be added as a child agent to another swarm-enabled agent. Turn Swarm Mode off on an agent before using it as a child.
@@ -142,12 +147,11 @@ Most modules work independently, but you can combine some of them to get better 
 |-------------|-----|
 | **Ask User** + **Skill Builder**, **Project Context Builder**, or **Agent & Pipeline Builder** | Builders can pause and ask clarifying questions instead of guessing at missing details or requesting them through plain chat responses. |
 | **Python Sandbox** + **Data Analysis** | Data Analysis parses uploaded files and structures data, while Python Sandbox provides a code execution environment for custom logic beyond what Data Analysis covers alone. |
-| **Smart Tools Selection** with five or more toolkits configured | Smart Tools Selection loads tool schemas on demand instead of binding every tool upfront, which reduces token usage as the toolkit count grows.|
-| **Swarm Mode** + **Smart Tools Selection**, **Data Analysis**, or **Python Sandbox** | Peer agents in a swarm can each use these modules independently within the shared conversation. |
+| **Swarm Mode** + **Smart Tools Selection**, **Data Analysis**, or **Python Sandbox** | Peer agents in a swarm can each use these modules independently within the shared chat. |
 
-<Info title="See Also">
+<Callout icon="book" color="#C9B896" title="See Also">
 See also:
 - [Chat](../../menus/chat)
 - [Agent](../../menus/agents)
-- [Default Settings](../../menus/settings/general)
-</Info>
+- [General Settings](../../menus/settings/general)
+</Callout>
