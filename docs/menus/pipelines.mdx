@@ -5,78 +5,59 @@ description: "What are ELITEA Pipelines?"
 
 ## Overview
 
-ELITEA Pipelines are powerful workflow automation tools that enable you to visually design and execute complex sequences of actions and decisions. Each pipeline is purpose-built to orchestrate multi-step processes by connecting various nodes—including LLM interactions, toolkit integrations, conditional logic, and custom code execution. Pipelines seamlessly interact with external services and data sources, allowing you to automate sophisticated workflows ranging from data processing and decision-making to integration with platforms like Jira, GitHub, and Salesforce.
+ELITEA Pipelines are workflow automation tools that let you visually design and execute complex sequences of actions and decisions. Each pipeline orchestrates multi-step processes by connecting nodes — LLM interactions, toolkit integrations, conditional logic, and custom code execution — to interact with external services and data sources, from data processing and decision-making to integrations with platforms like Jira, GitHub, and Salesforce.
 
 **Why Use Pipelines?**
 
 Unlike manual task execution or simple automation, pipelines provide a structured approach to complex workflow automation:
 
-* **Workflow Orchestration**: Automate multi-step processes with conditional logic, loops, and parallel execution paths
-* **Visual Design**: Design complex workflows using an intuitive drag-and-drop interface or advanced YAML configuration
-* **Service Integration**: Connect multiple tools and services in a single workflow for seamless data flow
-* **Reusability**: Create modular, reusable workflows that can be nested and combined for different use cases
-* **Scalability**: Handle both simple linear processes and intricate multi-branch workflows with equal efficiency
+<CardGroup cols={3}>
+  <Card title="Workflow Orchestration" icon="sitemap">
+    Automate multi-step processes with conditional logic, loops, and parallel execution paths.
+  </Card>
+  <Card title="Visual Design" icon="shapes">
+    Design and configure workflows using the drag-and-drop Flow Designer or the YAML Editor.
+  </Card>
+  <Card title="Service Integration" icon="plug">
+    Connect toolkits, agents, MCPs, and nested pipelines within a single workflow.
+  </Card>
+  <Card title="Reusability" icon="recycle">
+    Create modular, reusable workflows that can be nested and combined for different use cases.
+  </Card>
+  <Card title="Scalability" icon="gauge-high">
+    Handle both simple linear processes and intricate multi-branch workflows with equal efficiency.
+  </Card>
+</CardGroup>
 
 **How Pipelines Work**
 
-Creating a pipeline involves three key aspects:
-
-1. **Node-Based Design**: Build workflows by connecting nodes representing different actions—LLM calls, agent interactions, toolkit operations, code execution, routers, decision points, and human-in-the-loop approvals
-2. **Visual or Code Configuration**: Use the Flow Designer for visual workflow creation or switch to YAML Editor for advanced programmatic configuration
-3. **Execution & Integration**: Connect toolkits, agents, and MCPs to extend capabilities; configure model settings and conversation flows for interactive pipelines
-
-Once configured, the pipeline executes autonomously, following the defined logic flow, making decisions based on conditions, and leveraging integrated services to complete tasks while adapting to dynamic inputs.
+Build a workflow by connecting nodes — LLM calls, agent interactions, toolkit operations, code execution, routers, decision points, and human-in-the-loop approvals — then configure the model settings and conversation flow. Once configured, the pipeline executes autonomously: following the defined logic, making decisions based on conditions, and leveraging integrated services to complete tasks while adapting to dynamic inputs.
 
 **Key Capabilities**
 
-* **Visual Workflow Design**: Intuitive Flow Designer with drag-and-drop nodes for easy workflow creation and management
-* **Conditional Logic**: Implement complex decision trees using Router and Decision nodes for dynamic workflow paths
-* **Human-in-the-Loop**: Pause a run for a human decision using the HITL node, then resume automatically once approved, edited, or rejected
-* **Multi-Service Integration**: Connect external toolkits, agents, MCPs, and nested pipelines within a single workflow
-* **Flexible Configuration**: Toggle between visual Flow Designer and YAML Editor for different levels of customization
-* **State Management**: Track and modify workflow state throughout execution using State Modifier nodes
-* **Version Control**: Create, manage, and compare different versions of pipelines for iterative development
+<CardGroup cols={2}>
+  <Card title="Conditional Logic" icon="code-branch">
+    Implement complex decision trees using Router and Decision nodes for dynamic workflow paths.
+  </Card>
+  <Card title="Human-in-the-Loop" icon="user-check">
+    Pause a run for a human decision using the HITL node, then resume automatically once approved, edited, or rejected.
+  </Card>
+  <Card title="State Management" icon="database">
+    Track and modify workflow state throughout execution using State Modifier nodes.
+  </Card>
+  <Card title="Version Control" icon="code-compare">
+    Create, manage, and compare different versions of pipelines for iterative development.
+  </Card>
+</CardGroup>
 
 By leveraging ELITEA Pipelines, you can automate complex processes, reduce manual effort, and create scalable workflow solutions that adapt to your organization's evolving needs.
 
 
 ## Navigating the Pipelines Menu
 
-The Pipelines menu is accessible from the main platform navigation. Upon entering the Pipelines section, you'll see a dashboard listing all created pipelines for your project.
+The Pipelines menu is accessible from the main platform navigation. Upon entering the Pipelines section, you'll see a dashboard listing all created pipelines for your project, switchable between **Card View** and **Table View** using the toggle in the top-right corner, with a **Search Bar** and **Filter by Tags** to narrow down the list. Pin a pipeline to keep it at the top of the list.
 
 <img src="../img/menus/pipeline/pipeline-menu-open.png" alt="Pipeline_Menu" />
-
-### Pipelines Dashboard
-
-The Pipelines dashboard provides multiple ways to view and manage your pipelines:
-
-**View Options**
-
-* **Card View** - Visual cards displaying pipeline name, description, and key information. Ideal for browsing and quick identification.
-* **Table View** - Compact table format with columns for name, description, status, and metadata. Better for managing large numbers of pipelines.
-
-Switch between views using the view toggle button in the top-right corner of the dashboard.
-
-<img src="../img/menus/pipeline/pipeline-menu-view.gif" alt="Pipeline_Menu" />
-
-**Search and Filter**
-
-* **Search Bar** - Quickly find pipelines by typing the pipeline name, description, or related keywords
-* **Filter by Tags** - Filter pipelines by their assigned tags to find workflows in specific categories or with particular characteristics. Click tags to narrow down the list.
-
-<img src="../img/menus/pipeline/pipeline-menu-filter.gif" alt="Pipeline_Menu" />
-
-**Pinning Pipelines**
-
-Pin frequently used pipelines to keep them at the top of your list for quick access:
-
-1. Locate the pipeline you want to pin
-2. Click the pin icon (📌) on the pipeline card or in the table row
-3. Pinned pipelines will appear at the top of the list, separated from unpinned ones
-4. Click the pin icon again to unpin the pipeline
-
-<img src="../img/menus/pipeline/pipeline-menu-pin.gif" alt="Pipeline_Menu" />
-
 ---
 
 ## Organize Pipelines into Folders
@@ -119,15 +100,15 @@ Each folder card in the right panel has a three-dot menu (⋮) with the followin
     <img src="../img/menus/folders/folder-actions.png" alt="Folder actions" width="200" />
 | Action | Description |
 | --- | --- |
+| **Pin on top** | Pin the folder to the top of the folders list |
 | **Rename** | Change the folder name |
-| **Pin to top** | Pin the folder to the top of the folders list |
+| **Manage permissions** *(Team projects only)* | Control which team members can view the folder |
 | **Delete** | Permanently remove the folder (pipelines inside are moved back to the main list, not deleted) |
-| **Manage Access** *(Team projects only)* | Control which team members can view the folder |
 
 **Remove a Pipeline from a Folder:**
 
-1. Open the pipeline card's three-dot menu (⋮).
-2. Select **Remove from Folder**.
+1. Open the pipeline card's three-dot menu (⋮), or the folder picker on the card/row.
+2. Select **Remove from folder**.
 3. The pipeline returns to the main pipelines list and the folder icon is removed from its card.
 
 <Note>
@@ -142,18 +123,22 @@ In team projects, you can control which users can view and modify specific folde
 
 1. In the **Pipelines** dashboard right panel, locate the folder in the **Folders** list.
 2. Select the folder's three-dot menu (⋮).
-3. Select **Manage Access**.
-4. The Manage Permissions dialog opens.
+3. Select **Manage permissions**.
+4. The **Manage Permissions** dialog opens.
     <img src="../img/menus/folders/folder-permissions-open.png" alt="Folder permissions open" width="500" />
 
 **Add Permission Exceptions:**
 
-1. In the Manage Permissions dialog, select **+ Add Exception**.
+1. In the Manage Permissions dialog, select **Add Exceptions**.
 2. Search for and select one or more users from the project.
 3. Choose a permission level: **Read-only** or **No access**.
-4. Select **Add**. The selected users are added to the permissions table.
+4. Select **Save**. The selected users are added to the permissions table.
 
     <img src="../img/menus/folders/folder-add-exceptions.png" alt="Folder add exceptions" width="500" />
+
+<Note>
+You can select multiple users with the row checkboxes and use **Edit selected** to change their permission level in bulk (up to 200 exceptions per folder). Use the search box above the table to filter exceptions by name or email.
+</Note>
 
 **Permission Levels:**
 
@@ -176,45 +161,32 @@ Permission exceptions apply only to the folder itself. Users with no access to a
 
 ## Creating a Pipeline
 
-The pipeline creation flow follows a **two-phase approach**: first you provide the pipeline metadata and save, then the full editor environment — including the Flow/YAML designer, tools, and the embedded test chat — becomes available.
+Creating a pipeline opens the same editor used for editing one — you can fill in its settings, build the workflow, and attach tools right away.
 
-**Phase 1: Fill in Pipeline Metadata**
+**The Pipeline Editor Layout**
 
-1. Click the **+ Create** button located in the sidebar navigation.
-2. In the **General** section, fill out the required fields:
+The editor uses a **two-panel layout**: the **left panel** holds the configuration form with all settings sections, and the **center panel** holds the **Flow/YAML editor** for visually designing or coding your pipeline workflow.
 
-     - **Name**: Enter a unique name for your pipeline (e.g., "Test Case Generator Pipeline")
-     - **Description**: Provide a clear description of the pipeline's purpose (e.g., "Automatically generates comprehensive test cases from acceptance criteria and user stories")
-3. Optionally, add and configure:
-         - **Tags**: Add tags by typing a tag name or selecting from pre-existing tags
-         - **Welcome Message**: Define a welcome message to guide users interacting with the pipeline. (e.g., "Welcome! I can help you generate test cases based on your acceptance criteria. Simply provide your requirements and I'll create comprehensive test scenarios for you.")
-         - **Conversation Starters**: Add predefined commands or prompts to initiate interactions with the pipeline. (e.g., "Generate test cases for the login feature" or "Create test scenarios for payment processing")
-4. In the **Advanced** section (optional):
-         - **Step Limit**: Set the maximum number of tool execution steps the pipeline can perform in a single turn (range: 0-999, default: 25). This parameter controls how many iterations the pipeline can execute before stopping, preventing infinite loops and managing resource usage. A higher step limit allows more complex multi-step workflows, while a lower limit ensures faster execution for simpler tasks.
-5. In the **Editor Notes** section (optional):
-         - **Notes**: Add internal documentation for the current pipeline version, such as rollout reminders, implementation notes, or review comments. These notes are for editors only and are not sent to the LLM or used during execution.
-6. Click **Save** to create the pipeline. This action creates what's known as the "**base**" version of your pipeline.
+1. Click the **+ Pipeline** button to open the pipeline editor in creation mode.
 
-     <img src="../img/menus/pipeline/pipeline-create.gif" alt="Pipeline_Create" />
+     <img src="../img/menus/pipeline/pipeline-create.png" alt="Pipeline_Create" />
 
-**Phase 2: Full Pipeline Editor (After First Save)**
+2. Fill out the configuration sections in the left panel:
 
-After saving, the **pipeline editor page** opens automatically. This page uses a **three-column layout**:
+     | Field | Description |
+     |-------|--------------|
+     | **Name** | A unique name for your pipeline (e.g., "Test Case Generator Pipeline"). |
+     | **Description** *(optional)* | A clear description of the pipeline's purpose. |
+     | **Tags** *(optional)* | Type a tag name or pick from pre-existing tags. |
+     | **MMODULES → Attachments** *(optional)* | Toggle on to let users upload files in chat. Adds the `input_attachments` state variable automatically — see [File Attachments](#file-attachments). |
+     | **WELCOME MESSAGE** *(optional)* | A message to guide users interacting with the pipeline (e.g., "Welcome! I can help you generate test cases based on your acceptance criteria."). |
+     | **CHAT STARTERS** *(optional)* | Predefined commands or prompts to initiate interactions (e.g., "Generate test cases for the login feature"). |
+     | **STEP LIMIT** *(optional)* | The maximum number of tool execution steps the pipeline can perform in a single turn (range: 0-999, default: 25), preventing infinite loops and managing resource usage. |
+     | **EDITOR NOTES** *(optional)* | Internal documentation for the current pipeline version — rollout reminders, implementation notes, review comments (up to 1000 characters). Not sent to the LLM or used during execution. |
 
-- **Left panel** — the configuration form with all settings sections (General, Tools, Variables, Welcome Message, Conversation Starters, Advanced, Editor Notes, Information)
-- **Center panel** — the **Flow/YAML editor** for visually designing or coding your pipeline workflow
-- **Right panel** — an embedded live chat panel for testing the pipeline without leaving the editor
+3. Design your workflow in the center panel — see [Designing Your Pipeline](#designing-your-pipeline) below.
+4. Click **Save** to create the pipeline. This action creates what's known as the "**base**" version of your pipeline, and unlocks the **Information** section, the **Schedules** features, and the **Test Pipeline** button.
 
-From this page you can:
-
-- **Add Toolkits**: Integrate external services and APIs to extend your pipeline's capabilities
-- **Add Agents, MCPs, and nested Pipelines**: Include other agents, Model Context Protocol servers, or other pipelines to extend functionality
-- **Design the Workflow**: Build the pipeline flow using the visual Flow Designer or the YAML editor
-- **Select AI Model**: Choose the appropriate language model and configure model settings
-- **Test Interactively**: Use the embedded chat panel on the right to send messages and verify pipeline behaviour in real time
-- **View Run History**: Click the clock icon (🕐) in the top bar of the chat panel to open the Run History view
-
-      <img src="../img/menus/pipeline/pipeline-editor-page.png" alt="Pipeline Editor Page" />
 
 
 Your newly created pipeline will subsequently appear on the **Pipelines** page for your project.
@@ -227,131 +199,68 @@ When configuring Pipelines, you can further personalize their profiles by adding
 
 To add an image:
 
-1. Click the **Pen Icon** next to the image placeholder. Clicking this icon will open the image upload interface.
-2. Click the **Upload a Custom Image** icon to upload a custom image from your local system to personalize the Agent's profile.
-3. **Use Default Images** from a set of default images provided by the platform.
+1. Click the **Pen Icon** next to the image placeholder. This opens the **"Choose the image from the list or upload"** dialog.
+2. Pick an icon from the **Default** grid, or select a previously uploaded icon from the **Uploaded** grid.
+3. Click **Import** to upload a new custom image (bmp, ico, gif, jpeg, jpg, png, tiff, or webp — under 500 KB) from your local system. Uploaded icons can be removed individually from the **Uploaded** grid.
 
-<img src="../img/menus/pipeline/pipeline-icon.gif" alt="Agents_icon" />
+    <img src="../img/menus/pipeline/pipeline-icon.png" alt="Agents_icon" />
 </Tip>
-
-### How to Select and Configure Tools
-
-Tools are integrations with external or ELITEA's internal services that enhance your pipeline's capabilities by allowing it to interact with various resources and perform specific tasks. In *Tools*, you can add agents, toolkits, MCPs (Model Context Protocol servers), and othr pipelines to extend your pipeline's functionality. The **TOOLS** section becomes available in the left panel only after the pipeline has been saved for the first time.
-
-**Adding Resources to Your Pipeline**:
-
-1. In the pipeline Configuration interface, navigate to the **TOOLS** section
-2. Use the dedicated add buttons to attach resources. Each button opens its own searchable dropdown:
-      - **+Toolkit**: Browse and select from available toolkits, or click **"Create new"** to create a new toolkit. See **[Toolkits](./toolkits)**.
-      - **+MCP**: Browse and select Model Context Protocol servers, or click **"Create new"** to create a new MCP. See **[MCPs](./mcps)**.
-      - **+Agent**: Browse and select agents to enable your pipeline to delegate tasks or collaborate with specialized agents. See **[Agents](./agents)**.
-      - **+Pipeline**:Browse other pipelines to create complex multi-step workflows by chaining pipelines together
-3. Each dropdown supports inline search and paginated scrolling to locate resources quickly.
-
-> **Note:** Your changes are saved automatically when you add or remove resources.
-
-<img src="../img/menus/pipeline/pipeline-add-toolkit.gif" alt="Add Toolkit" />
-
-<Frame caption="If a toolkit added to your pipeline uses shared credentials that require each user to supply their own private copy, a **Credential setup required** warning banner will appear on the tool card. Click the **Create a credential** link in the banner to create a matching private credential in your Personal workspace. See [Shared Toolkit Credentials](./toolkits#shared-toolkit-credentials) for details.">
-  <img src="../img/menus/pipeline/euch_credentials-warning-pipeline.png" alt="Credential setup required banner" />
-</Frame>
-
-<Tip>
-**Integration Best Practices**
-
-- **Toolkit Integration**: Ensure you have proper credentials configured before adding toolkits
-- **Agent Integration**: Test agent responses and adjust parameters for optimal performance
-- **MCP Integration**: Verify MCP server connectivity and context requirements before integration
-- **Pipeline Integration**: Consider data flow and dependencies when nesting pipelines
-</Tip>
-
-### EDITOR NOTES
-
-The **EDITOR NOTES** section is a separate accordion in the left configuration panel. It is intended for internal documentation about the current pipeline version.
-
-Use this field to record implementation notes, review comments, rollout reminders, or other editor-facing context that should stay with the pipeline configuration.
-
-- The content is **not sent to the LLM**, **not included in chat or execution**, and **not used in monitoring**
-
-**Example uses:**
-
-- `Use this version for staging validation only.`
-- `Pending toolkit credential rotation before production rollout.`
-- `Draft variant created for testing alternative routing logic.`
-
 
 ## Designing Your Pipeline
 
-After the pipeline has been saved for the first time, the **center panel** of the pipeline editor contains the **Flow/YAML Editor**. Use the **Flow/YAML toggle** at the top of the editor to switch between the two modes.
+The **center panel** of the pipeline editor contains the canvas, available from the moment you open the editor — even before the first save. A toolbar at the top of the canvas has a **Flow** / **Yaml** toggle to switch between the visual and code views, plus a **Node** button to add nodes and a **Test Pipeline** button (once saved).
+
+<img src="../img/menus/pipeline/pipeline-canvas.png" alt="Agents_icon" />
+
 
 ### State Management
 
-The **State** feature in pipelines allows you to define and manage variables that persist throughout the entire pipeline execution. State variables enable data to be shared between different nodes, maintain context across workflow steps, and control the flow of information through your pipeline.
+**State** is your pipeline's memory — a set of key-value pairs that persist across the run and can be read or written by any node, letting you pass data between nodes, store intermediate results, and drive conditional logic.
 
-**What is Pipeline State?**
-
-Pipeline state is a collection of key-value pairs that store data during pipeline execution. These variables can be accessed and modified by any node in your workflow, making it possible to:
-
-* Pass data between nodes without explicit connections
-* Store intermediate results for later use
-* Implement conditional logic based on accumulated data
-* Track workflow progress and decision outcomes
-
-<Info>
+<Note>
 **Default State Variables**
 
-Every pipeline includes two built-in default state variables that are automatically available without manual configuration:
+Every pipeline includes built-in default state variables that are automatically available without manual configuration:
 
-* **`inputs`** - Captures user input and data provided when the pipeline is executed
-* **`messages`** - Stores the conversation history and message exchanges throughout pipeline execution
+* **`input`** - The most recent message from the user
+* **`messages`** - The complete conversation history
+* **`tool_outcomes`** - The accumulated results of tool calls made during execution
+* **`last_tool_outcome`** - The result of the most recently executed tool call
+* **`input_attachments`** - Added automatically when File Attachments are enabled (see [File Attachments](#file-attachments))
 
-These default states can be referenced using in your workflow nodes.
-</Info>
+Reference any state variable in your workflow nodes using `{{state.variable_name}}`.
+</Note>
 
-**How to Define State Variables:**
+**Managing State Variables:**
 
-1. In the **left panel**, locate the **State** section
-2. Click **+ Context** to create a new state variable
-3. Enter a **Variable Name** (use descriptive names like `project_id`, `analysis_result`, `counter`)
-4. Set an **default Value** (optional) - can be text, numbers, or JSON objects
-5. Click **Save** to apply your changes
+1. Click the **State** button at the top-right of the canvas to open the **State** drawer.
+    <img src="../img/menus/pipeline/state-button.png" alt="Pipeline State" width="200" />
+2. The drawer lists the default variables plus any custom ones you've added.
+3. Click **+ Context** to add a custom variable: enter a **Variable Name** (e.g. `project_id`, `analysis_result`, `counter`), select its data type — **String**, **Number**, **List**, or **Json** — and set an optional default value.
+4. Use **State Modifier** nodes to read or write state during execution, and reference state in any node's fields with `{{state.variable_name}}`.
 
-     <img src="../img/menus/pipeline/pipeline-state.gif" alt="Pipeline State" />
-
-**Using State in Your Pipeline:**
-
-Once defined, state variables can be accessed and modified throughout your pipeline:
-
-* **State Modifier Nodes**: Use these specialized nodes to read from and write to state variables during pipeline execution
-* **Reference in Nodes**: Access state variables in other nodes using the syntax `{{state.variable_name}}`
-* **Conditional Logic**: Use state variables in Decision and Router nodes to control workflow branches
-* **Data Transformation**: Pass state values between LLM, Code, and Toolkit nodes for complex processing
-
-<Tip>
-**Best Practices for State Management**
-
-* **Use Descriptive Names**: Choose clear, meaningful names for state variables (e.g., `customer_data` instead of `data1`)
-* **Initialize When Possible**: Set initial values to prevent undefined variable errors
-* **Document Purpose**: Add descriptions to help team members understand each variable's role
-* **Keep State Minimal**: Only store essential data to maintain pipeline performance
-* **Clean Up**: Clear or reset state variables when they're no longer needed
-</Tip>
+     <img src="../img/menus/pipeline/pipeline-state.png" alt="Pipeline State" width="300" />
 
 <Info>
 **Learn More About State Management**
 
-For detailed information about advanced state management techniques and examples, see the **[Pipeline State Management Guide](../how-tos/pipelines/states)**.
+For a full walkthrough of state, default variables, and advanced patterns, see the **[Pipeline States Guide](../how-tos/pipelines/states)**.
 </Info>
 
-### **Flow Designer**:
 
-* Use **Flow** mode (selected via the **Flow/YAML toggle** in the editor panel) to visually design your pipeline by connecting various nodes, such as **LLM**, **Agent**, **Toolkit**, **MCP**, **Code**, **Router**, **Decision**, **Human-in-the-Loop**, **State Modifier**, and **Printer**.
-* Add new nodes by clicking the **+** icon and selecting the desired node type from the dropdown menu.
-* Use the **End** node to define the completion of the pipeline.
-* Drag and drop connections between nodes to establish the workflow's logic and transitions.
-* Zoom in or out and adjust the view for better navigation and management of complex workflows.
+### Adding Nodes
 
-     <img src="../img/menus/pipeline/pipeline-add-nodes.gif" alt="Pipeline_Nodes" />
+1. Click the **Node** button in the canvas toolbar (or **Add Node** on an empty canvas) to open the node palette — a flat, searchable grid of every node type, such as **LLM**, **Agent**, **Toolkit**, **MCP**, **Code**, **Router**, **Decision**, **Human-in-the-Loop**, **State Modifier**, and **Printer**.
+
+     <img src="../img/menus/pipeline/pipeline-add-nodes.png" alt="Pipeline_Nodes" width= "550"/>
+
+2. Pick a type to place it directly on the canvas; its configuration panel opens automatically so you can set it up right away.
+
+     <img src="../img/menus/pipeline/node-panel.png" alt="Pipeline_Nodes" width= "550"/>
+
+3. A **Toolkit**, **MCP**, or **Agent** node is how you attach a specific resource: open the node's configuration panel and use its picker to select the toolkit, MCP server, agent, or pipeline (with inline search and a **"Create new"** option) — see **[Toolkits](./toolkits)**, **[MCPs](./mcps)**, and **[Agents](./agents)**. Everything attached this way is summarized read-only in the **Tools** section of the left panel.
+4. An **End** node is always present automatically to mark where a path terminates — it isn't added from the node palette, and stays hidden until you've placed your first node.
+
 
 <Tip>
 **Best Practices for Using Nodes**
@@ -387,24 +296,29 @@ For detailed information about advanced state management techniques and examples
 - **[Printer Node](../how-tos/pipelines/nodes/utility-nodes#printer-node)**: Output and display data during pipeline execution
 
 By following best practices and leveraging the available nodes, you can design efficient and scalable workflows tailored to your specific needs.
+
+**Learn More About Flow Designer**: For comprehensive information about using the Flow Designer and advanced workflow design techniques, see the **[Flow Designer Guide](../how-tos/pipelines/flow-editor)**. For details on entry points, transitions, and the End node, see the **[Node Connectors Guide](../how-tos/pipelines/nodes-connectors)**.
 </Tip>
 
-<Info>
-**Learn More About Flow Designer**
+**Flow Designer**
 
-For comprehensive information about using the Flow Designer and advanced workflow design techniques, see the **[Flow Designer Guide](../how-tos/pipelines/flow-editor)**.
-</Info>
+* Use **Flow** mode to visually design your pipeline on the canvas.
+* Connect nodes by dragging from one node's handle to another's, or click the **+** next to an output handle to create or pick the next node without dragging.
+* Use the canvas toolbar in the bottom-left corner to zoom in/out, fit the view, lock/unlock the canvas, auto-arrange nodes, and show/hide the minimap.
 
 ### **YAML Editor**:
 
-* Switch to **YAML** mode using the **Flow/YAML toggle** in the editor panel for code-based configuration.
-* Define complex workflows, conditions, and logic that may not be easily achievable through the visual Flow Designer.
-* Use the YAML editor to fine-tune node configurations, set advanced parameters, and integrate custom logic.
-* Validate your YAML syntax to ensure the pipeline runs smoothly without errors.
+The Flow Designer has two YAML editing surfaces — one for the whole pipeline, and one scoped to a single node — both useful for a code-first approach, intricate logic the visual designer can't express, or replicating and tweaking an existing pipeline quickly.
 
-<img src="../img/menus/pipeline/pipeline-yaml-editor.gif" alt="Pipeline_Yaml" />
+* **Whole-pipeline YAML**: Switch the canvas-top toggle to **Yaml** mode to view and edit the entire pipeline's definition as code — nodes, transitions, and settings all in one place.
 
-* This is particularly useful for users who prefer a code-first approach, need to implement intricate logic, or want to replicate and modify existing pipelines efficiently.
+     <img src="../img/menus/pipeline/pipeline-yaml-editor.png" alt="Pipeline_Yaml" />
+
+* **Single-node YAML**: Inside any node's configuration panel, use its **Flow view** / **YAML view** toggle to edit just that node's settings as raw YAML, without leaving Flow mode or switching the whole canvas.
+
+     <img src="../img/menus/pipeline/node-yaml-view.png" alt="Pipeline_Yaml" />
+
+In either view, the editor validates your YAML syntax as you type, so you can catch errors before they stop the pipeline from running.
 
 <Info>
 **Learn More About YAML Configuration**
@@ -412,85 +326,96 @@ For comprehensive information about using the Flow Designer and advanced workflo
 For detailed information about YAML syntax, configuration options, and advanced pipeline programming, see the **[YAML Editor Guide](../how-tos/pipelines/yaml)**.
 </Info>
 
-## How to Execute Pipeline
+## Test Pipeline
 
-To execute the pipeline and get the output:
+Pipelines are run and tested through the embedded chat inside the pipeline editor — there is no separate standalone execution page. The **Test Pipeline** button that opens this chat stays disabled (with a tooltip explaining why) until the pipeline has been saved and the workflow is actually runnable: it needs at least one node connected to **End**, an entry point set, a path from that entry point to **End**, and every node fully configured — any missing required field blocks the button until it's filled in.
 
-1. **Configure the Pipeline**: Ensure your pipeline is properly configured with clear instructions and any necessary tools.
-2. **Navigate to Pipeline**: Access the pipeline's interface by clicking on the pipeline from your pipelines list.
-3. **Select the AI Model**: In the interface, choose the appropriate AI model (e.g., gpt-4o, gpt-5.1, etc.) from the model selection dropdown.
-4. **Adjust Model Settings** (Optional): Click the **Model Settings** icon (⚙️) next to the model selector to fine-tune the response generation. The settings vary depending on the selected model:
+**Open the Test Chat**: Click **Test Pipeline** in the canvas toolbar to open the embedded chat panel.
 
-    **For Reasoning Models** (e.g., GPT-5.1):
-    
-    * **Reasoning** - Controls the depth of logical thinking and problem-solving with three levels:
-        * **Low**: Fast, surface-level reasoning with concise answers and minimal steps
-        * **Medium**: Balanced reasoning with clear explanations and moderate multi-step thinking (default)
-        * **High**: Deep, thorough reasoning with detailed step-by-step analysis (may be slower)
-    
-    **For Standard Models** (e.g., GPT-4o):
-    
-    * **Creativity** - Controls response randomness and creativity. Lower values produce more focused and deterministic outputs, while higher values generate more diverse and creative responses with five levels (1-5):
-        * **1**: Highly focused and deterministic outputs
-        * **2**: Mostly focused with slight variation
-        * **3**: Balanced between focus and creativity (default)
-        * **4**: More varied and creative responses
-        * **5**: Maximum creativity and diversity
-    
-    **Max Completion Tokens** Limits the maximum length of AI responses measured in tokens (roughly 4 characters per token).(All Models):
-    
-    * **Auto** (default): System automatically sets the token limit to 4096 tokens
-    * **Custom**: Manually set a specific token limit for responses
-        * When Custom is selected, you can enter a specific number of maximum tokens
-        * The interface shows remaining tokens available after your specified limit
-        * Setting too high a value will show an error if it exceeds the model's maximum output tokens
+<img src="../img/menus/pipeline/test-pipeline-button.png" alt="Pipeline_Test" />
 
+### Select & Configure the AI Model
 
-    <img src="../img/menus/pipeline/pipeline-model-settings.gif" alt="Pipeline-Model-Settings" />   
+Before sending a message, you can choose which AI model processes the pipeline and optionally adjust its parameters.
 
-5. **Start Interaction**: Begin your conversation by either:
-     - Clicking on a **Conversation Starter** (if configured) to use a predefined prompt
-     - Typing your question or command directly into the chat input field
-     - Using simple commands like "Go", "Start Generating", "Execute", or "Run it" followed by clicking the **Send** button
+1. Select the **model button** in the chat panel's toolbar to open the model selector dropdown.
+2. Choose the desired model from the list (for example, `gpt-4o`, `gpt-5.1`).
+3. Select the **Model Settings** icon (⚙️) next to the model button to adjust generation parameters.
 
-**Additional Interaction Features:**
+   <img src="../img/menus/pipeline/model-select.png" alt="Pipeline-Model-Settings" width="450"/>
 
-* **Full Screen Mode**: Increase the size of the output window for better visibility and focus. This mode can be activated to expand the output interface to the full screen.
-* **Continue the Dialogue**: To keep the conversation going, simply type your next question or command in the chat box and click the **Send** icon.
-* **Copy the Output**: Click the **Copy to Clipboard** icon to copy the generated text for use elsewhere.
-* **Regenerate Response**: If the output isn't satisfactory, click the **Regenerate** icon to prompt the Gen AI to produce a new response.
-* **Delete Output**: To remove the current output from the chat, click the **Delete** icon.
-* **Purge Chat History**: For a fresh start or to clear sensitive data, click the **Clean** icon to erase the chat history.
-* **Like or Dislike the Output**: 
-    * Click the **Like** icon if the output meets your expectations.
-    * Click the **Dislike** icon if the output is unsatisfactory. Upon disliking, you will have the option to leave a comment explaining why the output did not meet your expectations. This feedback helps improve the system's performance and relevance.
+<Tabs>
+  <Tab title="Reasoning Models (e.g. GPT-5.1)">
+    | Parameter | Description |
+    |-----------|-------------|
+    | **Reasoning** | Controls the depth of logical thinking and problem-solving. Available levels depend on the selected model. |
 
-     <img src="../img/menus/pipeline/pipeline-execution.png" alt="Pipeline-Execution" />
+    | Level | Behavior |
+    |-------|----------|
+    | **Low** | Fast, surface-level reasoning with concise answers and minimal steps |
+    | **Medium** | Balanced reasoning with clear explanations and moderate multi-step thinking *(default)* |
+    | **High** | Deep, thorough reasoning with detailed step-by-step analysis (may be slower) |
+
+       <img src="../img/menus/pipeline/reasoning-settings.png" alt="Pipeline-Model-Settings" width="450"/>
+
+    <Note>
+    Some models expose additional levels such as **Minimal** or **Extra High**, or only a single fixed level.
+    </Note>
+  </Tab>
+  <Tab title="Standard Models (e.g. GPT-4o)">
+    | Parameter | Description |
+    |-----------|-------------|
+    | **Creativity** | Controls response randomness. Lower values produce focused, deterministic outputs; higher values produce more varied and creative responses. |
+
+    | Level | Behavior |
+    |-------|----------|
+    | **1** | Highly focused and deterministic outputs |
+    | **2** | Mostly focused with slight variation |
+    | **3** | Balanced between focus and creativity *(default)* |
+    | **4** | More varied and creative responses |
+    | **5** | Maximum creativity and diversity |
+
+     <img src="../img/menus/pipeline/creativity-settings.png" alt="Pipeline-Model-Settings" width="450"/>
+
+  </Tab>
+</Tabs>
+
+**Max Completion Tokens** *(All Models)* — limits the maximum length of AI responses, measured in tokens (roughly 4 characters per token):
+
+| Option | Description |
+|--------|-------------|
+| **Auto** | No custom ELITEA limit is applied — the provider and model's own native output limit is used *(default)* |
+| **Custom** | Manually set a specific token limit for responses. The field is pre-filled with a starting value of 4096 tokens, which you can edit; the interface shows remaining tokens available, and setting too high a value shows an error if it exceeds the model's maximum output tokens. |
+
+### Start the Conversation
+
+If a **Welcome Message** is configured, it appears first. Begin by either:
+
+- Clicking a **Conversation Starter** (if configured) — this fills the input with that prompt, so you can edit it before sending
+- Typing your own instruction into the chat input field and clicking **Send**
+
+<img src="../img/menus/pipeline/pipeline-execution.png" alt="Pipeline-Execution" />
+
+**Chat Actions:**
+
+| Action | Icon / Location | Description |
+|--------|------------------|-------------|
+| **Send** | Send icon, chat input | Submits your message and continues the conversation |
+| **Read out** | Megaphone icon, below each response | Reads the response aloud using Text-to-Speech — see [Text-to-Speech](#text-to-speech) |
+| **Copy to clipboard** | Below each response | Copies the response text for use elsewhere |
+| **Regenerate** | Below each response | Produces a new response to replace the current one |
+| **Edit response** | Below each response | Edits the response text in place *(not currently enabled on this release)* |
+| **Delete** | Below each response | Removes that response from the chat |
+| **Clear the chat** | Chat panel toolbar | Erases the entire conversation history for a fresh start |
+| **Run History** | Clock icon, chat panel toolbar | Opens past runs — see [Pipeline Runs](#pipeline-runs) below |
 
 ### Managing Context Budget
 
-When the `context_manager` secret is enabled at the project level, the **Context Budget** widget appears during pipeline execution to help you manage token usage effectively. This feature provides intelligent control over conversation token consumption through automated message pruning and summarization.
+Context Budget management is **enabled by default** for every project (a project administrator can disable it by setting the `context_manager` secret to `false`). It keeps long conversations within the model's token limits through automatic message pruning and summarization, so the pipeline keeps working without hitting a token limit.
 
-**What is Context Management?**
+Once enabled, the **Context Budget** widget appears above the chat during pipeline execution. Click it to expand and view detailed metrics and configuration options.
 
-Context Management helps maintain conversation continuity while staying within model token limits by automatically managing message history, generating summaries of older conversations, and preserving important messages. This ensures your pipeline can handle longer conversations without hitting token limitations.
-
-**Key Features:**
-
-* **Real-time Token Tracking**: Monitor token consumption as your pipeline processes requests
-* **Automatic Pruning**: System removes older messages when context limit is reached
-* **Conversation Summarization**: Generate summaries of conversation history to preserve context
-* **Message Preservation**: Configure how many recent messages to always keep
-* **Flexible Strategies**: Choose between different pruning strategies based on your needs
-
-**Accessing the Context Budget Widget:**
-
-1. Ensure the `context_manager` secret is set to `true` in your project settings
-2. Start executing your pipeline
-3. The Context Budget widget appears above the chat interface
-4. Click to expand and view detailed metrics and configuration options
-
-     <img src="../img/menus/pipeline/pipeline-context-management.gif" alt="Context Management" />
+     <img src="../img/menus/pipeline/pipeline-context-management.png" alt="Context Management" />
 
 <Info>
 **Learn More About Context Management**
@@ -500,19 +425,13 @@ For detailed information about context management configuration, strategies, and
 
 ### Pipeline Runs
 
-Each time you execute a pipeline, the system creates a **pipeline run** that captures the complete execution context, including inputs, outputs, state changes, and performance metrics. Pipeline runs provide valuable insights into how your workflows perform and help with debugging and optimization.
+Each time you execute a pipeline, the system creates a **pipeline run** that captures the complete execution context — inputs, outputs, state changes, and performance metrics. While a run is executing (or just after), a run chip appears at the top of the Flow Designer canvas showing its status (**Completed**, **Error**, **Stopped**, or **In Progress**); if multiple runs exist, a clock icon lets you switch between them.
 
-**Key Features of Pipeline Runs:**
+Click the run chip to open the **Run Details** dialog: a step-by-step timeline of every node the run executed, with the state snapshot before and after each step, and any error details. From here you can **Stop** a run that's still in progress, or **Delete** one that's finished.
 
-* **Execution Tracking**: Monitor the progress and status of each pipeline execution in real-time
-* **Input/Output Capture**: Review the exact inputs provided and outputs generated for each run
-* **State Evolution**: Track how state variables change throughout the execution
-* **Performance Metrics**: Analyze execution time, token usage, and resource consumption
-* **Error Diagnostics**: Identify where failures occur and access detailed error messages
+     <img src="../img/menus/pipeline/run-details.png" alt="Run Details" />
 
-Pipeline runs are automatically saved and can be accessed through the **Run History** panel (clock icon in the chat panel), where you can replay past executions, compare different runs, and analyze workflow behavior over time.
 
-![Run](../img/menus/pipeline/run-details.gif)
 
 <Info>
 **Learn More About Pipeline Runs**
@@ -520,7 +439,7 @@ Pipeline runs are automatically saved and can be accessed through the **Run Hist
 For comprehensive information about managing and analyzing pipeline runs, including advanced debugging and optimization techniques, see the **[Pipeline Runs Guide](../how-tos/pipelines/pipeline-runs)**.
 </Info>
 
-## Voice Capabilities
+### Voice Capabilities
 
 The pipeline execution interface supports voice input and voice output, letting you dictate prompts and have pipeline responses read back to you.
 
@@ -529,7 +448,7 @@ The pipeline execution interface supports voice input and voice output, letting 
     Dictate prompts into the chat input field. Transcribed text is inserted at the cursor position in real time.
   </Card>
   <Card title="Text-to-Speech" icon="volume-high">
-    Have pipeline responses read aloud. Pause and resume playback from a mini-player pill in the input area.
+    Have pipeline responses read aloud, with adjustable voice, speed, and volume, from a mini-player pill in the input area.
   </Card>
   <Card title="Speaking Mode" icon="waveform-lines">
     Hands-free voice loop. ELITEA records, sends, speaks the pipeline's response, and listens again — automatically.
@@ -538,70 +457,73 @@ The pipeline execution interface supports voice input and voice output, letting 
 
 ---
 
-### Voice Input
+<Tabs>
+  <Tab title="Voice Input">
+    **Voice Input** lets you dictate prompts directly into the pipeline input field. The transcribed text is inserted at the cursor position, so you can combine typed and spoken content in the same message.
 
-**Voice Input** lets you dictate prompts directly into the pipeline input field. The transcribed text is inserted at the cursor position, so you can combine typed and spoken content in the same message.
+    **How to use Voice Input:**
 
-**How to use Voice Input:**
+    1. Click the **microphone** icon in the message input toolbar to start recording.
+    2. Speak your prompt. A live transcript appears in the input field as you talk — interim results update in real time.
+    3. Click the **Stop** (■) button to finish recording. The final transcript is committed and focus returns to the input field.
 
-1. Click the **microphone** icon in the message input toolbar to start recording.
-2. Speak your prompt. A live transcript appears in the input field as you talk — interim results update in real time.
-3. Click the **Stop** (■) button to finish recording. The final transcript is committed and focus returns to the input field.
+        <img src="../img/menus/pipeline/voice-input.png" alt="Voice Input" />
 
-   ![Voice Input](../img/menus/pipeline/voice-input.gif)
+    <Note>
+    Voice Input uses a server-side ASR (automatic speech recognition) model if configured in **Settings → AI Configuration**, or falls back to the browser's built-in Web Speech API. If neither is available, the microphone icon is hidden. If a platform administrator has temporarily disabled voice features, the icon is shown disabled with a tooltip explaining why.
+    </Note>
+  </Tab>
+  <Tab title="Text-to-Speech">
+    **Text-to-Speech** reads pipeline responses aloud. A **Read out** button (megaphone icon) appears in the action bar below each pipeline response when the message contains speakable text.
 
-<Note>
-Voice Input uses a server-side ASR (automatic speech recognition) model if configured in **Settings → AI Configuration**, or falls back to the browser's built-in Web Speech API. If neither is available, the microphone icon is hidden.
-</Note>
+    **How to use Text-to-Speech:**
 
----
+    1. Click the **Read out** (megaphone) button below a pipeline response to start playback.
+    2. The text is highlighted word-by-word as it is read aloud, and a playback pill appears in the input area.
+    3. In the playback pill, click the **Play/Stop** toggle to stop playback (or start it again); click the **Voice settings** (gear) icon to open the **Voice settings** dialog.
 
-### Text-to-Speech
+         <img src="../img/menus/pipeline/text-to-speech.png" alt="Text-to-Speech" width="400"/>
 
-**Text-to-Speech** reads pipeline responses aloud. A **Read out** button (megaphone icon) appears in the action bar below each pipeline response when the message contains speakable text.
+    **Voice Settings:**
 
-**How to use Text-to-Speech:**
+    The **Voice settings** dialog lets you adjust playback before or between sessions:
 
-1. Click the **Read out** (megaphone) button below a pipeline response to start playback.
-2. The text is highlighted as it is read aloud.
-3. A playback pill appears in the input area with **Pause** and **Resume** controls.
-4. Click **Pause** to stop playback mid-sentence; click **Resume** to continue from where it left off.
+    - **Voice**: Choose from the TTS model's available voices (e.g. `alloy`), or a browser voice if no model is configured.
+    - **Speed**: Adjust playback rate from 0.5× to 2.0×.
+    - **Volume**: Adjust playback volume from 0% to 100%.
 
-   ![Text-to-Speech](../img/menus/pipeline/text-to-speech.gif)
+         <img src="../img/menus/pipeline/voice-settings.png" alt="Voice Settings"  width="400" />
 
+    <Note>
+    When a TTS model is configured in **Settings → AI Configuration**, ELITEA uses that model for audio generation. If no TTS model is configured, playback falls back to the browser's built-in SpeechSynthesis API — the Voice selector then lists browser voices instead.
+    </Note>
+  </Tab>
+  <Tab title="Speaking Mode">
+    **Speaking Mode** is a continuous, hands-free voice loop. Once activated, ELITEA automatically records your speech, sends your prompt after a pause, plays back the pipeline's response, and then starts listening again — without any manual interaction between turns.
 
-<Note>
-When a TTS model is configured in **Settings → AI Configuration**, ELITEA uses that model for audio generation. If no TTS model is configured, playback falls back to the browser's built-in SpeechSynthesis API.
-</Note>
+    **How to activate Speaking Mode:**
 
----
+    1. Leave the message input field empty.
+    2. Click the **voicewave** icon (shown in place of the Send button when the input is empty) to enter Speaking Mode.
+    3. A voicewave pill with an **Exit** (✕) button replaces the send button, indicating Speaking Mode is active.
+    4. Speak your prompt. After **3 seconds of silence**, your message is automatically sent.
+    5. The pipeline response streams in and is read aloud via Text-to-Speech.
+    6. Once the response finishes playing, recording starts again for the next turn.
+    7. Click the **✕** button in the voicewave pill to exit Speaking Mode at any time.
 
-### Speaking Mode
+         <img src="../img/menus/pipeline/speaking-mode.png" alt="Speaking Mode" />
 
-**Speaking Mode** is a continuous, hands-free voice loop. Once activated, ELITEA automatically records your speech, sends your prompt after a pause, plays back the pipeline's response, and then starts listening again — without any manual interaction between turns.
-
-**How to activate Speaking Mode:**
-
-1. Leave the message input field empty.
-2. Click the **voicewave** icon (shown in place of the Send button when the input is empty) to enter Speaking Mode.
-3. A voicewave pill with an **Exit** (✕) button replaces the send button, indicating Speaking Mode is active.
-4. Speak your prompt. After **3 seconds of silence**, your message is automatically sent.
-5. The pipeline response streams in and is read aloud via Text-to-Speech.
-6. Once the response finishes playing, recording starts again for the next turn.
-7. Click the **✕** button in the voicewave pill to exit Speaking Mode at any time.
-
-   ![Speaking Mode](../img/menus/pipeline/speaking-mode.gif)
-
-
-<Note>
-Speaking Mode requires a voice recognition source (server ASR model or browser Web Speech API) for input and uses Text-to-Speech for output. If you start manual voice input while Speaking Mode is active, Speaking Mode is automatically deactivated.
-</Note>
+    <Note>
+    Speaking Mode requires a voice recognition source (server ASR model or browser Web Speech API) for input and uses Text-to-Speech for output. If you start manual voice input while Speaking Mode is active, Speaking Mode is automatically deactivated.
+    </Note>
+  </Tab>
+</Tabs>
 
 ---
 
 ## File Attachments
 
-Enable users to upload and share files — documents, images, code files, and more — directly in pipeline conversations. When Attachments are enabled, ELITEA automatically injects a file-storage and retrieval toolkit into the pipeline at execution time, and adds an `input_attachments` state variable that any pipeline node can reference.
+Enable users to upload and share files — documents, images, code files, and more — directly in pipeline conversations. Once enabled, files are uploaded from the pipeline's **Test Pipeline** panel using the paperclip icon, drag-and-drop, or clipboard paste in the chat input. When Attachments are enabled, ELITEA automatically injects a file-storage and retrieval toolkit into the pipeline at execution time, and adds an `input_attachments` state variable that any pipeline node can reference.
 
 <CardGroup cols={3}>
   <Card title="Enable Once" icon="toggle-on">
@@ -626,7 +548,7 @@ File attachment support is **disabled by default** for pipelines. To enable it:
 3. Toggle **Attachments**.
 4. Select **Save** to apply changes.
 
-<img src="../img/menus/pipeline/euch_attachments.png" width="400px" alt="Enable attachments"/>
+    <img src="../img/menus/pipeline/file-attachments.png" width="400px" alt="Enable attachments"/>
 
 <Note>
 When you enable Attachments, ELITEA automatically adds an `input_attachments` state variable (type: `list`, default: `[]`) to the pipeline's YAML `state` section. When you disable Attachments, the variable is automatically removed. No manual YAML editing is needed.
@@ -642,7 +564,7 @@ Attachments require a **default vector storage (pgvector)** and a **default embe
 
 Once Attachments are enabled for the pipeline, three methods are available in the chat input:
 
-- **Paperclip icon (📎)** — Click the paperclip button in the message input toolbar to open the system file picker and select one or more files. The tooltip shows how many attachment slots remain (*"Attach files (N left)"*) and is disabled once the maximum is reached.
+- **Paperclip icon** — Click the paperclip button in the message input toolbar to open the system file picker and select one or more files. The tooltip shows how many attachment slots remain (*"Attach files (N left)"*) and is disabled once the maximum is reached.
 - **Drag and drop** — Drag files from your operating system and drop them directly onto the chat input area.
 - **Clipboard paste** — Copy files to your clipboard and press **Ctrl+V** while the chat input is focused to attach them instantly.
 
@@ -650,35 +572,39 @@ Attached files appear above the message input before you send:
 - **Images** are displayed as thumbnail previews in a grid layout.
 - **Other files** (documents, code, data, archives) are displayed as filename chips showing the file name and type icon.
 
-![Attach Files](../img/menus/pipeline/pipeline-attach-file.gif)
+    ![Attach Files](../img/menus/pipeline/pipeline-attach-file.png)
 
 
 ---
 
 **File Limits**
 
-| Limit | Value |
+The limits below are the platform defaults; a project administrator can reconfigure each one for the project.
+
+| Limit | Default Value |
 |-------|-------|
 | Maximum files per message | 10 |
 | Maximum total size per message | 150 MB |
 | Maximum size per individual file | 150 MB |
 | Maximum images per message | 10 |
-| Maximum size per image file | 5 MB *(SVG excluded from size limit)* |
+| Maximum size per image file | 3 MB *(SVG excluded from size limit)* |
 
 ---
 
 **Supported File Types**
 
-Supported file types are configured by platform administrators through document loaders. The following categories are typically available:
+Supported file types are fetched dynamically from the platform's registered document loaders, so the exact list can vary by deployment. The following are typically available:
 
 | Category | Examples |
 |----------|---------|
-| **Images** | JPEG, PNG, GIF, BMP, WebP, SVG, TIFF, ICO, AVIF, APNG |
-| **Documents** | PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX |
-| **Code** | JS, TS, JSX, TSX, Python, Java, C#, PHP, Ruby, Go, Rust, Kotlin, Swift, C, C++ |
-| **Data** | CSV, TSV, JSON, YAML, XML, SQL |
-| **Text** | TXT, MD, RST |
-| **Archives** | ZIP, TAR, GZ, RAR, 7-ZIP |
+| **Images** | JPEG, PNG, GIF, WebP, BMP, SVG |
+| **Documents** | PDF, DOCX, XLS, XLSX, PPTX, JSON, JSONL, HTML, XML, EML, MSG |
+| **Code** | JS, JSX, TS, TSX, Python, Java, C#, PHP, Ruby, Go, Rust, Kotlin, Swift, C, C++, SQL, YAML, Shell, and more |
+| **Text** | TXT, MD/MDX |
+
+<Note>
+Legacy binary **.doc** and **.ppt** files are not supported — convert them to **.docx** / **.pptx** first. Archive formats (ZIP, TAR, etc.) are not supported as pipeline attachments.
+</Note>
 
 ---
 
@@ -697,6 +623,100 @@ Pipeline nodes can reference uploaded files using `{{state.input_attachments}}`.
 
 <Info>
 The `input_attachments` state variable is fully managed by the platform. It is added when Attachments are enabled and removed when they are disabled. The backend automatically injects the file-storage toolkit (using the project's default attachment bucket, vector storage, and embedding model) at predict time — no manual toolkit configuration is required.
+</Info>
+
+---
+
+## Schedules
+
+The **Schedules** section in the left configuration panel lets you configure one or more recurring, timed executions of the pipeline, independent of its chat/webhook entry-point trigger. This section only appears for users with permission to list schedules.
+
+Each schedule card shows:
+
+| Field | Description |
+|-------|-------------|
+| **Name** | A label you give the schedule to identify it. |
+| **Owner** | The user the scheduled run executes as. Omitted if the schedule has no owner. |
+| **Rule summary** | A plain-English summary of the cron rule (e.g. "At 09:00, only on Monday through Friday"), along with a "Shown: {timezone}" hint indicating the (browser) timezone used to display run times. |
+| **Last run** | The timestamp and status (e.g. Success, Failed) of the most recent scheduled execution, or "Never run". |
+| **Next run** | The timestamp of the next scheduled execution, or "Paused" if the schedule is currently disabled. |
+
+<img src="../img/menus/pipeline/pipeline-schedules.png" alt="Pipeline Schedules" />
+
+**Schedule Action**
+
+    | Action | Description |
+    |--------|-------------|
+    | **Run now** | Triggers an immediate run outside the regular schedule. |
+    | **Edit** | Same as the footer Edit icon. |
+    | **Pause** / **Resume** | Same as the Enabled toggle. |
+    | **Open run history** | Jumps to this schedule's runs in [Run History](#viewing-pipeline-history). |
+    | **Delete** | Same as the footer Delete icon, with its own typed-name confirmation. |
+
+<Note>
+**Change owner** is only available from the three-dot menu on the cross-project **Manage Schedules** table (see below) — it does not appear on the in-editor card.
+</Note>
+
+### Create Schedule
+
+Click **+ Schedule** to create a new schedule from this pipeline. This opens a dedicated schedule page — already locked to this pipeline and its version — with the following fields:
+
+| Field | Description |
+|-------|-------------|
+| **Name** | Required. Identifies the schedule. |
+| **Description** | Optional, up to 2304 characters. |
+| **Run mode** | **Entry point** (runs the pipeline's normal entry point) or **Prompt** (sends a prompt instead). |
+| **Prompt** | Shown only when Run mode is **Prompt**. The prompt (and any variables) sent on each run. |
+| **Cron rule** | Set via a plain-language **Builder** tab or a **Cron expression** tab, with a live preview and a link to crontab.guru. |
+| **Stop on a date** | Optional. Automatically disables the schedule after the chosen date. |
+| **Approval rule** | **Pause and ask me** (default, pauses the run for approval each time) or **Run without asking** (requires typing the schedule's name to confirm, and reverts to "Pause and ask me" automatically if the pipeline later gains new sensitive tools). Only relevant if the pipeline uses sensitive tools. |
+
+<Note>
+**Generate with AI**: A button next to the page title opens a dialog where you describe the schedule in plain language (what to run, when, and until when). It drafts the fields above from that description — reviewed as a full draft on an empty form, or as a field-by-field diff against your current values if you've already filled some in, with any warnings about fields it couldn't confidently fill. Apply the draft to fill in the form, then review and adjust before saving.
+</Note>
+
+<Note>
+Creating a schedule directly from the **Settings → Schedules** page (rather than from inside a pipeline) adds an extra **Agent / Pipeline** toggle and an **entity + version** picker up front, since no pipeline is pre-selected there.
+</Note>
+
+    <img src="../img/menus/pipeline/add-schedule.png" alt="Pipeline Schedules" />
+
+
+### Edit Schedule
+
+Click the **Edit** icon on a schedule card (or **Edit** from its three-dot menu) to open the same form pre-filled with its current values. It adds the following, not present when creating:
+
+| Field / Area | Description |
+|---------------|-------------|
+| **Owner** | Read-only — who the schedule runs as. |
+| **Confirmed by** | Shown if this schedule has a prior "Run without asking" confirmation on record — who confirmed it and when. |
+| **Runs** | A sortable "Runs of this schedule" list below the Test panel. Click a run to open it in the panel above; **Open full history** jumps to the full [Run History](#viewing-pipeline-history). |
+| **⋮ More actions (header)** | **Export** (requires the schedules-export permission). |
+
+    <img src="../img/menus/pipeline/edit-schedule.png" alt="Pipeline Schedules" width="200" />
+
+
+**How to Test a Schedule:**
+
+1. Open the schedule for editing. A **Test schedule** panel appears to the right of the form.
+2. Click **Run test** to trigger an immediate run using the schedule's current settings.
+3. Watch the run play out in the panel's **LIVE LOG**.
+4. If the run pauses for approval, use the inline **Approve** / **Reject** control to continue it.
+5. When the run finishes, its result appears below the log.
+
+    <img src="../img/menus/pipeline/test-schedules.png" alt="Pipeline Schedules" />
+
+
+<Note>
+A test run uses the same account, tools, and risk check as a real scheduled run. It's logged and marked as "test", but never changes **Last run** or **Next run**.
+</Note>
+
+### Manage Schedules
+
+Click **Manage Schedules** to leave this pipeline and open the project-wide **Schedules** page under Settings, which lists every schedule across all agents and pipelines in the project — not just this one. It opens pre-filtered to this pipeline, with the filter shown as a removable chip, so you can switch to browsing or managing every schedule in the project from the same place.
+
+<Info>
+For full details on the Schedules page — filters, columns, bulk actions, import/export — see the **[Schedules settings guide](../menus/settings/schedules)**.
 </Info>
 
 ---
@@ -732,7 +752,7 @@ Pipelines support versioning, allowing you to maintain multiple iterations of a 
 |-----------|---------------|-------------|
 | **Create version** | **Save As Version** button in toolbar | Save current changes as a new named version |
 | **Switch versions** | **Version** dropdown in toolbar | Navigate between existing versions to view or edit |
-| **Execute** | **Execute** action on a version | Run that specific version of the Pipeline |
+| **Set as default / Export / Share / Compare versions / Fork / Publish / Unpublish** | Version's three-dot menu (⋮) | Additional per-version actions — a version is run by selecting it and using the test chat or Execute flow, not a separate menu action |
 | **Delete version** | **Delete** action on a version | Remove a version that is no longer needed |
 
 <img src="../img/menus/pipeline/version-selector.png" alt="Pipeline New Version" />
@@ -740,8 +760,7 @@ Pipelines support versioning, allowing you to maintain multiple iterations of a 
 <Tip>
 **Best Practices for Version Naming**
 
-- **Length**: Keep the version name concise, not exceeding 48 characters, for readability and compatibility across systems.
-- **Characters**: Avoid special characters such as spaces (" ") and underscores ("_") that might cause parsing issues in some environments.
+- **Length**: Keep the version name concise. The quick **Save As Version** dialog allows up to 255 characters with no character restrictions; the **Publish** wizard's version-naming step limits names to 50 characters, allowing only letters, numbers, dots, hyphens, and underscores.
 - **Clarity**: Choose names that clearly describe the version's purpose or the changes it introduces, for easier tracking and management.
 </Tip>
 
@@ -811,23 +830,17 @@ For complete details and agent forking, see the **[Fork Agents and Pipelines gui
 
 ---
 
-### Viewing Pipeline History
+### Pipeline History
 
-The **Run History** panel provides a complete audit trail of all past executions of your pipeline.
+The **Run History** panel is a persisted, complete audit trail of every past execution of your pipeline — useful for reviewing past conversations, comparing how different versions performed, debugging by replaying a run, and keeping records for compliance.
 
 **How to access Run History:**
 
-1. Open any saved pipeline.
-2. In the **right panel** (embedded chat area), click the **clock icon** (🕐) in the top bar. The tooltip reads *"View run history"*.
-3. The pipeline page is replaced by the two-panel Run History display. Click the **✕ (Close)** button in the top-left to return.
+1. Open any saved pipeline and click **Test Pipeline** to open the embedded chat panel.
+2. In the chat panel's toolbar, click the **clock icon**. The tooltip reads *"Run History"*.
+   <img src="../img/menus/pipeline/run-history-button.png" alt="Pipeline" />
 
-**What Run History shows:**
-
-- **Review past conversations**: View complete chat histories from previous pipeline runs
-- **Track performance**: Monitor execution duration across different versions
-- **Debug issues**: Replay conversations to identify where problems occurred
-- **Compare versions**: See how different pipeline versions performed with the same inputs
-- **Audit trail**: Maintain records of all pipeline interactions for compliance purposes
+3. The pipeline page navigates to the two-panel Run History view. Use the breadcrumb trail at the top of the page to return to the pipeline — there is no dedicated close button.
 
 **Run History layout:**
 
@@ -838,14 +851,19 @@ The Run History panel uses a two-panel layout:
     | Column | Description |
     |--------|-------------|
     | **Date** | Timestamp of the run in `dd-MM-yyyy, hh:mm a` format |
+    | **Schedule** | Shows the schedule that triggered the run, linking to that schedule's settings. |
     | **Version** | Pipeline version used for the run |
     | **Duration** | Total execution time of the run |
 
-    Click a row to load the conversation replay in the right panel. Each row also has a **three-dot menu (⋮)** with: **Share link**, **Delete**, **Restore conversation**, and **Analytics** (shown only for runs recent enough to carry usage-tracking data).
+    Click a row to load the conversation replay in the right panel. Each row also has a **three-dot menu (⋮)** with: **Share link**, **Delete**, **Restore chat**, and **Analytics** (shown only for runs recent enough to carry usage-tracking data).
 
 - **Right panel** — full conversation replay of the selected run.
 
-     <img src="../img/menus/pipeline/pipeline-history-tab.png" alt="History Tab" />
+     <img src="../img/menus/pipeline/pipeline-history.png" alt="History Tab" />
+
+<Note>
+If the pipeline has at least one [Schedule](#schedules) configured, a **Schedule** dropdown also appears above the list (default: **All schedules**), letting you filter Run History down to runs triggered by a specific schedule.
+</Note>
 
 **Run Analytics:**
 
@@ -861,7 +879,7 @@ Selecting **Analytics** from a run's three-dot menu opens a dedicated page scope
   <img src="../img/menus/pipeline/analytics-tokens-tab.png" alt="Run Analytics - Tokens" />
   </Tab>
   <Tab title="Tools">
-  A Tool Details table (calls, users, average latency, errors) with search and pagination.
+  A Tool Details table (calls, users, average latency, errors) with search and pagination. This tab is hidden if the run made no tool calls.
   <img src="../img/menus/pipeline/analytics-tools-tab.png" alt="Run Analytics - Tools" />
   </Tab>
   <Tab title="Health">
@@ -879,7 +897,7 @@ Downloads one worksheet per tab—Costs, Tokens, Tools, and Health—covering ev
 <Note>
 **Availability**
 
-**Analytics** is not available for previous runs—usage-tracking data is only recorded for runs created after release 2.0.7. The menu item does not appear for any run older than that.
+**Analytics** is only available for runs whose last-updated timestamp is on or after September 30, 2026 (UTC) — the date per-run usage-tracking data started being recorded. The menu item does not appear for runs older than that cutoff; restoring or re-running an old conversation updates its timestamp and can make Analytics available for it.
 </Note>
 
 <Info>
@@ -888,28 +906,33 @@ Downloads one worksheet per tab—Costs, Tokens, Tools, and Health—covering ev
 For detailed instructions on using the History panel, please refer to the **[Agents and Pipelines History Guide](../how-tos/agents-pipelines/agents-pipelines-history)**.
 </Info>
 
+---
 
-### INFORMATION
+## Pipeline Evaluation
 
-The **Information** accordion at the bottom of the left panel provides read-only metadata about the current pipeline and version.
+Pipeline Evaluation provides the same framework used for agents — dimensions, test cases, and automated scoring — to measure and improve pipeline performance. You can create evaluation suites that test your pipeline against predefined criteria and receive actionable feedback, with the trajectory view showing which **nodes** ran (instead of an agent's LLM/tool steps).
 
-| Field | Description |
-|-------|-------------|
-| **Pipeline ID** | The unique identifier for this pipeline. Click the copy icon to copy it to the clipboard. Useful for API integrations and support requests. |
-| **Version ID** | The unique identifier for the currently selected version. Click the copy icon to copy it. |
-| **Forked from** | Visible only if this pipeline was forked. Displays the name of the original pipeline with a clickable link. The link is disabled if you do not have permission to view the source project. |
-| **Pipeline** | A **Show** link that opens a read-only preview of the pipeline flow diagram in a modal. |
-| **Trigger type** | Visible only when the entry point uses the **Schedule** trigger. Shows `Schedule`. |
-| **Cron expression** | Visible only when the entry point uses the **Schedule** trigger. Shows the configured cron expression. |
-| **Timezone** | Visible only when the entry point uses the **Schedule** trigger. Shows the timezone used to calculate run times. |
-| **Last run** | Visible only when the entry point uses the **Schedule** trigger. Shows the timestamp of the most recent scheduled execution. |
-| **Next run** | Visible only when the entry point uses the **Schedule** trigger. Shows the timestamp of the next scheduled execution, calculated from the cron expression, timezone, and current date and time. Refreshes after the schedule is updated, turned on or off, or the pipeline executes. |
+**Access Pipeline Evaluation:**
 
-![INFORMATION](../img/menus/pipeline/pipeline-information-section.png)
+1. Open any saved pipeline.
+2. Select the **three-dot menu (⋮)** in the pipeline tab bar.
+3. Select **Evaluate (Beta)**.
+4. The Pipeline Evaluation page opens with tabs for Suites, Dimensions, Datasets, and History.
 
-<Note>
-For details on configuring the Schedule trigger, see [Schedule](../how-tos/pipelines/entry-point#schedule).
-</Note>
+   <img src="../img/menus/pipeline/pipeline-evaluate.png" alt="Evaluation" />
+
+**Key Capabilities:**
+
+- **Dimensions**: Define scoring criteria (for example, relevance, tone, accuracy) that can be scored by AI, humans, or custom code validation scripts.
+- **Datasets**: Create collections of test cases with inputs and expected outputs to run against your pipeline.
+- **Suites**: Combine dimensions and datasets into evaluation suites that score pipeline runs across multiple criteria.
+- **Runs**: Execute evaluation suites to generate scored results and identify areas for improvement.
+- **Enhance with AI**: Analyze failed checks and generate suggested fixes for your pipeline or evaluation criteria.
+
+<Info>
+For complete details on creating dimensions, datasets, suites, running evaluations, and using AI-powered enhancement features, see [**Agent Evaluation**](../how-tos/agents-pipelines/agent-evaluation) and [**Agent Evaluation FAQ**](../how-tos/agents-pipelines/agent-evaluation-faq) — the same guide applies to pipelines.
+</Info>
+
 ---
 
 ## Best Practices
