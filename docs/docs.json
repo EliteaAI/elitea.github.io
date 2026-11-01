@@ -444,7 +444,7 @@
                 "expanded": false,
                 "pages": [
                   "integrations/toolkits/outlook_toolkit",
-                  "integrations/toolkits/powerpoint_toolkit", 
+                  "integrations/toolkits/powerpoint_toolkit",
                   "integrations/toolkits/sharepoint_toolkit",
                   "integrations/toolkits/teams_toolkit"
                 ]
@@ -527,18 +527,19 @@
           {
             "group": "Latest Release",
             "icon": "tag",
-            "pages": ["release-notes/rn-2-0-7"]
+            "pages": ["release-notes/rn-2-0-8"]
           },
           {
             "group": "Recent Releases",
             "icon": "clock-rotate-left",
-            "pages": ["release-notes/archived/rn-2-0-6", "release-notes/archived/rn-2-0-5"]
+            "pages": ["release-notes/archived/rn-2-0-7", "release-notes/archived/rn-2-0-6"]
           },
           {
             "group": "Older Releases",
             "icon": "archive",
             "expanded": false,
             "pages": [
+              "release-notes/archived/rn-2-0-5",
               "release-notes/archived/rn-2-0-4",
               "release-notes/archived/rn-2-0-3",
               "release-notes/archived/rn-2-0-2",
