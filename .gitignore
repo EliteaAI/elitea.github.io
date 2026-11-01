@@ -29,6 +29,8 @@ site/
 
 DRAFT.md
 settings.json
+!.claude/settings.json
+.claude/settings.local.json
 
 
 docs/admin-guide/
