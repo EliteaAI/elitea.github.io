@@ -4,48 +4,69 @@ description: "YAML view provides code-based pipeline configuration with advanced
 ---
 
 <Info title="Target Audience">
-For **advanced users** who prefer code editing or need version-controlled pipeline definitions.
+For advanced users who prefer code editing or need version-controlled pipeline definitions.
 </Info>
 
-## What is YAML View
+## YAML View
 
-A code editor for pipelines in the **Configuration** tab (alongside [Flow Editor](./flow-editor)) that provides direct access to pipeline YAML definitions.
+YAML view is a code-based way to edit a pipeline, built on the CodeMirror editor. Instead of placing and connecting nodes on the canvas, you edit the pipeline's underlying YAML definition directly.
 
-**Features:**
+YAML view provides:
 
-* **Instant Flow Sync**: Changes sync instantly between YAML and Flow views
-* **Syntax Highlighting**: Color-coded YAML structure with CodeMirror
-* **Real-time Validation**: Immediate error feedback
-* **Find & Replace**: `Ctrl+F` (Windows) or `⌘+F` (Mac)
-* **Version Control**: Copy/paste YAML for backup or sharing
+* **Syntax highlighting** for YAML structure
+* **Real-time validation** - invalid YAML is flagged in the gutter as you type
+* **Find & Replace** - press `Ctrl+F` (Windows) or `Cmd+F` (Mac) to search and replace text
+* **Line numbers** and **auto-indentation** for nested structures
 
-    ![YAML Editor Interface](../../img/how-tos/agents-pipelines/pipeline-building-blocks/yaml/yaml-editor-interface.png)
+<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/yaml/yaml-editor-interface.png" alt="YAML editor interface" />
+
+<Note title="Two YAML Views">
+There are two places to use YAML view:
+
+* **Whole-pipeline YAML**: Select the **Yaml** toggle at the top of the canvas to edit the entire pipeline definition.
+* **Single-node YAML**: Open a node's configuration panel and select its own **Flow view / YAML view** switch to edit just that node, without leaving Flow mode for the rest of the canvas.
+</Note>
+
+---
+
+## Open YAML View
+
+1. Open a pipeline in the pipeline editor.
+2. At the top of the canvas, select the **Flow / Yaml** toggle, then select **Yaml**.
+
+    <img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/yaml/yaml-toggle.png" alt="YAML toggle" />
+
+<Info title="Flow & YAML Sync">
+Changes you make in Flow mode appear in the YAML text immediately. Changes you make in YAML mode take effect in the Flow canvas when you select the **Flow** toggle again.
+</Info>
 
 ---
 
 ## Schema Structure
 
-Every pipeline has three required top-level sections:
-
-```yaml
-entry_point: <node_id>        # Required
-state: {...}                   # Required
-nodes: [...]                   # Required
-```
+Every pipeline definition has these top-level fields:
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `entry_point` | String | ✔️ | Starting node ID |
-| `state` | Object | ✔️ | State variable definitions |
-| `nodes` | Array | ✔️ | Node configurations |
+| `entry_point` | String | Required | ID of the starting node |
+| `nodes` | Array | Required | Node configurations |
+| `state` | Object | Optional | State variable definitions. Defaults to an empty object |
+| `interrupt_before` | Array | Optional | Node IDs to pause before. See the Interrupts section |
+| `interrupt_after` | Array | Optional | Node IDs to pause after. See the Interrupts section |
+
+```yaml
+entry_point: <node_id>
+state: {...}
+nodes: [...]
+```
 
 ---
 
 ## State Configuration
 
-Defines all variables used across the pipeline. Each has a type and optional default value.
+State variables are the pipeline's memory. Each variable has a data type and an optional default value.
 
-### State Syntax
+### State Variable Syntax
 
 ```yaml
 state:
@@ -55,24 +76,22 @@ state:
 ```
 
 <Info title="Default Variables">
-Default variables like `input` and `messages` don't require initial values—they are populated during pipeline execution.
+Default variables like `input` and `messages` do not require initial values. The pipeline populates them during execution.
 </Info>
 
-**Data Types:**
+### Data Types
 
 | Type | Example |
 |------|---------|
-| `string` | `"Hello"` |
+| `str` | `"Hello"` |
 | `number` | `42`, `3.14` |
 | `list` | `[]`, `["a", "b"]` |
-| `JSON` | `{}`, `{"key": "value"}` |
-
-**Example:**
+| `dict` | `{}`, `{"key": "value"}` |
 
 ```yaml
 state:
   input:
-    type: string
+    type: str
   counter:
     type: number
     value: 0
@@ -80,48 +99,50 @@ state:
     type: list
     value: []
   metadata:
-    type: JSON
+    type: dict
     value: {}
 ```
 
 <Tip title="Guidelines">
-- Use descriptive names (`user_query` vs `q`)
-- Initialize accumulators (`''`, `[]`, `0`)
-- See [States Guide](./states) for details
+* Use descriptive names, such as `user_query` rather than `q`.
+* Initialize accumulators with an empty value, such as `''`, `[]`, or `0`.
+* See the [States Guide](./states) for complete state configuration details.
 </Tip>
 
 ---
 
 ## Node Configuration
 
-The `nodes` array contains all pipeline nodes with common structure plus node-specific fields.
-
-**Common Fields (all nodes):**
+The `nodes` array holds every node in the pipeline. Each node has a type-specific set of fields plus these common fields:
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `id` | String | ✔️ | Unique node identifier |
-| `type` | String | ✔️ | Node type ([see overview](./nodes/overview)) |
-| `input` | Array | ✔️ | State variables to read |
-| `output` | Array | ✔️ | State variables to write |
-| `transition` | String | Conditional | Next node ID (not needed with `condition`, `decision`, or `END`) |
+| `id` | String | Required | Unique node identifier. There is no separate name field. The `id` value also labels the node |
+| `type` | String | Required | Node type. See the Node Type Reference section |
+| `input` | Array | Optional | State variables the node reads. Defaults to `[messages]` for most node types |
+| `output` | Array | Optional | State variables the node writes. Defaults to an empty array for most node types |
+| `transition` | String | Conditional | ID of the next node, or `END`. Not used by router, decision, or HITL nodes, which route through their own fields instead |
 
 ---
 
-## Node-Type-Specific Configurations
+## Node Type Reference
 
-Configurations for key node types. See [Nodes Overview](./nodes/overview) for the full list of all 11 node types.
+ELITEA supports 10 node types. Each has its own configuration fields in addition to the common fields above. See [Nodes Overview](./nodes/overview) for what each type does in the Flow Editor.
 
-### 1. [LLM Node](./nodes/interaction-nodes#llm-node)
+<Accordion title="LLM Node">
+Calls a language model with a system prompt and a task prompt.
 
-Calls language models with system/task prompts. 
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `input_mapping.system` | Object | Required | System prompt mapping |
+| `input_mapping.task` | Object | Required | Task prompt mapping |
+| `input_mapping.chat_history` | Object | Optional | Chat history mapping |
+| `tool_names` | Object | Optional | Toolkits and tools the model can call, grouped by toolkit name |
+| `structured_output` | Boolean | Optional | Return structured output. Defaults to `false` |
 
 ```yaml
 - id: Summarizer
   type: llm
-  prompt:
-    type: string
-    value: ''
   input: [article_text]
   output: [messages]
   structured_output: false
@@ -129,45 +150,96 @@ Calls language models with system/task prompts.
   input_mapping:
     system:
       type: fixed
-      value: "You are an expert summarizer"
+      value: "You are an expert summarizer."
     task:
       type: fstring
       value: "Summarize: {article_text}"
     chat_history:
       type: fixed
       value: []
-  tool_names:              # Optional
+  tool_names:
     toolkit_name:
       - tool1
 ```
+</Accordion>
 
-**Mapping Types:** `fixed` (static), `variable` (state reference), `fstring` (template with `{var}`)
+<Accordion title="Agent Node">
+Runs a configured agent. The `tool` field holds the agent's name.
 
-### 2. [Agent Node](./nodes/interaction-nodes#agent-node)
-
-Executes pre-configured agents.
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `tool` | String | Required | Name of the configured agent to run |
+| `input_mapping.task` | Object | Required | Task prompt mapping |
+| `input_mapping.chat_history` | Object | Optional | Chat history mapping |
 
 ```yaml
- - id: Agent 1
-    type: agent
-    input:
-      - input
-    output:
-      - metadata
-    transition: END
-    input_mapping:
-      task:
-        type: fstring
-        value: ''
-      chat_history:
-        type: fixed
-        value: []
-    tool: Github
+- id: DraftReviewer
+  type: agent
+  input: [input]
+  output: [metadata]
+  transition: END
+  tool: Documentation Agent
+  input_mapping:
+    task:
+      type: fstring
+      value: "Review this draft: {input}"
+    chat_history:
+      type: fixed
+      value: []
+```
+</Accordion>
+
+<Accordion title="Toolkit Node">
+Calls a single tool from a connected toolkit, such as Jira or GitHub.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `tool` | String | Required | Name of the tool to call |
+| `toolkit_name` | String | Optional | Name of the toolkit the tool belongs to |
+| `input_mapping` | Object | Optional | Defaults to passing `messages` through unchanged |
+
+```yaml
+- id: CreateJiraTicket
+  type: toolkit
+  tool: create_issue
+  toolkit_name: Jira
+  input: [ticket_summary]
+  output: [messages]
+  transition: END
+```
+</Accordion>
+
+<Accordion title="MCP Node">
+Calls a tool exposed by a connected MCP server.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `tool` | String | Required | Name of the tool to call |
+| `toolkit_name` | String | Optional | Name of the MCP server the tool belongs to |
+| `input_mapping` | Object | Optional | Defaults to passing `messages` through unchanged |
+
+```yaml
+- id: FetchRecord
+  type: mcp
+  tool: get_record
+  toolkit_name: Internal CRM
+  input: [record_id]
+  output: [record_data]
+  transition: NextNode
 ```
 
-### 3. [Code Node](./nodes/execution-nodes#code-node)
+<Note>
+If a connected MCP server requires authorization the user has not granted, the pipeline routes to an authorization step instead of calling the tool.
+</Note>
+</Accordion>
 
-Executes Python in sandbox.
+<Accordion title="Code Node">
+Runs Python code in a sandbox.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `code` | Object | Required | Code mapping. Defaults to a placeholder that returns a fixed string |
+| `structured_output` | Boolean | Optional | Merge a returned dict's keys into state as named output variables |
 
 ```yaml
 - id: DataProcessor
@@ -175,11 +247,8 @@ Executes Python in sandbox.
   code:
     type: fixed
     value: |
-      # Access state
       input_text = alita_state.get('input')
-      
-      # Return dict to update state
-      {"processed": input_text.upper()}
+      return {"processed": input_text.upper()}
   input: [input]
   output: [processed_data]
   structured_output: true
@@ -187,12 +256,18 @@ Executes Python in sandbox.
 ```
 
 <Info title="Code Node Rules">
-Use `alita_state.get('var')` to access state variables, return dict with `structured_output: true`
+Use `alita_state.get('var')` to read a state variable. Return a dict and set `structured_output: true` to write its keys back to state.
 </Info>
+</Accordion>
 
-### 4. [Router Node](./nodes/control-flow-nodes#router-node)
+<Accordion title="Router Node">
+Routes to the next node using a Jinja2 template instead of a model call.
 
-Template-based routing with Jinja2.
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `condition` | String | Required | Jinja2 template that resolves to a node ID |
+| `routes` | Array | Required | Node IDs the condition can resolve to |
+| `default_output` | String | Optional | Fallback node ID. Defaults to `END` |
 
 ```yaml
 - id: CategoryRouter
@@ -209,10 +284,17 @@ Template-based routing with Jinja2.
       END
     {% endif %}
 ```
+</Accordion>
 
-### 5. [Decision Node](./nodes/control-flow-nodes#decision-node)
+<Accordion title="Decision Node">
+Routes to the next node using a model's judgment instead of a fixed condition.
 
-LLM-powered routing.
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `decision.description` | String | Required | Instructions the model uses to pick a route |
+| `decision.nodes` | Array | Required | Candidate target node IDs |
+| `decision.decisional_inputs` | Array | Optional | State variables considered. Defaults to the node's `input` |
+| `decision.default_output` | String | Optional | Fallback node ID. Defaults to `END` |
 
 ```yaml
 - id: SmartRouter
@@ -220,88 +302,109 @@ LLM-powered routing.
   input: [user_input]
   output: [classification]
   decision:
-    description: |
-      Route to SaveNode if user wants to save, 
-      otherwise END
+    description: "Route to SaveNode if the user wants to save, otherwise END."
     decisional_inputs: [user_input]
     nodes: [SaveNode]
     default_output: END
-  tool_names:              # Optional
-    toolkit1: [tool_a]
 ```
+</Accordion>
 
-### 6. [State Modifier Node](./nodes/utility-nodes#state-modifier-node)
+<Accordion title="HITL Node">
+Pauses the pipeline and waits for a human to approve, edit, or reject before continuing.
 
-Transforms state with Jinja2 templates.
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `user_message` | Object | Required | Message shown to the user. See the message types below |
+| `routes.approve` | String | Optional | Node ID for the Approve action |
+| `routes.reject` | String | Optional | Node ID for the Reject action, or `END` |
+| `routes.edit` | String | Optional | Node ID for the Edit action. Cannot be `END` |
+| `edit_state_key` | String | Conditional | State variable updated on Edit. Required when `routes.edit` is set |
+
+**User message types:**
+
+| Type | Description |
+|------|-------------|
+| `fixed` | Static text shown as-is |
+| `fstring` | Template with `{state_key}` placeholders resolved from state |
+| `variable` | Reads the entire message from a named state variable |
 
 ```yaml
-- id: IncrementCounter
-  type: state_modifier
-  template: '{{ index + 1 }}'
-  variables_to_clean: []
-  input: [index]
-  output: [index]
-  transition: NextNode
+- id: Review_summary
+  type: hitl
+  input: [summary]
+  user_message:
+    type: fstring
+    value: "Please review the following summary and choose an action:\n\n{summary}"
+  routes:
+    approve: Publish_node
+    reject: END
+    edit: Regenerate_node
+  edit_state_key: summary
 ```
 
-**Advanced Example:**
+<Note title="Route Rules">
+Only the actions with a configured route appear as buttons in the UI. The `routes` field accepts only `approve`, `reject` and `edit` as keys, and the HITL node does not use `transition`. Routing is handled entirely by `routes`.
+</Note>
+</Accordion>
+
+<Accordion title="State Modifier Node">
+Transforms state using a Jinja2 template, without calling a model.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `template` | String | Required | Jinja2 template |
+| `variables_to_clean` | Array | Optional | State variables to reset to an empty value after the node runs |
 
 ```yaml
 - id: AggregateResponse
   type: state_modifier
   template: |
-    {{ response_full }} 
-    
-    ## Question {{index}}
-    {{question}} 
-    
-    ## Answer {{index}} 
-    {{messages[-1].content }}
+    {{ response_full }}
+
+    ## Question {{ index }}
+    {{ question }}
+
+    ## Answer {{ index }}
+    {{ messages[-1].content }}
   variables_to_clean: []
   input: [response_full, messages, question, index]
   output: [response_full]
   transition: NextStep
 ```
 
-### 7. [HITL Node](./nodes/control-flow-nodes#human-in-the-loop-node)
+<Info title="Template Filters">
+Beyond standard Jinja2, the template field supports the custom filters `from_json`, `base64_to_string`, `split_by_words` and `split_by_regex`.
+</Info>
+</Accordion>
 
-Pauses pipeline execution and waits for a human decision (Approve, Edit, or Reject) before continuing.
+<Accordion title="Printer Node">
+Shows a message to the user and pauses the pipeline for acknowledgment.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `input_mapping.printer` | Object | Required | Message mapping shown to the user |
+| `final_message` | String | Optional | Message shown after the pipeline completes |
 
 ```yaml
-- id: Review_summary
-  type: hitl
-  input:
-    - summary
-  user_message:
-    type: fstring             # fixed | fstring | variable
-    value: "Please review the following summary and choose an action:\n\n{summary}"
-  routes:
-    approve: Publish_node     # Route on Approve
-    reject: END               # Route on Reject
-    edit: Regenerate_node     # Route on Edit
-  edit_state_key: summary     # State variable updated when user edits
+- id: ShowResult
+  type: printer
+  input_mapping:
+    printer:
+      type: fstring
+      value: "Here is your result: {result}"
+  transition: END
 ```
 
-**User Message Types:**
-
-| Type | Description | Example |
-|------|-------------|----------|
-| `fixed` | Static text shown as-is | `"Please approve to continue."` |
-| `fstring` | Template with `{state_key}` placeholders resolved from state | `"Review draft:\n\n{draft_content}"` |
-| `variable` | Reads the entire message from a named state variable | `review_message` |
-
-<Info title="Route and Edit Rules">
-- Only configured routes appear as buttons in the UI — omit routes you don't need
-- `edit` requires `edit_state_key` to be set; omitting either hides the Edit button
-- Use `END` as a route value to terminate the pipeline for that action
-- HITL nodes do not use `transition` — routing is handled entirely by `routes`
-</Info>
+<Note>
+A printer node always pauses for user acknowledgment after it runs, even without an entry in `interrupt_after`.
+</Note>
+</Accordion>
 
 ---
 
-## [Entry Point](./entry-point)
+## Entry Point
 
-Specifies the first node to execute. 
+`entry_point` names the single node where the pipeline starts. It must reference an existing node ID, and decision nodes (along with legacy condition nodes) cannot be set as the entry point. See the [Entry Point Guide](./entry-point) for complete rules.
 
 ```yaml
 entry_point: StartNode
@@ -309,301 +412,114 @@ entry_point: StartNode
 nodes:
   - id: StartNode
     type: llm
-    # ...
 ```
-
-<Warning title="Rules">
-Must reference existing node ID; only one per pipeline; Router nodes cannot be entry points
-</Warning>
 
 ---
 
 ## Interrupts
 
-Defines pause points for user input. See [Nodes Connectors](./nodes-connectors#interrupt-options).
+`interrupt_before` and `interrupt_after` pause the pipeline before or after the listed node IDs run, so a person can review state before execution continues. Set them directly in YAML. The Flow Editor does not have a dedicated toggle for interrupts, though affected connections are still marked on the canvas. See the [Nodes Connectors Guide](./nodes-connectors#interrupt-options) for how interrupts affect connections.
 
 ```yaml
 interrupt_after:
   - ReviewNode
   - ApprovalCheck
-
-nodes:
-  - id: ReviewNode
-    type: llm
-    transition: NextNode
 ```
-
-<Tip title="Use Cases">
-Human-in-the-loop workflows, review checkpoints, approval gates
-</Tip>
 
 ---
 
 ## Connections
 
-Nodes connect via `transition`, `condition`, `decision`, or routes. See [Nodes Connectors](./nodes-connectors).
-
-**Simple Transition:**
-```yaml
-- id: Step1
-  type: llm
-  transition: Step2
-  
-- id: Step2
-  type: code
-  transition: END
-```
-
-**Router:**
-```yaml
-nodes:
-  - id: CategoryRouter
-    type: router
-    default_output: DefaultNode
-    routes:
-      - ProcessA
-      - ProcessB
-    condition: |
-      {% if category == 'urgent' %}
-        ProcessA
-      {% else %}
-        ProcessB
-      {% endif %}
-```
-
-**Decision:**
-```yaml
-nodes:
-  - id: SmartRouter
-    type: decision
-    decision:
-      description: "Route based on user intent"
-      nodes:
-        - SaveNode
-        - ProcessNode
-      default_output: END
-```
-
-**HITL Routes:**
-```yaml
-nodes:
-  - id: ReviewStep
-    type: hitl
-    user_message:
-      type: fixed
-      value: "Please approve or reject the generated content."
-    routes:
-      approve: PublishNode
-      reject: END
-      edit: ReviseNode
-    edit_state_key: draft_content
-```
+Nodes connect through fields on the node itself: `transition` for a simple next step, `condition` for a router, `decision` for a decision node and `routes` for a HITL node. See the [Node Connectors Guide](./nodes-connectors) for complete details on transitions, conditions, and the End node.
 
 ---
 
-## Editor Features
+## YAML Syntax & Validation
 
-**CodeMirror Capabilities:**
-
-* Syntax highlighting with color-coded structure
-* Error detection (red underlines for invalid YAML)
-* Auto-indentation for nested structures
-* Line numbers for navigation
-* Find & Replace: `Ctrl+F` (Windows) / `⌘+F` (Mac)
-
-   ![CodeMirror Highlighting](../../img/how-tos/agents-pipelines/pipeline-building-blocks/yaml/codemirror-highlighting.png)
-
-**Two-Way Sync:**
-
-Changes sync instantly between YAML and Flow Editor.
-
-* YAML → Flow: Add node in YAML → appears in Flow canvas
-* Flow → YAML: Add node via Flow `+` button → YAML updates automatically
-
-
-<Tip title="Workflow">
-Start in Flow for layout → switch to YAML for bulk edits → copy YAML for version control
-</Tip>
-
----
-
-## YAML Guide
+A pipeline definition is standard YAML, so general YAML syntax rules apply, along with a few pipeline-specific checks.
 
 ### Syntax Rules
 
-**Indentation** (use spaces, not tabs):
+**Indentation** uses spaces, not tabs:
+
 ```yaml
-✔️ Correct:
 nodes:
   - id: Node1
     type: llm
     input:
       - var1
-
-✘ Incorrect (mixed spaces/tabs):
-nodes:
-  - id: Node1
-	type: llm    # Tab used instead of spaces
 ```
 
-### Strings with Special Characters
+**Strings with special characters** need quotes:
+
 ```yaml
-✔️ Correct:
 template: '{{ index + 1 }}'
 description: "Route: urgent"
 value: |
   Multi-line
   content
-
-✘ Wrong:
-template: {{ index + 1 }}
-description: Route: urgent
 ```
 
-**Lists** (use block style):
+**Lists** read more clearly in block style:
+
 ```yaml
-✔️ Correct:
-input: [var1, var2]
 routes:
   - NodeA
   - NodeB
-
-✘ Avoid inline for readability
 ```
 
-**Booleans/Null** (lowercase):
+**Booleans and null values** are lowercase:
+
 ```yaml
-✔️ Correct:
 structured_output: true
 structured_output: false
 value: null
-
-✘ Wrong:
-structured_output: True
-value: None
 ```
 
 ### Common Errors
 
-**Missing Quotes:**
-```yaml
-✘ condition: {% if approved %}
-✔️ condition: '{% if approved %}'
-```
+Common mistakes and how to fix them:
 
-**Undefined Node:**
-```yaml
-✘ transition: NonExistentNode
-✔️ Ensure node exists in nodes array
-```
-
-**Invalid Type:**
-```yaml
-✘ type: invalid_type
-✔️ type: llm  # Use: llm, agent, toolkit, mcp, code, custom, router, decision, hitl, state_modifier, printer
-```
-
-**Missing Fields:**
-```yaml
-✘ nodes:
-     - id: Node1
-       type: llm
-✔️ Add: input, output, transition
-```
+| Error | Fix |
+|-------|-----|
+| An unquoted Jinja2 expression, such as `condition: {% if approved %}` | Quote the value: `condition: '{% if approved %}'` |
+| A `transition` pointing to a node ID that does not exist | Confirm the target ID exists in `nodes` |
+| `type: custom` | `custom` is a UI-only placeholder for editing a node as raw JSON. Set one of the 10 node types described in Node Type Reference instead |
+| A node missing `input` or `output` when its type requires them | Add the missing field. See Node Type Reference for the per-type requirements |
 
 ### Validation Checklist
 
-Before saving:
+Before saving, confirm:
 
-* [ ] Entry point references existing node ID
-* [ ] All node IDs are unique
-* [ ] All transitions reference existing nodes or END
-* [ ] State variables in nodes are defined in `state`
-* [ ] Input/output arrays use valid variable names
-* [ ] Node-specific fields complete (e.g., LLM has `input_mapping`)
-* [ ] No YAML syntax errors (red underlines)
-* [ ] Indentation uses spaces
-* [ ] Quotes around special characters (`:`, `{`, `%`)
+* `entry_point` references an existing node ID
+* Every node ID is unique
+* Every `transition` references an existing node ID or `END`
+* State variables used by a node are defined in `state`
+* `input` and `output` arrays use valid variable names
+* Node-specific fields are complete, such as `input_mapping` for an LLM node
+* No syntax errors remain in the gutter
+* Indentation uses spaces
 
-### Best Practices
+---
 
-<Accordion title="Use Descriptive IDs">
-```yaml
-✔️ - id: FetchUserData
-✘ - id: Node1
-```
-</Accordion>
+## Best Practices
 
-<Accordion title="Initialize Defaults">
-```yaml
-✔️ counter: {type: number, value: 0}
-✘ counter: {type: number}
-```
-</Accordion>
-
-<Accordion title="Multi-Line Templates">
-```yaml
-✔️ template: |
-     {% if condition %}NodeA{% else %}NodeB{% endif %}
-✘ template: '{% if condition %}NodeA{% else %}NodeB{% endif %}'
-```
-</Accordion>
-
-<Accordion title="Group Nodes with Comments">
-```yaml
-nodes:
-  # Data Loading
-  - id: LoadData
-  # Processing
-  - id: ProcessData
-```
-</Accordion>
-
-<Accordion title="Don't Hardcode Secrets">
-```yaml
-✘ api_key: {type: fixed, value: "sk-123"}
-✔️ Use Credentials instead
-```
-</Accordion>
-
-<Accordion title="Avoid Unreachable Nodes">
-```yaml
-✘ - id: Node1
-     transition: Node3
-   - id: Node2  # Unreachable
-```
-</Accordion>
-
-<Accordion title="Always Terminate">
-```yaml
-✔️ - id: FinalNode
-     transition: END
-```
-</Accordion>
-
-<Accordion title="Workflow Tips">
-1. **Start Visual, Refine in Code:** Use Flow Editor for layout → YAML for bulk edits
-2. **Bulk Updates:** Find/replace to update toolkit names, node IDs
-3. **Test Incrementally:** Add one node at a time, run pipeline after each
-4. **Version Control:** Copy YAML to files, commit to git
-5. **Use Comments:**
-   ```yaml
-   # Step 1: Load data
-   - id: LoadData
-   ```
-</Accordion>
+<Tip>
+* **Use descriptive IDs**: `FetchUserData` instead of `Node1`.
+* **Initialize defaults**: `counter: {type: number, value: 0}` instead of `counter: {type: number}`.
+* **Keep multi-line templates on their own block**: Use a `|` block for a Jinja2 template with conditionals, rather than a single quoted line.
+* **Group related nodes with comments**: A `# Data Loading` comment above a batch of nodes helps readers scan the file.
+* **Do not hardcode secrets**: Store an API key as a credential instead of a fixed value in YAML.
+* **Avoid unreachable nodes**: Confirm every node is reachable from the entry point through a `transition`, `condition`, `decision` or `routes` chain.
+* **Always terminate a path**: Every path through the pipeline should reach a node with `transition: END` or an equivalent route.
+</Tip>
 
 ---
 
 <Info title="Related Documentation">
-* [Flow Editor](./flow-editor) - Visual pipeline building
-* [States](./states) - State variable design
-* [Nodes Overview](./nodes/overview) - All node types
-* [Nodes Connectors](./nodes-connectors) - Connection patterns
-* [Entry Point](./entry-point) - Entry point rules
-* [Interaction Nodes](./nodes/interaction-nodes) - LLM, Agent
-* [Execution Nodes](./nodes/execution-nodes) - Toolkit, MCP, Code nodes
-* [Control Flow Nodes](./nodes/control-flow-nodes) - Router, Decision, HITL
-* [Utility Nodes](./nodes/utility-nodes) - State Modifier, Printer
+* **[Flow Editor](./flow-editor)**: Build the same pipeline visually
+* **[States Guide](./states)**: Configure state variables for data flow
+* **[Nodes Overview](./nodes/overview)**: Understand all 10 node types
+* **[Nodes Connectors](./nodes-connectors)**: Connection patterns between nodes
+* **[Entry Point Guide](./entry-point)**: Set up pipeline starting points and triggers
 </Info>
-
