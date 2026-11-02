@@ -631,92 +631,10 @@ The `input_attachments` state variable is fully managed by the platform. It is a
 
 The **Schedules** section in the left configuration panel lets you configure one or more recurring, timed executions of the pipeline, independent of its chat/webhook entry-point trigger. This section only appears for users with permission to list schedules.
 
-Each schedule card shows:
-
-| Field | Description |
-|-------|-------------|
-| **Name** | A label you give the schedule to identify it. |
-| **Owner** | The user the scheduled run executes as. Omitted if the schedule has no owner. |
-| **Rule summary** | A plain-English summary of the cron rule (e.g. "At 09:00, only on Monday through Friday"), along with a "Shown: {timezone}" hint indicating the (browser) timezone used to display run times. |
-| **Last run** | The timestamp and status (e.g. Success, Failed) of the most recent scheduled execution, or "Never run". |
-| **Next run** | The timestamp of the next scheduled execution, or "Paused" if the schedule is currently disabled. |
-
 <img src="../img/menus/pipeline/pipeline-schedules.png" alt="Pipeline Schedules" />
 
-**Schedule Action**
-
-    | Action | Description |
-    |--------|-------------|
-    | **Run now** | Triggers an immediate run outside the regular schedule. |
-    | **Edit** | Same as the footer Edit icon. |
-    | **Pause** / **Resume** | Same as the Enabled toggle. |
-    | **Open run history** | Jumps to this schedule's runs in [Run History](#viewing-pipeline-history). |
-    | **Delete** | Same as the footer Delete icon, with its own typed-name confirmation. |
-
-<Note>
-**Change owner** is only available from the three-dot menu on the cross-project **Manage Schedules** table (see below) — it does not appear on the in-editor card.
-</Note>
-
-### Create Schedule
-
-Click **+ Schedule** to create a new schedule from this pipeline. This opens a dedicated schedule page — already locked to this pipeline and its version — with the following fields:
-
-| Field | Description |
-|-------|-------------|
-| **Name** | Required. Identifies the schedule. |
-| **Description** | Optional, up to 2304 characters. |
-| **Run mode** | **Entry point** (runs the pipeline's normal entry point) or **Prompt** (sends a prompt instead). |
-| **Prompt** | Shown only when Run mode is **Prompt**. The prompt (and any variables) sent on each run. |
-| **Cron rule** | Set via a plain-language **Builder** tab or a **Cron expression** tab, with a live preview and a link to crontab.guru. |
-| **Stop on a date** | Optional. Automatically disables the schedule after the chosen date. |
-| **Approval rule** | **Pause and ask me** (default, pauses the run for approval each time) or **Run without asking** (requires typing the schedule's name to confirm, and reverts to "Pause and ask me" automatically if the pipeline later gains new sensitive tools). Only relevant if the pipeline uses sensitive tools. |
-
-<Note>
-**Generate with AI**: A button next to the page title opens a dialog where you describe the schedule in plain language (what to run, when, and until when). It drafts the fields above from that description — reviewed as a full draft on an empty form, or as a field-by-field diff against your current values if you've already filled some in, with any warnings about fields it couldn't confidently fill. Apply the draft to fill in the form, then review and adjust before saving.
-</Note>
-
-<Note>
-Creating a schedule directly from the **Settings → Schedules** page (rather than from inside a pipeline) adds an extra **Agent / Pipeline** toggle and an **entity + version** picker up front, since no pipeline is pre-selected there.
-</Note>
-
-    <img src="../img/menus/pipeline/add-schedule.png" alt="Pipeline Schedules" />
-
-
-### Edit Schedule
-
-Click the **Edit** icon on a schedule card (or **Edit** from its three-dot menu) to open the same form pre-filled with its current values. It adds the following, not present when creating:
-
-| Field / Area | Description |
-|---------------|-------------|
-| **Owner** | Read-only — who the schedule runs as. |
-| **Confirmed by** | Shown if this schedule has a prior "Run without asking" confirmation on record — who confirmed it and when. |
-| **Runs** | A sortable "Runs of this schedule" list below the Test panel. Click a run to open it in the panel above; **Open full history** jumps to the full [Run History](#viewing-pipeline-history). |
-| **⋮ More actions (header)** | **Export** (requires the schedules-export permission). |
-
-    <img src="../img/menus/pipeline/edit-schedule.png" alt="Pipeline Schedules" width="200" />
-
-
-**How to Test a Schedule:**
-
-1. Open the schedule for editing. A **Test schedule** panel appears to the right of the form.
-2. Click **Run test** to trigger an immediate run using the schedule's current settings.
-3. Watch the run play out in the panel's **LIVE LOG**.
-4. If the run pauses for approval, use the inline **Approve** / **Reject** control to continue it.
-5. When the run finishes, its result appears below the log.
-
-    <img src="../img/menus/pipeline/test-schedules.png" alt="Pipeline Schedules" />
-
-
-<Note>
-A test run uses the same account, tools, and risk check as a real scheduled run. It's logged and marked as "test", but never changes **Last run** or **Next run**.
-</Note>
-
-### Manage Schedules
-
-Click **Manage Schedules** to leave this pipeline and open the project-wide **Schedules** page under Settings, which lists every schedule across all agents and pipelines in the project — not just this one. It opens pre-filtered to this pipeline, with the filter shown as a removable chip, so you can switch to browsing or managing every schedule in the project from the same place.
-
 <Info>
-For full details on the Schedules page — filters, columns, bulk actions, import/export — see the **[Schedules settings guide](../menus/settings/schedules)**.
+For complete details on creating, editing, and testing schedules, approval rules, and the cross-project **Manage Schedules** page, see the **[Schedules guide](../how-tos/pipelines/entry-point#schedules)**.
 </Info>
 
 ---
