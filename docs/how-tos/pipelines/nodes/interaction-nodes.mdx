@@ -5,7 +5,16 @@ description: "Interaction nodes call a model or delegate work to an existing age
 
 ## Overview
 
-There are two interaction nodes: **LLM** and **Agent**. The **LLM** node calls a model directly with a prompt that you write. The **Agent** node delegates the step to an agent or another pipeline that already exists in the project. Both nodes read from and write to pipeline state through `input` and `output`. For more information, see [Pipeline States](../states).
+There are two interaction nodes. Both read from and write to pipeline state through `input` and `output`. For more information, see [Pipeline States](../states).
+
+<CardGroup cols={2}>
+  <Card title="LLM" icon="brain" href="#llm-node">
+    Calls a model directly with a prompt that you write.
+  </Card>
+  <Card title="Agent" icon="user-robot" href="#agent-node">
+    Delegates the step to an agent or another pipeline that already exists in the project.
+  </Card>
+</CardGroup>
 
 ---
 
