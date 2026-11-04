@@ -1,16 +1,17 @@
 ---
 title: "Settings Overview"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
 In **Settings Overview**, you can manage ELITEA behavior at project and personal levels.
 
 To open **Settings**, select the **Settings** icon in the main sidebar.
 
-<img src="../../img/menus/settings/euch_settings.png" alt="Settings menu" />
+<img src="../../img/menus/settings/settings.png" alt="Settings menu" />
 
 ## Project Settings
 
-In **Project** settings, you can manage project-wide configuration, access, analytics, and usage.
+In **Project** settings, you can manage project-wide configuration, context, schedules, secrets, analytics, and usage.
 
 <CardGroup cols={3}>
    <Card title="General" icon="briefcase" href="./general">
@@ -20,13 +21,16 @@ In **Project** settings, you can manage project-wide configuration, access, anal
       Manage project AI providers, model configurations, defaults, and AI credentials.
    </Card>
    <Card title="Project Context" icon="folder-open" href="./project-context">
-      Define project-wide background information that ELITEA uses across conversations and workflows.
+      Define project-wide background information that ELITEA uses across chats and workflows.
+   </Card>
+   <Card title="Schedules" icon="clock" href="./schedules">
+      View, create, and manage agent and pipeline schedules across the project.
    </Card>
    <Card title="Secrets" icon="lock" href="./secrets">
       Store and manage project secrets used by integrations and configurations.
    </Card>
    <Card title="Users" icon="users" href="./users">
-      Review project members, roles, and access-related information.
+      Review project members, roles, and access-related information. Hidden in private projects.
    </Card>
    <Card title="Analytics" icon="chart-line" href="./analytics">
       Review project analytics, adoption, usage trends, and health metrics.
@@ -48,10 +52,10 @@ In **Personal** settings, you can manage your own profile, preferences, tokens, 
       Set your personal application preferences, including theme, voice, and sound settings.
    </Card>
    <Card title="AI Personality" icon="sparkles" href="./ai-personality">
-      Configure how ELITEA interacts with you in new conversations.
+      Configure how ELITEA interacts with you in new chats.
    </Card>
    <Card title="Memory" icon="brain" href="./memory">
-      Configure context management, context editing, and automatic summarization for new conversations.
+      Set your personal default context window and automatic summarization for new chats.
    </Card>
    <Card title="Personal Tokens" icon="key" href="./personal-tokens">
       Create and manage personal access tokens for API access and external tools.
@@ -60,4 +64,3 @@ In **Personal** settings, you can manage your own profile, preferences, tokens, 
       Review and manage your notification settings and notification list.
    </Card>
 </CardGroup>
-
