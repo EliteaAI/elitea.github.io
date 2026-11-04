@@ -101,6 +101,30 @@ Older pipelines may use the short form `variable_name: type` with no `value`, or
 
 ---
 
+## Defaulting a State to a Project Secret
+
+A state's default `value` can reference a project secret instead of holding a literal value. Set it to `{{secret.secret_name}}`, where `secret_name` is the **Name** of an existing secret under **Settings → Secrets** in the same project:
+
+ <img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/states/state-default-secret.png" alt="State default to secret" width="450"/>
+
+```yaml
+state:
+  api_token:
+    type: str
+    value: "{{secret.jira_token}}"
+  api_base_url:
+    type: str
+    value: "https://{{secret.jira_host}}.example.com"
+```
+
+The platform resolves `{{secret.*}}` references against the project's secret store right before the pipeline run starts, replacing the placeholder with the secret's actual value — the reference can be the whole value or embedded inside a longer string. This saves you from hardcoding a credential in the pipeline's YAML or re-entering it in every pipeline that needs it; see **[Secrets](../../menus/settings/secrets)** for how to create and manage project secrets.
+
+<Warning>
+This only moves *where* the credential is typed in, not how it's handled once the pipeline runs. The resolved value is ordinary state data from that point on: it is sent to any node that reads it, and, if you open the **Run Details** dialog on a test run, it appears in plain text in that variable's Before/After value — see [Using State in Nodes](#using-state-in-nodes) below. Treat a state holding a resolved secret the same as any other sensitive value in your pipeline.
+</Warning>
+
+---
+
 ## Using State in Nodes
 
 Most node types have **Input** and **Output** fields in their configuration panel. These multi-select dropdowns list every state variable that is currently defined in the pipeline. In **Input**, select the variables that a node should read. In **Output**, select the variables that a node should write.
@@ -216,3 +240,5 @@ For more information, see [Entry Point](./entry-point).
 For more information, see [Pipeline Runs](./pipeline-runs).
 
 For more information, see [YAML Configuration](./yaml#state-configuration).
+
+For more information, see [Secrets](../../menus/settings/secrets).
