@@ -3,13 +3,13 @@ title: "General"
 accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
-In **General** settings, you can review project-level information, copy connection details for AI integrations, specify default chat settings, select default modules for chats and agents, review the toolkit used for web search and back up or restore the project data.
+In **General** settings, you can review project-level information, copy connection details for AI integrations, specify default chat settings, select default modules for chats and agents, review the toolkit used for web search, set your project's schedule preferences, back up or restore the project data and delete project data.
 
 To access **General** settings, select **Settings** > **General**.
 
 <img src="../../img/menus/settings/project/general/settings_general.png" alt="General settings page." />
 
-In **General**, you can see six sections:
+In **General**, you can see up to eight sections:
 
 <CardGroup cols={3}>
 	<Card title="General" icon="briefcase">
@@ -27,8 +27,14 @@ In **General**, you can see six sections:
 	<Card title="Chat Configuration" icon="comments">
 		Specify default chat settings.
 	</Card>
+	<Card title="Schedules" icon="calendar">
+		Set your project's notification and sensitive-action preferences for schedules.
+	</Card>
 	<Card title="Back Up & Restore" icon="box-archive">
 		Back up or restore the project data.
+	</Card>
+	<Card title="Delete Project Data" icon="trash">
+		Delete selected types of data from the project.
 	</Card>
 </CardGroup>
 
@@ -36,10 +42,12 @@ Your rights to view and edit **General** settings depend on your role and permis
 
 - **General** is a part of the project settings section.
 - Module toggles within **Default Modules** are shown only to users who can view project context settings.
-- **Web Search** is shown only to users who can view project context settings.
-- To edit the project icon, select default modules and change the web search toolkit, you need permissions for editing the project context settings.
+- To edit the project icon or select default modules, you need permission for editing the project context settings.
+- **Web Search** is shown only to users who can view project context settings. To change the web search toolkit, you need permission to update configurations.
 - **Mid-turn input** is shown only if the mid-turn input is turned on for the project and you have permission to view project context settings.
+- **Schedules** is shown only to users who have permission to list schedules.
 - **Back Up & Restore** is shown only to users who have permission to download or restore project backups.
+- **Delete Project Data** is shown only to users who have permission to delete project data.
 
 ## Project Details
 
@@ -102,7 +110,7 @@ The **OpenAI Template** tab shows a code example that uses the current project m
 <img src="../../img/menus/settings/project/general/gen_gen_template.png" alt="OpenAI Template tab in AI Configurations." />
 
 In this tab, you can:
-    
+
 - Select a model configuration
 - Switch the example language
 - Copy the generated code example
@@ -134,7 +142,7 @@ The template uses a placeholder personal token value instead of a real token.
 | Project Context Builder | Create and edit your project context from the chat. |
 | Ask User | Allow agents to ask you clarifying questions instead of guessing. |
 | Planner | Create, manage and track tasks and action items from the chat. |
-| Python Sandbox | Execute Python code securely in a secure sandbox. |
+| Python Sandbox | Execute Python code in a secure sandbox. |
 | Swarm Mode | Enable multi-agent collaboration by sharing the full conversation history and control between agents. |
 | Smart Tools Selection | Reduce token usage when working with many toolkits by using meta-tools instead of binding all tools directly. |
 
@@ -170,9 +178,11 @@ In **Chat Configuration**, you can specify default chat settings.
 
 <img src="../../img/menus/settings/project/general/gen_chat-config.png" alt="Chat Configuration section in General settings." />
 
-**Chat Templates**
+### Chat Templates
 
 In **Chat templates**, you can see, create and manage your project's templates for new chats — saved, reusable sets of chat participants that you can apply to any new chat you create. The default template — with its specified participants — is applied automatically to every new chat in the project unless you choose a non-default one.
+
+You can create up to five templates per project. Delete a template to add another.
 
 <img src="../../img/menus/settings/project/general/gen_chat-config_no-temps.png" alt="Chat templates card in Chat Configuration." />
 
@@ -180,7 +190,7 @@ In **Chat templates**, you can see, create and manage your project's templates f
 For detailed information, see [Work with Chat Templates](../../how-tos/chat/config-mnmt#work-with-chat-templates).
 </Info>
 
-**Mid-Turn Input**
+### Mid-Turn Input
 
 With **Mid-turn input** turned on, you can send a message to an agent while it is still working, to steer the rest of the run.
 
@@ -190,7 +200,7 @@ With **Mid-turn input** turned on, you can send a message to an agent while it i
 For detailed information about the effect this setting has on your chat interactions, see [Send a Message While the Agent Is Working](../../how-tos/chat/responses#send-a-message-while-the-agent-is-working).
 </Info>
 
-**Auto Model Selection**
+### Auto Model Selection
 
 With **Auto model selection**, you control whether project members can pick **Auto** in the model selector dropdown for chats and standard agents in this project — letting ELITEA automatically choose the model for each message based on the task and current availability.
 
@@ -198,7 +208,7 @@ With **Auto model selection**, you control whether project members can pick **Au
 
 | Option | Description |
 |--------|-------------|
-| **Use platform default** *(default)*| Follows the platform-wide setting chosen by your ELITEA administrator, instead of overriding it for this project. |
+| **Use platform default** *(default)* | Follows the platform-wide setting chosen by your platform administrator, instead of overriding it for this project. |
 | **Enabled** | **Auto** is available in the model selector for chats and standard agents in this project. |
 | **Disabled** | **Auto** is not available in the model selector for chats and standard agents in this project. |
 
@@ -214,18 +224,82 @@ With the **Classifier** dropdown, you select the model used to answer **Auto** r
 
 This dropdown is always shown, even when **Auto model selection** is set to **Use platform default** or **Disabled**.
 
-**Context Window for New Chats**
+### Project Skills in Chat
 
-With **Context window for new chats**, you set the default context window mode for chats created in this project:
+With **Project skills in chat**, you allow chats to use every skill in this project, not only the skills added to the chat.
 
-- With **Balanced** *(default)*, ELITEA uses up to 272,000&nbsp;tokens, within the model's limits.
-- With **Full**, ELITEA uses the model's full context window. Larger requests may cost more.
+<img src="../../img/menus/settings/project/general/gen_chat-config_skills.png" alt="Project skills in chat setting in Chat Configuration." />
 
-<img src="../../img/menus/settings/project/general/gen_chat-config_ctxt-win.png" alt="Context window for new chats setting in Chat Configuration." />
+When on, the LLM can search the project for a skill that fits the request and load it, and users can also call any project skill directly with **~skill-name**, even if it was never added to the chat.
+
+| Option | Description |
+|--------|-------------|
+| **Use platform default** *(default)* | Follows the platform-wide setting chosen by your platform administrator, instead of overriding it for this project. |
+| **Enabled** | Chats in this project can use every project skill, not only the ones added to the chat. |
+| **Disabled** | Chats in this project can only use skills that were explicitly added to them. |
+
+If platform administrators turn this feature off for the whole environment, it stays off regardless of your project's choice. In this case, you will see a hint explaining this.
+
+Even if the feature is disabled at the platform level, you can still set a project choice in advance for when the feature becomes available.
+
+<img src="../../img/menus/settings/project/general/gen_chat-config_skills_disabled.png" alt="Hint shown when Project skills in chat is disabled at the platform level." />
 
 <Info>
-For detailed information, see [Context Management](../../how-tos/chat/ctxt-bdgt#context-management).
+For detailed information, see [Mention a Skill in Chat](../../menus/skills#mention-a-skill-in-chat).
 </Info>
+
+## Schedules
+
+In **Schedules**, you can specify default settings for agent and pipeline schedules.
+
+<img src="../../img/menus/settings/project/general/gen_schedules.png" alt="Schedules section in General settings." />
+
+This section does not list or manage schedules — you can do it in the [**Schedules**](./schedules.mdx) page in Settings, or the [**Schedules**](../agents#schedules) section of the agent or pipeline editor.
+
+**Send schedule notifications**
+
+<Note>
+**Send schedule notifications** is a personal preference.
+</Note>
+
+With **Send schedule notifications**, each project member sets whether they want to receive notifications related to their schedules. By default, the toggle is on.
+
+If checked, ELITEA sends notifications to the schedule's owner when:
+
+- A run completed successfully
+- A run failed
+- A run needs your approval
+- An approval expired
+- A schedule reached its stop date
+- An admin edited or deleted your schedule
+- A schedule's owner changed
+
+**Run Without Approval**
+
+**Run without approval** is a single, project-wide switch, visible and editable only to project administrators. It works together with a separate, per-schedule choice: when creating or editing a schedule whose toolkits include a sensitive action, the schedule's owner chooses either **Pause and ask me** (default) or **Run without asking** for that schedule, after confirming they accept the risk.
+
+<Note>
+A **sensitive action** is any tool your platform administrator has marked as requiring authorization in **Guardrails**.
+</Note>
+
+A schedule set to **Run without asking** only skips approval if this project-wide setting is also turned on. If this setting is off, every schedule in the project pauses and asks for approval on a sensitive action.
+
+When a run pauses for approval, ELITEA notifies the owner and waits up to 24&nbsp;hours (or a longer window your platform administrator has configured) for a decision. If nobody responds in time, the run stops and is marked **Expired**.
+
+<Accordion title="Approval algorithm">
+```mermaid
+%%{init: {"flowchart": {"curve": "stepAfter"}} }%%
+flowchart TD
+    A["Scheduled run hits a sensitive action"] --> B{"Project setting:<br/>Run without approval?"}
+    B -- Off --> D["Run pauses and asks for approval"]
+    B -- On --> C{"This schedule's choice:<br/>Run without asking?"}
+    C -- "Pause and ask me" --> D
+    C -- "Run without asking" --> E["Run proceeds automatically"]
+    D --> F{"Owner responds in time?"}
+    F -- Yes --> G["Run continues or stops, per owner's decision"]
+    F -- No --> H["Run stops — marked Expired"]
+```
+</Accordion>
 
 ## Back Up & Restore
 
@@ -239,7 +313,7 @@ It has two actions, **Create a Backup** and **Restore from the Backup**, each vi
 
 <img src="../../img/menus/settings/project/general/gen_backup.png" alt="Back Up & Restore section in General settings." />
 
-<Note>For private projects, the project owner can always restore the backup.</Note>
+<Note>In your private project, you can always restore the backup.</Note>
 
 Your backup will include agents, pipelines, toolkits, MCP servers and skills. You can also specify whether the backup should include chats, with or without their attachments. Credentials, tokens and other secrets are always excluded from the backup file, so they will not be restored with other project data.
 
@@ -257,6 +331,7 @@ Your backup will include agents, pipelines, toolkits, MCP servers and skills. Yo
 	<Card title="Excluded from the backup file" icon="circle-exclamation" color="#ef4444">
 		- Credentials
 		- Tokens
+		- Other secrets
 	</Card>
 </CardGroup>
 
@@ -264,9 +339,30 @@ Your backup will include agents, pipelines, toolkits, MCP servers and skills. Yo
 For detailed information, see [Back Up & Restore Project Data](../../how-tos/entity-management/backup.mdx).
 </Info>
 
+## Delete Project Data
+
+<Note>Only the owner of a private project, or an administrator of a team project, can use this section.</Note>
+
+In **Delete Project Data**, you can permanently delete all items of the types you select from this project in one action.
+
+<Warning title="This Action Cannot Be Undone">
+We strongly recommend creating and verifying a backup before deleting project data.
+</Warning>
+
+It lists seven data types — Chats, Agents, Pipelines, Skills, Toolkits, MCPs and Credentials — each shown with its item count, and a **Delete selected data** action visible only to users with the required permissions.
+
+<img src="../../img/menus/settings/project/general/gen_delete.png" alt="Delete Project Data section in General settings." />
+
+While ELITEA is still counting, it shows **...**; if a count could not be retrieved, it shows **–**.
+
+<Info>
+For detailed information, see [Delete Project Data](../../how-tos/entity-management/delete_project_data.mdx).
+</Info>
+
 <Callout icon="book" color="#C9B896" title="See Also">
 See also:
 - [Project Context](./project-context.mdx)
 - [AI Configuration](./ai-configuration.mdx)
 - [Chat](../chat.mdx)
+- [Schedules](./schedules.mdx)
 </Callout>
