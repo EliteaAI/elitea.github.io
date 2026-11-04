@@ -1,0 +1,91 @@
+---
+title: "Delete Project Data"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
+---
+
+With ELITEA, you can permanently delete all items of selected types from a project in one action.
+
+<Warning title="This Action Cannot Be Undone">
+We strongly recommend creating and verifying a backup before deleting project data. Chats and attachments can only be restored if they were included in the backup. Credentials, tokens and other secrets are never included in backups, so make sure you can recreate them.
+</Warning>
+
+## What Can and Cannot Be Deleted
+
+The project is never deleted.
+
+<CardGroup cols={2}>
+	<Card title="Deletable data types" icon="list-check">
+		- Chats
+		- Agents
+		- Pipelines
+		- Skills
+		- Toolkits
+		- MCPs
+		- Credentials
+	</Card>
+	<Card title="Not affected" icon="shield-check" color="#22c55e">
+		- The project itself
+		- Data stored in other projects
+	</Card>
+</CardGroup>
+
+<Note>
+Credentials, tokens and other secrets are excluded from project backups and cannot be restored from them. Make sure you can recreate any credentials you delete before deleting them. If you delete **Credentials** without also deleting **Toolkits** and **MCPs**, the toolkits and MCPs that use those credentials will stop working.
+</Note>
+
+In **team projects**, this **includes items created by other project members**, not just your own — including copies of items taken from other projects.
+
+Some items are skipped automatically rather than deleted:
+
+- Published or embedded *agents*, *pipelines*, or *skills* are skipped. Unpublish it first if you want to delete it.
+- *Credentials* created by ELITEA for internal use (for example, an S3 access key) are always skipped.
+
+Skipped items are counted next to the affected type, with the reason.
+
+## How to Delete Project Data
+
+<Note>
+Only the owner of a private project, or an administrator of a team project, can delete project data.
+</Note>
+
+1. Select **Settings** > **General**.
+2. In **General**, expand **Delete Project Data**.
+3. Select one or more data types, or use **Select all**.
+4. Select **Delete selected data**.
+5. In the confirmation dialog, review the selected types and their item counts.
+6. Type **DELETE** to confirm. This is case-sensitive, and must match exactly with no extra spaces.
+7. Select **Delete permanently**.
+
+<video src="../../img/how-tos/entity-management/delete_project_data.mp4" controls alt="Video demonstrating how to delete project data."></video>
+
+While the deletion is in progress, you cannot close the dialog. When it finishes, ELITEA shows a single summary notification with the total number of items deleted, skipped, or failed — not a per-type or per-item breakdown.
+
+<Note>
+If there is too much data to delete in one request, ELITEA deletes as much as it can within the time allowed, then tells you to run the action again to delete the rest.
+</Note>
+
+## Best Practices
+
+- Create and verify a backup before you delete project data. Deleted data cannot be restored.
+- Unpublish an agent, pipeline, or skill first if you want to delete it — published and embedded items are skipped.
+- Delete **Toolkits**, **MCPs** and **Credentials** together to avoid leaving behind toolkits or MCPs that depend on deleted credentials.
+
+## Troubleshooting
+
+<Accordion title="You do not see Delete Project Data in General settings">
+**Cause:** You are not the owner of a private project, and you are not an administrator of this team project.
+
+**Solution:** Contact your project administrator.
+</Accordion>
+
+<Accordion title="An item you expected to be deleted still exists">
+**Cause:** The item was published or embedded (for agents, pipelines, and skills), or it is a credential ELITEA created for internal use — these are always skipped. Alternatively, the deletion did not finish within its time limit, or the item failed to delete.
+
+**Solution:** For a skipped agent, pipeline, or skill, unpublish it, then delete it again. ELITEA-internal credentials cannot be deleted from this section. Otherwise, select **Delete selected data** again to delete the remaining items.
+</Accordion>
+
+<Callout icon="book" color="#C9B896" title="See Also">
+See also:
+- [General Settings](../../menus/settings/general.mdx)
+- [Back Up & Restore Project Data](./backup.mdx)
+</Callout>
