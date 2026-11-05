@@ -1,516 +1,251 @@
 ---
 title: "Utility Nodes"
-description: "Utility Nodes provide specialized functionality for state management and workflow composition. These nodes form the \"supporting infrastructure\" of your pipeli"
+description: "Utility nodes support the rest of the pipeline. Instead of calling a model or a tool, they transform state in place or pause to show the user something."
 ---
 
-**Available Utility Nodes:**
+## Overview
 
-- **[State Modifier Node](#state-modifier-node)** - Transform, update, and clean up state variables using templates
-- **[Printer Node](#printer-node)** - Display formatted output to users during pipeline execution
+There are two utility nodes. Neither calls a model or an external tool.
 
-<Info title="Supporting Infrastructure">
-Utility nodes don't perform AI inference or external API calls directly. Instead, they provide essential support functions: state manipulation, data transformation, and user output display.
-</Info>
+<CardGroup cols={2}>
+  <Card title="State Modifier" icon="wand-magic-sparkles" href="#state-modifier-node">
+    Renders a Jinja2 template against state and writes the result back, optionally clearing other variables.
+  </Card>
+  <Card title="Printer" icon="comment-dots" href="#printer-node">
+    Shows the user a message mid-run and pauses until they acknowledge it.
+  </Card>
+</CardGroup>
 
 ---
 
 ## State Modifier Node
 
-The State Modifier Node is like a text editor for your pipeline's data. It takes information from your workflow (stored in variables), combines or changes it using templates, and saves the result back into your pipeline.
+The State Modifier node renders a Jinja2 template against pipeline state and writes the rendered result into a state variable. It runs no model and calls no tool — it only transforms data that is already in state.
 
-It's useful when you need to:
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/utility-nodes/statemodifier-node-add.png" alt="Add State Modifier" />
 
-- Combine multiple pieces of data into one
-- Format data in a specific way (like creating a message or report)
-- Clean up temporary data you no longer need
-- Do simple calculations (like adding numbers or counting items)
+Use the State Modifier node in these cases:
 
-<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/statemodifier-node-add.gif" alt="State Modifier Node Interface" />
+* You need to combine several state variables into one formatted string, such as a report or a message.
+* A value needs reformatting — case conversion, trimming, extracting part of a string, parsing JSON — before another node reads it.
+* You need to reset one or more state variables to empty once their value is no longer needed.
 
-**Purpose**
+### Configuration
 
-Use the State Modifier Node to:
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/utility-nodes/statemodifier-node-interface.png" alt="State Modifier Node Interface" />
 
-* **Combine data** - Mix information from different variables into one formatted output
-* **Format text** - Create messages, reports, or structured content from your data
-* **Clean up** - Delete or reset temporary variables after you're done with them
-* **Simple math** - Add, subtract, or count things
-* **Transform data** - Change how your data looks (uppercase, lowercase, extract parts, etc.)
+The following table describes the State Modifier node fields.
 
-**Parameters**
+| Field | Section | Purpose | Example |
+| --- | --- | --- | --- |
+| **Name** | Panel header | The node `id`. This value is required and unique across the pipeline. If you rename it, the editor updates every reference to this node. | `Format_summary` |
+| **Jinja Template** | Basic | The Jinja2 template. There is no Fixed/F-String/Variable selector here — this field is always a raw template, rendered with every state variable listed in **Input** available by name. | `Hello, {{ user_name }}! Score: {{ score + 10 }}` |
+| **Variables to Clean** | Basic | Pick state variables to reset to empty once the template renders. A list resets to `[]`, a dict to `{}`, a number to `0`, a string to `""`. | `temp_items`, `cache_data` |
+| **Input** | Advanced | State variables the template can reference by name. A variable not listed here is not available inside the template. | `user_name`, `score` |
+| **Output** | Advanced | The single state variable that receives the rendered result. Only the first variable listed is used. | `greeting_message` |
 
-| Parameter | Purpose | Type Options & Examples |
-|-----------|---------|-------------------------|
-| **Jinja Template** | Write a template that shows how to format your output using variables from your pipeline | **Example:**<br />`Hello, {{ user_name }}! Your score: {{ score + 10 }}`<br /><br />**What you can do:**<br />- Use variables: `{{ name }}`<br />- Add conditions: `{% if score > 50 %}Pass{% endif %}`<br />- Loop through lists: `{% for item in items %}...{% endfor %}`<br />- Apply formatting: `{{ text\|upper }}` (makes text UPPERCASE) |
-| **Input** | List the variables from your pipeline that you want to use in the template | **Example:**<br />`input: ["user_name", "score"]`<br /><br />**Note:** You can only use variables that you list here |
-| **Output** | Name the variable where you want to save the result | **Example:**<br />`output: ["greeting_message"]`<br /><br />**Note:** This creates a new variable or replaces an existing one |
-| **Variables to Clean** | (Optional) List any variables you want to clear/reset after the template runs | **Example:**<br />`variables_to_clean: ["temp_data", "cache"]`<br /><br />**What gets cleared:**<br />- Text becomes empty: `""`<br />- Lists become empty: `[]`<br />- Numbers become zero: `0` |
+<Info title="Output Type Conversion">
+If **Output** already has a declared type in `state` — `int`, `float`, `bool`, `list`, or `dict` — the node converts the rendered string to that type before writing it. A template that renders `"1"` into an `int` output produces the integer `1`, not the string `"1"`. If the conversion fails, the node falls back to writing the raw rendered string.
+</Info>
 
-<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/statemodifier-node-interface.png" alt="State Modifier Node Interface" />
-
-<Warning title="Variable Cleanup">
-Variables listed in variables_to_clean are reset based on their type after the template renders (strings→"", lists→[], dicts→{}, numbers→0). Ensure these variables aren't needed by subsequent nodes.
+<Warning title="Only Input variables are visible to the template">
+Referencing a variable in the template that isn't listed in **Input** renders as empty rather than its actual value. Keep **Input** in sync with every `{{ variable }}` your template uses.
 </Warning>
 
+### YAML View for State Modifier Nodes
 
-**YAML Configuration Examples**
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/utility-nodes/statemodifier-yaml.png" alt="State Modifier Node YAML View" width="300" />
 
-<Accordion title="Basic Example: Simple Greeting">
-```yaml
-nodes:
-  - id: StateModifier 1
-    type: state_modifier
-    template: Hello, {{ user_name }}! Welcome to {{ project_name }}.
-    variables_to_clean:
-      - user_name
-    input:
-      - user_name
-      - project_name
-    output:
-      - greeting_message
-state:
-  input:
-    type: str
-  messages:
-    type: list
-  user_name:
-    type: str
-    value: ''
-  project_name:
-    type: str
-    value: ''
-  greeting_message:
-    type: str
-    value: ''
-```
-</Accordion>
+Every node configuration panel has **Flow view** and **YAML view** tabs at the top. In YAML view, the panel shows only this node, not the whole pipeline, as plain YAML. Changes stay synchronized in both directions. If you edit the `id` here, the editor renames the node everywhere it is referenced. You cannot change `type` in this view.
 
-<Accordion title="Advanced Example: Counter Increment with Type Conversion">
-This example demonstrates automatic type conversion - the template renders a string, but the State Modifier automatically converts it to an integer to match the output variable's type.
+The following YAML example shows a State Modifier node.
 
 ```yaml
-nodes:
-  - id: IncrementCounter
-    type: state_modifier
-    template: '{{ index + 1 }}'
-    variables_to_clean: []
-    input:
-      - index
-    output:
-      - index
-    transition: NextNode
-state:
-  input:
-    type: str
-  messages:
-    type: list
-  index:
-    type: int
-    value: 0
-```
-
-**How it works:**
-
-- Template renders: `"1"` (string)
-- State Modifier detects `index` is type `int`
-- Automatically converts: `"1"` → `1`
-- Result: `index` is updated to integer `1`
-</Accordion>
-
-<Accordion title="Complex Example: Aggregating Multi-Step Responses">
-This example shows how to build a comprehensive response by combining multiple state variables, accessing message history, and using conditional formatting.
-
-```yaml
-nodes:
-  - id: AggregateResponse
+  - id: Format_summary
     type: state_modifier
     template: |
       {{ response_full }}
-      
+
       ## Question {{ index }}
       {{ question }}
-      
-      ## Answer {{ index }}
-      {{ messages[-1].content }}
-    variables_to_clean: []
+    variables_to_clean:
+      - temp_items
     input:
       - response_full
-      - messages
       - question
       - index
     output:
       - response_full
     transition: NextStep
-state:
-  input:
-    type: str
-  messages:
-    type: list
-  response_full:
-    type: str
-    value: ''
-  question:
-    type: str
-    value: ''
-  index:
-    type: int
-    value: 0
-```
-</Accordion>
-
-<Accordion title="Custom Filters Example: JSON Processing and Text Splitting">
-This example demonstrates the custom filters available in State Modifier for data transformation.
-
-```yaml
-nodes:
-  - id: ProcessAPIResponse
-    type: state_modifier
-    template: |
-      {% set data = api_response|from_json %}
-      **User:** {{ data.name }}
-      **Email:** {{ data.email }}
-      **Status:** {{ data.status|upper }}
-      
-      {% if data.description %}
-      **Description Chunks:**
-      {% for chunk in data.description|split_by_words(50) %}
-      - {{ chunk }}
-      {% endfor %}
-      {% endif %}
-    variables_to_clean:
-      - api_response
-    input:
-      - api_response
-    output:
-      - formatted_user_info
-    transition: DisplayResults
-state:
-  input:
-    type: str
-  messages:
-    type: list
-  api_response:
-    type: str
-    value: '{"name": "John Doe", "email": "john@example.com", "status": "active", "description": "Long text here..."}'
-  formatted_user_info:
-    type: str
-    value: ''
 ```
 
-**Available Custom Filters:**
+### Template Filters
 
-- `from_json` - Parse JSON string to Python object
-- `base64_to_string` - Decode base64 encoded data
-- `split_by_words(chunk_size)` - Split text into chunks of specified word count
-- `split_by_regex(pattern)` - Split text using regex pattern
+Beyond standard Jinja2 filters (`|upper`, `|lower`, `|length`, `|default('value')`, `|trim`), the template supports four custom filters.
+
+| Filter | Purpose | Example |
+| --- | --- | --- |
+| **`from_json`** | Parses a JSON string into an object you can access with dot notation. | `{{ (api_response\|from_json).status }}` |
+| **`base64_to_string`** | Decodes a base64-encoded string. | `{{ encoded_value\|base64_to_string }}` |
+| **`split_by_words(n)`** | Splits text into chunks of `n` words each, returned as a list. | `{{ long_text\|split_by_words(50) }}` |
+| **`split_by_regex(pattern)`** | Splits text using a regex pattern, returned as a list. | `{{ raw_text\|split_by_regex(',\\s*') }}` |
+
+### Best Practices for State Modifier Nodes
+
+<Accordion title="List every variable the template uses">
+A variable missing from **Input** renders as empty, not as an error. Double-check **Input** whenever you add a new `{{ variable }}` to the template.
 </Accordion>
 
-<Accordion title="Text Extraction Example: Cleaning Status Value">
-This example shows how to extract a specific value from a sentence using conditional logic and string manipulation.
-
-```yaml
-nodes:
-  - id: ExtractStatus
-    type: state_modifier
-    template: |
-      {% if 'is' in status %}
-      {{ status.split('is')[-1]|trim }}
-      {% else %}
-      {{ status }}
-      {% endif %}
-    variables_to_clean: []
-    input:
-      - status
-    output:
-      - status
-    transition: NextNode
-state:
-  input:
-    type: str
-  messages:
-    type: list
-  status:
-    type: str
-    value: 'The status is Open'
-```
-
-**How it works:**
-
-1. **Check if 'is' exists**: `{% if 'is' in status %}` - Checks if the word "is" appears in the status text
-2. **Split the text**: `status.split('is')` - Divides the text into parts using "is" as the separator
-   - Example: `"The status is Open"` becomes `["The status ", " Open"]`
-3. **Get the last part**: `[-1]` - Takes the last item from the split result
-   - Example: `" Open"`
-4. **Remove extra spaces**: `|trim` - Removes whitespace from the beginning and end
-   - Example: `"Open"`
-5. **Otherwise keep original**: `{% else %} {{ status }} {% endif %}` - If "is" is not found, keeps the status unchanged
-
-**Before:** `"The status is Open"`  
-**After:** `"Open"`
+<Accordion title="Trust the automatic type conversion">
+When **Output** already has a declared type other than string, don't manually cast inside the template — the node converts the rendered text to match. Write the template to produce readable text; let the node handle the type.
 </Accordion>
 
-<Accordion title="Cleanup Example: Resetting Variables by Type">
-This example shows how `variables_to_clean` resets different variable types appropriately.
-
-```yaml
-nodes:
-  - id: CleanupAfterProcessing
-    type: state_modifier
-    template: |
-      Processing complete for batch {{ batch_number }}.
-      Total items: {{ items|length }}
-    variables_to_clean:
-      - temp_items
-      - cache_data
-      - counter
-      - processing_flag
-    input:
-      - batch_number
-      - items
-    output:
-      - summary
-    transition: END
-state:
-  input:
-    type: str
-  messages:
-    type: list
-  batch_number:
-    type: int
-    value: 1
-  items:
-    type: list
-    value: []
-  temp_items:
-    type: list
-    value: ['item1', 'item2']
-  cache_data:
-    type: dict
-    value: {}
-  counter:
-    type: int
-    value: 5
-  processing_flag:
-    type: str
-    value: 'active'
-  summary:
-    type: str
-    value: ''
-```
-
-**After execution:**
-
-- `temp_items` (list) → `[]`
-- `cache_data` (dict) → `{}`
-- `counter` (int) → `0`
-- `processing_flag` (str) → `""`
+<Accordion title="Clean up right after you no longer need a value">
+Reset short-lived variables with **Variables to Clean** as soon as the template that consumes them has run, instead of leaving stale values for a later node or loop iteration to accidentally read.
 </Accordion>
 
-
-
-<Info title="Jinja2 Template Features">
-**Template Access Control**
-
-The template can only access variables listed in the Input parameter. Variables not included in Input will cause template rendering errors if referenced.
-
-**Standard Filters:** `|default('value')`, `|upper`/`|lower`, `|length`<br />**Custom Filters:** `|from_json`, `|base64_to_string`, `|split_by_words(n)`, `|split_by_regex('pattern')`<br />**Multi-line:** Use YAML multi-line syntax (`|`) for complex templates<br />**Formatting:** Access nested data with dot notation: `{{ user.profile.name }}`<br />**Type Conversion:** Output automatically converts to match state variable type (str, int, float, bool, list, dict)
-</Info>
-
-**Best Practices**
-
-   * **Always List Input Variables**: Explicitly specify all variables used in template to avoid rendering errors.
-   * **Use Default Filters for Optional Variables**: Handle missing or null values gracefully with `{{ var|default('default_value') }}`.
-   * **Leverage Custom Filters**: Use `|from_json` for API responses, `|split_by_words()` for chunking, `|base64_to_string` for encoded data.
-   * **Trust Automatic Type Conversion**: The node automatically converts rendered output to match the target variable's type (int, float, bool, list, dict).
-   * **Clean Up Temporary Variables**: Reset variables that are no longer needed using variables_to_clean - they'll be reset appropriately based on type.
-   * **Format Long Templates for Readability**: Use multi-line YAML strings with proper indentation.
-   * **Test Templates with Sample Data**: Verify template rendering before deployment with sample state data.
-   * **Use Descriptive Output Names**: Name outputs to indicate their content (e.g., "formatted_summary" not "result").
-   * **Access Message History**: Use `messages[-1].content` to get the last message or `messages[0]` for the first.
-   * **Document Complex Templates**: Add comments explaining template logic for maintainability.
-   * **Validate State Before Cleaning**: Ensure cleaned variables aren't needed by later nodes.
-   * **Use State Modifier for Formatting Only**: Don't use for complex logic - use LLM or Code nodes instead.
-   * **Combine Multiple Variables in Output**: Generate comprehensive output in single template rather than multiple State Modifiers.
-   * **Handle JSON Data**: Use `|from_json` filter to parse JSON strings, then access nested properties with dot notation.
+<Accordion title="Use a State Modifier instead of repeating a format in several prompts">
+If more than one LLM or Agent node needs the same formatted string, render it once here into its own state variable and reference that variable everywhere else.
+</Accordion>
 
 ---
 
 ## Printer Node
 
-The Printer Node displays output to users during pipeline execution and pauses the workflow so users can review the information before continuing.
+The Printer node shows the user a message mid-run and pauses the pipeline until they acknowledge it. It calls no model and has no `output` — its only job is to display something and wait.
 
-**Simple Explanation:**
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/utility-nodes/printer-node-add.png" alt="Add Printer" />
 
-Think of it like a "pause and show" button in your pipeline. It stops the workflow, shows a message to the user (which can be a simple text, a variable's value, or formatted text), and waits for the user to click "continue" before moving to the next step.
+Use the Printer node in these cases:
 
-For example, you might use it to show:
-- "Processing complete! Found 5 results."
-- The contents of a status variable
-- A formatted report combining multiple pieces of data
+* You want to show the user a progress update, a status, or a completed result partway through a multi-step pipeline.
+* You need the run to pause at a specific point so the user can read something before the pipeline continues.
 
-<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/printer-node-add.gif" alt="Printer Node Interface" />
+### Configuration
 
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/utility-nodes/printer-node-interface.png" alt="Printer Node Interface" />
 
-**Purpose**
+The following table describes the Printer node fields.
 
-Use the State Modifier Node to:
+| Field | Section | Purpose | Example |
+| --- | --- | --- | --- |
+| **Name** | Panel header | The node `id`. This value is required and unique across the pipeline. If you rename it, the editor updates every reference to this node. | `Show_status` |
+| **Printer** | Basic | The message shown to the user. Choose **Fixed** for static text, **F-String** for `{variable}` placeholders, or **Variable** for a full state variable. This is the only input field, and it is required — YAML calls it `input_mapping.printer`. | F-String: `Found {count} results.` |
+| **Final message** | Basic | Optional note appended after the printer content. Defaults to *"How to proceed? To resume the pipeline - type anything…"* if left empty. | `Reply to continue.` |
 
-* **Show messages** - Display text to users at any point in the workflow
-* **Pause for review** - Stop the pipeline so users can check results before continuing
-* **Display variable values** - Show the contents of any variable from your pipeline
-* **Show formatted output** - Combine text and variables for better presentation
-* **Progress updates** - Tell users what's happening in multi-step workflows
+<Note>
+The Printer node has no **Input**/**Output** selectors. It reads whichever state variables you reference inside **Printer**'s F-String or Variable value, and writes nothing back to state.
+</Note>
 
-**Parameters**
+<Warning title="Printer requires its one field">
+If **Printer** has no value, the node raises an error when the pipeline runs. There's no way to configure a Printer node with an empty message.
+</Warning>
 
-| Parameter | Purpose | Type Options & Examples |
-|-----------|---------|-------------------------|
-| **Input Mapping (Printer)** | Define what content to display to the user | **Type: Fixed** - Show static text<br />Example: `"Processing complete!"`<br /><br />**Type: Variable** - Show a variable's value<br />Example: `status` (shows value of status variable)<br /><br />**Type: F-String** - Combine text with variables<br />Example: `"Found {count} results in {project_name}"`<br /><br />**Required field name:** Must be called `printer` |
-| **Transition** | Which node to go to after user clicks continue | **Required**: Must specify next node or END<br /><br />Example:<br />`END` or `NextNode` |
+### YAML View for Printer Nodes
 
-<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/printer-node-interface.png" alt="Printer" />
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/utility-nodes/printer-yaml.png" alt="Printer Node YAML View" />
 
-**YAML Configuration Examples**
+Every node configuration panel has **Flow view** and **YAML view** tabs at the top. In YAML view, the panel shows only this node, not the whole pipeline, as plain YAML. Changes stay synchronized in both directions. If you edit the `id` here, the editor renames the node everywhere it is referenced. You cannot change `type` in this view.
 
-<Accordion title="Simple Text (Type: Fixed)">
-Display a static message to the user.
-
-```yaml
-nodes:
-  - id: Printer 1
-    type: printer
-    input_mapping:
-      printer:
-        type: fixed
-        value: "Processing complete. Review the results below."
-    transition: END
-state:
-  input:
-    type: str
-  messages:
-    type: list
-```
-</Accordion>
-
-<Accordion title="Show Variable Value (Type: Variable)">
-Display the contents of a variable directly.
+The following YAML example shows a Printer node.
 
 ```yaml
-nodes:
-  - id: Printer 1
-    type: printer
-    input_mapping:
-      printer:
-        type: variable
-        value: status
-    transition: END
-state:
-  input:
-    type: str
-  messages:
-    type: list
-  status:
-    type: str
-    value: ''
-```
-</Accordion>
-
-<Accordion title="Formatted Text (Type: F-String)">
-Combine text with variable values using {variable_name} syntax.
-
-```yaml
-nodes:
-  - id: Printer 1
+  - id: Show_status
     type: printer
     input_mapping:
       printer:
         type: fstring
-        value: |
-          Processing Report:
-          - Project: {project_name}
-          - Items processed: {count}
-          - Status: {status}
+        value: "Found {count} results in {project_name}."
+    final_message: Reply to continue.
     transition: END
-state:
-  input:
-    type: str
-  messages:
-    type: list
-  project_name:
-    type: str
-    value: ''
-  count:
-    type: int
-    value: 0
-  status:
-    type: str
-    value: ''
 ```
-</Accordion>
-
-
 
 <Info title="Automatic Pause">
-The Printer Node automatically pauses the pipeline after displaying the message. The pipeline will resume only after the user acknowledges the message by typing anything.
-
-**Important:** If the Printer Node is the last node in your pipeline (transition: END), the pipeline execution will not complete until the user provides input to continue.
+A Printer node always pauses for the user to acknowledge it, regardless of the pipeline's `interrupt_before`/`interrupt_after` configuration — see **[Entry Point](../entry-point)** for how that affects available triggers. The pipeline resumes once the user sends any reply.
 </Info>
 
-**Best Practices**
+### Best Practices for Printer Nodes
 
-* **Choose the Right Type**:
-  - Use `fixed` for static messages that don't change
-  - Use `variable` to show the value of a single variable
-  - Use `fstring` when you need to combine text with multiple variables
-* **Use Clear Messages** - Make it obvious what information you're showing
-* **Format Multi-line Output** - Use `|` in YAML for readable multi-line messages
-* **Include Context** - Show relevant information so users understand what they're looking at
-* **Test Variable Names** - Make sure the variables you reference actually exist in your state
-* **Keep It Simple** - Don't try to show too much information at once
-* **Use Descriptive Text** - Add labels like "Status:", "Results:", etc. to make output clear
+<Accordion title="Match the type to what you're showing">
+Use **Fixed** for a message that never changes, **F-String** to weave one or more state values into surrounding text, and **Variable** to show a single variable's full value with no extra text around it.
+</Accordion>
+
+<Accordion title="Give Final message a reason to continue">
+The default final message is generic. A specific one — "Reply 'approve' to continue" — tells the user exactly what unblocks the pipeline.
+</Accordion>
+
+<Accordion title="Keep the printed content short">
+Printer joins any list value into a comma-separated string before displaying it. For a long report, format it first with a State Modifier node, then show the result here.
+</Accordion>
 
 ---
 
-## Utility Nodes Comparison
+## Value Types
 
-**When to Use Each Node**
+**Printer** uses the same Fixed/F-String/Variable selector as LLM, Agent, and other node fields. **Jinja Template** on the State Modifier node does not use this selector — it is always a raw Jinja2 template evaluated against **Input**.
 
-| **Scenario** | **Recommended Node** | **Why** |
-|--------------|---------------------|---------|
-| Transform state variables | State Modifier Node | Jinja2 templates ideal for data transformation and variable manipulation |
-| Display output to users | Printer Node | Shows formatted messages and pauses for user review |
-| Clean up temporary variables | State Modifier Node | variables_to_clean parameter resets specified state variables |
-| Show progress updates | Printer Node | Displays intermediate results with automatic pause |
-| Combine data from multiple state variables | State Modifier Node | Jinja2 templates can access multiple inputs and generate consolidated output |
-| Format user-facing messages | Printer Node | F-string or variable types create readable output for users |
-| Apply custom filters to data | State Modifier Node | Custom Jinja2 filters (from_json, split_by_words, etc.) for data transformation |
-| Pause pipeline for user inspection | Printer Node | Automatic interrupt after displaying output |
-| Generate content for next node | State Modifier Node | Output variables feed into subsequent pipeline nodes |
-| Show static completion messages | Printer Node | Fixed type displays unchanging text (e.g., "Processing complete") |
-| Perform calculations on state | State Modifier Node | Templates support arithmetic and logic operations |
-| Display formatted reports | Printer Node | F-string type combines text with variable values |
+| Type | What it does | Use it when |
+| --- | --- | --- |
+| **F-String** | Uses the text you typed as a template and fills in `{variable_name}` placeholders from state, the same way Python `str.format()` works. | Most of the text is static, but one or more state values must be inserted. |
+| **Variable** | Ignores the text in the field and uses the full value of the single state variable that you name. | The full field content already exists in state and does not need templating. |
+| **Fixed** | Uses exactly the text that you typed, with no substitution. | The text does not need to change between runs. |
+
+---
+
+## Node Panel Buttons
+
+Every node configuration panel footer has the same row of actions. This includes State Modifier nodes, Printer nodes, and all other node types.
+
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/node-buttons.png" alt="Node Panel Buttons" />
+
+The following table describes the node panel buttons.
+
+| Button | What it does |
+| --- | --- |
+| **Make Entrypoint** | Set this node as the pipeline entry point. This button appears only when the node is not already the entry point. After you set it, the editor replaces the button with an **Entrypoint** badge. State Modifier and Printer nodes can both be the entry point. |
+| **Build with AI** | Reserved for a future feature. It is currently always disabled. |
+| **Duplicate** | Copy this node as `<name>_copy` or `<name>_copy_2` if that name is already taken. The copy starts disconnected. The editor clears its outgoing connection and routing fields so you can reconnect it yourself. |
+| **Delete** | Remove this node. Any other node reference to it, including `transition`, is cleared automatically. |
+
+<Note>
+**Making a Node the Entry Point**
+
+After a node becomes the pipeline entry point, a **Trigger** field appears at the top of its configuration panel. The **Chat Message** and **Webhook** options control how the pipeline starts. For more information, see [Entry Point](../entry-point).
+
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/node-trigger.png" alt="Node Trigger" width="300"/>
+</Note>
+
+---
+
+## State Modifier vs. Printer
+
+The following table compares the two utility nodes.
+
+| | State Modifier Node | Printer Node |
+| --- | --- | --- |
+| **Purpose** | Transform state data | Show a message and pause |
+| **Reads state** | Through `input` | Through the F-String/Variable value in `input_mapping.printer` |
+| **Writes state** | Through `output` | No — `output` doesn't exist on this node |
+| **Pauses the run** | No | Always |
+| **Routing** | `transition` | `transition` |
 
 ---
 
 ## Deprecated Utility Nodes
 
-The following utility node is deprecated and will be removed in a future release:
+The following utility node is deprecated and hidden from the node picker. Existing nodes of this type keep working, but build new steps with their replacement instead.
 
 <Accordion title="Pipeline (Subgraph) Node">
-The **Pipeline** (Subgraph) node is deprecated and will be removed in an upcoming release.
-
-**Migration:** Use the **Agent** node to delegate tasks to specialized AI agents, effectively replacing nested pipeline functionality.
+Superseded by **Agent**, which delegates to a specialized agent or another pipeline in place of a nested pipeline.
 
 **Migration Guide:** [Pipeline Node Migration](../../../migration/v2.0.1/pipeline-node-migration)
 </Accordion>
 
 ---
 
-<Info title="Related Documentation">
-- **[Entry Point](../entry-point)** - Define pipeline starting point
-- **[Flow Editor](../flow-editor)** - Visual workflow design
-- **[YAML Configuration](../yaml)** - Text-based pipeline definition
-- **[Control Flow Nodes](./control-flow-nodes)** - Decision and routing nodes
-- **[Execution Nodes](./execution-nodes)** - LLM, Tool, and Code nodes
-- **[State Management](../states)** - Understanding state variables
+<Info title="Related">
+- **[Nodes Overview](./overview)** - Understand all available node types
+- **[Pipeline States](../states)** - Manage data flow through pipeline state
+- **[Node Connectors](../nodes-connectors)** - Link nodes together
+- **[YAML Configuration](../yaml)** - Complete node syntax reference
 </Info>
