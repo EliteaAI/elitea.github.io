@@ -1,430 +1,313 @@
 ---
 title: "Interaction Nodes"
-description: "Interaction Nodes enable your pipeline to communicate with AI models and delegate tasks to specialized agents. These nodes form the \"intelligent\" layer of you"
+description: "Interaction nodes call a model or delegate work to an existing agent. These are the two ways a pipeline performs AI reasoning."
 ---
 
-**Available Interaction Nodes:**
+## Overview
 
-* **[LLM Node](#llm-node)** - Directly interact with Large Language Models
-* **[Agent Node](#agent-node)** - Delegate tasks to pre-configured AI agents
+There are two interaction nodes. Both read from and write to pipeline state through `input` and `output`. For more information, see [Pipeline States](../states).
+
+<CardGroup cols={2}>
+  <Card title="LLM" icon="brain" href="#llm-node">
+    Calls a model directly with a prompt that you write.
+  </Card>
+  <Card title="Agent" icon="user-robot" href="#agent-node">
+    Delegates the step to an agent or another pipeline that already exists in the project.
+  </Card>
+</CardGroup>
 
 ---
 
 ## LLM Node
 
-The LLM Node provides direct access to Large Language Models (GPT-4, Claude, etc.) for text generation, analysis, extraction, and decision-making. It's the most versatile interaction node, supporting chat history, tool calling, and structured output extraction.
+The LLM node calls a model directly for text generation, analysis, extraction, or tool calling. It gives you full control over the system prompt, task, and bound tools.
 
-<Info title="Migrating from v1.x LLM Nodes">
-If you have existing pipelines with old LLM node format, see the [v2.0.0 Migration Guide](../../../migration/v2.0.0/update-llm-nodes) for updating to the new System/Task structure.
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/interaction-nodes/add-llm-node.png" alt="Add LLM" />
+
+Use the LLM node in these cases:
+
+* You need full control over the system prompt, task, and which specific tools are bound — not an agent's pre-built behavior.
+* The interaction is one-off or specific to this pipeline, not something worth reusing elsewhere.
+* You want the model to extract structured data straight into state (`structured_output`), rather than free-form text.
+
+### Configuration
+
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/interaction-nodes/llm-node-interface.png" alt="LLM Node Interface" />
+
+The following table describes the LLM node fields.
+
+| Field | Section | Purpose | Example |
+| --- | --- | --- | --- |
+| **Name** | Panel header | The node `id`. This value is required and unique across the pipeline. If you rename it, the editor updates every reference to this node. | `Analyze_feedback` |
+| **Toolkits & MCPs** | Basic | Pick a toolkit or MCP server in the project to bind to this node. Then pick the tools that the model can call. If the toolkit is not already attached to the pipeline, the editor attaches it. | `jira_toolkit` with `create_issue`, `update_issue` |
+| **System** | Basic | The system prompt. Choose **Fixed** for static text, **F-String** for `{variable}` placeholders, or **Variable** for a full state variable. This field is required. | Fixed: `You are a helpful assistant` |
+| **Task** | Basic | The task or user request sent to the model. It supports the same three types as **System**. This field is required. | F-String: `Analyze {user_context} and extract requirements.` |
+| **Input** | Advanced | State variables this node can read. | `input`, `user_context` |
+| **Output** | Advanced | State variables that receive the parsed model response, in addition to `messages`. | `extracted_title` |
+| **Chat History** | Advanced | The conversation history passed to the model. It supports the same three types as **System** and **Task**. | Variable: `messages` |
+| **Structured Output** | Advanced | Turn this option on to parse the response directly into the variables listed in `output`, instead of free-form text. | `true` |
+
+<Info title="Toolkit Selection">
+When you select a toolkit or MCP, the editor opens a tool picker for that toolkit. Choose the tools that the model can call. Repeat this step for any other toolkit. Each attached toolkit has its own tool list.
+
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/interaction-nodes/toolkit-tools.png" alt="Toolkit tool selection" />
 </Info>
 
-![Add LLM](../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/add-llm-node.png)
+<Note>
+`messages` is always updated with the exchange, regardless of `output` or `structured_output`. You do not need to add it to `output` for the conversation to continue.
+</Note>
 
-### Purpose
+<Tip title="AI Assistant">
+When **System** or **Task** is set to **Fixed** or **F-String**, the sparkle icon next to the field opens the **AI Assistant**. It drafts or refines the field text from a plain-language instruction. For more information, see [AI Assistant in Pipeline Nodes](../ai-assistant-in-nodes).
+</Tip>
 
-Use the LLM Node to:
+### YAML View for LLM Nodes
 
-* **Generate text** based on prompts and context
-* **Analyze content** and extract insights
-* **Extract structured data** from unstructured text
-* **Have conversations** with full chat history support
-* **Call tools** via function calling
-* **Make intelligent decisions** based on context
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/interaction-nodes/llm-yaml.png" alt="LLM node YAML view" width="280"/>
 
-### Parameters
+Every node configuration panel has **Flow view** and **YAML view** tabs at the top. In YAML view, the panel shows only this node, not the whole pipeline, as plain YAML. Changes stay synchronized in both directions. If you edit the `id` here, the editor renames the node everywhere it is referenced. You cannot change `type` in this view.
 
-| Parameter | Purpose | Type Options & Examples |
-|-----------|---------|-------------------------|
-| **System** | Provide system-level instructions that set the LLM's behavior, role, or constraints | **`Fixed`** - Static system message<br />Example: "You are a helpful assistant."<br /><br />**`F-String`** - System message with variables<br />Example: "You are a {role} expert."<br /><br />**`Variable`** - System message from state<br />Example: custom_system_prompt |
-| **Task** | Define the specific task or user request the LLM should process | **`Fixed`** - Static task<br />Example: "Summarize the text."<br /><br />**`F-String`** - Task with embedded variables<br />Example: "Analyze {user_story} and extract requirements."<br /><br />**`Variable`** - Task from state variable<br />Example: task_instruction |
-| **Chat History** | Provide conversation context from previous interactions | **`Fixed`** - No history<br />Example: []<br /><br />**`F-String`** - Formatted conversation history<br />Example: "Previous conversation: {messages}"<br /><br />**`Variable`** - Use conversation history<br />Example: messages |
-| **Input** | Specify which state variables the LLM node reads from | **Default states:** `input`, `messages`<br />**Custom states:** Any defined state variables<br /><br />Example:<br />`- input`<br />`- messages`<br />`- user_context` |
-| **Output** | Define which state variables the LLM's response should populate | **Default:** `messages`<br />**Custom states:** Define specific variables<br /><br />Example:<br />`- extracted_title`<br />`- extracted_description`<br />`- messages` |
-| **Toolkits** | Bind external tools and MCPs to the LLM for function calling | **Toolkits** - Service integrations<br />**MCPs** - Model Context Protocol servers<br /><br />Example:<br />`jira_toolkit:`<br />`  - create_issue`<br />`  - update_issue`<br />`slack_toolkit:`<br />`  - send_message` |
-| **Interrupt Before** | Pause pipeline execution before this node | **Enabled** / **Disabled**<br /><br />Example: `enabled` or `disabled` |
-| **Interrupt After** | Pause pipeline execution after this node for inspection | **Enabled** / **Disabled**<br /><br />Example: `enabled` or `disabled` |
-| **Structured Output** | Force LLM to return data in structured format matching output variables | **Enabled** - Response parsed into state variables<br />**Disabled** - Free-form text to `messages`<br /><br />Example: `true` or `false` |
+The following YAML example shows an LLM node.
 
-![LLM Node Interface](../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/llm-node-interface.png)
-
-
-**Yaml Configuration**
-```Yaml
-nodes:
+```yaml
   - id: Analyze_feedback
     type: llm
-    prompt:
-      type: string
-      value: ''
     input:
       - input
       - user_context
     output:
       - extracted_title
-      - messages
-    structured_output: false
-    transition: END
+    structured_output: true
     input_mapping:
       system:
         type: fixed
         value: You are a helpful assistant
       task:
         type: fstring
-        value: Analyze {user_story} and extract requirements.
+        value: Analyze {user_context} and extract requirements.
       chat_history:
         type: variable
         value: messages
     tool_names:
-      JiraAssistant:
+      jira_toolkit:
         - create_issue
         - update_issue
-interrupt_before:
-  - Analyze_feedback
-state:
-  messages:
-    type: list
-  input:
-    type: str
-  extracted_title:
-    type: str
-    value: ''
-  user_context:
-    type: str
-    value: ''
+    transition: END
 ```
 
-<Warning title="Important: Messages in Output for Interrupts">
-When using **structured output** with **interrupts**, include `messages` in the output variables for meaningful interrupt output.
-</Warning>
+### Best Practices for LLM Nodes
 
-<Info title="Toolkit Selection Process">
-1. Select Toolkit/MCP from dropdown
-2. Tool dropdown appears for that toolkit
-3. Select specific tools to make available to the LLM
-4. Repeat for multiple toolkits (each gets its own tool dropdown)
-![alt text](../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/toolkit-tools.png)
-</Info>
+<Accordion title="Match prompt type to the content">
+Use **Fixed** for static instructions, **F-String** when you need to interpolate specific state variables, and **Variable** when the whole prompt is itself produced by an earlier node.
+</Accordion>
 
+<Accordion title="Add only the tools this step needs">
+A long, unrelated tool list makes the model less reliable at picking the right one. Attach the toolkit and select only the specific tools this node should be able to call.
+</Accordion>
 
-### Best Practices
+<Accordion title="Give structured output its own state variables">
+When `structured_output` is on, name `output` variables after what you extract, such as `jira_project_id` or `epic_id`, instead of reusing a generic name. This keeps downstream `input` lists self-explanatory.
+</Accordion>
 
-#### 1. Always Include `messages` in Output for Interrupts
+<Accordion title="Set Chat History on purpose">
+Map `messages` into **Chat History** when conversation context matters. Leave it as a fixed empty value for a single-turn, stateless request.
+</Accordion>
 
-When using structured output with interrupts:
+### Troubleshooting LLM Nodes
 
-✅ **Correct**:
-```yaml
-output: ["extracted_data", "status", "messages"]
-structured_output: true
-```
+<Accordion title="The model is confused or calls the wrong tool">
+Check how many tools are bound. A long, loosely related tool list makes tool selection less reliable. Attach fewer, more specific tools, or split the step across two LLM nodes.
+</Accordion>
 
-❌ **Avoid**:
-```yaml
-output: ["extracted_data", "status"]  # Missing messages
-structured_output: true
-```
+<Accordion title="Structured output comes back empty or wrong">
+Confirm that `structured_output` is enabled and that `output` lists exactly the variables you expect to populate. The declared state types must match what the model is asked to return.
+</Accordion>
 
-#### 2. Use Appropriate Prompt Types
-
-* **Fixed**: For static, unchanging instructions
-* **F-String**: When you need to inject specific state variables
-* **Variable**: When the entire prompt comes from state
-
-#### 3. Limit Tool Binding
-
-Only bind tools the LLM actually needs:
-
-✅ **Good**: Select specific relevant tools
-```yaml
-toolkits:
-  jira_toolkit:
-    - create_issue
-    - update_issue
-```
-
-❌ **Avoid**: Binding all tools unnecessarily
-```yaml
-toolkits:
-  jira_toolkit:
-    - [all 50+ tools selected]  # Confuses LLM
-```
-
-#### 4. Structure Your Prompts
-
-Use clear, structured prompts:
-
-✅ **Good**:
-```yaml
-prompt:
-  type: "fstring"
-  value: |
-    ## Task
-    Analyze the user story: {user_story}
-    
-    ## Requirements
-    Extract:
-    1. Title
-    2. Description
-    3. Acceptance Criteria
-    
-    ## Output Format
-    Provide structured data for each field.
-```
-
-❌ **Avoid**: Vague prompts
-```yaml
-prompt:
-  type: "fixed"
-  value: "Do something with the data"
-```
-
-#### 5. Specify Output Variables Clearly
-
-Match output variables to what you're extracting:
-
-✅ **Good**:
-```yaml
-output: ["jira_project_id", "epic_id", "user_story_title", "messages"]
-structured_output: true
-```
-
-#### 6. Use Chat History Wisely
-
-* Include `messages` in input when context matters
-* Use `[]` (empty array) for stateless single-turn requests
-
-#### 7. Test with Interrupts
-
-Use interrupts during development to verify LLM outputs:
-
-```yaml
-interrupt_after: true  # Pause after this node to inspect results
-```
-
-#### 8. Handle Tool Calling Errors
-
-When using toolkits, account for potential tool failures in your prompt:
-
-```yaml
-prompt:
-  type: "fixed"
-  value: |
-    Use available tools to complete the task.
-    If a tool fails, explain what went wrong and suggest alternatives.
-```
+<Accordion title="System or Task won't save">
+Both fields are required. The node will not run without them. Give **System** and **Task** a value, even a short one, before you leave the node.
+</Accordion>
 
 ---
 
 ## Agent Node
 
-The Agent Node allows you to delegate tasks to pre-configured AI agents that have been added to your pipeline. Instead of configuring LLM behavior from scratch, you leverage existing agents with specialized capabilities, prompts, and toolkits.
+The Agent node delegates a step to an agent or another pipeline that already exists in the project. It reuses the prompt, toolkits, and behavior instead of rebuilding them in an LLM node.
 
-![Add Agent](../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/agent-node-add.png)
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/interaction-nodes/agent-node-add.png" alt="Add Agent" />
 
-### Purpose
+Use the Agent node in these cases:
 
-Use the Agent Node to:
+* An existing agent or pipeline already does what this step needs — reuse it instead of recreating its prompt and toolkits in an LLM node.
+* You want the same step to stay in sync across multiple pipelines — update the agent once, and every Agent node that delegates to it picks up the change.
+* The step is itself a multi-node workflow worth keeping as its own pipeline, called here as one step.
+* You need this step to run against a specific, pinned version of an agent or pipeline, independent of that agent's own latest changes.
 
-* **Delegate complex tasks** to specialized agents
-* **Reuse existing agents** across multiple pipelines
-* **Maintain consistency** with pre-configured agent behavior
-* **Simplify workflows** by avoiding duplicate LLM configuration
-* **Leverage agent-specific toolkits** and integrations
+### Configuration
 
-### Parameters
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/interaction-nodes/agent-node-interface.png" alt="Agent Node Interface" />
 
-| Parameter | Purpose | Type Options & Examples |
-|-----------|---------|-------------------------|
-| **Agent** | Select which pre-configured agent to execute | Only agents added to the pipeline appear in dropdown<br /><br />**How to Add:**<br />1. Go to Pipeline Configuration > Toolkits<br />2. Select agents<br />3. Added agents become available<br /><br />Example: `jira_assistant_agent` |
-| **Input** | Specify which state variables the agent reads from | **Default states:** `input`, `messages`<br />**Custom states:** Any defined state variables<br /><br />Example:<br />`- project_id`<br />`- input` |
-| **Output** | Define which state variables the agent's response should populate | **Default:** `messages`<br />**Custom states:** Specific variables<br /><br />Example:<br />`- jira_ticket_id`<br />`- ticket_url`<br />`- messages` |
-| **Task (Input Mapping)** | Map the specific task instruction for the agent | **`Fixed`** - Static task<br />Example: "Create a Jira ticket for this issue."<br /><br />**`F-String`** - Task with variables<br />Example: "Create Jira ticket in {project_id}: {user_story}"<br /><br />**`Variable`** - Task from state<br />Example: task_instruction |
-| **Chat History (Input Mapping)** | Map conversation context to provide to the agent | **`Fixed`** - No history<br />Example: []<br /><br />**`F-String`** - Formatted history<br />Example: "Previous context: {messages}"<br /><br />**`Variable`** - Use conversation history<br />Example: messages |
-| **Custom Variables (Input Mapping)** | Map agent-specific custom variables if defined | **`Fixed`** - Static value<br />**`F-String`** - Value with variables<br />**`Variable`** - Value from state<br /><br />Example (if agent has `jira_project`):<br />`jira_project: PROJ-123` |
-| **Interrupt Before** | Pause pipeline execution before this node | **Enabled** / **Disabled**<br /><br />Example: `enabled` or `disabled` |
-| **Interrupt After** | Pause pipeline execution after this node for inspection | **Enabled** / **Disabled**<br /><br />Example: `enabled` or `disabled` |
+The following table describes the Agent node fields.
 
-![Agent Node Interface](../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/agent-node-interface.png)
+| Field | Section | Purpose | Example |
+| --- | --- | --- | --- |
+| **Name** | Panel header | The node `id`. This value is required and unique across the pipeline. If you rename it, the editor updates every reference to this node. | `Create_jira_ticket` |
+| **Agents & Pipelines** | Basic | Pick an agent or pipeline in the project to handle this step. If it is not yet attached to the pipeline, the editor attaches it. | `jira_assistant_agent` |
+| **Version** | Basic | The version of the selected agent or pipeline that runs. This field defaults to **Latest** and appears after you pick an agent or pipeline. | `Latest` |
+| **Task** | Basic | The task instruction sent to the agent. Choose **Fixed**, **F-String**, or **Variable**. This field is required. | F-String: `Create a Jira ticket in {project_id}` |
+| **Input** | Advanced | State variables this node can read. | `input`, `project_id` |
+| **Output** | Advanced | State variables that receive the parsed agent result, in addition to `messages`. | `jira_ticket_id` |
+| **Chat History** | Advanced | This field appears for persisted-pipeline compatibility, but it has no effect. The delegated agent or pipeline does not receive this value. | Fixed: `[]` |
+| The agent custom variables | Advanced | If the selected agent declares custom variables, each one appears here for mapping. Some may be required, depending on the agent schema. | Variable: `project_id` to `jira_project` |
 
-**Yaml Configuration**
+<Note>
+`messages` is always updated with the agent's result, in addition to any custom `output` you configure.
+</Note>
+
+<Note title="Required Mappings">
+`Task` is always required. If the attached agent marks any custom variables as required, the node canvas card shows "Not configured" and lists the required inputs until you map a value to each one.
+</Note>
+
+<Info title="Custom Variable Field Types">
+Each agent custom variable renders a control that matches its declared data type. Examples include a dropdown for a fixed set of values, a number field, a checkbox for a Boolean, or a JSON editor for an object or list. Each variable also uses the same **Fixed**, **F-String**, or **Variable** type selector as **Task**.
+</Info>
+
+### YAML View for Agent Nodes
+
+Every node configuration panel has **Flow view** and **YAML view** tabs at the top. In YAML view, the panel shows only this node, not the whole pipeline, as plain YAML. Changes stay synchronized in both directions. If you edit the `id` here, the editor renames the node everywhere it is referenced. You cannot change `type` in this view.
+
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/interaction-nodes/agent-yaml.png" alt="Agent YAML View" width="280" />
+
+<Warning title="Don't retype tool by hand">
+The delegated agent is stored in the `tool` field. If you type a different agent name here, the editor does not attach it. You must pick it from **Agents & Pipelines** in Flow view. If you edit `tool` to a name that is not already attached to the pipeline, the node becomes unresolved and shows the same "Agent not found" state as a removed agent.
+</Warning>
+
+The following YAML example shows an Agent node.
 
 ```yaml
-nodes:
-  - id: Agent 1
+  - id: Create_jira_ticket
     type: agent
     input:
       - input
       - project_id
     output:
       - jira_ticket_id
-      - ticket_url
-      - messages
-    transition: END
+    tool: jira_assistant_agent
     input_mapping:
       task:
         type: fstring
-        value: Create Jira ticket in {project_id}
-      chat_history:
-        type: fixed
-        value: []
-      project_id:
+        value: Create a Jira ticket in {project_id}
+      jira_project:
         type: variable
         value: project_id
-    tool: Jiraepam
-interrupt_before:
-  - Agent 1
-state:
-  messages:
-    type: list
-  input:
-    type: str
-  project_id:
-    type: str
-    value: ''
-  jira_ticket_id:
-    type: str
-    value: ''
-  ticket_url:
-    type: str
-    value: ''
+    transition: END
 ```
 
-<Info title="Agent Selection and Input Mapping">
-The Input Mapping section appears **after** you select an agent. Every agent includes **TASK** and **CHAT_HISTORY** mappings. If the agent has custom variables, they also appear as mapping options.
-</Info>
+### Best Practices for Agent Nodes
 
-<Warning title="Add Agents to Pipeline First">
-Before using Agent Node, ensure agents are added in **Pipeline Configuration > Toolkits** section. Only added agents appear in the dropdown.
-</Warning>
+<Accordion title="Write a specific Task">
+A clear, specific Task instruction (what to do, with which inputs) gives the delegated agent better context than pointing it at a raw, unprocessed state variable.
+</Accordion>
 
-### Best Practices
+<Accordion title="Map the agent's custom variables deliberately">
+If the attached agent declares custom variables, map each one to a specific pipeline state variable instead of leaving defaults. The agent logic depends on these values.
+</Accordion>
 
-#### 1. Add Agents to Pipeline First
+<Accordion title="Reuse the same agent across pipelines instead of rebuilding its logic">
+Use an Agent node for this reuse. Point multiple pipelines to the same agent instead of duplicating its prompt and toolkits in separate LLM nodes.
+</Accordion>
 
-Ensure the agent is added in Pipeline Configuration > Toolkits section before using Agent Node.
+<Accordion title="Pin a version deliberately when stability matters">
+The version defaults to **Latest**, which tracks the newest changes in the agent or pipeline automatically. Pin a specific version if this pipeline needs that dependency to stay stable across future edits.
+</Accordion>
 
-#### 2. Map Task Clearly
+### Troubleshooting Agent Nodes
 
-Provide clear, specific task instructions:
+<Accordion title="&quot;Agent not found&quot; warning">
+The agent or pipeline this node pointed to was removed from the project. Open the node and pick a replacement, or delete the node if it's no longer needed.
+</Accordion>
 
-✅ **Good**:
-```yaml
-task:
-  type: "fstring"
-  value: "Create Jira ticket in project {project_id} with title '{title}', description '{description}', and priority {priority}."
-```
+<Accordion title="The selected version no longer exists">
+The **Version** field shows an error if the pinned version was deleted from the agent or pipeline. Pick another version from the list.
+</Accordion>
 
-❌ **Avoid**:
-```yaml
-task:
-  type: "variable"
-  value: "input"  # Too vague
-```
+<Accordion title="A mapped custom variable doesn't seem to do anything">
+Confirm that the key you mapped matches a key that the attached agent actually declares. The **Advanced** section lists only the variables exposed by that specific agent schema, so a stale or renamed variable has no effect.
+</Accordion>
 
-#### 3. Use Chat History Appropriately
-
-- **With History**: Use when agent needs conversation context
-- **Without History**: Use `[]` for independent, stateless tasks
-
-#### 4. Map Custom Variables Correctly
-
-If agent has custom variables, map them to pipeline state:
-
-✅ **Good**:
-```yaml
-input_mapping:
-  jira_project:
-    type: "variable"
-    value: "project_id"
-  sprint_number:
-    type: "variable"
-    value: "current_sprint"
-```
-
-#### 5. Include `messages` in Output
-
-For debugging and continuity, include `messages`:
-
-```yaml
-output: ["agent_result", "messages"]
-```
-
-#### 6. Use Interrupts for Testing
-
-Test agent behavior with interrupts:
-
-```yaml
-interrupt_after: true  # Review agent output
-```
-
-#### 7. Reuse Agents Across Pipelines
-
-Create specialized agents once, reuse in multiple pipelines for consistency.
-
-#### 8. Handle Agent Failures
-
-Consider error handling in subsequent nodes:
-
-```yaml
-- id: "check_agent_result"
-  type: "router"
-  condition: "agent_result is not None"
-  routes: ["success_path", "error_path"]
-```
+<Accordion title="Canvas card shows &quot;Not configured&quot;">
+`Task`, or one of the required custom variables, is still empty. Open the node and check the field names listed in the card issue text. Fill in each one before you run the pipeline.
+</Accordion>
 
 ---
 
-## Interaction Nodes Comparison
+## Value Types
 
-| Feature | LLM Node | Agent Node |
-|---------|----------|------------|
-| **Purpose** | Direct LLM interaction with full control | Delegate to pre-configured specialized agents |
-| **Configuration** | Configure prompt, system, task from scratch | Use existing agent configuration |
-| **Prompt** | Define in node (Fixed/F-String/Variable) | Inherited from agent, customized via Task mapping |
-| **Toolkits** | Select Toolkits & MCPs, choose specific tools | Agent's toolkits are pre-configured |
-| **Input** | State variables (input, messages, custom) | State variables (input, messages, custom) |
-| **Output** | State variables (messages, custom) | State variables (messages, custom) |
-| **Input Mapping** | Not applicable (direct state access) | Map pipeline state to agent parameters (Task, Chat History, custom variables) |
-| **Structured Output** | Supported (enable via toggle) | Depends on agent configuration |
-| **Conversation History** | Controlled via Chat history parameter | Controlled via CHAT_HISTORY mapping |
-| **Reusability** | Node-specific configuration | Agent can be reused across pipelines |
-| **Flexibility** | Highly flexible, configure everything | Limited to agent's design |
-| **Complexity** | More setup required | Simpler, leverages existing agent |
-| **Use Case** | Custom tasks, one-off requests, full control | Specialized tasks, consistent behavior, reusable workflows |
+Most text fields on these two nodes let you pick how their value is produced. These fields include **System**, **Task**, **Chat History**, and the Agent custom variables. All three value types read only from the variables listed in that node's **Input**.
 
-### When to Use LLM Node
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/interaction-nodes/value-type.png" alt="Value Types" />
 
-✅ **Choose LLM Node when you need**:
+The following table describes the available value types.
 
-* Full control over prompts and behavior
-* Custom tool binding for specific workflow
-* One-off or unique LLM interactions
-* Structured output extraction
-* Simple text generation without pre-configuration
+| Type | What it does | Use it when |
+| --- | --- | --- |
+| **F-String** | Uses the text you typed as a template and fills in `{variable_name}` placeholders from state, the same way Python `str.format()` works. | Most of the text is static, but one or more state values must be inserted. Example: `Analyze {user_context} and extract requirements.` |
+| **Variable** | Ignores the text in the field and uses the full value of the single state variable that you name. | The full field content already exists in state and does not need templating. |
+| **Fixed** | Uses exactly the text that you typed, with no substitution. | The text does not need to change between runs. |
 
-### When to Use Agent Node
+<Warning title="A missing placeholder doesn't fail the run">
+If an F-String references a variable that is not in **Input**, or if the variable is empty, the platform searches the rest of state for it. If it still cannot find a match, the placeholder remains as literal text, such as `{user_context}`, and the node does not fail. Make sure every `{variable}` that you reference is listed in **Input**.
+</Warning>
 
-✅ **Choose Agent Node when you**:
-
-* Have an existing agent that does exactly what you need
-* Want to reuse agent logic across multiple pipelines
-* Need consistent behavior from pre-configured agents
-* Want to simplify pipeline by delegating to specialists
-* Have agents with specific domain knowledge or toolkits
-
-<Tip title="Combining Both">
-You can use both node types in the same pipeline:
-* **LLM Node** for custom, ad-hoc processing
-* **Agent Node** for specialized, reusable tasks
+<Tip title="Switching types keeps your text">
+Switching between **Fixed** and **F-String** keeps the text that you typed. This is useful when you add or remove `{variable}` placeholders without retyping the rest. Switching to or from **Variable** replaces the field content, because **Variable** does not store free-form text.
 </Tip>
 
 ---
 
-<Info title="Related">
+## Node Panel Buttons
+
+Every node configuration panel footer has the same row of actions. This includes LLM nodes, Agent nodes, and all other node types.
+
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/node-buttons.png" alt="Node Panel Buttons" />
+
+The following table describes the node panel buttons.
+
+| Button | What it does |
+| --- | --- |
+| **Make Entrypoint** | Set this node as the pipeline entry point. This button appears only when the node is not already the entry point. After you set it, the editor replaces the button with an **Entrypoint** badge. It is not available on Decision nodes or legacy Condition nodes. |
+| **Build with AI** | Reserved for a future feature. It is currently always disabled. |
+| **Duplicate** | Copy this node as `<name>_copy` or `<name>_copy_2` if that name is already taken. The copy starts disconnected. The editor clears its outgoing connection and routing fields, including `transition`, `routes`, `nodes`, and `default_output`, so you can reconnect it yourself. |
+| **Delete** | Remove this node. Any other node reference to it, including `transition`, `default_output`, or a HITL route, is cleared automatically. |
+
+<Note>
+**Making a Node the Entry Point**
+
+After a node becomes the pipeline entry point, a **Trigger** field appears at the top of its configuration panel. The **Chat Message** and **Webhook** options control how the pipeline starts. For more information, see [Entry Point](../entry-point).
+
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/node-trigger.png" alt="Node Trigger" width="300"/>
+
+</Note>
+
+## LLM vs. Agent
+
+The following table compares the LLM node and the Agent node.
+
+| | LLM Node | Agent Node |
+| --- | --- | --- |
+| **Prompt** | You write **System** and **Task** in the node | Inherited from the agent. Only **Task** is mapped per use |
+| **Toolkits** | You pick toolkits/MCPs and tools per node | Pre-configured on the agent itself |
+| **Reusability** | Configuration lives in this node only | The same agent can be reused across many pipelines |
+| **Chat History** | Actually used by the model | Accepted but has no effect on the delegated agent |
+| **Best for** | A custom, one-off interaction with full control | Reusing an agent or another pipeline existing behavior |
+
+---
+
+<Info>
+**See Also**
+
 - **[Nodes Overview](./overview)** - Understand all available node types
-- **[Execution Nodes](./execution-nodes)** - Call external tools and execute code
-- **[States](../states)** - Manage data flow through pipeline state
-- **[Connections](../nodes-connectors)** - Link nodes together
-- **[YAML Configuration](../yaml)** - See complete node syntax examples
-- **[Updating LLM Nodes (v2.0.0 Migration)](../../../migration/v2.0.0/update-llm-nodes)** - Guide for migrating old LLM nodes to new format
+- **[Pipeline States](../states)** - Manage data flow through pipeline state
+- **[Node Connectors](../nodes-connectors)** - Link nodes together
+- **[AI Assistant in Pipeline Nodes](../ai-assistant-in-nodes)** - Draft or refine System/Task content with AI
+- **[YAML Configuration](../yaml)** - Complete node syntax reference
 </Info>

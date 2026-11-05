@@ -1,119 +1,58 @@
 ---
 title: "Node Connectors"
-description: "Node connectors link nodes together to define your pipeline's execution flow. They determine which node runs next, how data flows between nodes, and when the pi"
+description: "Connectors link nodes together to define your pipeline's execution flow — which node runs next, how many paths a node can lead to, and how a run eventually reaches END."
 ---
 
-**Key Concepts:**
+## Overview
 
-* **[Entry Point](#entry-point-node)** - Where pipeline execution begins
-* **[Transitions](#yaml-connection-syntax)** - Connections between nodes
-* **[END Node](#end-node)** - Where pipeline execution stops
-* **[Connection Patterns](#connection-patterns)** - Common workflow structures
+A pipeline connects nodes with a `transition` (or, for Router, Decision, and HITL, a routing field) from one node's output to another node's input. Every path must eventually reach `END`, and every pipeline needs exactly one entry point to start from — see **[Entry Point](./entry-point)**.
 
-<Info title="Essential Elements">
-Every pipeline requires: (1) Entry Point to start execution, (2) Transitions to connect nodes, (3) END to terminate execution
+<Info>
+**Essential Elements**
+
+Every pipeline needs:
+ 1. An entry point to start execution
+ 2. Transitions connecting its nodes
+ 3. A path from every branch to `END`
 </Info>
 
 ---
 
-## Entry Point Node
+## Connecting Nodes Visually
 
-The Entry Point is the first node that executes when your pipeline runs. Every pipeline must have exactly one entry point.
+In Flow mode, connect two nodes by dragging from a node's **output handle** (bottom of the card) to another node's **input handle** (top of the card).
 
-### Setting an Entry Point
+<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes-connectors/drag-from-node.gif" alt="Dragging connector between nodes" />
 
-**Visual Method:**
+Releasing the drag on empty canvas — or clicking the **+** beside an output handle — opens a dropdown instead, where you can pick an existing node to connect to, create a new node, or choose **END**.
 
-1. Open your pipeline in Flow Editor
-2. Click the three-dots menu (⋮) on the node
-3. Select **Make entrypoint**
+<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes-connectors/drag-connector.gif" alt="Dragging connector to open the dropdown" />
 
-<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/node-menu-options.png" alt="Make entrypoint menu option" />
-
-**YAML Method:**
-
-```yaml
-entry_point: Validate Input
-```
-
-<Warning title="Entry Point Rules">
-- Only **one node** can be the entry point
-- **Router**  node **cannot** be entry point (they require input from previous nodes)
-- All other node types can serve as entry points
-- Entry point must be set before running the pipeline
-</Warning>
-
-<Tip title="Changing Entry Points">
-Making a different node the entry point automatically removes the previous entry point designation.
-</Tip>
-
-**See Also:** [Entry Point Guide](./entry-point) for detailed configuration
+<Note>
+The dropdown only lists nodes the connection is actually allowed to reach — it hides nodes already connected from that output, and (per the rules below) Router/Decision/HITL outputs can't target each other or a Condition/Decision node directly.
+</Note>
 
 ---
 
-## END Node
+## Editing and Deleting Connections
 
-The END node terminates pipeline execution. It's not a physical node but a special target for connections.
+**Edit a connection** by dragging its endpoint: grab either end of the connector line and drop it on a different node to retarget it, without deleting and recreating the edge.
 
-### When to Use END
+**Delete a connection** by clicking it to select it, then pressing **Delete** — or select it along with other nodes/edges for a bulk delete. Either way, a confirmation dialog shows what's about to be removed before it happens.
 
-Use `END` as the connection target when:
-
-* Pipeline has completed all work
-* No further processing is needed
-* You want to explicitly stop execution
-
-### How to Connect to END
-
-**Visual Method:**
-
-1. Drag a connector from a node
-2. Release in the canvas
-3. Select **END** from the dropdown
-
-**YAML Method:**
-
-```yaml
-transition: END
-```
-
-<Info title="Complete Execution Paths">
-Every execution path must eventually reach END. Paths without termination may cause unexpected behavior.
-</Info>
-
-<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/end-node.gif" alt="Multiple paths converging to END" />
+<Note>
+Deleting a node automatically cleans up any dangling reference to it elsewhere in the pipeline — clearing it from another node's `transition`, `default_output`, or HITL `routes` — so you don't end up with a connection pointing at a node that no longer exists.
+</Note>
 
 ---
 
-## Node Input and Output Ports
+## Single-Output vs. Multi-Output Nodes
 
-All nodes have **input** and **output** ports for connectors:
+### Single Output
 
-| Port Type | Purpose | Visual Indicator |
-|-----------|---------|------------------|
-| **Input** | Receives data/control from previous nodes | Top of node card |
-| **Output** | Sends data/control to next nodes | Bottom of node card |
-| **Default Output** | Fallback path (Router, Decision only) | Labeled separately |
+<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes-connectors/single-output.png" alt="Single-output node" />
 
----
-
-## Connection Rules by Node Type
-
-### Standard Nodes (Single Output)
-
-Most nodes can have **only ONE output connection**:
-
-* LLM
-* Agent
-* Toolkit
-* MCP
-* Code
-* State Modifier
-* Printer
-* Decision
-* Hitl
-
-**YAML Example:**
+LLM, Agent, Toolkit, MCP, Code, State Modifier, Printer, and Custom nodes each lead to exactly **one** next node (or `END`). Once such a node has an outgoing connection to anything other than `END`, its output handle stops accepting new connections — reconnect or delete the existing edge first to change it.
 
 ```yaml
 - id: Process Data
@@ -121,77 +60,55 @@ Most nodes can have **only ONE output connection**:
   transition: Display Results
 ```
 
-### Multi-Output Nodes
+### Multi-Output: Router, Decision, HITL
 
-Two node types support **multiple outputs**:
+Three node types can lead to more than one destination, each choosing a different one at runtime:
 
-#### 1. Router Node
+<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes-connectors/multi-output.png" alt="Multi-output nodes" />
 
-Routes execution based on conditional logic. Can have:
+| Node | Chooses by | Destinations configured in |
+|------|------------|------------------------------|
+| **Router** | Evaluating a Jinja2 `condition` against state | `routes` (a flat list of node IDs) + `default_output` |
+| **Decision** | An LLM's judgment against a natural-language `description` | `nodes` (a flat list of node IDs) + `default_output` |
+| **HITL** | The human's button choice (Approve / Edit / Reject) | `routes.approve`, `routes.edit`, `routes.reject` |
 
-* **Multiple conditional outputs**: One for each defined route
-* **Default output**: Fallback when no conditions match
-
-**YAML Example:**
+Each is covered in full — fields, YAML, and routing behavior — in **[Control Flow Nodes](./nodes/control-flow-nodes)**. The short version:
 
 ```yaml
+# Router: condition renders to a route name, or falls through to default_output
 - id: Route Request
   type: router
-  condition: "{{ request_type }}"
+  condition: |
+    {% if request_type == 'urgent' %}
+    Priority Handler
+    {% else %}
+    Standard Handler
+    {% endif %}
+  input:
+    - request_type
   routes:
-    - when: "{{ request_type == 'urgent' }}"
-      transition: Priority Handler
-    - when: "{{ request_type == 'standard' }}"
-      transition: Standard Handler
-  default: Error Handler  # Default output
+    - Priority Handler
+    - Standard Handler
+  default_output: Error Handler
 ```
 
-
-#### 2. Decision Node
-
-LLM-powered routing to multiple destinations.
-
-**YAML Example:**
-
 ```yaml
+# Decision: an LLM picks one of `nodes`, or default_output if it can't decide confidently
 - id: Classify Intent
   type: decision
-  description: "Analyze user intent and route appropriately"
-  decision:
-    nodes:
-      - Bug Report Handler
-      - Feature Request Handler
-      - Question Handler
+  description: "Route by user intent: publish → ArticlePublisher, review → ContentModerator."
+  input:
+    - messages
+  nodes:
+    - ArticlePublisher
+    - ContentModerator
+  default_output: ContentModerator
 ```
 
-#### 3. HITL Node
-
-Human-in-the-Loop routing to up to three destinations based on the user's action. Can have:
-
-* **Approve output**: Routes to the next node when the user approves
-* **Edit output**: Routes to the next node when the user edits a state variable
-* **Reject output**: Routes to the next node when the user rejects
-
-<Info title="HITL Uses Command Routing">
-HITL does not use `transition` or `routes`. Instead it uses a `routes` block with `approve`, `edit`, and `reject` keys. No `default_output` is needed — the user's action determines the path.
-</Info>
-
-**YAML Example:**
-
 ```yaml
+# HITL: the user's Approve/Edit/Reject choice picks the route — no transition or condition needed
 - id: Review_ticket
   type: hitl
-  input:
-    - ticket_title
-    - ticket_description
-  user_message:
-    type: fstring
-    value: |
-      **Title:** {ticket_title}
-
-      **Description:** {ticket_description}
-
-      Approve to create, Edit to modify, or Reject to cancel.
   routes:
     approve: Create_ticket
     edit: Create_ticket
@@ -199,315 +116,150 @@ HITL does not use `transition` or `routes`. Instead it uses a `routes` block wit
   edit_state_key: ticket_description
 ```
 
-
-### Multiple Inputs
-
-All nodes can accept **multiple input connections**, allowing:
-
-* Convergence of different execution paths
-* Merging results from parallel branches
-* Reusing nodes in different contexts
-
-**Example:**
-
-```yaml
-- id: Generate Report
-  type: toolkit
-  # Can receive input from multiple nodes
-  transition: Email Results
-
-# Both paths lead to same node:
-- id: Process Type A
-  transition: Generate Report
-
-- id: Process Type B
-  transition: Generate Report
-```
-
-<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/multiple-inputs.png" alt="Multiple nodes connecting to single node" />
+<Warning>
+HITL's **Edit** route can never target `END` — the Flow Editor blocks that connection, since editing implies the pipeline continues with the corrected value. `edit_state_key` is also required whenever an Edit route is set.
+</Warning>
 
 ---
 
-## YAML Connection Syntax
+## Connection Rules
 
-### Basic Transition
+<CardGroup cols={2}>
+  <Card title="Multiple Inputs Allowed" icon="arrows-to-dot">
+    Any number of nodes can transition into the same target node — useful for merging branches back together.
+  </Card>
+  <Card title="No Special-to-Special Connections" icon="ban">
+    Decision and Condition nodes can't connect to each other, or to another special node (including Router and HITL outputs), directly or by creating one from an existing special node's output. The dropdown filters these options out automatically.
+  </Card>
+  <Card title="One Path to END" icon="flag-checkered">
+    A node can only connect to `END` if it has no other transition, condition, or decision configured — connect it elsewhere first if you need to change its target.
+  </Card>
+  <Card title="Entry Point Restriction" icon="circle-xmark">
+    Decision and (legacy) Condition nodes cannot be the entry point. Every other node type, including Router, can be — see **[Entry Point](./entry-point)** for the complete rule set.
+  </Card>
+</CardGroup>
 
-Connect one node to another:
+---
 
-```yaml
-transition: <node_id>
-```
+## The END Node
 
-**Example:**
-
-```yaml
-- id: Fetch Data
-  type: toolkit
-  transition: Process Data  # Next node ID
-```
-
-### Conditional Transitions (Router)
-
-Multiple routes with default fallback:
-
-```yaml
-condition: "{{ variable }}"
-routes:
-  - when: "{{ condition_1 }}"
-    transition: Node A
-  - when: "{{ condition_2 }}"
-    transition: Node B
-default: Default Node  # Optional fallback
-```
-
-### Decision-Based Transitions
-
-LLM chooses from options:
-
-```yaml
-decision:
-  nodes:
-    - Option 1 Node
-    - Option 2 Node
-    - Option 3 Node
-```
-
-### HITL Routes
-
-Human chooses from up to three actions:
-
-```yaml
-routes:
-  approve: Next_node      # Required — any node or END
-  edit: Next_node         # Optional — cannot be END
-  reject: END             # Optional — any node or END
-edit_state_key: state_var # Required when edit route is set
-```
-
-### Terminate Pipeline
+`END` terminates a path — it isn't a node you add from the node picker. It appears automatically once your pipeline has its first node, and every branch must eventually reach it (directly or through `default_output` / a route).
 
 ```yaml
 transition: END
 ```
 
----
-
-## Creating Connections Visually
-
-ELITEA provides multiple ways to create connections in Flow mode:
-
-### Method 1: Drag from Node
-
-1. Click and drag the **output port** (bottom of node)
-2. Drag the connector line across the canvas
-3. Release on the **input port** (top of target node)
-
-<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/drag-from-node.gif" alt="Dragging connector between nodes" />
-
-**Method 2: Dropdown Menu**
-
-1. Drag connector from output port
-2. Release in empty canvas area
-3. Select from dropdown:
-   - **Existing nodes** - Connect to available node
-   - **Create New Node** - Add and connect new node
-   - **END** - Terminate pipeline
-
-<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/drag-connector.gif" alt="Dragging connector between nodes" />
+<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes-connectors/end-node.png" alt="Multiple paths converging to END" />
 
 ---
 
-## Interrupt Options
+## Interrupts
 
-**Interrupt Before** and **Interrupt After** are advanced options that pause pipeline execution for human review or intervention.
-
-### Interrupt Before
-
-Pauses **before** a node runs. Useful for:
-
-* Reviewing inputs before critical operations
-* Confirming decisions before irreversible actions
-* Manual data validation
-
-**YAML:**
+`interrupt_before` and `interrupt_after` pause a pipeline before or after specific nodes run, so a person can review state before it continues:
 
 ```yaml
 interrupt_before:
-  - Node Name
-```
-
-**Visual:** Toggle **Interrupt Before** in node's Advanced settings
-
-<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/interrupt.png" alt="Interrupt Before toggle" />
-
-### Interrupt After
-
-Pauses execution **after a node completes**. Useful for:
-
-- Reviewing outputs before proceeding
-- Verifying LLM results
-- Allowing human feedback
-
-**YAML Syntax:**
-
-```yaml
+  - Critical Processing Node
 interrupt_after:
-  - Node Name
+  - Data Extraction Node
 ```
 
-**Visual:** Toggle **Interrupt After** in node's Advanced settings
-
-<Warning title="Interrupt Limitations">
-- Only works in **interactive mode** (Chat interface)
-- Programmatic/API executions may ignore interrupts
-- Use sparingly to avoid breaking automated workflows
+<Warning>
+There is no toggle for this in a node's configuration panel — set `interrupt_before` / `interrupt_after` directly in the pipeline's YAML. The canvas still marks an affected connection with an "interrupt" label, so the effect is visible even though the edit happens in YAML. See **[YAML Configuration → Interrupts](./yaml#interrupts)**.
 </Warning>
+
+A pipeline using `interrupt_before`, `interrupt_after`, HITL, or Printer nodes is restricted to the **Chat Message** trigger — see **[Entry Point → Trigger Type](./entry-point#trigger-type)**.
 
 ---
 
-## Connection Patterns
+## Common Patterns
 
-### Linear Flow
-
-Sequential execution through nodes.
-
+<Accordion title="Linear flow">
 ```yaml
 entry_point: Step 1
 nodes:
   - id: Step 1
     type: code
     transition: Step 2
-
   - id: Step 2
     type: llm
     transition: Step 3
-
   - id: Step 3
     type: code
     transition: END
 ```
+</Accordion>
 
-<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/pattern-linear.png" alt="Linear flow diagram" />
-
-### Multi-Path Routing
-
-Multiple branches based on complex logic.
-
-```yaml
-entry_point: Classify Request
-nodes:
-  - id: Classify Request
-    type: router
-    condition: "{{ request_type }}"
-    routes:
-      - Bug Handler
-      - Feature Handler
-      - Question Handler
-    default_output: General Handler
-```
-
-### Converging Paths
-
-Multiple branches merge into single node.
-
+<Accordion title="Converging paths">
+Different branches merging back into one node before it continues:
 ```yaml
 entry_point: Route Input
 nodes:
   - id: Route Input
     type: decision
-    decision:
-      nodes:
-        - Process Type A
-        - Process Type B
-
+    description: "Route by request type."
+    nodes:
+      - Process Type A
+      - Process Type B
+    default_output: Process Type A
   - id: Process Type A
     type: toolkit
     transition: Generate Report
-
   - id: Process Type B
     type: toolkit
     transition: Generate Report
-
   - id: Generate Report
     type: toolkit
     transition: END
 ```
+</Accordion>
 
-### Human Approval Gate
-
-Pause execution for a human decision before proceeding.
-
+<Accordion title="Human approval gate">
 ```yaml
 entry_point: Generate_draft
 nodes:
   - id: Generate_draft
     type: llm
     transition: Review_draft
-
   - id: Review_draft
     type: hitl
     routes:
-      approve: Publish         # Approved — continue
-      edit: Publish            # Edited — continue with updated value
-      reject: END              # Rejected — cancel
+      approve: Publish
+      edit: Publish
+      reject: END
     edit_state_key: draft
-
   - id: Publish
     type: toolkit
     transition: END
 ```
-
-## Best Practices
-
-### Essential Rules
-
-<Warning title="Required Elements">
-- **Set Entry Point**: Pipeline won't run without one
-- **All Paths to END**: Every branch must terminate
-- **Avoid Infinite Loops**: Ensure loops eventually reach END
-</Warning>
-
-### Connection Guidelines
-
-- **Use Descriptive Names**: `Validate User Input` instead of `Node1`
-- **Add Default Routes**: Provide fallback for Router nodes
-- **Test Incrementally**: Build and test step-by-step
-- **Limit Nesting**: Keep pipeline structure clear and maintainable
-
-**Good Example:**
-
-```yaml
-entry_point: Validate User Input
-nodes:
-  - id: Validate User Input
-    type: code
-    transition: Process Valid Data
-
-  - id: Process Valid Data
-    type: llm
-    transition: END
-```
-
-**Bad Example:**
-
-```yaml
-# Missing entry_point
-nodes:
-  - id: Node1
-    transition: Node2
-
-  - id: Node2
-    # Missing transition - pipeline hangs
-```
+</Accordion>
 
 ---
 
-## Related
+## Best Practices
 
-<Tip title="Related Documentation">
-- **[Entry Point Guide](./entry-point)** - Detailed entry point configuration
-- **[State Management](./states)** - Data flow between nodes
-- **[Control Flow Nodes](./nodes/control-flow-nodes)** - Router and Decision nodes
+<Accordion title="Give every path a default_output">
+A Router or Decision node without `default_output` has no fallback if its condition never matches or the LLM can't decide — always set one.
+</Accordion>
+
+<Accordion title="Reconnect, don't stack, single-output transitions">
+Since LLM/Agent/Toolkit/MCP/Code/etc. nodes only ever lead to one place, changing a node's next step means replacing its existing edge, not adding a second one.
+</Accordion>
+
+<Accordion title="Use descriptive node IDs">
+`Validate User Input` is easier to read in `routes`, `nodes`, and `transition` lists than `Node1` — and it's what you'll see on the canvas and in Run History.
+</Accordion>
+
+<Accordion title="Make sure every branch reaches END">
+A path that never reaches `END` can leave the pipeline (or a loop) hanging. Trace each branch, including Router/Decision fallbacks, to confirm it terminates.
+</Accordion>
+
+---
+
+<Info title="Related">
+- **[Entry Point](./entry-point)** - Set the pipeline's starting node and its trigger
+- **[Control Flow Nodes](./nodes/control-flow-nodes)** - Full Router, Decision, and HITL reference
+- **[Pipeline States](./states)** - How data moves between connected nodes
 - **[Flow Editor](./flow-editor)** - Visual pipeline design
-- **[YAML Configuration](./yaml)** - Complete YAML syntax reference
-</Tip>
+- **[YAML Configuration](./yaml)** - Complete YAML syntax, including Interrupts and Connections
+</Info>
