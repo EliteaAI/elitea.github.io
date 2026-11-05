@@ -114,6 +114,7 @@
                       "menus/settings/general",
                       "menus/settings/ai-providers",
                       "menus/settings/project-context",
+                      "menus/settings/schedules",
                       "menus/settings/secrets",
                       "menus/settings/users",
                       "menus/settings/analytics",

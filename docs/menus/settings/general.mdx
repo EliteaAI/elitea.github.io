@@ -274,15 +274,15 @@ If checked, ELITEA sends notifications to the schedule's owner when:
 - An admin edited or deleted your schedule
 - A schedule's owner changed
 
-**Run Without Approval**
+<a id="run-without-approval"></a>**Run Without Approval**
 
-**Run without approval** is a single, project-wide switch, visible and editable only to project administrators. It works together with a separate, per-schedule choice: when creating or editing a schedule whose toolkits include a sensitive action, the schedule's owner chooses either **Pause and ask me** (default) or **Run without asking** for that schedule, after confirming they accept the risk.
+**Run without approval** is a single, project-wide switch, visible and editable only to project administrators. It works together with a separate, per-schedule choice: when creating or editing a schedule whose toolkits include a sensitive action, the schedule's owner chooses either **Ask me first** (default) or **Run automatically** for that schedule, after confirming they accept the risk.
 
 <Note>
 A **sensitive action** is any tool your platform administrator has marked as requiring authorization in **Guardrails**.
 </Note>
 
-A schedule set to **Run without asking** only skips approval if this project-wide setting is also turned on. If this setting is off, every schedule in the project pauses and asks for approval on a sensitive action.
+A schedule set to **Run automatically** only skips approval if this project-wide setting is also turned on. If this setting is off, every schedule in the project pauses and asks for approval on a sensitive action.
 
 When a run pauses for approval, ELITEA notifies the owner and waits up to 24&nbsp;hours (or a longer window your platform administrator has configured) for a decision. If nobody responds in time, the run stops and is marked **Expired**.
 
@@ -293,8 +293,8 @@ flowchart TD
     A["Scheduled run hits a sensitive action"] --> B{"Project setting:<br/>Run without approval?"}
     B -- Off --> D["Run pauses and asks for approval"]
     B -- On --> C{"This schedule's choice:<br/>Run without asking?"}
-    C -- "Pause and ask me" --> D
-    C -- "Run without asking" --> E["Run proceeds automatically"]
+    C -- "Ask me first" --> D
+    C -- "Run automatically" --> E["Run proceeds automatically"]
     D --> F{"Owner responds in time?"}
     F -- Yes --> G["Run continues or stops, per owner's decision"]
     F -- No --> H["Run stops — marked Expired"]
