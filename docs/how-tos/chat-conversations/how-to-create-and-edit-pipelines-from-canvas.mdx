@@ -35,7 +35,7 @@ The **Pipeline Canvas** interface in ELITEA serves as an integrated pipeline man
     1. Navigate to the **Chat** page (main sidebar menu).
     2. In the chat input toolbar, click the **`+`** icon.
     3. Hover over **Pipelines** to expand the submenu.
-    4. Click **Create New Pipeline** at the bottom of the submenu.
+    4. Click **Create Pipeline** at the bottom of the submenu.
 
     ![Canvas Pipeline Access](../../img/how-tos/chat-conversations/canvas-pipeline/canvas-pipeline-access.gif)
 
@@ -85,8 +85,8 @@ The **Pipeline Canvas** interface in ELITEA serves as an integrated pipeline man
   <Step title="Save Initial Configuration">
     Click the **Save** button to create your pipeline. The canvas transitions to the advanced configuration interface with two tabs:
 
-    - **Configuration** — Add toolkits, agents, pipelines, and MCP connections (these buttons are disabled until the pipeline is saved).
-    - **Flow editor** — Visually design the pipeline workflow using nodes and connectors.
+    - **Configuration** — General settings, model configuration, the read-only **Tools** list, and **Modules**. The Flow Editor becomes available only after this first save.
+    - **Flow editor** — Visually design the pipeline workflow using nodes and connectors. This is also where you pick each node's toolkit, MCP server, agent, or nested pipeline.
 
     ![Pipeline Initial Configuration](../../img/how-tos/chat-conversations/canvas-pipeline/canvas-pipeline-save.gif)
   </Step>
@@ -165,49 +165,19 @@ After saving the initial configuration, the advanced configuration interface ope
 
 ---
 
-#### Toolkits Configuration
+#### Tools Section
 
-In the **TOOLKITS** section, you can enhance your pipeline's capabilities by adding various integrations:
+The **Tools** section is a read-only summary of every toolkit, MCP connection, agent, and nested pipeline your pipeline's nodes currently use, plus a **Modules** area for built-in capabilities.
 
-<Note title="Save first">
-The **+ Toolkit**, **+ MCP**, **+ Agent**, and **+ Pipeline** buttons are disabled until the pipeline has been saved at least once. Save the pipeline in the Configuration tab first, then add integrations.
+<Note title="Toolkits, MCPs, and agents are picked inside nodes">
+There's no standalone "add toolkit" button here. Pick a toolkit, MCP server, or agent directly inside an LLM, Toolkit, MCP, or Agent node's configuration panel — see **[Execution Nodes](../pipelines/nodes/execution-nodes)** and **[Interaction Nodes](../pipelines/nodes/interaction-nodes)**. Once picked, it appears in this list with a **Used by** link back to the node(s) that reference it. An attachment with no node using it (left behind after you remove the last node that referenced it) can be removed directly from this list.
 </Note>
 
-<Tabs>
-  <Tab title="Toolkits">
-    - Click **+ Toolkit** to select from available toolkits or create new ones
-    - Browse and select toolkits like GitHub, Jira, Confluence, etc.
+For a remote MCP server that still needs authorization, a **Log in** button appears next to it here (or in the node's own toolkit picker) — click it to complete the OAuth flow before the connection becomes active.
 
-         ![Pipeline Toolkit Configuration](../../img/how-tos/chat-conversations/canvas-pipeline/canvas-pipeline-add-toolkit.gif)
-  </Tab>
-  <Tab title="MCP Connections">
-    - Click **+ MCP** to add Model Context Protocol connections
-    - Select from available MCP configurations or create new ones
-    - MCP connections appear in the toolkits list with proper status indicators
-    - For **remote MCP servers**, an **Authorize** button appears — click it to complete the OAuth authorization flow before the connection becomes active
+#### Modules
 
-         ![Pipeline MCP Configuration](../../img/how-tos/chat-conversations/canvas-pipeline/canvas-pipeline-add-mcp.gif)
-  </Tab>
-  <Tab title="Nested Agents">
-    - Click **+ Agent** to add agents as pipeline components
-    - Select from existing agents in your project
-    - Choose specific versions from the version dropdown
-    - Nested agents provide AI capabilities within pipeline nodes
-
-         ![Pipeline Nested Agents](../../img/how-tos/chat-conversations/canvas-pipeline/canvas-pipeline-nested-agent.gif)
-  </Tab>
-  <Tab title="Nested Pipelines">
-    - Click **+ Pipeline** to integrate other pipeline workflows
-    - Select from available pipelines in your project
-    - Nested pipelines enable complex workflow compositions
-
-         ![Pipeline Nested Pipelines](../../img/how-tos/chat-conversations/canvas-pipeline/canvas-pipeline-nested-pipeline.gif)
-  </Tab>
-</Tabs>
-
-#### Modules Configuration
-
-In **Modules**, add built-in capabilities that extend the pipeline without requiring external credentials:
+In **Modules**, toggle built-in capabilities that extend the pipeline without requiring external credentials:
 
 - **Attachments**: Toggle to enable file attachment support in pipeline conversations. When enabled, users can attach documents, images, code files, and more directly in the chat input. Enabling this automatically adds an `input_attachments` state variable to the pipeline YAML, which nodes can reference via `{{state.input_attachments}}`.
 
@@ -248,7 +218,7 @@ The Flow Editor is disabled during pipeline creation. You must save the pipeline
   </Card>
 </CardGroup>
 
-![Pipeline Flow Editor](../../img/how-tos/chat-conversations/canvas-pipeline/canvas-pipeline-flow-editor.gif)
+![Pipeline Flow Editor](../../img/how-tos/chat-conversations/canvas-pipeline/canvas-pipeline-flow-editor.png)
 
 ### Finalizing Pipeline Creation
 
@@ -306,8 +276,8 @@ Once in edit mode, the interface displays current settings pre-populated. You ca
       <Card title="LLM Model and Settings" icon="sliders">
         Switch to a different model or fine-tune model parameters such as creativity/reasoning level and max tokens.
       </Card>
-      <Card title="Toolkits and Integrations" icon="toolbox">
-        Add or remove toolkits, MCP connections, nested agents, and nested pipelines. Expand each entry to view and manage individual tools or select specific versions.
+      <Card title="Tools" icon="toolbox">
+        Review the toolkits, MCP connections, agents, and nested pipelines currently used by the pipeline's nodes, and remove any no longer referenced by a node. To add or change one, open the node that should use it in the Flow Editor tab.
       </Card>
     </CardGroup>
   </Tab>
