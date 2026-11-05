@@ -9,12 +9,18 @@ The Forking feature supports:
 
 - **Specific version only** — Only the **currently selected version** of the agent or pipeline is forked
 - **Individual agents and pipelines** — Fork a single entity to any project you have access to
-- **Nested dependencies** — Agents referencing other agents are automatically included
+- **Nested dependencies** — Agents and skills referencing other agents or skills are automatically included
+- **Toolkits on published agents** — Forking an agent published to the [ELITEA Catalog](../../menus/agents-studio) also carries over the toolkits attached to that published version (and to its sub-agents), so you don't have to re-add them manually
 - **In-place project transfer** — No file downloads required; the operation is fully integrated in the UI
+- **Re-forking** — You can fork the same Catalog agent into the same target project more than once; each fork creates its own independent copy
 
 <Info title="Version Scope">
 The Fork Wizard forks only the **currently selected version** of the agent ar pipeline. There is no option to select multiple versions during forking.
 </Info>
+
+<Note title="Toolkit Carryover Applies to Published Agents">
+Carrying toolkits over on fork applies only to agents published **to the Catalog**. Toolkit configuration (type, name, settings, selected tools) is copied without credentials—authentication must still be configured after the fork. This only works for agents published after this capability was released; agents published earlier still fork without their toolkits, since publishing stripped them at the time.
+</Note>
 
 ---
 
@@ -25,11 +31,11 @@ The Fork Wizard forks only the **currently selected version** of the agent ar pi
 1. Navigate to the **Agents** menu within the project containing the agent you want to fork
 2. Open the agent detail page
 3. Select the version you want to fork using the version selector
-4. Click the **three-dot menu (⋮)** in the toolbar
-5. Select **Fork** from the dropdown menu
-6. The **Fork parameters** wizard opens
+4. Click the **three-dot menu (⋮)** in the toolbar and select **Fork** from the dropdown menu
+      <img src="../../img/how-tos/agents-pipelines/forking/fork-button.png" alt="Fork Button" width="200"/>
+5. The **Fork parameters** wizard opens
 
-     ![Initiate Fork](../../img/how-tos/agents-pipelines/forking/fork-agent-detail-page.gif)
+     ![Initiate Fork](../../img/how-tos/agents-pipelines/forking/fork-modal.png)
 
 **Step 2: Select Project and Review Configuration**
 
@@ -40,15 +46,20 @@ The Fork Wizard opens as a modal dialog titled **"Fork parameters"**. It display
       - No project is pre-selected; you must choose a target project manually
       - You must have the appropriate fork permission in the target project
 
-2. **Review Entity Cards:** The wizard displays a **Main entity** card for the agent being forked, and a **Nested entities** section for any dependent agents that will be forked automatically
+2. **Review Entity Cards:** The wizard displays a **Main entity** card for the agent being forked, a **Nested entities** section for any dependent agents that will be forked automatically, and a **Skills** section for any skills attached to the agent or its sub-agents
       - Click **Show details** on any card to expand its full configuration
-      - Expanded details include: Description, Instructions, Tools, Welcome message, Conversation starters, Modules, and Step limit
+      - Expanded details include: Description, Instructions, Tools, Welcome message, Conversation starters, Editor Notes, Internal tools (Modules), Tags, and Step limit
 
      ![Config](../../img/how-tos/agents-pipelines/forking/fork-configuration.gif)
 
-    !!! info "Model Settings & Credentials"
-        - **Model Settings:** The original model is preserved if it is available in the destination project. If the model is not available, the system falls back to the first model in the list. Review and adjust model settings after the fork if needed.
-        - **Credentials:** For any toolkits requiring authentication, you will need to manually provide the necessary credentials (API Keys, usernames, tokens, passwords) after the fork.
+<Info>
+
+**Model Settings & Credentials**
+
+- **Model Settings:** The original model is preserved if it is available in the destination project. If the model is not available, the system falls back to the first model in the list. Review and adjust model settings after the fork if needed.
+- **Toolkits:** If the agent is published to the Catalog, the **Tools** section of its card lists the toolkits that will be forked along with it (type, name, and configured settings). Toolkits attached to an unpublished agent you own are always carried over as usual.
+- **Credentials:** For any toolkits requiring authentication, you will need to manually provide the necessary credentials (API Keys, usernames, tokens, passwords) after the fork—credentials are never copied by the fork.
+</Info>
 
 
 **Step 3: Fork**
@@ -59,11 +70,12 @@ The Fork Wizard opens as a modal dialog titled **"Fork parameters"**. It display
      ![Fork](../../img/how-tos/agents-pipelines/forking/fork.gif)
 
 <Info title="Forking Agents with Nested Dependencies">
-When the agent you are forking uses other agents as toolkits (a "master agent" pattern), ELITEA automatically identifies and includes all nested agents in the fork operation.
+When the agent you are forking uses other agents or skills as toolkits (a "master agent" pattern), ELITEA automatically identifies and includes all nested agents and skills in the fork operation.
 
-- All nested agents are copied to the **same target project** as the master agent.
-- Connections and configurations between the master agent and its nested agents are preserved.
-- You can review each nested entity card in the Fork Wizard before proceeding.
+- All nested agents and skills are copied to the **same target project** as the master agent.
+- Connections and configurations between the master agent and its nested agents/skills are preserved.
+- You can review each nested entity card (and each **Skills** card) in the Fork Wizard before proceeding.
+- If the master agent is published to the Catalog, toolkits attached to each nested sub-agent's published version are forked along with it, the same as for the main entity.
 - Authentication credentials for each toolkit must be reconfigured manually in the target project.
 - If entities with the same names already exist in the target project, you may encounter duplicate-detection warnings.
 </Info>
@@ -220,6 +232,18 @@ Use **Export/Import** when you need to:
 
 - Verify you have access to all projects involved in the master agent's toolkit chain
 - Fork each nested agent individually to the target project, then re-fork the master agent
+</Accordion>
+
+<Accordion title="Issue: Toolkits Missing on a Fork of a Catalog Agent">
+**Possible Causes:**
+
+- The agent was published to the Catalog before toolkit carryover was supported, so its published snapshot never captured the toolkits
+- The toolkits live on a sub-agent of a version that was published before this capability was available
+
+**Solution:**
+
+- Ask the agent's author to publish a new version now that toolkit carryover is supported, then fork that version
+- Alternatively, add the missing toolkits manually in the forked agent, as you would for any other fork
 </Accordion>
 
 ---
