@@ -1,10 +1,11 @@
 ---
 title: "Back Up & Restore Project Data"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
 With ELITEA, you can preserve your project data by creating a backup.
 
-You can back up agents, pipelines, toolkits, MCP servers and skills into a single file, and restore them later into the same project or, with confirmation, into a different project. ELITEA excludes credentials, tokens and other secrets from backup files, so you must reconfigure them after the restore.
+You can back up agents, pipelines, toolkits, MCP servers and skills into a single file, and restore them later into the same project or, with confirmation, into a different project. You can also choose to include chats, with or without their attachments. ELITEA excludes credentials, tokens and other secrets from backup files, so you must reconfigure them after the restore.
 
 <Callout icon="lightbulb" color="#a855f7" title="When to Back Up a Project">
 Consider creating a backup before making large changes to your project.
@@ -12,7 +13,7 @@ Consider creating a backup before making large changes to your project.
 
 ## Back Up & Restore Settings
 
-To create a backup file or restore data from a backup: 
+To create a backup file or restore data from a backup:
 
 1. Select **Settings** > **General**.
 2. In **General**, expand **Back Up & Restore**.
@@ -21,15 +22,13 @@ To create a backup file or restore data from a backup:
 
 <img src="../../img/menus/settings/project/general/gen_backup.png" alt="The Back Up & Restore section in General settings, with the Create a Backup and Restore from the Backup buttons." />
 
-All ELITEA users see these actions for their private projects. For team projects, ELITEA shows them only to users who have the required permissions. You can request the permissions from your project administrator.
+In your private project, you can always back up and restore. For team projects, ELITEA shows these actions only to users who have the required permissions. You can request the permissions from your project administrator.
 
 ## Create a Backup
 
-1. In **Back Up & Restore**, select **Create a Backup**.
-2. Wait while ELITEA prepares the file. The button label changes to indicate that it is preparing the backup.
-3. ELITEA downloads the backup as an encrypted SQL file.
+What goes into a backup file:
 
-<CardGroup cols={2}>
+<CardGroup cols={3}>
 	<Card title="Included in the backup file" icon="check" color="#22c55e">
 		- Agents
 		- Skills
@@ -37,28 +36,64 @@ All ELITEA users see these actions for their private projects. For team projects
 		- Toolkits
 		- MCP servers
 	</Card>
+	<Card title="Optional" icon="circle-half-stroke" color="#eab308">
+		- Chats
+		- Chat attachments
+	</Card>
 	<Card title="Excluded from the backup file" icon="circle-exclamation" color="#ef4444">
 		- Credentials
 		- Tokens
+		- Other secrets
 	</Card>
 </CardGroup>
 
-## Restore Data Into a Project
+To create a backup:
+
+1. In **Back Up & Restore**, select **Create a Backup**.
+2. In the **Create Project Backup** dialog, choose whether to include chats: **Do not include chats**, **All chats without attachments**, or **All chats with attachments**. These options are disabled if the project has no chats.
+
+   <img src="../../img/how-tos/entity-management/backup/backup_chats.png" alt="Create Project Backup dialog with chat inclusion options." />
+
+3. Select **Backup**. The button label changes to *Preparing...* while ELITEA prepares the file.
+
+   <Info>
+   For a large backup, ELITEA shows a warning with the estimated file size and lets you know it may take a while.
+   </Info>
+
+4. ELITEA downloads the backup as an encrypted file.
+
+<Note>
+When creating a backup for team projects, remember that chats contain the conversation history of every project member, not just your own. Store a backup that includes chats securely.
+</Note>
+
+## Restore Data
+
+ELITEA lets you restore either some data into a project, or the whole project.
+
+### Restore Data Into a Project
 
 To restore data into a project:
 
 1. In **Back Up & Restore**, select **Restore from the Backup**.
-2. In the **Restore Project Data** dialog, select **Choose a backup file**, then select an *.sql* or *.enc* backup file.
-3. Keep **Preview only (no data is restored yet)** selected, clear **Replace existing data - do not merge**, then select **Preview**.
+2. In the **Restore Project Data** dialog, select **Choose a backup file**, then select a backup file (*.enc*, *.sql*, or *.zip*).
+3. If the backup contains chats, choose how to restore them: **Do not restore chats**, **Restore all chats without attachments**, or **Restore all chats with attachments**. The attachments option is disabled if the backup has no attachment files.
+4. Keep **Preview only (no data is restored yet)** selected, clear **Replace existing data - do not merge**, then select **Preview**.
 
    <img src="../../img/how-tos/entity-management/backup/restore_preview.png" alt="Preview data to be restored" />
 
-4. Review the restore summary: the number of statements and rows, the tables affected, any skipped tables, and any columns that ELITEA dropped or filled because of differences between the backup and the current project structure.
-5. Clear **Preview only (no data is restored yet)** and select **Restore**.
+5. Review the restore summary: the number of statements and rows, the tables affected, any truncated or skipped tables, how many chats and attachments would be restored or skipped, and any columns that ELITEA dropped or filled because of differences between the backup and the current project structure.
+
+   <img src="../../img/how-tos/entity-management/backup/restore_preview-details.png" alt="Restore summary details after a preview." />
+
+6. Clear **Preview only (no data is restored yet)** and select **Restore**.
 
    <img src="../../img/how-tos/entity-management/backup/restore_restore.png" alt="Restore data" />
 
-ELITEA merges the backup into the current data: it adds rows that are not yet in the project, updates matching rows and keeps rows that are not in the backup.
+ELITEA merges the backup into the current data: it adds rows that are not yet in the project and preserves rows already there.
+
+<Note>
+Credentials and tokens are never restored, even if the backup somehow contained them.
+</Note>
 
 If the file belongs to a different project, ELITEA shows a warning and disables the submit action:
 
@@ -68,17 +103,17 @@ If you want to add the data from a different project, select **Restore here anyw
 
 <img src="../../img/how-tos/entity-management/backup/restore_restore-other-project.png" alt="Restoring data from a different project" />
 
-## Restore the Whole Project
+### Restore the Whole Project
 
 To restore the whole project, you must create a new empty project or select a project whose data you are willing to overwrite.
 
 <Warning>
-When you select **Replace existing data - do not merge**, ELITEA deletes the current data in the project before it applies the backup. Any data not in the backup file is lost.
+When you select **Replace existing data - do not merge**, ELITEA deletes the current data in the affected tables before it applies the backup. Any data not in the backup file is lost. If the backup also restores chats, all existing chats in the project are permanently deleted and replaced with the chats from the backup.
 </Warning>
 
 0. Create a new empty project.
 1. In **Back Up & Restore**, select **Restore from the Backup**.
-2. In the **Restore Project Data** dialog, select **Choose a backup file** and select an *.sql* or *.enc* backup file.
+2. In the **Restore Project Data** dialog, select **Choose a backup file** and select a backup file (*.enc*, *.sql*, or *.zip*).
 3. Select **Replace existing data - do not merge**.
 4. Keep **Preview only (no data is restored yet)** selected and select **Preview** to review the restore summary, including the number of tables that will be truncated, before you commit to the change.
 5. Clear **Preview only (no data is restored yet)** and select **Restore**.
@@ -87,25 +122,25 @@ When you select **Replace existing data - do not merge**, ELITEA deletes the cur
 
 - Create a backup before you make large changes to a project.
 - Preview a restore before you apply it. ELITEA selects **Preview only (no data is restored yet)** by default.
-- Store backup files in a secure location. A backup file, together with the restore permission, is enough to load its data into a project.
+- Store backup files in a secure location, especially ones that include chats. A backup file, together with the restore permission, is enough to load its data into a project.
 - Reconfigure credentials, tokens and other secrets after every restore. ELITEA does not include them in a backup file.
 - Confirm the source project before you select **Restore here anyway**. Restoring a backup from a different project mixes that project's data into the current one.
 
 ## Troubleshooting
 
-<Accordion title="Issue: You do not see Back Up & Restore in General settings">
+<Accordion title="You do not see Back Up & Restore in General settings">
 **Cause:** You do not have the required permissions for the project.
 
 **Solution:** Ask a project administrator for the necessary permissions.
 </Accordion>
 
-<Accordion title="Issue: Create a Backup fails to download">
+<Accordion title="Create a Backup fails to download">
 **Cause:** The download request failed.
 
 **Solution:** ELITEA shows an error message describing the failure. Try the download again. If the issue continues, contact your project administrator.
 </Accordion>
 
-<Accordion title="Issue: The Restore button is disabled">
+<Accordion title="The Restore button is disabled">
 **Cause #1:** No backup file is selected.
 
 **Solution #1:** Select a backup file. If the issue continues, contact your project administrator.
@@ -115,16 +150,22 @@ When you select **Replace existing data - do not merge**, ELITEA deletes the cur
 **Solution #2:** Select another file, if you do not intend to restore data from another project. If you do intend to restore data from another project, select **Restore here anyway**.
 </Accordion>
 
-<Accordion title="Issue: ELITEA reports a project mismatch">
+<Accordion title="ELITEA reports a project mismatch">
 **Cause:** The backup file was created from a different project than the one you are restoring into.
 
 **Solution:** Confirm you have the correct file for this project, or select **Restore here anyway** to bring that project's data into the current one.
 </Accordion>
 
-<Accordion title="Issue: Columns were dropped or filled during a restore">
+<Accordion title="Columns were dropped or filled during a restore">
 **Cause:** The project structure changed between when ELITEA created the backup and when you restore it. ELITEA drops columns the current project no longer has, and leaves columns empty when the backup has no value for a column the current project requires.
 
 **Solution:** Review the dropped and filled columns in the restore summary, then update the restored agents, pipelines, toolkits, MCP servers or skills as needed.
+</Accordion>
+
+<Accordion title="Some attachments were not restored">
+**Cause:** One or more attachment files from the backup could not be restored.
+
+**Solution:** ELITEA shows a warning naming how many attachment files failed after the restore completes. Check the restored chats and re-upload any missing attachments manually.
 </Accordion>
 
 <Info title="See Also">
