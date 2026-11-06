@@ -1,5 +1,9 @@
 ---
 title: "Chat"
+verified:
+  core: { date: "6-Nov-2026", branch: "release/2.0.8", sha: "6ec32b08" }
+  sdk: { date: "6-Nov-2026", branch: "release/2.0.8", sha: "e663f0d" }
+  ui: { date: "6-Nov-2026", branch: "release/2.0.8", sha: "86cdcafe" }
 ---
 
 **Chat** is the central hub where all ELITEA capabilities come together. It provides a conversational interface where you can interact with AI models, agents, pipelines, skills, modules, toolkits and MCP servers — all in one place, using natural language.
@@ -242,7 +246,7 @@ Public chats have the users icon to distinguish them from your private ones.
 
 <img src="../img/menus/chat/chat_public-icon.png" width="250" alt="The green users icon that marks a public chat in the CHATS sidebar." />
 
-At the top of the CHATS sidebar, the **Import** button allows you to import chats from a backup file. This option requires permission to create chats, and is not available in the public project.
+At the top of the CHATS sidebar, the **Import** button allows you to [import chats from a backup file](../how-tos/chat/config-mnmt#import-a-chat). This option requires permission to create chats, and is not available in the public project.
 
 #### Chats and Folders Organization
 
@@ -276,7 +280,7 @@ In the **CHATS** sidebar, you can perform these actions from the chat's overflow
 * **Move To**: Move the chat into a folder, or back to the main list. If no folder exists, you can create one by clicking **+ New Folder**. Not available while the chat is pinned.
 * **Playback**: Simulate the chat without any engagement with models — a read-only replay with forward/backward navigation. Well suited for demos and for stepping through the chat turn by turn using the on-screen controls or the keyboard arrows (left/right).
 * **[Duplicate](../how-tos/chat/config-mnmt#create-duplicate)**: Create a new chat with the same privacy setting and participants as the original (participants added automatically by an agent are not copied). Messages and history are not copied.
-* **Export**: Download the chat as a file, with or without attachments.
+* **[Export](../how-tos/chat/config-mnmt#export-a-chat)**: Download the chat as a file, with or without attachments.
 * **Make Public** *(Team projects only)*: Turn a private chat into a public one, visible and interactable by all project members.
 * **Restrict Access** *(Team projects only)*: Turn a public chat back to private, available only to the chat's creator and project members directly specified by the chat's creator.
 * **Share** *(Team and Public projects only)*: Copy a link to the chat for other project members who already have access.
