@@ -7,7 +7,7 @@ description: "Connect ELITEA to Microsoft Outlook — read, send, and manage ema
 
 ## Introduction
 
-This document is your definitive resource for integrating and utilizing the **Outlook toolkit** within ELITEA. It provides a comprehensive, step-by-step walkthrough, from registering an application in Azure Active Directory to configuring the toolkit in ELITEA and effectively using it within your Agents. By following these steps, you will unlock the power of automated email management, streamlined mail workflows, and enhanced inbox intelligence, all directly within the ELITEA platform. This integration empowers you to leverage AI-driven automation to optimize your Outlook-driven workflows using the combined strengths of ELITEA and Microsoft Outlook.
+This document is your definitive resource for integrating and utilizing the **Outlook toolkit** within ELITEA. It provides a comprehensive, step-by-step walkthrough — covering both the administrator-managed **Default app** connection and a self-managed **Custom app** registered in Azure Active Directory — to configure the toolkit in ELITEA and use it effectively within your Agents. By following these steps, you will unlock the power of automated email management, streamlined mail workflows, and enhanced inbox intelligence, all directly within the ELITEA platform. This integration empowers you to leverage AI-driven automation to optimize your Outlook-driven workflows using the combined strengths of ELITEA and Microsoft Outlook.
 
 **Brief Overview of Microsoft Outlook**
 
@@ -23,11 +23,22 @@ Integrating Outlook with ELITEA brings mailbox automation directly into your AI-
 
 ## Toolkit's Account Setup and Configuration in Outlook
 
-<Info title="Integration with ELITEA">
-The application you register in this section will be used when creating your Outlook credential in ELITEA (Step 1 of the integration process).
-</Info>
+<Note>
+**Default app or Custom app**
+
+The Outlook credential supports two modes, chosen with a toggle at the top of the credential's authentication section:
+
+- **Default app** — your ELITEA administrator has already registered and configured an Entra ID (Azure AD) app for Outlook in the Admin Portal. It's used automatically — **no Azure AD work is required on your part**. You can skip the rest of this section entirely and go to [Step 1](#step-1-create-outlook-credentials).
+- **Custom app** — you register and manage your own Entra ID app registration, exactly as described below, and enter its Client ID, Client Secret, and related fields directly on the credential.
+
+If you're not sure which applies to your organization, open **Credentials → + Credential → Outlook** and check whether a **Default app** option is available; if not, or if you need a dedicated app for this credential, use **Custom app** and follow the registration steps in this section.
+</Note>
 
 ### Registering an App in Azure Active Directory (Azure AD)
+
+<Info title="Custom app mode only">
+This section only applies when you choose **Custom app** mode for the credential. If your administrator has configured a **Default app** for Outlook, skip directly to [Step 1: Create Outlook Credentials](#step-1-create-outlook-credentials) — none of this Azure AD setup is required.
+</Info>
 
 The Outlook toolkit authenticates using **Delegated (User OAuth)** access only — it acts on behalf of a signed-in user via Microsoft Entra ID (Azure AD). To enable this, you need to register an application in Azure AD that will represent ELITEA.
 
@@ -136,7 +147,7 @@ To integrate Outlook with ELITEA, you need to follow a three-step process: **Cre
 
 ### Step 1: Create Outlook Credentials
 
-Before creating a toolkit, you must first create Outlook credentials in ELITEA. The Outlook credential supports a single authentication mode — **Delegated (User OAuth)**.
+Before creating a toolkit, you must first create Outlook credentials in ELITEA. The Outlook credential always authenticates with **Delegated (User OAuth)** access, but it offers **two modes** for where the OAuth app itself comes from: **Default app** (administrator-managed) or **Custom app** (your own Azure AD app registration).
 
 1. **Navigate to Credentials Menu:** Open the sidebar and select **[Credentials](../../menus/credentials)**.
 2. **Create New Credential:** Click the **`+ Credential`** button.
@@ -144,33 +155,102 @@ Before creating a toolkit, you must first create Outlook credentials in ELITEA. 
 
      ![Outlook Toolkit](../../img/integrations/toolkits/outlook/outlook-cred-naviagte.png)
 
-4. **Configure Credential Details:**
+4. **Configure the Common Fields:** These fields apply regardless of which authentication mode you choose in the next step:
 
    | Field | Required | Description |
    |-------|----------|-------------|
    | **Display Name** | Required | Descriptive name for this credential (e.g., *"Outlook - Support Mailbox"*) |
    | **ID** | Required | Unique identifier for the credential. Auto-populated from the Display Name |
-   | **Client ID** | Required | Azure AD Application (client) ID from your app registration |
-   | **Client Secret** | Required | Azure AD Client Secret Value generated in your app registration |
-   | **Mailbox** | Optional | Mailbox email address to operate on. Leave empty to use the signed-in user's own mailbox (`/me`) |
-   | **Auto Refresh Token** | Optional (default: enabled) | Automatically refresh the access token using the `offline_access` scope |
-   | **OAuth Discovery Endpoint** | Optional | OAuth discovery endpoint, in the format `https://login.microsoftonline.com/{tenant_id}`, where `{tenant_id}` is the **Directory (tenant) ID** from your app registration |
-   | **Scopes** | Optional | OAuth scopes to request (e.g., `Mail.Read`, `Mail.Send`) |
+   | **Mailbox** | Optional | Mailbox email address to operate on — see the note below |
 
-5. **Log in:** Once the **OAuth Discovery Endpoint** field is filled in, a **Login** button appears next to the **Test Connection** button. Click **Login** to initiate the OAuth authorization flow — ELITEA calls the Outlook check-connection endpoint, which redirects to Azure AD for user sign-in. After you authorize the application, the token is stored and the connection is verified against Microsoft Graph.
+     <img src="../../img/integrations/toolkits/outlook/outlook-cred-configs.png" alt="Outlook Toolkit" width="500"/>
+
+<Note>
+**Mailbox field: default, shared mailboxes, and distribution lists**
+
+Leave **Mailbox** empty to use your own mailbox. Set it only to open a **shared mailbox** you have Full Access to — this needs the `Mail.Read.Shared` scope (plus `Mail.ReadWrite.Shared` / `Mail.Send.Shared` to change or send on its behalf). A **distribution list is not a mailbox**: its mail already arrives in your own inbox, so leave Mailbox empty when working with a distribution list or group address.
+</Note>     
+
+
+5. **Choose Default app or Custom app:** At the top of the credential's authentication section, pick one of the two modes:
+
+   <Tabs>
+        <Tab title="Default app">
+             **Used for:** Signing in with the Entra ID (Azure AD) app your ELITEA administrator has already registered and configured in the Admin Portal. No Azure AD work is required on your part — *"Sign-in settings are managed by your administrator."*
+
+             **Configuration:**
+
+             * The Client ID, Client Secret, OAuth Discovery Endpoint, Scopes, and Auto Refresh Token are all managed centrally by the app — none of them appear on the credential.
+
+                <img src="../../img/integrations/toolkits/outlook/default-app.png" alt="Default App Outlook" width="350"/>
+
+             <Warning>
+             **Default app currently requests all scopes**
+             
+             On the [Elitea Next](https://next.elitea.ai/) environment, the Default app is configured with **all available Microsoft Graph Mail scopes** — there is no way to request only a subset of permissions in this mode. If you need to limit the credential to specific scopes, use **Custom app** instead and tick only the permissions you need under **Scopes**.
+             </Warning>
+
+        </Tab>
+
+        <Tab title="Custom app">
+             **Used for:** Signing in with your own Entra ID (Azure AD) app registration, following the [registration steps](#registering-an-app-in-azure-active-directory-azure-ad) above.
+
+             **Configuration Fields:**
+
+             | Field | Required | Description |
+             |-------|----------|-------------|
+             | **Client ID** | Required | Azure AD Application (client) ID from your app registration |
+             | **Client Secret** | Required | Azure AD Client Secret Value generated in your app registration |
+             | **OAuth Discovery Endpoint** | Optional | OAuth discovery endpoint, in the format `https://login.microsoftonline.com/{tenant_id}`, where `{tenant_id}` is the **Directory (tenant) ID** from your app registration |
+             | **Scopes** | Optional | Microsoft Graph delegated mail permissions, presented as **checkboxes**. Defaults to `Mail.Read` if none are ticked; `offline_access` is requested automatically unless **Auto Refresh Token** is off. See the table below |
+             | **Auto Refresh Token** | Optional (default: enabled) | Automatically refresh the access token using the `offline_access` scope |
+    
+             <img src="../../img/integrations/toolkits/outlook/custom-app-outlook.png" alt="Custom App Outlook" width="500"/>
+
+             <Info>
+             **Available Scopes**
+
+             | Permission | What it enables |
+             |---|---|
+             | `Mail.Read` | Read your mail: list, get, search and check new messages, read threads, list folders |
+             | `Mail.ReadWrite` | Change your mail: mark as read, move and delete messages. `send_mail` and `reply_to_message` also use it to return the sent message ID |
+             | `Mail.Send` | Send mail as you: `send_mail` and `reply_to_message` |
+             | `Mail.Read.Shared` | Read mail in mailboxes shared with you (when **Mailbox** is another person's address) |
+             | `Mail.ReadWrite.Shared` | Change mail in mailboxes shared with you (mark as read, move, delete) |
+             | `Mail.Send.Shared` | Send mail on behalf of a shared mailbox |
+
+             ELITEA passes the ticked permissions to Microsoft at sign-in as-is. Microsoft decides what the issued token actually holds: **a token always carries every permission you already approved for this Entra app**, so unticking a box here does not remove access you granted previously. To actually revoke a permission, remove it on the app's page at [myapps.microsoft.com](https://myapps.microsoft.com) (or ask your Entra admin), then sign in again. To strictly limit what a toolkit can do, use a separate Entra app that only has the permissions you intend to grant it.
+             </Info>
+
+        </Tab>
+   </Tabs>
+
+6. **Log in:** Click the **Login** button, next to **Test Connection**, to start the OAuth authorization flow — ELITEA redirects to Microsoft Entra ID for user sign-in. After you authorize, a refresh token is stored on the credential (so scheduled runs can authenticate without a browser) and the connection is verified against Microsoft Graph.
 
      * **Test Connection:** Click **Test Connection** to verify that your credentials are valid and ELITEA can successfully connect to the mailbox. This performs a health check against `GET /me/mailFolders` on Microsoft Graph.
-6. **Save Credential:** Click **Save** to create the credential. It will be added to the credentials dashboard and available to use in toolkit configurations.
+7. **Save Credential:** Click **Save** to create the credential. It will be added to the credentials dashboard and available to use in toolkit configurations.
 
-     ![Outlook Toolkit](../../img/integrations/toolkits/outlook/outlook-cred-configs.png)
+<Tip>
+**Security Recommendation**
 
-<Tip title="Security Recommendation">
 It's highly recommended to use **[Secrets](../../menus/settings/secrets)** for the Client Secret instead of entering it directly. Create a secret first, then reference it in your credential configuration.
 </Tip>
 
-<Warning title="Re-login required after scope changes">
+<Warning>
+**Re-login required after scope changes**
+
 If you add, remove, or modify the **Scopes** field after the initial login, the existing token will not automatically include the new scopes. Click **Login** again to complete a new OAuth authorization flow and obtain a fresh token that reflects the updated scope list.
 </Warning>
+
+<Info>
+**Stored login and scheduled runs**
+
+After a successful **Login**, ELITEA stores a refresh token for the signed-in user as part of the credential. This stored login is what lets **scheduled agents and pipelines** — which run without a browser — authenticate to Outlook on your behalf.
+
+You'll see the same **Connected! / Not Connected** status, with its own **Login** / **Logout** button, both on the credential form and again on the **Toolkit** configuration page for any toolkit using this credential. On a shared/team credential, only project members with edit permission on it can log in or out — others see the status as read-only with the hint *"Only project admins can log in or out on a team credential."*
+
+If a toolkit using this credential will be used in a **scheduled** run, confirm its status shows **Connected!** — otherwise the schedule will fail to authenticate when it runs unattended.
+</Info>
 
 ### Step 2: Create Outlook Toolkit
 
@@ -207,7 +287,7 @@ The Outlook toolkit provides 12 tools for interacting with email messages, folde
 | | **Find new messages** | Find emails from given people and/or sent to given distribution lists and identify which are new (received after `since` / `after_message_id`, or unread when neither is given). Each message has `is_new` and `matched_by`; the result has a watermark / `latest_message_id` for the next call. Previews and recipient lists are capped the same way as **List messages** (`preview_chars`, `max_recipients`, `include_ids`) |
 | | **Get message** | Get a specific email message by its ID. The body is plain text and capped at 8000 characters by default (`body_truncated` / `body_total_chars` flag when it was cut); use `body_format='html'`, `max_body_chars` (0 = no limit), or `max_recipients` to adjust |
 | | **Get thread messages** | Get all messages of an email thread (conversation) across folders, oldest first, and identify new messages in it (after `since` / `after_message_id`, or unread). Reports `new_replies_count` (new messages not sent by the mailbox owner). With `include_body`, each body is capped at 2000 characters by default (`max_body_chars`) |
-| | **List folders** | List all mail folders in the mailbox |
+| | **List folders** | List mail folders, including nested subfolders, with filtering, sorting, and paging |
 | | **List messages** | List email messages from a mail folder (inbox, sentitems, drafts, etc.). Compact by default: a 200-character preview and up to 5 To/Cc recipients per message (`to_more` / `cc_more` give the rest); use `include_preview`, `preview_chars`, `max_recipients`, or `include_ids` to adjust |
 | | **Search messages** | Search for email messages using a KQL query (`from:`, `to:`, `subject:`, `body:`, `received:`, ...). Output is compact the same way as **List messages** (capped preview and recipients) |
 | **Create & update** | **Mark as read** | Mark an email as read or unread |
@@ -224,6 +304,18 @@ In the **Tools** section of the toolkit form, each group (**Read**, **Create & u
 **Compact output by default**
 
 As of the current toolkit version, `list_messages`, `search_messages`, `find_new_messages` and `get_thread_messages` return a short body preview (200 characters) and at most 5 To/Cc recipients per message by default — `to_more` / `cc_more` report how many were left out, and `conversationId` is hidden unless `include_ids=True`. `get_message` returns a plain-text body capped at 8000 characters by default instead of full HTML. This keeps responses small for agents by default; pass the relevant `*_chars` / `max_recipients` / `include_ids` / `body_format` parameter on the tool call when the full detail is actually needed (e.g. a mass-mail recipient audit, or quoting a long message in full).
+</Note>
+
+<Note>
+**List folders: nested subfolders, filtering, and paging**
+
+**List folders** returns each folder's path and ID, including nested subfolders, and returns 20 folders by default. Narrow or page through large mailboxes with:
+
+- `parent` — only list folders below this one (folder path like `Inbox/Projects`, display name, folder ID, or well-known name). Default: the whole mailbox
+- `depth` — how many levels below the start to include; `1` = direct children only. Default: all levels
+- `name_contains` — case-insensitive text the folder path must contain
+- `sort_by` — `"path"` (default, alphabetical tree order), `"unread"`, or `"total"` (folders with the most unread/total messages first — useful for finding folders that need attention)
+- `limit` — maximum folders to return (default 20, max 1000); the response indicates when results were truncated
 </Note>
 
 <Note>
@@ -281,12 +373,16 @@ Your agent can now interact with the connected mailbox using the configured tool
 ---
 #### In Pipelines:
 
+Toolkits are picked **inside a pipeline node** on the flow canvas, not from a separate "Tools" panel.
+
 1. **Navigate to Pipelines:** Open the sidebar and select **[Pipelines](../../menus/pipelines)**.
 2. **Create or Edit Pipeline:** Either create a new pipeline or select an existing pipeline to edit.
-3. **Add Outlook Toolkit:**
-     * In the **"TOOLS"** section of the pipeline configuration, click the **"+Toolkit"** icon
-     * Select your configured Outlook toolkit from the dropdown list
-     * The toolkit will be added to your pipeline with the previously configured tools enabled
+3. **Add a Node that Uses a Toolkit:** On the flow canvas, add (or select) a **Toolkit** node, or an **LLM** node if you want the model to choose tools itself.
+4. **Pick the Outlook Toolkit:**
+     * On a **Toolkit** node, click the **Toolkit** field and select your configured Outlook toolkit from the picker, then choose which tool to run from the **Tool** field that appears.
+     * On an **LLM** node, click the **Toolkits & MCPs** field and select your configured Outlook toolkit from the picker — it's added with every tool enabled on the toolkit itself, and you can refine which ones that node can call from the tool selector that appears underneath.
+     * Either way, the toolkit is attached to your pipeline automatically; no separate "Save" step is needed to register it.
+5. **Review Attached Tools:** The pipeline's **Tools** panel lists every toolkit, MCP, or agent referenced by a node, which node(s) use it, and lets you jump to that node. A toolkit removed from every node it was used in can be removed from here too.
 
       ![Outlook Toolkit](../../img/integrations/toolkits/outlook/outlook-add-pipeline.png)
 
@@ -548,16 +644,18 @@ Agent Response: [Agent uses get_thread_messages tool with conversation_id=<from 
 **Problem:** When clicking **Login** during credential setup, the OAuth flow fails with an error such as:
 > *AADSTS500113: No reply address is registered for the application.*
 
-**Cause:** This error occurs when no Redirect URI has been registered in your Azure AD App Registration. Azure AD requires the redirect URI to be explicitly registered before it will send the authorization response back to ELITEA.
+**Cause:** This error occurs when no Redirect URI has been registered on the Entra ID app behind the credential. Azure AD requires the redirect URI to be explicitly registered before it will send the authorization response back to ELITEA.
 
 **Troubleshooting Steps:**
 
-1. **Open your App Registration:** In the [Azure Portal](https://portal.azure.com), go to **Microsoft Entra ID → App registrations** and select your app.
-2. **Navigate to Authentication:** In the left menu, click **"Authentication"**.
-3. **Add a Redirect URI:** If no Web platform exists, click **"+ Add a platform"** → **"Web"**. If Web is already listed, click the **Edit** pencil next to it.
-4. **Enter the ELITEA callback URL:** In the **"Redirect URIs"** field, enter the value matching your deployment (see the [redirect URI table](#registering-an-app-in-azure-active-directory-azure-ad) above).
-5. **Save:** Click **"Configure"** (or **"Save"** if editing), then click **"Save"** at the top of the page.
-6. **Retry:** Return to your ELITEA Outlook credential and click **Login** again.
+- **Custom app mode:** You manage the app registration yourself:
+  1. **Open your App Registration:** In the [Azure Portal](https://portal.azure.com), go to **Microsoft Entra ID → App registrations** and select your app.
+  2. **Navigate to Authentication:** In the left menu, click **"Authentication"**.
+  3. **Add a Redirect URI:** If no Web platform exists, click **"+ Add a platform"** → **"Web"**. If Web is already listed, click the **Edit** pencil next to it.
+  4. **Enter the ELITEA callback URL:** In the **"Redirect URIs"** field, enter the value matching your deployment (see the [redirect URI table](#registering-an-app-in-azure-active-directory-azure-ad) above).
+  5. **Save:** Click **"Configure"** (or **"Save"** if editing), then click **"Save"** at the top of the page.
+  6. **Retry:** Return to your ELITEA Outlook credential and click **Login** again.
+- **Default app mode:** The app registration is managed by your administrator in the Admin Portal, not by you. Report this error to your ELITEA administrator so they can add the redirect URI to the shared app.
 </Accordion>
 
 <Accordion title="Connection Test Fails or Tools Return Re-authorization Errors">
@@ -567,21 +665,38 @@ Agent Response: [Agent uses get_thread_messages tool with conversation_id=<from 
 
 **Troubleshooting Steps:**
 
-1. **Re-authenticate:** In the credential form, click **Logout** then **Login** again to obtain a fresh token.
-2. **Check Auto Refresh Token:** Ensure **Auto Refresh Token** is enabled so the toolkit can silently refresh the token using the `offline_access` scope instead of requiring a manual re-login for every expiry.
-3. **Verify Client Secret Validity:** Confirm the Client Secret in Azure AD has not expired. If it has, generate a new one and update your ELITEA credential.
+1. **Re-authenticate:** On the credential form (or the **Connected! / Not Connected** status bar on the toolkit page), click **Logout** then **Login** again to obtain a fresh token.
+2. **Check Auto Refresh Token:** In Custom app mode, ensure **Auto Refresh Token** is enabled so the toolkit can silently refresh the token using the `offline_access` scope instead of requiring a manual re-login for every expiry. In Default app mode, this is controlled by the administrator's app configuration.
+3. **Verify Client Secret Validity (Custom app mode only):** Confirm the Client Secret in Azure AD has not expired. If it has, generate a new one and update your ELITEA credential. In Default app mode, ask your administrator to check the app's secret — the Admin Portal rotates it for all credentials using that app automatically once replaced.
 </Accordion>
 
-<Accordion title="'Access Forbidden' Errors">
-**Problem:** The connection test or a tool call reports: *"Access forbidden - token lacks required Microsoft Graph Mail permissions"*.
+<Accordion title="'Access Forbidden' (403) Errors">
+**Problem:** The connection test or a tool call reports an error such as:
+> *"Access forbidden - the token lacks the Microsoft Graph permission Mail.Read. Tick it in the credential scopes and sign in again."*
 
-**Cause:** This is a `403` response from Microsoft Graph — the token was issued successfully, but it does not carry the delegated Mail scope(s) required for the operation.
+or, when a **Mailbox** is configured:
+> *"Access to mailbox 'name@company.com' is forbidden - you need Full Access to it and the Mail.Read.Shared scope. Tick it in the credential scopes and sign in again."*
+
+**Cause:** This is a `403` response from Microsoft Graph — the token was issued successfully, but it does not carry the delegated Mail permission the operation needs. The error message names the specific missing permission.
 
 **Troubleshooting Steps:**
 
-1. **Review Granted Scopes:** In Azure AD, go to **API permissions** on your app registration and confirm the required Mail scopes (`Mail.Read`, `Mail.Send`, `Mail.ReadWrite`, etc.) are listed as **Delegated permissions**.
-2. **Grant Admin Consent (if required):** If your tenant requires admin consent for delegated permissions, ensure it has been granted.
-3. **Update the Scopes Field and Re-login:** Update the **Scopes** field in your ELITEA credential to include the missing scope(s), then click **Logout** and **Login** again — an existing token does not automatically pick up newly added scopes.
+1. **Tick the Named Permission:** In Custom app mode, tick the exact permission named in the error message under **Scopes** on the credential (see the Scopes table above), then click **Logout** and **Login** again — an existing token does not automatically pick up newly ticked permissions.
+2. **Shared Mailbox Access:** If the error names a specific mailbox, confirm the signed-in account actually has **Full Access** permission to that mailbox in Exchange, in addition to ticking `Mail.Read.Shared` (or `Mail.ReadWrite.Shared` / `Mail.Send.Shared`).
+3. **Grant Admin Consent (if required):** If your tenant requires admin consent for delegated permissions, ensure it has been granted for the permission in question.
+4. **Default app mode:** If the credential uses a Default app, ask your administrator to confirm the shared app has the needed permission configured and consented in Entra ID.
+</Accordion>
+
+<Accordion title="Mailbox Field Returns 'Not a Mailbox You Can Open' (404)">
+**Problem:** Setting **Mailbox** to a distribution list or group address fails with:
+> *"'name@company.com' is not a mailbox you can open. A distribution list or group has no mailbox of its own (its mail arrives in your inbox): leave the mailbox field empty"*
+
+**Cause:** A distribution list or Microsoft 365 group is not a mailbox in its own right — Microsoft delivers its mail directly into the inbox of each member, including yours.
+
+**Troubleshooting Steps:**
+
+1. **Clear the Mailbox Field:** Leave **Mailbox** empty and use your own mailbox — messages sent to the distribution list already arrive there.
+2. **Filter by Recipient Instead:** Use the `recipients` parameter on tools like `find_new_messages`, or a KQL `to:` clause in `search_messages`, to narrow results to messages sent to that distribution list address.
 </Accordion>
 
 <Accordion title="Search Messages Misses Recently Received Emails">
@@ -601,7 +716,7 @@ Agent Response: [Agent uses get_thread_messages tool with conversation_id=<from 
 **Troubleshooting Steps:**
 
 1. **Credential Selection:** Ensure you have selected the correct Outlook credential from the dropdown in the toolkit configuration.
-2. **Re-check Required Credential Fields:** Confirm **Client ID** and **Client Secret** are both set on the linked credential — these are required regardless of whether OAuth login has been completed.
+2. **Re-check Required Credential Fields:** The credential must have either a **Default app** selected, or — in **Custom app** mode — both **Client ID** and **Client Secret** set. ELITEA rejects a credential that has neither (error: *"Select a Default app or enter client_id and client_secret for a Custom app"*).
 </Accordion>
 
 ### <Icon icon="envelope" size={24} /> Support Contact
@@ -613,36 +728,49 @@ If you encounter issues not covered here or need additional assistance with Outl
 ## <Icon icon="circle-question" size={24} /> FAQ
 
 <Accordion title="Does the Outlook toolkit support App-Only (application-only) authentication?">
-**No.** The Outlook toolkit's credential schema only defines a single authentication mode — **Delegated (User OAuth)**. There is no App-Only / client-credentials equivalent, unlike the SharePoint toolkit. Every Outlook credential must be authorized by a signed-in user via the **Login** button on the credential form.
+**No.** The Outlook toolkit only supports **Delegated (User OAuth)** access, in either Default app or Custom app mode. There is no App-Only / client-credentials equivalent, unlike the SharePoint toolkit. Every Outlook credential must be authorized by a signed-in user via the **Login** button on the credential form (or the toolkit page's status bar).
+</Accordion>
+
+<Accordion title="What is the difference between Default app and Custom app mode?">
+Both modes use Delegated (User OAuth) access — the difference is only in where the underlying Entra ID app registration comes from:
+
+* **Default app** — your ELITEA administrator registered and configured an Entra ID app in the Admin Portal, scoped to Outlook (and possibly Teams/SharePoint too). It's used automatically, with no selection step. The app's Client ID, Client Secret, OAuth authority, scopes, and refresh-token behavior are all stored and applied server-side — the secret never reaches your browser, and if an administrator rotates the secret, every credential using that app picks up the change automatically with no action from you. On the current environment this app is configured with all available Microsoft Graph Mail scopes; use **Custom app** if you need to restrict a credential to specific scopes.
+* **Custom app** — you register and own your own Entra ID app, and enter its Client ID, Client Secret, OAuth Discovery Endpoint, Scopes, and Auto Refresh Token directly on the credential, exactly as in earlier ELITEA versions.
+
+A credential must use one mode or the other — ELITEA rejects a credential with neither a selected app nor a Client ID/Client Secret pair.
 </Accordion>
 
 <Accordion title="What are the required credential fields for the Outlook toolkit?">
-**Always required:**
+**In Default app mode:**
+
+* **App** — the administrator-configured OAuth app to sign in with.
+
+**In Custom app mode:**
 
 * **Client ID** — Azure AD Application (client) ID.
 * **Client Secret** — Azure AD Client Secret value.
+* **OAuth Discovery Endpoint** — `https://login.microsoftonline.com/{tenant_id}` — required to complete the OAuth login (and therefore to actually call any tool).
+* **Scopes** — the Microsoft Graph Mail permissions your Agents need, selected as checkboxes (e.g., `Mail.Read`, `Mail.Send`). Defaults to `Mail.Read` if none are ticked.
+* **Auto Refresh Token** — enabled by default; automatically refreshes the token using `offline_access`.
 
-**Required to complete the OAuth login (and therefore to actually call any tool):**
-
-* **OAuth Discovery Endpoint** — `https://login.microsoftonline.com/{tenant_id}`.
-* **Scopes** — the Microsoft Graph Mail scopes your Agents need (e.g., `Mail.Read`, `Mail.Send`).
-
-**Optional:**
+**Optional in both modes:**
 
 * **Mailbox** — leave empty to use the signed-in user's own mailbox (`/me`).
-* **Auto Refresh Token** — enabled by default; automatically refreshes the token using `offline_access`.
 </Accordion>
 
 <Accordion title="What happens if I leave the Mailbox field empty?">
-The toolkit falls back to `/me` on Microsoft Graph — i.e., the mailbox of whichever user completed the OAuth login on the credential. Set **Mailbox** explicitly only when the credential should operate on a different, specific mailbox.
+The toolkit falls back to `/me` on Microsoft Graph — i.e., the mailbox of whichever user completed the OAuth login on the credential. Set **Mailbox** explicitly only to open a different, shared mailbox you have Full Access to — never for a distribution list or group, since those have no mailbox of their own.
 </Accordion>
 
 <Accordion title="Is the offline_access scope something I need to add myself?">
-**No.** When ELITEA builds the OAuth authorization request, it automatically inserts the `offline_access` scope alongside whatever you list in the **Scopes** field, so refresh tokens are issued without any extra configuration on your part.
+**No.** When ELITEA builds the OAuth authorization request, it automatically inserts the `offline_access` scope alongside whatever permissions you've ticked under **Scopes**, so refresh tokens are issued without any extra configuration on your part — **unless you turn off Auto Refresh Token** (on the credential in Custom app mode, or via the administrator's app settings in Default app mode), in which case `offline_access` is not requested.
 </Accordion>
 
 <Accordion title="Do I need to register a Redirect URI for the Outlook credential?">
-**Yes, always.** Since the Outlook toolkit only supports Delegated (User OAuth) access, a redirect URI must be registered in your Azure AD App Registration under **Authentication → Redirect URIs**. Without it, Azure AD will reject the authorization request with `AADSTS500113: No reply address is registered`.
+**Yes, always** — but who registers it depends on the mode. Since the Outlook toolkit only supports Delegated (User OAuth) access, a redirect URI must be registered on the Entra ID app under **Authentication → Redirect URIs**, or Entra ID will reject the authorization request with `AADSTS500113: No reply address is registered`.
+
+* **Custom app mode:** you register it yourself, on your own app registration.
+* **Default app mode:** your administrator registers it once on the shared app in the Admin Portal — you don't need to do anything.
 </Accordion>
 
 <Accordion title="How do I find my Directory (Tenant) ID?">
