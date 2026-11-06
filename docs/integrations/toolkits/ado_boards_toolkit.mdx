@@ -70,7 +70,7 @@ To integrate Azure DevOps Boards with ELITEA, follow this three-step process: **
 2. **Create New Credential:** Click the **`+ Create`** button.
 3. **Select Azure DevOps:** Choose **Ado** as the credential type.
 
-    <img src="../../img/integrations/toolkits/ado/ado-credentials-access.gif" alt="Azure DevOps Credential Access" />
+    <img src="../../img/integrations/toolkits/ado/ado-credentials-access.png" alt="Azure DevOps Credential Access" />
 
 4. **Configure Credential Details:**
 
@@ -84,7 +84,7 @@ To integrate Azure DevOps Boards with ELITEA, follow this three-step process: **
 5. **Test Connection:** Click **Test Connection** to verify credentials.
 6. **Save Credential:** Click **Save**.
 
-    <img src="../../img/integrations/toolkits/ado/ado-credentials-create.gif" alt="Create Credentials" />
+    <img src="../../img/integrations/toolkits/ado/ado-credentials-create.png" alt="Create Credentials" width="500"/>
 
 <Tip title="Security Recommendation">
 Use **[Secrets](../../menus/settings/secrets)** for your PAT instead of entering values directly.
@@ -128,7 +128,7 @@ Use **[Secrets](../../menus/settings/secrets)** for your PAT instead of entering
 | | **Get work item type fields** | Get fields for a specific work item type |
 | | **List indexes** | Lists available indexed indexes |
 | | **Search index** | Performs searches across indexed content |
-| | **Search work items** | Search for work items using a WIQL query and dynamically fetch fields |
+| | **Search work items** | Search for work items using a WIQL query and dynamically fetch fields, including work item type when requested or when returned by default fields |
 | | **Search work items by text** | Search for work items using natural language text queries |
 | | **Stepback search index** | Performs advanced contextual searches with broader scope |
 | | **Stepback summary index** | Creates comprehensive summaries of indexed content |
@@ -249,7 +249,8 @@ When crafting instructions for agents using the ADO Boards toolkit, clarity and 
 2. Tool: Use the "search_work_items" tool.
 3. Parameters:
     - query: "WIQL query to find Active Tasks with Priority 1 assigned to @Me"
-4. Outcome: Display the list of matching work items with ID, title, state, and priority.
+    - fields: "Include Azure DevOps reference names for the fields you want returned, for example System.Title, System.State, System.AssignedTo, and System.WorkItemType"
+4. Outcome: Display the list of matching work items with ID, type, title, state, and priority.
 ```
 
 **Creating a Work Item:**
@@ -279,14 +280,18 @@ Agent Response: [Agent uses search_work_items tool]
 🔍 **Search Results: High-Priority Bugs** (3 items):
 
 1. **Bug #1234**: Application crashes on file upload
-   - **Priority**: High (Priority 1) | **State**: Active | **Created**: Nov 8, 2025
+   - **Type**: Bug | **Priority**: High (Priority 1) | **State**: Active | **Created**: Nov 8, 2025
 
 2. **Bug #1245**: Memory leak in background service
-   - **Priority**: High (Priority 1) | **State**: Active | **Created**: Nov 10, 2025
+   - **Type**: Bug | **Priority**: High (Priority 1) | **State**: Active | **Created**: Nov 10, 2025
 
 3. **Bug #1251**: Data validation error in user registration
-   - **Priority**: High (Priority 1) | **State**: Active | **Created**: Nov 11, 2025
+   - **Type**: Bug | **Priority**: High (Priority 1) | **State**: Active | **Created**: Nov 11, 2025
 ```
+
+<Note>
+`search_work_items` can return the work item type (`System.WorkItemType`). If you need it explicitly in the response, include `System.WorkItemType` in the `fields` list.
+</Note>
 </Accordion>
 
 <Accordion title="Create Work Item">
@@ -582,6 +587,18 @@ Use the 'search_work_items' tool with limit=-1 to return all matching work items
 ```
 
 Use this with care on large projects, as it may return a very large number of items.
+</Accordion>
+
+<Accordion title="Why doesn't my WIQL SELECT control which fields are returned?">
+`search_work_items` uses the WIQL query to find matching work item IDs, then fetches the returned fields separately. In practice, the output fields are controlled by the tool's `fields` parameter or by its default field set, not by the WIQL `SELECT` clause alone.
+
+If you need specific fields in the response, explicitly pass them in `fields`, for example:
+
+```json
+["System.Title", "System.State", "System.AssignedTo", "System.WorkItemType"]
+```
+
+This is especially useful when you need the work item type for grouping, filtering, or deciding which follow-up tool to call.
 </Accordion>
 
 <Accordion title="How do I find valid link type names for linking work items?">

@@ -7,7 +7,7 @@ description: "Connect ELITEA to SharePoint — read, write, and index documents 
 
 ## Introduction
 
-This guide is your definitive resource for integrating and utilizing the **SharePoint toolkit** within ELITEA. It provides a comprehensive, step-by-step walkthrough, from registering your SharePoint application in Azure Active Directory to configuring the toolkit in ELITEA and effectively using it within your Agents. By following this guide, you will unlock the power of automated document management, streamlined collaboration workflows, and enhanced information access, all directly within the ELITEA platform. This integration empowers you to leverage AI-driven automation to optimize your SharePoint-driven workflows using the combined strengths of ELITEA and Microsoft SharePoint.
+This guide is your definitive resource for integrating and utilizing the **SharePoint toolkit** within ELITEA. It provides a comprehensive, step-by-step walkthrough — covering the administrator-managed **Default app** connection, a self-managed **Custom app** registered in Azure Active Directory, and the legacy **App-only** mode — to configure the toolkit in ELITEA and use it effectively within your Agents. By following this guide, you will unlock the power of automated document management, streamlined collaboration workflows, and enhanced information access, all directly within the ELITEA platform. This integration empowers you to leverage AI-driven automation to optimize your SharePoint-driven workflows using the combined strengths of ELITEA and Microsoft SharePoint.
 
 **Brief Overview of Microsoft SharePoint**
 
@@ -25,7 +25,25 @@ Integrating SharePoint with ELITEA brings these powerful collaboration and docum
 
 ## Toolkit's Account Setup and Configuration in SharePoint
 
+<Info>
+**Three ways to connect: Default app, Custom app, or App-only**
+
+The SharePoint credential supports three authentication modes, selected by a tab/toggle in the credential form:
+
+- **Default app** — your ELITEA administrator has already registered and configured an Entra ID (Azure AD) app for SharePoint in the Admin Portal. It's used automatically — **no Azure AD work is required on your part**. You can skip the rest of this section entirely and go to [Step 1](#step-1-create-sharepoint-credentials).
+- **Custom app** — you register and manage your own Entra ID app registration and use **Delegated (User OAuth)** access on behalf of a signed-in user, with its Client ID, Client Secret, and related fields entered directly on the credential.
+- **App-only** — a legacy mode where the application acts as itself (no signed-in user), using `client_id` + `client_secret` and, for SharePoint Online, the `AppInv.aspx` site grant described below.
+
+If you're not sure which applies to your organization, open **Credentials → + Create → SharePoint** and check whether a **Default app** option is available; if not, or if you need a dedicated app for this credential, use **Custom app** or **App-only** and follow the registration steps in this section.
+</Info>
+
 ### Registering an App in Azure Active Directory (Azure AD)
+
+<Info>
+**Custom app and App-only modes only**
+
+This section only applies when you choose **Custom app** or **App-only** mode for the credential. If your administrator has configured a **Default app** for SharePoint, skip directly to [Step 1: Create SharePoint Credentials](#step-1-create-sharepoint-credentials) — none of this Azure AD setup is required.
+</Info>
 
 To enable secure integration between ELITEA and SharePoint, you need to register an application in Azure Active Directory (Azure AD). This app registration will represent ELITEA and allow it to authenticate and access SharePoint resources.
 
@@ -126,8 +144,9 @@ To securely authenticate your ELITEA Agents with SharePoint, you need to create 
 
     ![SharePoint-New_Client_Secret](../../img/integrations/toolkits/sharepoint/new-client-secret.gif)
 
-    !!! warning "Important"
-        Copy the **"Value"** column — not the "Secret ID" column. The Value is the actual credential used for authentication.
+    <Warning title="Important">
+    Copy the **"Value"** column — not the "Secret ID" column. The Value is the actual credential used for authentication.
+    </Warning>
 
 
 ### Grant App-Only Access to the SharePoint Site
@@ -153,24 +172,25 @@ Grant your registered application access at the SharePoint site collection level
 
 3.  **Define Permissions using XML:** In the **"Permission Request XML"** field, enter one of the following XML blocks depending on the level of access your Agents require:
 
-    !!! example "Permission Request XML Options"
+    <Info title="Permission Request XML Options">
+    **Full Control (read and write operations):**
+    ```xml
+    <AppPermissionRequests AllowAppOnlyPolicy="true">
+      <AppPermissionRequest Scope="http://sharepoint/content/sitecollection" Right="FullControl" />
+    </AppPermissionRequests>
+    ```
 
-        **Full Control (read and write operations):**
-        ```xml
-        <AppPermissionRequests AllowAppOnlyPolicy="true">
-          <AppPermissionRequest Scope="http://sharepoint/content/sitecollection" Right="FullControl" />
-        </AppPermissionRequests>
-        ```
+    **Read-Only Access:**
+    ```xml
+    <AppPermissionRequests AllowAppOnlyPolicy="true">
+      <AppPermissionRequest Scope="http://sharepoint/content/sitecollection" Right="Read" />
+    </AppPermissionRequests>
+    ```
+    </Info>
 
-        **Read-Only Access:**
-        ```xml
-        <AppPermissionRequests AllowAppOnlyPolicy="true">
-          <AppPermissionRequest Scope="http://sharepoint/content/sitecollection" Right="Read" />
-        </AppPermissionRequests>
-        ```
-
-    !!! warning "Principle of Least Privilege"
-        Grant only the minimum required permissions. Avoid `FullControl` unless your Agents need to create, modify, or delete SharePoint content.
+    <Warning title="Principle of Least Privilege">
+    Grant only the minimum required permissions. Avoid `FullControl` unless your Agents need to create, modify, or delete SharePoint content.
+    </Warning>
 
 4.  **Create and Trust the App:** Click **"Create"**, then click **"Trust It"** on the confirmation page to grant the requested permissions to your application.
 
@@ -200,61 +220,101 @@ For details, see Microsoft's **[Azure ACS retirement announcement](https://learn
 
 Before creating a toolkit, you must first create SharePoint credentials in ELITEA.
 
-The SharePoint credential supports two authentication modes — **App-Only** (the application acts as itself) and **Delegated** (the application acts on behalf of a signed-in user). For **SharePoint Online**, **Delegated** is the recommended option because Microsoft has retired Azure ACS and recommends moving to Microsoft Entra ID-based authentication. Select the tab in the ELITEA credential form that matches your organization's access policy:
+The SharePoint credential supports **three** authentication modes: **Default app** (administrator-managed Delegated access), **Custom app** (your own Delegated Azure AD app), and **App-only** (the legacy application-acts-as-itself mode). For **SharePoint Online**, a Delegated mode (**Default app** or **Custom app**) is the recommended option because Microsoft has retired Azure ACS and recommends moving to Microsoft Entra ID-based authentication. Select the tab in the ELITEA credential form that matches your organization's access policy:
 
 **Steps to create a SharePoint credential:**
 
 1. **Navigate to Credentials Menu:** Open the sidebar and select **[Credentials](../../menus/credentials)**.
 2. **Create New Credential:** Click the **`+ Create`** button.
 3. **Select SharePoint:** Choose **SharePoint** as the credential type.
-4. **Configure credential fields:**
+
+     <img src="../../img/integrations/toolkits/sharepoint/sharepoint-cred-access.png" alt="SharePoint Access" />
+
+4. **Configure the Common Fields:** These fields apply regardless of which authentication mode you choose in the next step:
 
     | **Field** | **Description** | **Example** |
     |-----------|----------------|-------------|
     | **Display Name** | Descriptive name for this credential | `SharePoint - Contoso Marketing Site` |
-    | **Client ID** | Application (client) ID from your Azure AD app registration | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
-    | **Client Secret** | Client Secret Value generated in Azure AD | `your-client-secret-value` |
     | **Site URL** | Full URL of your SharePoint site | `https://contoso.sharepoint.com/sites/MarketingTeam` |
 
-5. **Select the authentication tab:** In the credential form, choose either **"App-only"** or **"Delegated"** depending on your access model.    
+    <img src="../../img/integrations/toolkits/sharepoint/sharepoint-cred-configs.png" alt="SharePoint Credential Configuration" />
 
-#### App-Only (Client Credentials)
+5. **Select the authentication tab:** In the credential form, choose **"Default app"**, **"Custom app"**, or **"App-only"** depending on your access model.
 
-<Warning title="App-Only for SharePoint Online">
-Use this option with caution for **SharePoint Online**. If your existing App-Only setup depends on **Azure ACS**, it is no longer a viable long-term authentication model after Microsoft's Azure ACS retirement. For new or migrated SharePoint Online setups, prefer **Delegated (User OAuth)** unless you have confirmed a supported Microsoft Entra ID-based application pattern for your scenario.
-</Warning>
+   <Tabs>
+        <Tab title="Default app">
+             **Used for:** Signing in with the Entra ID (Azure AD) app your ELITEA administrator has already registered and configured in the Admin Portal. No Azure AD work is required on your part — the field shows a note instead of a dropdown: *"Sign-in settings are managed by your administrator."* This mode always acts as **Delegated (User OAuth)**.
 
-1. **Test Connection:** Click **Test Connection**to verify your credentials are valid and ELITEA can connect to SharePoint.
-2. **Save Credential:** Click **Save**.
+             **Configuration:**
 
-     ![App-Only](../../img/integrations/toolkits/sharepoint/sharepoint-credential-app.gif)
+             * The Client ID, Client Secret, OAuth Discovery Endpoint, Scopes, and Auto Refresh Token are all managed centrally by the app — none of them appear on the credential.
+
+             <img src="../../img/integrations/toolkits/sharepoint/default-app-sharepoint.png" alt="Default App SharePoint" width="400"/>
+
+             <Warning title="Default app currently requests all scopes">
+             On the [Elitea Next](https://next.elitea.ai/) environment, the Default app is configured with **all available Microsoft Graph scopes** — there is no way to request only a subset of permissions in this mode. If you need to limit the credential to specific scopes, use **Custom app** instead.
+             </Warning>
+        </Tab>
+
+        <Tab title="Custom app">
+             **Used for:** Signing in with your own Entra ID (Azure AD) app registration, following the [registration steps](#registering-an-app-in-azure-active-directory-azure-ad) above. This mode always acts as **Delegated (User OAuth)**.
+
+             **Configuration Fields:**
+
+             | **Field** | **Description** | **Example** |
+             |-----------|----------------|-------------|
+             | **Client ID** | Application (client) ID from your Azure AD app registration | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
+             | **Client Secret** | Client Secret Value generated in Azure AD | `your-client-secret-value` |
+             | **OAuth Discovery Endpoint** | Azure AD tenant base URL in the format `https://login.microsoftonline.com/{tenant_id}`. The `{tenant_id}` is the **Directory (tenant) ID** from your Azure AD App Registration Overview page | `https://login.microsoftonline.com/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
+             | **Scopes** | Space-separated OAuth permission scopes the delegated token should request | `Sites.ReadWrite.All Files.ReadWrite.All Notes.ReadWrite.All` |
+             | **Auto Refresh Token** | Automatically refresh the access token using the `offline_access` scope; `offline_access` is requested automatically unless this is off | Enabled by default |
+
+             <img src="../../img/integrations/toolkits/sharepoint/custom-app-sharepoint.png" alt="Custom App SharePoint" width="500"/>
+
+             <Warning title="Re-login required after scope changes">
+             If you add, remove, or modify the **Scopes** field after the initial login (e.g., to add `Notes.ReadWrite.All` for OneNote access), the existing token will not automatically include the new scopes. You must click **Login** again to complete a new OAuth authorization flow and obtain a fresh token that reflects the updated scope list.
+             </Warning>
+        </Tab>
+
+        <Tab title="App-only">
+             **Used for:** The legacy mode where the application acts as itself, with no signed-in user involved.
+
+             <Warning title="App-Only for SharePoint Online">
+             Use this option with caution for **SharePoint Online**. If your existing App-Only setup depends on **Azure ACS**, it is no longer a viable long-term authentication model after Microsoft's Azure ACS retirement. For new or migrated SharePoint Online setups, prefer **Default app** or **Custom app** (Delegated) unless you have confirmed a supported Microsoft Entra ID-based application pattern for your scenario.
+             </Warning>
+
+             **Configuration Fields:**
+
+             | **Field** | **Description** | **Example** |
+             |-----------|----------------|-------------|
+             | **Client ID** | Application (client) ID from your Azure AD app registration | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
+             | **Client Secret** | Client Secret Value generated in Azure AD | `your-client-secret-value` |
+
+             <img src="../../img/integrations/toolkits/sharepoint/app-only-sharepoint.png" alt="App-Only SharePoint" width="500"/>
+        </Tab>
+   </Tabs>
+
+6. **Log in (Default app / Custom app only):** Click the **Login** button, next to **Test Connection**, to start the OAuth authorization flow — ELITEA redirects to Azure AD for user sign-in. After you authorize, a refresh token is stored on the credential (so scheduled runs can authenticate without a browser) and the connection is verified against Microsoft Graph.
+
+     * **Test Connection:** Click **Test Connection** to verify that your credentials are valid and ELITEA can successfully connect to SharePoint.
+     > After a successful login, the **Login** button changes to **Logout**. Click **Logout** at any time to clear the stored token and disconnect the credential. **App-only** credentials have no sign-in step and use **Test Connection** on its own to verify the credentials.
+7. **Save Credential:** Click **Save**.
+
+<Info>
+**Stored login and scheduled runs (Default app / Custom app)**
+
+After a successful **Login** in either Delegated mode, ELITEA stores a refresh token for the signed-in user as part of the credential. This stored login is what lets **scheduled agents and pipelines** — which run without a browser — authenticate to SharePoint on your behalf.
+
+You'll see the same **Connected! / Not Connected** status, with its own **Login** / **Logout** button, both on the credential form and again on the **Toolkit** configuration page for any toolkit using this credential. On a shared/team credential, only project members with edit permission on it can log in or out — others see the status as read-only with the hint *"Only project admins can log in or out on a team credential."*
+
+If a toolkit using this credential will be used in a **scheduled** run, confirm its status shows **Connected!** — otherwise the schedule will fail to authenticate when it runs unattended. App-only credentials have no sign-in step and are unaffected.
+</Info>
 
 ---
 
-#### Delegated (User OAuth)
+<Info>
+**Site URL Format**
 
-1. **Configure additional Delegated fields:**
-
-    | **Field** | **Description** | **Example** |
-    |-----------|----------------|-------------|
-    | **OAuth Discovery Endpoint** | Azure AD tenant base URL in the format `https://login.microsoftonline.com/{tenant_id}`. The `{tenant_id}` is the **Directory (tenant) ID** from your Azure AD App Registration Overview page | `https://login.microsoftonline.com/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
-    | **Scopes** | Space-separated OAuth permission scopes the delegated token should request | `Sites.ReadWrite.All Files.ReadWrite.All Notes.ReadWrite.All` |
-
-2. **Log in:** Once the **OAuth Discovery Endpoint** field is filled in, a **Login** button appears next to the **Test Connection** button. Click **Login** to initiate the OAuth authorization flow — ELITEA calls the SharePoint check-connection endpoint, which redirects to Azure AD for user sign-in. After you authorize the application, the token is stored and the connection is verified via Microsoft Graph.
-
-    > After a successful login, the **Login** button changes to **Logout**. Click **Logout** at any time to clear the stored token and disconnect the credential.
-
-3. **Save Credential:** Click **Save**.
-
-     ![Delegated](../../img/integrations/toolkits/sharepoint/sharepoint-credential-delegated.gif)
-
-<Warning title="Re-login required after scope changes">
-If you add, remove, or modify the **Scopes** field after the initial login (e.g., to add `Notes.ReadWrite.All` for OneNote access), the existing token will not automatically include the new scopes. You must click **Login** again to complete a new OAuth authorization flow and obtain a fresh token that reflects the updated scope list.
-</Warning>
-
----
-
-<Info title="Site URL Format">
 The Site URL must follow the format `https://<tenant>.sharepoint.com/sites/<site>`. For App-Only, the tenant name is extracted from this URL to construct the ACS endpoint. For Delegated, the full URL is passed to the Microsoft Graph sites API.
 
 | Example | URL |
@@ -271,36 +331,55 @@ Use **[Secrets](../../menus/settings/secrets)** for sensitive values (Client Sec
 
 #### Choosing an Authentication Mode
 
-**Use App-Only (Client Credentials) when:**
+| | **Default app** | **Custom app** | **App-only** |
+|---|---|---|---|
+| **How it works** | ELITEA connects on behalf of a specific signed-in user, via an administrator-managed app | ELITEA connects on behalf of a specific signed-in user, via your own app | ELITEA connects as the application itself, with no user involved |
+| **Best for** | Workflows where user identity matters, with zero app setup | Workflows where user identity matters and you need your own app or specific scopes | Automation, background tasks, scheduled workflows |
+| **OneNote support** | ✔️ Supported | ✔️ Supported | ✘ Not supported |
+| **Setup complexity** | None — nothing to register | Requires Redirect URI + OAuth login step | Simpler — App registration + AppInv.aspx site grant |
+| **Access scope** | Defined by the permissions of the signed-in user | Defined by the permissions of the signed-in user | Defined by permissions granted to the app |
 
-> For **SharePoint Online**, review this option carefully against Microsoft's Azure ACS retirement guidance. In most ongoing SharePoint Online scenarios, **Delegated** is the safer recommended choice.
+<Tabs>
+     <Tab title="Default app">
+          **Use this when:**
 
-- Your workflow runs automatically, without a user actively involved (e.g., a nightly report, a scheduled file sync, or a background data processing pipeline).
-- You want a single shared connection that doesn't depend on any individual user's account.
-- You need to read from or write to public team sites where user identity doesn't matter.
+          - Your administrator has already configured a Default app and its granted scopes are sufficient for your Agents.
+          - You want zero Azure AD setup — no app registration, no redirect URI, no client secret to manage.
+          - You still need user-identity-based access (OneNote, user-restricted sites) without the overhead of Custom app.
 
-    !!! example
-        An ELITEA Agent that runs every morning, reads all items from a "Project Tasks" list, and generates a summary report — App-Only is the right choice here because no user interaction is needed.
+          <Info title="Example">
+          An ELITEA Agent helping a team member search their department's restricted SharePoint site and read OneNote meeting notes — Default app works here because it's already Delegated and needs no setup from the user.
+          </Info>
+     </Tab>
 
-**Use Delegated (User OAuth) when:**
+     <Tab title="Custom app">
+          **Use this when:**
 
-- You need to access OneNote notebooks (only available in Delegated mode).
-- Your organization's SharePoint permissions are user-based — only specific people can see certain sites or libraries.
-- The workflow involves a user actively working in ELITEA and you want actions to be logged under their identity.
-- You're building a personal assistant that reads documents or lists on behalf of the signed-in user.
-- You are configuring **SharePoint Online** access and want the authentication model aligned with Microsoft's post-Azure-ACS guidance.
+          - You need your own Azure AD app registration, separate from any administrator-managed app.
+          - You need to restrict or customize the scopes requested beyond what a Default app grants.
+          - You need to access OneNote notebooks (only available in a Delegated mode).
+          - Your organization's SharePoint permissions are user-based — only specific people can see certain sites or libraries — and you want a dedicated app for this credential.
+          - You are configuring **SharePoint Online** access and want the authentication model aligned with Microsoft's post-Azure-ACS guidance, with your own app.
 
-    !!! example
-        An ELITEA Agent helping a team member search their department's restricted SharePoint site and read OneNote meeting notes — Delegated is required because the site is access-controlled per user and OneNote needs a user token.
+          <Info title="Example">
+          An ELITEA Agent that needs a narrowly scoped set of Graph permissions (e.g., read-only on a single library) distinct from the administrator's Default app — Custom app lets you register a dedicated Azure AD app with just those permissions.
+          </Info>
+     </Tab>
 
-    | | **App-Only (Client Credentials)** | **Delegated (User OAuth)** |
-    |---|---|---|
-    | **How it works** | ELITEA connects as the application itself, with no user involved | ELITEA connects on behalf of a specific signed-in user |
-    | **Best for** | Automation, background tasks, scheduled workflows | Workflows where user identity matters, or access is restricted to specific users |
-    | **Example use case** | Nightly report generation, automated file archiving, batch list updates | Reading a user's personal SharePoint files, accessing sites restricted to certain team members |
-    | **OneNote support** | ✘ Not supported | ✔️ Supported |
-    | **Setup complexity** | Simpler — App registration + AppInv.aspx site grant | Requires Redirect URI + OAuth login step |
-    | **Access scope** | Defined by permissions granted to the app | Defined by the permissions of the signed-in user |
+     <Tab title="App-only">
+          **Use this when:**
+
+          - Your workflow runs automatically, without a user actively involved (e.g., a nightly report, a scheduled file sync, or a background data processing pipeline).
+          - You want a single shared connection that doesn't depend on any individual user's account.
+          - You need to read from or write to public team sites where user identity doesn't matter.
+
+          <Info title="Example">
+          An ELITEA Agent that runs every morning, reads all items from a "Project Tasks" list, and generates a summary report — App-only is the right choice here because no user interaction is needed.
+          </Info>
+
+          > For **SharePoint Online**, review this option carefully against Microsoft's Azure ACS retirement guidance. In most ongoing SharePoint Online scenarios, a Delegated mode (**Default app** or **Custom app**) is the safer recommended choice.
+     </Tab>
+</Tabs>
 
 
 ### Step 2: Create SharePoint Toolkit
@@ -310,6 +389,9 @@ Once your credentials are configured, create the SharePoint toolkit:
 1. **Navigate to Toolkits Menu:** Open the sidebar and select **[Toolkits](../../menus/toolkits)**.
 2. **Create New Toolkit:** Click the **`+ Create`** button.
 3. **Select SharePoint:** Choose **SharePoint** from the list of available toolkit types.
+
+     <img src="../../img/integrations/toolkits/sharepoint/sharepoint-toolkit-access.png" alt="SharePoint Toolkit Access" />
+
 4. **Configure Toolkit Settings:**
 
     | **Field** | **Description** | **Example** |
@@ -317,6 +399,7 @@ Once your credentials are configured, create the SharePoint toolkit:
     | **Toolkit Name** | Descriptive name for your toolkit (required) | `SharePoint - Marketing Documents` |
     | **Description** | Optional description for the toolkit purpose | `Toolkit for accessing the Marketing Team SharePoint site` |
     | **Credentials** | Select your previously created SharePoint credential | `SharePoint - Contoso Marketing Site` |
+    | **Site Path** | (Optional) SharePoint site path relative to the tenant URL. Use this when the credential's **Site URL** is only the tenant root, so the same credential can be reused across multiple toolkits each pointing at a different site. Leave empty when the credential's **Site URL** already includes the site path | `sites/MarketingTeam` or `teams/Platform` |
     | **PgVector Configuration** | (Optional) Select PgVector connection for indexing and semantic search features | Your PgVector configuration |
     | **Embedding Model** | (Optional) Select embedding model for text processing and semantic search | `amazon.titan-embed-text-v2:0` |
 
@@ -324,11 +407,11 @@ Once your credentials are configured, create the SharePoint toolkit:
        * **[Make Tools Available by MCP](../mcp/make-tools-available-by-mcp)** — (optional checkbox) Enable this option to make the selected tools accessible through external MCP clients.
 6. **Save Toolkit:** Click **Save** to create the toolkit.
 
-     ![Toolkit](../../img/integrations/toolkits/sharepoint/sharepoint-toolkit-create.gif)
+     <img src="../../img/integrations/toolkits/sharepoint/sharepoint-toolkit-configs.png" alt="Toolkit" />
 
 #### OAuth Status Bar (Delegated mode only)
 
-When the selected SharePoint credential uses **Delegated (User OAuth)** authentication, a connection status bar appears at the top of the toolkit configuration form. This bar is hidden for App-Only credentials.
+When the selected SharePoint credential uses a **Delegated (User OAuth)** mode — **Default app** or **Custom app** — a connection status bar appears at the top of the toolkit configuration form. This bar is hidden for App-Only credentials.
 
 The status bar displays:
 - A colored status indicator with **"Connected!"** (green) when a valid OAuth token is present, or **"Not Connected"** (orange/warning) when no token exists or the token has expired.
@@ -351,7 +434,8 @@ The Login button in the toolkit form uses the scopes configured in the linked Sh
     | **File Operations** | | | |
     | | **Get files list** | Lists files in a SharePoint document library, optionally filtered by folder or library name; supports `include_extensions` and `skip_extensions` filters to narrow results by file type | Browse and discover files across document libraries |
     | | **Read document** | Reads the content of a document at a given server-relative path; supports `.md`, `.docx`, `.pptx`, `.xlsx`, `.py`, `.java`, `.txt`, `.json`, `.js`, and `.pdf`; optional `page_number` (for multi-page documents), `sheet_name` (Excel), and `is_capture_image` (AI image description) parameters | Extract text content from SharePoint documents for analysis or summarization |
-    | | **Read file from sharing link** | Reads the content of a file from a public or sharing link | Access files shared via a link without needing to import them into a workspace first |
+    | | **Read file from sharing link** | Reads the content of a file from a SharePoint/OneDrive sharing link (`Anyone with the link` or explicitly shared with your account), without listing the containing folder first; supports `is_capture_image`, `start_line`/`end_line` for partial reads | Access files shared via a link (e.g. from ADO tickets, Jira issues, chat) without needing to import them into a workspace first |
+    | | **Read file from url** | Reads a file directly from a SharePoint/OneDrive **browser URL** copied from the address bar (`AllItems.aspx?id=...`, `Doc.aspx?sourcedoc=...`, `onedrive.aspx?id=...`) or a sharing link, resolving straight to that one file — no need to call **Get files list** first; supports `is_capture_image`, `start_line`/`end_line` for partial reads | Open a file a user pasted a link to, without enumerating the folder it lives in |
     | | **Upload file** | Uploads a file to a specified SharePoint document library folder, from artifact storage or direct string content | Automate file delivery and publishing to SharePoint |
     | **List & Data Operations** | | | |
     | | **Get lists** | Returns all visible SharePoint lists on the configured site with their titles, IDs, descriptions, and item counts | Discover lists on a site before reading or writing data |
@@ -381,8 +465,25 @@ The Login button in the toolkit form uses the scopes configured in the linked Sh
     | | **Stepback search index** | Performs advanced contextual searches with broader scope | Execute sophisticated searches with expanded context |
     | | **Stepback summary index** | Creates comprehensive summaries of indexed SharePoint content | Generate intelligent summaries of documents and files |
 
-    !!! tip "Vector Search Tools"
-        The tools **Index data**, **List collections**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These enable advanced semantic search capabilities across your SharePoint documents.
+<Tip> 
+**Vector Search Tools**
+
+The tools **Index data**, **List collections**, **Remove index**, **Search index**, **Stepback search index**, and **Stepback summary index** require PgVector configuration and an embedding model. These enable advanced semantic search capabilities across your SharePoint documents.
+</Tip>
+
+    <Note>
+    **Read file from url: supported link formats**
+
+    **Read file from url** resolves a single file directly from whatever URL a user pastes, without listing its folder:
+
+    * A direct server-relative file path, e.g. `/sites/Site/Shared Documents/report.pdf`
+    * A library viewer link, e.g. `.../Forms/AllItems.aspx?id=/sites/Site/Shared Documents/report.pdf`
+    * A OneDrive viewer link, e.g. `.../onedrive.aspx?id=/personal/user/Documents/report.pdf`
+    * An Office for the web / "existing access" link, e.g. `.../_layouts/15/Doc.aspx?sourcedoc={GUID}&file=report.docx` or `/:w:/r/sites/Site/_layouts/15/Doc.aspx?sourcedoc={GUID}`
+    * A sharing link, e.g. `/:w:/s/Site/EaBcD...?e=xyz` (resolved the same way as **Read file from sharing link**)
+
+    If the URL points to a site, library, folder, or list view rather than a single file, the tool returns a clear error asking for the file's own URL or a sharing link instead. Prefer this tool over **Get files list** + **Read document** whenever a user gives you a link — it skips the folder listing entirely.
+    </Note>
 
 #### Testing Toolkit Tools
 
@@ -397,12 +498,13 @@ After configuring your SharePoint toolkit, you can test individual tools directl
 5. **Run the Test:** Execute the tool and wait for the response.
 6. **Review the Response:** Analyze the output to verify the tool is working correctly and returning expected results.
 
-    !!! tip "Key benefits of testing toolkit tools:"
-        * Verify that SharePoint credentials and connection are configured correctly
-        * Test tool parameters and see actual responses from your SharePoint site
-        * Debug tool behavior and understand output formats
-        * Optimize tool settings before integrating with agents or pipelines
-        > For detailed instructions on how to use the Test Settings panel, see **[How to Test Toolkit Tools](../../how-tos/credentials-toolkits/how-to-test-toolkit-tools)**.
+    <Tip title="Key benefits of testing toolkit tools:">
+    * Verify that SharePoint credentials and connection are configured correctly
+    * Test tool parameters and see actual responses from your SharePoint site
+    * Debug tool behavior and understand output formats
+    * Optimize tool settings before integrating with agents or pipelines
+    > For detailed instructions on how to use the Test Settings panel, see **[How to Test Toolkit Tools](../../how-tos/credentials-toolkits/how-to-test-toolkit-tools)**.
+    </Tip>
 
 ---
 
@@ -417,12 +519,12 @@ Now you can add the configured SharePoint toolkit to your agents, pipelines, or 
 1. **Navigate to Agents:** Open the sidebar and select **[Agents](../../menus/agents)**.
 2. **Create or Edit Agent:** Either create a new agent or select an existing agent to edit.
 3. **Add SharePoint Toolkit:**
-     * In the **"TOOLKITS"** section of the agent configuration, click the **"+Toolkit"** icon.
+     * In the **"TOOLS"** section of the agent configuration, click the **"+Toolkit"** icon.
      * Select your configured SharePoint toolkit from the dropdown list.
      * The toolkit will be added to your agent with the previously configured tools enabled.
      * If the toolkit uses a **Delegated (User OAuth)** credential, a **connection status icon** (globe indicator) and a **Log in** button appear at the right side of the toolkit row. Click **Log in** to authorize the SharePoint connection directly from the agent configuration — no need to leave the page. Once authorized, the icon switches from offline (orange) to online (green).
 
-     ![Agents](../../img/integrations/toolkits/sharepoint/sharepoint-agent-add.gif)
+     ![Agents](../../img/integrations/toolkits/sharepoint/sharepoint-agent-add.png)
 
 Your agent can now interact with SharePoint using the configured toolkit and enabled tools.
 
@@ -433,11 +535,11 @@ Your agent can now interact with SharePoint using the configured toolkit and ena
 1. **Navigate to Pipelines:** Open the sidebar and select **[Pipelines](../../menus/pipelines)**.
 2. **Create or Edit Pipeline:** Either create a new pipeline or select an existing pipeline to edit.
 3. **Add SharePoint Toolkit:**
-     * In the **"TOOLKITS"** section of the pipeline configuration, click the **"+Toolkit"** icon.
+     * In the **"TOOLS"** section of the pipeline configuration, click the **"+Toolkit"** icon.
      * Select your configured SharePoint toolkit from the dropdown list.
      * The toolkit will be added to your pipeline with the previously configured tools enabled.
 
-     ![Pipelines](../../img/integrations/toolkits/sharepoint/sharepoint-pipeline-add.gif)
+     ![Pipelines](../../img/integrations/toolkits/sharepoint/sharepoint-pipeline-add.png)
 
 <Info title="Delegated credential: Login button in the toolkit card">
 The same connection indicator described for Agents also appears in Pipeline toolkit cards for SharePoint toolkits with Delegated credentials — an offline icon with a **Log in** button when not authorized, and an online icon when connected.
@@ -448,16 +550,20 @@ The same connection indicator described for Agents also appears in Pipeline tool
 #### In Chat:
 
 1. **Navigate to Chat:** Open the sidebar and select **[Chat](../../menus/chat)**.
-2. **Start New Conversation:** Click **+Create** or open an existing conversation.
-3. **Add Toolkit to Conversation:**
-     * In the chat Participants section, look for the **Toolkits** element.
-     * Click the **"Add Tools"** icon to open the tools selection dropdown.
-     * Select your configured SharePoint toolkit from the dropdown list.
-     * The toolkit will be added to your conversation with all previously configured tools enabled.
-     * If the toolkit uses a **Delegated (User OAuth)** credential, a **connection status icon** (globe indicator) appears next to the toolkit name in the Participants list — **green** when authorized, **orange** when not. If not authorized, a **Log in** link appears below the toolkit entry; click it to complete the OAuth flow without leaving the Chat.
-4. **Use Toolkit in Chat:** You can now directly interact with your SharePoint site by asking questions or requesting actions that will trigger the SharePoint toolkit tools.
+2. **Start New Conversation:** Click **+ Conversation** or open an existing conversation.
+3. **Add SharePoint Toolkit to Conversation:**
+   - Click the **`+`** icon in the chat input toolbar (tooltip: *Add files, agents, toolkits and more…*)
+   - Hover over **Toolkits** in the popup menu
+   - Search for your SharePoint toolkit by name
+   - Enable the toolkit to add it to your conversation
+4. **Verify Toolkit Added:** The SharePoint toolkit appears in the **PARTICIPANTS** panel on the right side under the **Toolkits** section. If the toolkit uses a **Delegated (User OAuth)** credential, a **connection status icon** (globe indicator) appears next to the toolkit name in the Participants list — **green** when authorized, **orange** when not. If not authorized, a **Log in** link appears below the toolkit entry; click it to complete the OAuth flow without leaving the Chat.
+5. **Use Toolkit in Chat:** You can now directly interact with your SharePoint site by asking questions or requesting actions that will trigger the SharePoint toolkit tools.
 
-     ![Chat](../../img/integrations/toolkits/sharepoint/sharepoint-chat-add.gif)
+     ![Chat](../../img/integrations/toolkits/sharepoint/sharepoint-chat-add.png)
+
+<Tip>
+You can also add the toolkit by typing **`#`** in the chat input box and searching for your SharePoint toolkit.
+</Tip>
 
 <Info title="Delegated credential: authorization prompt in Chat">
 If the SharePoint toolkit uses a **Delegated (User OAuth)** credential and no valid token is present, a warning appears below the toolkit entry in the Participants panel:
@@ -467,11 +573,12 @@ If the SharePoint toolkit uses a **Delegated (User OAuth)** credential and no va
 Click the **Log in** link to complete the OAuth authorization flow without leaving the Chat. Once authorized, the connection icon next to the toolkit name in the Participants list changes from offline (orange) to online (green) and the warning disappears.
 </Info>
 
-    !!! example "Example Chat Usage:"
-        - "List all files in the 'Shared Documents' library"
-        - "Read the content of the project proposal at /sites/Marketing/Shared Documents/Q3 Proposal.docx"
-        - "Show me all items in the 'Project Tasks' list"
-        - "Create a new item in the 'Bug Reports' list with Title 'Login page error' and Status 'Open'"
+    <Info title="Example Chat Usage:">
+    - "List all files in the 'Shared Documents' library"
+    - "Read the content of the project proposal at /sites/Marketing/Shared Documents/Q3 Proposal.docx"
+    - "Show me all items in the 'Project Tasks' list"
+    - "Create a new item in the 'Bug Reports' list with Title 'Login page error' and Status 'Open'"
+    </Info>
 
 ---
 
@@ -508,19 +615,20 @@ When instructing your Agent to use a SharePoint toolkit tool, follow this struct
 4. **Describe Expected Outcome (Optional but Recommended):** Briefly describe the expected result.
 5. **Add Conversation Starters:** Include examples that users can use.
 
-    !!! example "Example Agent Instructions"
-        **Agent Instructions for Reading a List and Summarizing Tasks:**
+    <Info title="Example Agent Instructions">
+    **Agent Instructions for Reading a List and Summarizing Tasks:**
 
-        ```markdown
-        1. Goal: Retrieve all items from the 'Project Tasks' SharePoint list and summarize the current workload.
-        2. Tool: Use the "read_list" tool.
-        3. Parameters:
-           - list_title: "Project Tasks"
-           - limit: 200 (or as needed)
-        4. Outcome: The Agent will retrieve all task items and produce a summary grouped by status
-           (e.g., Not Started, In Progress, Completed), highlighting any overdue tasks.
-        5. Conversation Starters: "Show me the project task summary", "What tasks are currently in progress?"
-        ```
+    ```markdown
+    1. Goal: Retrieve all items from the 'Project Tasks' SharePoint list and summarize the current workload.
+    2. Tool: Use the "read_list" tool.
+    3. Parameters:
+       - list_title: "Project Tasks"
+       - limit: 200 (or as needed)
+    4. Outcome: The Agent will retrieve all task items and produce a summary grouped by status
+       (e.g., Not Started, In Progress, Completed), highlighting any overdue tasks.
+    5. Conversation Starters: "Show me the project task summary", "What tasks are currently in progress?"
+    ```
+    </Info>
 
 ---
 
@@ -701,9 +809,9 @@ Would you like me to read any of these documents in full?
 **Troubleshooting Steps:**
 
 1. **Verify Site URL Format:** Ensure the SharePoint Site URL follows the exact format `https://<tenant>.sharepoint.com/sites/<site>`. The URL must start with `https://` and contain `.sharepoint.com`. Remove any trailing slashes.
-2. **Check Client ID:** Double-check that the **Application (client) ID** is entered correctly, matching the value on the Azure AD app registration Overview page.
-3. **Check Client Secret:** Ensure the **Client Secret Value** (not the Secret ID) is accurate and has not expired. If the secret has expired, generate a new one in Azure AD.
-4. **Verify App-Only Access (App-Only mode only):** If using App-Only (Client Credentials) authentication, confirm that you completed the `AppInv.aspx` step to grant App-Only access to the SharePoint site collection. Without this step, authentication tokens will be issued but access to the site will be denied. This step is **not required** for Delegated (User OAuth) mode.
+2. **Check Client ID (Custom app / App-only only):** Double-check that the **Application (client) ID** is entered correctly, matching the value on the Azure AD app registration Overview page. Not applicable in Default app mode.
+3. **Check Client Secret (Custom app / App-only only):** Ensure the **Client Secret Value** (not the Secret ID) is accurate and has not expired. If the secret has expired, generate a new one in Azure AD. In Default app mode, ask your administrator to check the app's secret instead — the Admin Portal rotates it for all credentials using that app automatically once replaced.
+4. **Verify App-Only Access (App-only mode only):** If using App-only (Client Credentials) authentication, confirm that you completed the `AppInv.aspx` step to grant App-Only access to the SharePoint site collection. Without this step, authentication tokens will be issued but access to the site will be denied. This step is **not required** for a Delegated mode (Default app or Custom app).
 5. **Network Connectivity:** Confirm that your ELITEA environment can reach SharePoint over the internet with no firewall or proxy blocking the connection.
 </Accordion>
 
@@ -711,27 +819,29 @@ Would you like me to read any of these documents in full?
 **Problem:** When clicking **Log in** during Delegated credential setup, the OAuth flow fails with an error such as:
 > *AADSTS500113: No reply address is registered for the application.*
 
-**Cause:** This error occurs when no Redirect URI has been registered in your Azure AD App Registration. Azure AD requires the redirect URI to be explicitly registered before it will send the authorization response back to ELITEA.
+**Cause:** This error occurs when no Redirect URI has been registered on the Entra ID app behind the credential. Azure AD requires the redirect URI to be explicitly registered before it will send the authorization response back to ELITEA.
 
 **Troubleshooting Steps:**
 
-1. **Open your App Registration:** In the [Azure Portal](https://portal.azure.com), go to **Microsoft Entra ID → App registrations** and select your app.
-2. **Navigate to Authentication:** In the left menu, click **"Authentication"**.
-3. **Add a Redirect URI:** If no Web platform exists, click **"+ Add a platform"** → **"Web"**. If Web is already listed, click the **Edit** pencil next to it.
-4. **Enter the ELITEA callback URL:** In the **"Redirect URIs"** field, enter the value matching your deployment:
+- **Custom app mode:** You manage the app registration yourself:
+  1. **Open your App Registration:** In the [Azure Portal](https://portal.azure.com), go to **Microsoft Entra ID → App registrations** and select your app.
+  2. **Navigate to Authentication:** In the left menu, click **"Authentication"**.
+  3. **Add a Redirect URI:** If no Web platform exists, click **"+ Add a platform"** → **"Web"**. If Web is already listed, click the **Edit** pencil next to it.
+  4. **Enter the ELITEA callback URL:** In the **"Redirect URIs"** field, enter the value matching your deployment:
 
-    | Deployment Type | Redirect URI |
-    |----------------|--------------|
-    | **ELITEA Cloud** | **Pattern:** `https://<your-elitea-instance-domain>/app/mcp-auth-callback` <br /> **Example:** `https://next.elitea.ai/app/mcp-auth-callback` |
-    | **Self-hosted / standard path** | `https://<your-domain>/mcp-auth-callback` |
-    | **Self-hosted / sub-path (e.g., `/app`)** | `https://<your-domain>/app/mcp-auth-callback` |
+      | Deployment Type | Redirect URI |
+      |----------------|--------------|
+      | **ELITEA Cloud** | **Pattern:** `https://<your-elitea-instance-domain>/app/mcp-auth-callback` <br /> **Example:** `https://next.elitea.ai/app/mcp-auth-callback` |
+      | **Self-hosted / standard path** | `https://<your-domain>/mcp-auth-callback` |
+      | **Self-hosted / sub-path (e.g., `/app`)** | `https://<your-domain>/app/mcp-auth-callback` |
 
-    This URL is derived from your deployment domain and is **not shown in the ELITEA UI**. Contact your ELITEA administrator if you are unsure which value applies.
-5. **Save:** Click **"Configure"** (or **"Save"** if editing), then click **"Save"** at the top of the page.
-6. **Retry the OAuth flow:** Return to your ELITEA SharePoint credential and click **Log in** again.
+      This URL is derived from your deployment domain and is **not shown in the ELITEA UI**. Contact your ELITEA administrator if you are unsure which value applies.
+  5. **Save:** Click **"Configure"** (or **"Save"** if editing), then click **"Save"** at the top of the page.
+  6. **Retry the OAuth flow:** Return to your ELITEA SharePoint credential and click **Log in** again.
+- **Default app mode:** The app registration is managed by your administrator in the Admin Portal, not by you. Report this error to your ELITEA administrator so they can add the redirect URI to the shared app.
 
 <Info>
-This step is only required for **Delegated (User OAuth)** mode. App-Only (Client Credentials) authentication does not use a redirect URI.
+This step is only required for a **Delegated (User OAuth)** mode (Default app or Custom app). App-only (Client Credentials) authentication does not use a redirect URI.
 </Info>
 </Accordion>
 
@@ -744,6 +854,15 @@ This step is only required for **Delegated (User OAuth)** mode. App-Only (Client
 2. **Verify App-Only Permissions on the Site:** Check that the `AppInv.aspx` step was completed for the specific site collection. App-only permissions must be granted per site collection.
 3. **Check Permission Level:** If your Agent requires write operations (upload files, create list items), ensure you granted `Sites.ReadWrite.All` (Graph) and that the AppInv.aspx XML specifies `Right="Write"` or `Right="FullControl"`.
 4. **Token or Secret Expiry:** Ensure the Client Secret has not expired. Generate a new secret in Azure AD and update your ELITEA credential.
+</Accordion>
+
+<Accordion title="Toolkit Configuration Issues">
+**Problem:** The toolkit fails to load or shows configuration errors after creation.
+
+**Troubleshooting Steps:**
+
+1. **Credential Selection:** Ensure you have selected the correct SharePoint credential from the dropdown in the toolkit configuration.
+2. **Re-check Required Credential Fields:** The credential must have either a **Default app** selected, or — in **Custom app** or **App-only** mode — both **Client ID** and **Client Secret** set. ELITEA rejects a credential that has neither.
 </Accordion>
 
 <Accordion title="Incorrect Library or List Name">
@@ -785,10 +904,10 @@ This step is only required for **Delegated (User OAuth)** mode. App-Only (Client
 
 **Troubleshooting Steps:**
 
-1. **Switch to Delegated credential:** In ELITEA, navigate to your SharePoint credential and switch to the **Delegated** tab.
-2. **Configure OAuth Discovery Endpoint:** Enter `https://login.microsoftonline.com/{tenant_id}` using your Directory (tenant) ID.
-3. **Configure Scopes:** Enter the required scopes: `Sites.ReadWrite.All Files.ReadWrite.All Lists.ReadWrite.All Notes.ReadWrite.All`.
-4. **Complete the OAuth flow:** Click **Log in** to authorize. Once authorized with Delegated credentials, all OneNote tools become available.
+1. **Switch to a Delegated credential:** In ELITEA, navigate to your SharePoint credential and switch to the **Default app** or **Custom app** tab.
+2. **Default app:** no further configuration is needed — skip to step 4. **Custom app:** configure **OAuth Discovery Endpoint** (`https://login.microsoftonline.com/{tenant_id}` using your Directory (tenant) ID) and **Scopes** (`Sites.ReadWrite.All Files.ReadWrite.All Lists.ReadWrite.All Notes.ReadWrite.All`).
+3. (Custom app only) Confirm the Azure AD app registration behind the credential has these scopes granted with admin consent.
+4. **Complete the OAuth flow:** Click **Log in** to authorize. Once authorized with a Delegated credential, all OneNote tools become available.
 </Accordion>
 
 <Accordion title="OneNote Tools Return 401 Unauthorized Error">
@@ -834,21 +953,29 @@ If you encounter issues not covered in this guide or need additional assistance 
 </Accordion>
 
 <Accordion title="What are the required credential fields for the SharePoint toolkit?">
-The required fields depend on the authentication mode:
+**Common to every mode:**
 
-**App-Only (Client Credentials)** — three fields:
+* **Display Name** and **Site URL** — the full URL of your SharePoint site in the format `https://<tenant>.sharepoint.com/sites/<site>`.
+
+The remaining required fields depend on the authentication mode:
+
+**Default app** — one field:
+
+* **App** — the administrator-configured OAuth app to sign in with.
+
+**Custom app (Delegated, User OAuth)** — four fields:
 
 * **Client ID** — The Application (client) ID from your Azure AD app registration.
 * **Client Secret** — The client secret value generated in Azure AD.
-* **Site URL** — The full URL of your SharePoint site in the format `https://<tenant>.sharepoint.com/sites/<site>`.
-
-**Delegated (User OAuth)** — five fields:
-
-* **Client ID**, **Client Secret**, and **Site URL** — same as above.
 * **OAuth Discovery Endpoint** — Azure AD base URL in the format `https://login.microsoftonline.com/{tenant_id}`.
 * **Scopes** — Space-separated OAuth permission scopes, e.g. `Sites.ReadWrite.All Files.ReadWrite.All Lists.ReadWrite.All`.
 
-For App-Only, the tenant is derived automatically from the Site URL; you do not need to enter it separately.
+**App-only (Client Credentials)** — two fields:
+
+* **Client ID** — The Application (client) ID from your Azure AD app registration.
+* **Client Secret** — The client secret value generated in Azure AD.
+
+For App-only, the tenant is derived automatically from the Site URL; you do not need to enter it separately. A credential must use one mode or the other — ELITEA rejects a credential with neither a selected app nor a Client ID/Client Secret pair.
 </Accordion>
 
 <Accordion title="Do I need to complete the AppInv.aspx step even if I already granted Microsoft Graph permissions in Azure AD?">
@@ -858,7 +985,10 @@ For App-Only, the tenant is derived automatically from the Site URL; you do not 
 </Accordion>
 
 <Accordion title="Do I need to register a Redirect URI for the Delegated auth flow?">
-**Yes — for the Delegated (User OAuth) mode only.** The OAuth 2.0 authorization code flow requires that the ELITEA redirect URI is registered in your Azure AD App Registration under **Authentication → Redirect URIs**. Without it, Azure AD will reject the authorization request with `AADSTS500113: No reply address is registered`. This step is **not required** for App-Only (client credentials) authentication.
+**Yes — for Delegated modes (Default app or Custom app) only.** The OAuth 2.0 authorization code flow requires a redirect URI registered on the Entra ID app behind the credential, under **Authentication → Redirect URIs**. Without it, Azure AD will reject the authorization request with `AADSTS500113: No reply address is registered`. This step is **not required** for App-only (client credentials) authentication.
+
+* **Custom app mode:** you register it yourself, on your own app registration — see the steps below.
+* **Default app mode:** your administrator registers it once on the shared app in the Admin Portal — you don't need to do anything. Report a "No reply address" error on a Default app credential to your administrator instead.
 
 You can set it during app registration (step 4 in [Registering an App](#registering-an-app-in-azure-active-directory-azure-ad)) or add it later to an existing registration:
 
@@ -919,13 +1049,12 @@ The other tools (`get_files_list`, `read_document`, `read_list`, `get_lists`, `g
 </Accordion>
 
 <Accordion title="Do OneNote tools work with App-Only (Client Credentials) mode?">
-**No.** All OneNote tools (`onenote_get_notebooks`, `onenote_get_sections`, `onenote_get_pages`, `onenote_get_page_content`, `onenote_read_page`, `onenote_read_page_items`, `onenote_list_attachments`, `onenote_read_attachment`, `onenote_create_notebook`, `onenote_create_section`, `onenote_create_page`, `onenote_update_page`, `onenote_replace_page_content`, `onenote_delete_page`) require **Delegated (User OAuth)** authentication. They communicate exclusively with the Microsoft Graph API using a user-context access token and will return an error when called with App-Only credentials.
+**No.** All OneNote tools (`onenote_get_notebooks`, `onenote_get_sections`, `onenote_get_pages`, `onenote_get_page_content`, `onenote_read_page`, `onenote_read_page_items`, `onenote_list_attachments`, `onenote_read_attachment`, `onenote_create_notebook`, `onenote_create_section`, `onenote_create_page`, `onenote_update_page`, `onenote_replace_page_content`, `onenote_delete_page`) require a **Delegated (User OAuth)** mode — **Default app** or **Custom app**. They communicate exclusively with the Microsoft Graph API using a user-context access token and will return an error when called with App-Only credentials.
 
 To use OneNote tools:
-1. Configure your SharePoint credential using the **Delegated** tab.
-2. Set the **OAuth Discovery Endpoint** to `https://login.microsoftonline.com/{tenant_id}`.
-3. Set **Scopes** to include at minimum: `Sites.ReadWrite.All Files.ReadWrite.All Lists.ReadWrite.All Notes.ReadWrite.All`.
-4. Complete the OAuth **Log in** flow to authorize.
+1. Configure your SharePoint credential using the **Default app** or **Custom app** tab.
+2. **Default app:** no further configuration needed. **Custom app:** set the **OAuth Discovery Endpoint** to `https://login.microsoftonline.com/{tenant_id}` and **Scopes** to include at minimum: `Sites.ReadWrite.All Files.ReadWrite.All Lists.ReadWrite.All Notes.ReadWrite.All`.
+3. Complete the OAuth **Log in** flow to authorize.
 </Accordion>
 
 <Accordion title="Can I use the same SharePoint credential across multiple toolkits?">
