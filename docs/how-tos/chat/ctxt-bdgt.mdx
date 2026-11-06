@@ -1,478 +1,136 @@
 ---
 title: "Managing Context and Budgets"
 sidebarTitle: "Context & Budget Management"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
-This page covers two related aspects of chat resource management: **Context Management**, which tracks and controls token usage within a conversation, and **Budget Management**, which tracks and alerts on your project's cost budget.
+ELITEA provides two related aspects of chat resource management:
+
+<CardGroup cols={2}>
+	<Card title="Context Management" icon="gauge" href="#context-management">
+		Tracks and controls token usage within a conversation.
+	</Card>
+	<Card title="Budget Management" icon="sack-dollar" href="#budget-management">
+		Tracks and alerts on your project's cost budget.
+	</Card>
+</CardGroup>
 
 ## Context Management
 
-The Context Budget widget displays real-time token usage metrics across Chat conversations, Agent runs, Pipeline executions, and Application configurations, providing immediate visibility into context consumption and management status.
+The **Context Management** widget displays real-time token usage for the active conversation, across the chat, agents, pipelines and applications.
 
-Context management is **enabled by default** for all projects — no configuration is required to start using it. The Context Budget widget appears automatically once an active conversation exists.
-
-<Info title="Prerequisites">
-To use context management, you need:
-
-* An active conversation in Chat, Agent, Pipeline, or Application
-* LLM model configured with context management support
-</Info>
-
-### Accessing Context Management
-
-Context management is available in multiple locations within ELITEA:
-
-#### From Chat Conversations
-
-Monitor and control context during active conversations:
-
-1. Navigate to **Chat** → **Conversations** in the main menu
-2. Select or create a conversation
-3. Send the first message to initiate the conversation
-4. The **Context Budget** widget appears in the right panel (bottom left) after the first message
-5. The widget displays real-time token usage and management status
-6. Click on the widget to view detailed metrics and controls
-
-     <img src="../../img/how-tos/chat-conversations/context-management/chat-context-budget.gif" alt="Chat Context Budget" width="600" />
-
-#### In Agent Runs
-
-Track context usage during agent execution:
-
-1. Navigate to **Agents** and select an agent
-2. Send the first message to initiate the conversation
-3. The **Context Budget** widget appears above the chat panel interface after the first message
-4. Monitor token consumption as the agent processes requests
-5. View pruning and summarization activity in real-time
-
-     <img src="../../img/how-tos/chat-conversations/context-management/agent-context-budget.gif" alt="Chat Context Budget" width="600" />
-
-#### In Pipeline Executions
-
-Monitor context during pipeline chat panels:
-
-1. Navigate to **Pipelines** and select a pipeline
-2. Open the pipeline's chat panel interface
-3. Send the first message to initiate the conversation
-4. The **Context Budget** widget appears above the chat panel interface after the first message
-5. Track context usage across pipeline node executions
-6. Observe automatic context management as the pipeline runs
-
-     <img src="../../img/how-tos/chat-conversations/context-management/pipeline-context-budget.gif" alt="Pipelinet" width="600" />
-
-### Understanding the Context Budget Widget
-
-The Context Budget widget provides three view modes that display progressively more detailed information.
-
-**Collapsed View**
-
-* The minimal view shows essential token usage at a glance:
-
-    <img src="../../img/how-tos/chat-conversations/context-management/collapsed-view.png" alt="Collapsed View" width="160" />
-
-**Status Indicator**: Simple line indicator showing 
-usage status
-      * Green: Normal usage (0-100%)
-      * Orange: High usage (more than 100%)
-
-**Compact View**
-
-The compact view adds token usage, message, and summary tracking:
-
-* **Token Usage**: Current token utilization percentage with a high-usage warning indicator when context is running low
-* **Messages Count**: Total messages in conversation context
-* **Summaries Count**: Number of generated summaries
-* **Edit Button**: Click to open the full Context Management configuration modal
-
-    **Conversation**
-
-       <img src="../../img/how-tos/chat-conversations/context-management/compact-view.png" alt="Compact View" width="250" />
-
-    **Agents** and **Pipelines**
-
-       <img src="../../img/how-tos/chat-conversations/context-management/compact-view-agent.png" alt="Compact View" width="250" />
-
-**Expanded View**
-
-The full view displays comprehensive context management details organized in collapsible sections. Click on each section to expand and configure settings.
-
-**Available Sections:**
-
-* **Context Strategy & Token Management**: Configure token limits and message preservation settings
-* **Summarization**: Enable automatic summarization and configure summary generation parameters
-* **User Instructions**: Manage system message preservation, default persona, and custom user instructions
-
-     <img src="../../img/how-tos/chat-conversations/context-management/expanded-view.png" alt="Expanded View" width="300" />
-
-For detailed information about each parameter, see the [Configuration Parameters](#configuration-parameters) section below.
-
-**Context Management Toggle**
-
-* At the top of the expanded view, there is a toggle switch to enable or disable Context Management entirely. When disabled, all automatic context management features (pruning and summarization) are turned off.
-
-     <img src="../../img/how-tos/chat-conversations/context-management/context-managment-off.png" alt="Context Management Toggle" width="300" />
+**Context management is always on**. The widget appears once the conversation has an active model and at least one message.
 
 ### How Context Management Works
 
-**Automatic Token Tracking**
+ELITEA continuously tracks token usage for the conversation and shows it on the widget in real time. Tokens are counted from whichever source is most accurate and available, in order:
 
-The system continuously monitors token consumption:
+1. The exact usage the model provider reports for the request.
+2. An exact count from an injected tokenizer, when one is configured.
+3. A character-based estimate (roughly 4 characters per token, adjusted per provider) when neither of the above is available.
 
-1. **Message Addition**: Every new message added to conversation context
-2. **Token Estimation**: Tokens calculated using tiktoken library (with character-based fallback)
-3. **Real-Time Display**: Context Budget widget updates immediately
-4. **Threshold Monitoring**: System checks if usage is approaching the maximum context token limit
+As usage approaches the limit:
 
-Context Management settings are organized into three main sections in the expanded view modal.
+- At roughly 90% of usable input, the progress bar turns amber and, if enabled, ELITEA begins automatically summarizing older messages — keeping your **Preserve Recent Messages** count and your instructions untouched.
+- At 100% of usable input, the bar turns red.
+- While usage is high, the widget shows a banner: *"This chat is nearing its context limit. Older messages will be summarized automatically. You can summarize now or consider configuring budget settings."* (when Automatic Summarization is on), or *"This chat is nearing its context limit. Consider configuring budget settings or summarize manually."* (when it's off). Either way, you can select **Summarize now** to trigger a summary immediately; ELITEA asks you to confirm, since this cannot be undone.
+- When the model reaches its output token limit before finishing a response, a prompt appears directly in the chat. Select **Continue** to resume and receive the rest of the response. This may occur multiple times for very long outputs.
 
-<Warning title="Token Limit Mid-Response">
-When the model reaches its output token limit before finishing a response, a prompt appears directly in the chat. Click the **Continue** button to resume and receive the rest of the response. This may occur multiple times for very long outputs.
+Context Management has three modes:
 
-<img src="../../img/how-tos/chat-conversations/context-management/token-limit-message.png" alt="Token Limit" width="700" />
-</Warning>
+<CardGroup cols={3}>
+	<Card title="Collapsed" icon="circle-notch" href="#collapsed">
+		Percentage of the context window used.
+	</Card>
+	<Card title="Compact" icon="rectangle-list" href="#compact">
+		Token usage, messages, summaries, and usage totals in a compact view.
+	</Card>
+	<Card title="Configuration" icon="sliders" href="#configuration">
+		Settings for the context window, summarization, and persona.
+	</Card>
+</CardGroup>
 
-### Configuration Parameters
+### Collapsed Mode
 
-#### Overview Metrics
+Whether collapsed mode is available, and what it looks like, depends on the surface:
 
-* The expanded view displays three real-time usage metrics:
+| Surface | Trigger | Behavior |
+| --- | --- | --- |
+| **Chat**<br/><img src="../../img/how-tos/chat-conversations/chats/ctxt-bdgt/ctxt-bdgt_collapsed_chat.png" height="30" alt="Collapsed Context Management ring in Chat, showing percentage used." /> | A small ring, shown in place of the **PARTICIPANTS panel** when it is collapsed | Displays the percentage of the context window used. Select the ring to open the compact view in a popover. |
+| **Agent** and **Pipeline**<br/><img src="../../img/how-tos/chat-conversations/chats/ctxt-bdgt/ctxt-bdgt_collapsed_agent-pipeline.png" height="30" alt="Collapsed Context Management pill in an Agent's or Pipeline's test panel, showing percentage used." /> | A small pill, shown in the test panel | Displays the percentage used. Select the pill to open the compact view in a popover. |
 
-    <img src="../../img/how-tos/chat-conversations/context-management/overview-metrics.png" alt="Metrics" width="580" />
+### Compact Mode
 
-    | Metric | Description | Example |
-    |--------|-------------|---------|
-    | **Tokens** | Current token usage with percentage | "2,591 / 64,000 (4%)" |
-    | **Messages** | Total number of messages in conversation | "7" |
-    | **Summaries** | Number of generated summaries | "0" |
+Where the compact view appears depends on the surface:
 
-#### Context Strategy & Token Management
+- In a chat, when the **PARTICIPANTS panel** is expanded, Context Management shows in its compact view directly in the panel.
+- In agents and pipelines, Context Management shows as a compact horizontal card above the chat panel instead. In the test panel, where Context Management shows as a pill, select the pill to reach this same compact view in a popover.
 
-* Configure token limits and message preservation to control how context is managed:
+<img src="../../img/how-tos/chat-conversations/chats/ctxt-bdgt/ctxt-bdgt_compact.png" alt="Context Management compact view, with Context window, token usage, message and summary counts, and usage totals." width="200" />
 
-    <img src="../../img/how-tos/chat-conversations/context-management/context-strategy.png" alt="Context Strategy" width="500" />
+The compact view shows:
 
-    | Parameter | Description | Default | Range/Options | Purpose |
-    |-----------|-------------|---------|---------------|---------|
-    | **Max Context Tokens** | Maximum number of tokens to keep in conversation context | 64,000 tokens | 1,000 - 10,000,000 | Defines the upper limit before pruning or summarization occurs |
-    | **Preserve Recent Messages** | Number of most recent messages to always keep in context | 5 messages | 1 - 99 | Ensures the most recent messages are protected during context optimization |
+- **Context window**: a **Balanced** or **Full** choice, each labeled with its token size for the current model (for example, *Balanced · 272K* or *Full · 400K*). This sets the context window for this conversation only, overriding your personal or project default — see [Memory](../../menus/settings/memory.mdx#context-window) for how that default is set.
+- A progress bar showing current tokens used, with the percentage. The number it is measured against is not the raw context window size — ELITEA first subtracts a small safety margin and a reserved allowance for the model's output from the window, and shows usage against what is left for input. The bar is green under roughly 90% usage, turns amber at roughly 90%, and turns red at 100%.
+- **Messages** and **Summaries** counts.
+- **Usage totals**: input tokens used, output tokens used and an approximate cost for the conversation so far.
 
-#### Summarization
+<Note>
+**Context window** changes apply to your next message. A run already in progress keeps the settings it started with.
+</Note>
 
-* Configure automatic summarization to compress older messages and preserve conversation continuity:
+Select the edit icon to open the configuration modal.
 
-    <img src="../../img/how-tos/chat-conversations/context-management/summarization.png" alt="Summarization" width="400" />
+### Configuration Mode
 
-    | Parameter | Description | Default | Range/Options | Purpose |
-    |-----------|-------------|---------|---------------|---------|
-    | **Enable Automatic Summarization** | Toggle to enable or disable automatic conversation summarization | Enabled | On/Off | Controls whether the system automatically generates summaries when context limits are approached |
-    | **Summarization Instructions** | Custom instructions for how summaries should be generated | "Generate a concise summary of the following conversation messages." | Free text (multiline) | Guides the LLM on how to create summaries that match your needs |
-    | **Target Summary Tokens** | Target length for generated summaries | 4,096 tokens | 100 - 4,096 | Controls the conciseness of generated summaries |
+The configuration modal shows current usage for the conversation and lets you edit its context and persona settings.
 
-    !!! info
-        **Target Summary Tokens must always be less than Max Context Tokens.** The UI enforces this rule and will prevent saving if the value equals or exceeds Max Context Tokens.
+<img src="../../img/how-tos/chat-conversations/chats/ctxt-bdgt/ctxt-bdgt_config.png" alt="Context Management modal, with Tokens, Messages and Summaries stats, and Context Management and Persona Management accordions." width="500" />
 
-##### How Summarization Works
+In the configuration modal, you can check current usage while you change settings:
 
-* When the context approaches the token limit:
+| Stat | Shows |
+| --- | --- |
+| **Tokens** | Current tokens used out of usable input, with the percentage — the same figures as the compact view's progress bar. |
+| **Messages** | Number of messages currently in context. |
+| **Summaries** | Number of summaries ELITEA has generated for this conversation so far. |
 
-1. **Summarization Trigger**: System detects token usage exceeds trigger ratio (e.g., 100%)
-2. **Message Selection**: Identifies messages eligible for summarization (excludes preserved recent messages)
-3. **Summary Generation**: LLM generates concise summary of selected messages using the configured Summary Model and Summarization Instructions
-4. **Message Replacement**: Original messages replaced with summary in context
-5. **Token Reduction**: Context token count reduced while preserving conversation continuity
-6. **Summary Storage**: Summary tracked (total summaries limited by summaries_limit_count)
+<img src="../../img/how-tos/chat-conversations/chats/ctxt-bdgt/ctxt-bdgt_config_metrics.png" alt="Tokens, Messages and Summaries stat cards." width="500" />
 
-#### User Instructions
+**Context Management**
 
-* Configure system message preservation, default persona, and custom instructions for the assistant:
+Here you can set the context window and automatic summarization for the conversation:
 
-    <img src="../../img/how-tos/chat-conversations/context-management/user-instruction.png" alt="User Instructions" width="450" />
+| Setting | Description | Default |
+| --- | --- | --- |
+| **Context window** | **Balanced** (up to 272,000 tokens, keeps costs down) or **Full** (the model's entire context window, costs more). | Balanced |
+| **Automatic Summarization** | Toggle. When on, ELITEA compacts older history at 90% of usable input, retaining recent messages and your instructions in full. | On |
+| **Preserve Recent Messages** | Number of most recent messages always kept in full, never summarized. Range 1–99. | 5 |
+| **Target Summary Tokens** | Target length, in tokens, for each generated summary. Range 100–4,096. | 4,096 |
+| **Summarization instructions** | Custom instructions for how ELITEA generates summaries. | "Generate a concise summary of the following conversation messages." |
 
-    | Parameter | Description | Default | Range/Options | Purpose |
-    |-----------|-------------|---------|---------------|---------|
-    | **Always Preserve System Messages** | Toggle to keep system messages during context pruning | Enabled | On/Off | Ensures system-level instructions remain available throughout the conversation |
-    | **Default Persona** | Default assistant persona for model chat (without agent selected) | Generic | Generic, QA, Nerdy, Quirky, Cynical | Sets the assistant's default behavioral style when no agent is selected |
-    | **User instructions** | Custom instructions for the assistant | — | Free text (multiline) | Defines custom behavior guidelines for the AI assistant |
+<img src="../../img/how-tos/chat-conversations/chats/ctxt-bdgt/ctxt-bdgt_config_ctxt.png" alt="Context Management accordion, with Context window, Automatic Summarization, Preserve Recent Messages, Target Summary Tokens and Summarization instructions." width="350" />
 
-### Usage Scenarios
+<Note>
+**Preserve Recent Messages** and **Target Summary Tokens** are disabled while **Automatic Summarization** is off.
+</Note>
 
-<Accordion title="Long-Running Conversations">
-**Use Case**: Maintain coherent conversations that exceed model token limits
+**Persona Management**
 
-**Configuration:**
+Here you can set the assistant's persona and your custom instructions for the conversation:
 
-* Max Context Tokens: 64,000
-* Preserve Recent Messages: 10
+| Setting | Description | Default |
+| --- | --- | --- |
+| **Default persona** | The assistant's behavioral style for this conversation: **Generic**, **QA**, **Nerdy**, **Quirky**, **Cynical**, **None** (no personality overlay) or **Bare** (no ELITEA identity — only your instructions plus tool-required guidance). | Generic |
+| **User instructions** | Custom instructions for the assistant in this conversation. | — |
 
-**Behavior:**
+<img src="../../img/how-tos/chat-conversations/chats/ctxt-bdgt/ctxt-bdgt_config_persona.png" alt="Persona Management accordion, with Default persona and User instructions." width="350" />
 
-1. User engages in extended conversation with AI assistant
-2. Context grows naturally as messages are added
-3. As context grows, older messages are automatically summarized to free up space
-4. System generates summary of older messages
-5. Last 10 messages always preserved for immediate context
-6. Conversation continues seamlessly with reduced token usage
-
-**Benefits:**
-
-* No manual intervention required
-* Important conversation details preserved in summaries
-* Recent context always available
-* Conversation never "forgets" early important information
-</Accordion>
-
-<Accordion title="Multi-Turn Agent Tasks">
-**Use Case**: Agent performing complex tasks requiring multiple interactions
-
-**Configuration:**
-
-* Max Context Tokens: 32,000
-* Preserve Recent Messages: 5
-
-**Behavior:**
-
-1. Agent starts task with initial instructions
-2. Multiple tool calls and responses accumulate
-3. As the context grows, oldest messages are automatically pruned to stay within the token limit
-4. Last 5 exchanges preserved for immediate task context
-5. Agent continues task execution without context overflow
-
-**Benefits:**
-
-* Task execution never interrupted by token limits
-* Most recent tool results always accessible
-* Efficient token usage for long-running tasks
-* Simplified context management for automated workflows
-</Accordion>
-
-<Accordion title="Pipeline Chat Contexts">
-**Use Case**: Pipeline with chat panel interface requiring context preservation
-
-**Configuration:**
-
-* Max Context Tokens: 16,000
-* Preserve Recent Messages: 8
-
-**Behavior:**
-
-1. Pipeline nodes generate output and chat messages
-2. User interactions add additional context
-3. Context Budget widget shows real-time usage across pipeline execution
-4. As the context grows, automatic pruning occurs to maintain token limits
-5. Recent user messages are preserved per the configured setting
-6. Pipeline continues with optimized context
-
-**Benefits:**
-
-* Pipeline execution state preserved
-* User can continue interacting without interruption
-* Important node outputs retained
-* Balanced context across pipeline stages
-</Accordion>
-
-### Best Practices
-
-**Monitoring Context Usage**
-
-<Accordion title="Regular Budget Checks">
-* Check Context Budget widget periodically during long conversations
-* Pay attention to color changes in the percentage bar:
-  - Green: Safe range, context is within limits
-  - Yellow: Context is at or beyond the configured limit; the widget also shows the warning "Context usage is high. Consider configuring budget settings."
-* Expand widget to full view for detailed metrics when the bar turns yellow
-* Use compact view for quick token usage and message count checks
-</Accordion>
-
-<Accordion title="Understanding Token Consumption">
-* Different message types consume different token amounts:
-  - System prompts: Variable (often 100-500 tokens)
-  - User messages: Depends on length (typically 10-200 tokens)
-  - Assistant responses: Variable (often 100-1000+ tokens)
-  - Tool calls: Includes function definitions (can be 50-300 tokens each)
-* Attachments and images can significantly increase token usage
-* Summary messages reduce overall token count while preserving information
-</Accordion>
-
-**Optimizing Conversations**
-
-<Accordion title="Message Structure">
-* Keep messages concise when possible to reduce token consumption
-* Break long messages into smaller logical chunks
-* Avoid unnecessary repetition or verbose phrasing
-</Accordion>
-
-<Accordion title="Preserve Recent Messages Setting">
-* Adjust based on conversation type:
-  - Quick Q&A: Lower number (3-5 messages)
-  - Complex discussions: Higher number (10-15 messages)
-  - Multi-step tasks: Medium number (5-10 messages)
-* Remember: Preserved messages are never pruned or summarized
-* Higher numbers mean more guaranteed context but less flexibility
-</Accordion>
-
-<Accordion title="Coordinating Target Summary Tokens with Max Context Tokens">
-* **Target Summary Tokens must always be less than Max Context Tokens** — the UI enforces this rule and will prevent saving if it is violated
-* A good rule of thumb: set Target Summary Tokens to roughly 5–10% of your Max Context Tokens value (e.g., 4,096 Target Summary Tokens with 64,000 Max Context Tokens)
-* Very small Target Summary Tokens values produce very short, possibly lossy summaries; very large values leave little room for active conversation context
-* Adjust based on how much detail you need preserved in summaries
-</Accordion>
-
-### Troubleshooting
-
-<Accordion title="Context Budget Widget Not Visible">
-**Symptoms:**
-
-* Widget completely missing from the interface
-* No context management controls available
-
-**Diagnosis:**
-
-1. Confirm you're viewing a supported interface (Chat, Agent, Pipeline)
-2. Send at least one message — the widget only appears after the first message initiates a conversation
-3. Check browser console for errors
-
-**Resolution:**
-
-1. Ensure you have sent at least one message to start the conversation
-2. Refresh the page and try again
-3. If the issue persists, contact your administrator to check backend service health
-</Accordion>
-
-<Accordion title="Token Count Seems Inaccurate">
-**Symptoms:**
-
-* Displayed token count doesn't match expectations
-* Percentage bar doesn't align with message count
-
-**Explanation:**
-
-* Token counting uses tiktoken library with character-based fallback (~4 chars per token)
-* Different message types have different token densities
-* System messages, role labels, and formatting add overhead
-* Tool calls include function definitions in token count
-
-**Resolution:**
-
-* Token counts are estimates and may vary slightly from actual LLM processing
-* Focus on relative changes (increasing/decreasing) rather than absolute accuracy
-* If consistently far off, contact administrator to check token estimation configuration
-</Accordion>
-
-<Accordion title="Summarization Not Occurring">
-**Symptoms:**
-
-* Summaries count does not increase even as context grows
-* Context continues to grow beyond expected limit
-
-**Possible Causes:**
-
-1. Insufficient messages to summarize (all recent messages preserved)
-2. LLM model configuration issue
-3. Backend summarization disabled
-
-**Resolution:**
-
-1. Check expanded view: Compare Messages vs Preserve Recent count
-   - If Messages ≤ Preserve Recent, summarization cannot occur
-2. Verify LLM model is properly configured for text generation
-3. Contact administrator to check backend context management configuration
-</Accordion>
-
-<Accordion title="Messages Disappearing Unexpectedly">
-**Symptoms:**
-
-* Messages from earlier in conversation no longer visible
-* Conversation feels disjointed or missing context
-
-**Explanation:**
-
-* This is expected behavior when pruning occurs
-* Messages are removed from context when token limit is approached
-* Pruned messages are not deleted, just removed from active context
-
-**Understanding:**
-
-1. Automatic pruning removes oldest messages when the token limit is approached
-2. Recent messages (per preserve_recent_messages) never disappear
-
-**If Unwanted:**
-
-* Increase max_context_tokens to reduce pruning frequency
-* Increase preserve_recent_messages to keep more messages
-</Accordion>
-
-<Accordion title="Settings Not Saving — Inline Validation Error">
-**Symptoms:**
-
-* Save button remains disabled
-* A field shows an inline red error message
-
-**Most Common Cause:**
-
-* **Target Summary Tokens is equal to or greater than Max Context Tokens** — the UI validation requires Target Summary Tokens to be strictly less than Max Context Tokens
-* Example error shown: `Must be less than Max Context Tokens (64000)`
-
-**Resolution:**
-
-1. Open the Summarization accordion in the Context Management settings
-2. Check the **Target Summary Tokens** value
-3. Reduce it to a value less than **Max Context Tokens** (e.g., set to 4,096 when Max Context Tokens is 64,000)
-4. The Save button will re-enable once all validation errors are cleared
-</Accordion>
-
-<Accordion title="Settings Not Saving — Toast Error After Submit">
-**Symptoms:**
-
-* A toast notification appears with the message: "Failed to update context strategy"
-* Settings appear to revert to previous values
-
-**Possible Causes:**
-
-1. Network connectivity issue
-2. API or backend service error
-3. Session has expired
-
-**Resolution:**
-
-1. Check your network connection and retry
-2. Refresh the page and attempt to save again
-3. If the problem persists, contact your administrator to check backend service health
-</Accordion>
-
-<Accordion title="Performance Issues">
-**Symptoms:**
-
-* Slow message sending or response times
-* UI lag when interacting with Context Budget widget
-* Browser becomes unresponsive
-
-**Possible Causes:**
-
-1. Very high max_context_tokens causing expensive operations
-2. Excessive message count in conversation
-3. Frequent summarization operations
-4. Browser memory limitations
-
-**Resolution:**
-
-1. **Reduce max_context_tokens**:
-   - Lower values mean less context to process
-   - Typical range: 8,000 - 32,000 for optimal performance
-2. **Start new conversation**:
-   - Very long conversations can accumulate state
-   - Consider starting fresh for new topics
-3. **Check browser resources**:
-   - Close unnecessary tabs
-   - Ensure browser is up to date
-   - Clear browser cache if needed
-4. **Contact administrator**:
-   - May need to adjust backend processing limits
-   - Could configure more aggressive pruning
-</Accordion>
+Select **Save** to apply your changes to the next message in the conversation; a run already in progress keeps its original settings.
 
 ## Budget Management
 
-Unlike the token-based Context Budget above, these alerts track spend against your project's cost budget — the same budget shown in **Settings** > **Usage**.
+Unlike the token-based Context Management above, these alerts track spend against your project's cost budget — the same budget shown in **Settings** > **Usage**.
 
 ### Cost Budget Warnings
 
@@ -484,12 +142,12 @@ As your project's cost budget — or your own share of it in a team project — 
 | Elevated | 90% used |
 | Critical | 95% used (last warning before requests are blocked) |
 
-The banner names the budget that's affected: *"You have used X% of your budget."* (project budget, with a **View usage** link) or *"You have used X% of your budget in this project."* (your own share, with a **View my usage** link). If both are close to their limit, ELITEA shows the one that affects you specifically — your own budget takes priority.
+The banner names the budget that is affected: *"You have used X% of your budget."* (project budget, with a **View usage** link) or *"You have used X% of your budget in this project."* (your own share, with a **View my usage** link). If both are close to their limit, ELITEA shows the one that affects you specifically — your own budget takes priority.
 
 You can dismiss a warning for the rest of the current billing period, but only up to the level you dismissed — crossing into the next level brings the banner back, and it also returns automatically at the start of the next billing period.
 
 <Note>
-A Platform Admin can turn off dismissing entirely through the **Allow users to dismiss budget warnings** platform setting. When disabled, the banner stays until the budget resets.
+A platform administrator can turn off dismissing entirely through the **Allow users to dismiss budget warnings** platform setting. When disabled, the banner stays until the budget resets.
 </Note>
 
 ### Blocked Requests
@@ -500,3 +158,63 @@ If a request is blocked because the project's cost budget — or your own share 
 - *"Your budget for this project has been reached. Your AI requests are unavailable until the budget resets or a project admin increases your limit."* (your own budget, with a **View my usage** link)
 
 This message is saved as part of the conversation, so it is still shown if you refresh the page.
+
+## Best Practices
+
+- **Choose Full only when you need the extra room.** Balanced keeps costs down and covers most conversations; switch to Full only for conversations that genuinely need the model's entire context window.
+- **Leave Automatic Summarization on** so long conversations continue without hitting the context limit, while your most recent messages and instructions stay intact. Turn it off only if you need the raw message history preserved instead of a summary.
+- **Set Preserve Recent Messages to match your conversation style** — lower (3–5) for quick back-and-forth, higher (10–15) when you refer back to several recent messages at once. Preserved messages are never summarized.
+- **Match Target Summary Tokens to how much detail you need** — smaller values produce shorter, more lossy summaries and save tokens; larger values preserve more detail but leave less room for the rest of the conversation.
+- **Check your usage before it is blocked.** Dismiss a warning only once you have reviewed it — a dismissed warning stays hidden up to that severity level for the rest of the billing period, so revisit **View usage** or **View my usage** periodically rather than relying on the banner to reappear.
+- **Watch your own share, not just the project total.** In a team project, your requests can be blocked by your personal share of the budget even while the project budget overall still has room.
+
+## Troubleshooting
+
+<Accordion title="Context Management widget is not visible">
+**Cause:** The conversation has no active model yet, or no message has been sent.
+
+**Solution:** Send at least one message to start the conversation. If the widget still does not appear, refresh the page; if the issue persists, contact your administrator.
+</Accordion>
+
+<Accordion title="Token count seems inaccurate">
+**Cause:** When an exact count from the model provider or a tokenizer is not available, ELITEA estimates tokens from character count, which can differ slightly from the model's own accounting.
+
+**Solution:** Treat the displayed count as an estimate and focus on whether it is increasing or decreasing, not its exact value.
+</Accordion>
+
+<Accordion title="Summarization is not happening">
+**Cause:** Either Automatic Summarization is off, or the conversation has not reached the roughly 90% usage threshold yet, or all current messages fall within your Preserve Recent Messages count.
+
+**Solution:** Open the Context Management modal and confirm Automatic Summarization is on. If usage is still below the threshold, summarization will start automatically once it is reached — or select **Summarize now** to trigger one immediately.
+</Accordion>
+
+<Accordion title="Earlier messages are no longer visible">
+**Cause:** This is expected once Automatic Summarization replaces older messages with a summary. The original messages are not deleted — only replaced in the active context the model sees.
+
+**Solution:** If you want to keep more of the original conversation visible, increase **Preserve Recent Messages**, or switch the **Context window** to **Full** for more room before summarization kicks in.
+</Accordion>
+
+<Accordion title="Settings fail to save">
+**Cause:** A network or session issue, or an invalid field value (for example, Preserve Recent Messages or Target Summary Tokens outside their allowed range).
+
+**Solution:** Check for a red error message under the field and correct the value. If there is none, check your connection and try again; if the problem persists, contact your administrator.
+</Accordion>
+
+<Accordion title="A dismissed budget warning keeps coming back">
+**Cause:** Usage crossed into the next severity level (Warning → Elevated → Critical), or the billing period reset — both bring the banner back even though you already dismissed it once.
+
+**Solution:** This is expected. Dismissing only hides the banner up to the level you dismissed; review the new level and dismiss it again if needed.
+</Accordion>
+
+<Accordion title="Requests are blocked even though the project still has budget left">
+**Cause:** In a team project, your own personal share of the budget is fully used, even though the project's overall budget is not.
+
+**Solution:** Select **View my usage** in the blocked-request message to confirm, then ask a project admin to increase your limit or wait for the budget to reset.
+</Accordion>
+
+<Callout icon="book" color="#C9B896" title="See Also">
+See also:
+- [Memory](../../menus/settings/memory.mdx)
+- [Usage](../../menus/settings/usage.mdx)
+- [AI Personality](../../menus/settings/ai-personality.mdx)
+</Callout>

@@ -1,5 +1,9 @@
 ---
 title: "Chat"
+verified:
+  core: { date: "6-Nov-2026", branch: "release/2.0.8", sha: "6ec32b08" }
+  sdk: { date: "6-Nov-2026", branch: "release/2.0.8", sha: "e663f0d" }
+  ui: { date: "6-Nov-2026", branch: "release/2.0.8", sha: "86cdcafe" }
 ---
 
 **Chat** is the central hub where all ELITEA capabilities come together. It provides a conversational interface where you can interact with AI models, agents, pipelines, skills, modules, toolkits and MCP servers — all in one place, using natural language.
@@ -10,7 +14,7 @@ Each chat is an independent dialogue session. You can refer to earlier messages 
 
 <CardGroup cols={3}>
   <Card title="Private and Shared Chats" icon="users">
-    Keep your chats private, add team members, or share them with non-ELITEA users.
+    Keep your chats private, add team members or share them with non-ELITEA users.
   </Card>
   <Card title="Enhanced Interactions" icon="comments">
     Expand chat functionality by modules and interact with added participants — users, agents, pipelines, toolkits and MCPs.
@@ -25,12 +29,12 @@ Each chat is an independent dialogue session. You can refer to earlier messages 
     Get clarifying questions and follow-up suggestions from the assistant.
   </Card>
   <Card title="Voice Capabilities" icon="microphone">
-    Communicate with LLMs using voice input, text-to-speech, and hands-free speaking mode.
+    Communicate with LLMs using voice input, text-to-speech and hands-free speaking mode.
   </Card>
   <Card title="Managing Chats" icon="sliders">
     Save, pin and organize your chats into folders.
   </Card>
-  <Card title="Context Budget" icon="gauge">
+  <Card title="Context Management" icon="gauge">
     Track token usage as the chat grows.
   </Card>
   <Card title="Playback" icon="circle-play">
@@ -50,22 +54,24 @@ However you create a chat, if your project has a [default chat template](./setti
 
 ## Chat Structure
 
-In ELITEA, all chats are located in the dedicated **Chat** page that includes the **CHATS** sidebar on the left, the **PARTICIPANTS** panel and **Context Budget** widget on the right, and the main chat area in the center.
+In ELITEA, all chats are located in the dedicated **Chat** page that includes the **CHATS** sidebar on the left, the **PARTICIPANTS** panel and **Context Management** widget on the right and the main chat area in the center.
 
-<img src="../img/menus/chat/chat_page-structure.png" alt="The Chat page with the CHATS sidebar, PARTICIPANTS panel, Context Budget widget, and main chat area labeled." />
+<img src="../img/menus/chat/chat_page-structure.png" alt="The Chat page with the CHATS sidebar, PARTICIPANTS panel, Context Management widget and main chat area labeled." />
 
 |Element | Description |
 |---|---|
 | **CHATS** sidebar | Lists your chats, organized by time period or in folders. |
-| Main chat area | Displays the chat header, message history, and message input toolbar for the active chat. |
+| Main chat area | Displays the chat header, message history and message input toolbar for the active chat. |
 | **PARTICIPANTS** panel | Shows the participants added to the current chat — agents, pipelines, toolkits, MCPs and users. |
-| **Context Budget** widget | Tracks token usage as the chat grows. |
+| **Context Management** widget | Tracks token usage as the chat grows. |
 
 ### Main Chat Area
 
-The main chat area contains the chat header, message history, and message input toolbar.
+The main chat area contains the chat header, message history and message input toolbar.
 
-The message input toolbar is located at the bottom of the chat area. It includes the input field and associated controls:
+The message input toolbar is located at the bottom of the chat area. It includes the input field and associated controls.
+
+New empty chats include these controls:
 
 <img src="../img/menus/chat/chat_input-toolbar.png" alt="The message input toolbar at the bottom of the chat area, with the input field and associated controls." />
 
@@ -88,18 +94,36 @@ The message input toolbar is located at the bottom of the chat area. It includes
   </tbody>
 </table>
 
+As your conversation progresses, the message input toolbar changes to include additional controls:
+
+| Control | Appears when | Description |
+| --- | --- | --- |
+| **Send** | You have typed a message | Sends your message. Replaces the **Speaking mode** button once the input field is not empty. |
+| **Stop generating** | The AI is generating a response | Interrupts the response early and restores your last message to the input field. |
+| **Send to the running agent** | Mid-turn input is turned on and a response is being generated | Injects your message into the running turn instead of starting a new one. |
+| **Clear chat** | The chat has at least one message | Clears the current conversation. |
+
 #### Message Input Field
 
 Type your message in the input field, then press **Enter** to send it, or **Shift+Enter** to insert a line break without sending. Type `@` followed by a name to mention a user, or `#` followed by a name to mention an agent, pipeline, toolkit or MCP.
 
 While the AI is generating a response, the input field is disabled — select **Stop generating** to interrupt the response early. Stopping restores your last message to the input field so you can edit and resend it.
 
-<Note>
+ELITEA shows how long each step of a response took — each tool call, LLM step and sub-agent section displays its duration, both while the response is generated and when you reopen the chat later. If the real duration is unknown, ELITEA does not show one.
+
+<img src="../img/menus/chat/chat_tool-responce-time.png" width="250" alt="A tool call chip showing its model and elapsed time." />
+
+While an agent or pipeline participant is running or paused for your input, a status pill appears above the message input, reading *"Agent is running..."* or *"Pipeline is running..."* while it works, or *"Agent paused — waiting for your input..."* once it needs you to respond (shortened to *"Waiting for your input..."* when the chat area is narrow).
+
+<img src="../img/menus/chat/chat_agent-running.png" alt="Status pill showing that the agent is running." />
+
 If your ELITEA administrator has [turned on mid-turn input for your project](./settings/general#chat-configuration), you can keep typing and send additional messages while the AI is still generating a response, up to 4000 characters per message. The message is injected into the running turn instead of starting a new one.
+
+Each message you send this way is queued until ELITEA can inject it into the running turn. While messages are waiting, ELITEA lists them above the input field as *"Waiting messages – N"*, and you can remove a queued message before it is delivered.
 
 <img src="../img/menus/chat/chat_min-turn-input.png" alt="The chat input field with a Send to the running agent button shown during response generation." />
 
-</Note>
+If a scheduled run of an agent or pipeline that is a participant of the open chat finishes while you have that chat open, ELITEA shows a dismissible notice above the message input reporting **Success** or **Failed**, with an **Open run** link to its run history.
 
 #### Model Selector & Settings
 
@@ -128,17 +152,17 @@ For detailed information about model settings, see [Select and Set up Models](..
 
 #### Attachments
 
-You can attach files and images directly to chats for AI-powered analysis. This enables multimodal interactions where AI can process visual content, documents, and data files alongside text-based queries.
+You can attach files and images directly to chats for AI-powered analysis. This enables multimodal interactions where AI can process visual content, documents and data files alongside text-based queries.
 
 <CardGroup cols={3}>
   <Card title="Image analysis" icon="image">
-    Upload images for visual analysis, OCR, content extraction, and AI-powered interpretation.
+    Upload images for visual analysis, OCR, content extraction and AI-powered interpretation.
   </Card>
   <Card title="Document processing" icon="file-lines">
-    Attach documents for content indexing, semantic search, and information retrieval.
+    Attach documents for content indexing, semantic search and information retrieval.
   </Card>
   <Card title="Data files" icon="table">
-    Upload CSV, JSON, and other data formats for data processing.
+    Upload CSV, JSON and other data formats for data processing.
   </Card>
 </CardGroup>
 
@@ -180,6 +204,7 @@ Modules enhance your chats without requiring external integrations:
 
 <CardGroup cols={3}>
   <Card title="Image Creation" icon="image" href="../how-tos/chat-conversations/image-generation" />
+  <Card title="Web Search" icon="magnifying-glass" href="../how-tos/modules/web-search" />
   <Card title="Data Analysis" icon="chart-bar" href="../how-tos/chat-conversations/data-analysis-internal-tool" />
   <Card title="Agent & Pipeline Builder" icon="sitemap" href="../how-tos/chat-conversations/agents-&-pipeline-builder" />
   <Card title="Skill Builder" icon="wand-magic-sparkles" href="../how-tos/modules/skill-builder" />
@@ -205,21 +230,23 @@ ELITEA lets you interact with chat using your voice instead of (or alongside) ty
 
 - **Voice Input** — dictate your messages using the microphone; the transcript is inserted directly into the chat input.
 - **Text-to-Speech** — have the AI's responses read aloud, with playback controls and voice settings you can customize.
-- **Speaking Mode** — hold a fully hands-free, spoken chat: ELITEA listens, sends, plays back the reply, and listens again automatically.
+- **Speaking Mode** — hold a fully hands-free, spoken chat: ELITEA listens, sends, plays back the reply and listens again automatically.
 
 Voice capabilities rely on speech recognition (ASR) and text-to-speech (TTS) models configured for your project, falling back to your browser's built-in voice support when none is set up.
 
 <Info>
-For detailed information about voice capabilities, see [Voice Capabilities](../how-tos/chat/voice), including [Voice Input](../how-tos/chat/voice#voice-input), [Text-to-Speech](../how-tos/chat/voice#text-to-speech), and [Speaking Mode](../how-tos/chat/voice#speaking-mode).
+For detailed information about voice capabilities, see [Voice Capabilities](../how-tos/chat/voice), including [Voice Input](../how-tos/chat/voice#voice-input), [Text-to-Speech](../how-tos/chat/voice#text-to-speech) and [Speaking Mode](../how-tos/chat/voice#speaking-mode).
 </Info>
 
 ### CHATS Sidebar
 
-In the CHATS sidebar, you can view all your chats, organized by time period or in folders. You can also create new chats, rename or delete existing ones, and manage folders.
+In the CHATS sidebar, you can view all your chats, organized by time period or in folders. You can also create new or import external chats, rename or delete existing ones and manage folders.
 
 Public chats have the users icon to distinguish them from your private ones.
 
 <img src="../img/menus/chat/chat_public-icon.png" width="250" alt="The green users icon that marks a public chat in the CHATS sidebar." />
+
+At the top of the CHATS sidebar, the **Import** button allows you to [import chats from a backup file](../how-tos/chat/config-mnmt#import-a-chat). This option requires permission to create chats, and is not available in the public project.
 
 #### Chats and Folders Organization
 
@@ -228,17 +255,16 @@ By default, chats are organized by time period:
 | Period | Description |
 |--------|-------------|
 | **Today** | Chats created or active today appear at the top. |
-| **Yesterday** | Chats from the previous day are grouped together. |
 | **This Week** | Chats from the current week are grouped together. |
 | **Older** | All chats older than this week are grouped under this section. |
 
 This automatic time-based sorting helps you quickly locate recent chats.
 
-<img src="../img/menus/chat/chat_chats-sidebar.png" width="250" alt="The CHATS sidebar with chats grouped into Today, Yesterday, This Week, and Older." />
+<img src="../img/menus/chat/chat_chats-sidebar.png" width="250" alt="The CHATS sidebar with chats grouped into Today, This Week and Older." />
 
 **Pinned chats** will always appear at the very top, regardless of their creation date.
 
-**Folders** allow you to organize chats into custom groups. You can create folders, rename them, and move chats into them for better organization:
+**Folders** allow you to organize chats into custom groups. You can create folders, rename them and move chats into them for better organization:
 
 * Folders are displayed in the CHATS sidebar above the time-based sections.
 * Within a folder, chats are sorted by their creation date.
@@ -254,6 +280,7 @@ In the **CHATS** sidebar, you can perform these actions from the chat's overflow
 * **Move To**: Move the chat into a folder, or back to the main list. If no folder exists, you can create one by clicking **+ New Folder**. Not available while the chat is pinned.
 * **Playback**: Simulate the chat without any engagement with models — a read-only replay with forward/backward navigation. Well suited for demos and for stepping through the chat turn by turn using the on-screen controls or the keyboard arrows (left/right).
 * **[Duplicate](../how-tos/chat/config-mnmt#create-duplicate)**: Create a new chat with the same privacy setting and participants as the original (participants added automatically by an agent are not copied). Messages and history are not copied.
+* **[Export](../how-tos/chat/config-mnmt#export-a-chat)**: Download the chat as a file, with or without attachments.
 * **Make Public** *(Team projects only)*: Turn a private chat into a public one, visible and interactable by all project members.
 * **Restrict Access** *(Team projects only)*: Turn a public chat back to private, available only to the chat's creator and project members directly specified by the chat's creator.
 * **Share** *(Team and Public projects only)*: Copy a link to the chat for other project members who already have access.
@@ -262,12 +289,6 @@ In the **CHATS** sidebar, you can perform these actions from the chat's overflow
 * **Pin/Unpin**: Pin the chat to the top of the list, or unpin it. Available to anyone who can see the chat; a chat already inside a folder cannot be pinned.
 * **Delete**: Permanently remove the chat. Available only to the chat's creator.
 
-<div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-  <img src="../img/menus/chat/chat_actions_chat.png" alt="Chat actions menu" style={{ width: "32%" }} />
-  <img src="../img/menus/chat/chat_actions_chat-in-folder.png" alt="Chat actions menu for a chat inside a folder" style={{ width: "32%" }} />
-  <img src="../img/menus/chat/chat_actions_chat_public-project.png" alt="Chat actions menu in a team project" style={{ width: "32%" }} />
-</div>
-
 Unlike chat actions, all **folder actions are restricted to the folder's creator** and, in team projects, also require the corresponding folder permission:
 
 * **New Chat**: Create a new chat already assigned to the folder.
@@ -275,11 +296,9 @@ Unlike chat actions, all **folder actions are restricted to the folder's creator
 * **Pin/Unpin**: Select **Pin on top** in the folder contextual menu to keep the folder at the top of the **CHATS** sidebar for quicker access. Select **Unpin** to remove it from the top.
 * **Delete Folder**: Permanently remove the folder. Deleting a folder will not delete the chats inside it — they will be moved back to the main **CHATS** list.
 
-<img src="../img/menus/chat/chat_actions_folder.png" width="250" alt="The folder contextual menu with Rename, Pin on top, and Delete Folder options." />
-
 ### PARTICIPANTS Panel
 
-The **PARTICIPANTS** panel lists everyone and everything taking part in the current chat — agents, pipelines, toolkits and MCPs, as well as users in team projects.
+The **PARTICIPANTS** panel lists everyone and everything taking part in the current chat — agents, pipelines, skills, toolkits and MCPs, as well as users in team projects.
 
 #### AI Participants
 
@@ -292,6 +311,9 @@ AI Participants are additional resources you can add to a chat to extend its cap
   <Card title="Pipelines" icon="diagram-project">
     Multi-step automated processes that orchestrate agents and toolkits.
   </Card>
+  <Card title="Skills" icon="cogs">
+    Pre-configured functions that extend the capabilities of agents.
+  </Card>
   <Card title="Toolkits" icon="toolbox">
     Collections of tools and integrations (e.g., GitHub, Jira, Confluence) that extend chat capabilities.
   </Card>
@@ -300,17 +322,17 @@ AI Participants are additional resources you can add to a chat to extend its cap
   </Card>
 </CardGroup>
 
-You can add any combination of agents, pipelines, toolkits and MCPs to a chat. ELITEA supports these actions on participants:
+You can add any combination of agents, pipelines, skills, toolkits and MCPs to a chat. ELITEA supports these actions on participants:
 
-* **Add**: Add a participant using the **`+`** button in the message input toolbar or the `#` mention in the chat input field.
-* **Edit or view settings**: Hover over a participant's card and select **Edit** on a toolkit's, pipeline's or agent's card to open it in the editor, or to view its settings if you do not have edit permission.
+* **Add**: Add a participant using the **`+`** button in the message input toolbar or the `#` and `~` mention in the chat input field.
+* **Edit or view settings**: Hover over a participant's card and select **Edit** on a toolkit's, skill's, pipeline's or agent's card to open it in the editor, or to view its settings if you do not have edit permission.
 * **Log out**: For a connected remote MCP participant, select the log-out icon on its card to disconnect your account.
 * **Remove**: Hover over a participant's card and select the remove icon to remove it from the chat.
 
 You can also collapse the panel to an icon-only view using the arrow button in the panel header.
 
 <Info>
-For detailed information about working with participants, see [Working with Partcipants and Users](../how-tos/chat/participants).
+For detailed information about working with participants, see [Working with Participants and Users](../how-tos/chat/participants).
 </Info>
 
 #### Users
@@ -327,49 +349,24 @@ Unlike Agents, Pipelines, Toolkits and MCPs, Users are not added to a chat — t
 
 Once a user is added to the chat, you can mention them by hovering over their card and selecting **Mention**, or by typing `@` followed by their name in the chat input. This inserts an `@username` mention and addresses that user directly.
 
-#### Context Budget
+#### Context Management
 
-The **Context Budget** widget displays real-time token usage metrics and allows you to configure how the system manages chat context as it approaches model token limits.
+The **Context Management** widget tracks token usage for the chat in real time and lets you adjust how ELITEA manages context as the conversation grows. Context management is always on — there is no setting to turn it off.
 
-**Key Features**
+Context Management has three modes — collapsed, compact and configuration:
 
-* **Real-time Token Tracking**: Monitor token consumption as you add messages to the chat
-* **Automatic Context Management**: System automatically prunes old messages or generates summaries when approaching token limits
-* **Manual Optimization**: Manually trigger context optimization when usage exceeds 100%
-* **Configurable Strategies**: Choose between different pruning strategies (oldest_first, importance_based)
-* **Message Preservation**: Configure how many recent messages are always protected from pruning
-* **Summarization**: Enable automatic summarization of older messages to reduce token usage while preserving the chat context
+- **Collapsed** — when the **PARTICIPANTS** panel is collapsed, a small ring takes its place, showing the percentage of the context window used. Select the ring to open the compact view in a popover.
 
-**Location and Views**
+  <img src="../img/how-tos/chat-conversations/chats/ctxt-bdgt/ctxt-bdgt_collapsed_chat.png" width="40" alt="The Context Management widget in collapsed mode, showing the percentage of the context window used." />
 
-The widget appears in the bottom-left area of the **PARTICIPANTS** panel after you send the first message in a chat.
+- **Compact** — when the **PARTICIPANTS** panel is expanded, the widget shows the current context window (**Balanced** or **Full**), a progress bar with current tokens used, **Messages** and **Summaries** counts and usage totals (input tokens, output tokens and an approximate cost). Select the edit icon to open the configuration modal, where you can set the context window, automatic summarization and the assistant's persona for the chat.
 
-<img src="../img/how-tos/chat-conversations/context-management/chat-context-budget.gif" alt="Chat Context Budget" width="600" />
+  <img src="../img/how-tos/chat-conversations/chats/ctxt-bdgt/ctxt-bdgt_compact.png" width="250" alt="The Context Management widget in compact mode, showing the context window, token usage, messages and summaries counts and usage totals." />
 
-The widget has three views that provide progressively more detailed information:
-
-* **Collapsed view**: Shows a simple line indicating the token usage status (green for normal, orange for high usage)
-
-  <img src="../img/menus/chat/chat_context-budget_collapsed.png" alt="The Context Budget widget in collapsed view, showing a token usage status line." />
-
-* **Compact view**: Displays pruning strategy, message count, summaries count, and an expand button
-
-  <img src="../img/menus/chat/chat_context-budget_compact.png" width="250" alt="The Context Budget widget in compact view, showing pruning strategy, message count, and summaries count." />
-
-* **Configuration view**: Allows you to set context management parameters, including max context tokens, message preservation, pruning strategy, and summarization settings
-
-  <img src="../img/menus/chat/chat_context-budget_configuration.png" width="450" alt="The Context Budget widget in configuration view, showing context management parameters." />
-
-**Configuration Parameters**
-
-In the **Context Budget** widget, you can configure:
-
-* **Context Strategy & Token Management**: Set max context tokens, preserve recent messages count, and pruning strategy
-* **Summarization**: Enable/disable automatic summarization, configure summary instructions and trigger ratio
-* **System Messages**: Manage system-level instructions and preservation settings
+As usage approaches the limit, the progress bar turns amber at roughly 90% of usable input and red at 100%, and ELITEA begins automatically summarizing older messages if automatic summarization is on.
 
 <Info>
-For detailed information about Context Budget configuration and usage, see [Context & Budget Management Guide](../how-tos/chat/ctxt-bdgt).
+For detailed information about the Context Management widget, including its configuration modal and automatic summarization, see [Managing Context and Budgets](../how-tos/chat/ctxt-bdgt#context-management).
 </Info>
 
 ## Chat & Folder Visibility
@@ -400,11 +397,11 @@ In both private and team projects, you can [share a chat with users outside ELIT
 
 ## Chat Responses and Outputs
 
-Beyond plain text responses, ELITEA can ask you clarifying questions, suggest follow-up messages, and open entities directly from a chat response.
+Beyond plain text responses, ELITEA can ask you clarifying questions, suggest follow-up messages and open entities directly from a chat response.
 
 ### Clarifying Questions
 
-When you turn on the **Ask User** module for your chat in chat or an agent, LLM can pause and ask you one or more clarifying questions instead of guessing. These clarifying questions are shown as a card in the chat:
+When you turn on the **Ask User** module for your chat or agent, LLM can pause and ask you one or more clarifying questions instead of guessing. These clarifying questions are shown as a card in the chat:
 
 * Each question appears one at a time, with a stepper showing your position (e.g. `1/4`) and arrows to move between questions.
 * You can select one of the provided options, or use the free-text field to enter your own answer.
@@ -436,21 +433,29 @@ Follow-up suggestions are controlled by your ELITEA administrator and are only g
 
 ### Conversation Starters
 
-When you add a participant to a chat, the configured conversation starter for that participant will be automatically displayed in the chat. This will provide you with the immediate context and guide you on how to interact with each participant.
+When you add a participant to a chat, the configured conversation starter for that participant is automatically displayed in the chat. This provides you with the immediate context and guide you on how to interact with each participant.
 
 <img src="../img/menus/chat/conversation-starter.gif" alt="Conversation Starter" />
 
 ### Sensitive Action Authorization
 
-When an agent or pipeline attempts to call a **sensitive tool** (such as deleting a repository, running a shell command, or dropping a database table), the conversation automatically pauses and displays an authorization card before anything is executed.
+When an agent or pipeline attempts to call a **sensitive tool** (such as deleting a repository, running a shell command or dropping a database table), the conversation automatically pauses and displays an authorization card before anything is executed.
 
 <img src="../img/how-tos/chat-conversations/sensitive-action/authorization-chat-approve.gif" alt="Sensitive Action Authorization" />
 
 Each sensitive tool invocation is reviewed independently. Authorizing one call does **not** auto-approve subsequent calls to the same tool — every invocation requires a separate user decision.
 
 <Info>
-For detailed information about how the guardrail works, configuration options, and pipeline behavior, see [Sensitive Action Authorization Guardrail](../how-tos/chat/action-auth).
+For detailed information about how the guardrail works, configuration options and pipeline behavior, see [Sensitive Action Authorization Guardrail](../how-tos/chat/action-auth).
 </Info>
+
+### Input Guardrails
+
+Separately from sensitive tool calls, your platform administrator can configure guardrails that check the message you are about to send, before it reaches the model. Depending on the policy, ELITEA responds in one of three ways:
+
+* **Block** — your message is rejected outright, with an explanation of why.
+* **Redact** — sensitive content is removed from your message before it is processed, and you are notified.
+* **Warn** — your message is sent as usual, but ELITEA shows a caution alongside it.
 
 ### Chat-Generated Entities
 
@@ -474,7 +479,6 @@ Besides opening in Canvas, generated entities are displayed as chips in the chat
 MCPs do not have a separate chip type — a generated MCP is a Toolkit definition, shown with the MCP icon on its chip and opened in the same Toolkit editor.
 </Info>
 
-
 ## Troubleshooting
 
 <Accordion title="Chat Not Loading">
@@ -482,11 +486,11 @@ Check your network connection and refresh the page. If the issue persists, verif
 </Accordion>
 
 <Accordion title="Cannot Add Participants">
-Ensure you have the necessary permissions. For team projects, verify that the participant (agent, pipeline, toolkit, or MCP) exists and is accessible to you.
+Ensure you have the necessary permissions. For team projects, verify that the participant (agent, pipeline, toolkit or MCP) exists and is accessible to you.
 </Accordion>
 
 <Accordion title="Attachments Not Working">
-Verify that attachments are enabled for the chat and linked to an Artifact Toolkit. Check that your file format is supported and within size limits.
+Verify that attachments are enabled for the chat. Check that your file format is supported and within size limits.
 </Accordion>
 
 <Accordion title="Modules Not Appearing">
@@ -497,16 +501,20 @@ Ensure modules are enabled in the chat toolbar. For agents, verify the tools are
 Check that you have selected a valid LLM model and that your project has access to it. Verify token limits and model settings are correctly configured.
 </Accordion>
 
-<Accordion title="Context Budget Issues">
-Ensure the `context_manager` secret is set to `true` in **Settings** > **Secrets**. Check that you've sent at least one message for the widget to appear.
+<Accordion title="A Response Shows an Error">
+If a response fails, ELITEA shows a plain-language headline explaining what happened. Select **Error debugging info** to expand the full error trace, which you can copy or download.
+
+If the model could not finish a response after several automatic continuation attempts, ELITEA shows the partial output it managed to generate along with the error, so you do not lose that output.
+
+If a response was blocked because your project's cost budget was reached, see [Budget Management](../how-tos/chat/ctxt-bdgt#budget-management) for what to do next.
 </Accordion>
 
 <Accordion title="Canvas Editor Not Opening">
-Verify that the generated content is in a supported format (code, table, or Mermaid diagram). Check that you're interacting with a compatible participant (agent, pipeline, or LLM model).
+Verify that the generated content is in a supported format (code, table or Mermaid diagram). Check that you are interacting with a compatible participant (agent, pipeline or LLM model).
 </Accordion>
 
 <Accordion title="Shared Chat Link Not Working">
-Ensure the recipient has access to the team project and appropriate permissions. Verify the chat hasn't been deleted or made private.
+Ensure the recipient has access to the team project and appropriate permissions. Verify the chat has not been deleted or made private.
 </Accordion>
 
 <Accordion title="Voice Input Not Working">
@@ -517,7 +525,6 @@ Ensure the recipient has access to the team project and appropriate permissions.
 </Accordion>
 
 For further assistance, contact your platform administrator.
-
 
 <Info title="See Also">
 See also:
