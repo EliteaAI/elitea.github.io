@@ -3,7 +3,7 @@ title: "Working with Participants and Users"
 sidebarTitle: "Partcipants"
 ---
 
-With ELITEA, you can add to your chat two kinds of participants — users (human team members) and AI participants (agents, pipelines, toolkits and MCPs). All participants are displayed and can be managed in the PARTICIPANTS panel of the CHATS page.
+With ELITEA, you can add to your chat two kinds of participants — users (human team members) and AI participants (agents, pipelines, skills, toolkits and MCPs). All participants are displayed and can be managed in the PARTICIPANTS panel of the CHATS page.
 
 ## How to Work with Users
 
@@ -114,7 +114,7 @@ You cannot remove yourself from the conversation. The Delete icon only appears f
 
 ## Working with AI Participants
 
-AI participants — Agents, Pipelines, Toolkits, MCPs — are the core components you interact with within a conversation.
+AI participants — Agents, Pipelines, Skills, Toolkits, MCPs — are the core components you interact with within a conversation.
 
 ### Add Existing AI Participants
 
@@ -124,6 +124,7 @@ You can add various AI participants to enhance your conversations:
 2. A popup menu opens. Hover over the category you want:
     - **Agents** — shows a searchable list of available agents
     - **Pipelines** — shows a searchable list of available pipelines
+    - **Skills** — shows a searchable list of available skills
     - **Toolkits** — shows a searchable list of available toolkits (with a Public/Private toggle)
     - **MCPs** — shows a searchable list of available MCP servers (with a Public/Private toggle)
 3. Search by name in the submenu search box, then select a participant to add it.
@@ -134,6 +135,8 @@ For agents and pipelines, you can also use symbols,
 
 - **`#`** opens a **Search results** dropdown of available agents and pipelines.
 - **`&`** opens the same dropdown restricted to private agents and pipelines only (public ones are excluded).
+
+For skills, you can use `~` to open a **Search results** dropdown of available skills.
 
 To add an existing agent or pipeline to your chat:
 
@@ -147,13 +150,13 @@ To add an existing agent or pipeline to your chat:
 You can create new participants directly from the chat interface via the `+` menu:
 
 1. Select the **`+`** icon in the input toolbar.
-2. Hover over the relevant category (Agents, Pipelines, Toolkits or MCPs).
+2. Hover over the relevant category (Agents, Pipelines, Skills, Toolkits or MCPs).
 3. Select the **Create New \{Type\}** option at the bottom of the submenu.
 4. The corresponding Canvas editor opens inline.
 
 ![Create New Participants](../../img/menus/chat/canvas-create.gif)
 
-The **PARTICIPANTS** panel shows one collapsible accordion per participant type — **Users**, **Agents**, **Pipelines**, **Toolkits** and **MCPs** — with the **Users** accordion shown only in team projects.
+The **PARTICIPANTS** panel shows one collapsible accordion per participant type — **Users**, **Agents**, **Pipelines**, **Skills**, **Toolkits** and **MCPs** — with the **Users** accordion shown only in team projects.
 
 ![Create New Participants](../../img/menus/chat/manage-participants.gif)
 
@@ -218,7 +221,7 @@ The `/` mention works with both **Toolkits** and **MCP** participants that are a
 
 ### Configure AI Participants
 
-You can configure and edit participants (Agents, Pipelines, Toolkits, and MCPs) directly within the conversation using the Canvas editor.
+You can configure and edit participants (Agents, Pipelines, Skills, Toolkits, and MCPs) directly within the conversation using the Canvas editor.
 
 **Accessing Participant Settings:**
 
@@ -243,6 +246,12 @@ You can configure and edit participants (Agents, Pipelines, Toolkits, and MCPs) 
     - Configure **agents** used in the pipeline
     - Adjust **toolkits** and integrations
     - Select the pipeline **version** (default is "base")
+  </Tab>
+
+  <Tab title="Skills">
+    - Edit the skill's description and **instructions**
+    - Select and configure the LLM
+    - Change run settings
   </Tab>
 
   <Tab title="Toolkits">
