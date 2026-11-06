@@ -569,6 +569,17 @@ Each attached Skill card shows the currently active version name below the Skill
 
 Independently of any agent, you can add a Skill directly to a chat as a participant — the same way you would add an agent, pipeline, toolkit, or MCP — so it runs on its own, without an agent in between.
 
+<Note>
+**Skills Can Be Used Without Being Added to the Chat**
+
+Adding a Skill as a participant is not the only way to use it. If your project has the **Project skills in chat** setting turned on (**Settings > General > Chat Configuration**), any chat in the project can use any Skill in that project — even one never added as a participant or attached to the chat's agent:
+
+- **Automatically** — the model checks the project's Skills for one that fits the request and uses it on its own, with no action needed from you.
+- **On demand** — type `~skill-name` to invoke a specific project Skill directly, the same way you [mention](#mention-a-skill-in-chat) a Skill already attached or added to the chat.
+
+The setting offers three choices — **Use platform default**, **Enabled**, or **Disabled** — and defaults to off platform-wide. If your platform administrator has disabled it for the whole platform, individual projects cannot turn it back on.
+</Note>
+
 ### Add a Skill to the Conversation
 
 1. In the chat input toolbar, select the **`+`** button.
