@@ -70,7 +70,7 @@ Before creating a toolkit, you must first create Confluence credentials in ELITE
 2. **Create New Credential:** Click the **`+ Create`** button.
 3. **Select Confluence:** Choose **Confluence** as the credential type.
 
-     ![Confluence Credential Access](../../img/integrations/toolkits/confluence/confluence-credential-access.gif)
+     ![Confluence Credential Access](../../img/integrations/toolkits/confluence/conf-cred-open.png)
 
 4. **Configure Credential Details:**
 
@@ -87,9 +87,11 @@ Before creating a toolkit, you must first create Confluence credentials in ELITE
 5. **Test Connection:** Click **Test Connection** to verify that your credentials are valid and ELITEA can successfully connect to Confluence.
 6. **Save Credential:** Click **Save** to create the credential. It will be added to the credentials dashboard and available to use in toolkit configurations.
 
-     ![Confluence Credential](../../img/integrations/toolkits/confluence/confluence-credential-create.gif)
+     <img src="../../img/integrations/toolkits/confluence/confluence-credential-create.png" alt="Confluence Credential" width="500"/>
 
-<Tip title="Security Recommendation">
+<Tip>
+**Security Recommendation**
+
 It's highly recommended to use **[Secrets](../../menus/settings/secrets)** for API keys and tokens instead of entering them directly. Create a secret first, then reference it in your credential configuration.
 </Tip>
 
@@ -114,7 +116,7 @@ Once your credentials are configured, create the Confluence toolkit:
    | **PgVector Configuration** | Optional | — | PgVector connection for vector database integration and semantic search |
    | **Embedding Model** | Optional | — | Embedding model for semantic search capabilities (required when PgVector is configured) |
    | **API Version** | Optional | Auto | REST API version used for Confluence operations. **Auto** (recommended) automatically selects V2 for Cloud or V1 for Server based on the credential's Hosting setting. Manually override only if Auto does not resolve correctly. See the note below for details |
-   | **Space Key** | Required | — | Space key of the Confluence space to access (e.g., `DOCS`, `TEAM`). Found in space settings or in the URL when viewing the space |
+   | **Space Key** | Optional | — | Space key (not display name) to restrict this toolkit to one space, e.g. `DOCS`, `TEAM`. Leave empty to allow access to **all spaces** available to the configured Confluence account — Agents, Pipelines, and Chat can then select a space per tool call. Found in space settings or in the URL when viewing the space, e.g. `/spaces/KEY/` |
    | **Limit** | Optional | 5 | Maximum number of pages retrieved per individual API request. Controls page size per call |
    | **Labels** | Optional | — | Filter content retrieval to pages with specific labels, comma-separated (e.g., `meeting-notes,documentation`) |
    | ***Advanced Settings*** | | | |
@@ -146,6 +148,16 @@ The **API Version** field determines which Confluence REST API endpoints are use
 ⚠️ **Important:** Confluence does not provide a public API v3. This differs from other Atlassian products like Jira which use v2/v3.
 </Info>
 
+<Note>
+**Space Key: toolkit scope vs. runtime selection**
+
+The **Space Key** field is optional and controls how broadly the toolkit can operate:
+
+- **Left empty** — the toolkit can access **all spaces** available to the configured Confluence account. Most tools (e.g. `create_page`, `search_pages`, `get_page_id_by_title`, `get_pages_with_label`) accept an optional `space` parameter at call time, so Agents, Pipelines, and indexes can target a specific space for each individual call. If no `space` is given at call time either, the operation runs across all accessible spaces (or fails with a clear error for operations — like creating a page — that require a space to be known).
+- **Set to a space key** — the toolkit is **hard-restricted** to that one space. A tool call that explicitly names a *different* space is rejected; page-id-based tools (e.g. `read_page_by_id`, `update_page_by_id`, `get_page_tree`) reject pages that belong to another space; and `execute_generic_confluence` becomes **unavailable**, since raw REST calls cannot be scoped to a single space.
+
+</Note>
+
 #### Available Tools:
 
 The Confluence toolkit provides 25 tools for interacting with Confluence spaces and pages, organized by functional categories:
@@ -153,7 +165,7 @@ The Confluence toolkit provides 25 tools for interacting with Confluence spaces 
 | **Category** | **Tool Name** | **Description** |
 |:------------:|---------------|-----------------|
 | **Read** | | |
-| | **Get page attachments** | Retrieves attachments from a specific page |
+| | **Get page attachments** | Retrieves attachments that are actually referenced in the current page body, with metadata, content, and optional LLM analysis |
 | | **Get page id by title** | Retrieves the page ID using the page title |
 | | **Get page tree** | Retrieves the hierarchical structure of pages within a space |
 | | **Get page with image descriptions** | Retrieves page content with image descriptions |
@@ -168,7 +180,7 @@ The Confluence toolkit provides 25 tools for interacting with Confluence spaces 
 | | **Stepback search index** | Performs advanced contextual searches with broader scope across indexed content |
 | | **Stepback summary index** | Creates comprehensive summaries of indexed content with enhanced context |
 | **Create & update** | | |
-| | **Add file to page** | Attaches a file to a specific Confluence page |
+| | **Add file to page** | Uploads a file from ELITEA artifact storage as a Confluence attachment and references it in the page body |
 | | **Create page** | Creates a new page within a specified space |
 | | **Create pages** | Creates multiple pages within a space in bulk |
 | | **Index data** | Creates searchable vector indexes of Confluence content |
@@ -331,7 +343,7 @@ You are a Confluence content manager. Help users create and maintain documentati
 ### Creating New Pages
 - **Tool**: create_page
 - **Parameters**:
-    - space_key: Target Confluence space (ask if not specified)
+    - space: Target Confluence space key (ask if not specified; only needed if the toolkit has no Space Key configured)
     - title: Page title (generate from context or ask user)
     - body: Page content in Confluence storage format
     - parent_id: (Optional) Parent page ID for hierarchy
@@ -586,7 +598,7 @@ Agent Response: [Agent uses generic_request tool]
 1. **Re-verify API Token Validity:** Ensure that the API token is valid and has not been revoked in your Atlassian account settings. Generate a new token if necessary.
 2. **Space Access Permissions:** Confirm that the Confluence account associated with the API token has the necessary access permissions to the specified space. Verify that the account can access, view, and modify content in the space you're targeting.
 3. **Hosting Option Verification:** Double-check that you have selected the correct **Hosting option** (Cloud or Server) in the toolkit configuration. Using the wrong hosting option can lead to authentication and connection errors.
-4. **Space Key Accuracy:** Ensure you're using the correct Space key (not the space name) in your toolkit configuration. Space keys are typically short codes like "DOCS" or "TEAM".
+4. **Space Key Accuracy:** If the toolkit's **Space Key** field is set, ensure it's the correct Space key (not the space name) — space keys are typically short codes like "DOCS" or "TEAM". If you don't need to restrict the toolkit to one space, leave Space Key empty and, if needed, pass `space` as a runtime parameter on the specific tool call instead.
 </Accordion>
 
 <Accordion title="Incorrect Space or Page Names">
@@ -599,12 +611,24 @@ Agent Response: [Agent uses generic_request tool]
 3. **Page Existence:** Confirm that the specified page actually exists in your Confluence space. It's possible the page name is correct but the page was deleted or moved.
 </Accordion>
 
+<Accordion title="'This toolkit is restricted to Confluence space...' errors">
+**Problem:** A tool call fails with a message like *"This toolkit is restricted to Confluence space 'X'; space 'Y' is outside its scope"*, or *"Page 'NNN' belongs to space 'Y', but this toolkit is restricted to Confluence space 'X'"*.
+
+**Cause:** The toolkit's **Space Key** is set to one space, but the Agent/Pipeline either passed a different `space` parameter, or referenced a page/label that lives in a different space.
+
+**Troubleshooting Steps:**
+
+1. **Confirm the intended scope:** If the Agent genuinely needs to work across multiple spaces, remove the **Space Key** value from the toolkit configuration so each tool call can specify its own `space`, or operate across all accessible spaces.
+2. **Fix the call-site value:** If the toolkit should stay restricted to one space, correct the `space` value your Agent/Pipeline instructions are passing so it matches (or is left empty to use) the toolkit's configured space.
+3. **Check page/label ownership:** For page-id or label-based tools, confirm the target page or labeled content actually belongs to the space the toolkit is restricted to.
+</Accordion>
+
 <Accordion title="Toolkit Configuration Issues">
 **Problem:** The toolkit fails to load or shows configuration errors after creation.
 
 **Troubleshooting Steps:**
 
-1. **Verify Space Key Format:** Ensure the space key follows the correct format: a short alphanumeric code (e.g., "DOCS", "TEAM"). Do not use the full space name or special characters.
+1. **Verify Space Key Format:** The **Space Key** field is optional — leave it empty for access to all spaces, or ensure it follows the correct format when set: a short alphanumeric code (e.g., "DOCS", "TEAM"). Do not use the full space name or special characters.
 2. **Check Hosting Option:** Verify that the hosting option matches your Confluence instance type (Cloud for *.atlassian.net, Server for self-hosted instances).
 3. **Credential Selection:** Ensure you have selected the correct credential from the dropdown in the toolkit configuration.
 </Accordion>
@@ -630,8 +654,16 @@ Confluence API tokens have a fixed scope and provide access to the Confluence RE
 **Always adhere to the principle of least privilege and grant only the permissions that are strictly necessary for your Agent's intended functionalities.**
 </Accordion>
 
-<Accordion title="What is the correct format for specifying the Confluence Space key in the ELITEA toolkit configuration?">
-The Confluence Space key must be entered as the short alphanumeric code assigned to the space (e.g., "DOCS", "TEAM", "DEV"). Do not use the full space name or special characters. You can find the space key in your Confluence space settings or in the URL when viewing the space.
+<Accordion title="Is the Confluence Space Key required, and what format should it use?">
+**Space Key is optional.** Leave it empty to let the toolkit access all spaces available to the configured Confluence account — individual tool calls (from Agents, Pipelines, or indexes) can then target a specific space via their own `space` parameter.
+
+If you do set it, enter the short alphanumeric code assigned to the space (e.g., "DOCS", "TEAM", "DEV") — not the full space name or special characters. You can find the space key in your Confluence space settings or in the URL when viewing the space. Once set, the toolkit is permanently restricted to that space: calls naming a different space are rejected, and **Execute generic confluence** becomes unavailable.
+</Accordion>
+
+<Accordion title="Can a tool call target a different space than the one configured on the toolkit?">
+Only if the toolkit itself has **no** Space Key configured. In that case, tools like `create_page`, `search_pages`, `get_page_id_by_title`, `get_pages_with_label`, and others accept an optional `space` parameter at call time, letting the same toolkit serve multiple spaces across different calls.
+
+If the toolkit **does** have a Space Key set, that space is a hard restriction — a call that names a different space is rejected with an error, and page-based tools reject or skip pages that belong to another space.
 </Accordion>
 
 <Accordion title="How do I switch from the old Agent-based configuration to the new Credentials + Toolkit workflow?">
