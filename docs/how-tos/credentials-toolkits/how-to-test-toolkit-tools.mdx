@@ -27,8 +27,8 @@ To access the Test page:
 3. In the action bar on the left panel, click the **Test** button
    ![Test Button](../../img/how-tos/credentials-toolkits/test-toolkit-tools/test-button.png)
 4. The Test page opens with a two-panel layout:
-   - **Left panel**: Test Settings for selecting tools, configuring parameters, and choosing models
-   - **Right panel**: Results showing test execution output
+   - **Test Settings**: Displays the toolkit's tools directly in the panel so you can pick one, then configure its parameters and choose a model
+   - **Results**: Results showing test execution output
 
    ![Test Settings Panel](../../img/how-tos/credentials-toolkits/test-toolkit-tools/test-tools-panel.png)
 
@@ -47,11 +47,12 @@ The Test page uses a two-panel layout with Test Settings on the left and Results
 **Test Settings Panel (Left):**
 
 1. **Select a tool**
-   - **Empty state**: When no tool is selected, the panel displays a "Test toolkit" message with a **Select Tool** button
-   - Click **Select Tool** to open a searchable popover dropdown listing the toolkit's available tools
-   - The dropdown includes a search field: "Search tools..."
+   - The Test Settings panel shows the toolkit's available tools directly, as a grid of clickable chips — no separate button or popover needed to reveal them
+   - If the toolkit groups its tools (e.g., **Read**, **Create & update**, **Delete**, **Execute**), the chips are organized into labeled sections matching those groups; toolkits without groups show one flat grid
+   - Type in the search field to filter the chips; a message like `No tools match "your search term".` appears when nothing matches
+   - Click a tool's chip to select it and configure its parameters
 
-   ![Tool Selection](../../img/how-tos/credentials-toolkits/test-toolkit-tools/select-tool.png)
+     ![Tool Selection](../../img/how-tos/credentials-toolkits/test-toolkit-tools/select-tool.png)
 
 2. **Configure tool parameters**
    - After selecting a tool, the panel displays:
@@ -59,13 +60,13 @@ The Test page uses a two-panel layout with Test Settings on the left and Results
      - **Model** selector: Choose from models available in the current project (default project model is selected automatically)
      - **Tool-specific parameter fields**: Rendered from the tool's schema with default values pre-populated when available
 
-    <img src="../../img/how-tos/credentials-toolkits/test-toolkit-tools/tool-parameters.png" alt="Tool Parameters" width="430" />
+       <img src="../../img/how-tos/credentials-toolkits/test-toolkit-tools/tool-parameters.png" alt="Tool Parameters" width="430" />
 
 3. **Select a model and adjust settings**
    - Use the **Model** selector to choose from models available in the current project
    - Click **Model Settings** (gear icon) to open the settings dialog and adjust model behavior
 
-   <img src="../../img/how-tos/credentials-toolkits/test-toolkit-tools/select-model.png" alt="Select Model" width="430" />
+       <img src="../../img/how-tos/credentials-toolkits/test-toolkit-tools/select-model.png" alt="Select Model" width="430" />
 
     <Tabs>
         <Tab title="Reasoning-capable models">
@@ -175,7 +176,7 @@ Understanding the differences between testing tools and using them in agents hel
 </Accordion>
 
 <Accordion title="Tool Not Available in the List">
-**Problem**: The tool you expect to test does not appear in the **Select Tool** dropdown.
+**Problem**: The tool you expect to test does not appear as a chip in the tool-selection grid (or in the **Tool** dropdown after selecting another tool).
 
 **Solutions:**
 
