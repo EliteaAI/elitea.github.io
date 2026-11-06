@@ -488,6 +488,7 @@
                 "pages": [
                   "integrations/toolkits/artifact_toolkit",
                   "integrations/toolkits/custom_toolkit",
+                  "integrations/toolkits/dataverse_toolkit",
                   "integrations/toolkits/figma_toolkit",
                   "integrations/toolkits/google_places_toolkit",
                   "integrations/toolkits/memory_toolkit",
