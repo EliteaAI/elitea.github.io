@@ -1,5 +1,6 @@
 ---
 title: "Ask User"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
 **Ask User** module allows agents to pause execution and request clarification from users through structured questions instead of proceeding with assumptions.
@@ -9,7 +10,7 @@ When enabled, agents can present questions with selectable options and optional 
 **Key features:**
 
 * Pause agent execution to ask clarifying questions
-* Present open, single-select and multi-select questions with 2-4 options
+* Present open, single-select and multi-select questions with several options
 * Allow free-text input for open answers
 * Display questions in stepwise navigation with progress indicators
 
@@ -21,22 +22,22 @@ When enabled, agents can present questions with selectable options and optional 
 
 The default state of the **Ask User** module — on or off — [is defined in the project settings](../../menus/settings/general#default-modules).
 
-If **Ask User** is turned off by default, you can turn it on for your current conversation or agent.
+If **Ask User** is turned off by default, you can turn it on for your current chat or agent.
 
 <Callout icon="lightbulb" color="#a855f7" title="Recommended">
 Enable **Ask User** alongside **Skill Builder** and **Project Context Builder** for the best experience. When enabled, agents can request structured clarification for skill or project context creation requests instead of proceeding with incomplete information.
 </Callout>
 
-### For a Conversation
+### For a Chat
 
-1. Go to the conversation.
+1. Go to the chat.
 2. Select `+` in the chat input toolbar.
 3. Select **Modules** → **Ask User** in the list.
 4. Toggle **Ask User** on.
 
-<img src="../../img/how-tos/chat-conversations/internal-tools/ask-user/enable-chat.png" alt="Enable Ask User in a Conversation" width="350" />
+<img src="../../img/how-tos/chat-conversations/internal-tools/ask-user/enable-chat.png" alt="Enable Ask User in a Chat" width="350" />
 
-Once enabled, the agent can pause and ask clarifying questions for that conversation.
+Once enabled, the agent can pause and ask clarifying questions for that chat.
 
 ### For an Agent
 
@@ -47,7 +48,7 @@ Once enabled, the agent can pause and ask clarifying questions for that conversa
 5. Toggle **Ask User** on.
 6. Select **Save**.
 
-All changes apply only to new conversations run by this agent. Existing conversations will not be affected.
+All changes apply only to new chats run by this agent. Existing chats will not be affected.
 
 <img src="../../img/how-tos/chat-conversations/internal-tools/ask-user/enable-agent.png" alt="Enable Ask User in Agent Configuration" width="350" />
 
@@ -111,7 +112,6 @@ Navigation buttons:
 ### Limitations
 
 - **Interactive sessions only**: Auto-skips in non-interactive or API runs.
-- **Question limit**: Agents can ask 1-4 questions per pause.
 - **Navigation gating**: Must answer current question before proceeding to the nextone.
 - **No nested pauses**: Agent cannot pause again while a clarifying question is pending.
 
@@ -142,9 +142,9 @@ To answer the questions:
 - Provide complete information upfront in your request to minimize clarification rounds
 </Accordion>
 
-<Info title="See also">
+<Callout icon="book" color="#C9B896" title="See Also">
 See also:
 - [Agent & Pipeline Builder](../chat-conversations/agents-&-pipeline-builder)
 - [Skill Builder](../modules/skill-builder)
 - [Project Context Builder](../modules/project-context-builder)
-</Info>
+</Callout>

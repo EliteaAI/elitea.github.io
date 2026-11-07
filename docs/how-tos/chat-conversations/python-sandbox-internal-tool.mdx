@@ -1,39 +1,40 @@
 ---
 title: "Python Sandbox"
 sidebarTitle: "Python Sandbox"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
-**Python Sandbox** module lets you run secure Python code directly in conversations, with persistent session state and access to Pyodide-compatible libraries.
+**Python Sandbox** module lets you run secure Python code directly in chats, with persistent session state and access to Pyodide-compatible libraries.
 
 **Key features:**
 
 * Run Python code in an isolated WebAssembly environment with configurable permissions via Deno
 * Access Pyodide-compatible packages
-* Persist variables, imports, and function definitions across code blocks in the same conversation
+* Persist variables, imports, and function definitions across code blocks in the same chat
 * Execute calculations, data analysis, and visualizations without leaving the chat
 * Skip setup entirely — runs out-of-the-box once Deno is installed on the server, no Python installation needed
 
 ## Prerequisites
 
-- User role with conversation or agent edit access
+- User role with chat or agent edit access
 - **Python Sandbox** enabled in your chat or agent
 
 ## How to Enable Python Sandbox
 
 The default state of the **Python Sandbox** module — on or off — [is defined in the project settings](../../menus/settings/general#default-modules).
 
-If **Python Sandbox** is turned off by default, you can turn it on for your current conversation or agent.
+If **Python Sandbox** is turned off by default, you can turn it on for your current chat or agent.
 
-### For a Conversation
+### For a Chat
 
-1. Go to the conversation.
+1. Go to the chat.
 2. Select `+` in the chat input toolbar.
 3. Select **Modules** → **Python Sandbox** in the list.
 4. Toggle **Python Sandbox** on.
 
-<img src="../../img/how-tos/chat-conversations/internal-tools/python-sandbox/euch_python_on_chat.png" alt="Enable Python Sandbox in a Conversation" width="350" />
+<img src="../../img/how-tos/chat-conversations/internal-tools/python-sandbox/euch_python_on_chat.png" alt="Enable Python Sandbox in a Chat" width="350" />
 
-Once enabled, you can execute Python code directly in that conversation.
+Once enabled, you can execute Python code directly in that chat.
 
 ### For an Agent
 
@@ -44,7 +45,7 @@ Once enabled, you can execute Python code directly in that conversation.
 5. Toggle **Python Sandbox** on.
 6. Select **Save**.
 
-All changes apply only to new conversations run by this agent. Existing conversations will not be affected.
+All changes apply only to new chats run by this agent. Existing chats will not be affected.
 
 <img src="../../img/how-tos/chat-conversations/internal-tools/python-sandbox/euch_python-for-agent.png" alt="Enable Python Sandbox in Agent Configuration" width="400" />
 
@@ -60,7 +61,7 @@ With **Python Sandbox** enabled, you can:
 - Use Pyodide-compatible packages (NumPy, Pandas, Matplotlib, SciPy, scikit-learn, etc.)
 - Perform complex calculations and data transformations
 - Generate visualizations and charts (via matplotlib)
-- Maintain variables and state between executions in the same conversation
+- Maintain variables and state between executions in the same chat
 - Handle errors gracefully and provide debugging information
 - Install additional packages available in the Pyodide ecosystem
 
@@ -68,9 +69,9 @@ With **Python Sandbox** enabled, you can:
 
 | Aspect | Without Python Sandbox | With Python Sandbox |
 |--------|------------------------|---------------------|
-| **Code Execution** | Copy code, run locally or in external tool | Execute code directly in conversation |
+| **Code Execution** | Copy code, run locally or in external tool | Execute code directly in chat |
 | **Environment Setup** | Install Python, packages, dependencies | No setup—Pyodide runs in WebAssembly via Deno |
-| **Data Sharing** | Export/import files between tools | Process data within conversation context |
+| **Data Sharing** | Export/import files between tools | Process data within chat |
 | **Results** | Manual copy-paste of outputs | Automatic integration of results into chat |
 | **Security** | Depends on local environment | Isolated sandbox with restricted Deno permissions |
 
@@ -90,7 +91,7 @@ flowchart LR
 2. **Sandbox Invocation:** Code is sent to the Pyodide sandbox environment via Deno subprocess.
 3. **Isolated Execution:** Code runs in WebAssembly with access to Pyodide packages.
 4. **Result Capture:** Output (print statements, return values, errors) is captured.
-5. **Response Integration:** Results are formatted and returned in the conversation.
+5. **Response Integration:** Results are formatted and returned in the chat.
 
 ### Possible Use Cases
 
@@ -110,21 +111,22 @@ flowchart LR
     - Run numerical analysis and mathematical modeling
   </Card>
   <Card title="Quick Prototyping" icon="bolt">
-    - Iterate rapidly on solutions without leaving the conversation
+    - Iterate rapidly on solutions without leaving the chat
     - Skip local environment setup
     - Get instant feedback during development
   </Card>
 </CardGroup>
 
-
 ### Heavy Computational Tasks
 
 When performing heavy computational tasks, keep in mind these limitations:
 
-* **Timeouts:** Very large datasets or computationally intensive operations may hit Deno timeout limits (default: 60 seconds). For production workloads with large-scale data processing, use dedicated Python environments.
+* **Timeouts:** Very large datasets or computationally intensive operations may hit Deno timeout limits (default: 55 s). For production workloads with large-scale data processing, use dedicated Python environments.
 * **Package availability:** Some Python packages are not available in Pyodide. Check the [Pyodide packages list](https://pyodide.org/en/stable/usage/packages-in-pyodide.html) before relying on specific libraries. C-extension packages may not be supported.
 * **File system access:** Limited file I/O capabilities due to WebAssembly sandbox restrictions. For tasks requiring extensive file operations or system-level access, consider alternative approaches.
 * **Network operations:** Network access is configurable via Deno permissions but may be restricted depending on server configuration. External API calls and web scraping may not work as expected.
+* **Memory:** Each sandbox execution has a fixed WebAssembly memory cap (default 512 MB). Code that exceeds it fails.
+* **Concurrency:** The server limits how many sandboxes can run at once. Under heavy concurrent load, new executions may be refused until capacity frees up.
 
 ## Example Scenarios
 
@@ -279,7 +281,7 @@ print(f"Average Monthly Growth: {avg_growth:.2f}%")
 print(f"Trend: {'Positive' if avg_growth > 0 else 'Negative'}")
 ```
 
-Python Sandbox enables instant analysis without switching tools or exporting data, with results returned directly in the conversation.
+Python Sandbox enables instant analysis without switching tools or exporting data, with results returned directly in chat.
 </Accordion>
 
 <Accordion title="Algorithm Testing with Edge Cases">
@@ -408,15 +410,15 @@ Check the [Pyodide packages list](https://pyodide.org/en/stable/usage/packages-i
 </Accordion>
 
 <Accordion title="Break complex tasks into logical steps">
-Ask ELITEA to break complex analysis into logical steps. Each code block can build on previous results since the sandbox maintains state within a conversation. This makes it easier to understand the process and identify issues.
+Ask ELITEA to break complex analysis into logical steps. Each code block can build on previous results since the sandbox maintains state within a chat. This makes it easier to understand the process and identify issues.
 </Accordion>
 
 <Accordion title="Combine with Data Analysis module">
-When working with conversation attachments (CSV, Excel files), enable both Python Sandbox and [Data Analysis](./data-analysis-internal-tool) modules. Python Sandbox provides the execution environment, while Data Analysis can help with file parsing and data structure handling.
+When working with chat attachments (CSV, Excel files), enable both Python Sandbox and [Data Analysis](./data-analysis-internal-tool) modules. Python Sandbox provides the execution environment, while Data Analysis can help with file parsing and data structure handling.
 </Accordion>
 
 <Accordion title="Combine with Swarm Mode for multi-agent workflows">
-Python Sandbox works seamlessly alongside [Swarm Mode](./swarm-mode-internal-tool). In multi-agent setups, individual child agents can each have Python Sandbox enabled, allowing them to perform independent code execution tasks within the shared conversation context.
+Python Sandbox works seamlessly alongside [Swarm Mode](./swarm-mode-internal-tool). In multi-agent setups, individual child agents can each have Python Sandbox enabled, allowing them to perform independent code execution tasks within the shared chat context.
 </Accordion>
 
 <Accordion title="Review generated code for learning">
@@ -481,10 +483,22 @@ When asking the assistant to work with data structures or algorithms, use clear 
 5. Consider using a local Python environment for heavy computations
 </Accordion>
 
+<Accordion title="Sandbox is busy or out of memory">
+**Possible Causes:**
+
+* Too many concurrent sandbox executions on the server
+* Code consuming more memory than the sandbox's memory limit allows
+
+**Solution:**
+
+1. Retry the request after a short wait if the sandbox is busy.
+2. Reduce the size of data held in memory at once, or break the computation into smaller steps, if memory is the issue.
+</Accordion>
+
 <Accordion title="Session does not preserve variables between executions">
 **Possible Causes:**
 
-* Conversation reset or page refresh
+* Chat reset or page refresh
 * Backend session expiration
 * An error in a previous code execution corrupted the session state
 
@@ -494,7 +508,7 @@ When asking the assistant to work with data structures or algorithms, use clear 
 2. Avoid page refreshes during stateful work sessions
 3. Check for errors in previous executions that may have corrupted the state
 4. Use explicit variable definitions in each code block for critical values
-5. Start a new conversation if the session state is corrupted
+5. Start a new chat if the session state is corrupted
 </Accordion>
 
 <Accordion title="Network requests fail">
@@ -512,11 +526,11 @@ When asking the assistant to work with data structures or algorithms, use clear 
 4. Check if specific domains need to be whitelisted in the Deno settings
 </Accordion>
 
-<Info title="See also">
+<Callout icon="book" color="#C9B896" title="See Also">
 See also:
 - [Pyodide Documentation](https://pyodide.org/en/stable/)
 - [Pyodide Packages](https://pyodide.org/en/stable/usage/packages-in-pyodide.html)
 - [Deno Documentation](https://docs.deno.com/)
 - [Data Analysis](./data-analysis-internal-tool)
 - [Swarm Mode](./swarm-mode-internal-tool)
-</Info>
+</Callout>

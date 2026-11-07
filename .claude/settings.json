@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 .claude/skills/release-notes/scripts/fetch_issues.py *)",
+      "Bash(python3 .claude/skills/release-notes/scripts/doc_index.py *)",
+      "Bash(python3 .claude/skills/release-notes/scripts/rn_file.py current)",
+      "Bash(python3 .claude/skills/release-notes/scripts/rn_file.py status)",
+      "Bash(python3 .claude/skills/release-notes/scripts/rn_file.py set *)",
+      "Bash(python3 .claude/skills/release-notes/scripts/rn_file.py order *)",
+      "Bash(gh issue view *)",
+      "Bash(gh api repos/EliteaAI/*)",
+      "Read(//tmp/rn/**)",
+      "Read(//private/tmp/rn/**)",
+      "Write(//tmp/rn/**)",
+      "Write(//private/tmp/rn/**)"
+    ]
+  }
+}

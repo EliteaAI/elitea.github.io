@@ -121,7 +121,7 @@ description: |
 
 **State Modifier Features:**
 - Combine multiple state variables with templates
-- Apply filters: `from_json`, `base64_to_string`, `split_by_words`
+- Apply filters: `from_json`, `base64_to_string`, `split_by_words`, `split_by_regex`
 - Clean up temporary variables
 - Format structured output
 
@@ -164,9 +164,10 @@ input_mapping:
 
 | Type | Node Types | Config | Example |
 |------|------------|--------|---------|
-| **Transition** | All except Router/Decision | `transition: NodeID` | `transition: ProcessData` |
+| **Transition** | All except Router/Decision/HITL | `transition: NodeID` | `transition: ProcessData` |
 | **Router** | Router | `condition` + `routes` + `default_output` | Multiple named paths |
-| **Decision** | Decision | `decision.nodes` + `default_output` | LLM-powered routing |
+| **Decision** | Decision | `description` + `nodes` + `default_output` | LLM-powered routing |
+| **HITL** | HITL | `routes.approve` / `routes.edit` / `routes.reject` | Human button choice |
 | **END** | Any node | `transition: END` | Pipeline termination |
 
 **Examples:**
@@ -189,9 +190,10 @@ routes: [Publish, Review]
 default_output: Review
 
 # Decision
-decision:
-  nodes: [Save, Edit, Reject]
-  default_output: END
+type: decision
+description: "Route by request type: Save or Edit."
+nodes: [Save, Edit]
+default_output: END
 ```
 
 ---

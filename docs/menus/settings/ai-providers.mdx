@@ -1,5 +1,6 @@
 ---
 title: "AI Providers"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
 In **AI Providers**, you can view all the models and storages available to your project organized by their type, and choose default providers or models for each type.
@@ -12,7 +13,7 @@ Available configurations depend on the selected project. To view or manage proje
 
 <img src="../../img/menus/settings/project/ai-providers/ai-providers.png" width="750" alt="AI Providers" />
 
-Your rights to view and edit **AI Providers** depend on your role and permissions.
+Any project member can view **AI Providers**. Only users with permission to update configurations can create or edit AI provider configurations.
 
 Default selections apply at the project level.
 
@@ -51,15 +52,14 @@ For each AI provider configuration, you can see:
 
 - Provider icon
 - Configuration name
-- Status that shows whether the configuration is local or shared
+- A combined status showing readiness (for example, **OK** or **In Progress**) and whether the configuration is **Local** or **Shared**
 - Default or tier badges, when applicable
 
-If you have permission to update configurations, you can open a configuration card and edit its details.
+If you do not have permission to update configurations, ELITEA shows a disabled-edit icon with a tooltip on the card instead. If you have permission, you can open a configuration card and edit its details.
 
 <img src="../../img/menus/settings/project/ai-providers/config-card.png" alt="AI Provider configuration cards" />
 
-
-## Default Models
+### Default Models
 
 Default models control which configurations ELITEA selects automatically for the current project.
 
@@ -74,21 +74,13 @@ Default models control which configurations ELITEA selects automatically for the
 
 Changes to default selections apply at the project level.
 
-
-## LLMs
+### LLMs
 
 **LLMs** displays configured Large Language Model providers and their models.
 
 <img src="../../img/menus/settings/project/ai-providers/llm-open.png" alt="LLMs" />
 
-<Info title="Configuration Cards:">
-Each LLM configuration card displays:
-- Provider icon
-- Model name
-- Status that shows whether the configuration is local or shared
-- Tier badges for **High-tier**, **Low-tier**, or **Default**, when applicable
-- Status that shows whether the configuration can be edited
-</Info>
+In addition to the default icons, the LLM configuration card displays tier badges for **High-tier**, **Low-tier**, or **Default**, when applicable.
 
 **Default Model Settings**
 
@@ -102,42 +94,7 @@ To set the default, high-tier, or low-tier model, select the necessary model fro
 
 <img src="../../img/menus/settings/project/ai-providers/llm-set-default.png" alt="Set default LLM" />
 
-**Edit LLMs (Authorized Only)**
-
-Users with configuration update permissions can open an LLM configuration card and edit its details.
-
-To edit an LLM model:
-
-1. Ensure that its credentials exist.
-2. Select the necessary LLM configuration card.
-3. Change the required fields:
-
-    | Field | Description |
-    |-------|-------------|
-    | **Display name** | Model name (e.g., "GPT-4o Production") |
-    | **ID*** | Auto-populated from the *Display Name* |
-    | **Name** | Exact model identifier from the provider (e.g., "gpt-4o", "claude-3-sonnet-20240229") |
-    | **Context window** | Maximum context window size in tokens (e.g., 128000) |
-    | **Max output tokens** | Maximum output token limit (e.g., 16000) |
-    | **Supports reasoning** | Checked if the model supports reasoning capabilities (e.g., for GPT-5.1 o3-mini) |
-    | **Supports vision** | Checked if the model can process and understand images |
-    | **Low tier** | Checked if this model as suitable for routine, cost-effective tasks |
-    | **High tier** | Checked if this model is suitable for complex workflows requiring advanced capabilities |
-    | **Openai Compatible** | Checked if this model is compatible with OpenAI's API |
-    | **Credentials** | AI credentials |
-
-4. Save the configuration.
-
-<Tip title="Model Name Accuracy">
-The model name must exactly match the provider's identifier. Refer to your provider's documentation:
-
-- **OpenAI**: [Model names](https://platform.openai.com/docs/models)
-- **Anthropic**: [Claude models](https://docs.anthropic.com/claude/docs/models-overview)
-- **Azure OpenAI**: Deployment name from your Azure portal
-- **Vertex AI**: Model names from Google Cloud console
-</Tip>
-
-## Embedding Models
+### Embedding Models
 
 Embedding models convert text into numerical vector representations (embeddings) that capture semantic meaning. These vectors enable similarity comparisons, semantic search, and retrieval-augmented generation (RAG) workflows.
 
@@ -147,76 +104,15 @@ Common examples include OpenAI, Azure OpenAI, HuggingFace, and Vertex AI embeddi
 
 <img src="../../img/menus/settings/project/ai-providers/embedding.png" alt="Embedding Models" />
 
-<Info title="Configuration Cards:">
-Each embedding model configuration card displays:
-- Provider icon
-- Model name
-- Status that shows whether the configuration is local or shared
-- Status that shows whether the configuration can be edited
-</Info>
-
-**Edit Embedding Models (Authorized Only)**
-
-Users with configuration update permissions can open an embedding model configuration card and edit its details.
-
-To edit an embedding model:
-
-1. Ensure that its credentials exist.
-2. Select the necessary embedding model configuration card.
-3. Change the required fields:
-
-    | Field | Description |
-    |-------|-------------|
-    | **Display Name** | Model name (e.g., "OpenAI Embeddings Large") |
-    | **ID*** | Auto-populated from the Display Name |
-    | **Name*** | Exact model identifier (e.g., "text-embedding-3-large", "text-embedding-ada-002") |
-    | **Credentials** | AI credentials |
-
-4. Save the configuration.
-
-After you save the model, ELITEA makes it available among other embedding models.
-
-## Vector Storages
+### Vector Storage
 
 Vector storage systems (vector databases) store and manage embedding vectors generated by embedding models. These specialized databases enable efficient similarity searches across large collections of embeddings, supporting features like semantic search, document retrieval, and knowledge base queries. Vector databases optimize storage and retrieval of high-dimensional vector data.
 
 **Default vector storage** specifies where embeddings are stored for search or retrieval. Choose it based on persistence and scale requirements.
 
-<img src="../../img/menus/settings/project/ai-providers/vector-storage.png" alt="Vector Storages" />
+<img src="../../img/menus/settings/project/ai-providers/vector-storage.png" alt="Vector Storage" />
 
-<Info title="Configuration Cards:">
-Each vector storage configuration card displays:
-- Provider icon
-- Storage name
-- Icon that shows whether the configuration is local or shared
-</Info>
-
-**Edit Vector Storages**
-
-To edit a vector storage:
-
-1. Select the necessary vector storage configuration card.
-2. Choose **PGVector** from the available configuration types
-3. Change the required fields:
-
-    | Field | Description |
-    |-------|-------------|
-    | **Display Name** | Storage name (e.g., "Production PGVector") |
-    | **ID*** | Auto-populated from the Display Name |
-    | **Connection String** | PostgreSQL connection string |
-
-4. Save the configuration.
-
-After you save the model, ELITEA makes it available among other vector storages.
-
-<Warning title="PGVector Extension Required">
-For PGVector configurations, ensure the PostgreSQL database has the `pgvector` extension installed:
-```sql
-CREATE EXTENSION IF NOT EXISTS vector;
-```
-</Warning>
-
-## Image Generation
+### Image Generation
 
 Image generation models create images from text descriptions (text-to-image) or modify existing images based on prompts. These AI models enable creative workflows, visual content creation, and automated image production based on natural language instructions.
 
@@ -224,37 +120,7 @@ Image generation models create images from text descriptions (text-to-image) or 
 
 <img src="../../img/menus/settings/project/ai-providers/image-generation.png" alt="Image Generation" />
 
-<Info title="Configuration Cards:">
-Each image generation model configuration card displays:
-- Provider icon
-- Model name
-- Status that shows whether the configuration is local or shared
-- Status that shows whether the configuration can be edited
-</Info>
-
-**Edit Image Generation Models (Authorized Only)**
-
-Users with configuration update permissions can open an image generation model configuration card and edit its details.
-
-To edit an image generation model:
-
-1. Ensure that its credentials exist.
-2. Select the necessary image generation model configuration card.
-3. Change the required fields:
-
-    | Field | Description |
-    |-------|-------------|
-    | **Display Name** | Model name (e.g., "DALL-E 3 Standard") |
-    | **ID*** | Auto-populated from the Display Name |
-    | **Name*** | Exact model identifier (e.g., "dall-e-3", "dall-e-2") |
-    | **Credentials** | AI credentials |
-
-4. Save the configuration.
-
-After you save the model, ELITEA makes it available among other image generation models.
-
-
-## Speech Recognition
+### Speech Recognition
 
 Speech Recognition (ASR) models convert spoken audio into text. A configured ASR model powers the server-side **Voice Input** feature in Chat, Agents, and Pipelines — providing real-time transcription as users speak. When no ASR model is configured, Voice Input falls back to the browser's built-in Web Speech API. If neither is available, the microphone icon is hidden.
 
@@ -275,37 +141,7 @@ ELITEA determines the ASR mode from the model name.
 
 The model name determines the transcription mode. Use names such as `whisper-1` or `gpt-4o-transcribe` for batch transcription.
 
-<Info title="Configuration Cards:">
-Each speech recognition model configuration card displays:
-- Provider icon
-- Model name
-- Status that shows whether the configuration is local or shared
-- Status that shows whether the configuration can be edited
-</Info>
-
-**Edit Speech Recognition Models (Authorized Only)**
-
-Users with configuration update permissions can open a speech recognition model configuration card and edit its details.
-
-To edit a ASR model:
-
-1. Ensure that its credentials exist.
-2. Select the necessary speech recognition model configuration card.
-3. Change the required fields:
-
-    | Field | Description |
-    |-------|-------------|
-    | **Display Name** | Model name (e.g., "OpenAI Whisper", "Realtime Transcription") |
-    | **ID\*** | Auto-populated from the Display Name |
-    | **Name\*** | Exact model identifier from the provider (e.g., `whisper-1`, `gpt-4o-transcribe`). Names containing `whisper` or `transcribe` are treated as batch models; all others are treated as streaming/Realtime models |
-    | **Credentials** | AI credentials |
-
-4. Save the configuration.
-
-After you save the model, ELITEA makes it available among other speech recognition models.
-
-
-## Text to Speech Models
+### Text to Speech Models
 
 Text to Speech (TTS) models synthesize spoken audio from text. A configured TTS model powers the server-side **Text-to-Speech** and **Speaking Mode** features in Chat, Agents, and Pipelines — reading AI responses aloud using Web Audio API playback. When no TTS model is configured, playback falls back to the browser's built-in SpeechSynthesis API.
 
@@ -315,36 +151,11 @@ Text to Speech (TTS) models synthesize spoken audio from text. A configured TTS 
 
 <img src="../../img/menus/settings/project/ai-providers/tts.png" alt="Text to Speech" />
 
-<Info title="Configuration Cards:">
-Each text-to-speech model configuration card displays:
-- Provider icon
-- Model name
-- Status that shows whether the configuration is local or shared
-- Status that shows whether the configuration can be edited
-</Info>
-
-To edit a TTS model:
-
-1. Ensure that its credentials exist.
-2. Select the necessary text-to-speech model configuration card.
-3. Change the required fields:
-
-    | Field | Description |
-    |-------|-------------|
-    | **Display Name** | Model name (e.g., "OpenAI TTS", "Azure Neural Voice") |
-    | **ID\*** | Auto-populated from the Display Name |
-    | **Name\*** | Exact model identifier from the provider (e.g., `tts-1`, `tts-1-hd`) |
-    | **Credentials** | AI credentials |
-
-4. Save the configuration.
-
-After you save the model, ELITEA makes it available among other text-to-speech models.
-
 <Note>
 Server-side TTS delivers audio as PCM-16-LE chunks via Socket.IO, played back through the Web Audio API at 24 kHz. Text is highlighted in sync with playback. Pause and resume are fully supported for both server-side and browser-fallback TTS.
 </Note>
 
-## AI Credentials
+### AI Credentials
 
 <Warning title="Conditional Visibility">
 The **AI Credentials** section only appears when credentials are configured in your project. If no credentials exist, this section will be hidden.
@@ -356,93 +167,189 @@ AI Credentials are authentication configurations that store API keys, tokens, en
 
 <img src="../../img/menus/settings/project/ai-providers/ai-credentials.png" alt="AI Credentials" />
 
-<Info title="Configuration Cards:">
-Each AI credential configuration card displays:
-- Provider icon
-- Credential name
-- Status that shows whether the configuration is local or shared
-</Info>
+## How to Manage AI Providers
 
-To add new AI credentials:
+Only users with permission to update configurations can create or edit AI providers.
 
-1. Create a new AI credential configuration.
-2. Choose the provider you want to configure.
-3. Enter the provider-specific authentication details (see below).
+### Configuration Fields
+
+Each AI provider type has its own set of configuration fields you must fill when creating or editing an AI provider configuration. Expand the provider type below to see its fields.
+
+<AccordionGroup>
+	<Accordion title="LLMs">
+	| Field | Description |
+	|-------|-------------|
+	| **Display name** | Model name (e.g., "GPT-4o Production") |
+	| **ID*** | Auto-populated from the *Display Name*. Read-only once the configuration is created. |
+	| **Description** | Optional note about the model, up to 40 characters |
+	| **Model name** | Exact model identifier from the provider (e.g., "gpt-4o", "claude-3-sonnet-20240229") |
+	| **Context window** | Maximum context window size in tokens (e.g., 128000) |
+	| **Max output tokens** | Maximum output token limit (e.g., 16000) |
+	| **Reasoning** | Checked if the model supports reasoning capabilities (e.g., for GPT-5.1 o3-mini) |
+	| **Thinking mode** | Anthropic-only reasoning submode, shown only for Anthropic models with **Reasoning** enabled |
+	| **Vision** | Checked if the model can process and understand images |
+	| **Model tier** | A single choice: **Not set**, **Low tier** (routine, cost-effective tasks), or **High tier** (complex workflows requiring advanced capabilities) |
+	| **Supported effort levels** / **Default effort level** | For reasoning models, which effort levels the model supports and which one is used by default |
+	| **OpenAI compatible** | Checked if this model is compatible with OpenAI's API |
+	| **API protocol** | For AI Dial credentials only: **OpenAI**, **Azure OpenAI**, or **Anthropic**. Controls how ELITEA calls the model through AI Dial. |
+	| **Shared** | Makes the model available across projects, not only this one |
+	| **Credentials** | AI credentials |
+
+	<Tip title="Model Name Accuracy">
+	The model name must exactly match the provider's identifier. Refer to your provider's documentation:
+
+	- **OpenAI**: [Model names](https://platform.openai.com/docs/models)
+	- **Anthropic**: [Claude models](https://docs.anthropic.com/claude/docs/models-overview)
+	- **Azure OpenAI**: Deployment name from your Azure portal
+	- **Vertex AI**: Model names from Google Cloud console
+	</Tip>
+	</Accordion>
+
+	<Accordion title="Embedding Models">
+	| Field | Description |
+	|-------|-------------|
+	| **Display name** | Model name (e.g., "OpenAI Embeddings Large") |
+	| **ID*** | Auto-populated from the Display name |
+	| **Name*** | Exact model identifier (e.g., "text-embedding-3-large", "text-embedding-ada-002") |
+	| **Credentials** | AI credentials |
+	</Accordion>
+
+	<Accordion title="Vector Storage">
+	| Field | Description |
+	|-------|-------------|
+	| **Display name** | Storage name (e.g., "Production PGVector") |
+	| **ID*** | Auto-populated from the Display name |
+	| **Connection String** | PostgreSQL connection string |
+
+	<Warning title="PGVector Extension Required">
+	For PGVector configurations, ensure the PostgreSQL database has the `pgvector` extension installed:
+	```sql
+	CREATE EXTENSION IF NOT EXISTS vector;
+	```
+	</Warning>
+	</Accordion>
+
+	<Accordion title="Image Generation">
+	| Field | Description |
+	|-------|-------------|
+	| **Display name** | Model name (e.g., "DALL-E 3 Standard") |
+	| **ID*** | Auto-populated from the Display name |
+	| **Name*** | Exact model identifier (e.g., "dall-e-3", "dall-e-2") |
+	| **Credentials** | AI credentials |
+	</Accordion>
+
+	<Accordion title="Speech Recognition">
+	| Field | Description |
+	|-------|-------------|
+	| **Display name** | Model name (e.g., "OpenAI Whisper", "Realtime Transcription") |
+	| **ID\*** | Auto-populated from the Display name |
+	| **Name\*** | Exact model identifier from the provider (e.g., `whisper-1`, `gpt-4o-transcribe`). Names containing `whisper` or `transcribe` are treated as batch models; all others are treated as streaming/Realtime models |
+	| **Credentials** | AI credentials |
+	</Accordion>
+
+	<Accordion title="Text to Speech Models">
+	| Field | Description |
+	|-------|-------------|
+	| **Display name** | Model name (e.g., "OpenAI TTS", "Azure Neural Voice") |
+	| **ID\*** | Auto-populated from the Display name |
+	| **Name\*** | Exact model identifier from the provider (e.g., `tts-1`, `tts-1-hd`) |
+	| **Credentials** | AI credentials |
+	</Accordion>
+
+	<Accordion title="AI Credentials">
+	AI Credentials fields depend on the selected provider. See [Available AI Service Providers](#available-ai-service-providers) for the provider-specific field tables.
+	</Accordion>
+</AccordionGroup>
+
+### How to Edit an AI Provider
+
+Users with configuration update permissions can open a configuration card and edit its details. Editing works the same way for every provider type:
+
+1. Ensure that its credentials exist.
+2. Select the necessary configuration card. For a vector storage, first choose **PGVector** from the available configuration types.
+3. Change the required fields (see [Configuration Fields](#configuration-fields)).
 4. Save the configuration.
 
-## Available AI Service Providers
+After you save the configuration, ELITEA makes it available among other configurations of that type.
+
+### How to Create an AI Provider
+
+Users with permission to update configurations can create these AI providers:
 
 | Provider | Description |
 |----------|-------------|
 | **AI Dial** | For EPAM AI Dial platform |
 | **Amazon Bedrock** | For AWS AI services |
 | **Azure OpenAI** | For Azure-hosted OpenAI services |
-| **LLM Models** | Model configurations that reference AI credentials and define model capabilities, tiers, and limits |
+| **Embedding model** |  |
+| **Image generation model** |  |
+| **LLM** |  |
 | **Ollama** | For local/self-hosted models |
 | **OpenAI** | For OpenAI API access |
-| **Vertex AI** | For Google Cloud AI services 
+| **PgVector** | For PostgreSQL-based vector storage |
+| **Speech recognition (ASR) model** |  |
+| **Text to Speech (TTS) model** |  |
+| **Vertex AI** | For Google Cloud AI services |
 
-**Provider-Specific Fields:**
+<Note>
+**LLM Models** are not a credential provider — they are a separate configuration type that references one of the AI credentials above. See [Configuration Fields > LLMs](#configuration-fields).
+</Note>
 
-**LLM Models**
+To add new AI credentials:
 
-Use an **LLM Model** configuration to register a model that references one of the AI credentials above.
+1. Create a new AI credential configuration.
+2. Choose the provider you want to configure.
+3. Enter the required fields for that provider (see [Configuration Fields](#configuration-fields)).
+4. Save the configuration.
 
-| Field | Description | Example |
-|-------|-------------|----------|
-| **Display Name** | Human-readable model name shown in ELITEA | `GPT 5.4 Production` |
-| **ID*** | Auto-populated from the Display Name | `gpt_5_4_production` |
-| **Name*** | Exact provider model identifier or deployment name | `gpt-5.4` |
-| **Context Window** | Maximum supported context size in tokens | `128000` |
-| **Max Output Tokens** | Maximum generated output tokens | `16000` |
-| **Supports Reasoning** | Enable if the model supports reasoning-specific capabilities | Enabled for reasoning-capable models |
-| **Supports Vision** | Enable if the model accepts image input | Enabled for multimodal models |
-| **Low Tier** | Mark the model as suitable for routine, lower-cost tasks | Enabled for lighter/faster models |
-| **High Tier** | Mark the model as suitable for more advanced workflows | Enabled for premium/capable models |
-| **OpenAI Compatible** | Enable if the model uses an OpenAI-compatible API surface | Enabled for compatible providers |
-| **AI Credentials** | Select the AI credential configuration used by this model | `OpenAI GPT 5.4 Production Key` |
+<Tip>
+Before saving, you can select **Test connection** to verify the entered details. **Test connection** is available for all six AI credential providers above, and for **LLM Model** and **Text to Speech Model** configurations. It is not available for Embedding Models, Image Generation, Speech Recognition, or Vector Storage.
+</Tip>
 
-The exact **Name** value must match the provider identifier or Azure deployment name used by the selected credential.
+### Test Connection
 
-<Warning>
-**AI Dial and Reasoning Models**
+**Test connection** checks whether ELITEA can reach the provider with the entered details, without requiring you to save the configuration first. It works the same way when creating a new configuration and when editing an existing one.
 
-When you create an OpenAI LLM model and use **AI Dial** as the selected **AI Credentials** provider, do not enable **Supports Reasoning**.
+- For an AI credential, ELITEA makes a lightweight call to the provider (for example, listing available models) using the entered connection details.
+- For an **LLM Model**, ELITEA additionally tries a minimal request to that specific model, so a successful test confirms the model itself is reachable, not only the underlying credential.
+- For a **Text to Speech Model**, ELITEA fetches the list of available voices as its check.
 
-![AI Dial and Reasoning Models](../../img/menus/settings/project/ai-providers/ai-dial-reasoning.png)
-</Warning>
+ELITEA reports the result inline, next to the **Test connection** button:
 
-<Info>
-**Anthropic Models on AI Dial**
+- On success, ELITEA shows a confirmation with how long the check took.
+- On failure, ELITEA shows the reason — for example, an authentication error, a model that could not be found, or a connection timeout.
 
-When you create an Anthropic (Claude) LLM model and use **AI Dial** as the selected **AI Credentials** provider, enable both **Supports Reasoning** and **OpenAI Compatible** for the model to work correctly.
-</Info>
+<Note>
+If a required field is missing or invalid, **Test connection** is disabled until you provide a valid value.
+</Note>
+
+### AI Credential Providers
 
 For OpenAI:
 
 | Field | Description | Example |
 |-------|-------------|----------|
-| **Display Name*** | Enter a descriptive name | "OpenAI Production Key" |
-| **ID*** | Auto-populated from the Display Name | |
-| **Api Base*** | OpenAI API endpoint URL | `https://api.openai.com/v1` |
-| **Api Key** | Your OpenAI API key from [platform.openai.com](https://platform.openai.com) | `sk-proj-...` |
+| **Display name*** | Enter a descriptive name | "OpenAI Production Key" |
+| **ID*** | Auto-populated from the Display name | |
+| **API Base*** | OpenAI API endpoint URL | `https://api.openai.com/v1` |
+| **API Key** | Your OpenAI API key from [platform.openai.com](https://platform.openai.com) | `sk-proj-...` |
 
 For Azure OpenAI:
 
 | Field | Description | Example |
 |-------|-------------|----------|
-| **Display Name*** | Enter a descriptive name | "Azure OpenAI East US" |
-| **ID*** | Auto-populated from the Display Name |  |
-| **Api Base*** | Azure OpenAI endpoint URL | `https://your-resource.openai.azure.com` |
-| **Api Key** | Azure OpenAI API key from Azure portal | `a1b2c3d4e5f6...` |
- | **Api Version** | Azure API version | `2024-02-15-preview` |
+| **Display name*** | Enter a descriptive name | "Azure OpenAI East US" |
+| **ID*** | Auto-populated from the Display name |  |
+| **API Base*** | Azure OpenAI endpoint URL | `https://your-resource.openai.azure.com` |
+| **API Key** | Azure OpenAI API key from Azure portal | `a1b2c3d4e5f6...` |
+ | **API Version** | Azure API version | `2024-02-15-preview` |
 
 For Vertex AI:
 
 | Field | Description | Example |
 |-------|-------------|----------|
-| **Display Name** | Enter a descriptive name | "GCP Vertex AI" |
-| **ID*** | Auto-populated from the Display Name |  |
+| **Display name** | Enter a descriptive name | "GCP Vertex AI" |
+| **ID*** | Auto-populated from the Display name |  |
 | **Vertex Project*** | Google Cloud project ID | `my-gcp-project-123456` |
 | **Vertex Location*** | GCP region | `us-central1` |
 | **Vertex Credentials*** | Paste the complete JSON content from downloaded service account key file | `{"type": "service_account", "project_id": "...", ...}` |
@@ -451,30 +358,39 @@ For Amazon Bedrock:
 
 | Field | Description | Example |
 |-------|-------------|----------|
-| **Display Name*** | Enter a descriptive name | "AWS Bedrock US-East-1" |
-| **ID*** | Auto-populated from the Display Name | |
-| **Aws Access Key Id** | IAM access key | `AKIAIOSFODNN7EXAMPLE` |
-| **Aws Secret Access Key** | IAM secret access key | `wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY` |
-| **Aws Region Name** | AWS region | `us-east-1` |
+| **Display name*** | Enter a descriptive name | "AWS Bedrock US-East-1" |
+| **ID*** | Auto-populated from the Display name | |
+| **AWS Access Key Id** | IAM access key | `AKIAIOSFODNN7EXAMPLE` |
+| **AWS Secret Access Key** | IAM secret access key | `wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY` |
+| **AWS Region Name** | AWS region | `us-east-1` |
 
 For AI Dial:
 
 | Field | Description | Example |
 |-------|-------------|----------|
-| **Display Name** | Enter a descriptive name | "EPAM AI Dial Personal" |
-| **ID*** | Auto-populated from the Display Name |  |
-| **Api Base*** | AI Dial endpoint URL | `https://ai-proxy.lab.epam.com` |
-| **Api Key** | Your personal AI Dial token | `aidial_...` |
-| **Api Version** | API version for AI Dial | `2025-04-01-preview` |
+| **Display name** | Enter a descriptive name | "EPAM AI Dial Personal" |
+| **ID*** | Auto-populated from the Display name |  |
+| **API Base*** | AI Dial endpoint URL | `https://ai-proxy.lab.epam.com` |
+| **API Key** | Your personal AI Dial token | `aidial_...` |
+| **API Version** | API version for AI Dial | `2025-04-01-preview` |
+
+<Note>
+**AI Dial, Reasoning, and API Protocol**
+
+For an AI Dial credential, the LLM model form shows an additional **API protocol** field (**OpenAI**, **Azure OpenAI**, or **Anthropic**), which controls how ELITEA calls the model through AI Dial.
+
+If **API protocol** is set to **Azure OpenAI** and **Reasoning** is enabled, ELITEA shows a warning that reasoning may not work for that model with the Azure OpenAI protocol, and suggests choosing **OpenAI** or **Anthropic** instead. This warning is informational — it does not block saving the configuration — and applies the same way regardless of whether the underlying model is from OpenAI or Anthropic.
+
+![AI Dial and Reasoning Models](../../img/menus/settings/project/ai-providers/ai-dial-reasoning.png)
+</Note>
 
 For Ollama:
 
 | Field | Description | Example |
 |-------|-------------|----------|
-| **Display Name*** | Enter a descriptive name | "Local Ollama Server" |
-| **ID*** | Auto-populated from the Display Name |  |
-| **Api Base*** | Ollama server URL | `http://localhost:11434` |
-
+| **Display name*** | Enter a descriptive name | "Local Ollama Server" |
+| **ID*** | Auto-populated from the Display name |  |
+| **API Base*** | Ollama server URL | `http://localhost:11434` |
 
 ## Troubleshooting
 
@@ -540,16 +456,15 @@ If a provider configuration does not work after you save it:
 ELITEA supports connection validation for configuration types that expose connection checks.
 </Accordion>
 
-<Accordion title="An OpenAI or Anthropic Model Fails Connection Validation with AI Dial Credentials">
-If an OpenAI or Anthropic LLM model fails connection validation when it uses **AI Dial** credentials:
+<Accordion title="ELITEA Warns That Reasoning May Not Work With AI Dial">
+If ELITEA shows a warning that reasoning may not work for a model using AI Dial credentials:
 
 1. Open the LLM model configuration.
-2. Check the **AI Credentials** field and confirm that it uses **AI Dial**.
-3. Clear the **Supports Reasoning** option.
+2. Check the **API protocol** field.
+3. If it is set to **Azure OpenAI**, change it to **OpenAI** or **Anthropic**, matching the underlying model.
 4. Save the configuration again.
-5. Run the connection check again.
 
-When **AI Dial** is used as the credential provider for OpenAI or Anthropic LLM models, connection validation fails if **Supports Reasoning** is enabled. Keep **Supports Reasoning** disabled for these configurations.
+This warning appears whenever **Reasoning** is enabled together with the **Azure OpenAI** API protocol on an AI Dial credential. It does not block saving — it only flags that reasoning may not work correctly with that protocol choice.
 </Accordion>
 
 <Info title="See Also">

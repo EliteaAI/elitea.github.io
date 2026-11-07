@@ -323,14 +323,13 @@ Your changes are saved automatically when you add or remove resources.
 Skills are reusable, Markdown-based instruction sets that you attach to an agent version to give it named, on-demand capabilities—without duplicating instructions across multiple agents.
 
 <Info>
-A maximum of five Skills can be attached to a single agent version. The counter in the Skills section shows how many are currently attached (for example, `2/5 skills added`). The **Skills** section is only available in team and personal projects—it is hidden when the Public project is selected.
+The maximum number of Skills attachable to a single agent version is configured by your platform administrator (fallback value **50**, ). The **Skills** section is only available in team and personal projects—it is hidden when the Public project is selected.
 </Info>
 
 **Attach a Skill:**
 
 1. In the agent configuration form, scroll to the **Skills** accordion section.
 2. Select the **`+ Skill`** button to open the skill picker.
-   - The button is inactive if the agent has not been saved yet (tooltip: *"Save the agent first, then add skills"*) or if the five-skill limit has been reached.
 3. Search for the Skill by name, then select it to attach. It attaches using the Skill `base` version by default.
 
 ![Attach skill](../img/menus/agents/skills-add-agent.gif)
@@ -368,6 +367,7 @@ ELITEA provides built-in modules that extend your agent's capabilities without r
 | [**Python Sandbox**](../how-tos/chat-conversations/python-sandbox-internal-tool) | Execute Python code in a secure sandbox using Pyodide. Your agent can run Python code, perform calculations, analyze data, and use compatible Python packages like numpy, pandas, and matplotlib. |
 | [**Swarm Mode**](../how-tos/chat-conversations/swarm-mode-internal-tool) | Enable multi-agent collaboration by sharing the full conversation history and control between agents. All child agents can hand off control to each other, ideal for complex workflows requiring multiple specialized agents working as a team. |
 | [**Smart Tools Selection**](../how-tos/chat-conversations/smart-tools-selection-internal-tool) | Reduce token usage when working with many toolkits by using meta-tools instead of binding all tools directly. Recommended when using many toolkits to optimize context window usage. |
+| [**Web Search**](../how-tos/modules/web-search) | Allow the agent to search the internet, read web pages, and cite its sources. Only shown if your platform administrator has enabled Web Search for the project. |
 
 **Turn On Modules:**
 
@@ -376,6 +376,103 @@ ELITEA provides built-in modules that extend your agent's capabilities without r
 3. Turn on the modules you need:
 
     ![Agent Modules](../img/menus/agents/agent-modules.png)
+
+### Schedules
+
+The **Schedules** accordion, in the left configuration panel between **Conversation Starters** and **Advanced**, lets you run an agent automatically on a recurring cron schedule — independent of chat. An agent can have any number of schedules, each running on its own cadence. This section only appears for users with permission to list schedules.
+
+Each schedule card shows:
+
+| Field | Description |
+|-------|-------------|
+| **Rule summary** | A plain-English summary of the cron rule (e.g. "At 09:00, only on Monday through Friday"), followed by the (browser) timezone used to display run times. |
+| **Name** | The label you gave the schedule to identify it. |
+| **Last run** | The date of the most recent scheduled execution with a status chip (e.g. Success, Failed), or "Never run". |
+| **Next run** | The date of the next scheduled execution, or "Not scheduled" if the schedule is currently paused. |
+
+The card's **Owner** is not shown on the card itself — it only appears once you open the schedule for editing (see **Edit a Schedule** below).
+
+<img src="../img/menus/agents/agent-schedules.png" alt="Agent Schedules" />
+
+Each card has an **Active**/**Paused** toggle switch, and a three-dot menu (⋮) with:
+
+**Schedule Actions**
+
+| Action | Description |
+|--------|-------------|
+| **Run now** | Triggers an immediate run outside the regular schedule. Disabled for an admin who is not the schedule's owner, with a tooltip naming who can run it. |
+| **Edit** | Opens the schedule for editing — same as clicking the card itself. |
+| **Run history** | Jumps to this schedule's runs in [Run History](#view-agent-history). |
+| **Export** | Downloads this schedule's configuration. Shown only if you have the schedules-export permission. |
+| **Delete** | Removes the schedule, with its own typed-name confirmation. |
+
+
+#### Create a Schedule
+
+Select **+ Schedule** to create a new schedule from this agent. This opens a dedicated schedule page — already locked to this agent — with the following fields:
+
+| Field | Description |
+|-------|-------------|
+| **Name** | Required. Identifies the schedule. |
+| **Description** | Optional, up to 2304 characters. |
+| **Version** | Required. The agent version the schedule runs. |
+| **Prompt** | Required. The message the agent receives as its first input on each run. Use `{{name}}` to add a variable. |
+| **Cron rule** | Set via a plain-language **Builder** tab or a **Cron expression** tab, with a live preview, the next run time, and a link to crontab.guru. |
+| **Stop on date** | Optional. Automatically disables the schedule after the chosen date. |
+| **Approval rule** | **Ask me first** (default) or **Run automatically**. **Run automatically** is disabled unless a project admin has allowed it for the project — admins see a link to turn it on in **Settings > Project General**. |
+
+<img src="../img/menus/agents/schedule-create.png" alt="Create Schedule" width="600" />
+
+<Note title="Review risks before scheduling">
+If saving detects that the schedule can use a sensitive tool, a **Review risks before scheduling** dialog lists each one and asks you to confirm **Pause and ask me** (the run stops and waits for your approval in Run History; no answer in 24 hours ends the run as Expired) or **Run without asking** (requires typing the schedule's name to confirm, and only available if the project allows it). If the agent later gains a new sensitive tool, a schedule set to **Run without asking** automatically reverts to **Pause and ask me**.
+</Note>
+
+<Note>
+**Generate with AI**: A button next to the page title opens a dialog where you describe the schedule in plain language (what to run, when, and until when). It drafts the fields above from that description — reviewed as a full draft on an empty form, or as a field-by-field diff against your current values if you've already filled some in, with any warnings about fields it couldn't confidently fill. Apply the draft to fill in the form, then review and adjust before saving.
+</Note>
+
+<Note title="Try it before you save">
+A **Runs** panel beside the form lets you select **Test Run** to try the schedule with its current, unsaved settings — useful for checking the Prompt and Approval rule before committing to a cron schedule. See **[Run a Schedule](#run-a-schedule)** below.
+</Note>
+
+#### Edit a Schedule
+
+Select a schedule card (or **Edit** from its three-dot menu) to open the same form pre-filled with its current values. It adds the following, not present when creating:
+
+| Field / Area | Description |
+|---------------|-------------|
+| **Owner** | Read-only — who the schedule runs as. |
+| **Confirmed by** | Shown if this schedule has a prior "Run without asking" confirmation on record — who confirmed it and when. |
+| **Runs** | A sortable "Runs of this schedule" list below the Test panel. Select a run to open it in the panel above; **Open full history** jumps to the full Run History. |
+| **⋮ More actions (header)** | **Export** (requires the schedules-export permission). |
+
+#### Run a Schedule
+
+A **Runs** panel appears beside the form — to its right on wide screens, above the form on narrow ones.
+
+1. Open the schedule for editing, then select **Run Now** in the **Runs** panel header.
+2. The new run appears at the top of the list, already expanded, labeled with a **Manual** chip.
+3. Select **Run logs** to show the live log of server events as the run executes.
+4. If the run pauses — for example, a toolkit needs you to sign in or provide a credential, or it's waiting on your **Pause and ask me** approval — an **Action needed: this run is waiting for you** card appears with **Approve** and **Reject** buttons.
+5. Once the run ends, its answer appears under **RESPONSE**, above the run log toggle.
+
+    ![Schedule Run](../img/menus/agents/schedule-run.png)
+
+<Note>
+**Run Now** runs the saved schedule itself, using the same account, tools, and risk check as a real scheduled run. It updates the schedule's **Last run** but not its **Next run**. Each run row also shows an **Open in Run History** link to the full record.
+</Note>
+
+<Note>
+**Test Run**, available before the schedule's first save, works the same way but runs the unsaved form instead — see **[Create a Schedule](#create-a-schedule)** above. It changes neither **Last run** nor **Next run**.
+</Note>
+
+**Manage Schedules:**
+
+Select **Manage Schedules** to leave this agent and open the project-wide **Schedules** page under Settings, which lists every schedule across all agents and pipelines in the project — not just this one. It opens pre-filtered to this agent, with the filter shown as a removable chip, so you can switch to browsing or managing every schedule in the project from the same place.
+
+<Info>
+For full details on the Schedules page — filters, columns, bulk actions, import/export — see the [**Schedules settings guide**](./settings/schedules).
+</Info>
 
 ### Create Instructions
 
@@ -527,7 +624,7 @@ The right panel of the agent page contains a live chat panel that lets you test 
 | **Clear chat** | Erases the current test conversation. |
 | **View run history** (🕐) | Opens the Run History panel. See [View Agent History](#viewing-agent-history). |
 
-**Context Budget widget** (if context management is turned on): Appears above the chat panel after the first message. See [Manage Context Budget](#managing-context-budget) for details.
+**Context management widget**: Appears above the chat panel after the first message — on by default, with no setting to turn it off. See [Manage Context Budget](#managing-context-budget) for details.
 
 ## Execute an Agent
 
@@ -560,11 +657,16 @@ Auto only appears in the model selector when a project administrator has turned 
     |-----------|-------------|
     | **Reasoning** | Controls the depth of logical thinking and problem-solving. |
 
+    The levels offered depend on the selected model — most reasoning models offer **Low**, **Medium** *(default)*, and **High**; some also offer **Minimal** or the deeper **Extra high** and **Max** levels. A model that only supports a single fixed level shows that constraint instead of a selector.
+
     | Level | Behavior |
     |-------|----------|
+    | **Minimal** | Barely any reasoning — quick answers for simple tasks |
     | **Low** | Fast, surface-level reasoning with concise answers and minimal steps |
     | **Medium** | Balanced reasoning with clear explanations and moderate multi-step thinking *(default)* |
     | **High** | Deep, thorough reasoning with detailed step-by-step analysis (may be slower) |
+    | **Extra high** | Very deep reasoning for hard problems — slower and costlier |
+    | **Max** | No limit on reasoning — the slowest and most expensive level |
 
     ![Agents model settings reasoning](../img/menus/agents/model-settings-reasoning.gif)
   </Tab>
@@ -589,12 +691,12 @@ Auto only appears in the model selector when a project administrator has turned 
 
 | Option | Description |
 |--------|-------------|
-| **Auto** | System sets the token limit automatically *(default)* |
-| **Custom** | Manually enter a specific token limit for responses |
+| **Default** | No custom ELITEA limit — the provider and model apply their own native output limit *(default)* |
+| **Custom** | Manually enter a specific token limit for responses (starts at 4096) |
 
 ### Manage Context Budget
 
-When the `context_manager` secret is turned on at the project level, the **Context Budget** widget appears above the chat interface to help you manage conversation token usage effectively.
+Context management is always on — there is no project setting to turn it off. The **Context management** widget appears above the chat interface to help you manage conversation token usage effectively.
 
 <Info>
 For detailed information about context management configuration and best practices, see the [**Context & Budget Management guide**](../how-tos/chat/ctxt-bdgt).
@@ -604,13 +706,12 @@ For detailed information about context management configuration and best practic
 
 Context Management provides intelligent control over conversation token usage through automated message pruning and summarization. It helps maintain conversation continuity while staying within model token limits by automatically managing message history, generating summaries of older conversations, and preserving important messages.
 
-**Access the Context Budget Widget:**
+**Access the Context Management Widget:**
 
-1. Ensure the `context_manager` secret is set to `true` in your project settings (**Settings** > **Secrets**).
-2. Send the first message to start the agent conversation.
-3. The **Context Budget** widget appears above the chat panel after the first message.
-4. Monitor real-time token usage and management status.
-5. Select the widget to expand and view detailed metrics.
+1. Send the first message to start the agent conversation.
+2. The **Context management** widget appears above the chat panel after the first message.
+3. Monitor real-time token usage and management status.
+4. Select the widget to expand and view detailed metrics.
 
 **Widget Views:**
 
@@ -651,7 +752,7 @@ Context Management provides intelligent control over conversation token usage th
 
 ![Agents execution](../img/menus/agents/agents-execution.png)
 
-### Mid-Turn Input (Beta)
+### Mid-Turn Input
 
 **Mid-Turn Input** lets you send a message to an agent while it is still working, allowing you to steer the rest of the run without waiting for completion or starting over.
 
@@ -660,7 +761,7 @@ Context Management provides intelligent control over conversation token usage th
 Mid-Turn Input must be enabled at both the platform level and the project level:
 
 1. Platform administrators control which projects have access to this feature through a project allowlist.
-2. Project administrators or editors can turn on Mid-Turn Input in **Settings** > **[Project General](../menus/settings/general)** > **Mid-turn Input (Beta)** toggle.
+2. Project administrators or editors can turn on Mid-Turn Input in **Settings** > **[Project General](../menus/settings/general)** > **Chat Configuration** > **Mid-turn input** toggle.
 
 **How to Use Mid-Turn Input:**
 
@@ -869,7 +970,7 @@ The **Publish** functionality lets you make a specific `Draft` version of your a
 1. Open the agent and select the **Draft** version you want to publish using the version selector.
 2. Select the **three-dot menu (⋮)** in the agent tab bar and select **Publish**.
 3. In the **Preparation** step, enter a version name and accept the Publishing Terms, then select **Continue**.
-4. The **AI Validation** step runs automatically—review the result (PASS, WARN, or FAIL). Address any critical issues if needed.
+4. The **Validation** step runs automatically—review the result (PASS, WARN, or FAIL). Address any critical issues if needed.
 5. Select **Publish** to submit. On success, the version is immediately live in Agents HUB.
 
 ![Agents publishing](../img/menus/agents/agents-publishing.gif)
@@ -940,53 +1041,19 @@ For complete details and pipeline forking, see the [**Fork Agents and Pipelines 
 
 ## View Agent History
 
-The **Run History** panel provides a complete audit trail of all past executions of your agent.
+The **Run History** panel provides a complete audit trail of all past executions of your agent—review past conversations, track execution duration, debug issues, compare versions, and support compliance audits.
+
+To open it, select the **Run History** button in the top bar of the right panel (embedded chat area) on any saved agent.
+
+![Run History](../img/menus/agents/run-history-button.png)
 
 <Note>
 In team projects, regular users can view only their own runs in the **Run History** panel. Only administrators can see runs created by other users.
 </Note>
 
-**Access Run History:**
-
-1. Open any saved agent.
-2. In the right panel (embedded chat area), select the **Run History** in the top bar. 
-
-    ![Run History](../img/menus/agents/run-history-button.png)
-
-3. The agent page is replaced by the two-panel Run History display. Select the **✕ (Close)** button in the top-left to return.
-
-**What Run History shows:**
-
-- **Review past conversations**: View complete chat histories from previous agent runs.
-- **Track performance**: Monitor execution duration across different versions.
-- **Debug issues**: Replay conversations to identify where problems occurred.
-- **Compare versions**: See how different agent versions performed with the same inputs.
-- **Audit trail**: Maintain records of all agent interactions for compliance purposes.
-
-**Run History layout:**
-
-The Run History panel uses a two-panel layout:
-
-- **Left panel**—sortable list of all past runs. Select any column header to sort by that column:
-  | Column | Description |
-  | --- | --- |
-  | **Date** | Timestamp of the run in `dd-MM-yyyy, hh:mm a` format |
-  | **Version** | Agent version used for the run |
-  | **Duration** | Total execution time of the run |
-
-  Select a row to load the conversation replay in the right panel. The list supports infinite scroll—additional runs load automatically as you scroll down.
-- **Right panel**—full conversation replay of the selected run.
-
-Each row also has a **three-dot menu (⋮)** with the following actions:
-
-| Action | Description |
-| --- | --- |
-| **Share link** | Copies a direct URL to this run to the clipboard |
-| **Delete** | Permanently removes this run record (with confirmation prompt) |
-| **Restore chat** | Pre-populates the embedded test chat with the selected run's message history. Restores chat history only—agent configuration, behavior, and tool settings are **not** reverted and may have changed since the run. |
-| **Analytics** | Opens a dedicated analytics page scoped to this run (see below). Shown only for runs recent enough to carry usage-tracking data. |
-
-![History tab](../img/menus/agents/agent-history-tab.png)
+<Info>
+For the full Run History reference—layout, columns, sorting, row actions (Share link, Delete, Restore chat), and common use cases—see the [**Agents and Pipelines History guide**](../how-tos/agents-pipelines/agents-pipelines-history).
+</Info>
 
 ### Run Analytics
 
@@ -1020,12 +1087,8 @@ Downloads one worksheet per tab—Costs, Tokens, Tools, and Health—covering ev
 <Note>
 **Availability**
 
-**Analytics** is not available for previous runs—usage-tracking data is only recorded for runs created after release 2.0.7. The menu item does not appear for any run older than that.
+**Analytics** is not available for previous runs—usage-tracking data is only recorded for runs from September 30, 2026 onward. The menu item does not appear for any run older than that.
 </Note>
-
-<Info>
-For detailed instructions on using the History panel, see the [**Agents and Pipelines History guide**](../how-tos/agents-pipelines/agents-pipelines-history).
-</Info>
 
 ## Best Practices
 
@@ -1098,6 +1161,7 @@ If you encounter issues not covered in this guide or need additional assistance 
   - [**Project Context**](./settings/project-context) - Define shared background context injected into every AI interaction in the project.
   - [**Credentials**](./credentials) - Learn how to create and manage credentials for toolkit integrations.
   - [**Glossary**](../home/glossary) - Definitions of key terms and concepts used in the ELITEA platform.
+  - [**Schedules settings guide**](./settings/schedules) - Manage schedules across all agents and pipelines in the project.
   - [**How to Create and Edit Agents from Canvas**](../how-tos/chat-conversations/how-to-create-and-edit-agents-from-canvas) - Create and configure agents directly from chat interface.
   - [**How to Create and Edit Toolkits from Canvas**](../how-tos/chat-conversations/how-to-create-and-edit-toolkits-from-canvas) - Set up toolkit integrations from conversations.
   - [**How to Create and Edit Pipelines from Canvas**](../how-tos/chat-conversations/how-to-create-and-edit-pipelines-from-canvas) - Design multi-step workflows from chat.

@@ -1,6 +1,6 @@
 ---
 title: "Flow Editor"
-description: "The Flow Editor is ELITEA's visual pipeline builder that lets you design, configure, and manage pipelines without writing code. Create complex workflows by drag"
+description: "The Flow Editor is the ELITEA visual pipeline builder. It lets you design, configure, and manage pipelines without writing code. You can create workflows by dragging, connecting, and configuring nodes on a canvas."
 ---
 
 ## What is Flow Editor?
@@ -9,22 +9,20 @@ The **Flow Editor** is a visual workspace for building pipelines. It provides:
 
 * **Drag-and-drop interface** for adding and arranging nodes
 * **Visual connections** between nodes showing execution flow
-* **Vertical layout** optimized for easy configuration
-* **Instant YAML sync** - changes in Flow appear immediately in YAML (and vice versa)
-* **Interactive configuration** - click nodes to configure their settings
-
+* **Vertical (top-to-bottom) layout** optimized for easy configuration
+* **Instant YAML sync**: changes in Flow appear immediately in YAML, and vice versa
+* **Interactive configuration**: click a node to open its configuration panel
 
 ---
 
 ## Accessing Flow Editor
 
-1. Navigate to **Pipelines** menu
-2. Open an existing pipeline or create a new one
-3. Click the **Configuration** tab
-4. Select **Flow** mode (appears alongside **YAML** tab)
+1. Navigate to the **Pipelines** menu.
+2. Open an existing pipeline or create a new one.
+3. In the pipeline editor, use the **Flow** tab or **Yaml** tab at the top of the canvas to switch to **Flow** mode. **Flow** mode is the default.
 
 <Info title="Flow and YAML Sync">
-Whatever you configure in Flow automatically appears in YAML format, and vice versa. Both views stay perfectly synchronized.
+Whatever you configure in Flow automatically appears in YAML format, and vice versa. Both views stay synchronized.
 </Info>
 
 ---
@@ -33,223 +31,171 @@ Whatever you configure in Flow automatically appears in YAML format, and vice ve
 
 The Flow Editor consists of several key areas:
 
+<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/flow-editor/flow-editor-overview.png" alt="Flow Editor interface overview" />
 
-### Main Components
+**Main components**
 
-| # | Component | Location | Purpose |
-|---|-----------|----------|---------|
-| 1 | **Canvas** | Center | Main workspace for arranging nodes |
-| 2 | **Toolbar** | Left side | Tools for canvas control (zoom, layout, etc.) |
-| 3 | **Add Node Button** | Top right (➕) | Opens node palette to add new nodes |
-| 4 | **State Button** | Top right | Opens state configuration sidebar |
-| 5 | **Flow/YAML Tabs** | Top center | Switch between visual and code views |
+| Component | Location | Purpose |
+| --- | --- | --- |
+| **Canvas** | Center | Main workspace for arranging and connecting nodes |
+| **Canvas controls** | Bottom-left | Zoom, fit view, lock, auto-arrange, and minimap controls |
+| **Flow** tab or **Yaml** tab | Top | Switch between the visual canvas and the YAML editor |
+| **Node** button | Top, next to the toggle | Open the node palette to add a new node |
+| **State** button | Floating, top-right of canvas | Open the State drawer |
 
-<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/flow-editor-overview.png" alt="Flow Editor interface overview" />
+**Canvas controls**
 
-### Left Toolbar Buttons
+| Control | Action |
+| --- | --- |
+| **Zoom in** / **Zoom out** | Adjust the canvas zoom level |
+| **Fit view** | Center and fit all nodes in view |
+| **Lock canvas** or **Unlock canvas** | Prevent or allow moving nodes and editing the canvas |
+| **Auto-arrange** | Open a menu with **Arrange top to bottom** and **Arrange left to right** to reposition nodes into a clean layout |
+| **Show minimap** or **Hide minimap** | Toggle a small overview map of the canvas |
 
-| Icon | Action | Keyboard Shortcut |
-|------|--------|------------------|
-| **➕** | Add new node | - |
-| **➖** | Zoom out | - |
-| **⛶** | Fit view (auto-center) | - |
-| **🔒** | Lock/Unlock editing | - |
-| **⬜** | Collapse/Expand all cards | - |
-| **🔧** | Auto-fix layout | - |
+      <img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/flow-editor/canvas-controls.png" alt="Canvas controls" />
+
+<Note>
+Node cards automatically shrink to a compact mini-card view when you zoom out past a certain level and expand again as you zoom in. There is no manual collapse or expand toggle.
+</Note>
 
 ---
 
 ## Adding Nodes
 
-### Method 1: Add Node Button
+You can add nodes from the toolbar or while creating a connection.
 
-1. Click the **➕** button (top right corner)
-2. A node palette appears showing all available node types
-3. Select the node type you want to add
-4. Node appears on the canvas
+### Method 1: Node Button
 
-**Available Node Types:**
+1. Click the **Node** button at the top of the canvas (or **Add Node** on an empty canvas).
+2. A node palette opens. It shows a flat, alphabetically sorted grid of every available node type, each with an icon and short description. There is no category grouping or search box.
+3. Click a node type to place it directly on the canvas. Its configuration panel opens automatically.
 
-* Agent
-* Code
-* Decision
-* HITL
-* LLM
-* MCP
-* Printer
-* Router
-* State modifier
-* Toolkit
+      <img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/flow-editor/add-node-button.png" alt="Add node button" width="550"/>
 
-     <img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/hitl-node-add.gif" alt="Add node" />
+ELITEA supports ten node types: Agent, Code, Decision, HITL (Human-in-the-Loop), LLM, MCP, Printer, Router, State Modifier and Toolkit.
 
-### Method 2: Drag from Connection
+<Note>
+An **End** node is always present automatically to mark where a path terminates. It is never added from the node palette, and it stays hidden on an empty canvas until you place your first node.
+</Note>
 
-You can also add nodes while creating connections:
+### Method 2: Add a Node from a Connection
 
-1. Drag a connector from an existing node
-2. Release it in empty space on the canvas
-3. Select **Create New Node** from the dropdown
-4. Choose node type
-5. New node is created with connection already attached
+You can also add a node while you create a connection, without returning to the **Node** button:
 
-     <img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/drag-connector.gif" alt="Creating node from connection dropdown" />
+1. Drag a connector from an existing node's output handle.
+2. Release it in empty space on the canvas (or click the **+** next to an output handle directly).
+3. A dropdown opens. It offers **Create new node** and any existing eligible nodes.
+4. Select **Create new node** to open the same node-type palette. The editor creates the new node with the connection already attached.
+
+     <img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/flow-editor/add-node-drag.png" alt="Creating node from connection dropdown" width="550" />
 
 ---
 
-## Configuring Nodes
+## Working with Nodes
 
-Click on any node card to open its configuration panel:
+The Flow Editor lets you configure nodes and manage node actions.
 
-### Node Configuration Options
+### Configure a Node
 
-Each node type has specific configuration fields. Common options include:
+Click any node card to open its configuration panel. Each node type has specific fields. Common options include:
 
-* **Node Name** (click card title to rename)
-* **Input/Output** state variables
+* **Node name**
+* **Input** and **Output** state variables
 * **Node-specific settings** (prompts, toolkits, conditions, etc.)
-* **Advanced options** (Interrupt Before/After, Structured Output)
+* **Structured output** toggle, where applicable
+     
+      <img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/flow-editor/node-config.png" alt="Node configuration panel" width="550"/>
 
-<Tip title="Renaming Nodes">
-Click on the node card title to rename most nodes. **Decision** nodes cannot be renamed.
-</Tip>
+### Use Node Actions
 
-### Renaming a Node
+Open the node configuration panel to access its actions in the panel footer:
 
-1. Click the **node card title**
-2. Type the new name
-3. Press **Enter** or click outside to save
+      <img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/flow-editor/node-actions.png" alt="Node actions panel" width="450"/>
 
-     <img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/rename-node.gif" alt="Renaming a node by clicking title" />
+| Action | Description |
+| --- | --- |
+| **Make Entrypoint** | Set this node as the pipeline entry point. Disabled for Condition and Decision nodes. After you set it, the editor replaces the button with an "Entrypoint" indicator. |
+| **Duplicate** | Create a copy of this node. Disabled for deprecated node types. |
+| **Delete** | Remove the node from the pipeline after a confirmation prompt. |
+
+
+<Warning title="Deleting Nodes">
+Deleting a node also removes all of its connections. Reconnect the remaining nodes afterward if needed.
+</Warning>
+
+<Note title="Moving Nodes">
+Click and drag a node card to reposition it on the canvas. This action is disabled while the canvas is locked. The Flow Editor favors a **vertical (top-to-bottom) layout** for readability, with nodes executing from top to bottom following the connections. Use **Auto-arrange** to clean up the layout after moving or adding several nodes.
+</Note>
 
 ---
 
 ## Connecting Nodes
 
-Nodes must be connected to define the execution flow. See the [Nodes Connectors Guide](./nodes-connectors) for complete details.
+Connect nodes to define the execution flow. For more information, see [Node Connectors Guide](./nodes-connectors).
 
-### Creating Connections
+To create a connection:
 
-**Method 1: Drag and Drop**
+* **Drag and drop**: Click and hold a node's output handle, drag the connector line to another node's input handle, and release.
+* **From an output handle's "+"**: Click the **+** next to an expanded node's output handle to open a dropdown of eligible target nodes, or create a new one.
+* **Drop on empty canvas**: Drag a connector and release it on empty space. The same dropdown appears, letting you pick an existing node or create a new one to complete the connection.
 
-1. Click and hold the **output port** (bottom of node card)
-2. Drag the connector line to the **input port** (top of target node)
-3. Release to create the connection
+      <img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/flow-editor/node-connectors.png" alt="Node connectors" width="300"/>
 
-**Method 2: Drop on Canvas**
+To delete a connection:
 
-1. Drag connector from a node
-2. Release in empty canvas space
-3. Select existing node or create new node from dropdown
-4. Connection auto-completes
-
-
-### Deleting Connections
-
- Click on the connection line to select it, then press **Delete** on keyboard
-
-<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/delete-connection.gif" alt="Selected connection line highlighted" />
+Click the connection line to select it, then press **Delete** on your keyboard. A confirmation prompt appears before it's removed.
 
 ---
 
-## Managing Nodes
+## State Management
 
-### Node Card Actions
+To open the **State** drawer, click the **State** button at the top-right of the canvas.
 
-Click the **three-dots menu (⋮)** on any node card to access node actions:
+<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/flow-editor/state-drawer.png" alt="State drawer panel" />
 
-<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/node-menu-options.png" alt="Node card three-dots menu" />
+In the **State** drawer, you can:
 
-**Available Actions:**
+* View all pipeline state variables, including the built-in defaults (`input`, `messages`, `tool_outcomes`, `last_tool_outcome`).
+* Click **+ Context** to add a new custom state variable.
+* Set each variable's data type using its type-select icon: **String**, **Number**, **List**, or **Json**.
+* Set an optional default value for custom variables.
 
-| Action | Description |
-|--------|-------------|
-| **Make entrypoint** | Set this node as the pipeline entry point |
-| **Delete** | Remove the node from the pipeline |
-
-<Warning title="Deleting Nodes">
-Deleting a node also removes all its connections. Make sure to reconnect remaining nodes after deletion.
-</Warning>
-
-### Moving Nodes
-
-Rearrange nodes to improve visual clarity:
-
-1. Click on a node card
-2. Drag it to a new position on the canvas
-3. Release to place
-
-<Tip title="Vertical Layout">
-The Flow Editor uses a **vertical (top-to-bottom) layout** for optimal readability. Nodes execute from top to bottom following the connections.
-</Tip>
+For more information, see [States Guide](./states).
 
 ---
 
-## Canvas Controls
+## Flow & YAML Synchronization
 
+The Flow Editor keeps the YAML view in sync with the visual canvas.
 
-### Collapse/Expand Cards
+Use the **Flow** tab or **Yaml** tab at the top of the canvas to switch the entire editor between the visual canvas and a YAML view of the whole pipeline.
 
-Toggle between compact and detailed node views:
+    <img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/flow-editor/flow-yaml.png" alt="Flow and YAML tabs showing synchronized content" />
 
-* **Collapsed**: Shows only node name and type icon
-* **Expanded**: Shows all configuration fields
+1. Add or modify nodes in **Flow** mode.
+2. Switch to **Yaml** mode to see the updated YAML immediately.
+3. Edit the YAML directly if you prefer. Changes sync back to the Flow canvas the same way.
 
-<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/collapse-expand-cards.gif" alt="Collapsed vs expanded node cards" />
-
-
-Click the **State** button (top right) to open the state configuration sidebar.
-
-<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/default-states-toggles.gif" alt="State sidebar panel" />
-
-**In the State Sidebar:**
-
-* View all pipeline state variables
-* Add new custom states
-* Configure default values
-* Set state data types (String, Number, Array, Object)
-
-See the [States Guide](./states) for complete state configuration details.
-
----
-
-## Flow to YAML Synchronization
-
-Changes made in Flow Editor **instantly appear in YAML**:
-
-1. Add/modify nodes in Flow
-2. Switch to **YAML** tab
-3. See the updated YAML code
-4. Switch back to **Flow** to continue visual editing
-
-<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/flow-yaml-sync.gif" alt="Flow and YAML tabs showing synchronized content" />
 
 <Info title="Two-Way Sync">
-Edits in YAML also update the Flow view immediately. You can work in whichever mode you prefer.
+Edits in YAML update the Flow view immediately, and vice versa. Work in whichever mode you prefer.
 </Info>
 
----
+Each node configuration panel also has its own **Flow view** tab and **YAML view** tab. Use them to edit only that node's settings as raw YAML, without leaving Flow mode for the rest of the canvas.
 
-## Keyboard Shortcuts
-
-| Action | Shortcut |
-|--------|----------|
-| Delete selected node/connection | **Delete** or **Backspace** |
-| Save pipeline | **Ctrl/Cmd + S** |
-| Undo | **Ctrl/Cmd + Z** |
-| Redo | **Ctrl/Cmd + Shift + Z** |
+<img src="../../img/how-tos/agents-pipelines/pipeline-building-blocks/flow-editor/node-yaml.png" alt="Single node YAML view" width="300"/>
 
 ---
 
 ## Best Practices
 
 <Tip>
-* **Use Descriptive Node Names**: "Validate User Input" instead of "LLM Node"
-* **Organize Vertically**: Entry point at top, processing in middle, END at bottom
-* **Collapse Side Panels**: Maximize canvas space for complex pipelines
-* **Use Auto-Fix Layout**: Maintain clean alignment after adding/moving nodes
-* **Test Incrementally**: Build step-by-step, test after adding each node
-* **Save Frequently**: Prevent data loss by saving often
+* **Use Descriptive Node Names**: Use names such as `Validate User Input` instead of the default `LLM 1`
+* **Organize Vertically**: Place the entry point at the top, processing in the middle, and the End node at the bottom
+* **Use Auto-arrange**: Keep the layout clean after adding or moving several nodes
+* **Test Incrementally**: Build step by step and test with **Test Pipeline** after adding each node
+* **Save Frequently**: Save often to avoid losing changes
 </Tip>
 
 ---
@@ -257,53 +203,55 @@ Edits in YAML also update the Flow view immediately. You can work in whichever m
 ## Troubleshooting
 
 <Accordion title="Nodes Not Connecting">
-**Problem**: Cannot create connection between nodes.
+**Problem**: Cannot create a connection between two nodes.
 
 **Solutions**:
 
-* Check if nodes are compatible (e.g., Router requires specific output nodes)
-* Verify you're dragging from output port (bottom) to input port (top)
-* Try **Auto-fix Layout** if nodes are overlapping
+* Check that the node types are compatible with each other (e.g., some node types have specific output routes)
+* Make sure you're dragging from an output handle to an input handle, not the reverse
+* Try **Auto-arrange** if nodes are overlapping and hard to target
 </Accordion>
 
 <Accordion title="Canvas is Blank">
-**Problem**: Flow Editor shows empty canvas.
+**Problem**: Flow Editor shows an empty canvas.
 
 **Solutions**:
 
-* Switch to **YAML** tab to check if pipeline has nodes
-* Click **Fit View** to center nodes
-* Refresh the page
+* Switch to **Yaml** mode to check whether the pipeline actually has nodes defined
+* Click **Fit view** to re-center the nodes
+* Reload the page
 </Accordion>
 
 <Accordion title="Changes Not Saving">
-**Problem**: Edits disappear after closing pipeline.
+**Problem**: Edits disappear after closing the pipeline.
 
 **Solutions**:
 
-* Click **Save** button before navigating away
-* Check for error messages at top of screen
-* Verify network connection
+* Click **Save** before navigating away
+* Check for error messages at the top of the screen
+* Verify your network connection
 </Accordion>
 
 <Accordion title="Node Configuration Not Opening">
-**Problem**: Clicking node doesn't show configuration panel.
+**Problem**: Clicking a node doesn't show its configuration panel.
 
 **Solutions**:
 
-* Click directly on the node card (not the connection lines)
-* Unlock editing if canvas is locked (🔒 button)
-* Expand the **GENERAL** section if collapsed
+* Click directly on the node card, not on a connection line
+* Unlock the canvas if it's currently locked
+* Check whether **Esc** was pressed recently, closing the panel
 </Accordion>
 
 ---
 
-<Info title="Related Documentation">
-* **[Nodes Connectors](./nodes-connectors)**: Learn how to connect nodes and manage transitions
-* **[States Guide](./states)**: Configure state variables for data flow
-* **[YAML Configuration](./yaml)**: Work directly with YAML code
-* **[Nodes Overview](./nodes/overview)**: Understand all 11 node types
-* **[Entry Point Guide](./entry-point)**: Set up pipeline starting points
-</Info>
+## See Also
 
----
+For more information, see [Node Connectors Guide](./nodes-connectors).
+
+For more information, see [States Guide](./states).
+
+For more information, see [YAML Configuration](./yaml).
+
+For more information, see [Nodes Overview](./nodes/overview).
+
+For more information, see [Entry Point Guide](./entry-point).

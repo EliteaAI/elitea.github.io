@@ -5,21 +5,28 @@ description: "The Run History panel in Agents and Pipelines allows you to view a
 
 ## Overview
 
-Each history entry captures:
+The **Run History** panel lets you view and review all past execution runs of your agent or pipeline, including the complete conversation, execution details, and metadata for every run.
 
-- **Date and time** of the run
-- **Version** of the agent/pipeline used
-- **Duration** of the execution
-- **Complete conversation** with all messages exchanged
-- **Execution details** for troubleshooting
-
-This is particularly useful for:
-
-- **Debugging**: Review failed runs to identify issues
-- **Performance analysis**: Track execution times across different versions
-- **Audit trail**: Maintain records of all agent/pipeline interactions
-- **Testing**: Verify behavior changes between versions
-- **Learning**: Study how the agent/pipeline responded in various scenarios
+<CardGroup cols={2}>
+<Card title="Debugging" icon="bug">
+Review failed runs to identify issues.
+</Card>
+<Card title="Performance analysis" icon="chart-line">
+Track execution times across different versions.
+</Card>
+<Card title="Audit trail" icon="clipboard-list">
+Maintain records of all agent/pipeline interactions.
+</Card>
+<Card title="Testing" icon="flask">
+Verify behavior changes between versions.
+</Card>
+<Card title="Learning" icon="graduation-cap">
+Study how the agent/pipeline responded in various scenarios.
+</Card>
+<Card title="Analytics" icon="magnifying-glass-chart">
+Drill into a single run's cost, token usage, tool calls, and health.
+</Card>
+</CardGroup>
 
 ## Prerequisites
 
@@ -49,23 +56,51 @@ In team projects, regular users can view only their own runs in the **Run Histor
 The **Run History** button appears in the top bar of the embedded chat panel on the right side of the agent/pipeline page. If the right panel is collapsed, expand it first using the collapse toggle button.
 </Tip>
 
-## Understanding the Run History View
+## Run History View
 
-The Run History panel replaces the current page view and has a **two-panel layout**: a header bar at the top with a close button and "Run History" title, a left panel listing all past runs, and a right panel showing the selected conversation replay.
+The Run History panel replaces the current page view and has a **two-panel layout**: a header bar at the top with a close button and "Run History" title, a filter bar, a left panel listing all past runs, and a right panel showing the selected conversation replay.
 
      <img src="../../img/how-tos/agents-pipelines/agents-pipelines-history/history-tab-view.png" alt="Hystory Tab View" />
+
+**Filter Bar**
+
+Above the run list, a row of filters lets you narrow down the list to the runs you care about:
+
+     <img src="../../img/how-tos/agents-pipelines/agents-pipelines-history/filter-bar.png" alt="Run History Filter Bar" />
+
+| Filter | Description |
+|--------|-------------|
+| **Trigger Type** | Filter by how the run was started: **Scheduled**, **Manual**, or **Test** |
+| **Status** | Filter by the run's outcome: **Success**, **Failed**, **Running**, **Awaiting approval**, **Skipped**, or **Blocked** |
+| **Version** | Filter by the agent/pipeline version used for the run |
+| **Schedule** | Filter by the specific schedule that triggered the run. Only shown for agents/pipelines that have at least one schedule configured |
+
+Each filter defaults to **All**. Selecting a value updates the run list immediately and is reflected in the page URL, so a filtered view can be bookmarked or shared. Once any filter is active, a **Clear filters** link appears to reset them all at once.
+
+<Info>
+**Trigger Type values**
+
+- **Scheduled**: The run was started automatically by a [schedule](../../menus/settings/schedules)
+- **Manual**: The run was started by a person, either directly or through a schedule's "Run now"
+- **Test**: The run was started from the embedded test chat
+</Info>
 
 **Left Panel: Run History List**
 
 The left panel displays all historical runs in a sortable list with the following columns:
 
+     <img src="../../img/how-tos/agents-pipelines/agents-pipelines-history/run-list.png" alt="Run History List Columns" />
+
 | Column | Description |
 |--------|-------------|
 | **Date** | Timestamp when the run was executed (format: `dd-MM-yyyy, hh:mm AM/PM`) |
+| **Trigger Type** | How the run was started: **Scheduled**, **Manual**, or **Test** |
+| **Schedule** | The name of the schedule that triggered the run, shown as a clickable link that opens that schedule's editor. Reads "-" for runs not started by a schedule. Only shown for agents/pipelines that have at least one schedule configured |
+| **Status** | The outcome of a scheduled run (**Success**, **Failed**, **Running**, etc.). Reads "-" for runs not started by a schedule. Only shown for agents/pipelines that have at least one schedule configured |
 | **Version** | The version of the agent/pipeline used for this run |
 | **Duration** | How long the execution took (human-readable format) |
 
-All column headers are clickable to sort the list ascending or descending by that column.
+Columns marked sortable (Date, Trigger Type, Version, Duration) have clickable headers to sort the list ascending or descending by that column. The **Schedule** and **Status** columns are not sortable.
 
 **Features:**
 
@@ -160,14 +195,32 @@ Downloads one worksheet per tab—Costs, Tokens, Tools, and Health—covering ev
 </Note>
 
 
+### Filtering Runs
+
+To narrow the list down to a specific subset of runs:
+
+1. Open the Run History 
+2. In the filter bar above the list, select a value for **Trigger Type**, **Status**, **Version**, or **Schedule**
+3. The list updates immediately to show only the matching runs
+4. Combine multiple filters to narrow the results further
+5. Click **Clear filters** to return to the full, unfiltered list
+
+<Tip>
+**Shareable Filtered Views**
+
+Selected filters are added to the page URL, so you can copy the browser address bar and share a specific filtered view (for example, all failed scheduled runs) with a teammate.
+</Tip>
+
 ### Finding a Specific Run
 
 Since runs are sorted by date (newest first) by default, you can:
 
 - **Recent runs**: Look at the top of the list
 - **Specific date**: Scroll down or click the **Date** column header to reverse the sort order
-- **Specific version**: Click the **Version** column header to sort alphabetically by version name
+- **Specific version**: Click the **Version** column header to sort alphabetically by version name, or use the **Version** filter to show only that version's runs
 - **By duration**: Click the **Duration** column header to sort by execution time
+- **By trigger or outcome**: Use the **Trigger Type** and **Status** filters to isolate, for example, only failed scheduled runs
+- **By schedule**: Use the **Schedule** filter to show only the runs started by a specific schedule
 
 <Tip>
 **Load More Runs**
@@ -413,4 +466,5 @@ To restore a past conversation:
 - [Agents Menu](../../menus/agents) - Learn about managing agents
 - [Pipelines Menu](../../menus/pipelines) - Learn about managing pipelines
 - [Entity Versioning](./entity-versioning) - Understanding version management
+- [Schedules](../../menus/settings/schedules) - Learn about scheduling agent/pipeline runs
 </Info>

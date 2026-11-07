@@ -1,9 +1,13 @@
 ---
 title: "Chat Configuration & Management"
 sidebarTitle: "Configuration & Management"
+verified:
+  core: { date: "6-Nov-2026", branch: "release/2.0.8", sha: "6ec32b08" }
+  sdk: { date: "6-Nov-2026", branch: "release/2.0.8", sha: "e663f0d" }
+  ui: { date: "6-Nov-2026", branch: "release/2.0.8", sha: "86cdcafe" }
 ---
 
-ELITEA allows you to configure individual chats — visibility, models, and response limits — and to manage them day to day.
+ELITEA allows you to configure individual chats — visibility, models and response limits — and to manage them day to day.
 
 ## How to Configure Chats
 
@@ -29,11 +33,11 @@ You can configure how each chat behaves at creation or during the interaction wi
 By default, a new chat is private — visible only to you.
 
 * In your private project, you cannot invite other users to them for team collaboration — you can only share them externally.
-* In team and public projects, you can invite other team members to collaborate in your chats or make chats public. Public chats are visible to all project members, and all project members can communicate with LLM in them.
+* In team and public projects, you can invite other team members to collaborate in your chats or make chats public. Public chats are visible to all project members, and all project members can communicate with LLMs in them.
 
 You can make your chats public and restrict access to public chats in the CHATS sidebar.
 
-<img src="../../img/how-tos/chat-conversations/chats/config-mnmt/chat_private-public.png" width="250" alt="Private and public chat icons shown in the CHATS sidebar." />
+<img src="../../img/how-tos/chat-conversations/chats/config-mnmt/chat_private-public.png" width="200" alt="Private and public chat icons shown in the CHATS sidebar." />
 
 #### Make Chats Public
 
@@ -49,9 +53,9 @@ To make your chat public:
 **Make public** is available to any project member who can see the chat — not only its creator.
 </Note>
 
-All public chats are labelled accordingly:
+All public chats are labeled accordingly:
 
-<img src="../../img/menus/chat/chat_public-icon.png" width="250" alt="The green users icon that marks a public chat in the CHATS sidebar." />
+<img src="../../img/menus/chat/chat_public-icon.png" width="200" alt="The green users icon that marks a public chat in the CHATS sidebar." />
 
 #### Restrict Access to Chats
 To restrict access to a public chat:
@@ -67,7 +71,7 @@ To restrict access to a public chat:
 When you restrict access to public chats, these rules apply:
 
 * Only its creator can restrict access to the chat.
-* You cannot deselect the chat's creator: The creator of the chat always keeps access to it.
+* You cannot deselect the chat's creator: the creator of the chat always keeps access to it.
 * To revert the chat to private, you must remove all users except for its creator.
 * You can leave the chat open for collaboration by selecting users and AI participants who will keep access to it.
 
@@ -93,7 +97,7 @@ To select the necessary LLM, find it in the model selector dropdown.
 
 #### Set the Model Up
 
-You can set the selected model up in the **Model settings** window that opens by the **Settings** (⚙️) icon located next to the model selector. Settings vary by model type.
+You can set the selected model up in the **Model settings** window that opens with the **Settings** (⚙️) icon located next to the model selector. Settings vary by model type.
 
 **Reasoning vs. Creativity**
 
@@ -107,6 +111,10 @@ You can set the selected model up in the **Model settings** window that opens by
     | **Medium** | Balanced reasoning with clear explanations and moderate multi-step thinking *(default)* |
     | **High** | Deep, thorough reasoning with detailed step-by-step analysis (may be slower) |
 
+    <Note>
+    Low, Medium and High are the basic levels shown when a model does not report its own supported levels. Some models expose additional levels (Minimal, Extra high, Max), and a model that supports only one level shows it as a fixed, read-only value instead of a slider.
+    </Note>
+
     <img src="../../img/menus/chat/chat_model-sets_reasoning.png" width="300" alt="The reasoning level setting in model settings for a reasoning model." />
   </Tab>
   <Tab title="Standard Models">
@@ -115,7 +123,7 @@ You can set the selected model up in the **Model settings** window that opens by
 
     | Level | Behavior |
     |-------|----------|
-    | **** | Highly focused and deterministic outputs |
+    | **1** | Highly focused and deterministic outputs |
     | **2** | Mostly focused with slight variation |
     | **3** | Balanced between focus and creativity *(default)* |
     | **4** | More varied and creative responses |
@@ -132,7 +140,7 @@ Limits the maximum length of AI responses measured in tokens. A token is roughly
 |  |  |
 |--------|-------------|
 | **Default** | No limits are imposed by ELITEA. Native model and provider limits apply. |
-| **Custom** | You can set the token limit manually. An error is shown if the value exceeds the model's maximum output tokens. |
+| **Custom** | You can set the token limit manually. An error is shown if the value exceeds the model's maximum output tokens, or if it is below 4,096 tokens for a reasoning model. |
 
 **Steps Limit** *(Chats only)*
 
@@ -191,6 +199,12 @@ Once a chat is created, you can organize it into folders, pin or rename it, dele
   </Card>
   <Card icon="trash" href="#delete-chats-and-folders">
     Delete a chat or folder
+  </Card>
+  <Card icon="file-export" href="#export-a-chat">
+    Export a chat
+  </Card>
+  <Card icon="file-import" href="#import-a-chat">
+    Import a chat
   </Card>
   <Card icon="share-nodes" href="#share-chats-with-team-members">
     Share internally
@@ -263,11 +277,11 @@ All new chats are created and appear in the CHATS sidebar.
 
 For new — not duplicated — chats, ELITEA generates their name automatically based on your message content. For duplicated chats, ELITEA forms their names by appending "(1)" to the original name, or by incrementing the number already in parentheses (for example, duplicating "Report Review (1)" produces "Report Review (2)").
 
-You can manually rename any chat at any time afterwards.
+You can manually rename any chat at any time afterward.
 
 ### Work with Chat Templates
 
-A chat template is a saved, reusable set of chat participants — agents, pipelines, toolkits, MCP servers, or users — that you can apply to new chats without adding each participant manually.
+A chat template is a saved, reusable set of chat participants — agents, pipelines, toolkits, MCP servers, skills or users — that you can apply to new chats without adding each participant manually.
 
 ELITEA allows setting one chat template as default:
 
@@ -284,12 +298,14 @@ Chat templates are created and managed in [Settings > General > Chat Configurati
 
 You can create, edit or delete chat templates only if you have **permission** to edit the project's configuration settings. Project members without this permission can view the existing templates, and the default template (if set) is applied to every new chat they create.
 
+ELITEA lists templates with the default template first, then the rest in the order you created them.
+
 Each template appears in the list as a card showing:
 
 * Its **name**.
 * A **Default** label, if it is marked as the project's default template.
 * Number of participants — both AI participants and users — added to the template.
-* Icons for its participants, grouped by type — agents, pipelines, toolkits, MCP servers, then users.
+* Icons for its participants, grouped by type — agents, pipelines, toolkits, MCP servers, skills, then users.
 
 On hover, you can see two action icons:
 
@@ -300,11 +316,13 @@ On hover, you can see two action icons:
 
 **Rules and limitations**
 
-* You can create up to **5 templates** per project.
-* A template **name is required**, must be 64 characters or fewer, and must be unique within the project (matching is case-insensitive).
+* You can create up to **five templates** per project.
+* A template **name is required**, must be 64 characters or fewer and must be unique within the project (matching is case-insensitive).
 * Only one template per project can be marked *default* at a time.
-* If a template has exactly one participant, that participant automatically becomes the active participant in chats created from it, and your messages go directly to it.
+* If a template has exactly one participant, that participant automatically becomes the active participant in chats created from the template, and your messages go directly to that participant.
 * Chat templates specify participants only — they do not specify the model, visibility, or any other chat setting.
+* If a participant in a template is later deleted or renamed elsewhere in ELITEA, the template updates automatically — removing a deleted participant or showing its new name — without additional notification.
+* If an agent, pipeline, toolkit, MCP server, skill or user added to a chat template no longer exists, ELITEA tells you in the new chat that it skipped that participant.
 
 #### Create a Chat Template
 
@@ -314,12 +332,12 @@ To create a chat template:
 2. Select **+ Template**.
 
    <Note>
-   **+ Template** is disabled if the project already has 5 templates.
+   **+ Template** is disabled if the project already has five templates.
    </Note>
 
 3. Enter a unique **name** for the template.
 4. (optional) Select **Set as default**.
-5. Add participants from the **Agents**, **Pipelines**, **Toolkits**, **MCPs**, and **Users** tabs.
+5. Add participants from the **Agents**, **Pipelines**, **Toolkits**, **MCPs**, **Skills** and **Users** tabs.
 6. Select **Save**.
 
 <Note>
@@ -334,7 +352,7 @@ To edit a chat template:
 
 1. In **Settings > General > Chat Configuration**, find the template you want to change.
 2. Select **Edit** (appears on hover).
-3. Update its name, default status, or participants.
+3. Update its name, default status or participants.
 4. Select **Save**.
 
 <Note>
@@ -366,7 +384,7 @@ You can add your chats to folders for better organization and easier management:
 
 The new folder will appear in the CHATS sidebar.
 
-<img src="../../img/how-tos/chat-conversations/chats/config-mnmt/chat_create-folder.png" width="275" alt="A newly created folder in the CHATS sidebar." />
+<img src="../../img/how-tos/chat-conversations/chats/config-mnmt/chat_create-folder.png" width="250" alt="A newly created folder in the CHATS sidebar." />
 
 #### Move Chats to Folders
 
@@ -430,6 +448,61 @@ Deleting a chat permanently removes it and its history — this cannot be undone
 
 Deleting a folder does not delete the chats inside it — they are moved back to the main chat list.
 
+### Export a Chat
+
+To export a chat as a file:
+
+1. Find the chat you want to export in the CHATS sidebar.
+2. In its overflow menu, select **Export**.
+3. In the **Export chat** dialog, choose what to include:
+
+   | Option | Produces |
+   | --- | --- |
+   | **Without attachments** | A `.json` file with the chat's messages. |
+   | **With attachments** | A `.zip` archive with the chat's messages plus every attached and generated file. Disabled, with the reason shown in a tooltip, if the chat has no attachments or they are all unavailable. |
+
+   <img src="../../img/how-tos/chat-conversations/chats/config-mnmt/export_select.png" width="350" alt="The Export chat dialog with the Without attachments and With attachments options." />
+
+4. Select **Export**. The button label changes to *Exporting...* while ELITEA prepares the file.
+
+<Note>
+For an export around 500&nbsp;MB or larger, ELITEA shows a warning with the estimated file size before you proceed. A very large or unpredictably sized archive downloads directly to your browser instead of being held in memory first.
+</Note>
+
+**Export** is disabled:
+
+- while you are editing Canvas in the active chat
+- if you no longer have access to the chat — the dialog shows *"You no longer have access to this chat"*
+
+### Import a Chat
+
+<Note>
+**Import** requires permission to create chats, and is hidden entirely in the public project.
+</Note>
+
+To import a chat:
+
+1. At the top of the CHATS sidebar, select **Import**.
+2. In the **Import chat** dialog, select **Choose file**, or drag and drop a file onto the drop zone. ELITEA accepts the encrypted files its own Export produces: `.json.enc` (without attachments) or `.zip.enc` (with attachments).
+3. Wait while ELITEA checks the file.
+4. Review the preview: the chat's name, message count, export timestamp and, if the file includes attachments, a list of attachments with a checkbox for each. Clear any attachment you do not want to import; attachments that are no longer available or exceed the maximum size are listed but cannot be selected.
+
+   <Note>
+   If the file was exported without attachments, the preview says so. If it was exported without its attachment archive but still references attachments, ELITEA shows them as *"not imported"* instead.
+   </Note>
+
+5. Select **Import**. The button label changes to *Importing...* while ELITEA creates the chat.
+
+ELITEA opens the imported chat automatically once it is created.
+
+<video src="../../img/how-tos/chat-conversations/chats/config-mnmt/chat_import.mp4" controls alt="Video demonstrating importing a chat from a backup file."></video>
+
+<Note>
+ELITEA imports one chat from one file at a time.
+</Note>
+
+If some attachments could not be imported, ELITEA shows a warning naming how many — the rest of the chat is still imported successfully.
+
 ### Share Chats
 
 In ELITEA, sharing options depend on the users with whom you want to share your chats and the type of your project.
@@ -464,7 +537,7 @@ You can share a chat with people outside your project or outside ELITEA through 
 | Attachments only | Shares only the attached files and images. |
 | Select specific messages | Shares only the message groups you select from a checklist. You must select at least one message group to be able to share the chat. |
 
-4. Select an expiration for the link: **1 hour**, **24 hours**, **7 days** (default), **30 days**, or **Never expires**.
+4. Select an expiration for the link: **1 hour**, **24 hours**, **7 days** (default), **30 days** or **Never expires**.
 5. (optional) Enter a password to restrict access to the link. Your password must be at least 8 characters long.
 6. Select **Generate link**.
 
@@ -510,6 +583,8 @@ After a link expires or is revoked, recipients see a message that the link is no
 * Organize related chats into folders, and pin the ones you use most often for quicker access.
 * Set an expiration and password on external share links for anything containing sensitive information, and revoke links you no longer need.
 * Use chat templates to save the participant sets you reuse most often.
+* Export with attachments only when you need them — exporting without attachments produces a smaller file and is faster to prepare.
+* Store exported chat files securely, especially ones with attachments — anyone with the file and import permission can bring its content into a project.
 
 ## Troubleshooting
 
@@ -553,6 +628,18 @@ After a link expires or is revoked, recipients see a message that the link is no
 **Cause:** MCP exposure is not enabled at the platform level.
 
 **Solution:** Ask your platform administrator to enable MCP exposure. Until then, you cannot add MCP servers as template participants, though any already added before remain in the template.
+</Accordion>
+
+<Accordion title="I do not see the Import button">
+**Cause:** You are in the public project, where **Import** is hidden entirely.
+
+**Solution:** Switch to a non-public project. If **Import** is visible but disabled there, you need permission to create chats.
+</Accordion>
+
+<Accordion title="ELITEA rejects my file when I try to import it">
+**Cause:** The file is not one of the formats ELITEA's own Export produces (`.json.enc` or `.zip.enc`), or it exceeds the maximum upload size for your project.
+
+**Solution:** Export the chat again from ELITEA, and import that file. If the file is too large, ask your administrator about the project's upload size limit.
 </Accordion>
 
 <Info title="See Also">

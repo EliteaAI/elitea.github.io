@@ -1,19 +1,201 @@
 ---
 title: "Execution Nodes"
-description: "Execution Nodes enable your pipeline to perform actions, call external tools, execute code, and integrate with APIs. These nodes form the \"action\" layer of yo"
+description: "Execution nodes call an external service or run custom code, without an LLM deciding what to call. These are the deterministic, fast-path nodes in a pipeline."
 ---
 
-**Available Execution Nodes:**
+## Overview
 
-* **[Toolkit Node](#toolkit-node)** - Execute ELITEA toolkit functions with direct parameter mapping
-* **[MCP Node](#mcp-node)** - Execute Model Context Protocol (MCP) server tools
-* **[Code Node](#code-node)** - Execute custom Python code in a secure sandbox
+There are three execution nodes. None of them involve an LLM — the tool, parameters, or code are exactly what you configure, every run. Each node reads from and writes to pipeline state through `input` and `output`. For more information, see [Pipeline States](../states).
+
+<CardGroup cols={3}>
+  <Card title="Toolkit" icon="screwdriver-wrench" href="#toolkit-node">
+    Calls one tool from an ELITEA toolkit, with its parameters mapped explicitly.
+  </Card>
+  <Card title="MCP" icon="plug" href="#mcp-node">
+    Calls one tool from a Model Context Protocol server, with its parameters mapped explicitly.
+  </Card>
+  <Card title="Code" icon="code" href="#code-node">
+    Runs custom Python in a sandbox, for logic no toolkit or MCP covers.
+  </Card>
+</CardGroup>
+
+---
+
+## Toolkit Node
+
+The Toolkit node calls one tool from one ELITEA toolkit, with its parameters mapped explicitly. It executes deterministically and without LLM overhead — useful when you already know exactly which tool to call and what to pass it.
+
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/execution-nodes/toolkit-node-add.png" alt="Toolkit Node Interface" />
+
+Use the Toolkit node in these cases:
+
+* You know exactly which toolkit and tool to call, and what its parameters should be.
+* You need fast, deterministic execution — no LLM reasoning about which tool to pick.
+* You're chaining several known API calls (e.g., create a ticket, then notify a channel) and want explicit control over each step.
+
+<Info title="Toolkit Node Scope">
+A Toolkit node can only call an ELITEA toolkit's tools, not an MCP server's — its toolkit picker filters MCP servers out. For an MCP server's tools, use the **[MCP Node](#mcp-node)**.
+</Info>
+
+### Configuration
+
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/execution-nodes/toolkit-node-interface.png" alt="Toolkit node" width="300" />
+
+The following table describes the Toolkit node fields.
+
+| Field | Section | Purpose | Example |
+| --- | --- | --- | --- |
+| **Name** | Panel header | The node `id`. Required and unique across the pipeline; renaming it updates every reference to this node. | `Create_jira_ticket` |
+| **Toolkit** | Basic | The ELITEA toolkit this node calls. | `jira_toolkit` |
+| **Tool** | Basic | The specific tool to run, from the selected toolkit. Appears once a toolkit is picked. | `create_issue` |
+| *(the tool's required parameters)* | Basic | Appears once a tool is picked — one field per parameter the tool requires, each with its own **Fixed** / **F-String** / **Variable** type. See **[Value Types](#value-types)**. | Fixed: `projectelitea` |
+| *(the tool's optional parameters)* | Advanced | Click **Add optional parameter** to reveal any of the tool's optional parameters, mapped the same way as required ones. | Fixed: `main` |
+| **Input** | Advanced | State variables this node can read. | `input`, `project_id` |
+| **Output** | Advanced | State variables the tool's result is parsed into, in addition to `last_tool_outcome`/`tool_outcomes` — see **[Tool Outcome](#tool-outcome)**. | `jira_ticket_id` |
+| **Structured Output** | Advanced | Toggle on to have the result parsed directly into the variables listed in `output`, instead of appended to `messages`. | `true` |
+
+<Warning title="One Toolkit, One Tool">
+Each Toolkit node calls exactly one tool from one toolkit. To call a second tool, add a second Toolkit node and connect them in sequence.
+</Warning>
+
+### YAML View for Toolkit Nodes
+
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/execution-nodes/toolkit-yaml.png" alt="Toolkit YAML View" width="280" />
+
+Every node configuration panel has **Flow view** and **YAML view** tabs at the top. In YAML view, the panel shows only this node, not the whole pipeline, as plain YAML. Changes stay synchronized in both directions. If you edit the `id` here, the editor renames the node everywhere it is referenced. You cannot change `type` in this view.
+
+```yaml
+  - id: Toolkit 1
+    type: toolkit
+    toolkit_name: GitHub_HR
+    tool: read_file
+    input:
+      - input
+    input_mapping:
+      repo_name:
+        type: fixed
+        value: projectelitea
+      branch:
+        type: fixed
+        value: main
+      file_path:
+        type: fixed
+        value: README.md
+    output:
+      - messages
+    structured_output: false
+    transition: END
+```
+
+### Best Practices for Toolkit Nodes
+
+<Accordion title="Map every required parameter before leaving the node">
+A tool with an unmapped required parameter fails at run time. The Basic section lists only required parameters, so check it's complete before moving on.
+</Accordion>
+
+<Accordion title="Reach for Variable or F-String, not a re-typed Fixed value">
+If a parameter's value already exists in state, map it with **Variable** — typing the same value again as **Fixed** means updating two places when it changes.
+</Accordion>
+
+<Accordion title="Chain Toolkit nodes for multi-step API work">
+Since each node calls exactly one tool, a multi-step integration (create, then notify, then log) is a short chain of Toolkit nodes, each with a clear single purpose.
+</Accordion>
+
+<Accordion title="Give output its own name">
+Capture a toolkit's result in a specific state variable (`jira_ticket_id`) rather than leaving `output` empty and relying on `messages` — it's easier for the next node to consume.
+</Accordion>
+
+---
+
+## MCP Node
+
+The MCP node calls one tool from one Model Context Protocol server, with its parameters mapped explicitly — the same deterministic, no-LLM execution as the Toolkit node, scoped to MCP servers instead of ELITEA toolkits.
+
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/execution-nodes/mcp-node-add.png" alt="MCP Node Interface" />
+
+Use the MCP node in these cases:
+
+* You need to call a tool exposed by an MCP server already connected to the project.
+* You know exactly which MCP tool to call and what its parameters should be.
+* You need fast, deterministic execution without LLM overhead.
+
+### Configuration
+
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/execution-nodes/mcp-node-interface.png" alt="MCP node" width="300" />
+
+The following table describes the MCP node fields.
+
+| Field | Section | Purpose | Example |
+| --- | --- | --- | --- |
+| **Name** | Panel header | The node `id`. Required and unique across the pipeline; renaming it updates every reference to this node. | `Get_readme` |
+| **MCP** | Basic | The MCP server this node calls. | `MCP-GitHub` |
+| **Tool** | Basic | The specific tool to run, from the selected MCP server. Appears once an MCP server is picked. | `get_file_contents` |
+| *(the tool's required parameters)* | Basic | Appears once a tool is picked — one field per parameter the tool requires, each with its own **Fixed** / **F-String** / **Variable** type. See **[Value Types](#value-types)**. | Fixed: `Projectelitea` |
+| *(the tool's optional parameters)* | Advanced | Click **Add optional parameter** to reveal any of the tool's optional parameters, mapped the same way as required ones. | Variable: `file_content` |
+| **Input** | Advanced | State variables this node can read. | `input` |
+| **Output** | Advanced | State variables the tool's result is parsed into, in addition to `last_tool_outcome`/`tool_outcomes` — see **[Tool Outcome](#tool-outcome)**. | `file_content` |
+| **Structured Output** | Advanced | Toggle on to have the result parsed directly into the variables listed in `output`, instead of appended to `messages`. | `false` |
+
+<Warning title="One MCP Server, One Tool">
+Each MCP node calls exactly one tool from one MCP server. To call a second tool, add a second MCP node and connect them in sequence.
+</Warning>
+
+### YAML View for MCP Nodes
+
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/execution-nodes/mcp-yaml.png" alt="MCP YAML View" width="280" />
+
+Every node configuration panel has **Flow view** and **YAML view** tabs at the top. In YAML view, the panel shows only this node, not the whole pipeline, as plain YAML. Changes stay synchronized in both directions. If you edit the `id` here, the editor renames the node everywhere it is referenced. You cannot change `type` in this view.
+
+<Note>
+An MCP node's YAML stores its server under `toolkit_name`, the same field a Toolkit node uses — not a separate `mcp_name` key.
+</Note>
+
+```yaml
+  - id: Get_readme
+    type: mcp
+    toolkit_name: MCP-GitHub
+    tool: get_file_contents
+    input:
+      - input
+    input_mapping:
+      owner:
+        type: fixed
+        value: Projectelitea
+      repo:
+        type: fixed
+        value: projectelitea.github.io
+      branch:
+        type: fixed
+        value: main
+      path:
+        type: variable
+        value: file_content
+    output:
+      - file_content
+    structured_output: false
+    transition: END
+```
+
+### Best Practices for MCP Nodes
+
+<Accordion title="Confirm the MCP server is connected before building on it">
+A node pointed at a disconnected or unreachable MCP server fails at run time — verify the server in its own settings before wiring pipeline nodes to it.
+</Accordion>
+
+<Accordion title="Map every required parameter before leaving the node">
+A tool with an unmapped required parameter fails at run time. The Basic section lists only required parameters, so check it's complete before moving on.
+</Accordion>
+
+<Accordion title="Give output its own name">
+Capture an MCP tool's result in a specific state variable rather than leaving `output` empty and relying on `messages` — it's easier for the next node to consume.
+</Accordion>
 
 ---
 
 ## Tool Outcome
 
-Every tool-executing node (Toolkit, MCP) writes a typed outcome into pipeline state beside its normal output. This removes the need to parse the message history to determine whether a tool call failed.
+Every Toolkit and MCP node writes a typed outcome into pipeline state beside its normal output, so a pipeline can branch on a structured status instead of parsing message text.
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/execution-nodes/tool-outcome-state.png" alt="Tool Outcome State" />
 
 ### New Pipeline State Keys
 
@@ -47,10 +229,12 @@ Both keys are cleared at the start of every turn, so a previous turn's failure c
 | **status** | `success` \| `error` \| `truncated` | The one field to branch on |
 | **error_class** | `infrastructure` \| `input` \| `tool_internal` \| `policy` \| `null` | What kind of failure occurred |
 | **retriable** | `true` \| `false` | `true` only for infrastructure failures — retrying identical input could work |
+| **retry_after** | Number \| `null` | Seconds to wait before retrying, when the tool supplied one |
 | **message** | Prose | The same human/LLM-facing text as before (capped at 4000 characters) |
 | **tool_name**, **toolkit_type** | String \| `null` | Which tool failed |
 | **exception_type** | Class name \| `null` | For example, `ReadTimeout`, `ValueError` — never a traceback |
-| **message_truncated**, **message_original_size** | Present only when the message was capped | Detect and inspect truncated messages |
+| **truncated**, **original_size** | Present when the raw tool *result* exceeded its size limit | A data-completeness signal: the result itself was cut, separate from the next pair |
+| **message_truncated**, **message_original_size** | Present only when the **message** text was capped at 4000 characters | The envelope's own `message` field was shortened — unrelated to whether the tool's result was |
 
 <Note title="Blocking a sensitive tool does not produce a tool outcome">
 If a user blocks a sensitive tool call on a Toolkit or MCP node, the pipeline simply stops with a descriptive message — it does not populate `last_tool_outcome` or `tool_outcomes`.
@@ -66,254 +250,159 @@ nodes:
     transition: check_outcome
 
   - id: check_outcome
-    type: decision
-    condition: "{{ last_tool_outcome.status == 'error' and last_tool_outcome.retriable }}"
-    if_true: retry_call
-    if_false: continue_flow
+    type: router
+    condition: |
+      {% if last_tool_outcome.status == 'error' and last_tool_outcome.retriable %}
+      retry_call
+      {% else %}
+      continue_flow
+      {% endif %}
+    input:
+      - last_tool_outcome
+    routes:
+      - retry_call
+      - continue_flow
+    default_output: continue_flow
 ```
 
-<Tip title="Branch on error_class, not on message text">
+<Tip title="Branch on status and error_class, not on message text">
 Use `last_tool_outcome.status` and `last_tool_outcome.error_class` to route pipeline logic. Avoid matching on `message` text, since prose wording can change between tool versions.
 </Tip>
 
 ---
 
-## Toolkit Node
+## Code Node
 
-The Toolkit Node executes specific tools from ELITEA Toolkits with direct parameter mapping. It provides fast, deterministic execution without LLM overhead, making it ideal for scenarios where you know exactly which tool to call and how to configure its parameters.
+The Code node runs custom Python in a sandbox (Pyodide, Python compiled to WebAssembly), for logic no toolkit or MCP tool covers — data transformation, calculations, or calling an API directly.
 
-<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/toolkit-node-add.gif" alt="Toolkit Node Interface" />
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/execution-nodes/code-node-add.png" alt="Code Node Interface" />
 
-**Purpose**
+Use the Code node in these cases:
 
-Use the Toolkit Node to:
+* The logic is custom — a calculation, transformation, or business rule no toolkit exposes.
+* You need to call an external API directly, with full control over the request.
+* You need a Python package from the sandbox's standard library, or installable via `micropip`.
 
-* **Execute ELITEA toolkit functions** directly without LLM decision-making
-* **Call external APIs** through toolkit integrations (Jira, GitHub, Slack, Confluence, etc.)
-* **Perform deterministic actions** where the tool and parameters are known upfront
-* **Map pipeline state** directly to tool parameters
-* **Chain multiple toolkit calls** in sequence with precise control
+### Configuration
 
-<Info title="Toolkit Node Scope">
-Toolkit Nodes can use **ELITEA Toolkits** only (not MCPs). For MCP servers, use the MCP Node.
-</Info>
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/execution-nodes/code-node-interface.png" alt="Code Node Interface" />
 
-**Parameters**
+The following table describes the Code node fields.
 
-| Parameter | Purpose | Type Options & Examples |
-|-----------|---------|-------------------------|
-| **Toolkit** | Select which ELITEA Toolkit contains the tool you want to execute | **Toolkits** - External service integrations<br /><br />**Selection Process:**<br />1. Select Toolkit from dropdown<br />2. Tool dropdown appears<br />3. Select specific tool<br /><br />Example: `jira_toolkit`|
-| **Tool** | Select the specific tool/function to execute from the chosen toolkit | Dropdown populated with all available tools from selected toolkit<br /><br />**jira_toolkit:** `create_issue`, `update_issue`, `search_issues`, `execute_generic_rq`|
-| **Input** | Specify which state variables the Toolkit node reads from | **Default states:** `input`, `messages`<br />**Custom states:** Any defined state variables<br /><br />Example:<br />`- project_id`<br />`- issue_title`<br />`- input` |
-| **Output** | Define which state variables the tool's result should populate | **Default:** `messages`<br />**Custom states:** Specific variables<br /><br />Example:<br />`- jira_ticket_id`<br />`- messages` |
-| **Input Mapping** | Map pipeline state variables to the tool's required parameters (appears after tool selection) | **F-String** - Formatted string with variables<br />Example: `user_story_{ticket_id}_v{version}.md`<br /><br />**Variable** - Direct state reference<br />Example: `generated_content`<br /><br />**Fixed** - Static value<br />Example: `production-reports`<br /><br />**Categories:**<br />- Required parameters (must provide)<br />- Optional parameters (can be null) |
-| **Structured Output** | Enable parsing of tool output as structured data for state variable updates | **Enabled (true):** Tool output parsed as structured data<br />**Disabled (false):** Tool output goes to `messages`<br /><br />Example: `true` or `false` |
-| **Interrupt Before** | Pause pipeline execution before this node | **Enabled** / **Disabled** |
-| **Interrupt After** | Pause pipeline execution after this node for inspection | **Enabled** / **Disabled** |
+| Field | Section | Purpose | Example |
+| --- | --- | --- | --- |
+| **Name** | Panel header | The node `id`. Required and unique across the pipeline; renaming it updates every reference to this node. | `process_data` |
+| **Code** | Basic | The Python code to run. **Fixed** (a static block), **F-String** (a template with `{variable}` placeholders), or **Variable** (code stored in a state variable). See **[Value Types](#value-types)**. | Fixed: `elitea_state.get('value', 0) * 2` |
+| **Input** | Advanced | State variables the code can read, via `elitea_state`. | `raw_data`, `min_score` |
+| **Output** | Advanced | State variables to populate with the result. If omitted, or if it includes `messages`, the result is appended to `messages` instead. | `processed_data`, `count` |
+| **Structured Output** | Advanced | Toggle on to require the code return a dictionary, with each key matching a name in `output` updating that variable. | `true` |
 
-<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/toolkit-node-interface.png" alt="Toolkit node" width="300" />
+<Note title="debug is YAML-only">
+`debug: true` has no Flow-view control — add it directly in the node's YAML view. See **[Debug Mode](#debug-mode)** below.
+</Note>
 
-**YAML Configuration**
+<Tip title="elitea_state and elitea_state">
+Inside the sandbox, state is available as `elitea_state`. `elitea_state` is the current, primary name for the same dictionary; `elitea_state` is kept as an alias for existing code, and either name works.
+</Tip>
+
+### YAML View for Code Nodes
+
+Every node configuration panel has **Flow view** and **YAML view** tabs at the top. In YAML view, the panel shows only this node, not the whole pipeline, as plain YAML. Changes stay synchronized in both directions. If you edit the `id` here, the editor renames the node everywhere it is referenced. You cannot change `type` in this view.
 
 ```yaml
-nodes:
-  - id: Toolkit 1
-    type: toolkit
+  - id: calculate_total
+    type: code
+    code:
+      type: fixed
+      value: |
+        numbers = elitea_state.get('numbers', [])
+        total = sum(numbers)
+        {"total": total}
     input:
-      - input
-    input_mapping:
-      branch:
-        type: fixed
-        value: main
-      file_path:
-        type: fixed
-        value: README.md
-      repo_name:
-        type: fixed
-        value: projectalita
+      - numbers
     output:
-      - messages
-    structured_output: false
-    tool: read_file
-    toolkit_name: GitHub_HR
+      - total
+    structured_output: true
     transition: END
-```
-
-<Info title="Input Mapping Configuration">
-The Input Mapping section dynamically displays **only the parameters required by the selected tool**. Each toolkit tool has different required and optional parameters. Select your tool first to see available mapping options.
-</Info>
-
-<Warning title="Single Toolkit and Tool Selection">
-Each Toolkit Node can select only **one toolkit** and **one tool**. For multiple tool executions, create separate Toolkit Nodes and chain them together.
-</Warning>
-
-**Best Practices**
-
-* **Map Required Parameters Correctly** - Ensure all required parameters have proper mappings
-* **Use Appropriate Type for Each Parameter**
-    * **Variable**: When value comes from state
-    * **F-String**: When you need dynamic interpolation
-    * **Fixed**: For static, unchanging values
-* **Handle Optional Parameters** - Set optional parameters to `null` if not needed
-* **Include Output Variables** - Capture important results in output variables
-* **Use Interrupts for Debugging** - Enable interrupts when testing new integrations
-* **Validate State Variables** - Ensure input state variables exist before the Toolkit node executes
-* **Use Structured Output** - Enable structured output when you need to extract specific fields from tool results
-* **Chain Toolkit Calls** - Create workflows by sequencing Toolkit nodes
-
----
-
-## MCP Node
-
-The MCP Node executes tools from Model Context Protocol (MCP) servers with direct parameter mapping. It connects to remote MCP servers via HTTP and provides access to their tools without LLM overhead.
-
-<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/mcp-node-add.gif" alt="MCP Node Interface" />
-
-
-**Purpose**
-
-Use the MCP Node to:
-
-* **Execute MCP server tools** directly with explicit parameter configuration
-* **Connect to remote MCP servers** via HTTP/HTTPS
-* **Access specialized MCP tools** (Playwright, GitHub, Figma, etc.)
-* **Map pipeline state** directly to MCP tool parameters
-* **Enable/disable specific tools** from MCP servers
-
-<Info title="MCP Node Scope">
-MCP Nodes can use **Model Context Protocol servers** only. For ELITEA Toolkits, use the Toolkit Node.
-</Info>
-
-**Parameters**
-
-| Parameter | Purpose | Type Options & Examples |
-|-----------|---------|-------------------------|
-| **MCP Server** | Select which MCP server contains the tool you want to execute | **MCPs** - Model Context Protocol servers<br /><br />**Selection Process:**<br />1. Select MCP from dropdown<br />2. Tool dropdown appears<br />3. Select specific tool<br /><br />Example: `GitHub-MCP` |
-| **Tool** | Select the specific tool/function to execute from the chosen MCP server | Dropdown populated with all available tools from selected MCP server<br /><br />**filesystem_mcp:** `search_code`, `get_file_content`, `list_directory`<br /><br />**database_mcp:** `query`, `insert`, `update` |
-| **Input** | Specify which state variables the MCP node reads from | **Default states:** `input`, `messages`<br />**Custom states:** Any defined state variables<br /><br />Example:<br />`- file_path`<br />`- content`<br />`- input` |
-| **Output** | Define which state variables the tool's result should populate | **Default:** `messages`<br />**Custom states:** Specific variables<br /><br />Example:<br />`- file_content`<br />`- messages` |
-| **Input Mapping** | Map pipeline state variables to the MCP tool's required parameters (appears after tool selection) | **F-String** - Formatted string with variables<br />Example: `reports/{date}/summary.md`<br /><br />**Variable** - Direct state reference<br />Example: `file_content`<br /><br />**Fixed** - Static value<br />Example: `/data/reports`<br /><br />**Categories:**<br />- Required parameters (must provide)<br />- Optional parameters (can be null) |
-| **Structured Output** | Enable parsing of MCP tool output as structured data for state variable updates | **Enabled (true):** Tool output parsed as structured data<br />**Disabled (false):** Tool output goes to `messages`<br /><br />Example: `true` or `false` |
-| **Interrupt Before** | Pause pipeline execution before this node | **Enabled** / **Disabled** |
-| **Interrupt After** | Pause pipeline execution after this node for inspection | **Enabled** / **Disabled** |
-
-<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/mcp-node-interface.png" alt="MCP node" width="300" />
-
-**YAML Configuration**
-
-```yaml
 state:
-  file_content:
-    type: str
-    value: ''
-  file_path:
-    type: str
-    value: tests.md
   input:
     type: str
   messages:
     type: list
-entry_point: Mcp 1
-interrupt_after: []
-nodes:
-  - id: Mcp 1
-    type: mcp
-    input:
-      - input
-    input_mapping:
-      branch:
-        type: fixed
-        value: main
-      owner:
-        type: fixed
-        value: ProjectAlita
-      path:
-        type: variable
-        value: file_content
-      repo:
-        type: fixed
-        value: projectalita.github.io
-    output:
-      - file_content
-    structured_output: false
-    tool: get_file_contents
-    toolkit_name: MCP-GitHub
-    transition: END
-
+  numbers:
+    type: list
+    value: []
+  total:
+    type: number
+    value: 0
 ```
 
-<Info title="MCP Connection Required">
-MCP servers must be properly configured and connected before using the MCP Node. Ensure the MCP server is running and accessible via HTTP/HTTPS.
+<Info title="Output Handling: With or Without Output Variables">
+**Without output variables (or `output` includes `messages`):** the result is appended to `messages`.
+
+```yaml
+- id: simple_code
+  type: code
+  code:
+    type: fixed
+    value: |
+      "Hello, World!"
+  # No output specified - result goes to messages
+```
+
+**With specific output variables:**
+
+```yaml
+- id: calculate
+  type: code
+  code:
+    type: fixed
+    value: |
+      12345
+  output:
+    - calculation_result
+```
+
+**With structured output, returning a dict to update multiple variables:**
+
+```yaml
+- id: structured_code
+  type: code
+  code:
+    type: fixed
+    value: |
+      {
+        "user_name": "John Doe",
+        "user_score": 95
+      }
+  output:
+    - user_name
+    - user_score
+  structured_output: true
+```
 </Info>
-
-<Warning title="Single MCP and Tool Selection">
-Each MCP Node can select only **one MCP server** and **one tool**. For multiple MCP tool executions, create separate MCP Nodes and chain them together.
-</Warning>
-
-**Best Practices**
-
-* **Verify MCP Connection** - Ensure the MCP server is connected and accessible before pipeline execution
-* **Map Required Parameters Correctly** - MCP tools have specific parameter requirements
-* **Use Appropriate Type for Each Parameter**
-    * **Variable**: When value comes from state
-    * **F-String**: When you need dynamic path/value interpolation
-    * **Fixed**: For static configurations
-* **Handle Errors** - MCP server connection failures will stop pipeline execution
-* **Use Structured Output** - Enable when extracting specific data from MCP tool results
-* **Test MCP Tools** - Use the MCP test panel to verify tool functionality before using in pipelines
-* **Monitor Timeouts** - Configure appropriate timeout values for MCP server connections
-
----
-
-## Code Node
-
-The Code Node enables secure execution of custom Python code within a sandboxed environment using Pyodide (Python compiled to WebAssembly). It provides full Python capabilities for data processing, calculations, and custom logic without accessing the host system.
-
-<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/code-node-add.gif" alt="Code Node Interface" />
-
-**Purpose**
-
-Use the Code Node to:
-
-* **Execute custom Python logic** for data transformation and processing
-* **Perform calculations** that don't require external tool integrations
-* **Process pipeline state** with full programming control
-* **Implement business rules** and conditional logic in Python
-* **Transform data formats** between pipeline nodes
-* **Call external APIs** directly from Python (with network access enabled)
-* **Install Python packages** dynamically using micropip
-
-**Parameters**
-
-| Parameter | Purpose | Type Options & Examples |
-|-----------|---------|-------------------------|
-| **Code** | Python code to execute in the sandbox | **Type: Fixed** - Static code block<br />**Type: Variable** - Code from state variable<br />**Type: F-String** - Formatted code with variables<br /><br />**Fixed Example:**<br />```python<br />result = alita_state.get('value', 0) * 2<br />{"doubled": result}<br />```<br /><br />**Variable Example:**<br />```yaml<br />code:<br />  type: variable<br />  value: python_code_variable<br />```<br /><br />**F-String Example:**<br />```yaml<br />code:<br />  type: fstring<br />  value: "result = {threshold} * 2\n{\"output\": result}"<br />``` |
-| **Input** | State variables accessible to the code via `alita_state` dictionary | **Default:** `input`, `messages`<br />**Custom:** Any defined state variables<br /><br />Example:<br />`- raw_data`<br />`- min_score`<br /><br />Access in code: `alita_state.get('raw_data', [])` |
-| **Output** | State variables to populate with execution results | **Default:** `messages` (if omitted or includes `messages`)<br />**Custom:** Specific variables (must exist in state)<br /><br />Example:<br />`- processed_data`<br />`- count`<br /><br />**Important:** Only listed variables will be updated |
-| **Structured Output** | Parse code output as structured data for state updates | **Enabled (true):** Code must return dictionary; keys matching output variables will update state<br />**Disabled (false):** Output appended to `messages`<br /><br />Example: `true` or `false`<br /><br />See detailed behavior below |
-| **Debug** | Save the fully assembled executable code snapshot before sandbox execution | **Enabled (true):** Saves a standalone Python file to the `code-debug` artifact bucket before execution<br />**Disabled (false):** No debug artifact is created<br /><br />**Saved file includes:**<br />- Sandbox client preamble<br />- Injected `elitea_state` / `alita_state` preamble<br />- Your node code wrapped for local execution<br /><br />**Filename format:** `<node_id>__<YYYYMMDD_HHMMSS>.py` |
-| **Interrupt Before** | Pause pipeline before code execution | **Enabled** / **Disabled** |
-| **Interrupt After** | Pause pipeline after code execution for result inspection | **Enabled** / **Disabled** |
-
-<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/code-node-interface.png" alt="Code Node Interface" />
 
 ### Debug Mode
 
-Use Code Node debug mode when you need to inspect the exact Python source that ELITEA sent to the sandbox.
+Use debug mode when you need to inspect the exact Python source ELITEA sent to the sandbox.
 
 <Note title="What debug mode does">
-When `debug: true` is enabled on a Code Node, ELITEA saves a timestamped standalone Python snapshot to the `code-debug` artifact bucket before execution. The saved file includes the generated client preamble, the injected state payload, and your code wrapped so it can be run locally in standard Python.
+When `debug: true` is set on a Code node, ELITEA saves a timestamped standalone Python snapshot to the `code-debug` artifact bucket before execution. The saved file includes a generated sandbox-client preamble, the injected state payload, and your code wrapped so it can be run locally in standard Python.
 </Note>
 
 **How it works**
 
-- Add `debug: true` to the Code Node definition
-- Run the pipeline normally
-- Open the `code-debug` artifact bucket and download the generated `.py` file
-- Replace the auth token placeholder if your code uses `elitea_client`
-- Run the file locally to reproduce the exact execution context
+1. Add `debug: true` to the Code node's YAML — there is no Flow-view toggle for it.
+   
+   <img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/execution-nodes/debug-yaml.png" alt="Debug YAML" />
 
-   ![Debug Mode Example](../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/code-node-debug.gif)
+2. Run the pipeline normally.
+3. Open the `code-debug` artifact bucket and download the generated `.py` file.
+
+    <img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/execution-nodes/code-debug-artifact.png" alt="Code Debug Artifact" />
+
+4. Replace the auth token placeholder if your code uses `elitea_client`.
+5. Run the file locally to reproduce the exact execution context.
 
 **Debug mode example**
 
@@ -325,7 +414,7 @@ nodes:
     code:
       type: fixed
       value: |
-        data = alita_state.get('raw_input', '')
+        data = elitea_state.get('raw_input', '')
         result = data.strip().upper()
         {"processed_result": result}
     input:
@@ -354,501 +443,88 @@ When `debug: true`, the saved artifact contains these parts in order:
 
 - A simplified `SandboxClient` implementation so the file can run outside the ELITEA SDK
 - An `elitea_client = SandboxClient(...)` initialization block with an auth token placeholder
-- The generated state preamble that restores `elitea_state`, `alita_state`, and `alita_client`
+- The generated state preamble that restores `elitea_state` and `elitea_state`
 - Your Code Node logic wrapped in an async runner so top-level `await` also works in standard CPython
 
 Debug artifact creation is best-effort only. If upload to the `code-debug` bucket fails, pipeline execution continues and the failure is logged as a warning.
 </Info>
 
+### Working with the Sandbox Client
 
-### YAML Configuration Examples
+<Tip title="State Access and the Sandbox Client">
+**State access:** Read pipeline state via `elitea_state.get('variable_name', default_value)`.
 
-<Accordion title="Basic Example: Simple Calculation">
-```yaml
-nodes:
-  - id: calculate_total
-    type: code
-    code:
-      type: fixed
-      value: |
-        # Access state variables
-        numbers = alita_state.get('numbers', [])
-        
-        # Calculate total
-        total = sum(numbers)
-        
-        # Return result
-        {"total": total}
-    input:
-      - numbers
-    output:
-      - total
-    structured_output: true
-    transition: END
-state:
-  input:
-    type: str
-  messages:
-    type: list
-  numbers:
-    type: list
-    value: []
-  total:
-    type: int
-    value: 0
-```
-</Accordion>
+**The sandbox client:** When available, `elitea_client` is automatically injected into the Code node's sandbox. It provides:
 
-<Accordion title="Advanced Example: Data Processing with Error Handling">
-```yaml
-nodes:
-  - id: process_user_data
-    type: code
-    code:
-      type: fixed
-      value: |
-        import json
-        
-        # Access input data from state
-        raw_data = alita_state.get('raw_data', [])
-        min_score = alita_state.get('min_score', 50)
-        
-        # Process with error handling
-        try:
-            processed = []
-            for item in raw_data:
-                score = item.get('score', 0)
-                if score >= min_score:
-                    processed.append({
-                        'id': item['id'],
-                        'name': item['name'],
-                        'grade': 'Pass',
-                        'score': score
-                    })
-            
-            {
-                "processed_data": processed,
-                "count": len(processed),
-                "status": "success"
-            }
-        except Exception as e:
-            {
-                "error": str(e),
-                "status": "failed",
-                "count": 0
-            }
-    input:
-      - raw_data
-      - min_score
-    output:
-      - processed_data
-      - count
-      - status
-    structured_output: true
-    transition: END
-state:
-  input:
-    type: str
-  messages:
-    type: list
-  raw_data:
-    type: list
-    value: []
-  min_score:
-    type: int
-    value: 50
-  processed_data:
-    type: list
-    value: []
-  count:
-    type: int
-    value: 0
-  status:
-    type: str
-    value: ''
-```
-</Accordion>
+**Artifact operations** (`elitea_client.artifact(bucket_name)`):
+- `.create(artifact_name, artifact_data, bucket_name=None, check_if_exists=False)` - Create/upload an artifact
+- `.get(artifact_name, bucket_name=None, ...)` - Download/read an artifact's content
+- `.delete(artifact_name, bucket_name=None, check_exists=True)` - Delete an artifact
+- `.list(bucket_name=None, prefix='', delimiter='/', return_as_string=True)` - List artifacts in a bucket
+- `.append(artifact_name, additional_data, bucket_name=None, create_if_missing=True)` - Append data to an existing artifact
+- `.get_content_bytes(artifact_name, bucket_name=None)` - Get an artifact as raw bytes
 
-<Accordion title="API Integration Example: External HTTP Calls">
-```yaml
-nodes:
-  - id: fetch_api_data
-    type: code
-    code:
-      type: fixed
-      value: |
-        import httpx
-        import json
-        
-        query = alita_state.get('search_query', '')
-        api_url = f"https://api.example.com/search?q={query}"
-        
-        try:
-            # Use httpx for async HTTP calls (Pyodide compatible)
-            async with httpx.AsyncClient() as client:
-                response = await client.get(api_url, timeout=10.0)
-                data = response.json()
-            
-            {
-                "api_results": data.get('results', []),
-                "result_count": len(data.get('results', [])),
-                "status": "success"
-            }
-        except Exception as e:
-            {
-                "error": str(e),
-                "status": "failed",
-                "result_count": 0
-            }
-    input:
-      - search_query
-    output:
-      - api_results
-      - result_count
-      - status
-    structured_output: true
-    transition: END
-state:
-  input:
-    type: str
-  messages:
-    type: list
-  search_query:
-    type: str
-    value: ''
-  api_results:
-    type: list
-    value: []
-  result_count:
-    type: int
-    value: 0
-  status:
-    type: str
-    value: ''
-```
-</Accordion>
+**Bucket and direct artifact operations:**
+- `elitea_client.bucket_exists(bucket_name)` - Check if a bucket exists
+- `elitea_client.create_bucket(bucket_name, expiration_measure='months', expiration_value=1)` - Create a new bucket
+- `elitea_client.list_artifacts(bucket_name)` - List artifacts in a bucket
+- `elitea_client.create_artifact(bucket_name, artifact_name, artifact_data)` - Create an artifact
+- `elitea_client.download_artifact(bucket_name, artifact_name)` - Download an artifact
+- `elitea_client.delete_artifact(bucket_name, artifact_name)` - Delete an artifact
 
-<Accordion title="Package Installation Example: Using External Libraries">
-```yaml
-nodes:
-  - id: data_analysis
-    type: code
-    code:
-      type: fixed
-      value: |
-        # Install numpy via micropip
-        import micropip
-        await micropip.install('numpy')
-        import numpy as np
-        
-        # Access data from state
-        values = alita_state.get('values', [])
-        
-        if not values:
-            {"error": "No values provided", "status": "failed"}
-        else:
-            # Perform analysis with numpy
-            data = np.array(values)
-            
-            {
-                "mean": float(np.mean(data)),
-                "median": float(np.median(data)),
-                "std_dev": float(np.std(data)),
-                "min": float(np.min(data)),
-                "max": float(np.max(data)),
-                "status": "success"
-            }
-    input:
-      - values
-    output:
-      - mean
-      - median
-      - std_dev
-      - min
-      - max
-      - status
-    structured_output: true
-    transition: END
-state:
-  input:
-    type: str
-  messages:
-    type: list
-  values:
-    type: list
-    value: []
-  mean:
-    type: float
-    value: 0.0
-  median:
-    type: float
-    value: 0.0
-  std_dev:
-    type: float
-    value: 0.0
-  min:
-    type: float
-    value: 0.0
-  max:
-    type: float
-    value: 0.0
-  status:
-    type: str
-    value: ''
-```
-</Accordion>
+**Application operations:**
+- `elitea_client.get_app_details(application_id)` - Get an application's configuration
+- `elitea_client.get_list_of_apps()` - List all available applications
+- `elitea_client.get_app_version_details(application_id, application_version_id)` - Get a specific app version's details
 
-<Accordion title="Conditional Logic Example: Business Rules">
-```yaml
-nodes:
-  - id: apply_business_rules
-    type: code
-    code:
-      type: fixed
-      value: |
-        user_age = alita_state.get('user_age', 0)
-        user_type = alita_state.get('user_type', 'guest')
-        
-        # Apply business logic
-        if user_age < 18:
-            category = "minor"
-            allowed_actions = ["read", "comment"]
-        elif user_type == "premium":
-            category = "premium_adult"
-            allowed_actions = ["read", "comment", "post", "moderate"]
-        else:
-            category = "standard_adult"
-            allowed_actions = ["read", "comment", "post"]
-        
-        {
-            "user_category": category,
-            "allowed_actions": allowed_actions,
-            "access_level": len(allowed_actions)
-        }
-    input:
-      - user_age
-      - user_type
-    output:
-      - user_category
-      - allowed_actions
-      - access_level
-    structured_output: true
-    transition: END
-state:
-  input:
-    type: str
-  messages:
-    type: list
-  user_age:
-    type: int
-    value: 0
-  user_type:
-    type: str
-    value: 'guest'
-  user_category:
-    type: str
-    value: ''
-  allowed_actions:
-    type: list
-    value: []
-  access_level:
-    type: int
-    value: 0
-```
-</Accordion>
+**MCP tool operations:**
+- `elitea_client.get_mcp_toolkits()` - List available MCP toolkits
+- `elitea_client.mcp_tool_call(params)` - Call an MCP tool with parameters
 
-<Accordion title="Alita Client Integration Example: Accessing Artifacts">
-```yaml
-nodes:
-  - id: list_artifacts
-    type: code
-    code:
-      type: fixed
-      value: |
-        # Access Alita client (automatically injected when available)
-        try:
-            # List artifacts from a bucket
-            bucket_name = alita_state.get('bucket_name', 'test')
-            artifacts = alita_client.list_artifacts(bucket_name=bucket_name)
-            
-            {
-                "artifacts": artifacts,
-                "count": len(artifacts),
-                "status": "success"
-            }
-        except Exception as e:
-            {
-                "error": str(e),
-                "status": "failed",
-                "count": 0
-            }
-    input:
-      - bucket_name
-    output:
-      - artifacts
-      - count
-      - status
-    structured_output: true
-    transition: END
-state:
-  input:
-    type: str
-  messages:
-    type: list
-  bucket_name:
-    type: str
-    value: 'test'
-  artifacts:
-    type: list
-    value: []
-  count:
-    type: int
-    value: 0
-  status:
-    type: str
-    value: ''
-```
-</Accordion>
+**Secrets:**
+- `elitea_client.unsecret(secret_name)` - Retrieve a secret value from the pipeline's current project (shared across every user who runs it)
+- `elitea_client.get_private_project_secret(secret_name, default=None)` - Retrieve a secret from the **executing user's own Private project** instead — see **[Private Project Secrets](#private-project-secrets)** below
 
-<Info title="Output Handling: With or Without Output Variables">
-**Without Output Variables (or includes `messages`):**
+**User operations:**
+- `elitea_client.get_user_data()` - Get current user information
 
-Results are added to `messages` array:
-```yaml
-- id: simple_code
-  type: code
-  code:
-    type: fixed
-    value: |
-      "Hello, World!"
-  # No output specified - result goes to messages
-```
-
-**With Specific Output Variables:**
-
-Results populate the specified variables:
-```yaml
-- id: calculate
-  type: code
-  code:
-    type: fixed
-    value: |
-      12345
-  output:
-    - calculation_result
-  # Result stored in calculation_result variable
-```
-
-**With Structured Output:**
-
-Return dictionary to update multiple variables:
-```yaml
-- id: structured_code
-  type: code
-  code:
-    type: fixed
-    value: |
-      {
-        "user_name": "John Doe",
-        "user_score": 95
-      }
-  output:
-    - user_name
-    - user_score
-  structured_output: true
-```
-</Info>
-
-<Tip title="State Access & Alita Client (SandboxClient) Capabilities">
-**State Access:**
-
-Access pipeline state via `alita_state` dictionary using `alita_state.get('variable_name', default_value)`.
-
-**Alita Client:**
-
-When available, `alita_client` is automatically injected into the Code Node sandbox environment. It provides access to:
-
-**Artifact Operations:**
-
-- `alita_client.artifact(bucket_name)` - Access artifact operations for a specific bucket
-    - `.create(artifact_name, artifact_data, bucket_name=None)` - Create/upload artifact
-    - `.get(artifact_name, bucket_name=None)` - Download/read artifact content
-    - `.delete(artifact_name, bucket_name=None)` - Delete artifact
-    - `.list(bucket_name=None, return_as_string=True)` - List all artifacts in bucket
-    - `.append(artifact_name, additional_data, bucket_name=None)` - Append data to existing artifact
-    - `.overwrite(artifact_name, new_data, bucket_name=None)` - Replace artifact content
-    - `.get_content_bytes(artifact_name, bucket_name=None)` - Get artifact as raw bytes
-
-**Bucket Operations:**
-
-- `alita_client.bucket_exists(bucket_name)` - Check if bucket exists
-- `alita_client.create_bucket(bucket_name, expiration_measure='months', expiration_value=1)` - Create new bucket
-- `alita_client.list_artifacts(bucket_name)` - List artifacts in bucket (direct method)
-- `alita_client.create_artifact(bucket_name, artifact_name, artifact_data)` - Create artifact (direct method)
-- `alita_client.download_artifact(bucket_name, artifact_name)` - Download artifact (direct method)
-- `alita_client.delete_artifact(bucket_name, artifact_name)` - Delete artifact (direct method)
-
-**Application & Integration Operations:**
-
-- `alita_client.get_app_details(application_id)` - Get application configuration
-- `alita_client.get_list_of_apps()` - List all available applications
-- `alita_client.get_app_version_details(application_id, application_version_id)` - Get specific app version
-- `alita_client.get_integration_details(integration_id, format_for_model=False)` - Get integration configuration
-- `alita_client.unsecret(secret_name)` - Retrieve a secret value from the pipeline's current project (shared across every user who runs it)
-- `alita_client.get_private_project_secret(secret_name, default=None)` - Retrieve a secret from the **executing user's own Private project** instead — see [Private Project Secrets](#private-project-secrets) below
-- `alita_client.fetch_available_configurations()` - List available configurations
-- `alita_client.all_models_and_integrations()` - List AI models and integrations
-
-**MCP Tool Operations:**
-
-- `alita_client.get_mcp_toolkits()` - List available MCP toolkits
-- `alita_client.mcp_tool_call(params)` - Call MCP tool with parameters
-
-**Image Generation:**
-
-- `alita_client.generate_image(prompt, n=1, size='auto', quality='auto', response_format='b64_json', style=None)` - Generate images using AI models
-
-**User Operations:**
-
-- `alita_client.get_user_data()` - Get current user information
-
-**Example Usage:**
+**Example usage:**
 ```python
 # Create and manage artifacts
-bucket = alita_client.artifact('my-bucket')
+bucket = elitea_client.artifact('my-bucket')
 bucket.create('report.txt', 'Analysis results...')
 content = bucket.get('report.txt')
 bucket.list()
 
 # Direct artifact operations
-alita_client.create_artifact('my-bucket', 'data.json', '{"key": "value"}')
-data = alita_client.download_artifact('my-bucket', 'data.json')
+elitea_client.create_artifact('my-bucket', 'data.json', '{"key": "value"}')
+data = elitea_client.download_artifact('my-bucket', 'data.json')
 
 # Access secrets (shared project — same value for every user)
-api_key = alita_client.unsecret('my-api-key')
+api_key = elitea_client.unsecret('my-api-key')
 
 # Access a per-user secret from the executing user's own Private project
-user_token = alita_client.get_private_project_secret('my-api-key', default=None)
+user_token = elitea_client.get_private_project_secret('my-api-key', default=None)
 
 # Get application details
-app = alita_client.get_app_details(application_id=123)
+app = elitea_client.get_app_details(application_id=123)
 ```
 </Tip>
 
 ### Private Project Secrets
 
-In a shared (team) project, `alita_client.unsecret(secret_name)` always reads the secret stored in that shared project — every user who triggers the pipeline gets the same value. Use `alita_client.get_private_project_secret(secret_name, default=None)` instead when each user running the Code Node should supply their **own** credential: User A and User B calling the same node with the same `secret_name` resolve two different values, each read from their own **Private** project.
+In a shared (team) project, `elitea_client.unsecret(secret_name)` always reads the secret stored in that shared project — every user who triggers the pipeline gets the same value. Use `elitea_client.get_private_project_secret(secret_name, default=None)` instead when each user running the Code node should supply their **own** credential: User A and User B calling the same node with the same `secret_name` resolve two different values, each read from their own **Private** project.
 
 <Note>
 **The secret owner must opt in**
 
 There is deliberately no fallback to a same-named secret in the shared project. For `get_private_project_secret` to succeed, the secret must exist in the executing user's own Private project secrets, and that user must turn on the per-secret **Share with other projects** toggle (**[Secrets](../../../menus/settings/secrets)**, visible only while viewing your own Private project's Secrets table). The toggle is unavailable for platform-managed (default) secrets.
-   
-   ![Shared Secret](../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/shared-secret.png)
+
+   ![Shared Secret](../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/execution-nodes/shared-secret.png)
 
 </Note>
 
-**Signature:** `alita_client.get_private_project_secret(secret_name: str, default: Any = <unset>)`
+**Signature:** `elitea_client.get_private_project_secret(secret_name: str, default: Any = <unset>)`
 
 * Called with no `default`, a failed lookup **raises** an exception (see table below).
 * Called with an explicit `default` (including `default=None`), a failed lookup **returns that default** instead of raising — useful when the secret is optional for some users.
@@ -871,7 +547,7 @@ The exception raised for `PrivateSecretNotShared` currently reads *"...enable 'A
 # Each user who triggers this pipeline supplies their own value for 'personal_api_token'
 # in their own Private project's Secrets, with "Share with other projects" turned on.
 try:
-    token = alita_client.get_private_project_secret('personal_api_token')
+    token = elitea_client.get_private_project_secret('personal_api_token')
 except Exception as e:
     # NoPersonalProject, PrivateSecretNotShared, PrivateSecretNotFound, or PrivateSecretError
     token = None
@@ -886,131 +562,210 @@ else:
 Or suppress the error entirely with a default:
 
 ```python
-token = alita_client.get_private_project_secret('personal_api_token', default=None)
+token = elitea_client.get_private_project_secret('personal_api_token', default=None)
 {"has_token": token is not None}
 ```
 
-<Warning title="Structured Output Behavior">
-When `structured_output: true`, the Code Node expects a dictionary return where keys correspond to state variable names:
+### YAML Configuration Examples
 
-**State Before Execution:**
-```yaml
-user_name: "Alice"
-user_score: 85
-```
-
-**Code Returns:**
-```python
-{
-  "user_name": "Bob",
-  "user_score": 90,
-  "timestamp": "2024-01-01T00:00:00Z"
-}
-```
-
-**Output Configuration:**
-```yaml
-output:
-  - user_name
-  - user_score
-```
-
-**State After Execution:**
-```yaml
-user_name: "Bob"      # Updated
-user_score: 90        # Updated
-timestamp: <ignored>  # Not in output list
-```
-
-**Important Rules:**
-
-- Only variables listed in `output` will be updated
-- Variables not defined in pipeline `state` will be ignored
-- If output is omitted or includes `messages`, results append to messages
-- Non-messages output variables are overridden with results or error messages
-</Warning>
-
-<Info title="Code Execution Environment">
-- **Sandbox:** Pyodide (Python compiled to WebAssembly) provides secure isolation
-- **Standard Library:** Full Python standard library available
-- **Package Installation:** Use `import micropip; await micropip.install('package-name')` for additional packages
-- **Network Access:** Enabled by default for external API calls (use `httpx` instead of `requests`)
-- **Performance:** Stateless execution by default for optimal performance; local caching reduces initialization time
-- **Limitations:** File system access not supported; use `httpx.AsyncClient` for HTTP calls instead of `requests`
-</Info>
-
-**Integration with Pipeline Flow**
-
-Code Nodes seamlessly integrate into pipeline workflows through transitions:
-
+<Accordion title="Data Processing with Error Handling">
 ```yaml
 nodes:
-  - id: extract_data
-    type: llm
-    # LLM extracts data from user input
-    transition: process_data
-    
-  - id: process_data
+  - id: process_user_data
     type: code
     code:
       type: fixed
       value: |
-        # Access data from previous node
-        extracted = alita_state.get('extracted_data', [])
-        
-        # Process and transform
-        processed = [item.upper() for item in extracted if item]
-        
-        {"processed_items": processed}
+        raw_data = elitea_state.get('raw_data', [])
+        min_score = elitea_state.get('min_score', 50)
+
+        try:
+            processed = []
+            for item in raw_data:
+                score = item.get('score', 0)
+                if score >= min_score:
+                    processed.append({
+                        'id': item['id'],
+                        'name': item['name'],
+                        'grade': 'Pass',
+                        'score': score
+                    })
+
+            {
+                "processed_data": processed,
+                "count": len(processed),
+                "status": "success"
+            }
+        except Exception as e:
+            {
+                "error": str(e),
+                "status": "failed",
+                "count": 0
+            }
     input:
-      - extracted_data
+      - raw_data
+      - min_score
     output:
-      - processed_items
+      - processed_data
+      - count
+      - status
     structured_output: true
-    transition: generate_report
-    
-  - id: generate_report
-    type: llm
-    # LLM generates report using processed data
     transition: END
 ```
+</Accordion>
 
-**Sequential Execution Benefits:**
+<Accordion title="External HTTP Calls">
+```yaml
+nodes:
+  - id: fetch_api_data
+    type: code
+    code:
+      type: fixed
+      value: |
+        query = elitea_state.get('search_query', '')
+        api_url = f"https://api.example.com/search?q={query}"
 
-* **Data Transformation:** Clean and format data between nodes
-* **Validation:** Verify data meets requirements before proceeding
-* **Enrichment:** Add computed fields or external data
-* **Conditional Routing:** Calculate which path to take next
-* **State Management:** Transform state structure for downstream nodes
+        try:
+            # Use httpx for async HTTP calls (Pyodide compatible)
+            async with httpx.AsyncClient() as client:
+                response = await client.get(api_url, timeout=10.0)
+                data = response.json()
 
----
+            {
+                "api_results": data.get('results', []),
+                "result_count": len(data.get('results', [])),
+                "status": "success"
+            }
+        except Exception as e:
+            {
+                "error": str(e),
+                "status": "failed",
+                "result_count": 0
+            }
+    input:
+      - search_query
+    output:
+      - api_results
+      - result_count
+      - status
+    structured_output: true
+    transition: END
+```
+</Accordion>
 
-**Best Practices**
+<Accordion title="Using Packages via micropip">
+```yaml
+nodes:
+  - id: data_analysis
+    type: code
+    code:
+      type: fixed
+      value: |
+        import micropip
+        await micropip.install('numpy')
+        import numpy as np
 
-   * **Return Structured Data:** When using `structured_output: true`, always return dictionaries with keys matching output variables
-   * **Handle Errors Gracefully:** Include try-except blocks to catch and return errors as part of the structured output
-   * **Validate Input Data:** Check state variables exist and have expected types before processing using `alita_state.get('var', default)`
-   * **Use Descriptive Output Variables:** Name output variables clearly (e.g., `total_revenue`, `average_score` instead of `result1`, `result2`)
-   * **Keep Code Focused:** Each Code Node should have one clear purpose - avoid combining multiple unrelated operations
-   * **Document Complex Logic:** Use Python comments to explain business rules, calculations, and non-obvious operations
-   * **Test with Interrupts:** Enable interrupts during development to review code execution results and debug issues
-   * **Optimize Performance:** Avoid heavy computations in frequently called nodes; use efficient data structures
-   * **Use Async for HTTP:** Use `httpx.AsyncClient` for HTTP requests (Pyodide compatible) instead of `requests`
-   * **Install Packages Carefully:** Package installation adds latency; install only necessary packages
-   * **Handle JSON Serialization:** Ensure returned objects are JSON-serializable (native Python types, lists, dicts)
-   * **Access Alita Client:** Use `alita_client` when available for artifact operations and API interactions
-  * **Enable Debug Selectively:** Turn on `debug: true` only for nodes you are actively investigating to avoid creating unnecessary debug artifacts
-  * **Use Debug Artifacts for Reproduction:** Download the saved `.py` file from `code-debug` when sandbox behavior differs from expectations or when you need to inspect the injected state
+        values = elitea_state.get('values', [])
+
+        if not values:
+            {"error": "No values provided", "status": "failed"}
+        else:
+            data = np.array(values)
+            {
+                "mean": float(np.mean(data)),
+                "median": float(np.median(data)),
+                "std_dev": float(np.std(data)),
+                "status": "success"
+            }
+    input:
+      - values
+    output:
+      - mean
+      - median
+      - std_dev
+      - status
+    structured_output: true
+    transition: END
+```
+</Accordion>
+
+<Accordion title="Accessing Artifacts via elitea_client">
+```yaml
+nodes:
+  - id: list_artifacts
+    type: code
+    code:
+      type: fixed
+      value: |
+        try:
+            bucket_name = elitea_state.get('bucket_name', 'test')
+            artifacts = elitea_client.list_artifacts(bucket_name=bucket_name)
+            {
+                "artifacts": artifacts,
+                "count": len(artifacts),
+                "status": "success"
+            }
+        except Exception as e:
+            {
+                "error": str(e),
+                "status": "failed",
+                "count": 0
+            }
+    input:
+      - bucket_name
+    output:
+      - artifacts
+      - count
+      - status
+    structured_output: true
+    transition: END
+```
+</Accordion>
+
+### Best Practices for Code Nodes
+
+<Accordion title="Return structured data for structured_output">
+When using `structured_output: true`, always return a dictionary whose keys match the variables listed in `output`.
+</Accordion>
+
+<Accordion title="Handle errors gracefully">
+Wrap risky logic in try/except and return the error as part of the structured output, rather than letting the node fail outright.
+</Accordion>
+
+<Accordion title="Validate state before using it">
+Use `elitea_state.get('var', default)` rather than assuming a variable exists and has the expected type.
+</Accordion>
+
+<Accordion title="Use descriptive output variable names">
+`total_revenue` and `average_score` are clearer than `result1` and `result2` to the next node's author.
+</Accordion>
+
+<Accordion title="Keep each Code node focused">
+One clear purpose per node — split unrelated operations into separate Code nodes rather than combining them.
+</Accordion>
+
+<Accordion title="Use httpx, not requests, for HTTP calls">
+`requests` is not Pyodide-compatible. Use `httpx.AsyncClient` with `await` instead.
+</Accordion>
+
+<Accordion title="Install packages sparingly">
+Package installation via `micropip` adds latency on every run — install only what the node actually needs.
+</Accordion>
+
+<Accordion title="Return only JSON-serializable values">
+Native Python types (str, int, float, bool, list, dict, None) only — classes and other objects can't be serialized back into state.
+</Accordion>
+
+<Accordion title="Enable debug only while investigating">
+Turn on `debug: true` for a node you're actively debugging, then turn it back off — each run with it on writes a new file to the `code-debug` bucket.
+</Accordion>
 
 ### Troubleshooting
 
-**Common Issues and Solutions**
-
-
 <Accordion title="Error: Deno is required for PyodideSandbox but is not installed">
-**Cause:** The Deno JavaScript runtime is missing
+**Cause:** The Deno JavaScript runtime is missing.
 
-**Solution:** Install Deno and ensure it's in your system PATH
+**Solution:** Install Deno and ensure it's on your system PATH.
 ```powershell
 # Windows (PowerShell)
 irm https://deno.land/install.ps1 | iex
@@ -1018,89 +773,61 @@ irm https://deno.land/install.ps1 | iex
 </Accordion>
 
 <Accordion title="Error: Object is not serializable">
-**Cause:** Code returns non-JSON-serializable objects (classes, functions, etc.)
+**Cause:** The code returns a non-JSON-serializable object (a class instance, function, etc.).
 
-**Solution:** Return only JSON-serializable types (str, int, float, bool, list, dict, None)
+**Solution:** Return only JSON-serializable types.
 ```python
-# Bad - not serializable
-class MyClass:
-    pass
+# Bad
 return {"result": MyClass()}
 
-# Good - serializable
+# Good
 return {"result": {"name": "value", "count": 42}}
 ```
 </Accordion>
 
 <Accordion title="Error: ModuleNotFoundError: No module named 'package'">
-**Cause:** Required package not available in Pyodide environment
+**Cause:** The package isn't available in the Pyodide environment by default.
 
-**Solution:** Install package using micropip (note: not all packages are compatible)
+**Solution:** Install it with micropip first — not all packages (especially those with C extensions) are compatible.
 ```python
 import micropip
 await micropip.install('numpy')
 import numpy as np
 ```
-
-**Limitations:** Some packages with C extensions may not work in Pyodide
 </Accordion>
 
-<Accordion title="Error: Output variables not updating">
-**Cause:** Variables not listed in `output` or `structured_output` is false
+<Accordion title="Output variables aren't updating">
+**Cause:** The variables aren't listed in `output`, or `structured_output` is false.
 
-**Solution:** 
-
-1. Ensure `structured_output: true`
-2. List all target variables in `output`
-3. Return dictionary with matching keys
-
-```yaml
-output:
-  - result
-  - status
-structured_output: true
-```
-```python
-return {"result": 42, "status": "success"}
-```
+**Solution:** Enable `structured_output: true`, list every target variable in `output`, and return a dict with matching keys.
 </Accordion>
 
-<Accordion title="Issue: Debug mode is enabled but no debug artifact appears">
-**Cause:** Debug artifact capture is best-effort. The node saves the file only when `debug: true` is set and the runtime has access to the artifact client. Upload failures do not stop pipeline execution.
+<Accordion title="Debug mode is enabled but no debug artifact appears">
+**Cause:** Debug artifact capture is best-effort — the node saves the file only when `debug: true` is set and the runtime has access to the artifact client; upload failures don't stop pipeline execution.
 
-**Solution:**
-
-1. Confirm the node definition includes `debug: true`
-2. Check the `code-debug` artifact bucket for a file named `<node_id>__<YYYYMMDD_HHMMSS>.py`
-3. Review runtime logs for warnings related to debug artifact upload or client preamble generation
-4. Re-run the pipeline after verifying artifact storage is available
+**Solution:** Confirm `debug: true` is in the node's YAML, check the `code-debug` artifact bucket for `<node_id>__<YYYYMMDD_HHMMSS>.py`, and review runtime logs for upload warnings.
 </Accordion>
 
-<Accordion title="Issue: The downloaded debug file does not run locally">
-**Cause:** The saved file contains an auth token placeholder and may rely on packages that are not installed in your local Python environment.
+<Accordion title="The downloaded debug file doesn't run locally">
+**Cause:** The saved file contains an auth token placeholder and may depend on packages not installed locally.
 
-**Solution:**
-
-1. Replace `<YOUR_AUTH_TOKEN>` in the generated `SandboxClient(...)` block with a valid token if the code uses `elitea_client`
-2. Install required local dependencies such as `requests` and `chardet`
-3. If your code uses top-level `await`, run the saved file directly as generated; the wrapper added by ELITEA already makes it executable in standard Python
+**Solution:** Replace the auth token placeholder in the generated `SandboxClient(...)` block if your code uses `elitea_client`, and install any local dependencies the code needs.
 </Accordion>
 
 <Accordion title="Error: NoPersonalProject / PrivateSecretNotShared / PrivateSecretNotFound">
-**Cause:** `alita_client.get_private_project_secret(secret_name)` failed to resolve a secret from the executing user's Private project.
+**Cause:** `elitea_client.get_private_project_secret(secret_name)` failed to resolve a secret from the executing user's Private project.
 
 **Solution:**
-
-1. **`NoPersonalProject`** - The pipeline run has no resolvable user (e.g., it was triggered by a schedule or webhook, not a signed-in user). This function cannot be used in unattended runs; use `alita_client.unsecret()` with a shared-project secret instead, or pass a `default` to tolerate missing values.
-2. **`PrivateSecretNotShared`** - Either the secret isn't marked shared, or it doesn't exist at all for that user. Have the user create the secret in their own **[Secrets](../../../menus/settings/secrets)** (Private project) and turn on **Share with other projects** on that row.
-3. **`PrivateSecretNotFound`** - No secret with that name exists in the user's Private project; double-check the exact `secret_name` spelling.
-4. To avoid raising for any of these cases, call with an explicit `default`, e.g. `alita_client.get_private_project_secret(secret_name, default=None)`.
+1. **`NoPersonalProject`** — the run has no resolvable user (triggered by a schedule or webhook, not a signed-in user). Use `elitea_client.unsecret()` with a shared-project secret instead, or pass a `default`.
+2. **`PrivateSecretNotShared`** — the secret isn't marked shared, or doesn't exist for that user. Have the user create it in their own **[Secrets](../../../menus/settings/secrets)** (Private project) and turn on **Share with other projects**.
+3. **`PrivateSecretNotFound`** — no secret with that name exists in the user's Private project; check the spelling.
+4. To avoid raising, call with an explicit `default`, e.g. `elitea_client.get_private_project_secret(secret_name, default=None)`.
 </Accordion>
 
 <Accordion title="Error: httpx or network requests failing">
-**Cause:** Using `requests` library (not Pyodide compatible) or network disabled
+**Cause:** Using `requests` (not Pyodide-compatible) instead of `httpx`.
 
-**Solution:** Use `httpx.AsyncClient` for HTTP calls
+**Solution:**
 ```python
 import httpx
 
@@ -1112,122 +839,96 @@ async with httpx.AsyncClient() as client:
 
 ---
 
+## Value Types
+
+Most text fields on these three nodes let you pick how their value is produced. These fields include each tool's input-mapping parameters on Toolkit and MCP nodes, and the **Code** field on Code nodes. All three value types read only from the variables listed in that node's **Input**.
+
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/interaction-nodes/value-type.png" alt="Value Types" />
+
+The following table describes the available value types.
+
+| Type | What it does | Use it when |
+| --- | --- | --- |
+| **F-String** | Uses the text you typed as a template and fills in `{variable_name}` placeholders from state, the same way Python `str.format()` works. | Most of the text is static, but one or more state values must be inserted. Example: `projectelitea.github.io/{repo_name}`. |
+| **Variable** | Ignores the text in the field and uses the full value of the single state variable that you name. | The full field content already exists in state and does not need templating. |
+| **Fixed** | Uses exactly the text that you typed, with no substitution. | The text does not need to change between runs. |
+
+<Warning title="A missing placeholder doesn't fail the run">
+If an F-String references a variable that is not in **Input**, or if the variable is empty, the platform searches the rest of state for it. If it still cannot find a match, the placeholder remains as literal text, such as `{file_path}`, and the node does not fail. Make sure every `{variable}` that you reference is listed in **Input**.
+</Warning>
+
+<Tip title="Switching types keeps your text">
+Switching between **Fixed** and **F-String** keeps the text that you typed. This is useful when you add or remove `{variable}` placeholders without retyping the rest. Switching to or from **Variable** replaces the field content, because **Variable** does not store free-form text.
+</Tip>
+
+---
+
+## Node Panel Buttons
+
+Every node configuration panel footer has the same row of actions. This includes Toolkit nodes, MCP nodes, Code nodes, and all other node types.
+
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/node-buttons.png" alt="Node Panel Buttons" />
+
+The following table describes the node panel buttons.
+
+| Button | What it does |
+| --- | --- |
+| **Make Entrypoint** | Set this node as the pipeline entry point. This button appears only when the node is not already the entry point. After you set it, the editor replaces the button with an **Entrypoint** badge. It is not available on Decision nodes or legacy Condition nodes. |
+| **Build with AI** | Reserved for a future feature. It is currently always disabled. |
+| **Duplicate** | Copy this node as `<name>_copy` or `<name>_copy_2` if that name is already taken. The copy starts disconnected. The editor clears its outgoing connection and routing fields, including `transition`, `routes`, `nodes`, and `default_output`, so you can reconnect it yourself. |
+| **Delete** | Remove this node. Any other node reference to it, including `transition`, `default_output`, or a HITL route, is cleared automatically. |
+
+<Note>
+**Making a Node the Entry Point**
+
+After a node becomes the pipeline entry point, a **Trigger** field appears at the top of its configuration panel. The **Chat Message** and **Webhook** options control how the pipeline starts. For more information, see [Entry Point](../entry-point).
+
+<img src="../../../img/how-tos/agents-pipelines/pipeline-building-blocks/nodes/node-trigger.png" alt="Node Trigger" width="300"/>
+
+</Note>
+
+---
+
 ## Execution Nodes Comparison
 
-| Feature | Toolkit Node | MCP Node | Code Node |
-|---------|--------------|----------|-----------|
-| **Purpose** | Execute ELITEA toolkit functions | Execute MCP server tools | Execute custom Python code |
-| **Toolkit Types** | ELITEA Toolkits | MCP Servers | N/A (Python sandbox) |
-| **Tool Selection** | Manual (user selects) | Manual (user selects) | N/A |
-| **Parameter Mapping** | Explicit Input Mapping | Explicit Input Mapping | State via `alita_state` |
-| **LLM Usage** | No LLM | No LLM | No LLM |
-| **Configuration** | UI-based parameter mapping | UI-based parameter mapping | Python code editor |
-| **Structured Output** | Supported | Supported | Supported |
-| **Flexibility** | Medium (predefined tools) | Medium (MCP tools) | Very High (full Python) |
-| **Complexity** | Medium | Medium | High (requires Python) |
-| **Performance** | Fast (direct execution) | Fast (direct execution) | Fast (compiled sandbox) |
-| **Best For** | ELITEA toolkit calls | MCP server integrations | Custom logic, calculations |
+The following table compares the three execution nodes.
 
-### When to Use Each Node
-
-<Accordion title="Toolkit Node">
-**Choose Toolkit Node when you**:
-
-* Need to call ELITEA toolkit functions (Jira, GitHub, Slack, Confluence, etc.)
-* Know exactly which toolkit and tool to use
-* Have straightforward parameter mapping
-* Need fast, deterministic execution
-* Want explicit control over toolkit execution
-
-**Example**: Create a Jira ticket with known project, summary, and description.
-</Accordion>
-
-<Accordion title="MCP Node">
-**Choose MCP Node when you**:
-
-* Need to execute MCP server tools
-* Have a configured MCP server connection
-* Know exactly which MCP tool to call
-* Have explicit parameter requirements
-* Need direct MCP integration
-
-**Example**: Read a file from a filesystem MCP server with a known path.
-</Accordion>
-
-<Accordion title="Code Node">
-**Choose Code Node when you**:
-
-* Need custom Python logic
-* Require data transformation or processing
-* Implement business rules and calculations
-* Call external APIs directly
-* Have logic too complex for standard nodes
-
-**Example**: Calculate tiered discounts based on customer segment, order value, and first-order status.
-</Accordion>
+| | Toolkit Node | MCP Node | Code Node |
+| --- | --- | --- | --- |
+| **Calls** | One ELITEA toolkit's tool | One MCP server's tool | Custom Python |
+| **Tool/parameter selection** | Manual, explicit mapping | Manual, explicit mapping | Written in code |
+| **LLM involved** | No | No | No |
+| **Structured output** | Supported | Supported | Supported |
+| **Flexibility** | Medium — whatever the tool exposes | Medium — whatever the tool exposes | High — full Python |
+| **Best for** | A known toolkit call | A known MCP server call | Logic no toolkit or MCP covers |
 
 ---
 
 ## Deprecated Execution Nodes
 
-The following execution nodes are deprecated and will be removed in a future release. Please migrate to the recommended alternatives:
+The following execution nodes are deprecated and hidden from the node picker. Existing nodes of these types keep working, but build new steps with their replacement instead.
 
 <Accordion title="Function Node">
-The **Function** node is deprecated and will be removed in an upcoming release.
-
-**Migration:** Use the **Toolkit** node for ELITEA toolkits or the **MCP** node for Model Context Protocol servers.
-
-**Key Differences:**
-
-* **Function Node** → **Toolkit Node**: Direct replacement for ELITEA toolkit calls
-* **Function Node** → **MCP Node**: Direct replacement for MCP server tool calls
-
-**Migration Steps:**
-
-1. Identify whether your Function node uses an ELITEA Toolkit or MCP server
-2. Replace with Toolkit Node (for toolkits) or MCP Node (for MCPs)
-3. Copy Input Mapping configuration to new node
-4. Update YAML `type` field from `function` to `toolkit` or `mcp`
-5. Test pipeline execution
+Superseded by **Toolkit** (for ELITEA toolkits) or **MCP** (for Model Context Protocol servers) — both execute the call directly instead of an LLM choosing the tool and arguments.
 
 **Migration Guide:** [Function Node Migration](../../../migration/v2.0.1/function-node-migration)
 </Accordion>
 
 <Accordion title="Tool Node">
-The **Tool** node is deprecated and will be removed in an upcoming release.
-
-**Migration:** Use the **Toolkit** node for direct toolkit execution without LLM preprocessing.
-
-**Key Differences:**
-
-* **Tool Node** uses LLM to select tools and generate parameters from natural language tasks
-* **Toolkit Node** executes tools directly with explicit parameter mapping (faster, more reliable)
-
-**Migration Steps:**
-
-1. Replace Tool Node with Toolkit Node
-2. Convert natural language task to explicit Input Mapping
-3. Manually map task parameters to tool parameters
-4. Update YAML `type` field from `tool` to `toolkit`
-5. Remove `task` field, keep `input_mapping`
-6. Test pipeline execution
+Superseded by **Toolkit**, which executes the same call directly with explicit parameter mapping instead of an LLM selecting the tool and generating its parameters from a natural-language task.
 
 **Migration Guide:** [Tool Node Migration](../../../migration/v2.0.1/tool-node-migration)
 </Accordion>
 
 <Accordion title="Custom Node">
-The **Custom** node is deprecated and hidden from the node picker. Existing Custom nodes keep working as-is — there is no removal deadline and no dedicated migration guide, since there's no single replacement.
-
-**Migration:** For new nodes, select the specific node type that matches what you need instead (**Toolkit**, **MCP**, **LLM**, **Code**, etc.).
+Hidden from the node picker, with no single replacement and no dedicated migration guide. For new nodes, pick the specific type that matches what you need (**Toolkit**, **MCP**, **LLM**, **Code**, etc.).
 </Accordion>
 
 ---
 
 <Info title="Related">
 - **[Nodes Overview](./overview)** - Understand all available node types
-- **[Interaction Nodes](./interaction-nodes)** - LLM and Agent nodes for AI-powered tasks
-- **[Control Flow Nodes](./control-flow-nodes)** - Router, and Decision nodes
-- **[States](../states)** - Manage data flow through pipeline state
-- **[Connections](../nodes-connectors)** - Link nodes together
-- **[YAML Configuration](../yaml)** - See complete node syntax examples
+- **[Pipeline States](../states)** - Manage data flow through pipeline state
+- **[Node Connectors](../nodes-connectors)** - Link nodes together
+- **[YAML Configuration](../yaml)** - Complete node syntax reference
 </Info>

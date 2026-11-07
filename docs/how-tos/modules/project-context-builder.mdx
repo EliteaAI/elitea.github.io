@@ -1,5 +1,6 @@
 ---
 title: "Project Context Builder"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
 **Project Context Builder** module connects the chat to ELITEA's own Model Context Protocol (MCP) server to create, update, and manage the project context directly from it.
@@ -22,22 +23,22 @@ title: "Project Context Builder"
 
 The default state of the **Project Context Builder** module — on or off — [is defined in the project settings](../../menus/settings/general#default-modules).
 
-If **Project Context Builder** is turned off by default, you can turn it on for your current conversation or agent.
+If **Project Context Builder** is turned off by default, you can turn it on for your current chat or agent.
 
 <Callout icon="lightbulb" color="#a855f7" title="Recommended">
 Enable the **Ask User** module alongside **Project Context Builder** for the best experience. When enabled, the agent can ask structured clarifying questions with interactive options if your project context request is missing information. Without **Ask User**, the agent can only request information through normal chat responses.
 </Callout>
 
-### For a Conversation
+### For a Chat
 
-1. Go to the conversation.
+1. Go to the chat.
 2. Select `+` in the chat input toolbar.
 3. Select **Modules** → **Project Context Builder** in the list.
 4. Toggle **Project Context Builder** on.
 
-<img src="../../img/how-tos/chat-conversations/internal-tools/project-context-builder/enable-chat.png" alt="Enable Project Context Builder in a Conversation" width="350" />
+<img src="../../img/how-tos/chat-conversations/internal-tools/project-context-builder/enable-chat.png" alt="Enable Project Context Builder in a Chat" width="350" />
 
-Once enabled, the agent has access to project context management tools for that conversation.
+Once enabled, the agent has access to project context management tools for that chat.
 
 ### For an Agent
 
@@ -48,7 +49,7 @@ Once enabled, the agent has access to project context management tools for that 
 5. Toggle **Project Context Builder** on.
 6. Select **Save**.
 
-All changes apply only to new conversations run by this agent. Existing conversations will not be affected.
+All changes apply only to new chats run by this agent. Existing chats will not be affected.
 
 <img src="../../img/how-tos/chat-conversations/internal-tools/project-context-builder/enable-agent.png" alt="Enable Project Context Builder in Agent Configuration" width="350" />
 
@@ -62,7 +63,7 @@ When **Project Context Builder** is enabled, the agent connects to the ELITEA MC
 - **Single context per project**: Each project has one project context configuration.
 - **Content length**: Maximum 2500 characters for content field.
 - **Activation description length**: Maximum 300 characters for activation description.
-- **Not auto-applied**: Created or updated context is not automatically added to the current conversation.
+- **Not auto-applied**: Created or updated context is not automatically added to the current chat.
 
 ### Available Tools
 
@@ -70,11 +71,11 @@ When **Project Context Builder** is enabled, the agent connects to the ELITEA MC
 |------|---------|----------------|
 | `Get project context` | Returns the project context content and enabled state | `project_id` |
 | `Create or update project context` | Creates if missing or updates existing context | `content`, `enabled`, `activation_description` (optional) |
-| `Delete project context` | Deletes the project context configuration | `project_id` |
+| `Delete project context` | Deletes the project context configuration. Returns an error if no context exists yet. | `project_id` |
 
 ## How to Use Project Context Builder
 
-**Project Context Builder** can only access and modify project context in the project where the conversation is running. It cannot access and modify project context from other projects.
+**Project Context Builder** can only access and modify project context in the project where the chat is running. It cannot access and modify project context from other projects.
 
 ### Create or Update Project Context
 
@@ -101,7 +102,7 @@ After successful creation or update, the project context automatically opens in 
 </Accordion>
 
 <Note>
-Created or updated context is not automatically added to the current conversation.
+Created or updated context is not automatically added to the current chat.
 </Note>
 
 ### Manage Project Context
@@ -145,9 +146,23 @@ With **Project Context Builder**, you can manage project context directly from c
 - Be specific when updating context. Describe exactly what should change
 </Accordion>
 
-<Info title="See also">
+## Troubleshooting
+
+<Accordion title="Deleting project context fails with 'not found'">
+**Possible causes:**
+
+* Project context was never created for this project
+* Project context was already deleted
+
+**Solution:**
+
+1. Check the current context first with **Get project context**.
+2. If none exists, there is nothing to delete.
+</Accordion>
+
+<Callout icon="book" color="#C9B896" title="See Also">
 See also:
 - [Project Context](../../menus/settings/project-context)
 - [Agents](../../menus/agents)
 - [Ask User](../modules/ask-user)
-</Info>
+</Callout>

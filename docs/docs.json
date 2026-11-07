@@ -114,6 +114,7 @@
                       "menus/settings/general",
                       "menus/settings/ai-providers",
                       "menus/settings/project-context",
+                      "menus/settings/schedules",
                       "menus/settings/secrets",
                       "menus/settings/users",
                       "menus/settings/analytics",
@@ -205,6 +206,7 @@
                 "pages": [
                   "how-tos/modules/modules",
                   "how-tos/chat-conversations/image-generation",
+                  "how-tos/modules/web-search",
                   "how-tos/chat-conversations/data-analysis-internal-tool",
                   "how-tos/chat-conversations/agents-&-pipeline-builder",
                   "how-tos/modules/skill-builder",
@@ -365,7 +367,8 @@
               "how-tos/entity-management/search-entities",
               "how-tos/entity-management/working-with-pins",
               "how-tos/entity-management/organizing-entities",
-              "how-tos/entity-management/backup"
+              "how-tos/entity-management/backup",
+              "how-tos/entity-management/delete_project_data"
             ]
           }
         ]
@@ -443,7 +446,7 @@
                 "expanded": false,
                 "pages": [
                   "integrations/toolkits/outlook_toolkit",
-                  "integrations/toolkits/powerpoint_toolkit", 
+                  "integrations/toolkits/powerpoint_toolkit",
                   "integrations/toolkits/sharepoint_toolkit",
                   "integrations/toolkits/teams_toolkit"
                 ]
@@ -485,6 +488,7 @@
                 "pages": [
                   "integrations/toolkits/artifact_toolkit",
                   "integrations/toolkits/custom_toolkit",
+                  "integrations/toolkits/dataverse_toolkit",
                   "integrations/toolkits/figma_toolkit",
                   "integrations/toolkits/google_places_toolkit",
                   "integrations/toolkits/memory_toolkit",
@@ -492,7 +496,8 @@
                   "integrations/toolkits/postman_toolkit",
                   "integrations/toolkits/salesforce_toolkit",
                   "integrations/toolkits/servicenow_toolkit",
-                  "integrations/toolkits/syngen_toolkit"
+                  "integrations/toolkits/syngen_toolkit",
+                  "integrations/toolkits/tavily_toolkit"
                 ]
               }
             ]
@@ -525,18 +530,19 @@
           {
             "group": "Latest Release",
             "icon": "tag",
-            "pages": ["release-notes/rn-2-0-7"]
+            "pages": ["release-notes/rn-2-0-8"]
           },
           {
             "group": "Recent Releases",
             "icon": "clock-rotate-left",
-            "pages": ["release-notes/archived/rn-2-0-6", "release-notes/archived/rn-2-0-5"]
+            "pages": ["release-notes/archived/rn-2-0-7", "release-notes/archived/rn-2-0-6"]
           },
           {
             "group": "Older Releases",
             "icon": "archive",
             "expanded": false,
             "pages": [
+              "release-notes/archived/rn-2-0-5",
               "release-notes/archived/rn-2-0-4",
               "release-notes/archived/rn-2-0-3",
               "release-notes/archived/rn-2-0-2",

@@ -1,14 +1,14 @@
 ---
 title: "Image Creation"
 sidebarTitle: "Image Creation"
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.8*/}
 ---
 
-**Image Creation** module allows generating images directly from chat: images appear inline as thumbnails in the conversation and can be viewed full-size or downloaded.
+**Image Creation** module allows generating images directly from chat: images appear inline as thumbnails in the chat and can be viewed full-size or downloaded.
 
 ## Prerequisites
 
 To generate images, you need:
-* An LLM model that supports image generation
 * **Image Creation** enabled in your chat or agent
 * An image generation model configured and selected in your project ([Settings > AI Providers](../../menus/settings/ai-providers))
 * Proper project configuration by your administrator
@@ -21,19 +21,18 @@ If the **Image Creation** module is not available, contact your administrator to
 
 The default state of the **Image Creation** module — on or off — [is defined in the project settings](../../menus/settings/general#default-modules).
 
-If **Image Creation** is turned off by default, you can turn it on for your current conversation or agent.
+If **Image Creation** is turned off by default, you can turn it on for your current chat or agent.
 
-### For a Conversation
+### For a Chat
 
 <Info title="Option Availability">
-To generate images, your project must have the configured image generation provider toolkit. Without it, the **Image Creation** module is silently omitted from the list. Contact your administrator if you do not see it in the Modules list.
+To generate images, your project must have the configured image generation provider toolkit. Without it, the **Image Creation** module is silently omitted from the list. Contact your administrator if you do not see it in the modules list.
 </Info>
 
-1. Go to the conversation.
+1. Go to the chat.
 2. Select **+** in the chat input toolbar.
-3. Select **Modules** → **Image Creation** in the list.
+3. Select **MODULES** → **Image Creation** in the list.
 4. Toggle **Image Creation** on.
-5. Use the model selector to choose a model with image generation capabilities.
 
 <img src="../../img/how-tos/chat-conversations/internal-tools/image-generation/euch_on-in-chat.png" alt="Enable image creation in chat"/>
 
@@ -41,15 +40,14 @@ To generate images, your project must have the configured image generation provi
 
 1. Select **Agents**.
 2. Select the agent to configure, or create a new agent.
-3. In the **TOOLS** section, find **Modules**.
+3. In the **TOOLS** section, find **MODULES**.
 4. Find **Image Creation**. Select **Show all** if you do not see it immediately.
 5. Toggle **Image Creation** on.
-6. Use the model selector to choose a model with image generation capabilities.
-7. Select **Save**.
+6. Select **Save**.
 
-All changes apply only to new conversations run by this agent. Existing conversations will not be affected.
+All changes apply only to new chats run by this agent. Existing chats will not be affected.
 
-<img src="../../img/how-tos/chat-conversations/internal-tools/image-generation/euch_for agent.png" alt="Enable image creation for agents" width="400" />
+<img src="../../img/how-tos/chat-conversations/internal-tools/image-generation/euch_for-agent.png" alt="Enable image creation for agents" width="400" />
 
 ## How to Generate Images
 
@@ -63,10 +61,10 @@ All changes apply only to new conversations run by this agent. Existing conversa
 
 1. In the message input field, type a prompt describing the image you want to create.
 2. Press **Send** or hit `Enter`. ELITEA will automatically invoke the image generation tool.
-3. Generated image(s) will appear inline in the conversation.
+3. Generated image(s) will appear inline in the chat.
 
 <Info title="Storage and Deletion">
-Generated images are automatically saved in **Artifacts** in the `attachments` bucket, inside a dedicated images folder. This folder is created automatically the first time you generate an image if it doesn't already exist.
+Generated images are automatically saved in **Artifacts**, in the `attachments` bucket, inside a folder created automatically for that chat the first time you generate an image.
 </Info>
 
 For example, you can ask:
@@ -85,7 +83,7 @@ In your prompts, you can specify:
 * image size
 * style
 
-You can further refine a generated image through conversation, for example by saying "Make it brighter and add more natural light." Keep iterating until you are satisfied with the result.
+You can further refine a generated image through chat, for example by saying "Make it brighter and add more natural light." Keep iterating until you are satisfied with the result.
 
 ## How to View and Manage Images
 
@@ -114,7 +112,7 @@ To delete the image from the chat:
 * Select **Delete**.
 * A confirmation dialog opens showing the image filename.
 * The dialog includes an **"Also delete from attachment storage"** checkbox (unchecked by default):
-     * Leave it unchecked to remove the image only from the chat view
+     * Leave it unchecked to remove the image only from the chat
      * Check it to delete the file from the Artifacts as well.
 * Select **Delete**.
 
@@ -275,26 +273,28 @@ In **Artifacts**, you can download and delete images in bulk.
 
 * **Image Creation** is not enabled
 * No image generation provider toolkit is configured for the project
-* **Modules** are hidden because the project has no available modules
+* **MODULES** are hidden because the project has no available modules
 * Network connectivity issues
 
 **Solutions:**
 
 1. Refresh the page and try again.
-2. Enable **Image Creation** in **Modules**.
+2. Enable **Image Creation** in **MODULES**.
 3. Contact your project administrator.
 </Accordion>
 
 <Accordion title="ELITEA cannot generate an image">
-**Possible cause:**
+**Possible causes:**
 
-The selected model lacks image generation capabilities.
+* No default image generation model is configured for the project
+* The configured image generation provider is temporarily unavailable
+* The image generation request failed (API error, rate limit, or an invalid prompt)
 
 **Solution:**
 
-1. Select a different model.
-2. Verify model configuration with your project administrator.
-3. Check integration settings for the image generation endpoint.
+1. Ask your project administrator to verify a default image generation model is configured in [Settings > AI Providers](../../menus/settings/ai-providers).
+2. Ask your administrator to check the health of the image generation provider.
+3. Simplify your prompt and try again.
 </Accordion>
 
 <Accordion title="I cannot preview the generated image">
@@ -358,9 +358,8 @@ The selected model lacks image generation capabilities.
 4. Try during off-peak hours if the rate is limited.
 </Accordion>
 
-<Info title="See also">
+<Callout icon="book" color="#C9B896" title="See Also">
 See also:
-
-* **[Artifacts](../../integrations/toolkits/artifact_toolkit)**
-* **[Agent Configuration](../../menus/agents)**
-</Info>
+- [Artifacts](../../integrations/toolkits/artifact_toolkit)
+- [Agent Configuration](../../menus/agents)
+</Callout>
