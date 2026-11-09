@@ -67,12 +67,14 @@ All changes apply only to new chats run by this agent. Existing chats will not b
 
 ## How Web Search Works
 
-When **Web Search** is on, the LLM gains access to two tools:
+When **Web Search** is on, the LLM gains access to four tools:
 
 | Tool | Purpose |
 |------|---------|
 | `web_search` | Searches the web for a query and returns a numbered list of results, each with a title, a link and a short snippet. |
 | `web_extract` | Reads the content of up to five provided pages, and returns it as text. |
+| `web_crawl` | Crawls a website from a starting URL, following links up to a limited depth, and returns the content it finds. |
+| `web_map` | Lists the URLs of a website from a starting URL (a site map), without fetching page content. |
 
 You do not need to ask the LLM explicitly when to search or read web pages. It searches when your question needs current or external information, and reads a page when you give it a link or the search snippets are not enough.
 
