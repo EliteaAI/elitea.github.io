@@ -505,7 +505,7 @@
           {
             "group": "Applications",
             "icon": "puzzle-piece",
-            "pages": ["integrations/apps/wikis", "integrations/apps/inventory"]
+            "pages": ["integrations/apps/wikis", "integrations/apps/inventory", "integrations/apps/questionnaire"]
           },
           {
             "group": "Third-Party Integrations",
