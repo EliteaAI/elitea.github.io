@@ -1,0 +1,3 @@
+ELITEA docs: code in ../EliteaUI, ../elitea-sdk, ../repos/elitea_core (release/* branch) is the source of truth; document only what exists.
+Protected: docs/archive, docs/styleguides, mintlify.schema.json, release-notes skill; docs/release-notes needs approval. Edit docs.json via nav.py.
+Skills: create-toolkit-guide, create-doc-page, update-doc, place-images, doc-review, fix-links, update-nav, maintain-toolkit.

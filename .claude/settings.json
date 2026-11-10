@@ -12,7 +12,84 @@
       "Read(//tmp/rn/**)",
       "Read(//private/tmp/rn/**)",
       "Write(//tmp/rn/**)",
-      "Write(//private/tmp/rn/**)"
+      "Write(//private/tmp/rn/**)",
+      "Bash(python .claude/skills/release-notes/scripts/fetch_issues.py *)",
+      "Bash(python .claude/skills/release-notes/scripts/doc_index.py *)",
+      "Bash(python .claude/skills/release-notes/scripts/rn_file.py current)",
+      "Bash(python .claude/skills/release-notes/scripts/rn_file.py status)",
+      "Bash(python .claude/skills/release-notes/scripts/rn_file.py set *)",
+      "Bash(python .claude/skills/release-notes/scripts/rn_file.py order *)",
+      "Bash(python .claude/hooks/validate_doc.py *)",
+      "Bash(python .claude/skills/update-nav/nav.py *)",
+      "Bash(python .claude/skills/place-images/place_images.py *)",
+      "Bash(python -m json.tool docs/docs.json)",
+      "Bash(cd docs && mint broken-links*)",
+      "Bash(cd docs && mint validate*)",
+      "Bash(cd docs && mint a11y*)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git show*)",
+      "Bash(git branch*)",
+      "Bash(gh pr view *)",
+      "Bash(gh pr diff *)",
+      "Bash(git -C ../elitea-sdk show *)",
+      "Bash(git -C ../elitea-sdk grep *)",
+      "Bash(git -C ../elitea-sdk log *)",
+      "Bash(git -C ../elitea-sdk branch*)",
+      "Read(../elitea-sdk/**)",
+      "Bash(git -C ../EliteaUI show *)",
+      "Bash(git -C ../EliteaUI grep *)",
+      "Bash(git -C ../EliteaUI log *)",
+      "Bash(git -C ../EliteaUI branch*)",
+      "Read(../EliteaUI/**)",
+      "Bash(git -C ../repos/elitea_core show *)",
+      "Bash(git -C ../repos/elitea_core grep *)",
+      "Bash(git -C ../repos/elitea_core log *)",
+      "Bash(git -C ../repos/elitea_core branch*)",
+      "Read(../repos/elitea_core/**)"
+    ],
+    "ask": [
+      "Bash(git commit*)",
+      "Bash(git push*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit|Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/protect.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/validate_doc.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -c \"import sys;sys.stdout.write(open(sys.argv[1],encoding='utf-8').read())\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/session-reminder.txt\"",
+            "timeout": 5
+          }
+        ]
+      }
     ]
   }
 }
