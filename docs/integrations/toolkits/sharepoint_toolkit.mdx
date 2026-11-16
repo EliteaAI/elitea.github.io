@@ -266,10 +266,25 @@ The SharePoint credential supports **three** authentication modes: **Default app
              | **Client ID** | Application (client) ID from your Azure AD app registration | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
              | **Client Secret** | Client Secret Value generated in Azure AD | `your-client-secret-value` |
              | **OAuth Discovery Endpoint** | Azure AD tenant base URL in the format `https://login.microsoftonline.com/{tenant_id}`. The `{tenant_id}` is the **Directory (tenant) ID** from your Azure AD App Registration Overview page | `https://login.microsoftonline.com/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
-             | **Scopes** | Space-separated OAuth permission scopes the delegated token should request | `Sites.ReadWrite.All Files.ReadWrite.All Notes.ReadWrite.All` |
+             | **Scopes** | Microsoft Graph delegated permissions, presented as **checkboxes** (see the table below). `Sites.ReadWrite.All`, `Files.ReadWrite.All` and `Notes.ReadWrite.All` are ticked by default; together they cover every tool | Default selection |
              | **Auto Refresh Token** | Automatically refresh the access token using the `offline_access` scope; `offline_access` is requested automatically unless this is off | Enabled by default |
 
              <img src="../../img/integrations/toolkits/sharepoint/custom-app-sharepoint.png" alt="Custom App SharePoint" width="500"/>
+
+             <Info>
+             **Available Scopes**
+
+             | Permission | What it enables |
+             |---|---|
+             | `Sites.Read.All` | Read sites, lists and files in site libraries: `get_lists`, `read_list`, `get_list_columns`, `get_files_list`, `read_document`, connection test |
+             | `Sites.ReadWrite.All` | Add list items and upload files to sites: `create_list_item`, `upload_file` |
+             | `Files.Read.All` | Read files you can open, including OneDrive: `get_files_list`, `read_document` |
+             | `Files.ReadWrite.All` | Open sharing links and file URLs, upload files: `read_file_from_sharing_link`, `read_file_from_url`, `upload_file`. Microsoft offers no read-only permission for sharing links |
+             | `Notes.Read.All` | Read site OneNote notebooks, sections, pages and attachments: `onenote_get_*`, `onenote_read_*`, `onenote_list_attachments` |
+             | `Notes.ReadWrite.All` | Create, change and delete OneNote notebooks, sections and pages: `onenote_create_*`, `onenote_update_page`, `onenote_replace_page_content`, `onenote_delete_page` |
+
+             A `ReadWrite` permission includes its `Read` permission. Scopes saved before this list existed keep only the values it offers; anything else (for example `Lists.ReadWrite.All`, which is not a Microsoft Graph permission) is dropped on the next save. After the change, existing SharePoint credentials ask you to sign in once more.
+             </Info>
 
              <Warning title="Re-login required after scope changes">
              If you add, remove, or modify the **Scopes** field after the initial login (e.g., to add `Notes.ReadWrite.All` for OneNote access), the existing token will not automatically include the new scopes. You must click **Login** again to complete a new OAuth authorization flow and obtain a fresh token that reflects the updated scope list.
@@ -905,7 +920,7 @@ This step is only required for a **Delegated (User OAuth)** mode (Default app or
 **Troubleshooting Steps:**
 
 1. **Switch to a Delegated credential:** In ELITEA, navigate to your SharePoint credential and switch to the **Default app** or **Custom app** tab.
-2. **Default app:** no further configuration is needed — skip to step 4. **Custom app:** configure **OAuth Discovery Endpoint** (`https://login.microsoftonline.com/{tenant_id}` using your Directory (tenant) ID) and **Scopes** (`Sites.ReadWrite.All Files.ReadWrite.All Lists.ReadWrite.All Notes.ReadWrite.All`).
+2. **Default app:** no further configuration is needed — skip to step 4. **Custom app:** configure **OAuth Discovery Endpoint** (`https://login.microsoftonline.com/{tenant_id}` using your Directory (tenant) ID) and keep the default **Scopes** ticked (`Sites.ReadWrite.All`, `Files.ReadWrite.All`, `Notes.ReadWrite.All`).
 3. (Custom app only) Confirm the Azure AD app registration behind the credential has these scopes granted with admin consent.
 4. **Complete the OAuth flow:** Click **Log in** to authorize. Once authorized with a Delegated credential, all OneNote tools become available.
 </Accordion>
@@ -919,10 +934,7 @@ This step is only required for a **Delegated (User OAuth)** mode (Default app or
 
 1. **Add the Notes permission in Azure AD:** In the [Azure Portal](https://portal.azure.com), go to **Microsoft Entra ID → App registrations → [your app] → API permissions**. Click **"+ Add a permission"** → **"Microsoft Graph"** → **"Delegated permissions"**, search for `Notes.ReadWrite.All`, and add it.
 2. **Grant admin consent:** On the API permissions page, click **"Grant admin consent for [Your Organization]"**. The `Notes.ReadWrite.All` entry must show a green checkmark.
-3. **Update the Scopes field in your ELITEA credential** to include all required OneNote scopes. Use the full URL format:
-    ```
-    https://graph.microsoft.com/Sites.ReadWrite.All https://graph.microsoft.com/Files.ReadWrite.All https://graph.microsoft.com/Notes.ReadWrite.All
-    ```
+3. **Tick `Notes.ReadWrite.All`** under **Scopes** in your ELITEA credential (Custom app). With a Default app, ask your administrator to include it in the app's SharePoint scopes.
 4. **Re-login:** Click **Log in** again in your ELITEA SharePoint credential to obtain a fresh token that includes the `Notes.ReadWrite.All` scope.
 
 <Info title="Required OneNote Scopes">
@@ -935,8 +947,8 @@ The following scopes are required for OneNote indexing and tool operations:
 | `Files.ReadWrite.All` | Access to files referenced from OneNote pages |
 </Info>
 
-<Info title="Short vs. Full URL scope format">
-The ELITEA credential accepts scopes in both short (`Notes.ReadWrite.All`) and full URL (`https://graph.microsoft.com/Notes.ReadWrite.All`) formats. If short-format scopes do not resolve for your tenant, switch to the full URL format.
+<Info title="Scope format">
+Scopes are picked from the checkbox list, so their format is fixed. Values saved earlier in the full URL format (`https://graph.microsoft.com/Notes.ReadWrite.All`) are read as the matching checkbox.
 </Info>
 </Accordion>
 
