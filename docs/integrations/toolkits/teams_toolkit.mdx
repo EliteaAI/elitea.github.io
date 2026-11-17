@@ -231,7 +231,7 @@ Before creating a toolkit, you must first create Teams credentials in ELITEA. Th
              | `Team.ReadBasic.All` | List the teams you are a member of: `list_teams`, team names, connection test |
              | `Channel.ReadBasic.All` | List the channels of a team: `list_channels`, channel names |
              | `ChannelMessage.Send` | Post and reply in channels as you: `send_channel_message` |
-             | `ChannelMessage.Read.All` | Search and read channel messages: `search_teams_messages` across chats and channels. Marked **Admin consent** and off by default: tick it only if your Entra admin has granted it |
+             | `ChannelMessage.Read.All` | Search and read channel messages (`search_teams_messages` across channels). **Requires Entra admin consent.** Off by default: leave it off unless your Entra admin has granted it |
 
              ELITEA passes the ticked permissions to Microsoft at sign-in as-is. Microsoft decides what the issued token actually holds: **a token always carries every permission you already approved for this Entra app**, so unticking a box here does not remove access you granted previously. To actually revoke a permission, remove it on the app's page at [myapps.microsoft.com](https://myapps.microsoft.com) (or ask your Entra admin), then sign in again. To strictly limit what a toolkit can do, use a separate Entra app that only has the permissions you intend to grant it.
              </Info>
@@ -690,17 +690,17 @@ Agent Response: [Agent uses send_chat_message tool with chat="anna@contoso.com",
 1. **Tick the Named Permission:** In Custom app mode, tick the exact permission named in the error message under **Scopes** on the credential (see the Scopes table above), then click **Logout** and **Login** again — an existing token does not automatically pick up newly ticked permissions.
 2. **Grant Admin Consent (if required):** If your tenant requires admin consent for delegated permissions, ensure it has been granted for the permission in question.
 3. **Default app mode:** If the credential uses a Default app, ask your administrator to confirm the shared app has the needed permission configured and consented in Entra ID.
-4. **`search_teams_messages` fails with 403:** The error names `ChannelMessage.Read.All`, which requires Entra admin consent. Ask your Entra admin to grant it, then tick it on the credential (Custom app) or ask your administrator to add it to the Default app, and sign in again.
+4. **`search_teams_messages` fails with 403:** The error names `ChannelMessage.Read.All`. This permission requires Entra admin consent. Ask your Entra admin to grant it, then tick it on the credential (Custom app) or ask your administrator to add it to the Default app, and sign in again.
 </Accordion>
 
-<Accordion title="Sign-in Refused: Permission Needs Admin Consent">
-**Problem:** The sign-in window shows *"ChannelMessage.Read.All needs admin consent in your Entra tenant. Ask your Entra admin to grant it, or untick it in the credential."*, or Microsoft shows a **Need admin approval** page.
+<Accordion title="Sign-in Refused: Need Admin Approval">
+**Problem:** During sign-in, Microsoft shows a **Need admin approval** page, or the sign-in fails with an error such as *AADSTS65001* or *AADSTS90094*.
 
-**Cause:** The credential asks for a permission that only an Entra admin can grant (marked **Admin consent** in the Scopes list), and your tenant has not granted it. Microsoft then refuses the whole sign-in.
+**Cause:** The credential asks for a permission that only an Entra admin can grant, such as `ChannelMessage.Read.All`, and your tenant has not granted it. Microsoft then refuses the whole sign-in.
 
 **Troubleshooting Steps:**
 
-1. **Untick the Permission:** In Custom app mode, untick the permission marked **Admin consent** and sign in again. Every tool except `search_teams_messages` works without it.
+1. **Untick the Permission:** In Custom app mode, untick `ChannelMessage.Read.All` (its description says it requires Entra admin consent) and sign in again. Every tool except `search_teams_messages` works without it.
 2. **Ask for Admin Consent:** Ask your Entra admin to open the app registration's **API permissions** page and click **Grant admin consent** for it.
 3. **Default app mode:** Ask your ELITEA administrator: the Default app's Teams scopes include the permission, but its Entra registration lacks admin consent.
 </Accordion>
