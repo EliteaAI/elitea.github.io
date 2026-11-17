@@ -266,7 +266,7 @@ The SharePoint credential supports **three** authentication modes: **Default app
              | **Client ID** | Application (client) ID from your Azure AD app registration | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
              | **Client Secret** | Client Secret Value generated in Azure AD | `your-client-secret-value` |
              | **OAuth Discovery Endpoint** | Azure AD tenant base URL in the format `https://login.microsoftonline.com/{tenant_id}`. The `{tenant_id}` is the **Directory (tenant) ID** from your Azure AD App Registration Overview page | `https://login.microsoftonline.com/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
-             | **Scopes** | Microsoft Graph delegated permissions, presented as **checkboxes** (see the table below). `Sites.ReadWrite.All`, `Files.ReadWrite.All` and `Notes.ReadWrite.All` are ticked by default; together they cover every tool | Default selection |
+             | **Scopes** | Microsoft Graph delegated permissions, presented as **checkboxes** (see the table below). The read-only `Sites.Read.All`, `Files.Read.All` and `Notes.Read.All` are ticked by default: reading, OneNote reading and indexing work. Tick the `ReadWrite` permissions for `create_list_item`, `upload_file`, OneNote writes and sharing links | Default selection |
              | **Auto Refresh Token** | Automatically refresh the access token using the `offline_access` scope; `offline_access` is requested automatically unless this is off | Enabled by default |
 
              <img src="../../img/integrations/toolkits/sharepoint/custom-app-sharepoint.png" alt="Custom App SharePoint" width="500"/>
@@ -920,7 +920,7 @@ This step is only required for a **Delegated (User OAuth)** mode (Default app or
 **Troubleshooting Steps:**
 
 1. **Switch to a Delegated credential:** In ELITEA, navigate to your SharePoint credential and switch to the **Default app** or **Custom app** tab.
-2. **Default app:** no further configuration is needed — skip to step 4. **Custom app:** configure **OAuth Discovery Endpoint** (`https://login.microsoftonline.com/{tenant_id}` using your Directory (tenant) ID) and keep the default **Scopes** ticked (`Sites.ReadWrite.All`, `Files.ReadWrite.All`, `Notes.ReadWrite.All`).
+2. **Default app:** no further configuration is needed — skip to step 4. **Custom app:** configure **OAuth Discovery Endpoint** (`https://login.microsoftonline.com/{tenant_id}` using your Directory (tenant) ID) and keep the default **Scopes** ticked (`Sites.Read.All`, `Files.Read.All`, `Notes.Read.All`). To create, change or delete OneNote content, also tick `Notes.ReadWrite.All`.
 3. (Custom app only) Confirm the Azure AD app registration behind the credential has these scopes granted with admin consent.
 4. **Complete the OAuth flow:** Click **Log in** to authorize. Once authorized with a Delegated credential, all OneNote tools become available.
 </Accordion>
