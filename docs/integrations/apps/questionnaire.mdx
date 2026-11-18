@@ -1,0 +1,304 @@
+---
+title: "Questionnaire"
+description: "Instructions for enabling and using the Questionnaire application within ELITEA — an AI assistant that fills in questionnaires from your project's documents, with a reference for every answer and an honest \"not found\" when the sources are silent."
+---
+
+---
+
+## Introduction
+
+The **Questionnaire application** within ELITEA answers questionnaires for you. Upload the questionnaire you received (an Excel workbook in the first release), point the app at the documents that hold the answers (product documentation, procedures, specifications, earlier questionnaires), and run it. The app extracts every question, searches the sources, writes a short answer per question in English, cites the document and page each answer rests on, and returns the completed questionnaire as an Excel workbook. When the sources do not contain an answer, the app says so instead of guessing.
+
+<CardGroup cols={2}>
+  <Card title="Question Extraction" icon="list-check">
+    Reads the questionnaire sheet by sheet, keeps requirement numbers, section headings and the sheet a question belongs to, and marks duplicates.
+  </Card>
+  <Card title="Referenced Answers" icon="quote-left">
+    Every answer cites the document and page it was taken from. References come from the indexed text, never from the model's memory.
+  </Card>
+  <Card title="Honest Not-Found" icon="circle-question">
+    A question the sources do not answer is marked **Not found** with a reason, so reviewers know where the gaps are.
+  </Card>
+  <Card title="Answered vs. Suggested" icon="scale-balanced">
+    Direct evidence gives an **Answered** status; related but indirect evidence gives **Suggested**, which a reviewer should confirm.
+  </Card>
+  <Card title="Excel Export" icon="file-excel">
+    Download the result at any time, even while a run is in progress: answers, issues, a summary of the run and a list of references.
+  </Card>
+  <Card title="Pause and Resume" icon="pause">
+    Long runs can be paused and resumed. Finished answers are kept; a resumed run answers only what is still pending.
+  </Card>
+</CardGroup>
+
+---
+
+## Prerequisites
+
+<CardGroup cols={3}>
+  <Card title="Project Membership" icon="users">
+    You must be a member of the project. Editors and admins can create sources and runs; viewers can open runs and download exports.
+  </Card>
+  <Card title="LLM Model" icon="brain">
+    The project's default chat model is used for extraction and answering. A project admin can pick different models in the app's **Settings**.
+  </Card>
+  <Card title="Embedding Model" icon="vector-square">
+    The project's default embedding model indexes the source documents. Indexing uses the project's PgVector configuration.
+  </Card>
+</CardGroup>
+
+<Info title="Where your data stays">
+The questionnaire files, the source documents and the exports are stored in artifact buckets of your project. The app acts with your own ELITEA session: it can only read what you can read, and it never stores a personal access token.
+</Info>
+
+---
+
+## System Integration with ELITEA
+
+Questionnaire integrates with ELITEA as an **Application** accessible through the **Apps menu**. It brings its own interface for sources, runs and results; no agent or toolkit setup is needed to use it.
+
+### Request Questionnaire Application Access
+
+If the **Questionnaire** application is not yet enabled for your project, the App Catalog card shows a **Request Access** button instead of **Configure**. Submit a request to have it enabled by your administrator.
+
+1. **Navigate to Apps:** Open the sidebar and select **Apps**.
+2. **Open the App Catalog tab:** Select the **App Catalog** tab to browse available applications.
+3. **Locate the Questionnaire card:** Find the **Questionnaire** card in the catalog.
+4. **Click Request Access:** Click the **Request Access** button on the card.
+5. **Provide a reason:** In the request modal, enter a description of why you need the application.
+6. **Submit the request:** Click **Submit** to send the request to your administrator.
+7. **Await approval:** Once approved, the card updates and the **Configure** button becomes available.
+
+---
+
+### Create the Questionnaire Application
+
+1. **Navigate to Apps:** Open the sidebar and select **Apps**.
+2. **Open the App Catalog tab:** Select the **App Catalog** tab.
+3. **Locate the Questionnaire card:** Find the **Questionnaire** card in the catalog.
+4. **Start configuration:** Click **Configure**. This opens the application form.
+5. **Name the application:** Enter a name (for example "Product questionnaires") and an optional description. Everything else — sources, settings and runs — is managed inside the app.
+6. **Save Application:** Click **Save** to create the application.
+
+<Info title="Application Interface">
+The Questionnaire application opens from the **Applications** tab and contains:
+
+* **Runs** — every questionnaire run of the project, with its status and progress
+* **Sources** — the document collections the app searches
+* **Settings** — models, batch sizes and search parameters (project admins only)
+</Info>
+
+---
+
+### Applications Tab
+
+All created Questionnaire applications are listed in the **Applications** tab of the **Apps menu**. Click the card to open the app. Use the action menu on the card to edit the application's name or delete it.
+
+<Note>
+If no applications have been configured yet, the **Applications** tab shows an empty state. Click **+ Create** to open the App Catalog.
+</Note>
+
+---
+
+## Working with the Questionnaire Application
+
+A typical cycle has three steps: add a **source** and let it index, create a **run** with the questionnaire file, then review the **results** and download the Excel.
+
+### Adding a Source
+
+A source is a collection of documents the app may cite. In the current release a source is a set of **uploaded files**; the app indexes them with the project's embedding model.
+
+**To add a source:**
+
+1. Open the Questionnaire application from the **Applications** tab and select **Sources**.
+2. Click **Add source**, enter a name (for example "Product documentation") and save. The app creates a bucket for the source in your project's **Artifacts**.
+3. Drop the documents into the upload area. Accepted types: `.pdf`, `.docx`, `.txt`, `.md`, `.xlsx`, `.csv`, `.pptx`, `.json`.
+4. Click **Sync**. The source shows **Indexing** with a file counter and turns **Synced** when the index is complete.
+
+<Note title="How indexing works">
+Each sync indexes the files that are new or changed since the last sync; the first sync indexes everything. One sync runs per source at a time. If the platform stops reporting progress for 15 minutes the sync is marked failed with a readable reason, and you can run it again.
+</Note>
+
+<Warning title="Keep sources focused">
+Answers are only as good as the documents behind them. A source made of the documents that actually cover the questionnaire's topic gives better references than one large bucket of everything. You can add several sources and pick which ones a run uses.
+</Warning>
+
+---
+
+### Creating a Run
+
+1. Select **Runs** and click **New run**.
+2. **Name the run** (for example "Supplier questionnaire, Q4").
+3. **Pick the sources** the run may cite. At least one synced source is required.
+4. **Add context for this run only** (optional): a few sentences about who is asking, the scope or the product in question. The context is given to the model with every question.
+5. **Upload the questionnaire.** The current release accepts `.xlsx` workbooks, up to 10 files of 50 MB each. Every sheet is read; merged-cell headings become the context of the questions under them, and the sheet name becomes the question group.
+6. Click **Start**. The run moves through **Syncing** (sources that are not yet indexed are synced first), **Extracting**, **Answering** and **Exporting**.
+
+<Info title="What happens during a run">
+* **Extracting** reads the workbook in windows of rows and asks the model to return the questions with their numbers, headings and sheet. Rows that are headings or instructions are skipped; exact duplicate questions are marked.
+* **Answering** works in small batches of questions from the same sheet. For each batch the app writes search queries in the language of the sources, searches every selected source, and asks the model to answer only from the evidence it found. Each answer cites up to three passages. If nothing useful is found, the queries are rephrased and searched again before the question is marked **Not found**.
+* **Exporting** writes the final Excel workbook and stores it in the run's bucket.
+</Info>
+
+---
+
+### Pausing, Resuming and Cancelling
+
+* **Pause** stops the run after the current batch of answers. Finished answers are kept.
+* **Resume** continues from where the run stopped. Questions that ended in an error are answered again.
+* **Cancel** ends the run; the answers produced so far remain available and can still be exported.
+
+A run also pauses by itself when your ELITEA session expires or the project's model budget is exhausted. The run page shows the reason; sign in again (or raise the budget) and click **Resume**.
+
+<Note title="Runs survive restarts">
+Progress is checkpointed after every batch. If the worker that processes the run is restarted, another worker picks the run up and continues from the last checkpoint; no answer is produced twice.
+</Note>
+
+---
+
+### Reviewing Results
+
+The run page shows the progress of the run and, once answering starts, its results.
+
+* **Summary tiles** count the questions by status: **Answered**, **Suggested**, **Not found**, **Error**, **Pending**. Click a tile to filter the table.
+* **Filters** narrow the table by status, by group (sheet) and by a text search over questions and answers.
+* **Results table** lists the question number, the question, the answer in English, the references (document name, page and, when the document provides one, the section title), the status and any flags.
+* **Show events** opens the run log: stage changes, sync results, pauses and errors.
+
+| Status | Meaning |
+|---|---|
+| **Answered** | The evidence states the fact directly. |
+| **Suggested** | The evidence is related but does not state the fact directly; a reviewer should confirm. |
+| **Not found** | Nothing in the selected sources answers the question. The reason is shown. |
+| **Error** | The answer could not be produced (for example the model was unavailable). Resume retries these questions. |
+
+Flags mark answers that need a second look: `no_reference` (the model answered without citing evidence, so the answer was demoted to **Not found** and kept as a note) and `long_answer` (more than four sentences).
+
+---
+
+### Downloading the Excel
+
+Click **Download Excel** on the run page. The workbook has four sheets:
+
+| Sheet | Content |
+|---|---|
+| **Answers** | One row per question: number, group, question, context from the file, answer, references, status, flags, search step, location in the uploaded file, note |
+| **Issues** | Only the questions that are **Not found**, in **Error** or flagged, with the reason |
+| **Summary** | Run name, status, counts by status, model and search settings used, token usage, the sources and when they were synced |
+| **Links** | One row per reference with the document name and page |
+
+A download during a run produces a **partial** export (the file name ends in `-partial`); the final export is created automatically when the run finishes. Earlier exports stay available on the run page.
+
+---
+
+## <Icon icon="circle-check" size={26} /> Best Practices
+
+<Accordion title="Prepare the sources">
+Upload the documents that actually cover the questionnaire's topic, in their current version. Remove drafts and superseded versions: the app cites what it finds, and an old document produces an old answer. Re-sync a source after replacing files.
+</Accordion>
+
+<Accordion title="Give the run context">
+A few sentences in **Extra context** — which product, who is asking, which scope — help the model pick the right passages and phrase the answer for the reader. Keep it factual; it is sent with every question.
+</Accordion>
+
+<Accordion title="Review Suggested answers first">
+**Suggested** answers are the ones the model was least sure about. Review them before the **Answered** ones; the **Issues** sheet of the export lists everything that needs a human decision.
+</Accordion>
+
+<Accordion title="Keep questionnaire files tidy">
+The extraction copes with merged headings, instruction sheets and mixed languages, but a workbook where each sheet has one header row and one question per row extracts fastest and most accurately.
+</Accordion>
+
+---
+
+## <Icon icon="triangle-exclamation" size={26} /> Troubleshooting
+
+<Accordion title="Sync fails or never finishes">
+**Symptom:** The source shows **Error**, or stays in **Indexing** and then fails with "no progress from the platform".
+
+**Possible causes and solutions:**
+
+* **No embedding model or PgVector configuration in the project:** the error message names the missing piece. Ask a project admin to set a default embedding model and a PgVector configuration in **Configurations**, then sync again.
+* **A file could not be parsed:** check the sync report on the source page; remove or replace the file and sync again.
+* **The platform indexer was restarted:** sync again. Already indexed files are skipped.
+</Accordion>
+
+<Accordion title="The run is paused and I did not pause it">
+**Symptom:** The run page shows **Paused** with the reason "session expired" or "cost limit".
+
+**Solution:** Sign in to ELITEA again (or ask an admin to raise the project's model budget) and click **Resume**. The run continues from the last finished batch.
+</Accordion>
+
+<Accordion title="No questions were found in the uploaded file">
+**Symptom:** The run fails after **Extracting** with "no questions were found".
+
+**Possible causes and solutions:**
+
+* The workbook holds only instructions or formatting: open it and check that at least one sheet contains question rows.
+* The questions are images or shapes rather than cell text: the current release reads cell values only.
+* The file is not an `.xlsx` workbook: save it as `.xlsx` and upload again.
+</Accordion>
+
+<Accordion title="Many answers are Not found">
+**Symptom:** A large share of questions end as **Not found** although the documents should cover them.
+
+**Possible causes and solutions:**
+
+* The relevant documents are not in the selected sources, or were added after the last sync: add them and sync.
+* The sources are in another language than the questionnaire: this is supported, but the search queries are written in English unless a project admin sets the source language for the app.
+* The questions are very generic: add **Extra context** that names the product or system the questionnaire is about.
+</Accordion>
+
+<Accordion title="References point at the wrong page">
+**Symptom:** The cited document is right but the page is off.
+
+**Solution:** Pages are taken from the indexed PDF, counted from the first page of the file. Documents whose printed page numbers start later than page one (cover pages, tables of contents) show the file page, not the printed one. Re-syncing does not change this; the next release adds section titles from the documents' outlines to make references easier to locate.
+</Accordion>
+
+<Accordion title="Access denied when opening the app">
+**Symptom:** The app shows "You don't have access to this project's Questionnaire app".
+
+**Solution:** You are not a member of the project, or the application is not enabled for it. Ask a project admin to add you, or request access from the App Catalog.
+</Accordion>
+
+---
+
+## <Icon icon="circle-question" size={26} /> FAQ
+
+<Accordion title="Which questionnaire formats are supported?">
+The current release reads Excel workbooks (`.xlsx`). Word, PDF and image questionnaires are planned for a later release.
+</Accordion>
+
+<Accordion title="Which sources can the app search?">
+The current release searches **uploaded files** (PDF, Word, text, Markdown, Excel, CSV, PowerPoint and JSON). SharePoint document libraries and portals, Confluence spaces and Jira projects are planned as further source types.
+</Accordion>
+
+<Accordion title="Does the app invent answers?">
+No. The model may only answer from the passages the search returned, and every answer must cite them. An answer without a citation is demoted to **Not found** and kept as a note. Questions without evidence are reported as **Not found** with a reason.
+</Accordion>
+
+<Accordion title="In which language are the answers?">
+Answers are written in English. The questionnaire itself may be in any language; the app detects it and writes its search queries in the language of the sources. Translated answers in the questionnaire's language are planned for a later release.
+</Accordion>
+
+<Accordion title="Can several people work on runs in the same project?">
+Yes. Runs, sources and exports belong to the project. Editors and admins can create and control runs; viewers can open them and download exports.
+</Accordion>
+
+<Accordion title="What does a run cost?">
+Model usage is metered by the platform per project, like any other ELITEA call. The **Summary** sheet of the export lists the tokens used by the run. The app also limits parallel calls and batch sizes; project admins can change them in **Settings**.
+</Accordion>
+
+<Accordion title="What happens if I delete a source?">
+The source disappears from the app and cannot be selected for new runs. Finished runs keep their results and references.
+</Accordion>
+
+---
+
+<Info title="Additional Resources">
+For more information about Questionnaire and related features:
+
+* **[Artifacts Menu](../../menus/artifacts)** — Buckets that hold questionnaire files, sources and exports
+* **[Applications Menu](../../menus/applications)** — Where the Questionnaire app lives in ELITEA
+* **[Wikis Application](./wikis)** — AI-powered documentation generation from code repositories
+* **[Inventory Application](./inventory)** — Knowledge graph exploration of your code estate
+</Info>
