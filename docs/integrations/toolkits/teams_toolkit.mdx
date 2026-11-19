@@ -24,7 +24,7 @@ Integrating Teams with ELITEA brings chat and channel collaboration directly int
 <Info>
 **Scope of this toolkit**
 
-The Teams toolkit intentionally does **not** support reading channel messages (this requires the `ChannelMessage.Read.All` application permission, which needs admin consent and is out of scope), and does **not** support editing or deleting messages that have already been sent. See the [FAQ](#-faq) below for details.
+The Teams toolkit has no tool for reading a channel's message history, and does **not** support editing or deleting messages that have already been sent. Searching messages with `search_teams_messages` needs the optional `ChannelMessage.Read.All` permission, which requires **Entra admin consent**. See the [FAQ](#-faq) below for details.
 </Info>
 
 ## Toolkit's Account Setup and Configuration in Teams
@@ -118,6 +118,7 @@ To allow ELITEA to act on a signed-in user's teams, channels and chats, configur
     | `Team.ReadBasic.All` | List the teams the signed-in user is a member of | Needed for `list_teams` |
     | `Channel.ReadBasic.All` | List the channels of a team | Needed for `list_channels` |
     | `Chat.Read` (or `Chat.ReadWrite`) | Read chats and chat messages | Needed for `list_chats`, `find_chat_messages`, `search_teams_messages` |
+    | `ChannelMessage.Read.All` | Search and read channel messages | Optional. Needed for `search_teams_messages` (Microsoft Search refuses Teams messages without it). **Requires Entra admin consent** |
     | `Chat.Create` | Create a new 1:1 or group chat when one doesn't already exist | Needed for `send_chat_message` when messaging people instead of an existing chat |
     | `ChatMessage.Send` | Send a chat message | Needed for `send_chat_message` |
     | `ChannelMessage.Send` | Post or reply in a channel | Needed for `send_channel_message` |
@@ -126,11 +127,11 @@ To allow ELITEA to act on a signed-in user's teams, channels and chats, configur
     The exact scope names are entered into the **Scopes** field of the ELITEA credential — see [Step 1](#step-1-create-teams-credentials) below. Grant only the scopes needed for the tools you plan to enable.
     </Tip>
 
-    <Info>
-    **Reading channel messages is not supported**
+    <Warning>
+    **`ChannelMessage.Read.All` needs Entra admin consent**
 
-    There is intentionally no scope listed above for reading channel messages. That capability requires `ChannelMessage.Read.All`, an **application permission** that needs tenant admin consent, and is out of scope for this toolkit.
-    </Info>
+    Add `ChannelMessage.Read.All` only if your Entra admin grants admin consent for it (step 7). If a sign-in asks for a permission without consent, Microsoft refuses the **whole** sign-in, not just that permission. Without it, every tool except `search_teams_messages` keeps working.
+    </Warning>
 
 6.  **Add Permissions:** Click **"Add permissions"** at the bottom of the panel to add the selected scopes to your application registration.
 
@@ -224,12 +225,13 @@ Before creating a toolkit, you must first create Teams credentials in ELITEA. Th
              | Permission | What it enables |
              |---|---|
              | `User.ReadBasic.All` | Look up people by email: chat members, senders and recipients |
-             | `Chat.Read` | Read your chats and chat messages: `list_chats`, `find_chat_messages`, `search_teams_messages` |
+             | `Chat.Read` | Read your chats and chat messages: `list_chats`, `find_chat_messages`. `search_teams_messages` also needs `ChannelMessage.Read.All` |
              | `ChatMessage.Send` | Send chat messages as you: `send_chat_message` |
              | `Chat.Create` | Start a new 1:1 or group chat when `send_chat_message` finds no existing chat |
              | `Team.ReadBasic.All` | List the teams you are a member of: `list_teams`, team names, connection test |
              | `Channel.ReadBasic.All` | List the channels of a team: `list_channels`, channel names |
              | `ChannelMessage.Send` | Post and reply in channels as you: `send_channel_message` |
+             | `ChannelMessage.Read.All` | Search and read channel messages (`search_teams_messages` across channels). **Requires Entra admin consent.** Off by default: leave it off unless your Entra admin has granted it |
 
              ELITEA passes the ticked permissions to Microsoft at sign-in as-is. Microsoft decides what the issued token actually holds: **a token always carries every permission you already approved for this Entra app**, so unticking a box here does not remove access you granted previously. To actually revoke a permission, remove it on the app's page at [myapps.microsoft.com](https://myapps.microsoft.com) (or ask your Entra admin), then sign in again. To strictly limit what a toolkit can do, use a separate Entra app that only has the permissions you intend to grant it.
              </Info>
@@ -405,6 +407,7 @@ If no valid OAuth token is available when a Teams tool is called, ELITEA raises 
 
 - A prompt appears asking: *"Authorization is required for toolkit "\<toolkit name>". Authorize now or skip it for this run?"*
 - Selecting **Authorize** opens an OAuth dialog (titled **"Configuration OAuth"**) with **Cancel** and **Authorize** buttons.
+- The dialog lists every permission the sign-in asks for. With a Default app the list is set by your administrator and can't be changed there.
 - Completing the sign-in shows a **"Successful authentication!"** confirmation and the message **"✓ Authorization successful! Your credentials and session have been saved. Please send your message again to use the authorized MCP server."**
 - Send your message again to continue with the now-authorized toolkit.
 </Info>
@@ -687,6 +690,19 @@ Agent Response: [Agent uses send_chat_message tool with chat="anna@contoso.com",
 1. **Tick the Named Permission:** In Custom app mode, tick the exact permission named in the error message under **Scopes** on the credential (see the Scopes table above), then click **Logout** and **Login** again — an existing token does not automatically pick up newly ticked permissions.
 2. **Grant Admin Consent (if required):** If your tenant requires admin consent for delegated permissions, ensure it has been granted for the permission in question.
 3. **Default app mode:** If the credential uses a Default app, ask your administrator to confirm the shared app has the needed permission configured and consented in Entra ID.
+4. **`search_teams_messages` fails with 403:** The error names `ChannelMessage.Read.All`. This permission requires Entra admin consent. Ask your Entra admin to grant it, then tick it on the credential (Custom app) or ask your administrator to add it to the Default app, and sign in again.
+</Accordion>
+
+<Accordion title="Sign-in Refused: Need Admin Approval">
+**Problem:** During sign-in, Microsoft shows a **Need admin approval** page, or the sign-in fails with an error such as *AADSTS65001* or *AADSTS90094*.
+
+**Cause:** The credential asks for a permission that only an Entra admin can grant, such as `ChannelMessage.Read.All`, and your tenant has not granted it. Microsoft then refuses the whole sign-in.
+
+**Troubleshooting Steps:**
+
+1. **Untick the Permission:** In Custom app mode, untick `ChannelMessage.Read.All` (its description says it requires Entra admin consent) and sign in again. Every tool except `search_teams_messages` works without it.
+2. **Ask for Admin Consent:** Ask your Entra admin to open the app registration's **API permissions** page and click **Grant admin consent** for it.
+3. **Default app mode:** Ask your ELITEA administrator: the Default app's Teams scopes include the permission, but its Entra registration lacks admin consent.
 </Accordion>
 
 <Accordion title="A Team, Channel or Chat 'Not Found' Error">
@@ -732,7 +748,7 @@ A credential must use one mode or the other — ELITEA rejects a credential with
 </Accordion>
 
 <Accordion title="Can the Teams toolkit read channel messages?">
-**No, by design.** Reading channel messages via Microsoft Graph requires the `ChannelMessage.Read.All` **application** permission, which needs tenant admin consent and is intentionally out of scope for this toolkit. The toolkit can still **post** to a channel or **reply** to a channel post (`send_channel_message`), and channel content can surface indirectly as a search hit via `search_teams_messages` — but there is no tool dedicated to reading a channel's message history.
+**Through search only.** There is no tool for reading a channel's message history. With the optional `ChannelMessage.Read.All` permission (delegated, **requires Entra admin consent**), `search_teams_messages` finds messages across your chats and channels. The toolkit can always **post** to a channel or **reply** to a channel post (`send_channel_message`).
 </Accordion>
 
 <Accordion title="Can the Teams toolkit edit or delete messages that were already sent?">
