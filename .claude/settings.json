@@ -12,7 +12,55 @@
       "Read(//tmp/rn/**)",
       "Read(//private/tmp/rn/**)",
       "Write(//tmp/rn/**)",
-      "Write(//private/tmp/rn/**)"
+      "Write(//private/tmp/rn/**)",
+      "Bash(python .claude/kit/df.py *)",
+      "Bash(cd docs && mint validate*)",
+      "Bash(cd docs && mint broken-links*)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git show*)",
+      "Bash(git -C ../EliteaUI *)",
+      "Bash(git -C ../elitea-sdk *)",
+      "Bash(git -C ../elitea_core *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit|Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/kit/hooks/guard.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/kit/hooks/post_edit.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/kit/hooks/session_start.py\"",
+            "timeout": 5
+          }
+        ]
+      }
     ]
   }
 }
