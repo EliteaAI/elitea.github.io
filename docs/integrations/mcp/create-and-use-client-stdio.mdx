@@ -16,7 +16,7 @@ Before you begin, make sure you have:
     Required for most MCP servers like Playwright, GitHub, Figma. [Download Node.js](https://nodejs.org/)
   </Card>
   <Card title="Your Elitea Project ID" icon="folder-open">
-    Find this in Elitea Settings → [Configuration](../../menus/settings/ai-configuration#server-configuration-fields).
+    Find this in Elitea **Settings** > **General** > [AI Configurations](../../menus/settings/general#ai-configurations).
   </Card>
   <Card title="Your Elitea Authentication Token" icon="key">
     Create one in Elitea Settings → [Personal Tokens](../../menus/settings/personal-tokens).
@@ -63,14 +63,14 @@ The client is a program that connects Elitea to external MCP tools.
        ```
      - Wait for it to finish
 
-     <img src="../../img/integrations/mcp/mcp-client/install-pipx.png" alt="alt text"  />
+     <img src="../../img/integrations/mcp/mcp-setup/install-pipx.png" alt="alt text"  />
 
 3. **Set up pipx's path**
      - This makes sure your computer can find pipx. Copy and run:
        ```powershell
        python -m pipx ensurepath
        ```
-     <img src="../../img/integrations/mcp/mcp-client/pipx-ensurepath.png" alt="alt text"  />
+     <img src="../../img/integrations/mcp/mcp-setup/pipx-ensurepath.png" alt="alt text"  />
 
 4. **Install elitea-mcp**
      - This is the actual client program. Copy and run:
@@ -108,10 +108,10 @@ The setup wizard asks for the connection and then for your MCP servers, so you c
      - **Authentication token:** Paste your token (the one you copied earlier) and press Enter
      - **Host:** Press Enter to accept the default (`0.0.0.0`)
      - **Port:** Press Enter to accept the default (`8000`)
-      <img src="../../img/integrations/mcp/mcp-client/mcp-config-bootstrap.png" alt="mcp"  />
+      <img src="../../img/integrations/mcp/mcp-setup/mcp-config-bootstrap.png" alt="mcp"  />
 
 3. **Add an MCP server**
-     - **Project ID:** When prompted to enter a Project ID to add MCP servers, enter your Project ID number (find it in Elitea Settings → Configuration). Press Enter without a value to skip adding servers.
+     - **Project ID:** When prompted to enter a Project ID to add MCP servers, enter your Project ID number (find it in Elitea **Settings** > **General** > **AI Configurations**). Press Enter without a value to skip adding servers.
      - **Server Name:** Enter a name such as `Playwright` and press Enter. The name must start with a letter and contain only letters, digits and underscores.
      - **Server Type:** Enter `2` for `stdio` (enter `1` for `sse`)
      - **Command:** Enter `npx` (or `npx.cmd` on Windows if needed) and press Enter
@@ -142,19 +142,22 @@ The setup wizard asks for the connection and then for your MCP servers, so you c
 Running `elitea-mcp bootstrap` again keeps the servers you already configured and only adds or replaces the ones you enter.
 </Tab>
 <Tab title="Settings Window">
-The **Settings…** window in the tray sets the connection without a terminal. It does not add MCP servers, so you add them to `config.json` afterward.
+The **Settings** window sets the connection in a form, so you do not answer questions in the terminal. It does not add MCP servers, so you add them to `config.json` afterward.
 
-1. **Start the tray**
-     - In PowerShell, enter `elitea-mcp tray` and press Enter. The Elitea icon appears in the system tray.
-     <img src="../../img/integrations/mcp/mcp-client/mcp-tray.png" alt="mcp"  />
+1. **Open the Settings window**
+     - In PowerShell, enter `elitea-mcp settings` and press Enter
 
+   <Tip>
+   **Open the Window from the Tray Menu**
 
-2. **Open the Settings window**
-     - Select the Elitea icon in the system tray
-     - Select **Configuration** > **Settings…**
-     <img src="../../img/integrations/mcp/mcp-client/settings-window.png" alt="mcp" width="350" />
+   You can also open the same window from the tray:
 
-3. **Enter the connection details, test and save**
+    Select the Elitea icon in the system tray, then select **Configuration** > **Settings…**
+
+        <img src="../../img/integrations/mcp/mcp-client/settings-window.png" alt="mcp" width="350" />
+   </Tip>
+
+2. **Enter the connection details, test and save**
 
      The **ELITEA MCP Client Settings** window has these fields and options:
 
@@ -170,8 +173,8 @@ The **Settings…** window in the tray sets the connection without a terminal. I
 
      After you enter the values and test the connection, select **Save**.
 
-4. **Add MCP servers**
-     - In the tray, select **Configuration** > **Open Config File**
+3. **Add MCP servers**
+     - Open `config.json`. In the tray, select **Configuration** > **Open Config File**. Without the tray, open the file in `%APPDATA%\elitea-mcp-client`.
      - Add each server under `servers`, as in the example, and save the file
 
      ```json
