@@ -382,18 +382,14 @@
             "icon": "server",
             "pages": [
               {
-                "group": "Use ELITEA in VS Code",
+                "group": "Use ELITEA in Your IDE",
                 "expanded": true,
                 "pages": [
-                  "integrations/mcp/create-and-use-server-stdio",
                   "integrations/mcp/mcp-server-sse",
+                  "integrations/mcp/create-and-use-server-stdio",
+                  "integrations/mcp/use-elitea-in-claude-code",
                   "integrations/mcp/make-tools-available-by-mcp"
                 ]
-              },
-              {
-                "group": "Use Elitea in Claude Code",
-                "expanded": true,
-                "pages": ["integrations/mcp/use-elitea-in-claude-code"]
               },
               {
                 "group": "Connect External Tools to ELITEA",
