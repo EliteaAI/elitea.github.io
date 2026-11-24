@@ -6,34 +6,33 @@ description: "Connect VS Code to Elitea's MCP server over Server-Sent Events (SS
 
 ## Overview
 
-With SSE transport, you receive updates and responses from Elitea agents as they happen, making your workflows more interactive and efficient. Whether you’re using Visual Studio Code or another MCP client, this guide will walk you through connecting and making the most of Elitea’s MCP Server capabilities.
+The Model Context Protocol (MCP) is an open standard that lets AI tools, agents and client applications exchange context, tasks and results. Elitea implements an MCP server, so you can use your Elitea agents and toolkit tools in VS Code. To learn more about MCP, see the [MCP Protocol](https://modelcontextprotocol.io/) documentation.
 
-## What is the MCP Protocol?
-
-The Model Context Protocol (MCP) is an open standard designed to enable seamless communication between AI-powered tools, agents, and client applications. By following the MCP protocol, different systems can exchange context, tasks, and results in a consistent and interoperable way.
-
-MCP is widely adopted in the AI ecosystem, making it easier to integrate various tools and platforms—like Elitea—with your favorite development environments and assistants.
-
-To learn more about the technical details and capabilities of MCP, visit the official documentation: [MCP Protocol](https://modelcontextprotocol.io/).
+This guide uses the SSE transport. With SSE, VS Code receives responses from Elitea as they arrive, so you see updates while a tool runs.
 
 ## Prerequisites
 
-Before you begin, ensure you have the following:
+Before you begin, make sure you have the following items.
 
-- **MCP Server Endpoint**  
-  Your project's MCP Server URL in the format:
-  ```
-  https://your-elitea-server.com/app/PROJECT_ID/mcp
-  ```
-  Find your endpoint in Elitea → [Settings → AI Configuration](../../menus/settings/ai-configuration).
+<CardGroup cols={2}>
+  <Card title="MCP Server Endpoint" icon="link">
+    Your project's MCP Server URL has this format:
+    ```
+    https://your-elitea-server.com/app/PROJECT_ID/mcp
+    ```
+    Find your endpoint in Elitea **Settings** > [AI Configurations](../../menus/settings/general#ai-configurations).
+  </Card>
 
-- **Authentication Token**  
-  A personal access token from Elitea → [Settings → Personal Tokens](../../menus/settings/personal-tokens). Copy and store it securely as it will only be shown once.
+  <Card title="Authentication Token" icon="key">
+    Create one in Elitea **Settings** > [Personal Tokens](../../menus/settings/personal-tokens). Copy and store it securely, because it is shown only once.
+  </Card>
 
-- **VS Code Requirements**  
-      - VS Code version 1.99 or later
-      - `chat.mcp.enabled` setting turned on (enabled by default)
-      - GitHub Copilot subscription with Agent mode enabled
+  <Card title="VS Code Requirements" icon="code">
+    - VS Code version 1.99 or later
+    - `chat.mcp.enabled` setting turned on (enabled by default)
+    - GitHub Copilot subscription with Agent mode enabled
+  </Card>
+</CardGroup>
 
 <Info title="MCP Client Compatibility">
 Only MCP clients that support custom HTTP headers (specifically `Authorization: Bearer [TOKEN]`) can connect to Elitea's SSE MCP Server. VS Code is currently the primary supported client.
@@ -41,98 +40,147 @@ Only MCP clients that support custom HTTP headers (specifically `Authorization: 
 
 ## Connect to ELITEA MCP Server
 
-You can add and configure an Elitea MCP Server in VS Code using either **Workspace** or **User** settings. This flexibility allows you to share configurations with your team or keep them global for all your projects.
+In this part, you add the Elitea MCP server to VS Code over SSE, and then add your token to its configuration. You can save the server for one workspace or for all your workspaces.
 
-### Step-by-Step Setup
+### Add the Server to VS Code
 
-1. Open the Copilot Chat panel in VS Code.  
-2. In Copilot Chat, select **Agent mode**.  
-3. Click the **Tools** icon. 
-    ![Open Tools](../../img/integrations/mcp/server-sse/chat-open-tools.png)
-4. Add the MCP server:  
-    - Click **+ Add MCP Server** icon.
-    - Select **HTTP (Server Sent Events)**.
-    - Enter your Server URL (e.g., `https://next.elitea.ai/app/PROJECT_ID/mcp`).
-        ![Server URL](../../img/integrations/mcp/server-sse/server-url.png)
-    - Enter a Server ID (use the default generated one or provide a descriptive name).
-5. Choose where to save the configuration:
-    - **Workspace Settings** (shared with your team, local to the project)
-    - **User Settings** (applies globally to all VS Code workspaces)
+1. **Open the chat in Agent mode**
+     - In VS Code, open GitHub Copilot Chat (select the chat icon in the sidebar, or press `Ctrl+Alt+I`)
+     - In the agent picker, select **Agent**. Agent mode lets the chat use tools, such as your Elitea agents.
+    
+          <img src="../../img/integrations/mcp/server-stdio/open-copilot-chat.png" alt="GitHub Copilot Chat panel in VS Code."  />
 
-     <video src="../../img/integrations/mcp/server-sse/add-mcp-server.mp4" controls></video>
+2. **Add the MCP server**
+     - Press `Ctrl+Shift+P` to open the Command Palette, and run **MCP: Add Server**
+     - You can also run **Chat: Open Customizations**, select **MCP Servers**, and select **Add Server** (**+**) in the **User** group
 
-#### Workspace Settings
+         <img src="../../img/integrations/mcp/server-stdio/mcp-add-server.png" alt="Add Server"  />
 
-If you choose **Workspace Settings**, VS Code will create a `.vscode/mcp.json` file in your project.
-This MCP server will only be available within this workspace.
+     - Select **HTTP (HTTP or Server-Sent Events)**
+         <img src="../../img/integrations/mcp/server-stdio/command-sse-select.png" alt="Select HTTP (HTTP or Server-Sent Events)"  />
 
-1. **Open `.vscode/mcp.json`**  
-   Navigate to the file in your workspace and open it.  
-2. **Add Your Token**  
-   Add the `"headers"` section to your server configuration exactly as shown below. Make sure to keep the word `Bearer` (with a space after it) and replace `[Your Token]` with your actual authentication token. Do not remove `Bearer`—it is required for authorization to work correctly.
-   ```json
-   "headers": {
-       "Authorization": "Bearer YOUR_TOKEN_HERE"
-   }
-   ```
+3. **Enter the server details**
+     - For the URL, enter your project endpoint, for example `https://next.elitea.ai/app/PROJECT_ID/mcp`. Replace `PROJECT_ID` with your Elitea project ID, which is a number. For example, if your project ID is `25`, the URL is `https://next.elitea.ai/app/25/mcp`.
+         <img src="../../img/integrations/mcp/server-stdio/sse-url-add.png" alt="Add SSE URL"  />
 
-3. **Save and Start**  
-   Save the file, then click the **Start** button in the json file to activate the server.
+     - For **Server ID**, enter a name, such as `Elitea-mcp-server`, or keep the default
+     
+         <img src="../../img/integrations/mcp/server-stdio/sse-id-add.png" alt="Add SSE Server ID"  />
 
-     ![Add Token to mcp json](../../img/integrations/mcp/server-sse/add-token-mcp-json.png)
+4. **Choose where to save the configuration**
+     - In the **Select the configuration target** list, choose where to add the server:
+       - **Add to Current Agent Session:** adds the server to the current agent session only. Use it to try the server first. Choose **Global** or **Workspace** to add the token, because the token steps below apply to those two options.
+       - **Global:** available in all workspaces, runs locally. It saves a personal configuration that you can use in all your projects.
+       - **Workspace:** available in this workspace, runs locally. It saves the file `.mcp.json` in the root folder of the workspace, so you can share it with your team.
 
+     <img src="../../img/integrations/mcp/server-stdio/select-config-target.png" alt="Select Config Target"  />
 
-<Info title="Important">
-If you are using VS Code version 1.100.1 or higher, you'll also need to manually add `"type": "sse"` to your configuration file, as shown below:
-```json
-"type": "sse",
-"url": "https://next.elitea.ai/app/1/mcp",
-"headers": {
-    "Authorization": "Bearer abc123"
-}
-```
+     - For **Workspace** or **Global**, the configuration file opens in the editor. You add the token to it in the next section.
+
+<Info>
+**Global Configuration**
+
+If you choose **Global**, VS Code asks **Select the global configuration**. Choose **Copilot Global**, which saves the server in `mcp-config.json` in the `.copilot` folder of your user folder, for example `C:\Users\<YourUsername>\.copilot\mcp-config.json`.
+
+<img src="../../img/integrations/mcp/server-stdio/select-global-configuration.png" alt="Select Global Configuration"  />
 </Info>
 
----
+### Add Your Token
 
-#### User Settings
+The token goes in the `"headers"` section of the server entry. The token is not part of the dialog. Choose the tab that matches the option you selected in step 4.
 
-If you choose **User Settings**, VS Code will create a global `mcp.json` file in your user configuration directory (`%APPDATA%\Code\User\mcp.json` on Windows).
-This MCP server will be available globally for all your projects and workspaces in VS Code.
+<Tabs>
+<Tab title="Workspace">
+1. **Open the configuration file**
+     - Press `Ctrl+Shift+P` to open the Command Palette, and run **Chat: Open Customizations**. Select **MCP Servers**.
+     - Find your server under the **Workspace** group, open the ellipsis (**...**) menu of the server, and open its configuration. The file is `.mcp.json` in the root folder of your workspace.
 
-1. **Open Global `mcp.json`**  
-   Navigate to your global `mcp.json` file in VS Code (typically located at `%APPDATA%\Code\User\mcp.json`).
+     <img src="../../img/integrations/mcp/server-stdio/open-server-configs.png" alt="Open server configuration" />
 
-2. **Add Your Token**  
-   Add the `"headers"` section to your server configuration exactly as shown below. Make sure to keep the word `Bearer` (with a space after it) and replace `[Your Token]` with your actual authentication token. Do not remove `Bearer`—it is required for authorization to work correctly.
-   ```json
-   "headers": {
-       "Authorization": "Bearer YOUR_TOKEN_HERE"
-   }
-   ```
+2. **Add your token**
+     - The file does not have a `"headers"` section. Add it manually to the server entry:
+       - Add the `headers` section, next to `"url"` and `"type"`:
+         ```json
+         "headers": {
+             "Authorization": "Bearer YOUR_TOKEN_HERE"
+         }
+         ```
+       - Replace `YOUR_TOKEN_HERE` with your token and save the file.
 
-3. **Save and Start**  
-   Save the file, then click the **Start** button in the mcp.json file to activate the server.
+         ```json
+         {
+             "mcpServers": {
+                 "test_works": {
+                     "url": "https://next.elitea.ai/app/1/mcp",
+                     "type": "http",
+                     "headers": {
+                         "Authorization": "Bearer YOUR_TOKEN_HERE"
+                     }
+                 }
+             }
+         }
+         ```
+<img src="../../img/integrations/mcp/server-stdio/workspace-config.png" alt="Workspace configuration" />
+       
+</Tab>
+<Tab title="Global">
+1. **Open the configuration file**
+     - Press `Ctrl+Shift+P` to open the Command Palette, and run **Chat: Open Customizations**. Select **MCP Servers**.
+     - Find your server under the **User** group, open the ellipsis (**...**) menu of the server, and open its configuration.
 
-   ![Add Token to mcp.json](../../img/integrations/mcp/server-sse/global-mcp-json.png)
+     <img src="../../img/integrations/mcp/server-stdio/open-server-configs.png" alt="Open server configuration" />
 
-<Info title="Important">
-If you are using VS Code version 1.100.1 or higher, you'll also need to manually add `"type": "sse"` to your configuration file, as shown below:
-```json
-"type": "sse",
-"url": "https://next.elitea.ai/app/1/mcp",
-"headers": {
-    "Authorization": "Bearer abc123"
-}
-```
+2. **Add your token**
+     - The file does not have a `"headers"` section. Add it manually to the server entry in `mcp-config.json`:
+       - Add the `headers` section, next to `"url"` and `"type"`:
+         ```json
+         "headers": {
+             "Authorization": "Bearer YOUR_TOKEN_HERE"
+         }
+         ```
+       - Replace `YOUR_TOKEN_HERE` with your token and save the file.
+
+         ```json
+         {
+           "mcpServers": {
+             "Elitea_mcp_sse": {
+               "tools": [
+                 "*"
+               ],
+               "type": "http",
+               "url": "https://next.elitea.ai/app/123/mcp",
+               "headers": {
+                 "Authorization": "Bearer YOUR_TOKEN_HERE"
+               }
+             }
+           }
+         }
+         ```
+
+<img src="../../img/integrations/mcp/server-stdio/global-config.png" alt="Global configuration" />
+
+</Tab>
+</Tabs>
+
+<Info>
+**Server Type**
+
+Use `"type": "http"` with the `/mcp` endpoint. The legacy `"type": "sse"` expects the `/sse` endpoint instead, because `/mcp` does not offer an SSE stream.
 </Info>
 
----
+### Start the Server
+
+1. **Start the server**
+     - Press `Ctrl+Shift+P` to open the Command Palette, and run **MCP: List Servers**
+     - Select your Elitea server, and select **Start Server**
+
+2. **Check the output**
+     - If the server does not start, select the server and select **Show Output** to see the error
 
 <Info>
 **Multiple MCP Servers**
 
-You can add as many MCP servers as you need. For example, if you have several Elitea projects and want to use different agents from each, simply repeat the above steps for each server—regardless of whether you use workspace or user settings.
+You can add as many MCP servers as you need. For example, if you have several Elitea projects and want to use different agents from each, repeat these steps for each server, whether you use the Workspace or the Global configuration.
 </Info>
 
 ---
@@ -141,13 +189,16 @@ You can add as many MCP servers as you need. For example, if you have several El
 
 To use Elitea agents, pipelines, and toolkit tools in VS Code via MCP, they must be made available through MCP in Elitea.
 
-> **Note:** If you add or update agents/pipelines with the `mcp` tag, or enable toolkit tools for MCP after starting your MCP server, restart the server to sync and make them available as tools.
+<Note>
+If you add or update agents/pipelines with the `mcp` tag, or enable toolkit tools for MCP after starting your MCP server, restart the server to sync and make them available as tools.
+</Note>
 
 ### Tagging Agents and Pipelines
 
-1. In the Elitea web interface, tag your agents or pipelines with `mcp`.
-   ![Tag agent as mcp](../../img/integrations/mcp/server-sse/tag-agent-mcp.png)
-2. Only tagged agents and pipelines will be synced and available as tools in VS Code.
+1. In the Elitea web interface, tag your agents or pipelines with `mcp`.    Only tagged agents and pipelines will be synced and available as tools in VS Code.
+
+   <img src="../../img/integrations/mcp/server-stdio/tag-agent.png" alt="Tag agent as mcp" />
+
 
 <Info title="Important Notes">
 - Only the "**base**" version of each agent or pipeline tagged with `mcp` will be pulled and used. If you have multiple versions of the same agent/pipeline, ensure the version you want to use is the "**base**".
@@ -158,10 +209,10 @@ To use Elitea agents, pipelines, and toolkit tools in VS Code via MCP, they must
 
 Besides agents and pipelines, you can also expose selected toolkit tools through the MCP interface.
 
-1. When creating or editing a toolkit in Elitea, navigate to the **TOOLS** section.
+1. When creating or editing a toolkit in Elitea, go to the **TOOLS** section.
 2. Select the **Make tools available by MCP** checkbox to enable MCP access for the selected tools.
   
-     ![Make tools available by MCP](../../img/integrations/mcp/mcp-tools/make-tools-available-existing.png)
+       <img src="../../img/integrations/mcp/server-stdio/make-tools-available.png" alt="Make tools available by MCP" />
 
 Only the tools you select in your toolkit configuration are exposed via MCP and made available in VS Code; they appear alongside your tagged agents and pipelines in the MCP client's tool list.
 
@@ -175,46 +226,38 @@ For detailed instructions on making toolkit tools available by MCP, including se
 
 ### Using MCP Tools in Agent Mode
 
-Once your MCP server is connected and your agents, pipelines, and toolkit tools are made available:
+Once your MCP server is connected and your agents, pipelines, and toolkit tools are made available, you can use them from VS Code.
 
-1. **Open GitHub Copilot Chat**  
-   Open the Copilot Chat panel in VS Code.
+1. **Open Copilot Chat**
+     - Open the Chat view
+     - In the agent picker, select **Agent**. MCP tools are available only in this mode.
 
-2. **Switch to Agent Mode**  
-   In the chat mode selector, choose **Agent** mode.
+2. **Check the connected tools**
+     - Press `Ctrl+Shift+P` to open the Command Palette, and run **Chat: Open Customizations**
+     - In the left pane, select **Tools**
+     - Find your Elitea server in the list. You can also enter its name in the **Type to search...** field.
+     - Select the arrow next to the server name to expand it. The agents and pipelines with the `mcp` tag and the toolkit tools made available by MCP are listed under it as tools.
 
-3. **Select Tools**  
-   Click the **Select Tools** icon in the chat interface.
+     <img src="../../img/integrations/mcp/server-stdio/mcp-tools-sse.png" alt="MCP tools list" />
 
-4. **Choose Your Tools**  
-    - All synced tools (tagged with `mcp`) will appear in the list.
-    - By default, all are selected. You can search, select, or deselect tools as needed.
+3. **Enter your request and approve the tool call**
+     - In the chat input, enter `#` and select the tool from the list, then enter your request. If the list does not show the tool, enter the agent name as plain text. The chat finds the matching MCP tool and runs it.
+     - Example: `Use #BA_Assistant to show me the scope of the PLAN-6060 user story`
 
-    ![MCP tools list](../../img/integrations/mcp/mcp-tools/mcp-client-testing.png)
+     - VS Code asks you to approve the call to the tool. Approve only a call you understand. Select **Allow Once** or **Allow** (**Continue** in older versions of VS Code) to run the tool, or **Skip** (**Cancel** in older versions) to decline it.
 
-5. **Reference Tools in Chat**  
-    - In the chat input, write your instructions. You can reference a tool directly by typing `#` followed by the tool name (e.g., `#my_agent`).
-    - Copilot will automatically suggest matching tools as you type.
-    - Copilot can also intelligently select and invoke appropriate tools based on your request.
+       <img src="../../img/integrations/mcp/server-stdio/run--mcp-tool.png" alt="Approval request for the MCP tool call with the Continue and Cancel buttons."  />
 
-6. **Confirm and Execute the Tool**  
-    - When Copilot proposes to use a tool, it will show the tool call with parameters.
-    - You'll be asked to confirm the tool execution for security.
-    - Click **Allow** to proceed with running the tool.
+4. **Review the results**
+     - The tool runs and returns the result directly in the chat
+     - To confirm that the answer came from Elitea, expand the tool call in the conversation and check the input and the result
 
-7. **Configure Auto-Confirm (Optional)**  
-    - Use the **Allow** button dropdown to configure auto-confirm preferences if desired.
-    - Options include: current session only, this workspace, or always auto-confirm.
-        <img src="../../img/integrations/mcp/server-sse/auto-confirm.png" alt="alt text" width="300" />
+       <img src="../../img/integrations/mcp/server-stdio/sse-review-results.png" alt="Review Results" />
 
-8. **Review Output**  
-    - After execution, review the tool's output in the chat.
-    - Use the results to continue your workflow or refine your request.
+<Tip>
+**Auto-Confirm**
 
-     <video src="../../img/integrations/mcp/server-sse/run-tool.mp4" controls width="600"></video>
-
-<Tip title="Tip:">
-You can reference any available tool in your prompt by typing `#` and the tool name. This works in all chat modes (ask, edit, and agent mode).
+Use the **Allow** button dropdown to set auto-confirm for a tool: for the current session only, for this workspace, or always. For tools that change data, such as creating or updating tickets, use the current session or this workspace.
 </Tip>
 
 ---
@@ -226,19 +269,19 @@ Here are practical examples demonstrating how to use Elitea MCP tools in your da
 **Scenario:** You want to improve the acceptance criteria of a Jira User Story using the BA Assistant agent.
 
 1. **Select the BA Assistant Tool**  
-   - Open GitHub Copilot Chat in Agent mode
-   - Click **Select Tools** and ensure **BA Assistant** is selected from your MCP server
+   - Open the Chat view and select **Agent** in the agent picker
+   - Run **Chat: Open Customizations**, select **Tools**, and check that **BA Assistant** is turned on under your Elitea server
 
 2. **Request Enhancement**  
    In the chat, reference the tool and provide your instruction:
    ```
-   #BA Assistant
+   #BA_Assistant
    Show me the scope of PLAN-3012 user story. Enhance ACs.
    ```
 
 3. **Review and Confirm**  
    - Copilot will propose using the BA Assistant tool to retrieve and enhance the user story
-   - Click **Allow** to confirm the tool execution
+   - Select **Allow** to confirm the tool execution
    - The agent will fetch the Jira ticket, analyze it, and present enhanced acceptance criteria
 
 4. **Save Results**  
@@ -250,8 +293,8 @@ Here are practical examples demonstrating how to use Elitea MCP tools in your da
 **Scenario:** You need to analyze a Confluence page and extract key information for a technical specification.
 
 1. **Select the Content Analyzer Tool**  
-   - Open GitHub Copilot Chat in Agent mode
-   - Click **Select Tools** and choose **Content Analyzer** from your Elitea MCP server
+   - Open the Chat view and select **Agent** in the agent picker
+   - Run **Chat: Open Customizations**, select **Tools**, and check that **Content Analyzer** is turned on under your Elitea server
 
 2. **Request Analysis**  
    In the chat, provide your instruction:
@@ -263,7 +306,7 @@ Here are practical examples demonstrating how to use Elitea MCP tools in your da
 
 3. **Confirm and Execute**  
    - Review the tool call parameters
-   - Click **Allow** to run the analysis
+   - Select **Allow** to run the analysis
    - The tool will fetch the Confluence page and extract structured information
 
 4. **Use Results**  
@@ -275,8 +318,8 @@ Here are practical examples demonstrating how to use Elitea MCP tools in your da
 **Scenario:** You want to retrieve test case details from QTest and update their execution status.
 
 1. **Select QTest Tools**  
-   - Open GitHub Copilot Chat in Agent mode
-   - Click **Select Tools** and enable QTest toolkit tools from your MCP server
+   - Open the Chat view and select **Agent** in the agent picker
+   - Run **Chat: Open Customizations**, select **Tools**, and check that the QTest toolkit tools are turned on under your Elitea server
 
 2. **Retrieve Test Case**  
    In the chat, request test case information:
@@ -287,7 +330,7 @@ Here are practical examples demonstrating how to use Elitea MCP tools in your da
 
 3. **Review and Update**  
    - Copilot will show the test case details including steps, expected results, and current status
-   - Click **Allow** to confirm
+   - Select **Allow** to confirm
    - Request an update if needed:
    ```
    Update the execution status to "Passed" and add a comment: "All scenarios verified successfully in build 2.3.1"
@@ -295,7 +338,7 @@ Here are practical examples demonstrating how to use Elitea MCP tools in your da
 
 4. **Confirm Changes**  
    - Review the proposed update
-   - Click **Allow** to apply changes to QTest
+   - Select **Allow** to apply changes to QTest
    - Verify the update was successful
 </Accordion>
 
@@ -303,17 +346,14 @@ Here are practical examples demonstrating how to use Elitea MCP tools in your da
 ## Troubleshooting
 
 <Accordion title="No Agents or Pipelines Are Shown">
-**Problem:** MCP tools (agents, pipelines, or toolkit tools) don't appear in the VS Code tool list after connecting the MCP server.
+**Problem:** MCP tools (agents, pipelines, or toolkit tools) do not appear in the VS Code tool list after connecting the MCP server.
 
 **Solution:**
 
 1. **Check MCP Tag:** Ensure your agents and pipelines in Elitea are tagged with `mcp`. Only tagged items will sync and appear as tools in VS Code.
 2. **Check Toolkit MCP Checkbox:** For toolkit tools, verify that the "Make tools available by MCP" checkbox is enabled in the toolkit's TOOLS section.
-3. **Restart the Server:** If you add or update tags or enable MCP for toolkit tools after starting the MCP server, restart the server to sync the changes:
-    - In VS Code, go to the MCP server list
-    - Click the **Stop** button for your Elitea MCP server
-    - Click the **Start** button to restart it
-4. **Scope of MCP Server:** Verify whether your MCP server is configured for the correct scope (User or Workspace). Sometimes, tools may not appear if the configuration is not in the expected location.
+3. **Restart the Server:** If you add or update tags or enable MCP for toolkit tools after starting the MCP server, restart the server to sync the changes. Run **MCP: List Servers**, select your server, and select **Restart Server**.
+4. **Scope of MCP Server:** Verify whether your MCP server is configured for the correct scope (Global or Workspace). Sometimes, tools may not appear if the configuration is not in the expected location.
 5. **Check Server Status:** Ensure the MCP server shows as "Running" in VS Code. If it shows an error status, check the server logs for details.
 </Accordion>
 
@@ -343,18 +383,17 @@ Here are practical examples demonstrating how to use Elitea MCP tools in your da
    ![MCP Server Error](../../img/integrations/mcp/mcp-server-error.png)
 
 2. **View Server Logs:** 
-    - Select the error notification in the Chat view
-    - Choose **Show Output** to view detailed server logs
+    - Run **Chat: Open Customizations**, select **MCP Servers**, open the ellipsis (**...**) menu of your Elitea server, and select **Show Output**
     - Look for specific error messages that indicate the root cause
    ![MCP Server Error Output](../../img/integrations/mcp/mcp-server-error-output.png)
 
-3. **Command Palette Access:** Alternatively, run `MCP: List Servers` from the Command Palette, select your Elitea server, and choose **Show Output** for troubleshooting details.
+3. **Command Palette Access:** Alternatively, run **MCP: List Servers**, select your Elitea server, and select **Show Output** for troubleshooting details.
 
 4. **Verify Server URL:** Ensure your server URL is correctly formatted:
     - Should be: `https://your-elitea-server.com/app/PROJECT_ID/mcp`
     - Should NOT include extra paths or trailing slashes
 
-5. **Check VS Code Version:** Verify you're using VS Code 1.99 or later with `chat.mcp.enabled` setting turned on.
+5. **Check VS Code Version:** Verify that you use VS Code 1.99 or later with `chat.mcp.enabled` setting turned on.
 </Accordion>
 
 <Accordion title="Configuration File Issues">
@@ -370,14 +409,14 @@ Here are practical examples demonstrating how to use Elitea MCP tools in your da
 
 2. **Check File Location:**
     - **Workspace:** `.vscode/mcp.json` in your project root
-    - **User/Global:** `%APPDATA%\Code\User\mcp.json` (Windows) or `~/.config/Code/User/mcp.json` (Linux/Mac)
+    - **Global:** `mcp-config.json` in the `.copilot` folder of your user folder, for example `C:\Users\<YourUsername>\.copilot\mcp-config.json`
 
-3. **Verify Type Property:** For VS Code 1.100.1 or higher, ensure you have `"type": "sse"` in your configuration:
+3. **Verify Type Property:** Set `"type": "http"` for the Elitea server, and use the `/mcp` endpoint in the `url`:
     ```json
     {
         "servers": {
             "Elitea-mcp-server": {
-                "type": "sse",
+                "type": "http",
                 "url": "https://next.elitea.ai/app/1/mcp",
                 "headers": {
                     "Authorization": "Bearer YOUR_TOKEN"
@@ -401,18 +440,18 @@ Here are practical examples demonstrating how to use Elitea MCP tools in your da
     - If behind a corporate proxy, ensure VS Code proxy settings are configured correctly
     - Check that SSE (Server-Sent Events) connections are allowed through your firewall
 3. **VPN Considerations:** If using a VPN, try connecting with and without it to identify if the VPN is causing issues.
-4. **Test Server Accessibility:** Open the MCP server URL in a web browser to verify it's accessible from your network.
+4. **Test Server Accessibility:** Open the MCP server URL in a web browser to verify that it is accessible from your network.
 5. **SSL/TLS Issues:** Ensure your system trusts the SSL certificate of your Elitea server. Self-signed certificates may cause connection failures.
 </Accordion>
 
 <Accordion title="Tools Not Executing or Hanging">
-**Problem:** MCP tools appear in the list but don't execute or hang when invoked.
+**Problem:** MCP tools appear in the list but do not execute or hang when invoked.
 
 **Solution:**
 
-1. **Check Tool Selection:** Ensure the tool is selected (checked) in the **Select Tools** menu before trying to use it.
-2. **Verify Agent Mode:** Confirm you're in **Agent mode** in GitHub Copilot Chat. MCP tools only work in Agent mode.
-3. **Review Tool Parameters:** Some tools may hang if required parameters are missing or invalid. Check the tool call preview before clicking Allow.
+1. **Check Tool Selection:** Ensure the tool is turned on in **Chat: Open Customizations** > **Tools** before trying to use it.
+2. **Verify Agent Mode:** Confirm that you are in **Agent mode** in GitHub Copilot Chat. MCP tools only work in Agent mode.
+3. **Review Tool Parameters:** Some tools may hang if required parameters are missing or invalid. Check the tool call preview before you select Allow.
 4. **Server Timeout:** If tools consistently timeout, check the Elitea server logs for performance issues or rate limiting.
 5. **Restart Server and VS Code:** Try restarting both the MCP server and VS Code completely.
 </Accordion>
@@ -422,10 +461,10 @@ Here are practical examples demonstrating how to use Elitea MCP tools in your da
 
 **Solution:**
 
-1. **Verify Active Server:** Use `MCP: List Servers` from Command Palette to see all configured servers and their status.
+1. **Verify Active Server:** Use **MCP: List Servers** from the Command Palette to see all configured servers and their status.
 2. **Check Server Names:** Ensure each MCP server has a unique name/ID to avoid conflicts.
-3. **Scope Conflicts:** If you have the same server configured in both User and Workspace settings, the Workspace setting takes precedence.
-4. **Disable Unused Servers:** Stop or remove MCP servers you're not currently using to simplify troubleshooting.
+3. **Scope Conflicts:** If you have the same server configured in both Global and Workspace settings, the Workspace setting takes precedence.
+4. **Disable Unused Servers:** Stop or remove MCP servers that you do not currently use to simplify troubleshooting.
 </Accordion>
 
 ### Support Contact
@@ -438,18 +477,18 @@ If you encounter issues not covered in this guide or need additional assistance 
 
 ## FAQ
 
-<Accordion title="What is the difference between Workspace and User MCP server configuration?">
+<Accordion title="What is the difference between Workspace and Global MCP server configuration?">
 **Workspace configuration** (`.vscode/mcp.json`) is project-specific and can be shared with your team via version control. It only works when you open that specific workspace.
 
-**User/Global configuration** (`%APPDATA%\Code\User\mcp.json`) applies to all VS Code workspaces on your machine and is not shared with others. It's ideal for personal tokens and servers you use across multiple projects.
+**Global configuration** (`mcp-config.json` in the `.copilot` folder of your user folder) applies to all VS Code workspaces on your machine and is not shared with others. It is ideal for personal tokens and servers you use across multiple projects.
 
 **Which should I use?**
-- Use **Workspace** if you want team members to have the same MCP servers configured (they'll need to add their own tokens)
-- Use **User** for personal MCP servers or when working across multiple projects with the same Elitea instance
+- Use **Workspace** if you want team members to have the same MCP servers configured (they need to add their own tokens)
+- Use **Global** for personal MCP servers or when working across multiple projects with the same Elitea instance
 </Accordion>
 
-<Accordion title="Can I use the same Elitea token for both Workspace and User configurations?">
-Yes, you can use the same Elitea personal token in both configurations. However, for security reasons, it's recommended to:
+<Accordion title="Can I use the same Elitea token for both Workspace and Global configurations?">
+Yes, you can use the same Elitea personal token in both configurations. However, for security reasons, it is recommended to:
 - Store the token in **[Secrets](../../menus/settings/secrets)** in Elitea
 - Use different tokens for different environments (development vs. production)
 - Regularly rotate tokens and update configurations accordingly
@@ -474,10 +513,10 @@ The MCP server caches the list of available tools when it starts. When you add n
 2. Refresh its internal tool registry
 3. Make newly tagged items available in VS Code's tool list
 
-Simply stop and start the server from VS Code's MCP server list to sync the changes.
+Run **MCP: List Servers**, select your server, and select **Restart Server** to sync the changes.
 </Accordion>
 
-<Accordion title="What's the difference between agents, pipelines, and toolkit tools in MCP?">
+<Accordion title="What is the difference between agents, pipelines, and toolkit tools in MCP?">
 **Agents** are AI assistants with specific instructions and capabilities that can be invoked as tools via MCP. They can use toolkits and perform complex reasoning.
 
 **Pipelines** are multi-step workflows that chain together agents and other operations. They can also be exposed as MCP tools when tagged.
@@ -488,17 +527,17 @@ All three types appear in the same MCP tool list in VS Code and can be used inte
 </Accordion>
 
 <Accordion title="How many MCP servers can I configure in VS Code?">
-There's no hard limit on the number of MCP servers you can configure. You can add multiple Elitea MCP servers (for different projects), as well as other MCP servers from different providers. Each server appears separately in the tools list, grouped by server name.
+There is no hard limit on the number of MCP servers you can configure. You can add multiple Elitea MCP servers (for different projects), as well as other MCP servers from different providers. Each server appears separately in the tools list, grouped by server name.
 
-**Best practice:** Give each server a descriptive name (e.g., "Elitea-Production", "Elitea-Development") to easily identify them in the tool selection menu.
+**Best practice:** Give each server a descriptive name (e.g., "Elitea-Production", "Elitea-Development") to identify them in the tool selection menu.
 </Accordion>
 
 <Accordion title="Do I need GitHub Copilot subscription to use Elitea MCP Server?">
-Yes, you need an active GitHub Copilot subscription to use MCP tools in VS Code. The MCP integration works through GitHub Copilot's Agent mode, which is a Copilot feature. Without Copilot, you won't be able to access the MCP tool interface in VS Code.
+Yes, you need an active GitHub Copilot subscription to use MCP tools in VS Code. The MCP integration works through GitHub Copilot's Agent mode, which is a Copilot feature. Without Copilot, you are not able to access the MCP tool interface in VS Code.
 </Accordion>
 
 <Accordion title="Can I control which toolkit tools are exposed via MCP?">
-Yes! When configuring a toolkit in Elitea, you can selectively enable the "Make tools available by MCP" checkbox for specific toolkits. Only the tools you've selected in that toolkit will be exposed through MCP. This allows you to:
+Yes! When configuring a toolkit in Elitea, you can selectively enable the "Make tools available by MCP" checkbox for specific toolkits. Only the tools you select in that toolkit will be exposed through MCP. This allows you to:
 
 1. Limit exposure of sensitive operations
 2. Keep the MCP tool list focused and manageable
@@ -512,9 +551,9 @@ When your Elitea personal token expires:
 
 1. Go to Elitea → [Settings → Personal Tokens](../../menus/settings/personal-tokens)
 2. Generate a new token with an appropriate expiration date
-3. Update your `mcp.json` file with the new token in the `"Authorization": "Bearer NEW_TOKEN"` field
+3. Update your configuration file (`.vscode/mcp.json` or `mcp-config.json`) with the new token in the `"Authorization": "Bearer NEW_TOKEN"` field
 4. Save the file
-5. Restart the MCP server in VS Code
+5. Run **MCP: List Servers**, select your server, and select **Restart Server**
 
 **Tip:** Set token expiration dates based on your security policies, and consider calendar reminders to rotate tokens before they expire.
 </Accordion>
@@ -523,7 +562,7 @@ When your Elitea personal token expires:
 The Allow button dropdown provides flexibility in how you want to handle tool execution confirmations:
 
 - **Current session only:** Auto-confirms for this VS Code session only (until you close VS Code)
-- **This workspace:** Auto-confirms whenever you're working in this specific project/workspace
+- **This workspace:** Auto-confirms whenever you work in this specific project or workspace
 - **Always auto-confirm:** Auto-confirms for all workspaces and sessions
 
 **Security recommendation:** Use "Current session only" or "This workspace" for better security control, especially when working with tools that modify data (like creating issues or updating tickets).
@@ -532,11 +571,20 @@ The Allow button dropdown provides flexibility in how you want to handle tool ex
 ---
 
 <Info>
-**Guides & References**
+**Helpful Resources**
 
-- [MCP Protocol – Official Documentation](https://modelcontextprotocol.io/)
-- [VS Code MCP Server Documentation](https://code.visualstudio.com/docs/copilot/chat/mcp-servers)
-- [Creating and Using MCP Client (STDIO)](./create-and-use-client-stdio)
-- [Creating and Using MCP Server (STDIO)](./create-and-use-server-stdio)
-- [Creating and Using Remote MCP](./create-and-use-remote-mcp)
+Elitea documentation:
+
+- [MCPs Menu](../../menus/mcps)
+- [Agents Menu](../../menus/agents)
+
+External documentation:
+
+- [MCP Protocol Official Docs](https://modelcontextprotocol.io/)
+- [Add and use MCP servers in VS Code](https://code.visualstudio.com/docs/agent-customization/mcp-servers)
+- [Manage and troubleshoot MCP servers](https://code.visualstudio.com/docs/agents/run/manage-mcp-servers)
+- [MCP configuration reference](https://code.visualstudio.com/docs/agents/reference/mcp-configuration)
+- [Use tools with agents](https://code.visualstudio.com/docs/agents/run/tools)
 </Info>
+
+---
