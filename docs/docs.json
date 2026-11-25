@@ -118,7 +118,8 @@
                       "menus/settings/secrets",
                       "menus/settings/users",
                       "menus/settings/analytics",
-                      "menus/settings/usage"
+                      "menus/settings/usage",
+                      "menus/settings/complexity"
                     ]
                   },
                   {
