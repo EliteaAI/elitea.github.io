@@ -115,6 +115,7 @@
                       "menus/settings/ai-providers",
                       "menus/settings/project-context",
                       "menus/settings/schedules",
+                      "menus/settings/webhooks",
                       "menus/settings/secrets",
                       "menus/settings/users",
                       "menus/settings/analytics",
