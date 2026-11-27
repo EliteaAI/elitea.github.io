@@ -526,18 +526,19 @@
           {
             "group": "Latest Release",
             "icon": "tag",
-            "pages": ["release-notes/rn-2-0-8"]
+            "pages": ["release-notes/rn-2-0-9"]
           },
           {
             "group": "Recent Releases",
             "icon": "clock-rotate-left",
-            "pages": ["release-notes/archived/rn-2-0-7", "release-notes/archived/rn-2-0-6"]
+            "pages": ["release-notes/archived/rn-2-0-8", "release-notes/archived/rn-2-0-7"]
           },
           {
             "group": "Older Releases",
             "icon": "archive",
             "expanded": false,
             "pages": [
+              "release-notes/archived/rn-2-0-6",
               "release-notes/archived/rn-2-0-5",
               "release-notes/archived/rn-2-0-4",
               "release-notes/archived/rn-2-0-3",

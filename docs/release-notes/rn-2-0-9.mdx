@@ -1,0 +1,433 @@
+---
+title: "Release Notes - 2.0.9"
+---
+
+ELITEA 2.0.9 lets your agents and pipelines react to events in other systems and makes the platform easier to navigate. This release introduces webhooks for agents and pipelines, AI assistance for building pipelines, skill packages compatible with Claude and other AI tools, and scheduled agent evaluation. It also adds complexity scores for agents and pipelines, toolkit index schedules, the experimental Code Mode, the ELITEA command-line tool, project and user audit and synchronization of project members with Microsoft Entra ID groups. Besides, the left menu, chat input, chat sharing and Run History are redesigned, and the three builder modules are merged into one Elitea Builder.
+
+* **Release version**: 2.0.9
+* **Released on**: December 06, 2026
+* **Access**: [ELITEA Platform](https://next.elitea.ai)
+
+## New Features
+
+### Webhooks for Agents and Pipelines
+
+You can now start agents and pipelines automatically when something happens in another system, such as a GitHub or GitLab event or a Power Automate flow.
+
+* Create several webhooks for the same agent or pipeline. Each project member can create their own.
+* Manage webhooks on the new **Webhooks** page in **Settings** or in the **Webhooks** section of the agent or pipeline editor.
+* Webhook runs use the permissions and credentials of the webhook owner and appear in **Run History**.
+* Choose how a run handles sensitive actions: **Pause and ask me** or **Run without asking**.
+* Before you save a webhook, ELITEA checks that every toolkit can run without you and lets you sign in where needed.
+* Test a webhook with a sample request and see the result of its last delivery.
+
+<Warning>
+Existing pipeline webhooks get new URLs when your platform administrator moves them to the **Webhooks** page. Update the URL in each system that sends them. Agent webhooks from earlier releases must be created again.
+</Warning>
+
+**Benefits:** Event-driven automation with full control and visibility.
+
+{/* TODO: add link to the Webhooks documentation */}
+Details: [Configuring Webhooks](../how-tos/credentials-toolkits/how-to-use-webhooks#overview-of-webhooks-with-elitea).
+
+<img src="../img/release-notes/rn_2.0.9_1_webhooks.png" alt="Webhooks page." />
+
+### Build and Edit Pipelines with AI
+
+You can now create and change pipelines with AI and compare pipeline versions, as you already can for agents and skills.
+
+* Describe your goal with **Build with AI** and get a pipeline draft that is ready to save.
+* Describe the changes you need with **Edit with AI** and review them before you apply them.
+* Fill in the fields of any node with AI from the node panel.
+* Compare two pipeline versions with **Compare versions** and edit each version right in the comparison.
+
+**Benefits:** Faster pipeline development with fewer mistakes.
+
+{/* TODO: add link to the Pipelines AI assistance documentation */}
+Details: [Build an Agent with AI](../how-tos/agents-pipelines/build-agent-with-ai#use-build-with-ai), [Compare Versions](../how-tos/agents-pipelines/entity-versioning#compare-versions).
+
+<img src="../img/release-notes/rn_2.0.9_2_pipeline-ai.png" alt="Edit with AI for a pipeline." />
+
+### Skill Packages
+
+You can now import and export skills in the open Agent Skills format used by Claude, Codex, Copilot and Cursor, together with their files and scripts.
+
+* Import a skill from a `.md`, `.zip` or `.skill` file, or import all skills of a Claude plugin at once.
+* Export a skill with all its files to use it in other AI tools.
+* See and open the files of a skill in the new **Files** tab of the skill page.
+* Agents read the skill files and run its Python scripts when needed. Scripts have no internet access.
+* Files are kept when you create a new version, publish or fork a skill, and **Compare versions** shows the file changes.
+
+**Benefits:** Reusable skills across ELITEA and other AI tools.
+
+{/* TODO: add link to the skill packages documentation */}
+Details: [Import a Skill](../menus/skills#import-a-skill).
+
+<img src="../img/release-notes/rn_2.0.9_3_skill-files.png" alt="Files tab on the skill page." />
+
+### Scheduled Agent Evaluation
+
+Platform administrators can now check the quality of all agents on a schedule and see the results on the new **Agent Evaluation** page in the Admin portal.
+
+* See the latest result of each agent: **Passed**, **Warning**, **Failed** or **Not Evaluated**, with the reason.
+* Run the evaluation every week or on demand, and select the projects to include.
+* Evaluate agents with test datasets, with real chats, or with both.
+* Project admins select the dataset for scheduled checks and decide whether project chats can be used.
+
+<Info>
+Scheduled evaluation is off by default. Evaluation with project chats is off until a project admin allows it. Scheduled runs use the budget of the agent author.
+</Info>
+
+**Benefits:** Early detection of agents that stopped working well.
+
+{/* TODO: add link to the Scheduled Agent Evaluation documentation */}
+Details: [Agent Evaluation](../how-tos/agents-pipelines/agent-evaluation#access-agent-evaluation).
+
+<img src="../img/release-notes/rn_2.0.9_4_agent-evaluation.png" alt="Agent Evaluation page in the Admin portal." />
+
+### Agent and Pipeline Complexity
+
+You can now see how much work your agents and pipelines do when they run, on the new **Complexity** page in **Settings**.
+
+* See every agent and pipeline of the project with a **Low**, **Medium**, **High** or **Extreme** complexity label.
+* See how context, reasoning and tool calls add to the complexity, measured in Complexity Units (CU): 1 CU per 1,000 tokens of the largest prompt in the run (up to 30 CU), 1 CU per LLM call and 1 CU per tool call. Heavier tools count more, for example indexing (5 CU), code and file processing (3 CU) and search (2 CU).
+* Check the complexity of each run in **Run History**.
+* Select a period and export the list to Excel.
+
+<Info>
+Complexity is off by default and is turned on by platform administrators. It is available to project admins and editors. A higher complexity means more work, not lower quality.
+</Info>
+
+**Benefits:** Clear view of where the time and cost of runs come from.
+
+{/* TODO: add link to the Complexity documentation */}
+
+<img src="../img/release-notes/rn_2.0.9_5_complexity.png" alt="Complexity page." />
+
+### Toolkit Index Schedules
+
+You can now schedule index updates on the **Schedules** page, together with your agent and pipeline schedules.
+
+* Select **Toolkit Index**, a toolkit and an index when you create a schedule. An index can be updated up to once a day.
+* Manage the schedule in the **Schedules** section of the index page.
+* Pause, edit, test or run the schedule, as you do for agents and pipelines.
+
+<Info>
+Existing index schedules are moved to the **Schedules** page and keep running.
+</Info>
+
+**Benefits:** All scheduled jobs in one place.
+
+Details: [Schedules](../menus/settings/schedules#how-to-create-a-schedule), [Schedule Indexing](../how-tos/indexing/schedule-indexing#configure-scheduled-indexing).
+
+<img src="../img/release-notes/rn_2.0.9_6_index-schedules.png" alt="Toolkit Index option on the schedule form." />
+
+### Code Mode (Experimental)
+
+You can now let an agent complete tasks with many tool calls by writing one short program instead of calling tools one by one.
+
+* Turn on **Code Mode** in the agent modules.
+* The agent handles many items in one step, for example filters or updates a long list of issues.
+* Programs run in an isolated sandbox, without internet access and without your credentials.
+* Actions that need your approval still ask for it.
+
+<Info>
+Code Mode is off by default. Platform administrators turn it on for the platform or for selected projects. It works for agents only.
+</Info>
+
+**Benefits:** Fewer tokens and faster answers for bulk tasks.
+
+{/* TODO: add link to the Code Mode documentation */}
+
+### Compare Forked Agents with the Public Version
+
+You can now see what changed between your forked agent and the public agent it came from.
+
+* Select **Compare to public version** in the version menu of a forked agent.
+* Compare instructions, user interaction, tools and sub-agents side by side.
+* **Compare versions** now also shows changes in sub-agents.
+
+**Benefits:** Easier updates of forked agents.
+
+{/* TODO: add link to the Compare to public version documentation */}
+Details: [Compare Versions](../how-tos/agents-pipelines/entity-versioning#compare-versions).
+
+<img src="../img/release-notes/rn_2.0.9_7_compare-public.png" alt="Compare to public version dialog." />
+
+### ELITEA CLI
+
+You can now work with ELITEA from the terminal with the new `elitea-cli` command-line tool.
+
+* Connect to several ELITEA environments and switch between them.
+* Run agents and pipelines, and continue your chats.
+* Create and update agents and pipelines from files, so you can keep them in Git.
+* Manage toolkits and credentials. Secrets are never shown on screen.
+* Use the CLI in scripts and CI jobs.
+* Start Claude Code or Codex with the models of your project.
+
+<Info>
+Install the CLI with `npm install -g @eliteaai/elitea-cli`. To sign in, you need a personal token.
+</Info>
+
+**Benefits:** Automation and agents as code, without the UI.
+
+{/* TODO: add link to the ELITEA CLI documentation */}
+
+### ELITEA MCP Client Improvements
+
+The ELITEA MCP Client is now easier to set up, update and troubleshoot.
+
+* Update the client from the tray menu in one click.
+* Set up and test the connection in the new **Settings** window, without a terminal.
+* See clear messages when the URL, token or project is wrong, or the configuration file has a mistake.
+* One broken MCP server no longer stops the others. The tray icon and the **Servers** menu show the status.
+* Run diagnostics and export a support bundle with all secrets hidden.
+
+<Info>
+Requires ELITEA MCP Client 0.1.37 or later and Python 3.11 or later.
+</Info>
+
+**Benefits:** Fewer setup problems and faster support.
+
+Details: [Install the MCP Client](../integrations/mcp/create-and-use-client-stdio#install-the-elitea-mcp-client), [Configure the Client](../integrations/mcp/create-and-use-client-stdio#configure-the-client).
+
+<img src="../img/release-notes/rn_2.0.9_8_mcp-client.png" alt="ELITEA MCP Client tray menu." />
+
+### Project and User Audit
+
+Platform administrators can now see who created, changed or deleted projects and users, and who granted access, on the new **Audit** page in the Admin portal.
+
+* See project events: projects created, renamed or deleted, members added or removed and role changes.
+* See user events: users created, first sign-in, profile changes, access changes and deleted users.
+* Find every change of administrator rights in projects and on the platform.
+* Open an event to see who made the change and what changed.
+* All users can see when the project was created in **Settings → General** and when they first signed in to ELITEA in their profile.
+
+**Benefits:** Reliable evidence of access changes for audits.
+
+{/* TODO: add link to the Audit documentation */}
+
+<img src="../img/release-notes/rn_2.0.9_9_audit.png" alt="Audit page in the Admin portal." />
+
+### Project Members from Microsoft Entra ID Groups
+
+Platform administrators can now keep project members in sync with Microsoft Entra ID groups.
+
+* Link each Entra ID group to the team project with the same name, or create a new project for it.
+* People added to the group join the project, and people removed from the group leave it.
+* Members added by hand stay in the project. Synced members are marked with an Entra icon in **Settings → Users**.
+* Project admins can still change the roles of synced members.
+
+<Info>
+Group synchronization is off by default and is set up by platform administrators in the Admin portal.
+</Info>
+
+**Benefits:** Project access that follows your organization's groups.
+
+{/* TODO: add link to the SCIM provisioning documentation */}
+
+<img src="../img/release-notes/rn_2.0.9_10_scim.png" alt="SCIM Provisioning section in the Admin portal." />
+
+### Project Membership Notifications
+
+You now get a notification when you are added to or removed from a team project.
+
+* Select the project name in the notification to open the project.
+* Platform administrators turn each notification on or off. The removal notification is off by default.
+
+**Benefits:** Clear information about your project access.
+
+Details: [Notifications Center](../menus/settings/notifications#notifications-center).
+
+### Open in New Tab
+
+You can now open ELITEA pages in a new browser tab with right-click, Ctrl+Click (Cmd+Click on macOS) or middle-click.
+
+* Open menu items, settings, chats, agents, pipelines, skills, toolkits and other items in a new tab.
+* The new tab opens the correct project and version.
+* Your current tab stays as it is, with your unsaved changes.
+
+**Benefits:** Quick access to related items without leaving your work.
+
+### Copy Markdown and Copy Text
+
+You can now copy an answer as Markdown or as formatted text.
+
+* **Copy markdown** copies the answer with its Markdown formatting.
+* **Copy text** copies the answer as you see it, ready to paste into documents and emails.
+
+**Benefits:** Easier reuse of answers in other apps.
+
+### Get Workflow Runs in GitHub Toolkit
+
+You can now find runs of GitHub Actions workflows with the new **Get Workflow Runs** tool in the GitHub toolkit.
+
+* List recent runs and filter them by workflow, branch or status.
+* Check the status and logs of a run with the existing workflow tools.
+* Workflow tools now show clear errors, for example when GitHub refuses to start a workflow.
+
+**Benefits:** Full control of GitHub workflows from agents.
+
+Details: [GitHub Toolkit](../integrations/toolkits/github_toolkit).
+
+## Changed Features
+
+### Redesigned Navigation, Chat Input and Editors
+
+The left menu, the chat input and the agent and skill pages are redesigned to give you more space and fewer clicks.
+
+* The left menu shows **New chat**, **Artifacts**, **Explore** and your chat history with pinned and recent chats.
+* Open agents, pipelines, skills, toolkits, MCPs, applications and credentials from **Explore**.
+* Create new items with **+ Add** on each page. **Discover** replaces the **Catalog** for agents and skills.
+* The model selector and the context usage indicator move to the chat input.
+* Agent and skill pages open with the configuration only. Open the test chat with **Test Agent** or **Test Skill**.
+* Turn on agent modules from **+ Modules** in the **Tools** section, and open **Run History** from the actions menu.
+
+<Info>
+The **Catalog** and the separate menu items for agents, pipelines and other sections are replaced with **Explore**.
+</Info>
+
+**Benefits:** More workspace and faster navigation.
+
+{/* TODO: add link to the new navigation documentation */}
+
+<img src="../img/release-notes/rn_2.0.9_c1_navigation.png" alt="The new left menu with Explore and chat history." />
+
+### One Elitea Builder Module
+
+**Agent & Pipeline Builder**, **Skill Builder** and **Project Context Builder** are merged into one **Elitea Builder** module.
+
+* Create and edit agents, pipelines, skills and project context from chat with one module.
+* Review each change before it is made, then select **Apply** or **Cancel**.
+
+<Info>
+Chats, agents and settings that used any of the old builder modules use **Elitea Builder** automatically.
+</Info>
+
+**Benefits:** One switch for building from chat, with full control over changes.
+
+Details: [Build an Agent with AI from Chat](../how-tos/agents-pipelines/build-agent-with-ai#build-an-agent-with-ai-from-chat).
+
+### Share Chat Window
+
+You can now manage chat access and links in one **Share Chat** window.
+
+* Select **Share** in the chat menu. It replaces **Make public**, **Restrict access** and **Share externally**.
+* Give access to selected project members or to the whole team, and remove access at any time.
+* Create read-only links for people outside the project and revoke them when needed.
+* See who can open the chat in the Participants panel.
+* Only the chat owner can change who has access.
+
+**Benefits:** Simple and transparent chat sharing.
+
+Details: [Share Chats with External Users](../how-tos/chat/config-mnmt#share-chats-with-external-users), [How to Work with Users](../how-tos/chat/participants#how-to-work-with-users).
+
+<img src="../img/release-notes/rn_2.0.9_c2_share-chat.png" alt="Share Chat window with the Team tab." />
+
+### Chat Answers Keep Running When You Switch Chats
+
+Answers now keep running when you open another chat or page.
+
+* Leave a chat while it answers, without warnings and without stopping the answer.
+* Come back to see the progress or the final answer.
+* See in the chat history which chats are still answering or have new results.
+* An answer stops only when you select **Stop**.
+
+**Benefits:** Work on several tasks at the same time.
+
+### Unified Run History
+
+Run History now looks and works the same for agents, pipelines, skills, toolkits, indexes and MCPs.
+
+* See the same columns on every page, including where each run came from and its status.
+* See runs started from chats, the API, MCP, schedules and webhooks.
+* Filter by several values at once, now also for skills, toolkits, indexes and MCPs.
+* Open a run in place of the table and close it to return to the list.
+
+**Benefits:** Faster search for failed runs and their causes.
+
+Details: [Agents and Pipelines History](../how-tos/agents-pipelines/agents-pipelines-history#accessing-run-history), [Toolkit Run History](../how-tos/credentials-toolkits/toolkit_history_tab#run-history-view).
+
+<img src="../img/release-notes/rn_2.0.9_c3_run-history.png" alt="Unified Run History table with filters." />
+
+### Up to 10 Chat Starters
+
+Agents and pipelines can now have up to 10 chat starters.
+
+* Platform administrators set the limit from 1 to 10. The default is still 4.
+* See how many starters you added and how many are allowed.
+* Chats with more than 4 starters show the rest under **+N more** or **Show more**.
+
+<Info>
+Lowering the limit never removes existing starters.
+</Info>
+
+**Benefits:** More quick ways to start a chat.
+
+Details: [Chat Starters](../menus/agents#chat-starters).
+
+### Grouped Steps in Pipeline Run Details
+
+Pipeline **Run details** now group steps by the agent, pipeline or task they belong to.
+
+* Open a group to see its steps, or open all groups with **Expand all steps**.
+* Step names no longer overlap, and code nodes show their own names.
+
+**Benefits:** Easier reading of long pipeline runs.
+
+Details: [Run Details Dialog](../how-tos/pipelines/pipeline-runs#run-details-dialog).
+
+### Optional Project and Repository in Toolkits
+
+You can now use one toolkit for several projects or repositories in GitHub, Bitbucket, Azure DevOps and QTest.
+
+* Leave the project or repository empty, or keep it as the default.
+* Agents and pipelines can select a project or repository when they use the toolkit.
+* Existing toolkits keep working without changes, and access restrictions still apply.
+
+**Benefits:** One toolkit instead of one per project or repository.
+
+Details: [GitHub](../integrations/toolkits/github_toolkit), [Bitbucket](../integrations/toolkits/bitbucket_toolkit), [ADO Boards](../integrations/toolkits/ado_boards_toolkit), [ADO Repos](../integrations/toolkits/ado_repos_toolkit), [ADO Wiki](../integrations/toolkits/ado_wiki_toolkit), [ADO Test Plans](../integrations/toolkits/ado_plans_toolkit), [QTest](../integrations/toolkits/qtest_toolkit).
+
+### Large Pull Requests in ADO Repos Toolkit
+
+The **List pull request files** tool in the ADO Repos toolkit now works with large pull requests.
+
+* Get only the file paths, without the file changes.
+* Select the files to include by name, type of change or number of files.
+* All changed files are read, not only the first 100.
+
+<Info>
+By default, the tool returns up to 50 files and shortens long file changes.
+</Info>
+
+**Benefits:** Reliable review of large pull requests.
+
+Details: [ADO Repos Toolkit](../integrations/toolkits/ado_repos_toolkit).
+
+## Fixed Issues
+
+* [#7755](https://github.com/EliteaAI/elitea_issues/issues/7755) The ADO Wiki toolkit processes images on code wikis and no longer skips them without a message.
+* [#7649](https://github.com/EliteaAI/elitea_issues/issues/7649) Number fields of tools and toolkits keep the minus sign, so you can enter `-1` to get all results.
+* [#7639](https://github.com/EliteaAI/elitea_issues/issues/7639) Anthropic models in a pipeline LLM node show state variable values in messages when structured output is turned off.
+* [#7638](https://github.com/EliteaAI/elitea_issues/issues/7638) GPT models run in pipeline LLM nodes without a reasoning effort error.
+* [#7623](https://github.com/EliteaAI/elitea_issues/issues/7623) Pipeline LLM nodes with structured output save JSON state variables with their values instead of an empty object.
+* [#7620](https://github.com/EliteaAI/elitea_issues/issues/7620) Pipelines with an agent or LLM node work with GPT models hosted on Amazon Bedrock.
+* [#7583](https://github.com/EliteaAI/elitea_issues/issues/7583) The chat scrolls automatically as new answer content appears.
+* [#7525](https://github.com/EliteaAI/elitea_issues/issues/7525) Users with the viewer role save their personal **Memory** settings without an error.
+* [#7460](https://github.com/EliteaAI/elitea_issues/issues/7460) Agents no longer skip repeated tool calls in long chats and report success without running the tool.
+* [#7388](https://github.com/EliteaAI/elitea_issues/issues/7388) **Build with AI** attaches all skills you ask for, not only five.
+* [#7320](https://github.com/EliteaAI/elitea_issues/issues/7320) Agent validation shows toolkit connection errors instead of a general error.
+* [#7315](https://github.com/EliteaAI/elitea_issues/issues/7315) Messages on the agent page are sent after the connection is lost and restored.
+* [#7286](https://github.com/EliteaAI/elitea_issues/issues/7286) Indexing Excel files with merged cells or links over a whole column no longer creates millions of empty rows.
+* [#7233](https://github.com/EliteaAI/elitea_issues/issues/7233) Importing or forking an agent with more skills than the target project allows shows a clear message about the skill limit.
+* [#7128](https://github.com/EliteaAI/elitea_issues/issues/7128) In a pipeline loop, each run of an agent node is shown as a separate entry in the tool call history.
+* [#2719](https://github.com/EliteaAI/elitea_issues/issues/2719) The MCP client on macOS stays connected while the tray shows "connected".
+* [#1597](https://github.com/EliteaAI/elitea_issues/issues/1597) All MCP-tagged versions of an agent are available over MCP, not only the latest version.
+
+## Known Issues
+
+* [#7515](https://github.com/EliteaAI/elitea_issues/issues/7515) With **Auto** model selection and a reasoning effort selected, every message fails when no model in the project supports that effort, and no warning is shown.
+* [#7153](https://github.com/EliteaAI/elitea_issues/issues/7153) Selecting the **Auto** model in a project where Auto is turned off leaves the run spinning, and stopping it shows an error.
+* [#3151](https://github.com/EliteaAI/elitea_issues/issues/3151) PPT files fail to be read or indexed from Artifacts or SharePoint.
+
