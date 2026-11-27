@@ -12,7 +12,24 @@
       "Read(//tmp/rn/**)",
       "Read(//private/tmp/rn/**)",
       "Write(//tmp/rn/**)",
-      "Write(//private/tmp/rn/**)"
+      "Write(//private/tmp/rn/**)",
+      "Bash(python .claude/kit/df.py *)",
+      "Bash(cd docs && mint validate*)",
+      "Bash(cd docs && mint broken-links*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/kit/hooks/post_edit.py\"",
+            "timeout": 10
+          }
+        ]
+      }
     ]
   }
 }
