@@ -1,6 +1,6 @@
 ---
 title: "Webhooks"
-accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.9 | created 2026-11-26 | EliteaUI main@c6e8288 | elitea-sdk main@71b776c | elitea_core main@401b5be*/}
+accuracy: {/*PAGE ACCURACY CONFIRMED for 2.0.9 | rewritten 2026-11-27 | EliteaUI main@b837922 | elitea-sdk main@65106c0 | elitea_core main@34ebdb0*/}
 
 ---
 
@@ -11,6 +11,18 @@ To open **Webhooks**, in **Settings**, select **Webhooks**.
 <Note>
 **Webhooks** is shown only to users who have permission to list schedules and uses the same permissions as [Schedules](./schedules).
 </Note>
+
+## Limitations
+
+A webhook runs when an external system calls its URL, so no one is available to answer or sign in. For this reason, you cannot save or run a webhook for an agent or a pipeline in these cases:
+
+- A pipeline has human-input steps: **HITL** or **Printer** nodes, or `interrupt_before` or `interrupt_after` settings.
+- An agent can ask the user a question.
+- A toolkit needs a sign-in that no one can give during the run: a personal sign-in, a missing credential or a Microsoft account sign-in. Use a toolkit with a saved login instead.
+
+<Callout icon="book" color="#C9B896" title="See Also">
+For more information about the pipeline trigger, see [Pipeline Entry Point](../../how-tos/pipelines/entry-point#webhook).
+</Callout>
 
 ## Webhooks Page Structure
 
@@ -79,7 +91,7 @@ To narrow the list of the webhooks displayed in the table, use these filters:
 | Filter | Filters by |
 | --- | --- |
 | **Search** | The name of the webhook. |
-| **Type** | Agent, pipeline or toolkit index. |
+| **Type** | Agent or pipeline. |
 | **Webhook type** | **GitHub**, **GitLab** or **Custom**. |
 | **Status** | The result of the last run: **Running**, **Success**, **Failed**, **Skipped**, **Blocked** or **Awaiting approval**. |
 | **Enabled** | Whether the webhook is on (**Yes**) or paused (**No**). |
