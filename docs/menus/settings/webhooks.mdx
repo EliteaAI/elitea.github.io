@@ -71,6 +71,11 @@ Only project administrators see the **Owner** column. Other project members see 
 
 Each webhook has a limit of running runs. If a request arrives when the webhook has reached its limit, ELITEA refuses it and the sender retries later. **Last delivery** then also shows how many runs are running, for example *3 running / 3*. Project administrators set the limit in **Settings** > **General** > **Schedules** > **Running runs per webhook**. If the field is empty, ELITEA uses the default limit of the platform. The field shows the default and the platform maximum. ELITEA saves the value when you leave the field.
 
+Two more limits apply:
+
+- **Running runs per project**—all webhooks of a project together can have a limited number of running runs. The platform sets this limit, and the default is 10. When the project reaches it, ELITEA refuses new requests of every webhook in the project in the same way.
+- **Waiting runs per webhook**—a run that waits for approval does not count as a running run, so waiting runs do not block new requests. A webhook can have up to 10 waiting runs. If another run needs approval, ELITEA ends it as **Failed** with the reason *too many runs waiting for approval* and sends a notice to the owner.
+
 Select the **More actions** icon of a webhook to see these actions:
 
 - **Run with sample** runs the webhook with a sample body that you enter.
